@@ -74,10 +74,11 @@ const actions = {
     let newObject = {
       CapufeLaneNum: value.capufeLaneNum,
       Lane: value.lane,
-      IdGare: 65,
+      IdGare: "25",
       LaneType: parseInt(value.typeCarril),
       SquaresCatalogId: value.squaresCatalogId
     }
+
     console.log(newObject)
     console.log("Hello con Vue! => EditarCarril ");
     await Axios.put(`http://192.168.0.111:8084/api/LanesCatalogs/${newObject.CapufeLaneNum}/${newObject.IdGare}`,newObject)
@@ -93,11 +94,11 @@ const actions = {
   async eliminarCarril({commit}, value){
     
     let newObject = {
-      CapufeLaneNum: value.CapufeLaneNum,
-      Lane: value.Lane,
-      IdGare: value.IdGare,
-      LaneType: parseInt(value.LaneType),
-      SquaresCatalogId: value.SquaresCatalogId
+      CapufeLaneNum: value.capufeLaneNum,
+      Lane: value.lane,
+      IdGare: "25",
+      LaneType: parseInt(value.typeCarril),
+      SquaresCatalogId: value.squaresCatalogId
     }
 
     console.log(newObject)
