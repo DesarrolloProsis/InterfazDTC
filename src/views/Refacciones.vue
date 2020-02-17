@@ -99,20 +99,20 @@
                 :key="index"
               >
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.NoParte }}
+                  {{ pieza.numPart }}
                 </td>
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.Descripcion }}
+                  {{ pieza.description }}
                 </td>
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.Precio }}
+                  {{ pieza.price }}
                 </td>
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.Unidad }}
+                  {{ pieza.unit }}
                 </td>
 
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.Brand }}
+                  {{ pieza.brand }}
                 </td>
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
                   <button
@@ -122,7 +122,7 @@
                     Editar
                   </button>
                   <button
-                    @click="eliminarRefaccion()"
+                    @click="eliminarRefaccion(pieza)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
                   >
                     Eliminar
@@ -141,7 +141,7 @@
 import Nav from "../components/Navbar";
 
 export default {
-  name: "CrearDTC",
+  name: "Refacciones",
   components: {
     Nav
   },
@@ -156,73 +156,46 @@ export default {
         { value: "2020", text: "2020" },
         { value: "2019", text: "2019" },
         { value: "2018", text: "2018" }
-      ],
+    ],
       listaServicio: [
         { value: "01", text: "Reparacion" },
         { value: "02", text: "Cambios" }
       ],
       listaMarca: [
-        { value: "01", text: "GEA" },
-        { value: "02", text: "Prosis" },
-        { value: "03", text: "LBA" },
-        { value: "04", text: "TATTILE" },
-        { value: "05", text: "SIQURA" },
-        { value: "06", text: "HP" },
-        { value: "07", text: "LACROIX" },
-        { value: "08", text: "IPRONET" },
-        { value: "09", text: "KINGSTON" },
-        { value: "10", text: "SIRIT" },
-        { value: "11", text: "EARTHRON" },
-        { value: "12", text: "TOSHIBA" },
-        { value: "13", text: "QLIGHT" },
-        { value: "14", text: "START" },
-        { value: "15", text: "TATUNG" },
-        { value: "16", text: "BOSCH" },
-        { value: "17", text: "LACROIX" },
-        { value: "18", text: "MOXA" },
-        { value: "19", text: "HIRSCHMAN" },
-        { value: "20", text: "CISCO" },
-        { value: "21", text: "POWER ALL" },
+       { value: "GEA", text: "GEA" },
+        { value: "Prosis", text: "Prosis" },
+        { value: "LBA", text: "LBA" },
+        { value: "TATTILE", text: "TATTILE" },
+        { value: "SIQURA", text: "SIQURA" },
+        { value: "HP", text: "HP" },
+        { value: "LACROIX", text: "LACROIX" },
+        { value: "IPRONET", text: "IPRONET" },
+        { value: "KINGSTON", text: "KINGSTON" },
+        { value: "SIRIT", text: "SIRIT" },
+        { value: "EARTHRON", text: "EARTHRON" },
+        { value: "TOSHIBA", text: "TOSHIBA" },
+        { value: "QLIGHT", text: "QLIGHT" },
+        { value: "START", text: "START" },
+        { value: "TATUNG", text: "TATUNG" },
+        { value: "BOSCH", text: "BOSCH" },
+        { value: "LACROIX", text: "LACROIX" },
+        { value: "MOXA", text: "MOXA" },
+        { value: "HIRSCHMAN", text: "HIRSCHMAN" },
+        { value: "CISCO", text: "CISCO" },
+        { value: "POWER ALL", text: "POWER ALL" },
+
 
 
       ],
-      Piezas: [
-        {
-          NoParte: "1025",
-          Descripcion: "Desarmador",
-          Precio: "15.00",
-          Unidad: "1",
-          TypeService: "Tl",
-          Year: "2019",
-          Brand: "Prosis",
-          imagen: ""
-        },
-        {
-          NoParte: "1025",
-          Descripcion: "Desarmador",
-          Precio: "15.00",
-          Unidad: "1",
-          TypeService: "Tl",
-          Year: "2019",
-          Brand: "CISCO",
-          imagen: ""
-        },
-        {
-          NoParte: "1025",
-          Descripcion: "Desarmador",
-          Precio: "15.00",
-          Unidad: "1",
-          TypeService: "Tl",
-          Year: "2019",
-          Brand: "Gea",
-          imagen: ""
-        }
-      ]
+      Piezas: []
     };
   },
   methods: {
-    buscarRefacciones() {
-      this.$store.dispatch("Refacciones/buscarRefacciones", this.datos);
+    async buscarRefacciones() {
+           
+       await this.$store.dispatch("Refacciones/buscarRefacciones",this.datos)
+       this.Piezas = await this.$store.getters['Refacciones/getListaRefacciones'] 
+       
     },
     editarRefaccion(value) {
       let item = Object.assign({}, value);
@@ -230,10 +203,7 @@ export default {
       console.log("Refacciones")
       console.log(item)
 
-      for (let i = 0; i < this.listaMarca.length; i++) {
-        if (item.Brand == this.listaMarca[i].text)
-          item.Brand = this.listaMarca[i].value;
-      }
+
 
       console.log(item);
       this.$router.push({
@@ -246,8 +216,12 @@ export default {
     crearRefaccion() {
       this.$router.push("/Refacciones/Nueva");
     },
-    eliminarRefaccion() {
-      alert("Eliminar");
+    async eliminarRefaccion(value) {
+      
+
+        console.log(value)
+        await this.$store.dispatch("Refacciones/eliminarRefaccion",value);
+
     }
   }
 };

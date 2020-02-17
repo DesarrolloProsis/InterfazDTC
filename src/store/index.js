@@ -15,7 +15,7 @@ export default new Vuex.Store({
 
     DTC,
     Carriles,
-    Refacciones
+    Refacciones,    
     
   }
 

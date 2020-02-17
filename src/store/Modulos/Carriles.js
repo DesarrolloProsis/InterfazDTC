@@ -19,9 +19,10 @@ const actions = {
   //Cosnsulta API Listar Carriles
   async buscarCarriles({ commit }, value) {
 
-    console.log("Hello con Vue! => ListarCarril ");
+
     console.log(value)
-    if(value.Plaza == '' && value.TipoCarril == '')
+    console.log("Hello con Vue! => ListarCarril ");    
+    if(value.Plaza == '' && value.TipoCarril == ''){
       await Axios.get(`http://192.168.0.111:8084/api/LanesCatalogs/`)
       .then(response => {
         console.log("Bien")
@@ -31,7 +32,21 @@ const actions = {
       .catch((Ex) => {
         console.log(Ex)
       })
-    else
+    }
+      else if(value.Plaza != '' && value.TipoCarril == ''){
+        console.log(`http://192.168.0.111:8084/api/LanesCatalogs/params/${value.Plaza}`)
+        await Axios.get(`http://192.168.0.111:8084/api/LanesCatalogs/params/${value.Plaza}`)
+      .then(response => {
+        console.log("Bien")
+        console.log(response.data)
+        commit('listaCarrilesMutation', response.data)
+      })
+      .catch((Ex) => {
+        console.log(Ex)
+      })
+      }
+    else{
+    console.log(`http://192.168.0.111:8084/api/LanesCatalogs/params/${value.Plaza}/${value.TipoCarril}`)
       await Axios.get(`http://192.168.0.111:8084/api/LanesCatalogs/params/${value.Plaza}/${value.TipoCarril}`)
     .then(response => {
       console.log("Bien")
@@ -41,6 +56,7 @@ const actions = {
     .catch((Ex) => {
       console.log(Ex)
     })
+  }
   },
   //Consulta API Crear Carril
   //string "Existe" 
@@ -58,7 +74,7 @@ const actions = {
     await Axios.post(`http://192.168.0.111:8084/api/LanesCatalogs`, newObject)
     .then(response =>{
       console.log("Bien");    
-      console.log(response)
+      console.log(response.data)
       commit()
     })
     .catch((Ex) => {
@@ -70,11 +86,11 @@ const actions = {
   async editarCarriles({ commit }, value) {
     //var ok = Object.assign({}, value)
 
-    console.log(value)
+    
     let newObject = {
       CapufeLaneNum: value.capufeLaneNum,
       Lane: value.lane,
-      IdGare: "25",
+      IdGare: value.IdGare,
       LaneType: parseInt(value.typeCarril),
       SquaresCatalogId: value.squaresCatalogId
     }
@@ -93,10 +109,13 @@ const actions = {
   //Consulta Api Eliminar Carril
   async eliminarCarril({commit}, value){
     
+
+    console.log("Accion Eliminar")
+    console.log(value)
     let newObject = {
       CapufeLaneNum: value.capufeLaneNum,
       Lane: value.lane,
-      IdGare: "25",
+      IdGare: value.idGare,
       LaneType: parseInt(value.typeCarril),
       SquaresCatalogId: value.squaresCatalogId
     }

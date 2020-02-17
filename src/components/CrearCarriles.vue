@@ -41,17 +41,24 @@
 
 
                <div class="md:w-1/3 px-3">
-              <label
+                 <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
               >Id Gare</label>
-              <input
-                v-model="datos.IdGare"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="grid-last-name"
+             <select
+              v-model="datos.IdGare"
+                class="appearance-none border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 py-2 mb-3 w-full"
+                id="input-Convenio"
                 type="text"
-                placeholder="Id Gare"
-              />
+                placeholder="Tipo de Carril"
+              >
+             <option disabled value>Numero de Tramo</option>
+              <option
+              v-for="(gare, index) in listaGare"
+              v-bind:value="gare.id"
+              :key="index"
+            >{{gare.nombreTramo}}</option>
+              </select>
             </div>
           </div>
 
@@ -83,6 +90,7 @@
                 for="grid-last-name"
               >Plaza</label>
               <select
+                @change="cambiarIdGare()"
                 v-model="datos.SquaresCatalogId"
                 class="appearance-none border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 py-2 mb-3 w-full"
                 id="grid-last-name"                                
@@ -114,6 +122,7 @@
 <script>
 
 import Nav from "../components/Navbar"
+import ListaIdGare from "../assets/static/idGare.json"
 
 export default {
   name: "CrearCarriles",
@@ -127,28 +136,56 @@ export default {
         CapufeLaneNum: '',
         Lane: '',
         IdGare: '',
-        LaneType: 0,
+        LaneType: '',
         SquaresCatalogId: '',
         DTCTechnical: {}
 
       },
-         listaPlazas: [
-        
-        { value: "186", text: "Cerro Gordo" },                
+      listaPlazas: [        
+        { value: "004", text: "Tepotzotlan" },                
+        { value: "005", text: "Palmillas" },
+        { value: "006", text: "Queretaro" },
+        { value: "041", text: "Salamanca" },
+        { value: "061", text: "Libramiento" },
         { value: "127", text: "Chichimequillas" },
-        { value: "183", text: "Villagran" }
+        { value: "183", text: "Villagrand" },
+        { value: "186", text: "Cerro Gordo" },
       ],
       listaCarriles: [
-        {value: 1, text: "Multimodal"},
-        {value: 2, text: "Expres"},
-
+        {value: 1, text: "Expres"},
+        {value: 2, text: "Multimodal"},        
+        {value: 3, text: "Reversible"},
+        {value: 4, text: "Otro?"},
       ],
+      listaGare: [           
+      ]
     };
+  },
+  watch:{
+
+
   },
   methods: {
 
-    crearCarriles(){            
-      this.$store.dispatch("Carriles/crearCarril",this.datos)            
+    cambiarIdGare(){
+
+
+   
+      let lista = ListaIdGare["listaIdGare"]
+      
+
+      for(let i = 0; i < this.listaPlazas.length; i ++){
+
+          if(lista[i]["numPlaza"] == this.datos.SquaresCatalogId){
+          console.log(lista[i]["idGare"])
+          this.listaGare = Object.assign({}, lista[i]["idGare"])
+          }
+      }        
+
+    },
+
+   async crearCarriles(){            
+     await this.$store.dispatch("Carriles/crearCarril",this.datos)            
       this.$router.push('/Carriles/')
     }
   }

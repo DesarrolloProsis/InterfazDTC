@@ -25,7 +25,21 @@
               />
             </div>
 
-            <div class="md:w-1/2 px-3">
+             <div class="md:w-1/2 px-3">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="grid-last-name"
+              >Nombre de Pieza</label>
+              <input
+              v-model="datos.Nombre"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                id="grid-last-name"
+                type="text"
+                placeholder="Nombre de Pieza"
+              />
+            </div>
+<!-- 
+            <div class="md:w-1/3 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
@@ -37,7 +51,7 @@
                 type="text"
                 placeholder="Descripcion"
               />
-            </div>
+            </div> -->
           </div>
 
           <!-- Primeros dos input  -->
@@ -65,30 +79,25 @@
               v-model="datos.Year"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
               >
-                <option value="value1">Selecciona Año</option>
-                <option value="value1">2018</option>
-                <option value="value2">2019</option>
-                <option value="value3">2020</option>
+                <option value="">Selecciona Año</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
               </select>
             </div>
 
             <div class="md:w-1/3 px-3">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="grid-last-name"
-              >Unidad</label>
-              <input
-              v-model="datos.Unidad"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                type="text"
-                placeholder="Unidad"
-              />
+                   <button
+              @click="crearRefaccion()"
+              class="shadow bg-green-500 focus:shadow-outline focus:outline-none ml-0 px-32 py-2 md:px-40 m-3 rounded"
+              type="button"
+            >Crear</button>
             </div>
           </div>
 
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+            <!-- <div class="md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -100,9 +109,9 @@
                 type="text"
                 placeholder="Tipo de Servicio"
               />
-            </div>
+            </div> -->
 
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+            <!-- <div class="md:w-1/3 px-3 mb-6 md:mb-0">
               <label              
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -134,13 +143,13 @@
                 id="input-Convenio"
                 type="file"
               />
-            </div>
+            </div> -->
 
-            <button
+            <!-- <button
               @click="crearRefaccion()"
               class="shadow bg-green-500 focus:shadow-outline focus:outline-none ml-0 px-32 py-2 md:px-40 m-3 rounded"
               type="button"
-            >Crear</button>
+            >Crear</button> -->
           </div>
         </div>
       </form>
@@ -157,37 +166,38 @@ export default {
     return {
 
       datos:{
+        Nombre: '',
         NoParte: '',
         Descripcion: '',
-        Precio: '',
+        Precio: 0,
         Year: '',
-        Unidad: '',
+        Unidad: 0,
         TipoServicio: '',
         Marca: "",
         Imagen: '',
       },
       listaMarca: [
-        { value: "01", text: "GEA" },
-        { value: "02", text: "Prosis" },
-        { value: "03", text: "LBA" },
-        { value: "04", text: "TATTILE" },
-        { value: "05", text: "SIQURA" },
-        { value: "06", text: "HP" },
-        { value: "07", text: "LACROIX" },
-        { value: "08", text: "IPRONET" },
-        { value: "09", text: "KINGSTON" },
-        { value: "10", text: "SIRIT" },
-        { value: "11", text: "EARTHRON" },
-        { value: "12", text: "TOSHIBA" },
-        { value: "13", text: "QLIGHT" },
-        { value: "14", text: "START" },
-        { value: "15", text: "TATUNG" },
-        { value: "16", text: "BOSCH" },
-        { value: "17", text: "LACROIX" },
-        { value: "18", text: "MOXA" },
-        { value: "19", text: "HIRSCHMAN" },
-        { value: "20", text: "CISCO" },
-        { value: "21", text: "POWER ALL" },
+        { value: "GEA", text: "GEA" },
+        { value: "Prosis", text: "Prosis" },
+        { value: "LBA", text: "LBA" },
+        { value: "TATTILE", text: "TATTILE" },
+        { value: "SIQURA", text: "SIQURA" },
+        { value: "HP", text: "HP" },
+        { value: "LACROIX", text: "LACROIX" },
+        { value: "IPRONET", text: "IPRONET" },
+        { value: "KINGSTON", text: "KINGSTON" },
+        { value: "SIRIT", text: "SIRIT" },
+        { value: "EARTHRON", text: "EARTHRON" },
+        { value: "TOSHIBA", text: "TOSHIBA" },
+        { value: "QLIGHT", text: "QLIGHT" },
+        { value: "START", text: "START" },
+        { value: "TATUNG", text: "TATUNG" },
+        { value: "BOSCH", text: "BOSCH" },
+        { value: "LACROIX", text: "LACROIX" },
+        { value: "MOXA", text: "MOXA" },
+        { value: "HIRSCHMAN", text: "HIRSCHMAN" },
+        { value: "CISCO", text: "CISCO" },
+        { value: "POWER ALL", text: "POWER ALL" },
 
 
       ],

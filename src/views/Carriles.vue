@@ -55,6 +55,9 @@
                 >Numero Capufe</th>
                 <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
+                >Id Gare</th>
+                <th
+                  class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >Lane</th>
                 <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
@@ -71,6 +74,7 @@
                 :key="index"
               >
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">{{carril.capufeLaneNum}}</td>
+                <td class="border-b border-grey-light p-2 md:p-3 border-2">{{carril.idGare}}</td>
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">{{carril.lane}}</td>
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">{{carril.typeCarril}}</td>
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
@@ -99,7 +103,7 @@ import Nav from "../components/Navbar";
 
 
 export default {
-  name: "CrearDTC",
+  name: "Refacciones",
   components: {
     Nav
   },
@@ -110,15 +114,20 @@ export default {
         TipoCarril: ""
       },
       listaPlazas: [
-        { value: "186", text: "Tlapan" },
+        { value: "004", text: "Tepotzotlan" },                
+        { value: "005", text: "Palmillas" },
+        { value: "006", text: "Queretaro" },
+        { value: "041", text: "Salamanca" },
+        { value: "061", text: "Libramiento" },
+        { value: "127", text: "Chichimequillas" },
+        { value: "183", text: "Villagrand" },
         { value: "186", text: "Cerro Gordo" },
-        { value: "186", text: "Salamanca" },
-        { value: "186", text: "Libramiento" },
-        { value: "186", text: "Villagran" }
       ],
       listaCarriles: [
-        {value: 1, text: "Multimodal"},
-        {value: 2, text: "Express"},
+        {value: 1, text: "Express"},
+        {value: 2, text: "Multimodal"},        
+        {value: 3, text: "Reversible"},
+        {value: 4, text: "Otro?"},
 
       ],
       nuevoCarrilBool: true,
@@ -127,11 +136,7 @@ export default {
   },
   computed:{
 
-      // actualizar(){
-      //   this.carriles = this.$store.getters['Carriles/getListaCarriles'] 
-      //   return 0 
-
-      // }
+ 
 
      
   },
@@ -143,17 +148,18 @@ export default {
        await this.$store.dispatch("Carriles/buscarCarriles",this.datos);
        this.carriles = await this.$store.getters['Carriles/getListaCarriles'] 
        
+       
             
     },
     editarCarril(item) {        
 
       let value = Object.assign({}, item)
-
-        console.log(value)
+        console.log("Editar")
+        
         for(let i = 0; i < 2; i++){
             if(value.typeCarril == this.listaCarriles[i].text){
                 value.typeCarril = this.listaCarriles[i].value
-                console.log(this.listaCarriles[i].value)
+                console.log(value)
             }
         }
 
@@ -168,9 +174,19 @@ export default {
     crearCarril() {
       this.$router.push("/Carriles/Nuevo");
     },
-    async eliminarCarril(value){
+    async eliminarCarril(item){
 
-                      
+
+       let value = Object.assign({}, item)
+   
+        for(let i = 0; i < 2; i++){
+            if(value.typeCarril == this.listaCarriles[i].text){
+                value.typeCarril = this.listaCarriles[i].value
+                
+            }
+        }
+
+        console.log(value)                      
         await this.$store.dispatch("Carriles/eliminarCarril",value);
 
     }

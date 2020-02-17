@@ -11,7 +11,7 @@
 
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -20,12 +20,27 @@
               disabled
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
-                v-model="datos.noRefaccion"
+                v-model="datos.NoParte"
                 placeholder="Numero de Parte"
               />
             </div>
 
-            <div class="md:w-1/2 px-3">
+              <div class="md:w-1/3 px-3">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="grid-last-name"
+              >Nombre</label>
+              <input
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                id="grid-last-name"
+                type="text"
+                v-model="datos.Nombre"
+                placeholder="Descripcion"
+              />
+            </div>
+
+
+            <div class="md:w-1/3 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
@@ -34,7 +49,7 @@
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="grid-last-name"
                 type="text"
-                v-model="datos.descripcion"
+                v-model="datos.Descripcion"
                 placeholder="Descripcion"
               />
             </div>
@@ -51,7 +66,7 @@
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
                 type="number"
-                v-model="datos.precio"
+                v-model="datos.Precio"
                 placeholder="Precio"
               />
             </div>
@@ -62,7 +77,7 @@
                 for="grid-last-name"
               >Año</label>
               <select
-              v-model="datos.year"
+              v-model="datos.Year"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
               >
               <option disabled value>Seleciona el Año</option>
@@ -80,7 +95,7 @@
                 for="grid-last-name"
               >Marca</label>
               <select
-                v-model="datos.brand"
+                v-model="datos.Marca"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 type="text"                
                 >
@@ -107,7 +122,7 @@
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
                 type="text"
-                v-model="datos.tipoServicio"
+                v-model="datos.TipoServicio"
                 placeholder="Tipo de Servicio"
               />
             </div>
@@ -121,7 +136,7 @@
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
                 type="text"
-                v-model="datos.unidad"
+                v-model="datos.Unidad"
                 placeholder="Unidad"
               />
             </div>
@@ -165,40 +180,42 @@ export default {
 
       ],
     listaMarca: [
-        { value: "01", text: "GEA" },
-        { value: "02", text: "Prosis" },
-        { value: "03", text: "LBA" },
-        { value: "04", text: "TATTILE" },
-        { value: "05", text: "SIQURA" },
-        { value: "06", text: "HP" },
-        { value: "07", text: "LACROIX" },
-        { value: "08", text: "IPRONET" },
-        { value: "09", text: "KINGSTON" },
-        { value: "10", text: "SIRIT" },
-        { value: "11", text: "EARTHRON" },
-        { value: "12", text: "TOSHIBA" },
-        { value: "13", text: "QLIGHT" },
-        { value: "14", text: "START" },
-        { value: "15", text: "TATUNG" },
-        { value: "16", text: "BOSCH" },
-        { value: "17", text: "LACROIX" },
-        { value: "18", text: "MOXA" },
-        { value: "19", text: "HIRSCHMAN" },
-        { value: "20", text: "CISCO" },
-        { value: "21", text: "POWER ALL" },
+      { value: "GEA", text: "GEA" },
+        { value: "Prosis", text: "Prosis" },
+        { value: "LBA", text: "LBA" },
+        { value: "TATTILE", text: "TATTILE" },
+        { value: "SIQURA", text: "SIQURA" },
+        { value: "HP", text: "HP" },
+        { value: "LACROIX", text: "LACROIX" },
+        { value: "IPRONET", text: "IPRONET" },
+        { value: "KINGSTON", text: "KINGSTON" },
+        { value: "SIRIT", text: "SIRIT" },
+        { value: "EARTHRON", text: "EARTHRON" },
+        { value: "TOSHIBA", text: "TOSHIBA" },
+        { value: "QLIGHT", text: "QLIGHT" },
+        { value: "START", text: "START" },
+        { value: "TATUNG", text: "TATUNG" },
+        { value: "BOSCH", text: "BOSCH" },
+        { value: "LACROIX", text: "LACROIX" },
+        { value: "MOXA", text: "MOXA" },
+        { value: "HIRSCHMAN", text: "HIRSCHMAN" },
+        { value: "CISCO", text: "CISCO" },
+        { value: "POWER ALL", text: "POWER ALL" },
 
 
       ],
 
       datos:{
 
-      noRefaccion: this.$route.params.object.NoParte,
-      descripcion: this.$route.params.object.Descripcion,
-      precio: this.$route.params.object.Precio,
-      year: this.$route.params.object.Year,
-      unidad: this.$route.params.object.Unidad,
-      tipoServicio: this.$route.params.object.TypeService,
-      brand: this.$route.params.object.Brand,
+      NoParte: this.$route.params.object.numPart,
+      Descripcion: this.$route.params.object.description,
+      Precio: this.$route.params.object.price,
+      Year: this.$route.params.object.pieceYear,
+      Unidad: this.$route.params.object.unit,
+      TipoServicio: this.$route.params.object.typeService,
+      Marca: this.$route.params.object.brand,
+      Nombre: this.$route.params.object.name,
+      Imagen: this.$route.params.object.sparePartImage
       }
 
     };
@@ -209,6 +226,8 @@ export default {
   methods:{
 
     editarRefaccion(){
+
+      console.log(this.datos)
 
       this.$store.dispatch("Refacciones/editarRefaccion", this.datos)
       this.$router.push('/Refacciones/')

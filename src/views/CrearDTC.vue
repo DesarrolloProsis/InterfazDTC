@@ -15,13 +15,17 @@
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
               >Numero de Convenio</label>
-              <input
-                v-model="datos.NoConvenio"
+             <select
+                v-model="datos.Plaza"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="input-Convenio"
-                type="text"
-                placeholder="Numero de Convenio"
-              />
+              >
+                <option disabled value>Seleciona el Convenio</option>
+                <option
+                  v-for="(encabezado, index) in listaEncabezado"
+                  v-bind:value="encabezado.value"
+                  :key="index"
+                >{{encabezado.text}}</option>
+              </select>
             </div>
 
             <div class="md:w-1/3 px-3">
@@ -218,13 +222,22 @@ export default {
         Descripcion: '',
         Observacion: ''
       },
-
+      listaEncabezado:[
+          { value: "Encabezado01", text: "2341---Eloy Gameno"},
+          { value: "Encabezado02", text: "5201---Luz Hiano"},
+          { value: "Encabezado03", text: "9506---Juan Escutia"},
+          { value: "Encabezado04", text: "4847---Pedro Paramo"},
+      ],
       listaPlazas: [
-        { value: "2015", text: "Tlapan" },
-        { value: "7812", text: "Cerro Gordo" },
-        { value: "6695", text: "Salamanca" },
-        { value: "1024", text: "Libramiento" },
-        { value: "9632", text: "Villagran" }
+        
+        { value: "004", text: "Tepotzotlan" },                
+        { value: "005", text: "Palmillas" },
+        { value: "006", text: "Queretaro" },
+        { value: "041", text: "Salamanca" },
+        { value: "061", text: "Libramiento" },
+        { value: "127", text: "Chichimequillas" },
+        { value: "183", text: "Villagrand" },
+        { value: "186", text: "Cerro Gordo" },
       ]
     };
   },

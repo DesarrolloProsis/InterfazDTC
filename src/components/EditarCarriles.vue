@@ -88,12 +88,15 @@ export default {
       capufeLaneNum: this.$route.params.object.capufeLaneNum,
       lane: this.$route.params.object.lane,
       typeCarril: this.$route.params.object.typeCarril,
+      IdGare: this.$route.params.object.idGare,
       squaresCatalogId: this.$route.params.object.squaresCatalogId,
 
       },
       listaCarriles: [
-        {value: 1, text: "Multimodal"},
-        {value: 2, text: "Expres"},
+        {value: 1, text: "Expres"},
+        {value: 2, text: "Multimodal"},        
+        {value: 3, text: "Reversible"},
+        {value: 4, text: "Otro?"},
 
       ],
     };
