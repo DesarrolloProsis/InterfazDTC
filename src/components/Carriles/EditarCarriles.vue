@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Nav></Nav>
+    <!-- <Nav></Nav> -->
 
     <div class="m-5">
       <form class="flex flex-wrap md:ml-10 md:mr-10 justify-center md:p-16 md:pt-4">
@@ -75,12 +75,12 @@
 </template>
 
 <script>
-import Nav from "../components/Navbar";
+
 
 export default {
-  name: "CrearCarriles",
+  name: "EditarCarriles",
   components: {
-    Nav
+    
   },
   data() {
     return {

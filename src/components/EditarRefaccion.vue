@@ -11,7 +11,7 @@
 
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class=" md:w-1/4 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -20,12 +20,12 @@
               disabled
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
-                v-model="datos.NoParte"
+                v-model="datos.ComponentId"
                 placeholder="Numero de Parte"
               />
             </div>
 
-              <div class="md:w-1/3 px-3">
+              <div class="md:w-3/4 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
@@ -34,25 +34,13 @@
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="grid-last-name"
                 type="text"
-                v-model="datos.Nombre"
-                placeholder="Descripcion"
+                v-model="datos.ComponentName"
+                placeholder="Nombre de la pieza"
               />
             </div>
 
 
-            <div class="md:w-1/3 px-3">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="grid-last-name"
-              >Descripcion de Comonente</label>
-              <input
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="grid-last-name"
-                type="text"
-                v-model="datos.Descripcion"
-                placeholder="Descripcion"
-              />
-            </div>
+            
           </div>
 
           <!-- Primeros dos input  -->
@@ -65,8 +53,8 @@
               <input
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
-                type="number"
-                v-model="datos.Precio"
+                type="text"
+                v-model="datos.Price"
                 placeholder="Precio"
               />
             </div>
@@ -90,74 +78,18 @@
             </div>
 
             <div class="md:w-1/3 px-3">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="grid-last-name"
-              >Marca</label>
-              <select
-                v-model="datos.Marca"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                type="text"                
-                >
-         <option disabled value>Seleciona el Servicio</option>
-            <option
-              v-for="(marca, index) in listaMarca"
-              v-bind:value="marca.value"
-              :key="index"
-            >{{marca.text}}</option>
-                
-                </select>
-              
-            </div>
-          </div>
-
-          <!-- Primeros dos input  -->
-          <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="input-Convenio"
-              >Tipo de Servicio</label>
-              <input
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="input-Convenio"
-                type="text"
-                v-model="datos.TipoServicio"
-                placeholder="Tipo de Servicio"
-              />
-            </div>
-
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="input-Convenio"
-              >Unidad</label>
-              <input
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="input-Convenio"
-                type="text"
-                v-model="datos.Unidad"
-                placeholder="Unidad"
-              />
-            </div>
-
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="input-Convenio"
-              >Imagen</label>
-              <input
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="input-Convenio"
-                type="file"
-              />
-            </div>
-
-            <button
+        
+        <button
               @click="editarRefaccion()"
-              class="shadow bg-yellow-400  focus:shadow-outline focus:outline-none ml-0 px-32 py-2 md:px-40 m-3 rounded"
+              class="shadow bg-yellow-400 mt-6 focus:shadow-outline focus:outline-none ml-0 px-32 py-2 md:px-56 m-3 rounded"
               type="button"
             >Editar</button>
+              
+            </div>
+          
+
+          <!-- Primeros dos input  -->
+         
           </div>
         </div>
       </form>
@@ -207,15 +139,21 @@ export default {
 
       datos:{
 
-      NoParte: this.$route.params.object.numPart,
-      Descripcion: this.$route.params.object.description,
-      Precio: this.$route.params.object.price,
-      Year: this.$route.params.object.pieceYear,
-      Unidad: this.$route.params.object.unit,
-      TipoServicio: this.$route.params.object.typeService,
-      Marca: this.$route.params.object.brand,
-      Nombre: this.$route.params.object.name,
-      Imagen: this.$route.params.object.sparePartImage
+        
+      ComponentId: this.$route.params.object.componentId,
+      ComponentName: this.$route.params.object.componentName,
+      Price: this.$route.params.object.price,
+      Year: this.$route.params.object.year,
+
+      // NoParte: this.$route.params.object.componentId,
+      // Descripcion: this.$route.params.object.componentName,
+      // Precio: this.$route.params.object.price,
+      // Year: this.$route.params.object.year,
+      // Unidad: this.$route.params.object.unit,
+      // TipoServicio: this.$route.params.object.typeService,
+      // Marca: this.$route.params.object.brand,
+      // Nombre: this.$route.params.object.name,
+      // Imagen: this.$route.params.object.sparePartImage
       }
 
     };

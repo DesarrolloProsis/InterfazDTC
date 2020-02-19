@@ -5,6 +5,7 @@ import CrearDTC from '../views/CrearDTC.vue'
 import ListarDTC from '../views/ListarDTC.vue'
 import Carriles from '../views/Carriles.vue'
 import Refacciones from '../views/Refacciones.vue'
+import Inventario from '../views/Inventario.vue'
 
 Vue.use(VueRouter)
 
@@ -32,12 +33,12 @@ const routes = [
   {
     path: '/Carriles/Nuevo',
     name: 'CarrilesNuevo',
-    component: () => import('../components/CrearCarriles.vue')
+    component: () => import('../components/Carriles/CrearCarriles.vue')
   },
   {
     path: '/Carriles/Editar/:object',
     name: 'CarrilesEditar',
-    component: () => import('../components/EditarCarriles.vue')
+    component: () => import('../components/Carriles/EditarCarriles.vue')
   },
   {
     path: '/Refacciones',
@@ -53,6 +54,21 @@ const routes = [
     path: '/Refacciones/Editar/:object',
     name: 'RefaccionEditar',
     component: ()=> import('../components/EditarRefaccion.vue')
+  },
+  {
+    path: '/Inventario',
+    name: 'Inventario',
+    component: Inventario
+  },
+  {
+    path: '/Inventario/Nueva',
+    name: 'InventarioNuevo',
+    component: ()=> import('../components/Inventario/CrearInventario.vue')
+  },
+  {
+    path: '/Inventario/Editar/:object',
+    name: 'InventarioEditar',
+    component: ()=> import('../components/Inventario/EditarInventario.vue')
   },
 
 ]

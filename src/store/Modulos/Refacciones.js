@@ -19,22 +19,10 @@ const actions = {
   async buscarRefacciones({ commit }, value) {
    
     console.log(value)
-    console.log("Hello con Vue! => ListarRefacciones");    
-    if(value.year == '' && value.marca == ''){
-      console.log("Si entro")
-      await Axios.get(`http://192.168.0.111:8084/api/SparePartsCatalogs`)
-      .then(response => {
-        console.log("Bien")
-        console.log(response.data)
-        commit("listaRefaccionesMutation", response.data)
-      })
-      .catch((Ex) => {
-        console.log(Ex)
-      })
-    }
-      else if(value.year != '' && value.marca == ''){
-        console.log(`http://192.168.0.111:8084/api/SparePartsCatalogs/params/${value.year}`)
-        await Axios.get(`http://192.168.0.111:8084/api/SparePartsCatalogs/params/${value.year}`)
+    console.log("Hello con Vue! => ListarRefacciones");  
+
+      if(value.year != ''){        
+        await Axios.get(`https://localhost:44356/api/Components/${value.year}`)
       .then(response => {
         console.log("Bien")
         console.log(response.data)
@@ -45,8 +33,8 @@ const actions = {
       })
       }
     else{
-    console.log(`http://192.168.0.111:8084/api/SparePartsCatalogs/params/null/${value.marca}`)
-      await Axios.get(`http://192.168.0.111:8084/api/SparePartsCatalogs/params/null/${value.marca}`)
+    console.log(`https://localhost:44356/api/Components/`)
+      await Axios.get(`https://localhost:44356/api/Components/`)
     .then(response => {
       console.log("Bien")
       console.log(response.data)
@@ -63,21 +51,16 @@ const actions = {
     console.log("Hello con Vue! => CrearRefaccion");
     console.log(value)
     let newObject = {
-      NumPart: value.NoParte,
-      TypeService: value.TipoServicio,
-      Name: value.Nombre,
-      Brand: value.Marca,
-      Price: parseInt(value.Precio),
-      Unit: parseInt(value.Unidad),
-      PieceYear: value.Year,
-      SparePartImage: "Sin-Imagen",
-      Description: value.Descripcion
+      ComponentId: 0,
+      ComponentName: value.ComponentName,
+      Year: value.Year,
+      Price: parseFloat(value.Price),
 
     }
 
     console.log(newObject)
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.post(`http://192.168.0.111:8084/api/SparePartsCatalogs`, newObject)
+    await Axios.post(`https://localhost:44356/api/Components/`, newObject)
     .then(response =>{
       console.log("Bien");    
       console.log(response.data)
@@ -92,21 +75,16 @@ const actions = {
     console.log("Hello con Vue! => EditarRefaccion");
     console.log(value)
     let newObject = {
-      NumPart: value.NoParte,
-      TypeService: value.TipoServicio,
-      Name: value.Nombre,
-      Brand: value.Marca,
-      Price: parseInt(value.Precio),
-      Unit: parseInt(value.Unidad),
-      PieceYear: value.Year,
-      SparePartImage: "Sin-Imagen",
-      Description: value.Descripcion
+      ComponentId: value.ComponentId,
+      ComponentName: value.ComponentName,
+      Year: value.Year,
+      Price: parseFloat(value.Price),
 
     }
 
     console.log(newObject)
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.put(`http://192.168.0.111:8084/api/SparePartsCatalogs/${newObject.NumPart}`, newObject)
+    await Axios.put(`https://localhost:44356/api/Components/${newObject.ComponentId}`, newObject)
     .then(response =>{
       console.log("Bien");    
       console.log(response.data)
@@ -119,22 +97,18 @@ const actions = {
   async eliminarRefaccion ({ commit }, value) {
     console.log("Hello con Vue! => EliminarRefaccion");
     console.log(value)
+
     let newObject = {
-      NumPart: value.numPart,
-      TypeService: value.typeService,
-      Name: value.name,
-      Brand: value.brand,
-      Price: parseInt(value.price),
-      Unit: parseInt(value.unit),
-      PieceYear: value.pieceYear,
-      SparePartImage: "Sin-Imagen",
-      Description: value.description
+      ComponentId: value.componentId,
+      ComponentName: value.componentName,
+      Year: value.year,
+      Price: parseFloat(value.price),
 
     }
 
     console.log(newObject)
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.delete(`http://192.168.0.111:8084/api/SparePartsCatalogs/${newObject.NumPart}`, newObject)
+    await Axios.delete(`https://localhost:44356/api/Components/${newObject.ComponentId}`)
     .then(response =>{
       console.log("Bien");    
       console.log(response.data)

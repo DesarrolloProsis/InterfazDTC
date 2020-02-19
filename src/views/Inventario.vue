@@ -2,7 +2,7 @@
   <div>
     <Nav></Nav>
     <h1 class="text-center text-4xl text-blue-600 pt-10 font-mono mb-10">
-      Catalogo de Refacciones
+      Refacciones en el Inventario
     </h1>
 
     <div class="flex flex-wrap sm:p-4 md:m-5 md:pl-48 md:pr-48">
@@ -23,7 +23,7 @@
               >{{ year.text }}</option
             >
           </select>
-<!-- 
+
           <select
             v-model="datos.marca"
             class="appearance-none border-2 border-gray-200 rounded py-2 px-16 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
@@ -36,7 +36,7 @@
               :key="index"
               >{{ marca.text }}</option
             >
-          </select> -->
+          </select>
 
           <button
             @click="buscarRefacciones()"
@@ -63,50 +63,60 @@
                 <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >
-                  Nombre
+                  Numero de Parte
                 </th>
                 <th
+                  class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
+                >
+                  Nombre
+                </th>
+
+  <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >
                   Precio
                 </th>
+
                 <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >
-                  Año
+                  Marca
                 </th>
          
                 <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >
-                  Opciones
+                  Precio
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr
                 class="hover:bg-gray-200 text-center"
-                v-for="(pieza, index) in Piezas"
+                v-for="(inventario, index) in listaInventario"
                 :key="index"
               >          
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.componentName }}
-                </td>
+                  {{ inventario.numPart }}
+                </td>                
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.price }}
-                </td>        
+                  {{ inventario.name }}
+                </td>  
+                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
+                  {{ '$' + inventario.price }}
+                </td>      
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.year }}
+                  {{ inventario.brand }}
                 </td>
                 <td class="border-b border-grey-light  md:p-3 border-2">
                   <button
-                    @click="editarRefaccion(pieza)"
+                    @click="editarRefaccion(inventario)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500 mb-2 md:mr-2"
                   >
                     Editar
                   </button>
                   <button
-                    @click="eliminarRefaccion(pieza)"
+                    @click="eliminarRefaccion(inventario)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
                   >
                     Eliminar
@@ -171,27 +181,25 @@ export default {
 
 
       ],
-      Piezas: []
+      listaInventario: []
     };
   },
   methods: {
     async buscarRefacciones() {
-      
-      console.log("COmponente")
-       console.log(this.datos)    
-       await this.$store.dispatch("Refacciones/buscarRefacciones",this.datos)
-       this.Piezas = await this.$store.getters['Refacciones/getListaRefacciones'] 
+           
+       await this.$store.dispatch("Inventario/buscarInventario",this.datos)
+       this.listaInventario = await this.$store.getters['Inventario/getListaInventario'] 
        
     },
     editarRefaccion(value) {
       let item = Object.assign({}, value);
 
-      console.log("Refacciones")
-      console.log(item)
-
+      
+      
+    console.log(item)
       
       this.$router.push({
-        name: "RefaccionEditar",
+        name: "InventarioEditar",
         params: {
           object: item
         }
@@ -199,13 +207,13 @@ export default {
 
     },
     crearRefaccion() {
-      this.$router.push("/Refacciones/Nueva");
+      this.$router.push("/Inventario/Nueva");
     },
     async eliminarRefaccion(value) {
       
 
         console.log(value)
-        await this.$store.dispatch("Refacciones/eliminarRefaccion",value);
+        await this.$store.dispatch("Inventario/eliminarInventario",value);
 
     }
   }

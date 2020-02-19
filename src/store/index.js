@@ -5,6 +5,7 @@ import Vuex from "vuex";
 import Carriles from './Modulos/Carriles'
 import Refacciones from './Modulos/Refacciones'
 import DTC from './Modulos/DTC'
+import Inventario from './Modulos/Inventario'
 
 
 Vue.use(Vuex)
@@ -15,7 +16,8 @@ export default new Vuex.Store({
 
     DTC,
     Carriles,
-    Refacciones,    
+    Refacciones,
+    Inventario    
     
   }
 
