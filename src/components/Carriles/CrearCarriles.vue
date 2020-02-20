@@ -1,7 +1,7 @@
 <template>
   <div>
     
-<!-- <Nav></Nav> -->
+    <Nav></Nav>
 
     <div class="m-5">
       <form class="flex flex-wrap md:ml-10 md:mr-10 justify-center md:p-16 md:pt-0">
@@ -121,13 +121,13 @@
 
 <script>
 
-//import Nav from "components/Navbar"
-// import ListaIdGare from "../assets/static/idGare.json"
+import Nav from "../Navbar.vue"
+import ListaIdGare from "../Carriles/idGare.json"
 
 export default {
   name: "CrearCarriles",
   components: {
-    
+    Nav
   },
   data() {
     return {
@@ -171,16 +171,16 @@ export default {
 
 
    
-      // let lista = ListaIdGare["listaIdGare"]
+      let lista = ListaIdGare["listaIdGare"]
       
 
-      // for(let i = 0; i < this.listaPlazas.length; i ++){
+      for(let i = 0; i < this.listaPlazas.length; i ++){
 
-      //     if(lista[i]["numPlaza"] == this.datos.SquaresCatalogId){
-      //     console.log(lista[i]["idGare"])
-      //     this.listaGare = Object.assign({}, lista[i]["idGare"])
-      //     }
-      // }        
+          if(lista[i]["numPlaza"] == this.datos.SquaresCatalogId){
+          console.log(lista[i]["idGare"])
+          this.listaGare = Object.assign({}, lista[i]["idGare"])
+          }
+      }        
 
     },
 

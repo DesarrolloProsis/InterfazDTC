@@ -7,7 +7,7 @@
                 p-3" id="nav">   
                        
         <div class="text-lg">
-          <router-link to="/home"            
+          <router-link to="/"            
             class="inline-block 
              pl-5
               pt-1

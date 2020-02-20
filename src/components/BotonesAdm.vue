@@ -119,16 +119,17 @@
 
 
               
-  <router-link to="/Refacciones" 
-              class="text-gray-700  
-              hover:bg-gray-400
+  <router-link to="/home" 
+              class="text-gray-700                
+             opacity-75
               items-center
               text-center
               border-4
               border-red-700  
               rounded-lg 
+             bg-gray-400
               sm:px-40
-              sm:py-16  
+              sm:py-16              
               m-4">              
               <img
               src="../assets/img/config.png"

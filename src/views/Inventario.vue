@@ -2,7 +2,7 @@
   <div>
     <Nav></Nav>
     <h1 class="text-center text-4xl text-blue-600 pt-10 font-mono mb-10">
-      Refacciones en el Inventario
+      Inventario
     </h1>
 
     <div class="flex flex-wrap sm:p-4 md:m-5 md:pl-48 md:pr-48">
@@ -24,7 +24,7 @@
             >
           </select>
 
-          <select
+          <!-- <select
             v-model="datos.marca"
             class="appearance-none border-2 border-gray-200 rounded py-2 px-16 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
             type="text"
@@ -36,7 +36,7 @@
               :key="index"
               >{{ marca.text }}</option
             >
-          </select>
+          </select> -->
 
           <button
             @click="buscarRefacciones()"
@@ -71,22 +71,22 @@
                   Nombre
                 </th>
 
-  <th
+  <!-- <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >
                   Precio
-                </th>
+                </th> -->
 
                 <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >
-                  Marca
+                  Status
                 </th>
          
                 <th
                   class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
                 >
-                  Precio
+                  Acciones
                 </th>
               </tr>
             </thead>
@@ -102,11 +102,14 @@
                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
                   {{ inventario.name }}
                 </td>  
-                 <td class="border-b border-grey-light p-2 md:p-3 border-2">
+                 <!-- <td class="border-b border-grey-light p-2 md:p-3 border-2">
                   {{ '$' + inventario.price }}
-                </td>      
-                <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ inventario.brand }}
+                </td>       -->
+                <td v-if="inventario.status == false"  class="border-b border-grey-light p-2 md:p-3 border-2">
+                  {{ "Almacen" }}
+                </td>
+                  <td v-else  class="border-b border-grey-light p-2 md:p-3 border-2">
+                  {{ "Ocupado" }}
                 </td>
                 <td class="border-b border-grey-light  md:p-3 border-2">
                   <button

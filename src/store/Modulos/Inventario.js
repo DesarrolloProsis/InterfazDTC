@@ -19,7 +19,7 @@ const actions = {
     console.log("Hello con Vue! => ListarRefacciones");
     if (value.year == "" && value.marca == "") {
       console.log("Si entro");
-      await Axios.get(`https://localhost:44356/api/Inventories/`)
+      await Axios.get(`http://192.168.0.111:8084/api/Inventories/`)
         .then(response => {
           console.log("Bien");
           console.log(response.data);
@@ -31,7 +31,7 @@ const actions = {
     } else if (value.year != "" && value.marca == "") {
       console.log(`https://localhost:44356/api/Inventories/${value.year}`);
       await Axios.get(
-        `https://localhost:44356/api/Inventories/year/${value.year}`
+        `http://192.168.0.111:8084/api/Inventories/year/${value.year}`
       )
         .then(response => {
           console.log("Bien");
@@ -42,9 +42,9 @@ const actions = {
           console.log(Ex);
         });
     } else if (value.year == "" && value.marca != "") {
-      console.log(`https://localhost:44356/api/Inventories/${value.year}`);
+      console.log(`http://localhost:44356/api/Inventories/${value.year}`);
       await Axios.get(
-        `https://localhost:44356/api/Inventories/marca/${value.marca}`
+        `http://192.168.0.111:8084/api/Inventories/marca/${value.marca}`
       )
         .then(response => {
           console.log("Bien");
@@ -59,7 +59,7 @@ const actions = {
         `http://192.168.0.111:8084/api/SparePartsCatalogs/params/null/${value.marca}`
       );
       await Axios.get(
-        `https://localhost:44356/api/Inventories/${value.year}/${value.marca}`
+        `http://192.168.0.111:8084/api/Inventories/${value.year}/${value.marca}`
       )
         .then(response => {
           console.log("Bien");
@@ -93,7 +93,7 @@ const actions = {
 
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.post(`https://localhost:44356/api/Inventories/`, newObject)
+    await Axios.post(`http://192.168.0.111:8084/api/Inventories/`, newObject)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -125,7 +125,7 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
     await Axios.put(
-      `https://localhost:44356/api/Inventories/${newObject.Id}`,
+      `http://192.168.0.111:8084/api/Inventories/${newObject.Id}`,
       newObject
     )
       .then(response => {
@@ -158,7 +158,7 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
     await Axios.delete(
-      `https://localhost:44356/api/Inventories/${newObject.Id}`
+      `http://192.168.0.111:8084/api/Inventories/${newObject.Id}`
     )
       .then(response => {
         console.log("Bien");

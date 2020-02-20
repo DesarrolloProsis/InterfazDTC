@@ -76,12 +76,13 @@
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
             <div class="md:w-1/4 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+              <label                
+                class="block  uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
                 >Precio</label
               >
               <input
+              disabled
                 v-model="datos.Price"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
@@ -97,6 +98,7 @@
                 >Unidad</label
               >
               <input
+                disabled
                 v-model="datos.Unit"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
@@ -112,6 +114,7 @@
                 >Marca</label
               >
               <select
+              disabled
                 v-model="datos.Brand"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
@@ -150,6 +153,7 @@
                 >Tipo de Servicio</label
               >
               <input
+                disabled
                 v-model="datos.TypeService"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
@@ -189,7 +193,7 @@
 
 <script>
 
-
+import Nav from "../Navbar.vue"
 export default {
   data() {
     return {
@@ -235,7 +239,7 @@ export default {
     };
   },
   components: {
-    
+    Nav
   },
   methods: {
     async listarRefacciones() {
@@ -257,8 +261,26 @@ export default {
                 if(this.datos.ComponentId === this.listaPiezas[i].componentId){
 
                     this.datos.Name = this.listaPiezas[i].componentName
+                    this.datos.Brand = this.listaPiezas[i].brand
+                    this.datos.Unit = this.listaPiezas[i].unit
+                    this.datos.Price = this.listaPiezas[i].price
+                    this.localizarTipoSercio(this.listaPiezas[i].serviceTypeId)
                 }
             }
+    },
+    localizarTipoSercio(value){
+
+        if(value == 1){
+
+          this.datos.TypeService = "SERVICIO"
+        }
+        else if(value == 2){
+          this.datos.TypeService = "COMPONENTE"
+        }
+        else{
+          this.datos.TypeService = "REFACCION"
+        }
+
     }
   }
 };

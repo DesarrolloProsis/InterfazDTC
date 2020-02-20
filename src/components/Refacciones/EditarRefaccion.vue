@@ -11,7 +11,7 @@
 
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class=" md:w-1/4 px-3 mb-6 md:mb-0">
+            <div class=" md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -25,7 +25,7 @@
               />
             </div>
 
-              <div class="md:w-3/4 px-3">
+              <div class="md:w-1/3 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
@@ -36,6 +36,20 @@
                 type="text"
                 v-model="datos.ComponentName"
                 placeholder="Nombre de la pieza"
+              />
+            </div>
+              <div class=" md:w-1/3 px-3 mb-6 md:mb-0">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="input-Convenio"
+                >Descripcion</label
+              >
+              <input
+                v-model="datos.Description"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border   rounded-lg py-2 mb-3"
+                name="nameComponent"
+                value
+                placeholder="Descripcion"
               />
             </div>
 
@@ -58,24 +72,62 @@
                 placeholder="Precio"
               />
             </div>
+<div class="md:w-1/3 px-3">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="grid-last-name"
+                >Tipo de unidad</label
+              >
+              <select
+                v-model="datos.Unit"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+              >
+                <option value="">Selecciona la Unidad</option>
+                <option value=1>Pza</option>
+                <option value=2>Metro</option>
+                <option value=3>Mano de Obra</option>
+              </select>
+            </div>
 
             <div class="md:w-1/3 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
-              >Año</label>
+                >Año</label
+              >
               <select
-              v-model="datos.Year"
+                v-model="datos.Year"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
               >
-              <option disabled value>Seleciona el Año</option>
-            <option
-              v-for="(year, index) in listaYear"
-              v-bind:value="year.value"
-              :key="index"
-            >{{year.text}}</option>
+                <option value="">Selecciona Año</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
               </select>
             </div>
+
+            <div class="md:w-1/4 px-3">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="input-Convenio"
+                >Marca</label
+              >
+              <select
+                v-model="datos.Brand"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                id="input-Convenio"
+                type="text"
+              >
+                <option disabled value>Seleciona la Marca</option>
+                <option
+                  v-for="(marca, index) in listaMarca"
+                  v-bind:value="marca.value"
+                  :key="index"
+                  >{{ marca.text }}</option
+                >
+              </select>
+            </div>
+
 
             <div class="md:w-1/3 px-3">
         
@@ -99,7 +151,7 @@
 
 
 <script>
-import Nav from "../components/Navbar";
+import Nav from "../Navbar";
 
 export default {
   data() {
@@ -143,7 +195,12 @@ export default {
       ComponentId: this.$route.params.object.componentId,
       ComponentName: this.$route.params.object.componentName,
       Price: this.$route.params.object.price,
-      Year: this.$route.params.object.year,
+      Year: this.$route.params.object.year,      
+      Brand: this.$route.params.object.brand,
+      Description: this.$route.params.object.description,
+      ServiceTypeId: this.$route.params.object.serviceTypeId,
+      Unit: this.$route.params.object.unit,
+      
 
       // NoParte: this.$route.params.object.componentId,
       // Descripcion: this.$route.params.object.componentName,

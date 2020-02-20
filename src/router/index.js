@@ -6,12 +6,18 @@ import ListarDTC from '../views/ListarDTC.vue'
 import Carriles from '../views/Carriles.vue'
 import Refacciones from '../views/Refacciones.vue'
 import Inventario from '../views/Inventario.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/home',
     name: 'home',
     component: Home
   },
@@ -28,7 +34,8 @@ const routes = [
   {
     path: '/Carriles',
     name: 'Carriles',
-    component: Carriles
+    component: Carriles,
+    
   },
   {
     path: '/Carriles/Nuevo',
@@ -48,12 +55,12 @@ const routes = [
   {
     path: '/Refacciones/Nueva',
     name: 'RefaccionNueva',
-    component: ()=> import('../components/CrearRefaccion.vue')
+    component: ()=> import('../components/Refacciones/CrearRefaccion.vue')
   },
   {
     path: '/Refacciones/Editar/:object',
     name: 'RefaccionEditar',
-    component: ()=> import('../components/EditarRefaccion.vue')
+    component: ()=> import('../components/Refacciones/EditarRefaccion.vue')
   },
   {
     path: '/Inventario',

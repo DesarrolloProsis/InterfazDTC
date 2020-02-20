@@ -20,6 +20,13 @@ export default {
   components: {
     Nav,    
     BotonesAdm
+  },
+  data(){
+    return{
+
+      
+
+    }
   }
 };
 </script>

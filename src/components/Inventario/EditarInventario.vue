@@ -191,7 +191,7 @@
 
 <script>
 
-
+import Nav from "../Navbar.vue"
 export default {
   data() {
     return {
@@ -247,7 +247,7 @@ export default {
     };
   },
   components: {
-    
+    Nav
   },
   methods:{
 
