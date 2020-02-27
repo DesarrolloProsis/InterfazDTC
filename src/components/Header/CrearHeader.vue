@@ -8,62 +8,83 @@
         <div
           class="shadow-md rounded md:border border-black p-5 md:p-24 mt-0 w-full sm:screen flex flex-col flex-wrap my-2"
         >
-          <h1 class="text-center text-4xl text-blue-600 font-mono text-lg mb-10">Nuevo Carril</h1>
+          <h1 class="text-center text-4xl text-blue-600 font-mono text-lg mb-10">Crear Nuevo Encabezado</h1>
 
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
-              >Numero Capufe</label>
+              >Id de Encabezado</label>
               <input
-                v-model="datos.CapufeLaneNum"
+                v-model="datos.DTCHeaderId"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"                                                
-                placeholder="Numero Capufe"
+                placeholder="H-1234"
               />
             </div>
 
-            <div class="md:w-1/3 px-3">
+            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="input-Convenio"
+              >Numero de Convenio</label>
+              <input
+                v-model="datos.AgreementNum"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                id="input-Convenio"                                                
+                placeholder="4475896"
+              />
+            </div>
+
+            <div class="md:w-1/2 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
-              >Lane</label>
+              >Nombre del Encargado</label>
               <input
-                v-model="datos.Lane"
+                v-model="datos.ManagerName"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="grid-last-name"
                 type="text"
-                placeholder="Lane"
+                placeholder="Juan Perez"
               />
             </div>
 
 
-               <div class="md:w-1/3 px-3">
-                 <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="grid-last-name"
-              >Id Gare</label>
-             <select
-              v-model="datos.IdGare"
-                class="appearance-none border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 py-2 mb-3 w-full"
-                id="input-Convenio"
-                type="text"
-                placeholder="Tipo de Carril"
-              >
-             <option disabled value>Numero de Tramo</option>
-              <option
-              v-for="(gare, index) in listaGare"
-              v-bind:value="gare.id"
-              :key="index"
-            >{{gare.nombreTramo}}</option>
-              </select>
-            </div>
+
           </div>
 
  <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+              <div class="md:w-1/2 px-3">
+                <label
+                  class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                  for="grid-last-name"
+                  >Cargo</label>
+              <input
+                v-model="datos.Position"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                id="grid-last-name"
+                type="text"
+                placeholder="Cargo en la empresa"
+              />
+            </div>
+            <div class="md:w-1/2 px-3">
+                <label
+                  class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                  for="grid-last-name"
+                  >Correo Electronico</label>
+              <input
+                v-model="datos.Mail"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                id="grid-last-name"
+                type="text"
+                placeholder="Email"
+              />
+            </div>
+            
+            <!-- <div class="md:w-1/2 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -82,9 +103,9 @@
               :key="index"
             >{{carril.text}}</option>
               </select>
-            </div>
+            </div> -->
 
-            <div class="md:w-1/2 px-3">
+            <!-- <div class="md:w-1/2 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
@@ -102,13 +123,14 @@
               :key="index"
             >{{plaza.text}}</option>
               </select>
-            </div>
+            </div> -->
+
 
                <button
-          @click="crearCarriles()"
+          @click="crearHeaders()"
             class="shadow bg-green-500 focus:shadow-outline focus:outline-none ml-0 px-32 py-2 md:px-40 m-3 rounded"
             type="button"
-          >Crear</button>
+          >Agregar</button>
 
 
 
@@ -122,43 +144,21 @@
 <script>
 
 import Nav from "../Navbar.vue"
-import ListaIdGare from "../Carriles/idGare.json"
 
 export default {
-  name: "CrearCarriles",
+  name: "CrearPlazas",
   components: {
     Nav
   },
   data() {
     return {
       datos: {
-
-        CapufeLaneNum: '',
-        Lane: '',
-        IdGare: '',
-        LaneType: '',
-        SquaresCatalogId: '',
-        DTCTechnical: {}
-
+        DTCHeaderId: '',
+        AgreementNum: '',
+        ManagerName: '',
+        Position: '',
+        Mail: ''
       },
-      listaPlazas: [        
-        { value: "004", text: "Tepotzotlan" },                
-        { value: "005", text: "Palmillas" },
-        { value: "006", text: "Queretaro" },
-        { value: "041", text: "Salamanca" },
-        { value: "061", text: "Libramiento" },
-        { value: "127", text: "Chichimequillas" },
-        { value: "183", text: "Villagrand" },
-        { value: "186", text: "Cerro Gordo" },
-      ],
-      listaCarriles: [
-        {value: 1, text: "Expres"},
-        {value: 2, text: "Multimodal"},        
-        {value: 3, text: "Reversible"},
-        {value: 4, text: "Otro?"},
-      ],
-      listaGare: [           
-      ]
     };
   },
   watch:{
@@ -167,26 +167,9 @@ export default {
   },
   methods: {
 
-    cambiarIdGare(){
-
-
-   
-      let lista = ListaIdGare["listaIdGare"]
-      
-
-      for(let i = 0; i < this.listaPlazas.length; i ++){
-
-          if(lista[i]["numPlaza"] == this.datos.SquaresCatalogId){
-          console.log(lista[i]["idGare"])
-          this.listaGare = Object.assign({}, lista[i]["idGare"])
-          }
-      }        
-
-    },
-
-   async crearCarriles(){            
-     await this.$store.dispatch("Carriles/crearCarril",this.datos)            
-      this.$router.push('/Carriles/')
+    crearHeaders() {
+      this.$store.dispatch("Header/crearHeaders", this.datos);
+        this.$router.push("/Header/");
     }
   }
 };

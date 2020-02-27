@@ -77,23 +77,19 @@ const actions = {
     console.log("Hello con Vue! => CrearRefaccion");
     console.log(value);
     let newObject = {
-      Id: parseInt(0),
       NumPart: value.NumPart,
-      TypeService: value.TypeService,
       Name: value.Name,
-      Brand: value.Brand,
-      Price: parseFloat(value.Price),
-      Unit: parseInt(value.Unit),
+      Unit: 1,
       PieceYear: value.year,
       InventoryImage: "Sin-Imagen",
       Description: value.Description,
-      ComponentId: value.ComponentId,
-      Status: false
+      Status: false,
+      ComponentId: value.ComponentId
     };
 
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.post(`http://192.168.0.111:8084/api/Inventories/`, newObject)
+    await Axios.post(`https://localhost:44356/api/Inventories/`, newObject)
       .then(response => {
         console.log("Bien");
         console.log(response.data);

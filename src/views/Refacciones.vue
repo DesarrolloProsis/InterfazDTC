@@ -1,18 +1,16 @@
 <template>
   <div>
     <Nav></Nav>
-    <h1 class="text-center text-4xl text-blue-600 pt-10 font-mono mb-10">
-      Catalogo de Refacciones
-    </h1>
+    <h1
+      class="text-center text-4xl text-blue-600 pt-10 font-mono mb-10"
+    >Catalogo de Servicios y/o Componentes</h1>
 
     <div class="flex flex-wrap sm:p-4 md:m-5 md:pl-48 md:pr-48">
       <div class="p-3 w-screen inline">
-        <div
-          class="mb-5 flex-row flex-wrap flex mt-0 border p-5 justify-center"
-        >
+        <div class="mb-5 flex-row flex-wrap flex mt-0 border-2 border-black p-5 justify-center">
           <select
             v-model="datos.year"
-            class="appearance-none border-2 border-gray-200 rounded py-2 px-16 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
+            class="appearance-none border-2 border-black rounded py-2 px-16 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
             type="text"
           >
             <option disabled value>Seleciona el Año</option>
@@ -20,10 +18,9 @@
               v-for="(year, index) in listaYear"
               v-bind:value="year.value"
               :key="index"
-              >{{ year.text }}</option
-            >
+            >{{ year.text }}</option>
           </select>
-<!-- 
+<!--           
           <select
             v-model="datos.marca"
             class="appearance-none border-2 border-gray-200 rounded py-2 px-16 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
@@ -40,77 +37,60 @@
 
           <button
             @click="buscarRefacciones()"
-            class="shadow focus:shadow-outline focus:outline-none py-2 px-10 rounded m-3"
+            class="shadow bg-teal-500 focus:outline-none py-2 px-10 rounded m-3"
             type="button"
-          >
-            Buscar
-          </button>
+          >Buscar</button>
 
           <button
             @click="crearRefaccion()"
             class="shadow bg-green-500 focus:shadow-outline focus:outline-none py-2 px-12 m-3 rounded"
             type="button"
-          >
-            +
-          </button>
+          >Agregar</button>
         </div>
 
         <div class="overflow-x-scroll">
           <table class="w-full rounded-lg bg-scroll">
             <thead>
               <tr class="text-center">
-              
                 <th
-                  class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
-                >
-                  Nombre
-                </th>
+                  class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
+                  style
+                >Nombre</th>
                 <th
-                  class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
-                >
-                  Precio
-                </th>
+                  class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
+                >Precio</th>
                 <th
-                  class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
-                >
-                  Año
-                </th>
-         
+                  class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
+                >Tipo Servicio/Componente</th>
+
                 <th
-                  class="bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
-                >
-                  Opciones
-                </th>
+                  class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
+                >Marca</th>
+
+                <th
+                  class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
+                >Opciones</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                class="hover:bg-gray-200 text-center"
+                class="hover:bg-blue-200 text-center"
                 v-for="(pieza, index) in Piezas"
                 :key="index"
-              >          
-                <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.componentName }}
-                </td>
-                <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.price }}
-                </td>        
-                <td class="border-b border-grey-light p-2 md:p-3 border-2">
-                  {{ pieza.year }}
-                </td>
-                <td class="border-b border-grey-light  md:p-3 border-2">
+              >
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ pieza.componentName }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ '$' + pieza.price }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ pieza.serviceTypeName }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ pieza.brand }}</td>
+                <td class="border-b border-black md:p-3 border-2">
                   <button
                     @click="editarRefaccion(pieza)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500 mb-2 md:mr-2"
-                  >
-                    Editar
-                  </button>
+                  >Editar</button>
                   <button
                     @click="eliminarRefaccion(pieza)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
-                  >
-                    Eliminar
-                  </button>
+                  >Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -140,13 +120,13 @@ export default {
         { value: "2020", text: "2020" },
         { value: "2019", text: "2019" },
         { value: "2018", text: "2018" }
-    ],
+      ],
       listaServicio: [
         { value: "01", text: "Reparacion" },
         { value: "02", text: "Cambios" }
       ],
       listaMarca: [
-       { value: "GEA", text: "GEA" },
+        { value: "GEA", text: "GEA" },
         { value: "Prosis", text: "Prosis" },
         { value: "LBA", text: "LBA" },
         { value: "TATTILE", text: "TATTILE" },
@@ -166,48 +146,46 @@ export default {
         { value: "MOXA", text: "MOXA" },
         { value: "HIRSCHMAN", text: "HIRSCHMAN" },
         { value: "CISCO", text: "CISCO" },
-        { value: "POWER ALL", text: "POWER ALL" },
-
-
-
+        { value: "POWER ALL", text: "POWER ALL" }
       ],
       Piezas: []
     };
   },
   methods: {
     async buscarRefacciones() {
-      
-      console.log("COmponente")
-       console.log(this.datos)    
-       await this.$store.dispatch("Refacciones/buscarRefacciones",this.datos)
-       this.Piezas = await this.$store.getters['Refacciones/getListaRefacciones'] 
-       
+      console.log("COmponente");
+      console.log(this.datos);
+      await this.$store.dispatch("Refacciones/buscarRefacciones", this.datos);
+      let numConvenio = await this.$store.getters["Header/getnumConvenio"]
+
+      alert(numConvenio)
+      this.Piezas = await this.$store.getters[
+        "Refacciones/getListaRefacciones"
+      ];
     },
     editarRefaccion(value) {
       let item = Object.assign({}, value);
 
-      console.log("Refacciones")
-      console.log(item)
+      console.log("Refacciones");
+      console.log(item);
 
-      
       this.$router.push({
         name: "RefaccionEditar",
         params: {
           object: item
         }
       });
-
     },
     crearRefaccion() {
       this.$router.push("/Refacciones/Nueva");
     },
     async eliminarRefaccion(value) {
-      
-
-        console.log(value)
-        await this.$store.dispatch("Refacciones/eliminarRefaccion",value);
-
+      console.log(value);
+      await this.$store.dispatch("Refacciones/eliminarRefaccion", value);
     }
   }
 };
 </script>
+
+<style scoped>
+</style>

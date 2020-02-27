@@ -2,15 +2,18 @@ import Axios from "axios";
 import qs from "qs";
 
 const state = {
-  listaDTC: []
+  listaDTCTecnico: []
 };
 
-const getters = {};
+const getters = {
+  getListaDTCTecnico: () => state.listaDTCTecnico
+};
 const mutations = {
-  listaDTCMutation: (state, value) => {
-    state.listaDTC = value;
+  listaDTCTecnicoMutation: (state, value) => {
+    state.listaDTCTecnico = value;
   }
 };
+
 const actions = {
   //Cosnsulta API Listar Carriles
   async buscarDTC({ commit }, value) {
@@ -28,6 +31,43 @@ const actions = {
         console.log(error);
       }
     );
+  },
+
+  //Consulta API Crear DTC
+  async crearDTCTecnico({ commit }, value) {
+    console.log("Hello con Vue! => ArmandoDTC");
+    console.log(value)
+    let newObject = {
+      ReferenceNum: value.ReferenceNum,
+      UserId: parseInt(value.UserId),
+      DTCHeaderId: value.DTCHeaderId,
+      AxaNum: value.AxaNum,
+      FailureNum: parseInt(value.FailureNum),
+      Status: "false",
+      IncidentDate: value.IncidentDate,
+      FailureDate: value.FailureDate,
+      ElaborationDate: value.ElaborationDate,
+      ShippingDate: value.ShippingDate,
+      OpinionType: value.OpinionType,
+      Description: value.Description,
+      Diagnostic: value.Diagnostic,
+      Observation: value.Observation,
+      Image: value.Image,
+      LanesCatalogCapufeLaneNum: value.LanesCatalogCapufeLaneNum,
+      LanesCatalogIdGare: value.LanesCatalogIdGare
+    }
+
+    console.log(newObject)
+    console.log("Hello con Vue! => Creando DTC");
+    await Axios.post(`https://localhost:44356/api/dtctechnicals/`, newObject)
+    .then(response =>{
+      console.log("Bien");    
+      console.log(response.data)
+      commit()
+    })
+    .catch((Ex) => {
+      console.log(Ex)
+    })
   },
 
     //Cosnsulta API Crear Carriles

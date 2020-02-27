@@ -7,7 +7,7 @@
         class="flex flex-wrap md:ml-10 md:mr-10 justify-center md:p-16 md:pt-4"
       >
         <div
-          class="shadow-md rounded md:border border-grey-light p-5 md:p-24 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
+          class="shadow-md rounded md:border border-black p-5 md:p-24 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
         >
           <h1
             class="text-center text-4xl text-blue-600 font-mono text-lg mb-10"
@@ -21,7 +21,7 @@
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
-                >Servico, Componente o Refaccion</label
+                >Servico o Componente</label
               >
               <select
                 v-model="datos.ServiceTypeId"
@@ -30,7 +30,7 @@
                 <option value="">Selecciona la Opcion</option>
                 <option value=1>SERVICIO</option>
                 <option value=2>COMPONENTE</option>
-                <option value=3>REFACCION</option>
+                <!-- <option value=3>REFACCION</option> -->
               </select>
             </div>
 
@@ -54,11 +54,31 @@
               }}</span>
             </div>
 
+              <div class=" md:w-1/3 px-3 mb-6 md:mb-0">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="input-Convenio"
+                >Modelo</label
+              >
+              <input
+                v-model="datos.Model"
+                v-validate="'required|max:25|min:0'"
+                v-bind:class="{ 'border-red-600': errors.has('nameComponent') }"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border   rounded-lg py-2 mb-3"
+                name="nameComponent"
+                value
+                placeholder="Modelo"
+              />
+              <span class="text-red-600" v-if="errors.has('nameComponent')">{{
+                "No puedes excedes 25 caracteres"
+              }}</span>
+            </div>
+
             <div class=" md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
-                >Descripcion</label
+                >Detalles</label
               >
               <input
                 v-model="datos.Description"
@@ -93,13 +113,13 @@
                 >Tipo de unidad</label
               >
               <select
-                v-model="datos.Unit"
+                v-model="datos.UnitId"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
               >
-                <option value="">Selecciona la Unidad</option>
+                <!-- <option value="">Selecciona la Unidad</option> -->
                 <option value=1>Pza</option>
-                <option value=2>Metro</option>
-                <option value=3>Mano de Obra</option>
+                <!-- <option value=2>Metro</option>
+                <option value=3>Mano de Obra</option> -->
               </select>
             </div>
 
@@ -114,9 +134,9 @@
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
               >
                 <option value="">Selecciona Año</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
                 <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
               </select>
             </div>
 
@@ -138,6 +158,25 @@
                   v-bind:value="marca.value"
                   :key="index"
                   >{{ marca.text }}</option
+                >
+              </select>
+            </div>
+              <div class="md:w-1/3 px-3">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="grid-last-name"
+                >Firma</label
+              >
+              <select
+                v-model="datos.AutomaticSignature"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+              >
+                <option disabled value>Seleccion Automatica</option>
+                <option
+                  v-for="(firma, index) in listaAutFirma"
+                  v-bind:value="firma.value"
+                  :key="index"
+                  >{{ firma.text }}</option
                 >
               </select>
             </div>
@@ -165,14 +204,15 @@ export default {
   data() {
     return {
       datos: {
-        ComponentId: 0,
         ComponentName: "",
         Year: "",
         Price: "",
         Brand: "",
         Description: "",
-        ServiceTypeId: "",
-        Unit: null
+        UnitId: null,
+        ServiceTypeId: null,
+        Model: "",
+        AutomaticSignature: ""
       },
       listaMarca: [
         { value: "GEA", text: "GEA" },
@@ -197,7 +237,11 @@ export default {
         { value: "CISCO", text: "CISCO" },
         { value: "POWER ALL", text: "POWER ALL" }
       ],
-      hasError: false
+      hasError: false,
+      listaAutFirma: [
+        { value: "true", text: "Si" },
+        { value: "false", text: "No" }
+      ],
     };
   },
   components: {

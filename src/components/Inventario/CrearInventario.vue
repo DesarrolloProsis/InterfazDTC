@@ -54,7 +54,7 @@
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="grid-last-name"
-                >Selecciones la Refaccion</label
+                >Seleccione la Refaccion</label
               >
               <select
                 @change="insertarIdPieza()"
@@ -75,7 +75,7 @@
 
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+            <!-- <div class="md:w-1/4 px-3 mb-6 md:mb-0">
               <label                
                 class="block  uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -83,13 +83,13 @@
               >
               <input
               disabled
-                v-model="datos.Price"
+                v-model="datos.PieceYear"
                 class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
                 id="input-Convenio"
                 type="text"
                 placeholder="Precio"
               />
-            </div>
+            </div> -->
 
             <div class="md:w-1/4 px-3 mb-6 md:mb-0">
               <label
@@ -107,7 +107,7 @@
               />
             </div>
 
-            <div class="md:w-1/4 px-3">
+            <!-- <div class="md:w-1/4 px-3">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -128,7 +128,7 @@
                   >{{ marca.text }}</option
                 >
               </select>
-            </div>
+            </div> -->
 
             <div class="md:w-1/4 px-3">
               <label
@@ -146,7 +146,7 @@
 
           <!-- Primeros dos input  -->
           <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+            <!-- <div class="md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                 for="input-Convenio"
@@ -160,6 +160,26 @@
                 type="text"
                 placeholder="Tipo de Servicio"
               />
+            </div> -->
+
+            <div class="md:w-1/3 px-3">
+              <label
+                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                for="grid-last-name"
+                >Status</label
+              >
+              <select
+                v-model="datos.Status"
+                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+              >
+                <option disabled value>Seleccion Automatica</option>
+                <option
+                  v-for="(stat, index) in listaStatus"
+                  v-bind:value="stat.value"
+                  :key="index"
+                  >{{ stat.text }}</option
+                >
+              </select>
             </div>
 
             <div class="md:w-2/3 px-3 mb-6 md:mb-0">
@@ -198,18 +218,14 @@ export default {
   data() {
     return {
       datos: {
-        Id: 0,
         NumPart: "",
-        TypeService: "",
         Name: "",
-        Brand: "",
-        Price: '',
-        Unit: 0,
-        year: '',
+        Unit: 1,
+        PieceYear: '',
         InventoryImage: 'Sin-Imagen',
         Description: '',
-        ComponentId: 0,
-        Status: false
+        Status: false,
+        ComponentId: 0
 
       },
       listaMarca: [
@@ -235,7 +251,11 @@ export default {
         { value: "CISCO", text: "CISCO" },
         { value: "POWER ALL", text: "POWER ALL" }
       ],
-      listaPiezas: []
+      listaPiezas: [],
+      listaStatus: [
+        { value: "true", text: "Si" },
+        { value: "false", text: "No" }
+      ]
     };
   },
   components: {

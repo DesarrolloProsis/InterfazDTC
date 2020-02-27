@@ -4,10 +4,10 @@
 
     <div class="flex flex-wrap justify-center sm:p-4 md:m-5 md:pl-48 md:pr-48">
       <div class="p-3 w-screen inline">
-        <h1 class="text-center text-4xl text-blue-600 pt-10 font-mono mb-10">Informacion de Carriles</h1>
+        <h1 class="text-center text-4xl text-blue-600 pt-10 font-mono mb-10">Informacion de Plazas</h1>
 
         <div class="mb-5 w-4/5flex-row flex-wrap m-0 flex mt-0 border-2 border-black p-3 justify-center">
-          <select
+          <!-- <select
             v-model="datos.Plaza"
             class="appearance-none border-2 border-black rounded py-2 px-32 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
             type="text"
@@ -18,31 +18,30 @@
               v-bind:value="plaza.value"
               :key="index"
             >{{plaza.text}}</option>
-          </select>
+          </select> -->
 
-          <select
-          v-model="datos.TipoCarril"
-            class="appearance-none border-2 border-black rounded py-2 px-32 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
+          <!-- <select
+            v-model="datos.TipoCarril"
+            class="appearance-none border-2 border-gray-200 rounded py-2 px-32 md:py-2 md:px-48 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 m-3"
             type="text"
           >
             <option disabled value>Tipo de Carril</option>
-              <option
+            <option
               v-for="(carril, index) in listaCarriles"
               v-bind:value="carril.value"
               :key="index"
             >{{carril.text}}</option>
-            
-          </select>
+          </select>-->
 
           <button
-          @click="buscarCarriles()"
-            class="shadow bg-teal-500 focus:shadow-outline focus:outline-none py-2 px-10 rounded m-3"
+            @click="buscarPlazas()"
+            class="shadow bg-teal-500 focus:outline-none py-2 px-10 rounded m-3"
             type="button"
           >Buscar</button>
 
           <button
-            @click="crearCarril()"
-            class="shadow bg-green-500 focus:shadow-outline focus:outline-none py-2 px-12 m-3 rounded"
+            @click="crearPlaza()"
+            class="shadow bg-green-500 focus:outline-none py-2 px-10 rounded m-3"
             type="button"
           >Agregar</button>
         </div>
@@ -52,16 +51,16 @@
               <tr class="text-center">
                 <th
                   class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
-                >Numero Capufe</th>
+                >Numero de Plaza</th>
                 <th
                   class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
-                >Id Gare</th>
+                >Nombre de Plaza</th>
                 <th
                   class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
-                >Lane</th>
-                <th
-                  class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
-                >Tipo Carril</th>
+                >Delegacion</th>
+                <!-- <th
+                  class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-grey-light p-2 sm:p-2 md:p-4"
+                >Tipo Carril</th>-->
                 <th
                   class="bg-blue-500 font-bold uppercase text-sm text-grey-dark border-2 border-black p-2 sm:p-2 md:p-4"
                 >Actions</th>
@@ -73,17 +72,17 @@
                 v-for="(carril, index) in carriles"
                 :key="index"
               >
-                <td class="border-b border-black p-2 md:p-3 border-2">{{carril.capufeLaneNum}}</td>
-                <td class="border-b border-black p-2 md:p-3 border-2">{{carril.idGare}}</td>
-                <td class="border-b border-black p-2 md:p-3 border-2">{{carril.lane}}</td>
-                <td class="border-b border-black p-2 md:p-3 border-2">{{carril.typeCarril}}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{carril.squareNum}}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{carril.squareName}}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{carril.delegation}}</td>
+                <!-- <td class="border-b border-grey-light p-2 md:p-3 border-2">{{carril.typeCarril}}</td> -->
                 <td class="border-b border-black p-2 md:p-3 border-2">
-                  <button
+                  <!-- <button
                     @click="editarCarril(carril)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500 mb-1 md:mr-5"
-                  >Editar</button>
+                  >Editar</button>-->
                   <button
-                    @click="eliminarCarril(carril)"
+                    @click="eliminarPlaza(carril)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
                   >Eliminar</button>
                 </td>
@@ -92,22 +91,19 @@
           </table>
         </div>
       </div>
-    </div> 
-
-
-    <div v-if="loader" class="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50 flex justify-center">        
-       <div class="loader mt-64"></div>   
     </div>
-    
+
+    <div
+      v-if="loader"
+      class="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50 flex justify-center"
+    >
+      <div class="loader mt-64"></div>
+    </div>
   </div>
-  
 </template>
 
 <script>
 import Nav from "../components/Navbar";
-
-
-
 
 export default {
   name: "Refacciones",
@@ -118,94 +114,77 @@ export default {
     return {
       loader: false,
       datos: {
-        Plaza: "",
-        TipoCarril: ""
+        Plaza: ""
       },
       listaPlazas: [
-        { value: "004", text: "Tepotzotlan" },                
+        { value: "004", text: "Tepotzotlan" },
         { value: "005", text: "Palmillas" },
         { value: "006", text: "Queretaro" },
         { value: "041", text: "Salamanca" },
         { value: "061", text: "Libramiento" },
         { value: "127", text: "Chichimequillas" },
         { value: "183", text: "Villagrand" },
-        { value: "186", text: "Cerro Gordo" },
+        { value: "186", text: "Cerro Gordo" }
       ],
       listaCarriles: [
-        {value: 1, text: "Express"},
-        {value: 2, text: "Multimodal"},        
-        {value: 3, text: "Reversible"},
-        {value: 4, text: "Otro?"},
-
+        { value: 1, text: "Express" },
+        { value: 2, text: "Multimodal" },
+        { value: 3, text: "Reversible" },
+        { value: 4, text: "Otro?" }
       ],
       nuevoCarrilBool: true,
       carriles: []
     };
   },
-  computed:{
-
- 
-
-     
-  },
+  computed: {},
   methods: {
-
-   async buscarCarriles(){      
-
-       this.loader = true
-       await this.$store.dispatch("Carriles/buscarCarriles",this.datos);
-       this.carriles = await this.$store.getters['Carriles/getListaCarriles'] 
-       this.loader = false
-       
-       
-            
+    async buscarPlazas() {
+      this.loader = true;
+      await this.$store.dispatch("Plazas/buscarPlazas", this.datos);
+      this.carriles = await this.$store.getters["Plazas/getListaPlazas"];
+      this.loader = false;
     },
-    editarCarril(item) {        
+    // editarCarril(item) {
+    //   let value = Object.assign({}, item);
+    //   console.log("Editar");
 
-      let value = Object.assign({}, item)
-        console.log("Editar")
-        
-        for(let i = 0; i < 2; i++){
-            if(value.typeCarril == this.listaCarriles[i].text){
-                value.typeCarril = this.listaCarriles[i].value
-                console.log(value)
-            }
-        }
+    //   for (let i = 0; i < 2; i++) {
+    //     if (value.typeCarril == this.listaCarriles[i].text) {
+    //       value.typeCarril = this.listaCarriles[i].value;
+    //       console.log(value);
+    //     }
+    //   }
 
-      this.$router.push({
-        name: "CarrilesEditar",
-        params: {
-          object: value,
-          
-        }
-      });
+    //   this.$router.push({
+    //     name: "CarrilesEditar",
+    //     params: {
+    //       object: value
+    //     }
+    //   });
+    //},
+    crearPlaza() {
+      this.$router.push("/Plazas/Nuevo");
     },
-    crearCarril() {
-      this.$router.push("/Carriles/Nuevo");
-    },
-    async eliminarCarril(item){
+    async eliminarPlaza(item) {
+      let value = Object.assign({}, item);
 
+      
 
-       let value = Object.assign({}, item)
-   
-        for(let i = 0; i < 2; i++){
-            if(value.typeCarril == this.listaCarriles[i].text){
-                value.typeCarril = this.listaCarriles[i].value
-                
-            }
+      for (let i = 0; i < 2; i++) {
+        if (value.typeCarril == this.listaCarriles[i].text) {
+          value.typeCarril = this.listaCarriles[i].value;
         }
+      }
 
-        console.log(value)                      
-        await this.$store.dispatch("Carriles/eliminarCarril",value);
-
+      console.log(value);
+      await this.$store.dispatch("Plazas/eliminarPlaza", value.squareNum);
     }
   }
- 
 };
 </script>
 
 <style>
- .loader {
+.loader {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3498db; /* Blue */
   border-radius: 50%;
@@ -215,7 +194,11 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

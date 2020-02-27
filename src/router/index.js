@@ -7,6 +7,10 @@ import Carriles from '../views/Carriles.vue'
 import Refacciones from '../views/Refacciones.vue'
 import Inventario from '../views/Inventario.vue'
 import Login from '../views/Login.vue'
+import Convenios from '../views/Convenios.vue'
+import Configuracion from '../views/Configuration.vue'
+import Plaza from '../views/Plaza.vue'
+import DTCHeader from '../views/DTCHeader.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +19,28 @@ const routes = [
     path: '/',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/convenios',
+    name: 'convenios',
+    component: Convenios
+  },
+  {
+    path: '/header',
+    name: 'header',
+    component: DTCHeader
+  },
+  {
+
+    path: '/config',
+    name: 'config',
+    component: Configuracion,
+
+  },
+  {
+    path: '/plazas',
+    name: 'plazas',
+    component: Plaza
   },
   {
     path: '/home',
@@ -36,6 +62,16 @@ const routes = [
     name: 'Carriles',
     component: Carriles,
     
+  },
+  {
+    path: '/Header/Nuevo',
+    name: 'HeaderNuevo',
+    component: () => import('../components/Header/CrearHeader.vue')
+  },
+  {
+    path: '/Plazas/Nuevo',
+    name: 'PlazasNuevo',
+    component: () => import('../components/Plazas/CrearPlazas.vue')
   },
   {
     path: '/Carriles/Nuevo',

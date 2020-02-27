@@ -10,7 +10,7 @@
           <h1 class="text-center text-4xl text-blue-600 font-mono text-lg mb-10">Nueva Refaccion</h1>
 
           <!-- Primeros dos input  -->
-          <div class="-mx-3 w-full sm:screen md:flex mb-6">
+          <div class="-mx-3 w-full sm:screen flex mb-4">
             <div class=" md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
@@ -192,14 +192,16 @@ export default {
       datos:{
 
         
-      ComponentId: this.$route.params.object.componentId,
-      ComponentName: this.$route.params.object.componentName,
-      Price: this.$route.params.object.price,
-      Year: this.$route.params.object.year,      
-      Brand: this.$route.params.object.brand,
-      Description: this.$route.params.object.description,
-      ServiceTypeId: this.$route.params.object.serviceTypeId,
-      Unit: this.$route.params.object.unit,
+      ComponentId: this.$route.params.object.ComponentId,
+      ComponentName: this.$route.params.object.ComponentName,
+      Price: this.$route.params.object.Price,
+      Year: this.$route.params.object.Year,      
+      Brand: this.$route.params.object.Brand,
+      Description: this.$route.params.object.Description,
+      ServiceTypeId: this.$route.params.object.ServiceTypeId,
+      UnitId: this.$route.params.object.UnitId,
+      Model: this.$route.params.object.Model,
+      automaticSignature: this.$route.params.object.automaticSignature
       
 
       // NoParte: this.$route.params.object.componentId,

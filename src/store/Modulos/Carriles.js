@@ -16,6 +16,21 @@ const mutations = {
   }
 };
 const actions = {
+
+  async buscarCarrilesPlaza({commit}, value){
+
+    console.log(`https://localhost:44356/api/LanesCatalogs/params/${value.Plaza}`)
+    await Axios.get(`https://localhost:44356/api/LanesCatalogs/params/${value}`)
+  .then(response => {
+    console.log("Bien")
+    console.log(response.data)
+    commit('listaCarrilesMutation', response.data)
+  })
+  .catch((Ex) => {
+    console.log(Ex)
+  })
+
+  },
   //Cosnsulta API Listar Carriles
   async buscarCarriles({ commit }, value) {
 
@@ -34,7 +49,7 @@ const actions = {
       })
     }
       else if(value.Plaza != '' && value.TipoCarril == ''){
-        console.log(`http://192.168.0.111:8084/api/LanesCatalogs/params/${value.Plaza}`)
+        console.log(`https://localhost:44356/api/LanesCatalogs/params/${value.Plaza}`)
         await Axios.get(`https://localhost:44356/api/LanesCatalogs/params/${value.Plaza}`)
       .then(response => {
         console.log("Bien")
@@ -46,7 +61,7 @@ const actions = {
       })
       }
     else{
-    console.log(`http://192.168.0.111:8084/api/LanesCatalogs/params/${value.Plaza}/${value.TipoCarril}`)
+    console.log(`https://localhost:44356/api/LanesCatalogs/params/${value.Plaza}/${value.TipoCarril}`)
       await Axios.get(`https://localhost:44356/api/LanesCatalogs/params/${value.Plaza}/${value.TipoCarril}`)
     .then(response => {
       console.log("Bien")
@@ -71,7 +86,7 @@ const actions = {
       SquaresCatalogId: value.SquaresCatalogId
     }
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.post(`http://192.168.0.111:8084/api/LanesCatalogs`, newObject)
+    await Axios.post(`https://localhost:44356/api/LanesCatalogs`, newObject)
     .then(response =>{
       console.log("Bien");    
       console.log(response.data)
@@ -97,7 +112,7 @@ const actions = {
 
     console.log(newObject)
     console.log("Hello con Vue! => EditarCarril ");
-    await Axios.put(`http://192.168.0.111:8084/api/LanesCatalogs/${newObject.CapufeLaneNum}/${newObject.IdGare}`,newObject)
+    await Axios.put(`https://localhost:44356/api/LanesCatalogs/${newObject.CapufeLaneNum}/${newObject.IdGare}`,newObject)
     .then(response => {
       console.log("Bien")
       commit("")
@@ -122,7 +137,7 @@ const actions = {
 
     console.log(newObject)
     console.log("Hello con Vue! => EliminarCarril ");
-    Axios.delete(`http://192.168.0.111:8084/api/LanesCatalogs/${newObject.CapufeLaneNum}/${newObject.IdGare}`)
+    Axios.delete(`https://localhost:44356/api/LanesCatalogs/${newObject.CapufeLaneNum}/${newObject.IdGare}`)
     .then(response => {
       console.log("Bien")
       commit("")
