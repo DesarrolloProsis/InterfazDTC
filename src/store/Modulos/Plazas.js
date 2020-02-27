@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
   async buscarPlazasId({ commit }, value) {
     console.log(`https://localhost:44356/api/LanesCatalogs/${value}`);
-    await Axios.get(`https://localhost:44356/api/LanesCatalogs/${value}`)
+    await Axios.get(`http://192.168.0.111:8084/api/LanesCatalogs/${value}`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -30,7 +30,7 @@ const actions = {
     console.log(value);
     console.log("Hello con Vue! => ListarCarril ");
     if (value.Plaza == "") {
-      await Axios.get(`https://localhost:44356/api/squarescatalogs/`)
+      await Axios.get(`http://192.168.0.111:8084/api/squarescatalogs/`)
         .then(response => {
           console.log("Bien");
           console.log(response.data);
@@ -41,7 +41,7 @@ const actions = {
         });
     } else if (value.Plaza != "") {
       console.log(`https://localhost:44356/api/SquaresCatalogs/${value}`);
-      await Axios.get(`https://localhost:44356/api/SquaresCatalogs/${value}`)
+      await Axios.get(`http://192.168.0.111:8084/api/SquaresCatalogs/${value}`)
         .then(response => {
           console.log("Bien");
           console.log(response.data);
@@ -53,7 +53,7 @@ const actions = {
     } else {
       console.log(`https://localhost:44356/api/SquaresCatalogs/${value}`);
       await Axios.get(
-        `https://localhost:44356/api/SquaresCatalogs/params/${value}/${value.TipoCarril}`
+        `http://192.168.0.111:8084/api/SquaresCatalogs/params/${value}/${value.TipoCarril}`
       )
         .then(response => {
           console.log("Bien");
@@ -78,7 +78,7 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
     await Axios.post(
-      `https://localhost:44356/api/SquaresCatalogs/`,
+      `http://192.168.0.111:8084/api/SquaresCatalogs/`,
       newObject
     )
       .then(response => {
@@ -103,7 +103,7 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => EditarCarril ");
     await Axios.put(
-      `https://localhost:44356/api/SquaresCatalogs/${newObject.squareNum}`,
+      `http://192.168.0.111:8084/api/SquaresCatalogs/${newObject.squareNum}`,
       newObject
     )
       .then(response => {
@@ -121,7 +121,7 @@ const actions = {
     console.log(value);
 
     console.log("Hello con Vue! => EliminarCarril ");
-    Axios.delete(`https://localhost:44356/api/SquaresCatalogs/${value}`)
+    Axios.delete(`http://192.168.0.111:8084/api/SquaresCatalogs/${value}`)
       .then(response => {
         console.log("Bien");
         commit("");

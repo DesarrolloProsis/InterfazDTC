@@ -38,7 +38,7 @@ const actions = {
     console.log(value);
     console.log("Hello con Vue! => ListaHeaders");
 
-    await Axios.get(`https://localhost:44356/api/DTCHeaders/`)
+    await Axios.get(`http://192.168.0.111:8084/api/DTCHeaders/`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -64,7 +64,7 @@ const actions = {
     console.log("NUEVO OBJECTO");
     console.log(newObject);
     
-    await Axios.post(`https://localhost:44356/api/DTCHeaders/`, newObject)
+    await Axios.post(`http://192.168.0.111:8084/api/DTCHeaders/`, newObject)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -89,7 +89,7 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => A punto de borrar");
     await Axios.delete(
-      `https://localhost:44356/api/DTCHeaders/${newObject.DTCHeaderId}`
+      `http://192.168.0.111:8084/api/DTCHeaders/${newObject.DTCHeaderId}`
     )
       .then(response => {
         console.log("Bien");

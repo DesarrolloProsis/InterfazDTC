@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
   async buscarComponentes({ commit }) {
     console.log(`http://192.168.0.111:8084/api/Components/`);
-    await Axios.get(`https://localhost:44356/api/Components`)
+    await Axios.get(`http://192.168.0.111:8084/api/Components`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -31,7 +31,7 @@ const actions = {
     console.log("Hello con Vue! => ListarRefacciones");
 
     if (value.year != "") {
-      await Axios.get(`https://localhost:44356/api/Components/${value.year}`)
+      await Axios.get(`http://192.168.0.111:8084/api/Components/${value.year}`)
         .then(response => {
           console.log("Bien");
           console.log(response.data);
@@ -41,7 +41,7 @@ const actions = {
           console.log(Ex);
         });
     } else {
-      await Axios.get(`https://localhost:44356/api/Components/`)
+      await Axios.get(`http://192.168.0.111:8084/api/Components/`)
         .then(response => {
           console.log("Bien");
           console.log(response.data);
@@ -71,7 +71,7 @@ const actions = {
 
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.post(`https://localhost:44356/api/Components/`, newObject)
+    await Axios.post(`http://192.168.0.111:8084/api/Components/`, newObject)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -99,10 +99,10 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
     console.log(
-      `https://localhost:44356/api/Components/${newObject.ComponentId}`
+      `http://192.168.0.111:8084/api/Components/${newObject.ComponentId}`
     );
     await Axios.put(
-      `https://localhost:44356/api/Components/${newObject.ComponentId}`,
+      `http://192.168.0.111:8084/api/Components/${newObject.ComponentId}`,
       newObject
     )
       .then(response => {
@@ -128,7 +128,7 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
     await Axios.delete(
-      `https://localhost:44356/api/Components/${newObject.ComponentId}`
+      `http://192.168.0.111:8084/api/Components/${newObject.ComponentId}`
     )
       .then(response => {
         console.log("Bien");

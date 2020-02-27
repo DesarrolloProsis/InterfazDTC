@@ -89,7 +89,7 @@ const actions = {
 
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.post(`https://localhost:44356/api/Inventories/`, newObject)
+    await Axios.post(`http://192.168.0.111:8084/api/Inventories/`, newObject)
       .then(response => {
         console.log("Bien");
         console.log(response.data);

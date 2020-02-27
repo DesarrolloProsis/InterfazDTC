@@ -59,7 +59,7 @@ const actions = {
 
     console.log(newObject)
     console.log("Hello con Vue! => Creando DTC");
-    await Axios.post(`https://localhost:44356/api/dtctechnicals/`, newObject)
+    await Axios.post(`http://192.168.0.111:8084/api/dtctechnicals/`, newObject)
     .then(response =>{
       console.log("Bien");    
       console.log(response.data)
