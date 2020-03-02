@@ -3,7 +3,7 @@
     <nav class="flex 
                 justify-between 
                 bg-gray-800
-                 w-screen
+                
                 p-3" id="nav">   
                        
         <div class="text-lg">
