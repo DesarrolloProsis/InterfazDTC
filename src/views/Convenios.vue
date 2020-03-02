@@ -12,9 +12,9 @@
         <option disabled value>Selecionar...</option>
         <option
           v-for="(convenio, index) in listaConvenios"
-          v-bind:value="convenio.agreementNum"
+          v-bind:value="convenio.convenio"
           :key="index"
-        >{{convenio.agreementNum }}</option>
+        >{{convenio.convenio }}</option>
         <!-- + "----" + convenio.managerName -->
       </select>
     </div>
@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     onClick() {
+
       if (this.datos.selector) {
         this.$store.commit("Header/numConvenioMutation", this.datos.convenio);
         this.$router.push("home");
@@ -49,10 +50,10 @@ export default {
     }
   },
   async beforeMount() {
-    console.log("COmponente MOUNT");
+    //console.log("COmponente MOUNT");
     console.log(this.datos);
-    await this.$store.dispatch("Header/buscarHeaders", this.datos);
-    this.listaConvenios = await this.$store.getters["Header/getHeaders"];
+    //await this.$store.dispatch("Header/buscarHeaders", this.datos);
+    this.listaConvenios = await this.$store.getters["Login/getUser"];
   }
 };
 </script>

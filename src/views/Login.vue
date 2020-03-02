@@ -74,13 +74,22 @@ export default {
     };
   },
   methods: {
-    ingresarLogin() {
-      if (this.datos.User != "" && this.datos.Password != "") {
-        if (this.datos.Password == "CAPUFE" && this.datos.User == "Admin") {
-          this.$router.push("convenios");
-        }else alert("Usuario y/o Contraseña Incorrectos")
-      } else alert("Introduzca un Usuario y Contraseña");
+
+
+  async  ingresarLogin(){
+
+        console.log("Antes de enviar")
+        await this.$store.dispatch('Login/buscarUsuario',this.datos)
+        this.$router.push("convenios");
     }
+
+    // ingresarLogin() {
+    //   if (this.datos.User != "" && this.datos.Password != "") {
+    //     if (this.datos.Password == "CAPUFE" && this.datos.User == "Admin") {
+    //       this.$router.push("convenios");
+    //     }else alert("Usuario y/o Contraseña Incorrectos")
+    //   } else alert("Introduzca un Usuario y Contraseña");
+    // }
   }
 };
 </script>

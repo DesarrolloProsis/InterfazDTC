@@ -155,11 +155,12 @@ export default {
       listaHeaders: []
     };
   },
+
   methods: {
     async buscarHeaders() {
            
        await this.$store.dispatch("Header/buscarHeaders",this.datos)
-       this.listaHeaders = await this.$store.getters['Header/getHeaders'] 
+       this.listaHeaders = await this.$store.getters['Login/getUser'] 
        
     },
     // editarRefaccion(value) {

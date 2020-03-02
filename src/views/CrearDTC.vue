@@ -1507,7 +1507,11 @@ export default {
       listaCarriles: [],
       listaPiezas: [],
       listaHeaders: [],
-      loader: false
+      loader: false,
+      listUser: [
+      ],
+      NumConvenioCush: ""
+
     };
   },
   methods: {
@@ -1582,13 +1586,33 @@ export default {
     }
   },
   async beforeMount() {
-    await this.$store.dispatch("Refacciones/buscarComponentes");
-    (this.listaPiezas = await this.$store.getters[
-      "Refacciones/getListaRefacciones"
-    ]),
-      await this.$store.dispatch("Header/buscarHeaders");
-    this.listaHeaders = await this.$store.getters["Header/getHeaders"];
-  }
+
+  this.listUser = await this.$store.getters["Login/getUser"];
+  this.NumConvenioCush = await this.$store.getters["Header/getnumConvenio"];
+
+      // for(let i = 0; i < lista.length; i++){
+
+      //     if(lista[i].convenio == convenio){
+
+      //       this.listUser = lista[i]
+      //     }
+      // }
+
+    // await this.$store.dispatch("Refacciones/buscarComponentes");
+    // (this.listaPiezas = await this.$store.getters[
+    //   "Refacciones/getListaRefacciones"
+    // ]),
+    //   await this.$store.dispatch("Header/buscarHeaders");
+    // this.listaHeaders = await this.$store.getters["Header/getHeaders"];
+  },
+    computed:{
+
+      // convenioGet(){
+
+      //     return this.$store.getters['Header/getnumConvenio']
+      // }
+
+  },
   //   async beforeMount2() {
   //   await this.$store.dispatch("Header/buscarHeaders");
   //   this.listaHeaders = await this.$store.getters[

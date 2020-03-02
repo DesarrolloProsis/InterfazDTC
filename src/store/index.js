@@ -8,6 +8,7 @@ import DTC from './Modulos/DTC'
 import Inventario from './Modulos/Inventario'
 import Plazas from './Modulos/Plazas'
 import Header from './Modulos/Header'
+import Login from './Modulos/Login'
 
 
 Vue.use(Vuex)
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     Refacciones,
     Inventario,
     Plazas,
-    Header    
+    Header,
+    Login    
     
   }
 
