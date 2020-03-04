@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const state = {
-  listUser: []
+  listUser: null
 };
 
 const getters = {
@@ -18,11 +18,11 @@ const actions = {
   async buscarUsuario({ commit }, value) {
     console.log(value);
     console.log(
-      `http://192.168.0.79:82/api/dtcusers/${value.User}/${value.Password}AQUISOES`
+      `https://localhost:44358/api/login/${value.User}/${value.Password}`
     );
 
     await Axios.get(
-      `http://192.168.0.79:82/api/dtcusers/${value.User}/${value.Password}`
+      `https://localhost:44358/api/login/${value.User}/${value.Password}`
     )
       .then(response => {
         console.log(response.data);
