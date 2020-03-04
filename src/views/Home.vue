@@ -23,10 +23,12 @@ export default {
   },
   data(){
     return{
-
+      convenio: "4500029287",
       
-
     }
-  }
+  },
+  // async beforeMount() {
+  //   this.$store.commit("Header/numConvenioMutation", this.datos.convenio);
+  // },
 };
 </script>

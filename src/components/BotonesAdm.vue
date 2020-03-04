@@ -19,7 +19,7 @@
         <h1 class="text-gray-900 text-xl font-black font-mono">Nuevo DTC</h1>
       </router-link>
 
-      <router-link
+      <!-- <router-link
         to="/Inventario"
         class="text-gray-700 hover:bg-gray-400 items-center text-center border-4 border-red-700 rounded-lg sm:px-40 sm:py-16 m-4"
       >
@@ -55,7 +55,7 @@
       >
         <img src="../assets/img/config.png" height="150" width="150" class="m-8" />
         <h1 class="text-gray-900 text-xl font-black font-mono">Configuracion</h1>
-      </router-link>
+      </router-link> -->
       
     </div>
   </div>

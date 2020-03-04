@@ -38,28 +38,22 @@ const actions = {
     console.log("Hello con Vue! => ArmandoDTC");
     console.log(value)
     let newObject = {
-      ReferenceNum: value.ReferenceNum,
-      UserId: parseInt(value.UserId),
-      DTCHeaderId: value.DTCHeaderId,
-      AxaNum: value.AxaNum,
-      FailureNum: parseInt(value.FailureNum),
-      Status: "false",
-      IncidentDate: value.IncidentDate,
+      ReferenceNumber: value.ReferenceNumber,
+      SinisterNumber: value.SinisterNumber,
+      ReportNumber: value.ReportNumber,
+      SinisterDate: value.SinisterDate,
       FailureDate: value.FailureDate,
-      ElaborationDate: value.ElaborationDate,
-      ShippingDate: value.ShippingDate,
-      OpinionType: value.OpinionType,
+      FailureNumber: value.FailureNumber,
       Description: value.Description,
-      Diagnostic: value.Diagnostic,
-      Observation: value.Observation,
-      Image: value.Image,
-      LanesCatalogCapufeLaneNum: value.LanesCatalogCapufeLaneNum,
-      LanesCatalogIdGare: value.LanesCatalogIdGare
+      ShippingDate: value.ShippingDate,
+      ElaborationDate: value.ElaborationDate,
+      UserId: value.UserId,
+      AgremmentInfoId: value.AgremmentInfoId
     }
 
     console.log(newObject)
     console.log("Hello con Vue! => Creando DTC");
-    await Axios.post(`http://192.168.0.111:8084/api/dtctechnicals/`, newObject)
+    await Axios.post(`http://192.168.0.79:82/api/dtcdatas/`, newObject)
     .then(response =>{
       console.log("Bien");    
       console.log(response.data)

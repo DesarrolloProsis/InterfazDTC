@@ -74,13 +74,12 @@ export default {
     };
   },
   methods: {
+    async ingresarLogin() {
+      console.log("Antes de enviar");
+      await this.$store.dispatch("Login/buscarUsuario", this.datos);
 
-
-  async  ingresarLogin(){
-
-        console.log("Antes de enviar")
-        await this.$store.dispatch('Login/buscarUsuario',this.datos)
-        this.$router.push("convenios");
+      
+        this.$router.push("Home");
     }
 
     // ingresarLogin() {
@@ -93,6 +92,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 * {

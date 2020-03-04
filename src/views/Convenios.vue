@@ -1,5 +1,7 @@
 <template>
   <div>
+
+     <h6>{{date.now}}</h6>
     <div id class="wrapper-dropdown-2">
       <label for="convenios">Seleccionar convenio:</label>
       <select
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
