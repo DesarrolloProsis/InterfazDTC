@@ -45,15 +45,15 @@ const actions = {
       FailureDate: value.FailureDate,
       FailureNumber: value.FailureNumber,
       Description: value.Description,
-      ShippingDate: value.ShippingDate,
-      ElaborationDate: value.ElaborationDate,
-      UserId: value.UserId,
-      AgremmentInfoId: value.AgremmentInfoId
+      ShippingDate: value.ShippingElaboracionDate,
+      ElaborationDate: value.ShippingElaboracionDate,
+      userId: value.userId,
+      agremmentInfoId: value.agremmentInfoId
     }
 
     console.log(newObject)
     console.log("Hello con Vue! => Creando DTC");
-    await Axios.post(`http://192.168.0.79:82/api/dtcdatas/`, newObject)
+    await Axios.post(`http://192.168.0.111:8084/api/dtcData`, newObject)
     .then(response =>{
       console.log("Bien");    
       console.log(response.data)

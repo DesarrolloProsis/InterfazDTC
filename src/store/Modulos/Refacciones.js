@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const state = {
-  listaRefacciones: []
+  listaRefacciones: null
 };
 
 const getters = {
@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
   async buscarComponentes({ commit }) {
     console.log(`http://192.168.0.111:8084/api/Components/`);
-    await Axios.get(`http://192.168.0.111:8084/api/Components`)
+    await Axios.get(`http://192.168.0.111:8084/api/component`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -26,12 +26,12 @@ const actions = {
       });
   },
   //Cosnsulta API Listar Carriles
-  async buscarRefacciones({ commit }, value) {
-    console.log(value);
+  async buscarRefacciones({ commit }, value1, value2, value3) {
+  
     console.log("Hello con Vue! => ListarRefacciones");
 
-    if (value.year != "") {
-      await Axios.get(`http://192.168.0.111:8084/api/Components/${value.year}`)
+    if (value1 != "" && value2 != "" && value3 != "") {
+      await Axios.get(`http://192.168.0.111:8084/api/Components/${value1}/${value2}/${value3}`)
         .then(response => {
           console.log("Bien");
           console.log(response.data);

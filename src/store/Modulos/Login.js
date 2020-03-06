@@ -18,11 +18,11 @@ const actions = {
   async buscarUsuario({ commit }, value) {
     console.log(value);
     console.log(
-      `https://localhost:44358/api/login/${value.User}/${value.Password}`
+      `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}`
     );
 
     await Axios.get(
-      `https://localhost:44358/api/login/${value.User}/${value.Password}`
+      `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}`
     )
       .then(response => {
         console.log(response.data);
