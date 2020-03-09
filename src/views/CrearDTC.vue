@@ -35,7 +35,7 @@
             <div class="w-1/5 h-14">
               <br />
               <label class for="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
-              <label class for="inline-full-name"> CORRECTIVO</label>
+              <label class for="inline-full-name">CORRECTIVO</label>
             </div>
           </div>
           <div class="divtitle2"></div>
@@ -288,7 +288,7 @@
               <td class="border-b border-black p-2 md:p-1 border-2">{{1}}</td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="listEquipoMalo.unity"
+                  v-model="datosDmg.unity"
                   disabled
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
@@ -298,22 +298,17 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <select
-                  v-model="datos.cantidad"
+                  v-model="datosDmg.cantidad"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 5vw;"
                   type="text"
                 >
                   <option value>Selecionar...</option>
-                  <option value>1</option>
-                  <option value>2</option>
-                  <option value>3</option>
-                  <option value>4</option>
-                  <option value>5</option>
-                  <option value>6</option>
-                  <option value>7</option>
-                  <option value>8</option>
-                  <option value>9</option>
-                  <option value>10</option>
+                  <option
+                    v-for="(item, index) in listaHeaders"
+                    v-bind:value="item.value"
+                    :key="index"
+                  >{{item.text}}</option>
                 </select>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
@@ -326,39 +321,25 @@
                 >
                   <option disabled value>Selecionar...</option>
                   <option
-                    v-for="(desc, index) in listaComponentes"
-                    v-bind:value="desc.componentsStockId"
+                    v-for="(item, index) in listaComponentes"
+                    v-bind:value="item.value"
                     :key="index"
-                  >{{desc.description}}</option>
+                  >{{item.text}}</option>
                 </select>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="listEquipoMalo.marca"
+                  v-model="datosDmg.brand"
                   disabled
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
                   style="width: 6vw"
                   placeholder="M60-31"
                 />
-                <!-- <select
-                  disabled
-                  v-model="datos.Description"
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 7vw;"
-                  type="text"
-                >
-                  <option disabled value>Selecionar...</option>
-                  <option
-                    v-for="(marca, index) in listMarca"
-                    v-bind:value="marca.value"
-                    :key="index"
-                  >{{marca.text}}</option>
-                </select> -->
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="listEquipoMalo.model"
+                  v-model="datosDmg.model"
                   disabled
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
@@ -369,7 +350,7 @@
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
                   disabled
-                  v-model="listEquipoMalo.numSerie"
+                  v-model="datosDmg.serialNumber"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
                   style="width: 6vw"
@@ -379,59 +360,58 @@
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <select
                   @change="UpdateCarril()"
-                  v-model="listEquipoMalo.carril"
+                  v-model="updtCarril"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 8vw;"
+                  style="width: 6vw;"
                   type="text"
                 >
                   <option disabled value>Selecionar...</option>
                   <option
-                    v-for="(carril, index) in listaCarriles"
-                    v-bind:value="carril.value"
+                    v-for="(carril, index) in listEquipoMalo"
+                    v-bind:value="carril.capufeLaneNum"
                     :key="index"
-                  >{{carril.text}}</option>
+                  >{{carril.lane}}</option>
                 </select>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                 
-                  v-model="listEquipoMalo.fechaInsta"
+                disabled
+                  v-model="datosDmg.instalationDate"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 6vw"
+                  style="width: 7vw"
+                  type="text"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDmg.fechaUltimoMant"
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  style="width: 7vw"
                   type="date"
                 />
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  
-                  v-model="listEquipoMalo.fechaUltimoMant"
+                  v-model="datosDmg.FolioMant"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 6vw"
-                  type="date"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="listEquipoMalo.FolioMant"
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 6vw"
+                  style="width: 7vw"
                   placeholder="Folio"
                   type="text"
                 />
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                  <input
-                  v-model="listEquipoMalo.fechaReal"
+                <input
+                disabled
+                  v-model="datosDmg.lifeTime"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
-                  style="width: 6vw"
+                  style="width: 4vw"
                   placeholder="Numero de años"
                 />
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="listEquipoMalo.fechaFabricante"
-                  
+                  v-model="datosDmg.fechaFabricante"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
                   style="width: 6vw"
@@ -442,7 +422,7 @@
                 <button
                   class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 6vw"
-                >+</button>
+                >Agregar Partida</button>
               </td>
             </tr>
             <tr
@@ -484,7 +464,7 @@
 
           <!-- ************************************************************** -->
           <div class="lastContainer">
-            <table class="divLastTable" style="width:70%">
+            <table class="" style="width:71%">
               <tr>
                 <th>Partida</th>
                 <th>Unidad</th>
@@ -509,100 +489,102 @@
                   <br />(Dolares)
                 </th>
               </tr>
-              <tr style="text-align: center">
-                <td>
+             <tr style="text-align: center">
+              <td class="border-b border-black p-2 md:p-1 border-2">{{1}}</td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDmg.unity"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="Pza"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDmg.cantidad"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 5vw"
+                  placeholder="0"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDmg.description"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 10vw"
+                  placeholder="M60-31"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDmg.brand"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="M60-31"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDmg.model"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="FD1103"
+                />
+              </td>
+                <td class="border-b border-black p-2 md:p-1 border-2">
                   <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 2vw"
-                    placeholder="0"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 2vw"
-                    placeholder="Pza"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 2vw"
-                    placeholder="0"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="Visera"
-                  />
-                </td>
-                <td>
-                  <input
+                    disabled
+                    v-model="datosDmg.unitaryPrice"
                     class="md:border border-black"
                     id="grid-last-name"
                     type="text"
                     style="width: 6vw"
-                    placeholder="Prosis"
+                    placeholder="$ 0.00"
                   />
                 </td>
-                <td>
+                <td class="border-b border-black p-2 md:p-1 border-2">
                   <input
+                  disabled
                     class="md:border border-black"
                     id="grid-last-name"
                     type="text"
                     style="width: 6vw"
-                    placeholder="M60-31"
+                    placeholder="$ 0.00"
                   />
                 </td>
-                <td>
+                <td class="border-b border-black p-2 md:p-1 border-2">
                   <input
+                    disabled
                     class="md:border border-black"
                     id="grid-last-name"
                     type="text"
                     style="width: 7vw"
                     placeholder="$ 0.00"
-                  />
+                  >
                 </td>
-                <td>
+                <td class="border-b border-black p-2 md:p-1 border-2">
                   <input
+                  disabled
                     class="md:border border-black"
                     id="grid-last-name"
                     type="text"
-                    style="width: 7vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
+                    style="width: 6vw"
                     placeholder="$ 0.00"
                   />
                 </td>
               </tr>
               <!-- SEGUNDA LINEA -->
-              <tr style="text-align: center">
+              <!-- <tr style="text-align: center">
                 <td>
                   <input
                     class="md:border border-black"
@@ -693,10 +675,10 @@
                     placeholder="$ 0.00"
                   />
                 </td>
-              </tr>
+              </tr> -->
             </table>
 
-            <div class="divDescription" style="width: 30%">
+            <div class="divDescription" style="width: 20%">
               <tr>
                 <th>Descripcion</th>
               </tr>
@@ -704,7 +686,7 @@
                 <textarea
                   v-model="datos.Diagnostic"
                   class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
-                  style="width: 25vw;"
+                  style="width: 20vw;"
                   id="grid-last-name"
                 />
               </td>
@@ -856,69 +838,50 @@ export default {
         agremmentInfoId: null
       },
       datosUser: {
-        tecResponsable: "",
-        numConvneio: "4500029287",
+        numConvenio: "4500029287",
         managerName: "",
         posicion: "",
         mail: "",
         plazaCobro: ""
+      },
+      datosDmg: {
+
       },
       listaDescripciones: [
         { value: "Vandalismo", text: "Vandalismo" },
         { value: "Acondicionamiento", text: "Acondicionamiento" }
       ],
       listUser: [],
-      listaCarriles: [
-        { value: "A01", text: "A01", numSerie: "401527"},    
-        { value: "A02", text: "A02" },
-        { value: "B03", text: "B03" },
-        { value: "B04", text: "B04" },
-      ],
-      listaNumSerie: [],
       listaComponentes: [],
-      listaHeaders: [],
-      listX:[],
-      listEquipoMalo: {
-        partida: 1,
-        componente: "",
-        model: "",
-        description: "",
-        marca: "",
-        unity: "",
-        cantidad: 0,
-        numSerie: "",
-        carril: "",
-        fechaInsta: "",
-        fechaUltimoMant: "",
-        folioUltimoMante: "",
-        fechaReal: "",
-        fechaFabricante: ""
-      },
+      listaHeaders: [
+        { value: "1", text: "1" },
+        { value: "2", text: "2" }
+      ],
+      listX: [],
+      listEquipoMalo: [],
       loader: false
     };
   },
   methods: {
-    UpdateComp() {
-      for (let i = 0; i < this.listaComponentes.length; i++) {
-        if (this.listaComponentes[i].componentsStockId == this.updtComp) {
-          console.log(this.listaComponentes[i].brand);
-          this.listEquipoMalo.marca = this.listaComponentes[i].brand;
-          this.listEquipoMalo.unity = this.listaComponentes[i].unity;
-          this.listEquipoMalo.cantidad = this.listaComponentes[i].cantidad;
-          this.listEquipoMalo.model = this.listaComponentes[i].model;
-          this.listEquipoMalo.description = this.listaComponentes[i].description;
-        }
-      }
-    },
     UpdateCarril() {
-      for (let i = 0; i < this.listaCarriles.length; i++) {
-        if (this.listaCarriles[i].numSerie == this.updtCarril) {
+      for (let i = 0; i < this.listEquipoMalo.length; i++) {
+        if (this.listEquipoMalo[i].capufeLaneNum == this.updtCarril) {
           console.log(this.updtCarril);
-          this.listEquipoMalo.numSerie = this.updtCarril[i].numSerie;
+          console.log(this.listEquipoMalo[i].serialNumber)
+          this.datosDmg.serialNumber = this.listEquipoMalo[i].serialNumber;
+          this.datosDmg.model = this.listEquipoMalo[i].model;
+          this.datosDmg.brand = this.listEquipoMalo[i].brand;
+          this.datosDmg.unity = this.listEquipoMalo[i].unity;
+          this.datosDmg.instalationDate = this.listEquipoMalo[i].instalationDate.substr(0,10);
+          this.datosDmg.lifeTime = this.listEquipoMalo[i].lifeTime;
+          this.datosDmg.unitaryPrice = this.listEquipoMalo[i].unitaryPrice;
+          this.datosDmg.description = this.listEquipoMalo[i].description;
         }
       }
     },
-
+    multiplicacion(){
+      this.datosDmg.unitaryPrice * this.datosDmg.cantidad;
+    },
     crearDTC() {},
     processFile(e) {
       const file = e.target.files[0];
@@ -1024,17 +987,25 @@ export default {
           console.log(this.listaCarriles[i].idGare);
         }
       }
+    },
+    async UpdateComp() {
+      let newObject = {
+        numConvenio: this.datosUser.agrement,
+        numPlaza: this.datosUser.plaza.substr(0, 3),
+        id: this.updtComp
+      };
+
+      console.log(newObject);
+
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+      this.listEquipoMalo = await this.$store.getters[
+        "Refacciones/getListaRefacciones"
+      ];
+      console.log(this.listEquipoMalo);
     }
   },
   async beforeMount() {
-    let numPlaza = this.datosUser.plazaCobro.substr(0, 3);
     this.listUser = await this.$store.getters["Login/getUser"];
-    await this.$store.dispatch("Refacciones/buscarComponentes",this.agrement,numPlaza,this.listaComponentes.Description);
-    this.listaComponentes = await this.$store.getters[
-      "Refacciones/getListaRefacciones"
-    ];
-
-    console.log(this.listUser[0].nombre);
 
     for (let i = 0; i < this.listUser.length; i++) {
       if (this.listUser[i].agrement == "4500029287") {
@@ -1050,6 +1021,16 @@ export default {
         this.datosUser.delegationName = this.listUser[i].delegationName;
       }
     }
+
+    await this.$store.dispatch("Refacciones/buscarComponentes");
+    this.listaComponentes = this.$store.getters[
+      "Refacciones/getListaRefacciones"
+    ];
+    // for (let i = 0; i < this.listUser.length; i++) {
+    //   if (this.listUser[i].agrement == "4500029287") {
+    //     console.log(this.listUser[i].agrement)
+    //   }
+    // }
   },
   computed: {}
 };

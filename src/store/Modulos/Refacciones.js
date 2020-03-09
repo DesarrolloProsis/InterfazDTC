@@ -14,8 +14,8 @@ const mutations = {
 };
 const actions = {
   async buscarComponentes({ commit }) {
-    console.log(`http://192.168.0.111:8084/api/Components/`);
-    await Axios.get(`http://192.168.0.111:8084/api/component`)
+    console.log(`https://localhost:44358/api/Component/`);
+    await Axios.get(`https://localhost:44358/api/component`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -26,31 +26,23 @@ const actions = {
       });
   },
   //Cosnsulta API Listar Carriles
-  async buscarRefacciones({ commit }, value1, value2, value3) {
-  
+  async buscarComponenteId({ commit }, value) {
     console.log("Hello con Vue! => ListarRefacciones");
 
-    if (value1 != "" && value2 != "" && value3 != "") {
-      await Axios.get(`http://192.168.0.111:8084/api/Components/${value1}/${value2}/${value3}`)
-        .then(response => {
-          console.log("Bien");
-          console.log(response.data);
-          commit("listaRefaccionesMutation", response.data);
-        })
-        .catch(Ex => {
-          console.log(Ex);
-        });
-    } else {
-      await Axios.get(`http://192.168.0.111:8084/api/Components/`)
-        .then(response => {
-          console.log("Bien");
-          console.log(response.data);
-          commit("listaRefaccionesMutation", response.data);
-        })
-        .catch(Ex => {
-          console.log(Ex);
-        });
-    }
+    console.log(
+      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+    );
+    await Axios.get(
+      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+    )
+      .then(response => {
+        console.log("Bien");
+        console.log(response.data);
+        commit("listaRefaccionesMutation", response.data);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
   },
 
   //Consulta API Crear Carril
