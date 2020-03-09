@@ -297,7 +297,16 @@
                 />
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                <select
+
+                   <input
+                  v-model="datosDmg.cantidad"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="Pza"
+                />
+                <!-- <select
                   v-model="datosDmg.cantidad"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 5vw;"
@@ -309,7 +318,7 @@
                     v-bind:value="item.value"
                     :key="index"
                   >{{item.text}}</option>
-                </select>
+                </select> -->
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <select
@@ -358,6 +367,20 @@
                 />
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
+                
+                <!-- <multiselect v-model="updtCarril" 
+                
+                      :close-on-select="true"
+                      :clear-on-select="true"                        
+                      :hideSelected="false"                      
+                      placeholder="Selecciona.."
+    
+    
+              
+                :options="options" multiple="true">
+                <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} items</span></template>
+  
+                </multiselect> -->
                 <select
                   @change="UpdateCarril()"
                   v-model="updtCarril"
@@ -370,7 +393,7 @@
                     v-for="(carril, index) in listEquipoMalo"
                     v-bind:value="carril.capufeLaneNum"
                     :key="index"
-                  >{{carril.lane}}</option>
+                  ><input type="checkbox">{{carril.lane}}</option>
                 </select>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
@@ -392,7 +415,7 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="datosDmg.FolioMant"
+                  v-model="datosDmg.folioMant"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 7vw"
                   placeholder="Folio"
@@ -420,6 +443,8 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <button
+                  @click="agregaPartida()"
+                  :disabled="compruebaPartida"
                   class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 6vw"
                 >Agregar Partida</button>
@@ -431,19 +456,19 @@
               v-for="(equipo, index) in listX"
               :key="index"
             >
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.partida }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.unity }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.cantidad }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.componente }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.marca }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.modelo }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.numSerie }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.carril }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.fechaInsta }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.fechaUltimoMant }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.folioUltimoMante }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.fechaReal }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.fechaFabricante }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row7 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row11 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row12 }}</td>
 
               <td class="border-b border-black md:p-3 border-2">
                 <button
@@ -461,6 +486,7 @@
             <h6 class="title2" style="font-size: 1.3rem">Equipo Propuesto</h6>
           </div>
           <br />
+          
 
           <!-- ************************************************************** -->
           <div class="lastContainer">
@@ -489,100 +515,27 @@
                   <br />(Dolares)
                 </th>
               </tr>
-             <tr style="text-align: center">
-              <td class="border-b border-black p-2 md:p-1 border-2">{{1}}</td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDmg.unity"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="Pza"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDmg.cantidad"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 5vw"
-                  placeholder="0"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDmg.description"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 10vw"
-                  placeholder="M60-31"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDmg.brand"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="M60-31"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDmg.model"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="FD1103"
-                />
-              </td>
-                <td class="border-b border-black p-2 md:p-1 border-2">
-                  <input
-                    disabled
-                    v-model="datosDmg.unitaryPrice"
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 6vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-                <td class="border-b border-black p-2 md:p-1 border-2">
-                  <input
-                  disabled
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 6vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-                <td class="border-b border-black p-2 md:p-1 border-2">
-                  <input
-                    disabled
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="$ 0.00"
-                  >
-                </td>
-                <td class="border-b border-black p-2 md:p-1 border-2">
-                  <input
-                  disabled
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 6vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-              </tr>
+
+              <tr
+              style="text-align: center"
+              class="hover:bg-blue-200 text-center"
+              v-for="(equipo, index) in listX"
+              :key="index"
+            >
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row15 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+
+  
+            </tr>
+
               <!-- SEGUNDA LINEA -->
               <!-- <tr style="text-align: center">
                 <td>
@@ -805,6 +758,7 @@
                 @click="crearDTCTecnico()"
                 class="text-grey-lighter py-3 md:py-8 w-full md:w-64 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
               >Crear</button>
+              <multiselect></multiselect>
             </div>
           </div>
         </div>
@@ -815,11 +769,14 @@
 
 <script>
 import Nav from "../components/Navbar";
+import Multiselect from 'vue-multiselect'
+
 
 export default {
   name: "CrearDTC",
   components: {
-    Nav
+    Nav,
+    Multiselect 
   },
   data() {
     return {
@@ -844,7 +801,24 @@ export default {
         mail: "",
         plazaCobro: ""
       },
+      //Objeto Que se Inserta en listX
       datosDmg: {
+
+        partida: 0,
+        unity: '',
+        cantidad: 1,
+        description: '',
+        brand: '',
+        model: '',
+        serialNumber: '',
+        lane: '',
+        instalationDate: '',
+        fechaUltimoMant: '',
+        folioMant: '',                      
+        lifeTime: '',  
+        fechaFabricante: '',                                        
+        unitaryPrice: '',
+        
 
       },
       listaDescripciones: [
@@ -858,11 +832,64 @@ export default {
         { value: "2", text: "2" }
       ],
       listX: [],
+      listy:[],
       listEquipoMalo: [],
-      loader: false
+      loader: false,
+      value: [],
+       options: [
+         'A01', 'A02', 'A03'
+       ]
+      
+      
     };
   },
   methods: {
+
+    agregaPartida(){
+
+      console.log(this.datosDmg)
+
+      let newobjectTable = {
+
+          row1: this.datosDmg.partida,
+          row2: this.datosDmg.unity,
+          row3: this.datosDmg.cantidad,
+          row4: this.datosDmg.description,
+          row5: this.datosDmg.brand,
+          row6: this.datosDmg.model,
+          row7: this.datosDmg.serialNumber,
+          row8: this.updtCarril,
+          row9: this.datosDmg.instalationDate,
+          row10: this.datosDmg.fechaUltimoMant,
+          row11: this.datosDmg.folioMant,
+          row12: this.datosDmg.fechaFabricante,
+          row13: this.datosDmg.lifeTime,
+          row14: this.datosDmg.fechaFabricante,                            
+          row15: this.datosDmg.unitaryPrice,   
+      }
+
+
+        this.listX.push(newobjectTable)
+        this.listy.push(newobjectTable)
+
+        
+        this.datosDmg.folioMant = ''
+        this.datosDmg.brand = ''
+        //this.datosDmg.cantidad = ''
+        this.datosDmg.description = ''
+        this.datosDmg.fechaFabricante = ''
+        this.datosDmg.fechaUltimoMant = ''
+        this.datosDmg.instalationDate = ''
+        this.datosDmg.lifeTime = ''
+        this.datosDmg.model = ''
+        this.datosDmg.serialNumber = ''
+        this.datosDmg.unitaryPrice = ''
+        this.datosDmg.unity = ''
+        this.updtCarril = ''
+
+
+
+    },    
     UpdateCarril() {
       for (let i = 0; i < this.listEquipoMalo.length; i++) {
         if (this.listEquipoMalo[i].capufeLaneNum == this.updtCarril) {
@@ -989,6 +1016,22 @@ export default {
       }
     },
     async UpdateComp() {
+
+        this.updtCarril = ''
+        this.datosDmg.folioMant = ''
+        this.datosDmg.brand = ''
+        //this.datosDmg.cantidad = ''
+        this.datosDmg.description = ''
+        this.datosDmg.fechaFabricante = ''
+        this.datosDmg.fechaUltimoMant = ''
+        this.datosDmg.instalationDate = ''
+        this.datosDmg.lifeTime = ''
+        this.datosDmg.model = ''
+        this.datosDmg.serialNumber = ''
+        this.datosDmg.unitaryPrice = ''
+        this.datosDmg.unity = ''
+        this.updtCarril = ''
+
       let newObject = {
         numConvenio: this.datosUser.agrement,
         numPlaza: this.datosUser.plaza.substr(0, 3),
@@ -1032,13 +1075,35 @@ export default {
     //   }
     // }
   },
-  computed: {}
+  computed: {
+
+      compruebaPartida(){
+
+          if(this.updtCarril != '' && this.updtComp != '' && this.datosDmg.cantidad != '' && this.datosDmg.fechaFabricante != '' && this.datosDmg.fechaFabricante != '' && this.datosDmg.folioMant != '')
+            return false
+          else
+            return true
+      }
+  },
+  watch:{
+
+      value: function(newValue){
+
+          console.log(newValue)
+          this.datosDmg.cantidad = 1
+          //this.datosDmg.cantidad =  newValue.length
+        
+      }
+  }
 };
 </script>
 
 
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
+
+
+
 .title {
   text-align: center;
   font-weight: bold;

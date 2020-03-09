@@ -3,11 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import "./assets/css/tailwind.css"
+import Multiselect from 'vue-multiselect'
 
 
-import VeeValidate from 'vee-validate';
 
-Vue.use(VeeValidate);
+
+  // register globally
+  Vue.component('multiselect', Multiselect)
+
 
 
 Vue.config.productionTip = false
