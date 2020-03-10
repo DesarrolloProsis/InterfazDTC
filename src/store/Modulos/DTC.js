@@ -2,15 +2,20 @@ import Axios from "axios";
 import qs from "qs";
 
 const state = {
-  listaDTCTecnico: []
+  listaDTCTecnico: [],
+  listaDescriptions: []
 };
 
 const getters = {
-  getListaDTCTecnico: () => state.listaDTCTecnico
+  getListaDTCTecnico: () => state.listaDTCTecnico,
+  getListaDescriptions: () => state.listaDescriptions
 };
 const mutations = {
   listaDTCTecnicoMutation: (state, value) => {
     state.listaDTCTecnico = value;
+  },
+  listaDescriptionsMutation: (state, value) => {
+    state.listaDescriptions = value;
   }
 };
 
@@ -32,7 +37,19 @@ const actions = {
       }
     );
   },
-
+	
+  async buscarDescriptions({ commit }) {
+    console.log(`http://192.168.0.111:8084/api/typedescriptions`);
+    await Axios.get(`http://192.168.0.111:8084/api/typedescriptions`)
+      .then(response => {
+        console.log("Bien");
+        console.log(response.data);
+        commit("listaDescriptionsMutation", response.data);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
+  },
   //Consulta API Crear DTC
   async crearDTCTecnico({ commit }, value) {
     console.log("Hello con Vue! => ArmandoDTC");
@@ -43,10 +60,12 @@ const actions = {
       ReportNumber: value.ReportNumber,
       SinisterDate: value.SinisterDate,
       FailureDate: value.FailureDate,
-      FailureNumber: value.FailureNumber,
-      Description: value.Description,
+      FailureNumber: value.FailureNumber,				 
       ShippingDate: value.ShippingElaboracionDate,
       ElaborationDate: value.ShippingElaboracionDate,
+      TypeDescriptionId: value.TypeDescriptionId,
+      Diagnosis: value.Diagnosis,
+      Observation: value.Observation,
       userId: value.userId,
       agremmentInfoId: value.agremmentInfoId
     }

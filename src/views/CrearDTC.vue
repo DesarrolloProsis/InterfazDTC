@@ -26,7 +26,7 @@
             <div class="w-1/5 h-14 pt-4">
               <br />
               <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
-              <label style="font-weight: bold">{{4500029287}}</label>
+              <label style="font-weight: bold; padding-left: 0.5vw">{{4500029287}}</label>
             </div>
             <div class="divtitle2 h-14">
               <br />
@@ -35,7 +35,7 @@
             <div class="w-1/5 h-14">
               <br />
               <label class for="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
-              <label class for="inline-full-name">CORRECTIVO</label>
+              <label class for="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
             </div>
           </div>
           <div class="divtitle2"></div>
@@ -70,12 +70,12 @@
               />
             </div>
             <div class="w-1/4 h-8">
-              <label class for="inline-full-name">Descripcion:</label>
+              <label class for="inline-full-name">Tipo de Descripcion:</label>
               <select
-                v-model="datos.Description"
+                v-model="datos.TypeDescriptionId"
                 class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 id="convenios"
-                style="margin-left: 4.1vw; width: 10vw;"
+                style="margin-left:1vw; width: 10vw;"
                 type="text"
               >
                 <option disabled value>Selecionar...</option>
@@ -108,6 +108,7 @@
             <div class="w-1/4 h-8">
               <label class for="inline-full-name">Fecha de Envio:</label>
               <input
+                @change="crearReferencia()"
                 v-model="datos.ShippingElaboracionDate"
                 class="fecha appearance-none w-40 bg-grey-lighter text-grey-darker border border-black h-8"
                 type="date"
@@ -150,20 +151,26 @@
           <div class="flex mb-4 items-center">
             <div class="w-1/4 h-8 content-center" style="align-items: center">
               <label class="atntn" for="inline-full-name">Plaza Cobro:</label>
-              <select
+                <label 
+                  class="" 
+                  for="inline-full-name"
+                  style="padding-left: 0.2vw; font-weight: normal"
+                  >
+                  {{datosUser.plaza}}
+                </label>
+              <!-- <select
                 v-model="datosUser.plazaCobro"
                 class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 id="convenios"
                 style="margin-left: 0.5vw; width: 9vw;"
                 type="text"
               >
-                <option disabled value>Selecionar...</option>
                 <option
                   v-for="(conv, index) in listUser"
                   v-bind:value="conv.plaza"
                   :key="index"
                 >{{conv.plaza}}</option>
-              </select>
+              </select> -->
             </div>
             <div class="w-1/4 h-8">
               <label class for="inline-full-name">Fecha Falla:</label>
@@ -263,11 +270,11 @@
               <th>Partida</th>
               <th>Unidad</th>
               <th style="width: 2vw;">Cantidad</th>
-              <th>Componente</th>
+              <th  style="color: red">Componente</th>
               <th>Marca</th>
               <th>Modelo</th>
               <th>Numero de Serie</th>
-              <th>
+              <th  style="color: red">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
@@ -424,8 +431,8 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                disabled
-                  v-model="datosDmg.lifeTime"
+                
+                  v-model="datosDmg.fechaFabricante"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
                   style="width: 4vw"
@@ -434,7 +441,8 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="datosDmg.fechaFabricante"
+                disabled
+                  v-model="datosDmg.lifeTime"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
                   style="width: 6vw"
@@ -511,7 +519,7 @@
                   <br />(Pesos)
                 </th>
                 <th>
-                  Precio
+                  Precio Total
                   <br />(Dolares)
                 </th>
               </tr>
@@ -637,7 +645,7 @@
               </tr>
               <td>
                 <textarea
-                  v-model="datos.Diagnostic"
+                  v-model="datos.Diagnosis"
                   class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
                   style="width: 20vw;"
                   id="grid-last-name"
@@ -706,7 +714,7 @@
                 <span style="font-weight: bold">Observaciones</span>
                 <br />
                 <textarea
-                  v-model="datos.Diagnostic"
+                  v-model="datos.Observation"
                   class="appearance-none block bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0 h-40"
                   style="width: 23vw;"
                   id="grid-last-name"
@@ -788,9 +796,11 @@ export default {
         ReportNumber: "",
         SinisterDate: "",
         FailureDate: "",
-        FailureNumber: "",
-        Description: "",
+        FailureNumber: "",		
         ShippingElaboracionDate: "",
+        Diagnosis: "",
+        Observation: "",
+        TypeDescriptionId: null,
         userId: null,
         agremmentInfoId: null
       },
@@ -821,10 +831,7 @@ export default {
         
 
       },
-      listaDescripciones: [
-        { value: "Vandalismo", text: "Vandalismo" },
-        { value: "Acondicionamiento", text: "Acondicionamiento" }
-      ],
+      listaDescripciones: [],
       listUser: [],
       listaComponentes: [],
       listaHeaders: [
@@ -845,6 +852,55 @@ export default {
   },
   methods: {
 
+    crearReferencia() {
+      let diaActual = parseInt(this.datos.ShippingElaboracionDate.substr(8, 2));
+      let mesActual = parseInt(this.datos.ShippingElaboracionDate.substr(6, 2));
+      let yearActual = parseInt(
+        this.datos.ShippingElaboracionDate.substr(0, 4)
+      );
+      let diaCorriente = 0;
+      let newYear = parseInt(this.datos.ShippingElaboracionDate.substr(2, 2));
+
+      diaCorriente = diaActual;
+
+      for (let i = 1; i < mesActual; i++) {
+        diaCorriente += parseInt(new Date(yearActual, i, 0).getDate());
+      }
+
+      let numPlaza = parseInt(this.datosUser.plaza.substr(0, 3));
+
+      let nomPlaza = "";
+
+      if (numPlaza != null) {
+        if (numPlaza == "004") nomPlaza = "TPZ";
+        else if (numPlaza == "102") {
+          nomPlaza = "PMO";
+        } else if (numPlaza == "006") nomPlaza = "QRO";
+        else if (numPlaza == "041") nomPlaza = "SLM";
+        else if (numPlaza == "061") nomPlaza = "LBM";
+        else if (numPlaza == "069") nomPlaza = "JOR";
+        else if (numPlaza == "070") nomPlaza = "POL";
+        else if (numPlaza == "127") nomPlaza = "CHI";
+        else if (numPlaza == "183") nomPlaza = "VIL";
+        else if (numPlaza == "186") nomPlaza = "CGO";
+        else nomPlaza = "Inserte un numero correcto";
+      } else {
+        ("Inserte un numero correcto");
+      }
+
+      let autoCompleteDias;
+
+      if (diaCorriente < 10) {
+        autoCompleteDias = "00" + diaCorriente.toString();
+      } else if (diaCorriente < 100) {
+        autoCompleteDias = "0" + diaCorriente.toString();
+      } else {
+        autoCompleteDias = diaCorriente.toString();
+      }
+
+      this.datos.ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
+    },
+
     agregaPartida(){
 
       console.log(this.datosDmg)
@@ -862,8 +918,8 @@ export default {
           row9: this.datosDmg.instalationDate,
           row10: this.datosDmg.fechaUltimoMant,
           row11: this.datosDmg.folioMant,
-          row12: this.datosDmg.fechaFabricante,
-          row13: this.datosDmg.lifeTime,
+          row12: this.datosDmg.lifeTime,
+          row13: this.datosDmg.fechaFabricante,
           row14: this.datosDmg.fechaFabricante,                            
           row15: this.datosDmg.unitaryPrice,   
       }
@@ -949,53 +1005,55 @@ export default {
       ];
     },
 
+
+
     crearDTCTecnico() {
-      let diaActual = parseInt(this.datos.ShippingElaboracionDate.substr(8, 2));
-      let mesActual = parseInt(this.datos.ShippingElaboracionDate.substr(6, 2));
-      let yearActual = parseInt(
-        this.datos.ShippingElaboracionDate.substr(0, 4)
-      );
-      let diaCorriente = 0;
-      let newYear = parseInt(this.datos.ShippingElaboracionDate.substr(2, 2));
+      // let diaActual = parseInt(this.datos.ShippingElaboracionDate.substr(8, 2));
+      // let mesActual = parseInt(this.datos.ShippingElaboracionDate.substr(6, 2));
+      // let yearActual = parseInt(
+      //   this.datos.ShippingElaboracionDate.substr(0, 4)
+      // );
+      // let diaCorriente = 0;
+      // let newYear = parseInt(this.datos.ShippingElaboracionDate.substr(2, 2));
 
-      diaCorriente = diaActual;
+      // diaCorriente = diaActual;
 
-      for (let i = 1; i < mesActual; i++) {
-        diaCorriente += parseInt(new Date(yearActual, i, 0).getDate());
-      }
+      // for (let i = 1; i < mesActual; i++) {
+      //   diaCorriente += parseInt(new Date(yearActual, i, 0).getDate());
+      // }
 
-      let numPlaza = parseInt(this.datosUser.plazaCobro.substr(0, 3));
+      // let numPlaza = parseInt(this.datosUser.plazaCobro.substr(0, 3));
 
-      let nomPlaza = "";
+      // let nomPlaza = "";
 
-      if (numPlaza != null) {
-        if (numPlaza == "004") nomPlaza = "TPZ";
-        else if (numPlaza == "102") {
-          nomPlaza = "PMO";
-        } else if (numPlaza == "006") nomPlaza = "QRO";
-        else if (numPlaza == "041") nomPlaza = "SLM";
-        else if (numPlaza == "061") nomPlaza = "LBM";
-        else if (numPlaza == "069") nomPlaza = "JOR";
-        else if (numPlaza == "070") nomPlaza = "POL";
-        else if (numPlaza == "127") nomPlaza = "CHI";
-        else if (numPlaza == "183") nomPlaza = "VIL";
-        else if (numPlaza == "186") nomPlaza = "CGO";
-        else nomPlaza = "Inserte un numero correcto";
-      } else {
-        ("Inserte un numero correcto");
-      }
+      // if (numPlaza != null) {
+      //   if (numPlaza == "004") nomPlaza = "TPZ";
+      //   else if (numPlaza == "102") {
+      //     nomPlaza = "PMO";
+      //   } else if (numPlaza == "006") nomPlaza = "QRO";
+      //   else if (numPlaza == "041") nomPlaza = "SLM";
+      //   else if (numPlaza == "061") nomPlaza = "LBM";
+      //   else if (numPlaza == "069") nomPlaza = "JOR";
+      //   else if (numPlaza == "070") nomPlaza = "POL";
+      //   else if (numPlaza == "127") nomPlaza = "CHI";
+      //   else if (numPlaza == "183") nomPlaza = "VIL";
+      //   else if (numPlaza == "186") nomPlaza = "CGO";
+      //   else nomPlaza = "Inserte un numero correcto";
+      // } else {
+      //   ("Inserte un numero correcto");
+      // }
 
-      let autoCompleteDias;
+      // let autoCompleteDias;
 
-      if (diaCorriente < 10) {
-        autoCompleteDias = "00" + diaCorriente.toString();
-      } else if (diaCorriente < 100) {
-        autoCompleteDias = "0" + diaCorriente.toString();
-      } else {
-        autoCompleteDias = diaCorriente.toString();
-      }
+      // if (diaCorriente < 10) {
+      //   autoCompleteDias = "00" + diaCorriente.toString();
+      // } else if (diaCorriente < 100) {
+      //   autoCompleteDias = "0" + diaCorriente.toString();
+      // } else {
+      //   autoCompleteDias = diaCorriente.toString();
+      // }
 
-      this.datos.ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
+      // this.datos.ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
 
       this.$store.dispatch("DTC/crearDTCTecnico", this.datos);
       this.$router.push("/home/");
@@ -1074,6 +1132,10 @@ export default {
     //     console.log(this.listUser[i].agrement)
     //   }
     // }
+  await this.$store.dispatch("DTC/buscarDescriptions");
+  this.listaDescripciones = this.$store.getters[
+    "DTC/getListaDescriptions"
+  ];													   
   },
   computed: {
 
@@ -1175,8 +1237,19 @@ label {
   font-weight: normal;
 }
 
+.lastContainer{
+  display: flex;
+  flex-direction: row;
+}
+
 .divDescription {
   display: inline-block;
+  padding-left: 2vw;
+  width: 10vw;
+}
+
+.divLastTable {
+  display: inline-block;					
   padding-bottom: 1vh;
 }
 

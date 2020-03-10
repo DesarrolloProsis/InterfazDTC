@@ -14,8 +14,8 @@ const mutations = {
 };
 const actions = {
   async buscarComponentes({ commit }) {
-    console.log(`https://localhost:44358/api/Component/`);
-    await Axios.get(`https://localhost:44358/api/component`)
+    console.log(`http://192.168.0.111:8084/api/Component/`);
+    await Axios.get(`http://192.168.0.111:8084/api/component`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -30,10 +30,10 @@ const actions = {
     console.log("Hello con Vue! => ListarRefacciones");
 
     console.log(
-      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     );
     await Axios.get(
-      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {
         console.log("Bien");
