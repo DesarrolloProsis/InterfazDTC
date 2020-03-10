@@ -151,13 +151,11 @@
           <div class="flex mb-4 items-center">
             <div class="w-1/4 h-8 content-center" style="align-items: center">
               <label class="atntn" for="inline-full-name">Plaza Cobro:</label>
-                <label 
-                  class="" 
-                  for="inline-full-name"
-                  style="padding-left: 0.2vw; font-weight: normal"
-                  >
-                  {{datosUser.plaza}}
-                </label>
+              <label
+                class
+                for="inline-full-name"
+                style="padding-left: 0.2vw; font-weight: normal"
+              >{{datosUser.plaza}}</label>
               <!-- <select
                 v-model="datosUser.plazaCobro"
                 class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
@@ -170,7 +168,7 @@
                   v-bind:value="conv.plaza"
                   :key="index"
                 >{{conv.plaza}}</option>
-              </select> -->
+              </select>-->
             </div>
             <div class="w-1/4 h-8">
               <label class for="inline-full-name">Fecha Falla:</label>
@@ -266,15 +264,42 @@
           <!-- ************************************************************** -->
 
           <table class="border-gray-700 border-solid" style="width:100%">
+            <tr
+              style="text-align: center"
+              class="hover:bg-blue-200 text-center"
+              v-for="(equipo, index) in listX"
+              :key="index"
+            >
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row7 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row11 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row12 }}</td>
+
+              <td class="border-b border-black md:p-3 border-2">
+                <button
+                  @click="eliminarRefaccion(pieza)"
+                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
+                >Eliminar</button>
+              </td>
+            </tr>
             <tr>
               <th>Partida</th>
               <th>Unidad</th>
-              <th style="width: 2vw;">Cantidad</th>
-              <th  style="color: red">Componente</th>
+              <th style="width: 2vw; color: red;">Cantidad</th>
+              <th style="color: red;">Componente</th>              
               <th>Marca</th>
               <th>Modelo</th>
               <th>Numero de Serie</th>
-              <th  style="color: red">
+              <th style="color: red">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
@@ -303,17 +328,11 @@
                   placeholder="Pza"
                 />
               </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-
-                   <input
-                  v-model="datosDmg.cantidad"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="Pza"
-                />
-                <!-- <select
+              <td class="border-b border-black p-2 md:p-1 border-2"
+                   v-bind:class="{ 'border-blue-600': boolCantidad, 'border-solid': boolCantidad, 'border-2': boolCantidad, 'bg-blue-200': boolCantidad}"
+                   @change="datosDmg.cantidad != '' ? ( boolCantidad = false,   boolComponent = true) : boolCantidad = true "
+                >
+                <select
                   v-model="datosDmg.cantidad"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 5vw;"
@@ -321,13 +340,17 @@
                 >
                   <option value>Selecionar...</option>
                   <option
-                    v-for="(item, index) in listaHeaders"
-                    v-bind:value="item.value"
+                    v-for="(item, index) in listCantidad"
+                    v-bind:value="item"
                     :key="index"
-                  >{{item.text}}</option>
-                </select> -->
+                  >{{item}}</option>
+                </select>
               </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
+
+              <td
+                class="border-b border-black p-2 md:p-1 border-2"
+                v-bind:class="{ 'border-blue-600': boolComponent, 'border-solid': boolComponent, 'border-2': boolComponent, 'bg-blue-200': boolComponent}"
+              >
                 <select
                   @change="UpdateComp()"
                   v-model="updtComp"
@@ -342,7 +365,8 @@
                     :key="index"
                   >{{item.text}}</option>
                 </select>
-              </td>
+              </td>           
+
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
                   v-model="datosDmg.brand"
@@ -373,10 +397,15 @@
                   placeholder="S/N"
                 />
               </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                
-                <!-- <multiselect v-model="updtCarril" 
-                
+              <td class="border-b border-black p-2 md:p-1 border-2"
+                  v-bind:class="{ 'border-blue-600': boolCarril, 'border-solid': boolCarril, 'border-2': boolCarril, 'bg-blue-200': boolCarril}"
+                  
+              >
+              
+                <multiselect 
+
+                      v-if="datosDmg.cantidad != '' && datosDmg.cantidad > 1"
+                      v-model="updtCarril"                 
                       :close-on-select="true"
                       :clear-on-select="true"                        
                       :hideSelected="false"                      
@@ -387,8 +416,11 @@
                 :options="options" multiple="true">
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} items</span></template>
   
-                </multiselect> -->
+                </multiselect>
+              
+      
                 <select
+                v-else
                   @change="UpdateCarril()"
                   v-model="updtCarril"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
@@ -400,12 +432,15 @@
                     v-for="(carril, index) in listEquipoMalo"
                     v-bind:value="carril.capufeLaneNum"
                     :key="index"
-                  ><input type="checkbox">{{carril.lane}}</option>
+                  >
+                    <input type="checkbox" />
+                    {{carril.lane}}
+                  </option>
                 </select>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                disabled
+                  disabled
                   v-model="datosDmg.instalationDate"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 7vw"
@@ -431,7 +466,6 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                
                   v-model="datosDmg.fechaFabricante"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
@@ -441,7 +475,7 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                disabled
+                  disabled
                   v-model="datosDmg.lifeTime"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   type="text"
@@ -458,33 +492,6 @@
                 >Agregar Partida</button>
               </td>
             </tr>
-            <tr
-              style="text-align: center"
-              class="hover:bg-blue-200 text-center"
-              v-for="(equipo, index) in listX"
-              :key="index"
-            >
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row7 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row11 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row12 }}</td>
-
-              <td class="border-b border-black md:p-3 border-2">
-                <button
-                  @click="eliminarRefaccion(pieza)"
-                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
-                >Eliminar</button>
-              </td>
-            </tr>
           </table>
           <br />
 
@@ -494,11 +501,10 @@
             <h6 class="title2" style="font-size: 1.3rem">Equipo Propuesto</h6>
           </div>
           <br />
-          
 
           <!-- ************************************************************** -->
           <div class="lastContainer">
-            <table class="" style="width:71%">
+            <table class style="width:71%">
               <tr>
                 <th>Partida</th>
                 <th>Unidad</th>
@@ -525,118 +531,22 @@
               </tr>
 
               <tr
-              style="text-align: center"
-              class="hover:bg-blue-200 text-center"
-              v-for="(equipo, index) in listX"
-              :key="index"
-            >
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row15 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
-
-  
-            </tr>
-
-              <!-- SEGUNDA LINEA -->
-              <!-- <tr style="text-align: center">
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 2vw"
-                    placeholder="0"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 2vw"
-                    placeholder="Pza"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 2vw"
-                    placeholder="0"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="Visera"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 6vw"
-                    placeholder="Prosis"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 6vw"
-                    placeholder="M60-31"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="md:border border-black"
-                    id="grid-last-name"
-                    type="text"
-                    style="width: 7vw"
-                    placeholder="$ 0.00"
-                  />
-                </td>
-              </tr> -->
+                style="text-align: center"
+                class="hover:bg-blue-200 text-center"
+                v-for="(equipo, index) in listX"
+                :key="index"
+              >
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row15 }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+                <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+              </tr>
             </table>
 
             <div class="divDescription" style="width: 20%">
@@ -777,14 +687,13 @@
 
 <script>
 import Nav from "../components/Navbar";
-import Multiselect from 'vue-multiselect'
-
+import Multiselect from "vue-multiselect";
 
 export default {
   name: "CrearDTC",
   components: {
     Nav,
-    Multiselect 
+    Multiselect
   },
   data() {
     return {
@@ -796,7 +705,7 @@ export default {
         ReportNumber: "",
         SinisterDate: "",
         FailureDate: "",
-        FailureNumber: "",		
+        FailureNumber: "",
         ShippingElaboracionDate: "",
         Diagnosis: "",
         Observation: "",
@@ -813,45 +722,44 @@ export default {
       },
       //Objeto Que se Inserta en listX
       datosDmg: {
-
         partida: 0,
-        unity: '',
-        cantidad: 1,
-        description: '',
-        brand: '',
-        model: '',
-        serialNumber: '',
-        lane: '',
-        instalationDate: '',
-        fechaUltimoMant: '',
-        folioMant: '',                      
-        lifeTime: '',  
-        fechaFabricante: '',                                        
-        unitaryPrice: '',
-        
-
+        unity: "",
+        cantidad: '',
+        description: "",
+        brand: "",
+        model: "",
+        serialNumber: "",
+        lane: "",
+        instalationDate: "",
+        fechaUltimoMant: "",
+        folioMant: "",
+        lifeTime: "",
+        fechaFabricante: "",
+        unitaryPrice: ""
       },
       listaDescripciones: [],
       listUser: [],
       listaComponentes: [],
       listaHeaders: [
         { value: "1", text: "1" },
-        { value: "2", text: "2" }
-      ],
+        { value: "2", text: "2" }],
       listX: [],
-      listy:[],
+      listy: [],
       listEquipoMalo: [],
+      listCantidad:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
       loader: false,
       value: [],
-       options: [
-         'A01', 'A02', 'A03'
-       ]
+      options: ["A01", "A02", "A03"],
+
+      //Boleanos para Guia Llenado
       
-      
+      boolCantidad: true,
+      boolComponent: false,
+      boolCarril: false
+
     };
   },
   methods: {
-
     crearReferencia() {
       let diaActual = parseInt(this.datos.ShippingElaboracionDate.substr(8, 2));
       let mesActual = parseInt(this.datos.ShippingElaboracionDate.substr(6, 2));
@@ -901,68 +809,69 @@ export default {
       this.datos.ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
     },
 
-    agregaPartida(){
-
-      console.log(this.datosDmg)
+    agregaPartida() {
+      console.log(this.datosDmg);
 
       let newobjectTable = {
+        row1: this.listX.length + 1,
+        row2: this.datosDmg.unity,
+        row3: this.datosDmg.cantidad,
+        row4: this.datosDmg.description,
+        row5: this.datosDmg.brand,
+        row6: this.datosDmg.model,
+        row7: this.datosDmg.serialNumber,
+        row8: this.updtCarril,
+        row9: this.datosDmg.instalationDate,
+        row10: this.datosDmg.fechaUltimoMant,
+        row11: this.datosDmg.folioMant,
+        row12: this.datosDmg.lifeTime,
+        row13: this.datosDmg.fechaFabricante,
+        row14: this.datosDmg.fechaFabricante,
+        row15: this.datosDmg.unitaryPrice
+      };
 
-          row1: this.datosDmg.partida,
-          row2: this.datosDmg.unity,
-          row3: this.datosDmg.cantidad,
-          row4: this.datosDmg.description,
-          row5: this.datosDmg.brand,
-          row6: this.datosDmg.model,
-          row7: this.datosDmg.serialNumber,
-          row8: this.updtCarril,
-          row9: this.datosDmg.instalationDate,
-          row10: this.datosDmg.fechaUltimoMant,
-          row11: this.datosDmg.folioMant,
-          row12: this.datosDmg.lifeTime,
-          row13: this.datosDmg.fechaFabricante,
-          row14: this.datosDmg.fechaFabricante,                            
-          row15: this.datosDmg.unitaryPrice,   
-      }
+      this.listX.push(newobjectTable);
+      this.listy.push(newobjectTable);
 
+      this.datosDmg.folioMant = "";
+      this.datosDmg.brand = "";
+      this.datosDmg.cantidad = ''
+      this.datosDmg.description = "";
+      this.datosDmg.fechaFabricante = "";
+      this.datosDmg.fechaUltimoMant = "";
+      this.datosDmg.instalationDate = "";
+      this.datosDmg.lifeTime = "";
+      this.datosDmg.model = "";
+      this.datosDmg.serialNumber = "";
+      this.datosDmg.unitaryPrice = "";
+      this.datosDmg.unity = "";
+      this.updtCarril = "";
 
-        this.listX.push(newobjectTable)
-        this.listy.push(newobjectTable)
+      this.boolCantidad = true
+      
 
-        
-        this.datosDmg.folioMant = ''
-        this.datosDmg.brand = ''
-        //this.datosDmg.cantidad = ''
-        this.datosDmg.description = ''
-        this.datosDmg.fechaFabricante = ''
-        this.datosDmg.fechaUltimoMant = ''
-        this.datosDmg.instalationDate = ''
-        this.datosDmg.lifeTime = ''
-        this.datosDmg.model = ''
-        this.datosDmg.serialNumber = ''
-        this.datosDmg.unitaryPrice = ''
-        this.datosDmg.unity = ''
-        this.updtCarril = ''
-
-
-
-    },    
+    },
     UpdateCarril() {
       for (let i = 0; i < this.listEquipoMalo.length; i++) {
         if (this.listEquipoMalo[i].capufeLaneNum == this.updtCarril) {
           console.log(this.updtCarril);
-          console.log(this.listEquipoMalo[i].serialNumber)
+          console.log(this.listEquipoMalo[i].serialNumber);
           this.datosDmg.serialNumber = this.listEquipoMalo[i].serialNumber;
           this.datosDmg.model = this.listEquipoMalo[i].model;
           this.datosDmg.brand = this.listEquipoMalo[i].brand;
           this.datosDmg.unity = this.listEquipoMalo[i].unity;
-          this.datosDmg.instalationDate = this.listEquipoMalo[i].instalationDate.substr(0,10);
+          this.datosDmg.instalationDate = this.listEquipoMalo[
+            i
+          ].instalationDate.substr(0, 10);
           this.datosDmg.lifeTime = this.listEquipoMalo[i].lifeTime;
           this.datosDmg.unitaryPrice = this.listEquipoMalo[i].unitaryPrice;
           this.datosDmg.description = this.listEquipoMalo[i].description;
         }
       }
+      this.boolCarril = false
+
     },
-    multiplicacion(){
+    multiplicacion() {
       this.datosDmg.unitaryPrice * this.datosDmg.cantidad;
     },
     crearDTC() {},
@@ -1004,8 +913,6 @@ export default {
         "Carriles/getListaCarriles"
       ];
     },
-
-
 
     crearDTCTecnico() {
       // let diaActual = parseInt(this.datos.ShippingElaboracionDate.substr(8, 2));
@@ -1074,21 +981,20 @@ export default {
       }
     },
     async UpdateComp() {
-
-        this.updtCarril = ''
-        this.datosDmg.folioMant = ''
-        this.datosDmg.brand = ''
-        //this.datosDmg.cantidad = ''
-        this.datosDmg.description = ''
-        this.datosDmg.fechaFabricante = ''
-        this.datosDmg.fechaUltimoMant = ''
-        this.datosDmg.instalationDate = ''
-        this.datosDmg.lifeTime = ''
-        this.datosDmg.model = ''
-        this.datosDmg.serialNumber = ''
-        this.datosDmg.unitaryPrice = ''
-        this.datosDmg.unity = ''
-        this.updtCarril = ''
+      this.updtCarril = "";
+      this.datosDmg.folioMant = "";
+      this.datosDmg.brand = "";
+      //this.datosDmg.cantidad = ''
+      this.datosDmg.description = "";
+      this.datosDmg.fechaFabricante = "";
+      this.datosDmg.fechaUltimoMant = "";
+      this.datosDmg.instalationDate = "";
+      this.datosDmg.lifeTime = "";
+      this.datosDmg.model = "";
+      this.datosDmg.serialNumber = "";
+      this.datosDmg.unitaryPrice = "";
+      this.datosDmg.unity = "";
+      this.updtCarril = "";
 
       let newObject = {
         numConvenio: this.datosUser.agrement,
@@ -1102,6 +1008,12 @@ export default {
       this.listEquipoMalo = await this.$store.getters[
         "Refacciones/getListaRefacciones"
       ];
+            
+      this.boolComponent = false
+      this.boolCarril = true
+   
+
+      this.datos
       console.log(this.listEquipoMalo);
     }
   },
@@ -1132,30 +1044,29 @@ export default {
     //     console.log(this.listUser[i].agrement)
     //   }
     // }
-  await this.$store.dispatch("DTC/buscarDescriptions");
-  this.listaDescripciones = this.$store.getters[
-    "DTC/getListaDescriptions"
-  ];													   
+    await this.$store.dispatch("DTC/buscarDescriptions");
+    this.listaDescripciones = this.$store.getters["DTC/getListaDescriptions"];
   },
   computed: {
 
-      compruebaPartida(){
-
-          if(this.updtCarril != '' && this.updtComp != '' && this.datosDmg.cantidad != '' && this.datosDmg.fechaFabricante != '' && this.datosDmg.fechaFabricante != '' && this.datosDmg.folioMant != '')
-            return false
-          else
-            return true
-      }
+    compruebaPartida() {
+      if (
+        this.updtCarril != "" &&
+        this.updtComp != "" &&
+        this.datosDmg.cantidad != "" &&
+        this.datosDmg.fechaFabricante != "" &&
+        this.datosDmg.fechaFabricante != ""    
+      )
+        return false;
+      else return true;
+    }
   },
-  watch:{
-
-      value: function(newValue){
-
-          console.log(newValue)
-          this.datosDmg.cantidad = 1
-          //this.datosDmg.cantidad =  newValue.length
-        
-      }
+  watch: {
+    value: function(newValue) {
+      console.log(newValue);
+      this.datosDmg.cantidad = 1;
+      //this.datosDmg.cantidad =  newValue.length
+    }
   }
 };
 </script>
@@ -1163,9 +1074,6 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
-
-
-
 .title {
   text-align: center;
   font-weight: bold;
@@ -1237,7 +1145,7 @@ label {
   font-weight: normal;
 }
 
-.lastContainer{
+.lastContainer {
   display: flex;
   flex-direction: row;
 }
@@ -1249,7 +1157,7 @@ label {
 }
 
 .divLastTable {
-  display: inline-block;					
+  display: inline-block;
   padding-bottom: 1vh;
 }
 
