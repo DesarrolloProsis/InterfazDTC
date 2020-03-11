@@ -1,15 +1,20 @@
 import Axios from "axios";
 
 const state = {
-  listaRefacciones: null
+  listaRefacciones: null,
+  listaLane: null
 };
 
 const getters = {
-  getListaRefacciones: () => state.listaRefacciones
+  getListaRefacciones: () => state.listaRefacciones,
+  getListaLane: () => state.listaLane
 };
 const mutations = {
   listaRefaccionesMutation: (state, value) => {
     state.listaRefacciones = value;
+  },
+  listaLaneMutation: (state, value) => {
+    state.listaLane = value;
   }
 };
 const actions = {
@@ -33,12 +38,13 @@ const actions = {
       `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     );
     await Axios.get(
-      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `https://localhost:44358//api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {
         console.log("Bien");
-        console.log(response.data);
-        commit("listaRefaccionesMutation", response.data);
+        console.log(response.data.response);
+        commit("listaRefaccionesMutation", response.data.response);
+        commit("listaLaneMutation", response.data.listLane);
       })
       .catch(Ex => {
         console.log(Ex);
