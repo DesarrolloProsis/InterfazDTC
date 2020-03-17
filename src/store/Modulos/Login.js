@@ -22,11 +22,12 @@ const actions = {
     );
 
     await Axios.get(
-      `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}`
+      `https://localhost:44358//api/login/${value.User}/${value.Password}`
     )
       .then(response => {
         console.log(response.data);
         commit("listaUser", response.data);
+        
       })
       .catch(Ex => {
         console.log(Ex);

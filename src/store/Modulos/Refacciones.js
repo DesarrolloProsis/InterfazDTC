@@ -2,12 +2,36 @@ import Axios from "axios";
 
 const state = {
   listaRefacciones: null,
+  listaRefaccionesValid: null,
   listaLane: null
 };
 
 const getters = {
-  getListaRefacciones: () => state.listaRefacciones,
-  getListaLane: () => state.listaLane
+  getListaRefacciones: function(){ 
+    return state.listaRefacciones 
+  },
+  getListaLane: function(){
+     return state.listaLane
+  },
+  getComponentDisable: function(){
+
+    if(state.listaRefaccionesValid != [] && state.listaRefaccionesValid != null){
+
+        return {
+          unity: state.listaRefaccionesValid[0]['unity'],
+          brand: state.listaRefaccionesValid[0]['brand'],
+          model: state.listaRefaccionesValid[0]['model'],
+          instalationDate: state.listaRefaccionesValid[0]['instalationDate'].substr(0,10),
+          lifeTime: state.listaRefaccionesValid[0]['lifeTime'],
+          description: state.listaRefaccionesValid[0]['description'],
+          unitaryPrice: state.listaRefaccionesValid[0]['unitaryPrice'],
+          idGare: state.listaRefaccionesValid[0]['idGare']
+        }
+    }
+  },  
+  getEquipoMalo: function(){
+      return state.listaRefaccionesValid
+    }
 };
 const mutations = {
   listaRefaccionesMutation: (state, value) => {
@@ -15,12 +39,15 @@ const mutations = {
   },
   listaLaneMutation: (state, value) => {
     state.listaLane = value;
+  },
+  listaRefaccionValidMutation: (state, value) => {
+    state.listaRefaccionesValid = value;
   }
 };
 const actions = {
   async buscarComponentes({ commit }) {
     console.log(`http://192.168.0.111:8084/api/Component/`);
-    await Axios.get(`http://192.168.0.111:8084/api/component`)
+    await Axios.get(`https://localhost:44358/api/component`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -33,17 +60,18 @@ const actions = {
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {
     console.log("Hello con Vue! => ListarRefacciones");
+    console.log(value)
 
     console.log(
-      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     );
     await Axios.get(
-      `https://localhost:44358//api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {
         console.log("Bien");
         console.log(response.data.response);
-        commit("listaRefaccionesMutation", response.data.response);
+        commit("listaRefaccionValidMutation", response.data.response);
         commit("listaLaneMutation", response.data.listLane);
       })
       .catch(Ex => {

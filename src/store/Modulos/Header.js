@@ -6,7 +6,38 @@ const state = {
 };
 
 const getters = {
-  getHeaders: () => state.listaHeaders,
+  getHeaders: function(){
+
+    if(state.listaHeaders.length === 1){
+        return {
+          agrement: state.listaHeaders[0]['agrement'],          
+          managerName: state.listaHeaders[0]['managerName'],
+          position: state.listaHeaders[0]['position'],
+          mail: state.listaHeaders[0]['mail'],
+          plaza: state.listaHeaders[0]['plaza'],
+          nombre: state.listaHeaders[0]['nombre'],
+          agremmentInfoId: state.listaHeaders[0]['agremmentInfoId'],
+          userId: state.listaHeaders[0]['userId']
+        } 
+    }
+    else
+        return state.listaHeaders
+
+     
+  },
+  getConvenioPlaza: function(){
+    
+  if(state.listaHeaders.length === 1){    
+      return {    
+        id: null,    
+        numConvenio: state.listaHeaders[0]['agrement'],          
+        numPlaza: (state.listaHeaders[0]['plaza']).substr(0,3),
+      } 
+  }
+  else
+      return state.listaHeaders
+
+  },
   getnumConvenio: () => state.numConvenio
 };
 const mutations = {

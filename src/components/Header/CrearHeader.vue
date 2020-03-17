@@ -1,176 +1,406 @@
 <template>
-  <div>
-    
-    <Nav></Nav>
-
-    <div class="m-5">
-      <form class="flex flex-wrap md:ml-10 md:mr-10 justify-center md:p-16 md:pt-0">
+  
+  <div class="m-0 bg-white">
+      <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
         <div
-          class="shadow-md rounded md:border border-black p-5 md:p-24 mt-0 w-full sm:screen flex flex-col flex-wrap my-2"
+          class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
         >
-          <h1 class="text-center text-4xl text-blue-600 font-mono text-lg mb-10">Crear Nuevo Encabezado</h1>
-
-          <!-- Primeros dos input  -->
-          <div class="-mx-3 w-full sm:screen md:flex mb-6">
-            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="input-Convenio"
-              >Id de Encabezado</label>
-              <input
-                v-model="datos.DTCHeaderId"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="input-Convenio"                                                
-                placeholder="H-1234"
-              />
+          <!-- TituloyReferencia -->
+          <div class="flex">
+            <div class="w-1/5 h-14">
+              <img src="" height="150" width="150" class="m-4" />
             </div>
-
-            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="input-Convenio"
-              >Numero de Convenio</label>
-              <input
-                v-model="datos.AgreementNum"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="input-Convenio"                                                
-                placeholder="4475896"
-              />
+            <div class="w-3/5 h-14">
+              <h1 class="title">Dictamen Tecnico y Cotizacion</h1>
             </div>
-
-            <div class="md:w-1/2 px-3">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="grid-last-name"
-              >Nombre del Encargado</label>
-              <input
-                v-model="datos.ManagerName"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
-                id="grid-last-name"
-                type="text"
-                placeholder="Juan Perez"
-              />
+            <div class="w-1/5 h-14">
+              <br />
+              <label class="m-16" style="font-weight: normal">Referencia:</label>
+              <label style="font-weight: bold">{{data}}</label>
             </div>
-
-
-
           </div>
 
- <div class="-mx-3 w-full sm:screen md:flex mb-6">
-              <div class="md:w-1/2 px-3">
-                <label
-                  class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                  for="grid-last-name"
-                  >Cargo</label>
+          <!-- SubTitulo -->
+          <div class="flex">
+            <div class="w-1/5 h-14 pt-4">
+              <br />
+              <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
+              <label style="font-weight: bold; padding-left: 0.5vw">{{datosUser.agrement}}</label>
+            </div>
+            <div class="divtitle2 h-14">
+              <br />
+              <h6 class="title2">En caso de Siniestro</h6>
+            </div>
+            <div class="w-1/5 h-14">
+              <br />
+              <label class for="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
+              <label class for="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
+            </div>
+          </div>
+          <div class="divtitle2"></div>
+          <hr />
+          <br />
+
+          <div class="flex items-center mb-4">
+            <div class="w-1/4 h-8">
+              <label class="atntn" for="inline-full-name">Atencion:</label>
+              <label style="font-weight: normal; padding-left: 1.7vw">{{datosUser.managerName}}</label>
+            </div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">No. Siniestro:</label>
               <input
-                v-model="datos.Position"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                v-model="datosSinester.SinisterNumber"
+                class="md:border border-black h-8"
                 id="grid-last-name"
                 type="text"
-                placeholder="Cargo en la empresa"
+                style="margin-left: 1.6vw"
+                placeholder
               />
             </div>
-            <div class="md:w-1/2 px-3">
-                <label
-                  class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                  for="grid-last-name"
-                  >Correo Electronico</label>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Reporte:</label>
               <input
-                v-model="datos.Mail"
-                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded-lg py-2 mb-3"
+                v-model="datosSinester.ReportNumber"
+                class="md:border border-black h-8"
                 id="grid-last-name"
                 type="text"
-                placeholder="Email"
+                style="margin-left: .6vw"
+                placeholder="10301/3030099"
               />
             </div>
-            
-            <!-- <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="input-Convenio"
-              >Tipo de Carril</label>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Tipo de Descripcion:</label>
               <select
-              v-model="datos.LaneType"
-                class="appearance-none border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 py-2 mb-3 w-full"
-                id="input-Convenio"
+                v-model="datosSinester.TypeDescriptionId"
+                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                id="convenios"
+                style="margin-left:1vw; width: 10vw;"
                 type="text"
-                placeholder="Tipo de Carril"
               >
-             <option disabled value>Tipo de Carril</option>
-              <option
-              v-for="(carril, index) in listaCarriles"
-              v-bind:value="carril.value"
-              :key="index"
-            >{{carril.text}}</option>
+                <option disabled value>Selecionar...</option>
+                <option
+                  v-for="(desc, index) in descripciones"
+                  v-bind:value="desc.value"
+                  :key="index"
+                >{{desc.text}}</option>
               </select>
-            </div> -->
+            </div>
+          </div>
 
-            <!-- <div class="md:w-1/2 px-3">
+          <!--***********************************************************-->
+
+          <div class="flex mb-4 items-center">
+            <div class="w-1/4 h-14 content-center" style="align-items: center; font-size: 15px">
+              <label class="atntn" for="inline-full-name">Cargo:</label>
+              <label style="font-weight: normal; padding-left: 2.7vw">{{datosUser.position}}</label>
+            </div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Fecha Siniestro:</label>
+              <input
+                v-model="datosSinester.SinisterDate"
+                class="fecha appearance-none bg-grey-lighter text-grey-darker border border-black h-8"
+                type="date"
+                style="margin-left: .6vw"
+              />
+            </div>
+            <div class="w-1/4 h-8"></div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Fecha de Envio:</label>
+              <input
+                @change="crearReferencia()"
+                v-model="datosSinester.ShippingElaboracionDate"
+                class="fecha appearance-none w-40 bg-grey-lighter text-grey-darker border border-black h-8"
+                type="date"
+                style="margin-left: 2.9vw"
+              />
+            </div>
+          </div>
+
+          <!--***********************************************************-->
+
+          <div class="flex mb-4 items-center">
+            <div class="w-1/4 h-8 content-center" style="align-items: center">
+              <label class="atntn" for="inline-full-name">Correo:</label>
+              <label style="color: blue; padding-left: 2.5vw">{{datosUser.mail}}</label>
+            </div>
+            <div class="w-1/4 h-8">
+              <label class="h-8" for="inline-full-name">Folio Falla:</label>
+              <input
+                v-model="datosSinester.FailureNumber"
+                class="md:border border-black h-8"
+                id="grid-last-name"
+                type="text"
+                style="margin-left: 2.6vw"
+                placeholder="S/M"
+              />
+            </div>
+            <div class="w-1/4 h-8"></div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Fecha Elaboracion:</label>
+              <input
+                v-model="datosSinester.ShippingElaboracionDate"
+                class="fecha appearance-none w-40 bg-grey-lightertext-grey-darker border border-black h-8"
+                type="date"
+                style="margin-left: 1.7vw"
+              />
+            </div>
+          </div>
+
+          <!--***********************************************************-->
+          <div class="flex mb-4 items-center">
+            <div class="w-1/4 h-8 content-center" style="align-items: center">
+              <label class="atntn" for="inline-full-name">Plaza Cobro:</label>
               <label
-                class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                for="grid-last-name"
-              >Plaza</label>
-              <select
-                @change="cambiarIdGare()"
-                v-model="datos.SquaresCatalogId"
-                class="appearance-none border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600 py-2 mb-3 w-full"
-                id="grid-last-name"                                
-              >
-                    <option disabled value>Seleciona la Plaza</option>
-            <option              
-              v-for="(plaza, index) in listaPlazas"
-              v-bind:value="plaza.value"
-              :key="index"
-            >{{plaza.text}}</option>
-              </select>
-            </div> -->
+                class
+                for="inline-full-name"
+                style="padding-left: 0.2vw; font-weight: normal"
+              >{{datosUser.plaza}}</label>   
+            </div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Fecha Falla:</label>
+              <input     
+                v-model="datosSinester.FailureDate"           
+                class="fecha appearance-none w-40 bg-grey-lightertext-grey-darker border border-black h-8"
+                type="date"
+                style="margin-left: 2.2vw"
+              />
+            </div>
+            <div class="w-1/4 h-8"></div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Tecnico Responsable:</label>    
+              <label style="font-weight: normal;"> {{datosUser.nombre}} </label>       
+            </div>
+          </div>
+          <!--***********************************************************-->
+          <div class="flex mb-4 items-center">
+            <div class="w-1/4 h-8 content-center"></div>
+            <div class="w-1/4 h-8"></div>
+            <div class="w-1/4 h-8"></div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Coordinacion Regional: ----------</label>
+            </div>
+          </div>
+          <!--***********************************************************-->
+          <div class="flex mb-4 items-center">
+            <div class="w-1/4 h-8 content-center"></div>
+            <div class="w-1/4 h-8"></div>
+            <div class="w-1/4 h-8"></div>
+            <div class="w-1/4 h-8">
+              <label class for="inline-full-name">Centro de Servicio:</label>
+              <label class="staticLabel" for="inline-full-name h-8" style="margin-left: 1.8vw">CDMX</label>
+            </div>
+          </div>
+          <!--***********************************************************-->
 
+          <div class="grid-container2 mb-8">
+            <div></div>
 
-               <button
-          @click="crearHeaders()"
-            class="shadow bg-green-500 focus:shadow-outline focus:outline-none ml-0 px-32 py-2 md:px-40 m-3 rounded"
-            type="button"
-          >Agregar</button>
+            <div></div>
 
+            <div></div>
 
-
-          </div>                   
+            <div class="labelInput3 mb-3">
+              <label class for="inline-full-name">Correo:</label>
+              <label
+                class="staticLabel"
+                for="inline-full-name"
+                style="margin-left: 1.8vw"
+              >hguzman@grupo-prosis.com</label>
+            </div>
+            <br />
+          </div>
+          <br />
+          <br />
         </div>
       </form>
-    </div>
-  </div>
+
+      <!-- COMPONENTE TABLA EQUIPO DAÑANDA -->
+      <TablaEquipoMalo :listaComponentes="listaComponentes"></TablaEquipoMalo>
+
+    </div>  
 </template>
 
 <script>
 
-import Nav from "../Navbar.vue"
+import TablaEquipoMalo from '../DTC/TablaEquipoMalo'
 
 export default {
-  name: "CrearPlazas",
-  components: {
-    Nav
+  name: "CrearHeader", 
+  props: {
+      descripciones:{
+        type: Array,
+        default: () => []
+      },
+      datosUser:{
+
+          type: Object,
+          default: () => {}
+      },
+      descripcion: {
+        type: String,
+        default: ''
+      },
+      observaciones: {
+        type: String,
+        default: ''
+      }
+  },
+  components: { 
+    TablaEquipoMalo       
   },
   data() {
-    return {
-      datos: {
-        DTCHeaderId: '',
-        AgreementNum: '',
-        ManagerName: '',
-        Position: '',
-        Mail: ''
-      },
-    };
+    return {           
+             
+          datosSinester: {
+              ReferenceNumber: "",
+              SinisterNumber: "",
+              ReportNumber: "",
+              SinisterDate: "",
+              FailureDate: "",
+              FailureNumber: "",
+              ShippingElaboracionDate: "",
+              Diagnosis: "",
+              Observation: "",
+              TypeDescriptionId: null,
+              UserId: null,
+              AgremmentInfoId: null,
+              descripcion: '',
+              observaciones: ''          
+          },
+          listaComponentes: []
+    }
   },
   watch:{
+      datosUser: function(newValue){
+
+          this.datosSinester.UserId = newValue['userId']
+          this.datosSinester.AgremmentInfoId = newValue['agremmentInfoId']
+      },
+      descripcion: function(newValue){
+        this.datosSinester.descripcion = newValue
+      },
+      observaciones: function(newValue){
+        this.datosSinester.observaciones = newValue
+      }
 
 
   },
-  methods: {
-
-    crearHeaders() {
-      this.$store.dispatch("Header/crearHeaders", this.datos);
-        this.$router.push("/Header/");
-    }
-  }
+  async beforeMount(){              
+    await this.$store.dispatch("Refacciones/buscarComponentes")
+    this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"]
+  },
 };
 </script>
+
+<style scoped>
+.title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2vw;
+  border: 2px solid black;
+}
+
+.divtitle {
+  margin: 0 auto;
+}
+
+.divtitle2 {
+  margin: 0 auto;
+}
+
+.title2 {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20%;
+  margin-top: 30%;
+  font-size: 1.2vw;
+  border: 2px solid black;
+}
+
+.imgRefNum {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+.input {
+  text-align: end;
+  padding-top: 5vh;
+}
+
+.fecha {
+  width: 12.1rem;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  font-size: 0.85rem;
+  margin-bottom: -5vh;
+}
+
+.grid-container3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  font-size: 0.85rem;
+  margin-bottom: -5vh;
+  padding-left: 3vw;
+}
+
+label {
+  font-weight: bold;
+  color: black;
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.grid-container2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  font-size: 0.85rem;
+  margin-bottom: -4vh;
+  overflow: hidden;
+}
+
+.staticLabel {
+  font-weight: normal;
+}
+
+.lastContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.divDescription {
+  display: inline-block;
+  padding-left: 2vw;
+  width: 10vw;
+}
+
+.divLastTable {
+  display: inline-block;
+  padding-bottom: 1vh;
+}
+
+.inputDesc {
+  height: 10vh;
+  width: 18vw;
+}
+
+.divLastTable {
+  border-spacing: 10px;
+  border-collapse: separate;
+  display: inline-block;
+}
+
+.relleno {
+  display: inline-block;
+}
+
+@media (max-width: 750px) {
+  .grid-container {
+    margin-bottom: 0;
+  }
+  .grid-container2 {
+    margin-bottom: 0;
+  }
+}
+</style>
