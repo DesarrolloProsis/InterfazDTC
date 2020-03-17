@@ -6,37 +6,29 @@ const state = {
 };
 
 const getters = {
-  getHeaders: function(){
-
-    if(state.listaHeaders.length === 1){
-        return {
-          agrement: state.listaHeaders[0]['agrement'],          
-          managerName: state.listaHeaders[0]['managerName'],
-          position: state.listaHeaders[0]['position'],
-          mail: state.listaHeaders[0]['mail'],
-          plaza: state.listaHeaders[0]['plaza'],
-          nombre: state.listaHeaders[0]['nombre'],
-          agremmentInfoId: state.listaHeaders[0]['agremmentInfoId'],
-          userId: state.listaHeaders[0]['userId']
-        } 
-    }
-    else
-        return state.listaHeaders
-
-     
+  getHeaders: function() {
+    if (state.listaHeaders.length === 1) {
+      return {
+        agrement: state.listaHeaders[0]["agrement"],
+        managerName: state.listaHeaders[0]["managerName"],
+        position: state.listaHeaders[0]["position"],
+        mail: state.listaHeaders[0]["mail"],
+        plaza: state.listaHeaders[0]["plaza"],
+        nombre: state.listaHeaders[0]["nombre"],
+        agremmentInfoId: state.listaHeaders[0]["agremmentInfoId"],
+        userId: state.listaHeaders[0]["userId"],
+        regionalCoordination: state.listaHeaders[0]["regionalCoordination"]
+      };
+    } else return state.listaHeaders;
   },
-  getConvenioPlaza: function(){
-    
-  if(state.listaHeaders.length === 1){    
-      return {    
-        id: null,    
-        numConvenio: state.listaHeaders[0]['agrement'],          
-        numPlaza: (state.listaHeaders[0]['plaza']).substr(0,3),
-      } 
-  }
-  else
-      return state.listaHeaders
-
+  getConvenioPlaza: function() {
+    if (state.listaHeaders.length === 1) {
+      return {
+        id: null,
+        numConvenio: state.listaHeaders[0]["agrement"],
+        numPlaza: state.listaHeaders[0]["plaza"].substr(0, 3)
+      };
+    } else return state.listaHeaders;
   },
   getnumConvenio: () => state.numConvenio
 };
@@ -94,7 +86,7 @@ const actions = {
 
     console.log("NUEVO OBJECTO");
     console.log(newObject);
-    
+
     await Axios.post(`http://192.168.0.76:82/api/DTCHeaders/`, newObject)
       .then(response => {
         console.log("Bien");
@@ -110,11 +102,11 @@ const actions = {
     console.log("Hello con Vue! => objeto a borrar");
     console.log(value);
     let newObject = {
-        DTCHeaderId: value.dtcHeaderId,
-        AgreementNum: parseInt(value.agreementNum),
-        Mail: value.mail,
-        ManagerName: value.managerName,
-        Position: value.position
+      DTCHeaderId: value.dtcHeaderId,
+      AgreementNum: parseInt(value.agreementNum),
+      Mail: value.mail,
+      ManagerName: value.managerName,
+      Position: value.position
     };
 
     console.log(newObject);
