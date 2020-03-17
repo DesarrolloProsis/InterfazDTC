@@ -8,15 +8,20 @@
           <!-- TituloyReferencia -->
           <div class="flex">
             <div class="w-1/5 h-14">
-              <img src="" height="150" width="150" class="m-4" />
+              <img src="../../assets/img/prosis-logo.jpg" height="200" width="200" class="m-2" />
             </div>
             <div class="w-3/5 h-14">
               <h1 class="title">Dictamen Tecnico y Cotizacion</h1>
             </div>
             <div class="w-1/5 h-14">
               <br />
+<<<<<<< HEAD
               <label class="m-16" style="font-weight: normal">Referencia:</label>
               <label style="font-weight: bold">{{}}</label>
+=======
+              <label class="m-16" style="font-weight: normal">Referencia: </label>
+              <label style="font-weight: bold">{{datosSinester.ReferenceNumber}}</label>
+>>>>>>> de3c2ff8a2cdd462bb550c257e21dce3d24a7f06
             </div>
           </div>
 
@@ -168,7 +173,7 @@
             <div class="w-1/4 h-8"></div>
             <div class="w-1/4 h-8">
               <label class for="inline-full-name">Tecnico Responsable:</label>    
-              <label style="font-weight: normal;"> {{datosUser.nombre}} </label>       
+              <label style="font-weight: normal; padding-left: 0.5vw"> {{datosUser.nombre}} </label>       
             </div>
           </div>
           <!--***********************************************************-->
@@ -177,7 +182,8 @@
             <div class="w-1/4 h-8"></div>
             <div class="w-1/4 h-8"></div>
             <div class="w-1/4 h-8">
-              <label class for="inline-full-name">Coordinacion Regional: ----------</label>
+              <label class for="inline-full-name">Coordinacion Regional: </label>
+              <label style="font-weight: normal;"> {{datosUser.regionalCoordination}} </label>
             </div>
           </div>
           <!--***********************************************************-->
@@ -187,7 +193,7 @@
             <div class="w-1/4 h-8"></div>
             <div class="w-1/4 h-8">
               <label class for="inline-full-name">Centro de Servicio:</label>
-              <label class="staticLabel" for="inline-full-name h-8" style="margin-left: 1.8vw">CDMX</label>
+              <label class="staticLabel" for="inline-full-name h-8" style="margin-left: 2.1vw">CDMX</label>
             </div>
           </div>
           <!--***********************************************************-->
@@ -269,11 +275,63 @@ export default {
           listaComponentes: []
     }
   },
+  methods: {
+      crearReferencia() {
+      let diaActual = parseInt(this.datosSinester.ShippingElaboracionDate.substr(8, 2));
+      let mesActual = parseInt(this.datosSinester.ShippingElaboracionDate.substr(6, 2));
+      let yearActual = parseInt(
+        this.datosSinester.ShippingElaboracionDate.substr(0, 4)
+      );
+      let diaCorriente = 0;
+      let newYear = parseInt(this.datosSinester.ShippingElaboracionDate.substr(2, 2));
+
+      diaCorriente = diaActual;
+
+      for (let i = 1; i < mesActual; i++) {
+        diaCorriente += parseInt(new Date(yearActual, i, 0).getDate());
+      }
+
+      let numPlaza = parseInt(this.datosUser.plaza.substr(0, 3));
+
+      let nomPlaza = "";
+
+      if (numPlaza != null) {
+        if (numPlaza == "004") nomPlaza = "TPZ";
+        else if (numPlaza == "102") {
+          nomPlaza = "PMO";
+        } else if (numPlaza == "006") nomPlaza = "QRO";
+        else if (numPlaza == "041") nomPlaza = "SLM";
+        else if (numPlaza == "061") nomPlaza = "LBM";
+        else if (numPlaza == "069") nomPlaza = "JOR";
+        else if (numPlaza == "070") nomPlaza = "POL";
+        else if (numPlaza == "127") nomPlaza = "CHI";
+        else if (numPlaza == "183") nomPlaza = "VIL";
+        else if (numPlaza == "186") nomPlaza = "CGO";
+        else nomPlaza = "Inserte un numero correcto";
+      } else {
+        ("Inserte un numero correcto");
+      }
+
+      let autoCompleteDias;
+
+      if (diaCorriente < 10) {
+        autoCompleteDias = "00" + diaCorriente.toString();
+      } else if (diaCorriente < 100) {
+        autoCompleteDias = "0" + diaCorriente.toString();
+      } else {
+        autoCompleteDias = diaCorriente.toString();
+      }
+
+      this.datosSinester.ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
+    },
+
+  },
   watch:{
       datosUser: function(newValue){
 
           this.datosSinester.UserId = newValue['userId']
           this.datosSinester.AgremmentInfoId = newValue['agremmentInfoId']
+          this.datosSinester.regionalCoordination = newValue['regionalCoordination']
       },
       descripcion: function(newValue){
         this.datosSinester.descripcion = newValue
@@ -293,7 +351,10 @@ export default {
   },
   async beforeMount(){              
     await this.$store.dispatch("Refacciones/buscarComponentes")
-    this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"]
+    this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
+
+    await this.$store.dispatch("DTC/buscarDescriptions");
+    this.listaDescripciones = this.$store.getters["DTC/getListaDescriptions"];
   },
 };
 </script>
