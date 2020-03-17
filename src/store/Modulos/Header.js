@@ -2,7 +2,8 @@ import Axios from "axios";
 
 const state = {
   listaHeaders: [],
-  numConvenio: null
+  numConvenio: null,
+  datosSinester: {}
 };
 
 const getters = {
@@ -46,6 +47,9 @@ const mutations = {
   },
   numConvenioMutation: (state, value) => {
     state.numConvenio = value;
+  },
+  datosSinesterMutation: (state, value) => {
+    state.datosSinester = value;
   }
 };
 

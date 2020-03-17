@@ -253,12 +253,10 @@ export default {
             updtComp: '',  
             datosDisable: {},   
             datosDmgComponent: {
-
                 ComponentsStockId: '',
                 ReferenceNumber: '',
                 CapufeLaneNum: [],
-                IdGare: [],
-                RequestDate: null
+                IdGare: [],                
             },                       
             datosManuales: {
                 cantidad: 0,
@@ -283,7 +281,6 @@ export default {
             type: Array,
             default: () => []
         },
-
     },
     methods:{
 
@@ -326,7 +323,7 @@ export default {
 
             this.$store.commit('DTC/listaDmgMutation', this.datosDmgComponent)
 
-
+            this.datosDmgComponent = {}
             this.datosDisable = {}
             this.datosManuales = {}
             this.numSerieSelect = []
@@ -334,13 +331,10 @@ export default {
             this.capufeLaneSelect = []   
             this.laneSelect = []
             this.updtComp = ''            
-
-
-        }
-    
-        
+        }            
     },
-    watch:{     
+    watch:{   
+
         updtComp: function(){                        
             this.laneSelect = null
             this.datosDisable = {}

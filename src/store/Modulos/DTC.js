@@ -19,7 +19,6 @@ const mutations = {
     state.listaDescriptions = value;
   },
   listaDmgMutation:(state, value) =>{
-
     state.listaDmg.push(value)
   }
 };

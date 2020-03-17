@@ -16,7 +16,7 @@
             <div class="w-1/5 h-14">
               <br />
               <label class="m-16" style="font-weight: normal">Referencia:</label>
-              <label style="font-weight: bold">{{data}}</label>
+              <label style="font-weight: bold">{{}}</label>
             </div>
           </div>
 
@@ -249,8 +249,7 @@ export default {
     TablaEquipoMalo       
   },
   data() {
-    return {           
-             
+    return {                        
           datosSinester: {
               ReferenceNumber: "",
               SinisterNumber: "",
@@ -261,9 +260,9 @@ export default {
               ShippingElaboracionDate: "",
               Diagnosis: "",
               Observation: "",
-              TypeDescriptionId: null,
-              UserId: null,
-              AgremmentInfoId: null,
+              TypeDescriptionId: '',
+              UserId: '',
+              AgremmentInfoId: '',
               descripcion: '',
               observaciones: ''          
           },
@@ -281,9 +280,16 @@ export default {
       },
       observaciones: function(newValue){
         this.datosSinester.observaciones = newValue
-      }
-
-
+      },
+      datosSinester:{
+        deep: true,
+        handler(datosSinester){
+            
+            this.$store.commit('Header/datosSinesterMutation',datosSinester)
+        }
+        
+      } 
+  
   },
   async beforeMount(){              
     await this.$store.dispatch("Refacciones/buscarComponentes")
