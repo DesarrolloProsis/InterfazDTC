@@ -46,80 +46,30 @@ const mutations = {
 };
 
 const actions = {
-  //     async buscarComponentes({commit}){
-
-  //       console.log(`https://localhost:44356/api/DTCHeaders/`)
-  //       await Axios.get(`https://localhost:44356/api/DTCHeaders`)
-  //     .then(response => {
-  //       console.log("Bien")
-  //       console.log(response.data)
-  //       commit('listaHeaders', response.data)
-  //     })
-  //     .catch((Ex) => {
-  //       console.log(Ex)
-  //     })
-  // },
-
-  //Cosnsulta API Listar Headers
-  async buscarHeaders({ commit }, value) {
-    console.log(value);
-    console.log("Hello con Vue! => ListaHeaders");
-
-    await Axios.get(`http://192.168.0.76:82/api/DTCHeaders/`)
-      .then(response => {
-        console.log("Bien");
-        console.log(response.data);
-        commit("listaHeadersMutation", response.data);
-      })
-      .catch(Ex => {
-        console.log(Ex);
-      });
-  },
-
   //Consulta API Crear Carril
-  async crearHeaders({ commit }, value) {
-    console.log("Hello!");
-    console.log(value);
+  async crearHeaders({ commit, state }, value) {
+    
     let newObject = {
-      AgreementNum: parseInt(value.AgreementNum),
-      DTCHeaderId: value.DTCHeaderId,
-      Mail: value.Mail,
-      ManagerName: value.ManagerName,
-      Position: value.Position
+      ReferenceNumber: state.datosSinester.ReferenceNumber,
+      SinisterNumber: state.datosSinester.SinisterNumber,
+      ReportNumber: state.datosSinester.ReportNumber,
+      SinisterDate: state.datosSinester.SinisterDate,
+      FailureDate: state.datosSinester.FailureDate,
+      FailureNumber: state.datosSinester.FailureNumber,
+      ShippingDate: state.datosSinester.ShippingElaboracionDate,
+      ElaborationDate: state.datosSinester.ShippingElaboracionDate,
+      TypeDescriptionId: state.datosSinester.TypeDescriptionId,
+      Diagnosis: state.datosSinester.Diagnosis,
+      Observation: state.datosSinester.Observation,
+      userId: value.userId,
+      agremmentInfoId: 2
     };
-
-    console.log("NUEVO OBJECTO");
+    console.log("Hello con Vue! => ArmandoDTC");
     console.log(newObject);
 
-    await Axios.post(`http://192.168.0.76:82/api/DTCHeaders/`, newObject)
+    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
       .then(response => {
-        console.log("Bien");
-        console.log(response.data);
-        commit();
-      })
-      .catch(Ex => {
-        console.log(Ex);
-      });
-  },
-
-  async eliminarHeaders({ commit }, value) {
-    console.log("Hello con Vue! => objeto a borrar");
-    console.log(value);
-    let newObject = {
-      DTCHeaderId: value.dtcHeaderId,
-      AgreementNum: parseInt(value.agreementNum),
-      Mail: value.mail,
-      ManagerName: value.managerName,
-      Position: value.position
-    };
-
-    console.log(newObject);
-    console.log("Hello con Vue! => A punto de borrar");
-    await Axios.delete(
-      `http://192.168.0.76:82/api/DTCHeaders/${newObject.DTCHeaderId}`
-    )
-      .then(response => {
-        console.log("Bien");
+        
         console.log(response.data);
         commit();
       })

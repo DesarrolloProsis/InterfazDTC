@@ -1,139 +1,149 @@
 <template>
   <div>
     <Nav></Nav>
-      <Header :descripciones="descripcionHeaders" :datosUser="datosUser" :observaciones="observaciones" :descripcion="descripcion"></Header>    
-      
-            <div class="divDescription" style="width: 20%">
-              <tr>
-                <th>Descripcion</th>
-              </tr>
-              <td>
-                <textarea   
-                v-model="descripcion"               
-                  class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
-                  style="width: 20vw;"
-                  id="grid-last-name"
-                />
-              </td>
-            </div>  
-            
-       
+    <Header
+      :descripciones="descripcionHeaders"
+      :datosUser="datosUser"
+      :observaciones="observaciones"
+      :descripcion="descripcion"
+    ></Header>
 
+    <div class="divDescription" style="width: 20%">
+      <tr>
+        <th>Descripcion</th>
+      </tr>
+      <td>
+        <textarea
+          v-model="descripcion"
+          class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
+          style="width: 20vw;"
+          id="grid-last-name"
+        />
+      </td>
+    </div>
+
+    <br />
+    <div>
+      <div class="flex mb-4">
+        <div class="w-1/4 h-56 border border-black">
+          <p>
+            <span style="font-weight: bold">Tiempo de entrega:</span>
+            <br />
+            <span style="font-weight: bold">Vigencia de la Cotización:</span> 15
+            días calendario, a partir de la fecha del presente.
+            <br />
+            <span style="font-weight: bold">Forma de Pago:</span> 100% al
+            término de los trabajos.
+            <br />
+            <span style="font-weight: bold">Precios en M.N:</span> No incluyen
+            IVA, el cual se cargara al momento de facturarse. En caso de una
+            variación de la paridad Peso/Dólar mayor al 5%, se revisarán los
+            precios.
+            <br />
+            <span style="font-weight: bold">Precios en USCY:</span>
+            No incluyen IVA, el cual se cargará al momentode facturarse.
+          </p>
+        </div>
+
+        <div class="w-1/4 h-12"></div>
+        <div class="w-1/4 h-48">
+          <span style="font-weight: bold">Observaciones</span>
           <br />
-          <div>
-            <div class="flex mb-4">
-              <div class="w-1/4 h-56 border border-black">
-                <p>
-                  <span style="font-weight: bold">Tiempo de entrega:</span>
-                  <br />
-                  <span style="font-weight: bold">Vigencia de la Cotización:</span> 15 días calendario, a partir de la fecha del presente.
-                  <br />
-                  <span style="font-weight: bold">Forma de Pago:</span> 100% al término de los trabajos.
-                  <br />
-                  <span style="font-weight: bold">Precios en M.N:</span> No incluyen IVA, el cual se cargara al momento de facturarse. En caso de una variación de la paridad Peso/Dólar mayor al 5%, se revisarán los precios.
-                  <br />
-                  <span style="font-weight: bold">Precios en USCY:</span>
-                  No incluyen IVA, el cual se cargará al momentode facturarse.
-                </p>
-              </div>
-              
-              <div class="w-1/4 h-12"></div>
-              <div class="w-1/4 h-48">
-                <span style="font-weight: bold">Observaciones</span>
-                <br />
-                <textarea   
-                v-model="observaciones"               
-                  class="appearance-none block bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0 h-40"
-                  style="width: 23vw;"
-                  id="grid-last-name"
-                />
-              </div>
-              <div class="w-1/4 h-12"></div>
-            </div>
-          </div> 
+          <textarea
+            v-model="observaciones"
+            class="appearance-none block bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0 h-40"
+            style="width: 23vw;"
+            id="grid-last-name"
+          />
+        </div>
+        <div class="w-1/4 h-12"></div>
+      </div>
+    </div>
 
+    <br />
+    <div>
+      <div class="flex mb-4">
+        <div class="w-1/4 h-40 border border-black items-center">
+          <p style="text-align: center">
+            <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
 
-
-              <br />
-          <div>
-            <div class="flex mb-4">
-              <div class="w-1/4 h-40 border border-black items-center">
-                <p style="text-align: center">
-                  <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
-
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <span>Autorizacion comercial Director de Comercializacion</span>
-                  <br />
-                  <span style="font-size: 0.7vw">C.P. Hermilia Guzman</span>
-                </p>
-              </div>
-              <div class="w-1/4 h-12"></div>
-              <div class="w-1/4 h-12"></div>
-              <div class="w-1/4 h-40 border border-black">
-                <p style="text-align: center">
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <span style="font-weight: bold">Jose Juan Iturbide Espin</span>
-                </p>
-                <hr />
-                <p style="text-align: center">
-                  <span>Administrador Plaza de Cobro</span>
-                  <br />
-                  <span>c102adm@capufe.gob.mx</span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="-mx-3 md:flex mb-6">
-            <div class="mt-6 mb-6 md:mb-0">
-              <button
-                @click="crearDTCTecnico()"
-                class="text-grey-lighter py-3 md:py-8 w-full md:w-64 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
-              >Crear</button>
-              <multiselect></multiselect>
-            </div>
-          </div>
-               
-  </div>          
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <span>Autorizacion comercial Director de Comercializacion</span>
+            <br />
+            <span style="font-size: 0.7vw">C.P. Hermilia Guzman</span>
+          </p>
+        </div>
+        <div class="w-1/4 h-12"></div>
+        <div class="w-1/4 h-12"></div>
+        <div class="w-1/4 h-40 border border-black">
+          <p style="text-align: center">
+            <br />
+            <br />
+            <br />
+            <br />
+            <span style="font-weight: bold">Jose Juan Iturbide Espin</span>
+          </p>
+          <hr />
+          <p style="text-align: center">
+            <span>Administrador Plaza de Cobro</span>
+            <br />
+            <span>c102adm@capufe.gob.mx</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="-mx-3 md:flex mb-6">
+      <div class="mt-6 mb-6 md:mb-0">
+        <button
+          @click="crearDTCTecnico()"
+          class="text-grey-lighter py-3 md:py-8 w-full md:w-64 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
+        >Crear</button>
+        <multiselect></multiselect>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import Nav from "../components/Navbar";
-import Header from '../components/Header/CrearHeader'
+import Header from "../components/Header/CrearHeader";
+// import DTC from "../components/DTC/TablaEquipoMalo";
 
 export default {
   name: "CrearDTC",
   components: {
-    Nav,    
-    Header,
-    
+    Nav,
+    Header
   },
   data() {
-    return{
-      descripcionHeaders: [],      
+    return {
+      descripcionHeaders: [],
       datosUser: {},
-      descripcion: '',
-      observaciones: ''
-      
-    }
+      descripcion: "",
+      observaciones: ""
+    };
   },
   beforeMount() {
-        
-     this.$store.dispatch("DTC/buscarDescriptions")     
-     this.datosUser = this.$store.getters['Header/getHeaders']   
-     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"]                 
-  }
+    this.$store.dispatch("DTC/buscarDescriptions");
+    this.datosUser = this.$store.getters["Header/getHeaders"];
+    this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
+  },
+  methods: {
+    crearDTCTecnico: async function() {
+      console.log(this.datosUser);
+      await this.$store.dispatch("Header/crearHeaders", this.datosUser);
+      console.log(this.listaDmg);
+      await this.$store.dispatch("DTC/crearDmg");
+      
 
+    }
+  }
 };
 </script>
-
-
 
 <style scoped>
 .title {
@@ -150,7 +160,6 @@ export default {
 .divtitle2 {
   margin: 0 auto;
 }
-
 .title2 {
   text-align: center;
   font-weight: bold;
