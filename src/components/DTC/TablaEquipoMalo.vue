@@ -298,7 +298,7 @@ export default {
 
                 row1: this.listaComponentesSelect.length + 1,
                 row2: this.datosDisable.unity,
-                row3: this.datosDisable.description,
+                row3: this.updtComp,
                 row4: this.datosManuales.cantidad,
                 row5: this.datosDisable.brand,
                 row6: this.datosDisable.model,

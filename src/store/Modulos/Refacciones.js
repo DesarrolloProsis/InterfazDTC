@@ -22,8 +22,7 @@ const getters = {
           brand: state.listaRefaccionesValid[0]['brand'],
           model: state.listaRefaccionesValid[0]['model'],
           instalationDate: state.listaRefaccionesValid[0]['instalationDate'].substr(0,10),
-          lifeTime: state.listaRefaccionesValid[0]['lifeTime'],
-          description: state.listaRefaccionesValid[0]['description'],
+          lifeTime: state.listaRefaccionesValid[0]['lifeTime'],          
           unitaryPrice: state.listaRefaccionesValid[0]['unitaryPrice'],
           idGare: state.listaRefaccionesValid[0]['idGare']
         }

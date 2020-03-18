@@ -138,6 +138,8 @@ export default {
       await this.$store.dispatch("Header/crearHeaders", this.datosUser);
       console.log(this.listaDmg);
       await this.$store.dispatch("DTC/crearDmg");
+      await this.$store.commit('DTC/listaDmgClearMutation')
+      
       
 
     }
