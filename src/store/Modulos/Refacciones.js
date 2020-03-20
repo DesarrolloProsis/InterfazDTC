@@ -24,7 +24,8 @@ const getters = {
           instalationDate: state.listaRefaccionesValid[0]['instalationDate'].substr(0,10),
           lifeTime: state.listaRefaccionesValid[0]['lifeTime'],          
           unitaryPrice: state.listaRefaccionesValid[0]['unitaryPrice'],
-          idGare: state.listaRefaccionesValid[0]['idGare']
+          idGare: state.listaRefaccionesValid[0]['idGare'],
+          componentsStockId: state.listaRefaccionesValid[0]['componentsStockId']        
         }
     }
   },  
@@ -46,7 +47,7 @@ const mutations = {
 const actions = {
   async buscarComponentes({ commit }) {
     console.log(`http://192.168.0.111:8084/api/Component/`);
-    await Axios.get(`https://localhost:44358/api/component`)
+    await Axios.get(`http://192.168.0.111:8084/api/component`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -62,10 +63,10 @@ const actions = {
     console.log(value)
 
     console.log(
-      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     );
     await Axios.get(
-      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {
         console.log("Bien");

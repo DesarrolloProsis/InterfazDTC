@@ -40,6 +40,7 @@
             </tr>
 
             <tr
+              @change="suma()"
               style="text-align: center"
               class="hover:bg-blue-200 text-center"
               v-for="(equipo, index) in listaEquipo"
@@ -53,10 +54,24 @@
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row14 }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 * equipo.row14 }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
             </tr>
           </table>
+              <div class="divDescription" style="width: 20%">
+      <tr>
+        <th>Descripcion</th>
+      </tr>
+      <td>
+        <textarea
+          v-model="descripcion"
+          class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
+          style="width: 20vw;"
+          id="grid-last-name"
+        />
+      </td>
+    </div>
+
         </div>
            <div>
             <div class="flex mb-4">
@@ -71,6 +86,7 @@
                   style="width: 26vw;"
                   placeholder="(Treinta y Cinco Mil ciento Sesenta y Nueve Pesos 17/100 M.N.)"
                 />
+
               </div>
               <div class="w-1/6 h-6 pl-40">
                 <input
@@ -115,7 +131,7 @@ export default {
         return{
 
         }
-    }
+    },
 }
 </script>
 

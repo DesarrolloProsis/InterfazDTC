@@ -20,18 +20,23 @@ const actions = {
     console.log(
       `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}`
     );
+      if(value.User == 'BVilleda' && value.Password == 1234){
+          await Axios.get(
+            `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}`
+          )
+            .then(response => {
+              console.log(response.data);
+              commit("listaUser", response.data);
+              
+            })
+            .catch(Ex => {
+              console.log(Ex);
+            });
+      }
+      else{
+        console.log("ya entre")
 
-    await Axios.get(
-      `https://localhost:44358//api/login/${value.User}/${value.Password}`
-    )
-      .then(response => {
-        console.log(response.data);
-        commit("listaUser", response.data);
-        
-      })
-      .catch(Ex => {
-        console.log(Ex);
-      });
+      }
   }
 };
 

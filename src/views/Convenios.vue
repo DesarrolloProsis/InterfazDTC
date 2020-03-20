@@ -70,8 +70,8 @@ export default {
 
 body {
   font-family: "Lato", "Arial", sans-serif;
-  background: #ddd
-    url(https://www.pocketfoldinvites.co.uk/ekmps/shops/chrisedgecombe/images/pale-grey-matte-authentic-cardstock-6687-p.jpg);
+  /* background: #ddd
+    url(https://www.pocketfoldinvites.co.uk/ekmps/shops/chrisedgecombe/images/pale-grey-matte-authentic-cardstock-6687-p.jpg); */
   font-weight: 300;
   font-size: 15px;
   color: #333;

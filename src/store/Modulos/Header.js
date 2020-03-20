@@ -3,7 +3,8 @@ import Axios from "axios";
 const state = {
   listaHeaders: [],
   numConvenio: null,
-  datosSinester: {}
+  datosSinester: {},
+  referenceNum: 0
 };
 
 const getters = {
@@ -31,7 +32,12 @@ const getters = {
       };
     } else return state.listaHeaders;
   },
-  getnumConvenio: () => state.numConvenio
+  getnumConvenio: () => state.numConvenio,
+
+   getreferenceNum: () => state.referenceNum,
+   getDatosSinester: () => {
+     
+   }
 };
 const mutations = {
   listaHeadersMutation: (state, value) => {
@@ -42,13 +48,28 @@ const mutations = {
   },
   datosSinesterMutation: (state, value) => {
     state.datosSinester = value;
+  },
+  referenceNumMutation: (state, value) => {
+    state.referenceNum = value;
   }
 };
 
 const actions = {
+  async buscarReferencia({ commit }, value) {
+    console.log(value);
+    console.log(`https://localhost:44358/api/dtcdata/${value}`);
+    await Axios.get(`https://localhost:44358/api/dtcdata/${value}`)
+      .then(response => {
+        console.log(response.data + "desde axios");
+        commit("referenceNumMutation", response.data);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
+  },
+
   //Consulta API Crear Carril
   async crearHeaders({ commit, state }, value) {
-    
     let newObject = {
       ReferenceNumber: state.datosSinester.ReferenceNumber,
       SinisterNumber: state.datosSinester.SinisterNumber,
@@ -67,9 +88,8 @@ const actions = {
     console.log("Hello con Vue! => ArmandoDTC");
     console.log(newObject);
 
-    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
+    await Axios.post(`http://192.168.0.111:8084/api/dtcData`, newObject)
       .then(response => {
-        
         console.log(response.data);
         commit();
       })

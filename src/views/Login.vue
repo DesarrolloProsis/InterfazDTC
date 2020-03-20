@@ -75,14 +75,17 @@ export default {
   },
   methods: {
     async ingresarLogin() {
-
-      await this.$store.dispatch("Login/buscarUsuario", this.datos);
-      let dataHeader = await this.$store.getters['Login/getUser']      
-      await this.$store.commit("Header/listaHeadersMutation", dataHeader);
-      this.$router.push("Home");
-
+      if(this.datos.User == "BVilleda" && this.datos.Password == 1234){
+        await this.$store.dispatch("Login/buscarUsuario", this.datos);
+        let dataHeader = await this.$store.getters['Login/getUser']      
+        await this.$store.commit("Header/listaHeadersMutation", dataHeader);
+        this.$router.push("Home");
+      }
+      else{
+        alert("El usuario o la contraseña son incorrectos")
+        this.renderComponent = true;
+      }
     }
-
   }
 };
 </script>

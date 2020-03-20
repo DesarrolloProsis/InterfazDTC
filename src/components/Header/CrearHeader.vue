@@ -7,22 +7,19 @@
         <!-- TituloyReferencia -->
         <div class="flex">
           <div class="w-1/5 h-14">
-            <img
-              src="../../assets/img/prosis-logo.jpg"
-              height="200"
-              width="200"
-              class="m-2"
-            />
+            <img src="../../assets/img/prosis-logo.jpg" height="200" width="200" class="m-2" />
           </div>
           <div class="w-3/5 h-14">
             <h1 class="title">Dictamen Tecnico y Cotizacion</h1>
           </div>
           <div class="w-1/5 h-14">
             <br />
-            <label class="m-16" style="font-weight: normal">Referencia: </label>
-            <label style="font-weight: bold">{{
+            <label class="m-16" style="font-weight: normal">Referencia:</label>
+            <label style="font-weight: bold">
+              {{
               datosSinester.ReferenceNumber
-            }}</label>
+              }}
+            </label>
           </div>
         </div>
 
@@ -30,12 +27,12 @@
         <div class="flex">
           <div class="w-1/5 h-14 pt-4">
             <br />
-            <label class for="inline-full-name" style="font-weight: normal"
-              >Contrato / Oferta:</label
-            >
-            <label style="font-weight: bold; padding-left: 0.5vw">{{
+            <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
+            <label style="font-weight: bold; padding-left: 0.5vw">
+              {{
               datosUser.agrement
-            }}</label>
+              }}
+            </label>
           </div>
           <div class="divtitle2 h-14">
             <br />
@@ -43,12 +40,8 @@
           </div>
           <div class="w-1/5 h-14">
             <br />
-            <label class for="inline-full-name" style="font-weight: normal"
-              >Tipo de Dictamen:</label
-            >
-            <label class for="inline-full-name" style="padding-left: 0.5vw"
-              >CORRECTIVO</label
-            >
+            <label class for="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
+            <label class for="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
           </div>
         </div>
         <div class="divtitle2"></div>
@@ -58,9 +51,11 @@
         <div class="flex items-center mb-4">
           <div class="w-1/4 h-8">
             <label class="atntn" for="inline-full-name">Atencion:</label>
-            <label style="font-weight: normal; padding-left: 1.7vw">{{
+            <label style="font-weight: normal; padding-left: 1.7vw">
+              {{
               datosUser.managerName
-            }}</label>
+              }}
+            </label>
           </div>
           <div class="w-1/4 h-8">
             <label class for="inline-full-name">No. Siniestro:</label>
@@ -98,8 +93,7 @@
                 v-for="(desc, index) in descripciones"
                 v-bind:value="desc.value"
                 :key="index"
-                >{{ desc.text }}</option
-              >
+              >{{ desc.text }}</option>
             </select>
           </div>
         </div>
@@ -107,14 +101,13 @@
         <!--***********************************************************-->
 
         <div class="flex mb-4 items-center">
-          <div
-            class="w-1/4 h-14 content-center"
-            style="align-items: center; font-size: 15px"
-          >
+          <div class="w-1/4 h-14 content-center" style="align-items: center; font-size: 15px">
             <label class="atntn" for="inline-full-name">Cargo:</label>
-            <label style="font-weight: normal; padding-left: 2.7vw">{{
+            <label style="font-weight: normal; padding-left: 2.7vw">
+              {{
               datosUser.position
-            }}</label>
+              }}
+            </label>
           </div>
           <div class="w-1/4 h-8">
             <label class for="inline-full-name">Fecha Siniestro:</label>
@@ -143,9 +136,11 @@
         <div class="flex mb-4 items-center">
           <div class="w-1/4 h-8 content-center" style="align-items: center">
             <label class="atntn" for="inline-full-name">Correo:</label>
-            <label style="color: blue; padding-left: 2.5vw">{{
+            <label style="color: blue; padding-left: 2.5vw">
+              {{
               datosUser.mail
-            }}</label>
+              }}
+            </label>
           </div>
           <div class="w-1/4 h-8">
             <label class="h-8" for="inline-full-name">Folio Falla:</label>
@@ -178,8 +173,7 @@
               class
               for="inline-full-name"
               style="padding-left: 0.2vw; font-weight: normal"
-              >{{ datosUser.plaza }}</label
-            >
+            >{{ datosUser.plaza }}</label>
           </div>
           <div class="w-1/4 h-8">
             <label class for="inline-full-name">Fecha Falla:</label>
@@ -193,9 +187,7 @@
           <div class="w-1/4 h-8"></div>
           <div class="w-1/4 h-8">
             <label class for="inline-full-name">Tecnico Responsable:</label>
-            <label style="font-weight: normal; padding-left: 0.5vw">
-              {{ datosUser.nombre }}
-            </label>
+            <label style="font-weight: normal; padding-left: 0.5vw">{{ datosUser.nombre }}</label>
           </div>
         </div>
         <!--***********************************************************-->
@@ -204,10 +196,8 @@
           <div class="w-1/4 h-8"></div>
           <div class="w-1/4 h-8"></div>
           <div class="w-1/4 h-8">
-            <label class for="inline-full-name">Coordinacion Regional: </label>
-            <label style="font-weight: normal;">
-              {{ datosUser.regionalCoordination }}
-            </label>
+            <label class for="inline-full-name">Coordinacion Regional:</label>
+            <label style="font-weight: normal;">{{ datosUser.regionalCoordination }}</label>
           </div>
         </div>
         <!--***********************************************************-->
@@ -217,12 +207,7 @@
           <div class="w-1/4 h-8"></div>
           <div class="w-1/4 h-8">
             <label class for="inline-full-name">Centro de Servicio:</label>
-            <label
-              class="staticLabel"
-              for="inline-full-name h-8"
-              style="margin-left: 2.1vw"
-              >CDMX</label
-            >
+            <label class="staticLabel" for="inline-full-name h-8" style="margin-left: 2.1vw">CDMX</label>
           </div>
         </div>
         <!--***********************************************************-->
@@ -240,8 +225,7 @@
               class="staticLabel"
               for="inline-full-name"
               style="margin-left: 1.8vw"
-              >hguzman@grupo-prosis.com</label
-            >
+            >hguzman@grupo-prosis.com</label>
           </div>
           <br />
         </div>
@@ -251,7 +235,10 @@
     </form>
 
     <!-- COMPONENTE TABLA EQUIPO DAÑANDA -->
-    <TablaEquipoMalo :listaComponentes="listaComponentes"></TablaEquipoMalo>
+    <TablaEquipoMalo
+      :listaComponentes="listaComponentes"
+      :numReference="datosSinester.ReferenceNumber"
+    ></TablaEquipoMalo>
   </div>
 </template>
 
@@ -303,7 +290,7 @@ export default {
     };
   },
   methods: {
-    crearReferencia() {
+    async crearReferencia() {
       let diaActual = parseInt(
         this.datosSinester.ShippingElaboracionDate.substr(8, 2)
       );
@@ -357,13 +344,30 @@ export default {
 
       this.datosSinester.ReferenceNumber =
         nomPlaza + "-" + newYear + autoCompleteDias;
+
+      console.log(this.datosSinester.ReferenceNumber);
+
+      await this.$store.dispatch(
+        "Header/buscarReferencia",
+        this.datosSinester.ReferenceNumber
+      );
+      let referenceNum = await this.$store.getters["Header/getreferenceNum"];
+      console.log(referenceNum + "desde vista");
+      if (referenceNum > 0) {
+        let aux = this.datosSinester.ReferenceNumber;
+        let counter = referenceNum ++;
+        if(counter < 10){
+          counter = '0'+referenceNum;
+          this.datosSinester.ReferenceNumber = aux + "-" + counter;
+        }
+      }
     }
   },
   watch: {
+    //ARREGLAR WATCHER!!!!! 
     datosUser: function(newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
-
     },
     descripcion: function(newValue) {
       this.datosSinester.Descripcion = newValue;
@@ -385,7 +389,9 @@ export default {
     ];
 
     await this.$store.dispatch("DTC/buscarDescriptions");
-    this.listaDescripciones = this.$store.getters["DTC/getListaDescriptions"];
+    this.listaDescripciones = await this.$store.getters[
+      "DTC/getListaDescriptions"
+    ];
   }
 };
 </script>
