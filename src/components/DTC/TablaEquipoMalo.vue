@@ -77,10 +77,12 @@
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
 
             <td class="border-b border-black md:p-3 border-2">
+            <div >
               <button
-                @click="eliminarPartida(pieza)"
+                @click="deleteItem(index)"
                 class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
               >Eliminar</button>
+            </div>
             </td>
           </tr>
 
@@ -294,9 +296,13 @@ export default {
       this.listLane = await this.$store.getters["Refacciones/getListaLane"];
     },
 
-    // eliminarPartida: function(){
-    //   for(int i = 0; i>=agregarPartida.length; i++)
-    // },
+    deleteItem(index) {
+      console.log(index)
+      this.listaComponentesSelect.splice(index, 1)
+      //this.$delete(this.items,index)
+      //this.items.splice(index, 1); \\OR   
+      //both will do the same
+    },
     
     agregarPartida: function() {
       let newObject = {
@@ -316,9 +322,6 @@ export default {
         row14: this.datosDisable.unitaryPrice
       };
 
-      // eliminarPartida: function() {
-
-      // };
       console.log(newObject);
       this.listaComponentesSelect.push(newObject);
 

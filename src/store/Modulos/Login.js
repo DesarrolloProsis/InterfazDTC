@@ -23,11 +23,11 @@ const actions = {
   async buscarUsuario({ commit }, value) {
     console.log(value);
     console.log(
-      `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}`
+      `https://localhost:44358/api/login/${value.User}/${value.Password}`
     );
       if(value.User == 'BVilleda' && value.Password == 1234){
           await Axios.get(
-            `201.99.110.3:87/api/login/${value.User}/${value.Password}`
+            `https://localhost:44358/api/login/${value.User}/${value.Password}`
           )
             .then(response => {
               console.log(response.data);
@@ -44,8 +44,8 @@ const actions = {
       }
   },
   async buscarPlazas({ commit }) {
-    console.log(`http://192.168.0.111:8084/api/squaresCatalog`);
-    await Axios.get(`201.99.110.3:87/api/squaresCatalog`)
+    console.log(`https://localhost:44358/api/squaresCatalog`);
+    await Axios.get(`https://localhost:44358/api/squaresCatalog`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
