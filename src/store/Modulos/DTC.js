@@ -47,7 +47,7 @@ const actions = {
 
   async buscarDescriptions({ commit }) {
     console.log(`http://192.168.0.111:8084/api/typedescriptions`);
-    await Axios.get(`http://192.168.0.111:8084/api/typedescriptions`)
+    await Axios.get(`201.99.110.3:87/api/typedescriptions`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -63,7 +63,7 @@ const actions = {
     console.log(state.listaDmg);
 
     await Axios.post(
-      `https://localhost:44358/api/requestedComponent`,
+      `201.99.110.3:87/api/requestedComponent`,
       state.listaDmg
     )
       .then(response => {

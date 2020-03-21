@@ -47,7 +47,7 @@ const mutations = {
 const actions = {
   async buscarComponentes({ commit }) {
     console.log(`http://192.168.0.111:8084/api/Component/`);
-    await Axios.get(`http://192.168.0.111:8084/api/component`)
+    await Axios.get(`201.99.110.3:87/api/component`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -66,7 +66,7 @@ const actions = {
       `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     );
     await Axios.get(
-      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `201.99.110.3:87/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {
         console.log("Bien");

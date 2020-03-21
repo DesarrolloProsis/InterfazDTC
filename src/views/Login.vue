@@ -37,6 +37,49 @@
           </div>
         </div>
         <br />
+        <!-- <input 
+          type="checkbox" 
+          id="checkbox" 
+          v-model="checked" 
+          style="margin-left: 1vw"
+        >-->
+        <!-- <label for="checkbox" style="padding-left: 1vw">{{ checked }} Declarar por alguien mas</label> -->
+
+        <button
+          @click="modal = !modal"
+          class="bg-red-900 text-black font-bold px-4 py-2 h-12 w-40 rounded-full border-b border-black p-2"
+          style="background-color: #feebc8; margin-left: 5.5vw"
+        >
+          {{plaza}}
+        </button>
+        <label style="padding-left: 1vw"></label>
+        <div
+          v-if="modal"
+          class="bg-grey rounded absolute w-64 flex items-center justify-center"
+        >
+          <div class="bg-white p-4 w-5/6">
+            <select
+              v-model="plaza"
+              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+              style="width: 10vw;"
+              type="text"
+            >
+              <option disabled value>Selecionar...</option>
+              <option
+                v-for="(item, index) in listaPlazas"
+                v-bind:value="item.value"
+                :key="index"
+              >{{item.text}}</option>
+            </select>
+            <button
+              @click="modal = !modal"
+              class="bg-teal text-black font-bold px-4 py-2 rounded-full"
+            >Close</button>
+          </div>
+        </div>
+
+        <br />
+        <br />
         <div class="container-login100-form-btn">
           <button @click="ingresarLogin()" type="button" class="login100-form-btn">Login</button>
         </div>
@@ -67,25 +110,34 @@
 export default {
   data() {
     return {
+      
+      modal: false,
+      plaza: "Declarar por otro",
       datos: {
         User: "",
         Password: ""
-      }
+      },
+      listaPlazas: []
     };
   },
   methods: {
     async ingresarLogin() {
-      if(this.datos.User == "BVilleda" && this.datos.Password == 1234){
+      if (this.datos.User == "BVilleda" && this.datos.Password == 1234) {
         await this.$store.dispatch("Login/buscarUsuario", this.datos);
-        let dataHeader = await this.$store.getters['Login/getUser']      
+        let dataHeader = await this.$store.getters["Login/getUser"];
         await this.$store.commit("Header/listaHeadersMutation", dataHeader);
         this.$router.push("Home");
-      }
-      else{
-        alert("El usuario o la contraseña son incorrectos")
+      } else {
+        alert("El usuario o la contraseña son incorrectos");
         this.renderComponent = true;
       }
     }
+  },
+  async beforeMount() {
+  await this.$store.dispatch("Login/buscarPlazas");
+  this.listaPlazas = await this.$store.getters[
+    "Login/getListaPlazas"
+  ];
   }
 };
 </script>

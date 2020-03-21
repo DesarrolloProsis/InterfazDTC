@@ -1,15 +1,20 @@
 import Axios from "axios";
 
 const state = {
-  listUser: null
+  listUser: null,
+  listaPlazas: [],
 };
 
 const getters = {
-  getUser: () => state.listUser
+  getUser: () => state.listUser,
+  getListaPlazas: () => state.listaDescriptions
 };
 const mutations = {
   listaUser: (state, value) => {
     state.listUser = value;
+  },
+  listaPlazasMutation: (state, value) => {
+    state.listaDescriptions = value;
   }
 };
 
@@ -22,7 +27,7 @@ const actions = {
     );
       if(value.User == 'BVilleda' && value.Password == 1234){
           await Axios.get(
-            `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}`
+            `201.99.110.3:87/api/login/${value.User}/${value.Password}`
           )
             .then(response => {
               console.log(response.data);
@@ -37,7 +42,19 @@ const actions = {
         console.log("ya entre")
 
       }
-  }
+  },
+  async buscarPlazas({ commit }) {
+    console.log(`http://192.168.0.111:8084/api/squaresCatalog`);
+    await Axios.get(`201.99.110.3:87/api/squaresCatalog`)
+      .then(response => {
+        console.log("Bien");
+        console.log(response.data);
+        commit("listaPlazasMutation", response.data);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
+  },
 };
 
 export default {

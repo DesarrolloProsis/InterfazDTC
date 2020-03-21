@@ -78,7 +78,7 @@
 
             <td class="border-b border-black md:p-3 border-2">
               <button
-                @click="eliminarRefaccion(pieza)"
+                @click="eliminarPartida(pieza)"
                 class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
               >Eliminar</button>
             </td>
@@ -293,6 +293,11 @@ export default {
       ];
       this.listLane = await this.$store.getters["Refacciones/getListaLane"];
     },
+
+    // eliminarPartida: function(){
+    //   for(int i = 0; i>=agregarPartida.length; i++)
+    // },
+    
     agregarPartida: function() {
       let newObject = {
         row1: this.listaComponentesSelect.length + 1,
@@ -310,6 +315,10 @@ export default {
         row13: this.datosDisable.lifeTime,
         row14: this.datosDisable.unitaryPrice
       };
+
+      // eliminarPartida: function() {
+
+      // };
       console.log(newObject);
       this.listaComponentesSelect.push(newObject);
 
