@@ -256,7 +256,12 @@ export default {
         IdGare: [],
         Marca: "",
         Modelo: "",
-        NumSerie: []
+        NumSerie: [],
+        Unity: "",
+        dateInstallationDate: "",
+        dateMaintenanceDate: "",
+        intLifeTimeExpected: 0,
+        dateLifeTimeReal: ""
       },
       datosManuales: {
         cantidad: 0,
@@ -333,6 +338,14 @@ export default {
       this.datosDmgComponent.Marca = this.datosDisable.brand;
       this.datosDmgComponent.Modelo = this.datosDisable.model;
       this.datosDmgComponent.NumSerie = this.numSerieSelect;
+      this.datosDmgComponent.Unity = this.datosDisable.unity;
+      this.datosDmgComponent.dateInstallationDate = this.datosDisable.instalationDate;
+      this.datosDmgComponent.dateMaintenanceDate = this.datosManuales.dateMantenimiento;
+      this.datosDmgComponent.intLifeTimeExpected = this.datosDisable.lifeTime;
+      this.datosDmgComponent.dateLifeTimeReal = this.datosManuales.tiempoVidaReal;
+
+      console.log(this.datosDmgComponent)
+      alert()
 
       this.$store.commit("DTC/listaDmgMutation", this.datosDmgComponent);
 

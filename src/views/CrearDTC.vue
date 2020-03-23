@@ -90,7 +90,7 @@
       <div class="mt-6 mb-6 md:mb-0" style="padding: 3vw;">
         <button
           @click="crearDTCTecnico()"
-          disabled="validaHeader()"
+
           class="text-grey-lighter py-3 md:py-8 w-full md:w-64 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
         >Crear</button>
         <multiselect></multiselect>
