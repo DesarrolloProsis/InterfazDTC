@@ -37,51 +37,68 @@
           </div>
         </div>
         <br />
-        <!-- <input 
-          type="checkbox" 
-          id="checkbox" 
-          v-model="checked" 
-          style="margin-left: 1vw"
-        >-->
-        <!-- <label for="checkbox" style="padding-left: 1vw">{{ checked }} Declarar por alguien mas</label> -->
 
-        <button
-          @click="modal = !modal"
-          class="bg-red-900 text-black font-bold px-4 py-2 h-12 w-40 rounded-full border-b border-black p-2"
-          style="background-color: #feebc8; margin-left: 5.5vw"
-        >
-          {{plaza}}
-        </button>
+        <label
+          ><input type="checkbox" v-model.number="datos.checkLog" />Generar Por
+          Otra Persona</label
+        ><br />
         <label style="padding-left: 1vw"></label>
         <div
           v-if="modal"
-          class="bg-grey rounded absolute w-64 flex items-center justify-center"
+          class="bg-grey rounded absolut bg-gray-500 px-24 py-24 flex flex-col"
         >
-          <div class="bg-white p-4 w-5/6">
+          <div class=" mb-8">
             <select
-              v-model="plaza"
+              @change="buscarTec()"
+              v-model="plazaSelect"
               class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
               style="width: 10vw;"
               type="text"
             >
-              <option disabled value>Selecionar...</option>
+              <option disabled value=" ">Selecionar...</option>
               <option
                 v-for="(item, index) in listaPlazas"
                 v-bind:value="item.value"
                 :key="index"
-              >{{item.text}}</option>
+                >{{ item.text }}</option
+              >
             </select>
-            <button
-              @click="modal = !modal"
-              class="bg-teal text-black font-bold px-4 py-2 rounded-full"
-            >Close</button>
           </div>
+
+          <div class=" mb-8">
+            <select
+              v-model="tecSelect"
+              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+              style="width: 10vw;"
+              type="text"
+            >
+              <option disabled value=" ">Selecionar...</option>
+              <option
+                v-for="(item, index) in listaTec"
+                v-bind:value="item.value"
+                :key="index"
+                >{{ item.text }}</option
+              >
+            </select>
+          </div>
+          <button
+            @click="loginOther()"
+            class=" bg-green-500 text-black font-bold px-4 py-2 rounded-full"
+          >
+            Listo!!
+          </button>
         </div>
 
         <br />
         <br />
         <div class="container-login100-form-btn">
-          <button @click="ingresarLogin()" type="button" class="login100-form-btn">Login</button>
+          <button
+            @click="ingresarLogin()"
+            type="button"
+            class="login100-form-btn"
+          >
+            Login
+          </button>
         </div>
         <br />
         <br />
@@ -105,43 +122,69 @@
   </div>
 </template>
 
-
 <script>
 export default {
+  name: "Login",
   data() {
     return {
-      
       modal: false,
-      plaza: "Declarar por otro",
       datos: {
         User: "",
-        Password: ""
+        Password: "",
+        checkLog: false
       },
-      listaPlazas: []
+      listaPlazas: [],
+      listaTec: [],
+      plazaSelect: " ",
+      tecSelect: " "
     };
   },
+
   methods: {
-    async ingresarLogin() {
-      if (this.datos.User == "BVilleda" && this.datos.Password == 1234) {
-        await this.$store.dispatch("Login/buscarUsuario", this.datos);
-        let dataHeader = await this.$store.getters["Login/getUser"];
-        await this.$store.commit("Header/listaHeadersMutation", dataHeader);
-        this.$router.push("Home");
+    loginOther: async function() {
+      await this.$store.dispatch("Login/buscarHeaderTec", this.tecSelect);
+      let dataHeader = await this.$store.getters["Login/getUser"];
+      await this.$store.commit("Header/listaHeadersMutation", dataHeader);
+      this.$router.push("home");
+    },
+    buscarTec: async function() {
+      if (this.plazaSelect != "") {
+        await this.$store.dispatch("Login/buscarTec", this.plazaSelect);
+        this.listaTec = this.$store.getters["Login/getListaTec"];
+      }
+    },
+    ingresarLogin: async function() {
+      if (this.datos.checkLog === true) {
+        await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
+        if (this.$store.getters["Login/getUserLogeado"]) {
+
+          
+          this.modal = true;
+        } else {
+          alert("El usuario o la contraseña son incorrectos");
+          this.modal = false;
+        }
+        //await this.$store.dispatch("Login/buscarUsuario", this.datos);
       } else {
-        alert("El usuario o la contraseña son incorrectos");
-        this.renderComponent = true;
+        await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
+
+        if (this.$store.getters["Login/getUserLogeado"]) {
+          await this.$store.dispatch("Login/buscarUsuario", this.datos);
+          let dataHeader = await this.$store.getters["Login/getUser"];
+          await this.$store.commit("Header/listaHeadersMutation", dataHeader);
+          this.$router.push("home");
+        } else {
+          alert("El usuario o la contraseña son incorrectos");
+        }
       }
     }
   },
   async beforeMount() {
-  await this.$store.dispatch("Login/buscarPlazas");
-  this.listaPlazas = await this.$store.getters[
-    "Login/getListaPlazas"
-  ];
+    await this.$store.dispatch("Login/buscarPlazas");
+    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];
   }
 };
 </script>
-
 
 <style scoped>
 * {
