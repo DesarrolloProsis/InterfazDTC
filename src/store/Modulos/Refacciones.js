@@ -60,7 +60,7 @@ const actions = {
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {
     console.log("Hello con Vue! => ListarRefacciones");
-    console.log(value)
+    alert()
 
     console.log(
       `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`

@@ -18,8 +18,13 @@ const mutations = {
   listaDescriptionsMutation: (state, value) => {
     state.listaDescriptions = value;
   },
-  listaDmgMutation: (state, value) => {
+  listaDmgMutationPush: (state, value) => {
     state.listaDmg.push(value);
+  },
+  listaDmgMutationDelete: (state, value) =>{
+
+     alert('Hola desde MutationDelete')
+      state.listaDmg.splice(value, 1) 
   },
   listaDmgClearMutation: (state) => {
     state.listaDmg = []

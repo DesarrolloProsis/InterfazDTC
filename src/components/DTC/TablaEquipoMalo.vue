@@ -317,11 +317,14 @@ export default {
     },
 
     deleteItem(index) {
-      console.log(index)
-      this.listaComponentesSelect.splice(index, 1)
-      //this.$delete(this.items,index)
-      //this.items.splice(index, 1); \\OR   
-      //both will do the same
+            
+      this.listaComponentesSelect.splice(index, 1)      
+
+      for(let i = 0; i < this.listaComponentesSelect.length; i++)
+        this.listaComponentesSelect[i]['row1'] = i + 1
+      
+      this.$store.commit('DTC/listaDmgMutationDelete', index)
+            
     },
     // updateItem(index){
 
@@ -363,9 +366,9 @@ export default {
       this.datosDmgComponent.dateLifeTimeReal = this.datosManuales.tiempoVidaReal;
 
       console.log(this.datosDmgComponent)
-      //alert()
+      
 
-      this.$store.commit("DTC/listaDmgMutation", this.datosDmgComponent);
+      this.$store.commit("DTC/listaDmgMutationPush", this.datosDmgComponent);
 
       this.datosDmgComponent = {};
       this.datosDisable = {};
