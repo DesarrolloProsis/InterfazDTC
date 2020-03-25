@@ -3,7 +3,7 @@
     <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
       <div
         class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
-      >    
+      >
         <!-- ************************************************************** -->
         <br />
         <div class="divtitle2">
@@ -40,7 +40,6 @@
             </tr>
 
             <tr
-              @change="suma()"
               style="text-align: center"
               class="hover:bg-blue-200 text-center"
               v-for="(equipo, index) in listaEquipo"
@@ -52,87 +51,100 @@
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row14 }}</td>
+              <td
+                class="border-b border-black p-2 md:p-3 border-2"
+              >
+                {{ '$' + equipo.row14.toLocaleString('en-IN') }}
+              </td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 * equipo.row14 }}</td>
+              <td
+                class="border-b border-black p-2 md:p-3 border-2"
+              >
+                '$' + {{multiplicacion}}
+              </td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
             </tr>
           </table>
-              <div class="divDescription" style="width: 20%">
-      <tr>
-        <th>Descripcion</th>
-      </tr>
-      <td>
-        <textarea
-          v-model="descripcion"
-          class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
-          style="width: 20vw;"
-          id="grid-last-name"
-        />
-      </td>
-    </div>
-
-        </div>
-           <div>
-            <div class="flex mb-4">
-              <div class="w-1/6 h-6 pl-4">
-                <span class="relleno">Total M.N.</span>
-              </div>
-              <div class="w-1/3 h-6">
-                <input
-                  class="md:border border-black"
-                  id="grid-last-name"
-                  type="text"
-                  style="width: 26vw;"
-                  placeholder="(Treinta y Cinco Mil ciento Sesenta y Nueve Pesos 17/100 M.N.)"
-                />
-
-              </div>
-              <div class="w-1/6 h-6 pl-40">
-                <input
-                  class="md:border border-black"
-                  id="grid-last-name"
-                  type="text"
-                  style="width: 7vw;"
-                  placeholder="$ 0.00"
-                />
-              </div>
-              <div class="w-1/6 h-6 pl-3">
-                <input
-                  class="md:border border-black"
-                  id="grid-last-name"
-                  type="text"
-                  style="width: 7vw;"
-                  placeholder="$ 0.00"
-                />
-              </div>
-              <div class="w-1/6 h-6"></div>
-              <div class="w-1/6 h-6"></div>
-            </div>
-            <hr />
+          <div class="divDescription" style="width: 20%">
+            <tr>
+              <th>Descripcion</th>
+            </tr>
+            <td>
+              <textarea
+                v-model="descripcion"
+                class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
+                style="width: 20vw;"
+                id="grid-last-name"
+              />
+            </td>
           </div>
-      </div>      
+        </div>
+        <div>
+          <div class="flex mb-4">
+            <div class="w-1/6 h-6 pl-4">
+              <span class="relleno">Total M.N.</span>
+            </div>
+            <div class="w-1/3 h-6">
+              <input
+                class="md:border border-black"
+                id="grid-last-name"
+                type="text"
+                style="width: 26vw;"
+                placeholder="(Treinta y Cinco Mil ciento Sesenta y Nueve Pesos 17/100 M.N.)"
+              />
+            </div>
+            <div class="w-1/6 h-6" style="padding-left: 16.8rem">
+              <input
+                class="md:border border-black"
+                id="grid-last-name"
+                type="text"
+                style="width: 6.8vw;"
+                placeholder="$ 0.00"
+              />
+            </div>
+            <div class="w-1/6 h-6" style="padding-left: 6.3rem">
+              <input
+                class="md:border border-black"
+                id="grid-last-name"
+                type="text"
+                style="width: 6.8vw;"
+                placeholder="$ 0.00"
+              />
+            </div>
+            <div class="w-1/6 h-6"></div>
+            <div class="w-1/6 h-6"></div>
+          </div>
+          <hr />
+        </div>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-
-    props:{
-
-        listaEquipo: {
-            type: Array,
-            default: () => []
-        },
-
-    },
-    data(){
-        return{
-
-        }
-    },
-}
+  props: {
+    listaEquipo: {
+        type: Array,
+        default: () => []
+    }
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    
+  },
+  computed: {
+    multiplicacion: function() {
+      let multi = 0;
+      return this.listaEquipo.forEach(element => {
+        multi = element.row4 * element.row14
+        return multi;
+      });
+    }
+  },
+};
 </script>
 
 

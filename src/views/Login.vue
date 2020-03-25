@@ -1,7 +1,7 @@
 <template>
   <div class="container-login100">
     <div class="wrap-login100">
-      <div class="login100-form">
+      <div class="login100-form" :class="{'blur-content': modal}">
         <span class="login100-form-title">Bienvenido</span>
         <br />
         <br />
@@ -43,51 +43,6 @@
           Otra Persona</label
         ><br />
         <label style="padding-left: 1vw"></label>
-        <div
-          v-if="modal"
-          class="bg-grey rounded absolut bg-gray-500 px-24 py-24 flex flex-col"
-        >
-          <div class=" mb-8">
-            <select
-              @change="buscarTec()"
-              v-model="plazaSelect"
-              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-              style="width: 10vw;"
-              type="text"
-            >
-              <option disabled value=" ">Selecionar...</option>
-              <option
-                v-for="(item, index) in listaPlazas"
-                v-bind:value="item.value"
-                :key="index"
-                >{{ item.text }}</option
-              >
-            </select>
-          </div>
-
-          <div class=" mb-8">
-            <select
-              v-model="tecSelect"
-              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-              style="width: 10vw;"
-              type="text"
-            >
-              <option disabled value=" ">Selecionar...</option>
-              <option
-                v-for="(item, index) in listaTec"
-                v-bind:value="item.value"
-                :key="index"
-                >{{ item.text }}</option
-              >
-            </select>
-          </div>
-          <button
-            @click="loginOther()"
-            class=" bg-green-500 text-black font-bold px-4 py-2 rounded-full"
-          >
-            Listo!!
-          </button>
-        </div>
 
         <br />
         <br />
@@ -119,6 +74,58 @@
         <br />
       </div>
     </div>
+        <div
+          v-if="modal"
+          class="bg-blue-100 rounded absolute bg-gray-500 px-24 py-24 flex flex-col"
+          @close="modal = false"
+        >
+          <div style="padding-bottom: 5vh; padding-left: 10vw">
+            <button  @click="modal = false" style="font-weight: bold; font-size: 2vw">
+              x
+            </button>
+          </div>
+          <div class=" mb-8">
+            <select
+              @change="buscarTec()"
+              v-model="plazaSelect"
+              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+              style="width: 10vw;"
+              type="text"
+            >
+              <option disabled value=" ">Selecionar...</option>
+              <option
+                v-for="(item, index) in listaPlazas"
+                v-bind:value="item.value"
+                :key="index"
+                >{{ item.text }}</option
+              >
+            </select>
+          </div>
+
+          <div class=" mb-8" >
+            <select
+              v-model="tecSelect"
+              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+              style="width: 10vw;"
+              type="text"
+            >
+              <option disabled value=" ">Selecionar...</option>
+              <option
+                v-for="(item, index) in listaTec"
+                v-bind:value="item.value"
+                :key="index"
+                >{{ item.text }}</option
+              >
+            </select>
+          </div>
+          <button
+            @click="loginOther()"
+            class="text-black font-bold px-4 py-2 rounded-full"
+            style="backgroundColor: #57b846"
+          >
+            Ingresar
+          </button>
+        </div>
   </div>
 </template>
 
@@ -229,6 +236,10 @@ h4,
 h5,
 h6 {
   margin: 0px;
+}
+
+.blur-content{
+  filter: blur(5px); 
 }
 
 p {

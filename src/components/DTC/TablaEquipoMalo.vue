@@ -53,7 +53,7 @@
             </th>
             <th>Real</th>
             <th>Fabricante</th>
-            <th>+</th>
+            <th></th>
           </tr>
 
           <tr
@@ -68,7 +68,12 @@
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row7 }}</td>
+            <td class="border-b border-black border-2" style="
+ max-width: 7vw;
+ height: auto;
+ overflow: hidden;
+ text-align: center;
+  ">{{ equipo.row7+"\n"  }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
@@ -81,7 +86,17 @@
               <button
                 @click="deleteItem(index)"
                 class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
-              >Eliminar</button>
+              >
+                Eliminar
+              </button>
+              <br/>
+              <br/>
+              <button
+                @click="updateItem(index)"
+                class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-indigo-400 hover:bg-indigo-500"
+              >
+                Actualizar
+              </button>
             </div>
             </td>
           </tr>
@@ -224,7 +239,7 @@
                 @click="agregarPartida()"
                 class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 style="width: 6vw"
-              >Agregar Partida</button>
+              >Validar Partida</button>
             </td>
           </tr>
         </table>
@@ -308,6 +323,9 @@ export default {
       //this.items.splice(index, 1); \\OR   
       //both will do the same
     },
+    // updateItem(index){
+
+    // },
     
     agregarPartida: function() {
       let newObject = {
@@ -317,8 +335,8 @@ export default {
         row4: this.datosManuales.cantidad,
         row5: this.datosDisable.brand,
         row6: this.datosDisable.model,
-        row7: this.numSerieSelect,
-        row8: this.laneSelect,
+        row7: this.numSerieSelect.toString(),
+        row8: this.laneSelect.toString(),
         row9: this.datosDisable.instalationDate,
         row10: this.datosManuales.dateMantenimiento,
         row11: this.datosManuales.folioMantenimiento,
@@ -345,7 +363,7 @@ export default {
       this.datosDmgComponent.dateLifeTimeReal = this.datosManuales.tiempoVidaReal;
 
       console.log(this.datosDmgComponent)
-      alert()
+      //alert()
 
       this.$store.commit("DTC/listaDmgMutation", this.datosDmgComponent);
 
