@@ -73,7 +73,7 @@
  height: auto;
  overflow: hidden;
  text-align: center;
-  ">{{ equipo.row7+"\n"  }}</td>
+  "><p>{{ equipo.row7+"\n"  }}</p></td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
@@ -219,9 +219,8 @@
               <input
                 v-model="datosManuales.tiempoVidaReal"
                 class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                type="text"
-                style="width: 4vw"
-                placeholder="Numero de años"
+                style="width: 7vw"
+                type="date"
               />
             </td>
             <td class="border-b border-black p-2 md:p-1 border-2">

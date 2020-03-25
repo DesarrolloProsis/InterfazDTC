@@ -68,7 +68,7 @@ const actions = {
     console.log(state.listaDmg);
 
     await Axios.post(
-      `https://localhost:44358/api/requestedComponent`,
+      `https://localhost:44358/api/requestedcomponent`,
       state.listaDmg
     )
       .then(response => {
