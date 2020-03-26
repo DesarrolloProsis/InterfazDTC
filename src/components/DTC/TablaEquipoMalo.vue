@@ -68,12 +68,17 @@
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
-            <td class="border-b border-black border-2" style="
+            <td
+              class="border-b border-black border-2"
+              style="
  max-width: 7vw;
  height: auto;
  overflow: hidden;
  text-align: center;
-  "><p>{{ equipo.row7+"\n"  }}</p></td>
+  "
+            >
+              <p>{{ equipo.row7+"\n" }}</p>
+            </td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
@@ -82,22 +87,21 @@
             <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
 
             <td class="border-b border-black md:p-3 border-2">
-            <div >
-              <button
-                @click="deleteItem(index)"
-                class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
-              >
-                Eliminar
-              </button>
-              <br/>
-              <br/>
-              <button
-                @click="updateItem(index)"
-                class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-indigo-400 hover:bg-indigo-500"
-              >
-                Actualizar
-              </button>
-            </div>
+              <div>
+                <button
+                  @click="deleteItem(index)"
+                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
+                >Eliminar</button>
+                <br />
+                <br />
+                <button
+                  @click="showModal = true"
+                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-indigo-400 hover:bg-indigo-500"
+                >Actualizar</button>
+                <!-- <button
+                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-indigo-400 hover:bg-indigo-500"
+                >Actualizar</button> -->
+              </div>
             </td>
           </tr>
 
@@ -246,6 +250,37 @@
       </div>
     </form>
     <TablaEquipoPropuesto :listaEquipo="listaComponentesSelect"></TablaEquipoPropuesto>
+
+              <!-- <tr
+            style="text-align: center"
+            class="hover:bg-blue-200 text-center"
+            v-for="(equipo, index) in listaComponentesSelect"
+            :key="index"
+          >
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
+            <td
+              class="border-b border-black border-2"
+              style="
+ max-width: 7vw;
+ height: auto;
+ overflow: hidden;
+ text-align: center;
+  "
+            >
+              <p>{{ equipo.row7+"\n" }}</p>
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row11 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row12 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
+        </tr> -->
   </div>
 </template>
 
@@ -263,6 +298,7 @@ export default {
     return {
       updtComp: "",
       datosDisable: {},
+      showModal: false,
       datosDmgComponent: {
         ComponentsStockId: "",
         ReferenceNumber: "",
@@ -316,19 +352,17 @@ export default {
     },
 
     deleteItem(index) {
-            
-      this.listaComponentesSelect.splice(index, 1)      
+      this.listaComponentesSelect.splice(index, 1);
 
-      for(let i = 0; i < this.listaComponentesSelect.length; i++)
-        this.listaComponentesSelect[i]['row1'] = i + 1
-      
-      this.$store.commit('DTC/listaDmgMutationDelete', index)
-            
+      for (let i = 0; i < this.listaComponentesSelect.length; i++)
+        this.listaComponentesSelect[i]["row1"] = i + 1;
+
+      this.$store.commit("DTC/listaDmgMutationDelete", index);
     },
     // updateItem(index){
 
     // },
-    
+
     agregarPartida: function() {
       let newObject = {
         row1: this.listaComponentesSelect.length + 1,
@@ -364,8 +398,7 @@ export default {
       this.datosDmgComponent.intLifeTimeExpected = this.datosDisable.lifeTime;
       this.datosDmgComponent.dateLifeTimeReal = this.datosManuales.tiempoVidaReal;
 
-      console.log(this.datosDmgComponent)
-      
+      console.log(this.datosDmgComponent);
 
       this.$store.commit("DTC/listaDmgMutationPush", this.datosDmgComponent);
 
@@ -415,6 +448,72 @@ export default {
 
 
 <style scoped>
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+
+
 .title {
   text-align: center;
   font-weight: bold;

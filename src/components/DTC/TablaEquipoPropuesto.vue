@@ -54,13 +54,14 @@
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
               >
-                {{ '$' + equipo.row14.toLocaleString('en-IN') }}
+                $ {{ equipo.row14.toLocaleString('en-IN') }}
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
               >
-                '$' + {{multiplicacion}}
+                 $ {{  (equipo.row14 * equipo.row4).toLocaleString('en-IN') }} 
+                <!-- $ {{multiplicacion}} -->
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
             </tr>
@@ -80,7 +81,7 @@
           </div>
         </div>
         <div>
-          <div class="flex mb-4">
+          <div class="flex mb-4" style="margin-top: 1vh">
             <div class="w-1/6 h-6 pl-4">
               <span class="relleno">Total M.N.</span>
             </div>
@@ -92,22 +93,29 @@
                 style="width: 26vw;"
                 placeholder="(Treinta y Cinco Mil ciento Sesenta y Nueve Pesos 17/100 M.N.)"
               />
+              
             </div>
-            <div class="w-1/6 h-6" style="padding-left: 16.8rem">
+            <div class="w-1/6 h-6" style="padding-left: 15.2rem">
               <input
+                v-model="sumatoria"
                 class="md:border border-black"
                 id="grid-last-name"
                 type="text"
-                style="width: 6.8vw;"
+                style="width: 8.5vw; text-align: center;"
                 placeholder="$ 0.00"
               />
+              <!-- <td class="border-b border-black border-2"
+              style="width: 5vw"
+                >
+                <p>$ {{sumatoria.toLocaleString('en-IN')}}</p>
+              </td> -->
             </div>
-            <div class="w-1/6 h-6" style="padding-left: 6.3rem">
+            <div class="w-1/6 h-6" style="padding-left: 6.8rem">
               <input
                 class="md:border border-black"
                 id="grid-last-name"
                 type="text"
-                style="width: 6.8vw;"
+                style="width: 6.35vw;"
                 placeholder="$ 0.00"
               />
             </div>
@@ -138,12 +146,26 @@ export default {
   computed: {
     multiplicacion: function() {
       let multi = 0;
-      return this.listaEquipo.forEach(element => {
-        multi = element.row4 * element.row14
-        return multi;
-      });
-    }
-  },
+      for (let i = 0; i < this.listaEquipo.length; i++) {
+        multi += this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
+      }
+      return multi;
+      // multi = parseInt(this.listaEquipo["row14"] * this.listaEquipo["row4"])
+      // return multi
+      // return this.listaEquipo.forEach(element => {
+      //   multi = element.row4 * element.row14
+      //   return multi;
+      // });
+    },
+    sumatoria: function(){
+      let suma = 0
+      for (let i = 0; i < this.listaEquipo.length; i++) {
+        let multi = this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
+        suma += multi;
+      }
+        return ('$ '+suma.toLocaleString('en-IN'));
+    },
+  }
 };
 </script>
 
