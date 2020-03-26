@@ -23,7 +23,7 @@ const mutations = {
   },
   listaDmgMutationDelete: (state, value) =>{
 
-     alert('Hola desde MutationDelete')
+     //alert('Hola desde MutationDelete')
       state.listaDmg.splice(value, 1) 
   },
   listaDmgClearMutation: (state) => {
