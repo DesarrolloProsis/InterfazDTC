@@ -57,8 +57,8 @@ const mutations = {
 const actions = {
   async buscarReferencia({ commit }, value) {
     console.log(value);
-    console.log(`http://192.168.0.111:8084/api/dtcdata/${value}`);
-    await Axios.get(`http://192.168.0.111:8084/api/dtcdata/${value}`)
+    console.log(`https://localhost:44358/api/dtcdata/${value}`);
+    await Axios.get(`https://localhost:44358/api/dtcdata/${value}`)
       .then(response => {
         console.log(response.data + "desde axios");
         commit("referenceNumMutation", response.data);

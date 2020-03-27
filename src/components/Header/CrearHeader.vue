@@ -351,16 +351,16 @@ export default {
         "Header/buscarReferencia",
         this.datosSinester.ReferenceNumber
       );
-      let referenceNum = await this.$store.getters["Header/getreferenceNum"];
-      console.log(referenceNum + "desde vista");
-      if (referenceNum > 0) {
-        let aux = this.datosSinester.ReferenceNumber;
-        let counter = referenceNum ++;
-        if(counter < 10){
-          counter = '0'+referenceNum;
-          this.datosSinester.ReferenceNumber = aux + "-" + counter;
-        }
-      }
+      this.datosSinester.ReferenceNumber = await this.$store.getters["Header/getreferenceNum"];
+      console.log( this.datosSinester.ReferenceNumber + "desde vista");
+      // if (referenceNum > 0) {
+      //   let aux = this.datosSinester.ReferenceNumber;
+      //   let counter = referenceNum ++;
+      //   if(counter < 10){
+      //     counter = '0'+referenceNum;
+      //     this.datosSinester.ReferenceNumber = aux + "-" + counter;
+      //   }
+      //}
     }
   },
   watch: {

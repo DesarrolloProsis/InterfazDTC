@@ -115,13 +115,17 @@ export default {
       descripcionHeaders: [],
       datosUser: {},
       descripcion: "",
-      observaciones: ""
+      observaciones: "",
+      refNum: ""
     };
   },
   beforeMount() {
     this.$store.dispatch("DTC/buscarDescriptions");
     this.datosUser = this.$store.getters["Header/getHeaders"];
+    //console.log(this.datosUser+"hola desde creardtc")
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
+    this.refNum = this.$store.getters["Header/getreferenceNum"];
+    console.log(this.refNum+"hola desde CrearDTC")
   },
   methods: {
     crearDTCTecnico: async function() {
@@ -130,7 +134,10 @@ export default {
       console.log(this.listaDmg);
       await this.$store.dispatch("DTC/crearDmg");
       await this.$store.commit("DTC/listaDmgClearMutation");
-      this.$router.push("Home");
+      this.refNum = this.$store.getters["Header/getreferenceNum"];
+      //this.$router.push("Home");
+      window.location.href = ('https://localhost:44358/api/pdf/'+this.refNum);
+      console.log('https://localhost:44358/api/pdf/'+this.refNum)
     }
   },
   computed: {

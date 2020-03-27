@@ -1,6 +1,6 @@
 <template>
   <div class="m-0 bg-white">
-    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
+    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center" :class="{'blur-content': modal}">
       <div
         class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
       >
@@ -394,10 +394,14 @@
         <br />
       </div>
     </form>
+<<<<<<< HEAD
     <TablaEquipoPropuesto
       :listaEquipo="listaComponentesSelect"
     ></TablaEquipoPropuesto>
 
+=======
+    <TablaEquipoPropuesto :listaEquipo="listaComponentesSelect"></TablaEquipoPropuesto>
+>>>>>>> 8ece787da355d114c1a70711a7700eea818201f6
   </div>
 </template>
 
@@ -696,6 +700,11 @@ export default {
 </script>
 
 <style scoped>
+
+.blur-content{
+  filter: blur(5px); 
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;

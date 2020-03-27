@@ -4,7 +4,8 @@ import qs from "qs";
 const state = {
   listaDTCTecnico: [],
   listaDescriptions: [],
-  listaDmg: []
+  listaDmg: [],
+  listaDTC: []
 };
 
 const getters = {
@@ -23,17 +24,20 @@ const mutations = {
   },
   listaDmgMutationDelete: (state, value) =>{
 
-     alert('Hola desde MutationDelete')
+     //alert('Hola desde MutationDelete')
       state.listaDmg.splice(value, 1) 
   },
   listaDmgClearMutation: (state) => {
     state.listaDmg = []
-  }
+  },
+  listaDTCMutation: (state, value) => {
+    state.listaDTC = value;
+  },
 };
 
 const actions = {
   //Cosnsulta API Listar Carriles
-  async buscarDTC({ commit }, value) {
+  async sdfs({ commit }, value) {
     console.log("Hello con Vue! => ListarDTC ");
     let response = await Axios.get(
       `http://127.0.0.1:5000/product`,
@@ -50,9 +54,22 @@ const actions = {
     );
   },
 
+  async buscarDTC({ commit }) {
+    console.log(`https://localhost:44358/api/dtcdata`);
+    await Axios.get(`https://localhost:44358/api/dtcdata`)
+      .then(response => {
+        console.log("Bien");
+        console.log(response.data);
+        commit("listaDescriptionsMutation", response.data);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
+  },
+
   async buscarDescriptions({ commit }) {
-    console.log(`http://192.168.0.111:8084/api/typedescriptions`);
-    await Axios.get(`http://192.168.0.111:8084/api/typedescriptions`)
+    console.log(`https://localhost:44358/api/typedescriptions`);
+    await Axios.get(`https://localhost:44358/api/typedescriptions`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
