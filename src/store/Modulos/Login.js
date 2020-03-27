@@ -43,9 +43,9 @@ const mutations = {
 const actions = {
 
   async buscarHeaderTec({ commit }, value) {    
- 
+     
     await Axios.get(
-      `http://192.168.0.111:8084/api/login/buscarHeaderTec/${value}`
+      `https://localhost:44358/api/login/buscarHeaderTec/${value}`
     )
       .then(response => {              
         commit("listaUser", response.data);              
@@ -58,7 +58,7 @@ const actions = {
   async buscarTec({ commit }, value) {    
  
           await Axios.get(
-            `http://192.168.0.111:8084/api/login/buscarTec/${value}`
+            `https://localhost:44358/api/login/buscarTec/${value}`
           )
             .then(response => {              
               commit("listaTecMutation", response.data);              
@@ -70,10 +70,10 @@ const actions = {
 
   async buscarUsuarioCokie({ commit }, value) {    
     console.log(
-      `http://192.168.0.111:8084/api/login/ValidUser/${value.User}/${value.Password}/false`
+      `http://192.168.0.111:8084/api/login/ValidUser/${value.User}/${value.Password}/${true}`
     );      
           await Axios.get(
-            `http://192.168.0.111:8084/api/login/ValidUser/${value.User}/${value.Password}/${true}`
+            `https://localhost:44358/api/login/ValidUser/${value.User}/${value.Password}/${true}`
           )
             .then(response => {              
               commit("userLogeadoMutation", response.data);              
@@ -84,13 +84,13 @@ const actions = {
   },
   //Cosnsulta API Listar Headers
   async buscarUsuario({ commit }, value) {
-    console.log(value);
+    alert(value)
     console.log(
-      `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}/true`
+      `https://localhost:44358/api/login/${value.User}/${value.Password}/${false}`
     );
-      if(value.User == 'BVilleda' && value.Password == 1234){
+      
           await Axios.get(
-            `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}/${false}`
+            `https://localhost:44358/api/login/${value.User}/${value.Password}/${false}`
           )
             .then(response => {
               console.log(response.data);
@@ -98,11 +98,7 @@ const actions = {
             })
             .catch(Ex => {
               console.log(Ex);
-            });
-      }
-      else{
-        console.log("ya entre")
-      }
+            });     
   },
   async buscarPlazas({ commit }) {
     console.log(`http://192.168.0.111:8084/api/squaresCatalog`);

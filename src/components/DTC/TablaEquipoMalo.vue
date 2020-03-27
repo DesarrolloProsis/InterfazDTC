@@ -13,22 +13,6 @@
 
         <!-- ************************************************************** -->
 
-        <!-- <div class="grid-container3" style="text-align: center">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div class="labelInput">
-              <label class="atntn" for="inline-full-name">Ultimo Mantenimiento</label>
-            </div>
-            <div class="labelInput2">
-              <label class for="inline-full-name">Tiempo de Vida:</label>
-            </div>
-          </div>
-        <br />-->
-
-        <!-- ************************************************************** -->
-
         <table class="border-gray-700 border-solid" style="width:100%">
           <tr>
             <th>Partida</th>
@@ -62,12 +46,68 @@
             v-for="(equipo, index) in listaComponentesSelect"
             :key="index"
           >
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">
+                {{ equipo.row1 }}
+              </template>
+              <template v-else>
+                {{ objectEditar.rowUpd1 }}
+              </template>              
+            </td>
+            <td class="border-b border-black p-2 md:p-1 border-2">
+              <template v-if="equipo.rowUp">
+                {{ equipo.row2 }}
+              </template>
+              <template v-else>
+                {{ objectEditar.rowUpd2 }}
+              </template>              
+            </td>
+            <td class="border-b border-black p-2 md:p-1 border-2">
+              <template v-if="equipo.rowUp">
+                {{ equipo.row3 }}
+              </template>
+              <template v-else>
+                <select
+                  @change="UpdateCompEditado()"
+                  v-model="updtCompEditar"
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  style="width: 10vw;"
+                  type="text"
+                >
+                  <option disabled value>Selecionar...</option>
+                  <option
+                    v-for="(item, index) in listaComponentes"
+                    v-bind:value="item.text"
+                    :key="index"
+                    >{{ item.text }}</option
+                  >
+                </select></template
+              >
+            </td>
+            <td class="border-b border-black p-2 md:p-1 border-2">
+              <template v-if="equipo.rowUp">
+                {{ equipo.row4 }}
+              </template>
+              <template v-else>
+                {{ objectEditar.rowUpd4 }}
+              </template>  
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">
+                {{ equipo.row5 }}
+              </template>
+              <template v-else>
+                {{ objectEditar.rowUpd5 }}
+              </template>  
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+                 <template v-if="equipo.rowUp">
+                {{ equipo.row6 }}
+              </template>
+              <template v-else>
+                {{ objectEditar.rowUpd6 }}
+              </template>  
+            </td>
             <td
               class="border-b border-black border-2"
               style="
@@ -77,43 +117,142 @@
  text-align: center;
   "
             >
-              <p>{{ equipo.row7+"\n" }}</p>
+            <tenplete v-if="equipo.rowUp">
+                <p>{{ equipo.row7 + "\n" }}</p>
+            </tenplete>
+            
+            <tenplete v-else>
+                <p>{{ numSerieSelectEditar + "\n" }}</p>
+            </tenplete>
+              
+              
+            
             </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row11 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row12 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">{{ equipo.row8 }}</template
+              ><template v-else>
+                <multiselect
+                  v-model="laneSelectEditar"
+                  :close-on-select="false"
+                  :clear-on-select="true"
+                  :hideSelected="false"
+                  placeholder="Selecciona..."
+                  :options="listLaneEditar"
+                  multiple="true"
+                >
+                  <template
+                    slot="selection"
+                    slot-scope="{ values, search, isOpen }"
+                  >
+                    <span
+                      class="multiselect__single"
+                      v-if="values.length &amp;&amp; !isOpen"
+                      >{{ values.length }} Carriles</span
+                    >
+                  </template>
+                </multiselect></template
+              >
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">
+                {{ equipo.row9 }}
+              </template>
+              <template v-else>
+                {{ objectEditar.rowUpd9 }}
+              </template>
+           
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">{{ equipo.row10 }}</template
+              ><template v-else>
+                 <input
+                v-model="objectEditar.rowUpd10"
+                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                style="width: 7vw"
+                placeholder="Folio"
+                type="date"
+              />
+             </template>
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">{{ equipo.row11 }}</template
+              ><template v-else>
+                <input
+                v-model="objectEditar.rowUpd11"
+                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                style="width: 7vw"
+                type="text"
+              />
+              </template>
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">{{ equipo.row12 }}</template
+              ><template v-else>
+                   <input
+                v-model="objectEditar.rowUpd12"
+                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                style="width: 7vw"
+                type="date"
+              />
+                
+              </template>
+            </td>
+            <td class="border-b border-black p-2 md:p-3 border-2">
+              <template v-if="equipo.rowUp">
+                {{ equipo.row13 }}
+              </template>
+              <template v-else>
+                {{ objectEditar.rowUpd13 }}
+              </template>
+            </td>
 
             <td class="border-b border-black md:p-3 border-2">
-              <div>
+              <template v-if="equipo.rowUp">                
                 <button
                   @click="deleteItem(index)"
                   class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
-                >Eliminar</button>
+                >
+                  Eliminar
+                </button>
                 <br />
                 <br />
                 <button
-                  @click="showModal = true"
-                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-indigo-400 hover:bg-indigo-500"
-                >Actualizar</button>
-                <!-- <button
-                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-indigo-400 hover:bg-indigo-500"
-                >Actualizar</button> -->
-              </div>
+                  @click="updateRowTable(index, equipo)"
+                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500"
+                >
+                  Editar
+                </button>
+              
+              </template>
+              <template v-else>
+                <button
+                  @click="abortUpdateRowTable(index)"
+                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
+                >
+                  Cancelar
+                </button>
+                <br />
+                <br />
+                <button
+                  @click="confirmRowTable(index, equipo)"
+                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
+                >
+                  Aceptar
+                </button>
+              
+              </template>
             </td>
           </tr>
 
           <tr style="text-align: center">
-            <td class="border-b border-black p-2 md:p-1 border-2">{{'*'}}</td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
+            <td class="border-b border-black p-2 md:p-1 border-2">{{ "*" }}</td>
+            <td class="border-b  border-black p-2 md:p-1 border-2">
               <input
                 v-model="datosDisable.unity"
                 disabled
                 class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 type="text"
-                style="width: 6vw"
+                style="width: 4vw"
                 placeholder="Pza"
               />
             </td>
@@ -131,7 +270,8 @@
                   v-for="(item, index) in listaComponentes"
                   v-bind:value="item.text"
                   :key="index"
-                >{{item.text}}</option>
+                  >{{ item.text }}</option
+                >
               </select>
             </td>
             <td class="border-b border-black p-2 md:p-1 border-2">
@@ -140,11 +280,9 @@
                 disabled
                 class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 type="text"
-                style="width: 6vw"
+                style="width: 4vw"
               />
-            </td>
-
-            <!-- MARCA -->
+            </td>            
             <td class="border-b border-black p-2 md:p-1 border-2">
               <input
                 v-model="datosDisable.brand"
@@ -185,11 +323,15 @@
                 :options="listLane"
                 multiple="true"
               >
-                <template slot="selection" slot-scope="{ values, search, isOpen }">
+                <template
+                  slot="selection"
+                  slot-scope="{ values, search, isOpen }"
+                >
                   <span
                     class="multiselect__single"
                     v-if="values.length &amp;&amp; !isOpen"
-                  >{{ values.length }} Carriles</span>
+                    >{{ values.length }} Carriles</span
+                  >
                 </template>
               </multiselect>
             </td>
@@ -242,45 +384,20 @@
                 @click="agregarPartida()"
                 class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 style="width: 6vw"
-              >Validar Partida</button>
+              >
+                Validar Partida
+              </button>
             </td>
           </tr>
         </table>
+
         <br />
       </div>
     </form>
-    <TablaEquipoPropuesto :listaEquipo="listaComponentesSelect"></TablaEquipoPropuesto>
+    <TablaEquipoPropuesto
+      :listaEquipo="listaComponentesSelect"
+    ></TablaEquipoPropuesto>
 
-              <!-- <tr
-            style="text-align: center"
-            class="hover:bg-blue-200 text-center"
-            v-for="(equipo, index) in listaComponentesSelect"
-            :key="index"
-          >
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
-            <td
-              class="border-b border-black border-2"
-              style="
- max-width: 7vw;
- height: auto;
- overflow: hidden;
- text-align: center;
-  "
-            >
-              <p>{{ equipo.row7+"\n" }}</p>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row11 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row12 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
-        </tr> -->
   </div>
 </template>
 
@@ -296,9 +413,13 @@ export default {
   },
   data() {
     return {
+
+      boolUodateTable: true,
+      //nombre del Compoente
       updtComp: "",
+      //datos ninamico Compnente
       datosDisable: {},
-      showModal: false,
+      //datos de Tabla Principal      
       datosDmgComponent: {
         ComponentsStockId: "",
         ReferenceNumber: "",
@@ -310,7 +431,7 @@ export default {
         Unity: "",
         dateInstallationDate: "",
         dateMaintenanceDate: "",
-        intLifeTimeExpected: 0,
+        intLifeTimeExpected: "",
         dateLifeTimeReal: ""
       },
       datosManuales: {
@@ -319,7 +440,7 @@ export default {
         folioMantenimiento: "",
         tiempoVidaReal: ""
       },
-      //Multiselect
+      //Multiselect Normal
       listLane: [],
       laneSelect: null,
 
@@ -327,7 +448,22 @@ export default {
       capufeLaneSelect: [],
       numSerieSelect: [],
 
-      listaComponentesSelect: []
+      //lista que se paso por prop
+      listaComponentesSelect: [],
+
+      //datos para editar Componente
+      saveObjectEdiar:[],
+      objectEditar: {},
+
+      updtCompEditar: "",
+      listLaneEditar: [],
+      laneSelectEditar: [],
+
+      idGareSelectEditar: [],
+      capufeLaneSelectEditar: [],
+      numSerieSelectEditar: [],
+
+      
     };
   },
   props: {
@@ -350,7 +486,32 @@ export default {
       ];
       this.listLane = await this.$store.getters["Refacciones/getListaLane"];
     },
-
+    UpdateCompEditado:async function() {      
+      this.laneSelectEditar = []
+      this.numSerieSelectEditar = []
+      this.idGareSelectEditar = []
+      this.capufeLaneSelectEditar =  []
+      this.objectEditar.rowUpd10 = ''
+      this.objectEditar.rowUpd11 = ''
+      this.objectEditar.rowUpd12 = ''
+      let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+      newObject["id"] = this.updtCompEditar;
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+      let datosDisable = await this.$store.getters[
+        "Refacciones/getComponentDisable"
+      ];
+      this.listLaneEditar = await this.$store.getters["Refacciones/getListaLane"];
+      this.objectEditar.rowUpd3 = this.updtCompEditar
+      this.objectEditar.rowUpd2 = datosDisable.unity
+      this.objectEditar.rowUpd5 = datosDisable.brand
+      this.objectEditar.rowUpd6 = datosDisable.model
+      this.objectEditar.rowUpd9 = datosDisable.instalationDate
+      this.objectEditar.rowUpd13 = datosDisable.lifeTime
+      this.objectEditar.rowUpd14 = datosDisable.unitaryPrice 
+      this.objectEditar.rowIdComponent = datosDisable.componentsStockId 
+      
+      
+    },
     deleteItem(index) {
       this.listaComponentesSelect.splice(index, 1);
 
@@ -359,10 +520,75 @@ export default {
 
       this.$store.commit("DTC/listaDmgMutationDelete", index);
     },
-    // updateItem(index){
+    updateRowTable: async function(index, datos) {      
+      this.UpdateCompEditado()
+      this.listaComponentesSelect[index]["rowUp"] = false;
 
-    // },
+      this.saveObjectEdiar = Object.values(datos)
 
+      let newObjectEdit = {
+        rowUpd1: this.saveObjectEdiar[0],
+        rowUpd2: this.saveObjectEdiar[1],
+        rowUpd3: this.saveObjectEdiar[2],
+        rowUpd4: this.saveObjectEdiar[3],
+        rowUpd5: this.saveObjectEdiar[4],
+        rowUpd6: this.saveObjectEdiar[5],
+        rowUpd7: this.saveObjectEdiar[6],
+        rowUpd8: this.saveObjectEdiar[7],
+        rowUpd9: this.saveObjectEdiar[8],
+        rowUpd10: this.saveObjectEdiar[9],
+        rowUpd11: this.saveObjectEdiar[10],
+        rowUpd12: this.saveObjectEdiar[11],
+        rowUpd13: this.saveObjectEdiar[12],
+        rowUpd14: this.saveObjectEdiar[13],
+        rowIdComponent: null        
+      }
+
+      this.objectEditar = newObjectEdit      
+      this.updtCompEditar = datos.row3
+      this.laneSelectEditar = datos.row8.split(",")
+      this.numSerieSelectEditar = datos.row7.split(",")
+    },   
+    confirmRowTable: function(index){
+
+      this.listaComponentesSelect[index]["row1"] = this.objectEditar.rowUpd1
+      this.listaComponentesSelect[index]["row2"] = this.objectEditar.rowUpd2
+      this.listaComponentesSelect[index]["row3"] = this.objectEditar.rowUpd3
+      this.listaComponentesSelect[index]["row4"] = this.objectEditar.rowUpd4
+      this.listaComponentesSelect[index]["row5"] = this.objectEditar.rowUpd5
+      this.listaComponentesSelect[index]["row6"] = this.objectEditar.rowUpd6
+      this.listaComponentesSelect[index]["row7"] = this.numSerieSelectEditar
+      this.listaComponentesSelect[index]["row8"] = this.laneSelectEditar
+      this.listaComponentesSelect[index]["row9"] = this.objectEditar.rowUpd9
+      this.listaComponentesSelect[index]["row10"] = this.objectEditar.rowUpd10
+      this.listaComponentesSelect[index]["row11"] = this.objectEditar.rowUpd11
+      this.listaComponentesSelect[index]["row12"] = this.objectEditar.rowUpd12
+      this.listaComponentesSelect[index]["row13"] = this.objectEditar.rowUpd13
+      this.listaComponentesSelect[index]["rowUp"] = true;
+      this.saveObjectEdiar = []
+      this.objectEditar = {}
+
+      
+    },
+    abortUpdateRowTable: function(index) {             
+      
+      this.listaComponentesSelect[index]["row1"] = this.saveObjectEdiar[0]
+      this.listaComponentesSelect[index]["row2"] = this.saveObjectEdiar[1]
+      this.listaComponentesSelect[index]["row3"] = this.saveObjectEdiar[2]
+      this.listaComponentesSelect[index]["row4"] = this.saveObjectEdiar[3]
+      this.listaComponentesSelect[index]["row5"] = this.saveObjectEdiar[4]
+      this.listaComponentesSelect[index]["row6"] = this.saveObjectEdiar[5]
+      this.listaComponentesSelect[index]["row7"] = this.saveObjectEdiar[6]
+      this.listaComponentesSelect[index]["row8"] = this.saveObjectEdiar[7]
+      this.listaComponentesSelect[index]["row9"] = this.saveObjectEdiar[8]
+      this.listaComponentesSelect[index]["row10"] = this.saveObjectEdiar[9]
+      this.listaComponentesSelect[index]["row11"] = this.saveObjectEdiar[10]
+      this.listaComponentesSelect[index]["row12"] = this.saveObjectEdiar[11]
+      this.listaComponentesSelect[index]["row13"] = this.saveObjectEdiar[12]
+      this.listaComponentesSelect[index]["rowUp"] = true;
+      this.saveObjectEdiar = []
+      this.objectEditar = {}
+    },
     agregarPartida: function() {
       let newObject = {
         row1: this.listaComponentesSelect.length + 1,
@@ -378,7 +604,8 @@ export default {
         row11: this.datosManuales.folioMantenimiento,
         row12: this.datosManuales.tiempoVidaReal,
         row13: this.datosDisable.lifeTime,
-        row14: this.datosDisable.unitaryPrice
+        row14: this.datosDisable.unitaryPrice,
+        rowUp: true
       };
 
       console.log(newObject);
@@ -419,7 +646,7 @@ export default {
       this.numSerieSelect = [];
       this.idGareSelect = [];
       this.capufeLaneSelect = [];
-    },
+    },  
     laneSelect: async function(newValue) {
       let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
       this.datosManuales.cantidad = newValue.length;
@@ -432,20 +659,41 @@ export default {
         this.numSerieSelect.push(item[0]["serialNumber"]);
         this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
         this.idGareSelect.push(item[0]["idGare"]);
-      } else {
-        for (let i = 0; i < newValue.length; i++) {
-          let item = equipoMalo.filter(x => x.lane == newValue[i]);
-          console.log(item[0]);
-          this.numSerieSelect.push(item[0]["serialNumber"]);
-          this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
-          this.idGareSelect.push(item[0]["idGare"]);
-        }
+      } 
+      else {
+          for (let i = 0; i < newValue.length; i++) {
+            let item = equipoMalo.filter(x => x.lane == newValue[i]);          
+            this.numSerieSelect.push(item[0]["serialNumber"]);
+            this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
+            this.idGareSelect.push(item[0]["idGare"]);
+         }
+      }
+    },
+    laneSelectEditar: async function(newValue) {
+      let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
+      this.objectEditar.rowUpd4 = newValue.length;
+      this.numSerieSelectEditar = [];
+      this.idGareSelectEditar = [];
+      this.capufeLaneSelectEditar = [];
+      if (newValue.length === 1) {
+        let item = equipoMalo.filter(x => x.lane == newValue[0]);
+        console.log(item[0]);
+        this.numSerieSelectEditar.push(item[0]["serialNumber"]);
+        this.capufeLaneSelectEditar.push(item[0]["capufeLaneNum"]);
+        this.idGareSelectEditar.push(item[0]["idGare"]);
+      } 
+      else {
+          for (let i = 0; i < newValue.length; i++) {
+            let item = equipoMalo.filter(x => x.lane == newValue[i]);          
+            this.numSerieSelectEditar.push(item[0]["serialNumber"]);
+            this.capufeLaneSelectEditar.push(item[0]["capufeLaneNum"]);
+            this.idGareSelectEditar.push(item[0]["idGare"]);
+         }
       }
     }
   }
 };
 </script>
-
 
 <style scoped>
 .modal-mask {
@@ -455,9 +703,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
@@ -471,8 +719,8 @@ export default {
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -511,8 +759,6 @@ export default {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-
-
 
 .title {
   text-align: center;
@@ -625,5 +871,3 @@ label {
   }
 }
 </style>
-
-

@@ -163,9 +163,7 @@ export default {
     ingresarLogin: async function() {
       if (this.datos.checkLog === true) {
         await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
-        if (this.$store.getters["Login/getUserLogeado"]) {
-
-          
+        if (this.$store.getters["Login/getUserLogeado"]) {          
           this.modal = true;
         } else {
           alert("El usuario o la contraseña son incorrectos");
@@ -173,11 +171,12 @@ export default {
         }
         //await this.$store.dispatch("Login/buscarUsuario", this.datos);
       } else {
-        await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
-
-        if (this.$store.getters["Login/getUserLogeado"]) {
-          await this.$store.dispatch("Login/buscarUsuario", this.datos);
+        await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);     
+        if ( this.$store.getters["Login/getUserLogeado"]) {
+          alert("Si esta registrado")
+          await this.$store.dispatch("Login/buscarUsuario", this.datos);          
           let dataHeader = await this.$store.getters["Login/getUser"];
+          console.log(dataHeader)
           await this.$store.commit("Header/listaHeadersMutation", dataHeader);
           this.$router.push("home");
         } else {
