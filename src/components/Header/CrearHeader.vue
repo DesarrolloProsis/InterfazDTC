@@ -319,7 +319,7 @@ export default {
         if (numPlaza == "004") nomPlaza = "TPZ";
         else if (numPlaza == "102") {
           nomPlaza = "PMO";
-        } else if (numPlaza == "006") nomPlaza = "QRO";
+        } else if (numPlaza == "103") nomPlaza = "TLPA";
         else if (numPlaza == "041") nomPlaza = "SLM";
         else if (numPlaza == "061") nomPlaza = "LBM";
         else if (numPlaza == "069") nomPlaza = "JOR";

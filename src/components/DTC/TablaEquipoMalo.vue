@@ -394,14 +394,7 @@
         <br />
       </div>
     </form>
-<<<<<<< HEAD
-    <TablaEquipoPropuesto
-      :listaEquipo="listaComponentesSelect"
-    ></TablaEquipoPropuesto>
-
-=======
     <TablaEquipoPropuesto :listaEquipo="listaComponentesSelect"></TablaEquipoPropuesto>
->>>>>>> 8ece787da355d114c1a70711a7700eea818201f6
   </div>
 </template>
 

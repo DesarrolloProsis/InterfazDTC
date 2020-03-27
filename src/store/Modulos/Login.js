@@ -84,7 +84,7 @@ const actions = {
   },
   //Cosnsulta API Listar Headers
   async buscarUsuario({ commit }, value) {
-    alert(value)
+    //alert(value)
     console.log(
       `https://localhost:44358/api/login/${value.User}/${value.Password}/${false}`
     );

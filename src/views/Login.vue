@@ -173,7 +173,7 @@ export default {
       } else {
         await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);     
         if ( this.$store.getters["Login/getUserLogeado"]) {
-          alert("Si esta registrado")
+          //alert("Si esta registrado")
           await this.$store.dispatch("Login/buscarUsuario", this.datos);          
           let dataHeader = await this.$store.getters["Login/getUser"];
           console.log(dataHeader)
