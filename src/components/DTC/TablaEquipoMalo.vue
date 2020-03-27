@@ -1,6 +1,6 @@
 <template>
   <div class="m-0 bg-white">
-    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
+    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center" :class="{'blur-content': modal}">
       <div
         class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
       >
@@ -250,37 +250,6 @@
       </div>
     </form>
     <TablaEquipoPropuesto :listaEquipo="listaComponentesSelect"></TablaEquipoPropuesto>
-
-              <!-- <tr
-            style="text-align: center"
-            class="hover:bg-blue-200 text-center"
-            v-for="(equipo, index) in listaComponentesSelect"
-            :key="index"
-          >
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
-            <td
-              class="border-b border-black border-2"
-              style="
- max-width: 7vw;
- height: auto;
- overflow: hidden;
- text-align: center;
-  "
-            >
-              <p>{{ equipo.row7+"\n" }}</p>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row8 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row9 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row10 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row11 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row12 }}</td>
-            <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row13 }}</td>
-        </tr> -->
   </div>
 </template>
 
@@ -448,6 +417,11 @@ export default {
 
 
 <style scoped>
+
+.blur-content{
+  filter: blur(5px); 
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
