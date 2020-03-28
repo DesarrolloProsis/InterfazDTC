@@ -106,6 +106,9 @@ import Header from "../components/Header/CrearHeader";
 
 export default {
   name: "CrearDTC",
+  props: {
+    method: { type: Function }
+  },
   components: {
     Nav,
     Header
@@ -118,6 +121,9 @@ export default {
       observaciones: "",
       refNum: ""
     };
+  },
+  mounted() {
+    this.checkForm();
   },
   beforeMount() {
     this.$store.dispatch("DTC/buscarDescriptions");
@@ -137,7 +143,7 @@ export default {
       this.refNum = this.$store.getters["Header/getreferenceNum"];
       //this.$router.push("Home");
       window.location.href = ('https://localhost:44358/api/pdf/'+this.refNum);
-      console.log('https://localhost:44358/api/pdf/'+this.refNum)
+      console.log('http://192.168.0.111:8084/api/pdf/'+this.refNum)
     }
   },
   computed: {

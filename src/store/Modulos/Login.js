@@ -58,7 +58,7 @@ const actions = {
   async buscarTec({ commit }, value) {    
  
           await Axios.get(
-            `https://localhost:44358/api/login/buscarTec/${value}`
+            `http://192.168.0.111:8084/api/login/buscarTec/${value}`
           )
             .then(response => {              
               commit("listaTecMutation", response.data);              
@@ -73,7 +73,7 @@ const actions = {
       `http://192.168.0.111:8084/api/login/ValidUser/${value.User}/${value.Password}/${true}`
     );      
           await Axios.get(
-            `https://localhost:44358/api/login/ValidUser/${value.User}/${value.Password}/${true}`
+            `http://192.168.0.111:8084/api/login/ValidUser/${value.User}/${value.Password}/${true}`
           )
             .then(response => {              
               commit("userLogeadoMutation", response.data);              
@@ -86,11 +86,11 @@ const actions = {
   async buscarUsuario({ commit }, value) {
     //alert(value)
     console.log(
-      `https://localhost:44358/api/login/${value.User}/${value.Password}/${false}`
+      `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}/${false}`
     );
       
           await Axios.get(
-            `https://localhost:44358/api/login/${value.User}/${value.Password}/${false}`
+            `http://192.168.0.111:8084/api/login/${value.User}/${value.Password}/${false}`
           )
             .then(response => {
               console.log(response.data);

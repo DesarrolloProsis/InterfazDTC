@@ -1,6 +1,16 @@
 <template>
   <div class="m-0 bg-white">
-    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
+    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center" @submit="checkForm" method="post">
+      <p v-if="errors.length">
+        <b>Por favor, corrija el(los) siguiente(s) error(es):</b>
+        <ul>
+          <li 
+            v-for="(error, index) in errors" 
+            :key="index">
+              {{ error }}
+            </li>
+        </ul>
+      </p>
       <div
         class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
       >
@@ -239,11 +249,15 @@
       :listaComponentes="listaComponentes"
       :numReference="datosSinester.ReferenceNumber"
     ></TablaEquipoMalo>
+    <CrearDTC>
+      :methods="checkForm"
+    </CrearDTC>
   </div>
 </template>
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+import CrearDTC from "../../views/CrearDTC";
 
 export default {
   name: "CrearHeader",
@@ -266,7 +280,8 @@ export default {
     }
   },
   components: {
-    TablaEquipoMalo
+    TablaEquipoMalo,
+    CrearDTC
   },
   data() {
     return {
@@ -286,7 +301,8 @@ export default {
         Descripcion: null,
         Observaciones: null
       },
-      listaComponentes: []
+      listaComponentes: [],
+      errors: []
     };
   },
   methods: {
@@ -361,6 +377,28 @@ export default {
       //     this.datosSinester.ReferenceNumber = aux + "-" + counter;
       //   }
       //}
+    },
+    checkForm: function (e) {
+      if (this.TypeDescriptionId && this.ShippingElaboracionDate && this.SinisterDate && this.FailureDate) {
+        return true;
+      }
+
+      this.errors = [];
+
+      if (!this.TypeDescriptionId) {
+        this.errors.push('El Tipo de Descripcion es obligatorio.');
+      }
+      if (!this.ShippingElaboracionDate) {
+        this.errors.push('La Fecha de Envio es obligatoria.');
+      }
+      if (!this.SinisterDate) {
+        this.errors.push('La Fecha del Siniestro es obligatoria.');
+      }
+      if (!this.FailureDate) {
+        this.errors.push('La Fecha de Falla es obligatoria.');
+      }
+
+      e.preventDefault();
     }
   },
   watch: {

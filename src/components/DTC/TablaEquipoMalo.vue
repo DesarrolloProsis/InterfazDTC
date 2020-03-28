@@ -531,7 +531,7 @@ export default {
         rowUpd5: this.saveObjectEdiar[4],
         rowUpd6: this.saveObjectEdiar[5],
         rowUpd7: this.saveObjectEdiar[6],
-        rowUpd8: this.saveObjectEdiar[7],
+        rowUpd8: this.saveObjectEdiar[7].toString(),
         rowUpd9: this.saveObjectEdiar[8],
         rowUpd10: this.saveObjectEdiar[9],
         rowUpd11: this.saveObjectEdiar[10],
@@ -555,7 +555,7 @@ export default {
       this.listaComponentesSelect[index]["row5"] = this.objectEditar.rowUpd5
       this.listaComponentesSelect[index]["row6"] = this.objectEditar.rowUpd6
       this.listaComponentesSelect[index]["row7"] = this.numSerieSelectEditar
-      this.listaComponentesSelect[index]["row8"] = this.laneSelectEditar
+      this.listaComponentesSelect[index]["row8"] = this.laneSelectEditar.toString()
       this.listaComponentesSelect[index]["row9"] = this.objectEditar.rowUpd9
       this.listaComponentesSelect[index]["row10"] = this.objectEditar.rowUpd10
       this.listaComponentesSelect[index]["row11"] = this.objectEditar.rowUpd11

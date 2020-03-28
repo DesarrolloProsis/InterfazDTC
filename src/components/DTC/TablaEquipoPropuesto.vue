@@ -54,13 +54,13 @@
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
               >
-                $ {{ equipo.row14.toLocaleString('en-IN') }}
+                $ {{ equipo.row14.toLocaleString('en-US') }}
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
               >
-                 $ {{  (equipo.row14 * equipo.row4).toLocaleString('en-IN') }} 
+                 $ {{  (equipo.row14 * equipo.row4).toLocaleString('en-US') }} 
                 <!-- $ {{multiplicacion}} -->
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
@@ -163,7 +163,7 @@ export default {
         let multi = this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
         suma += multi;
       }
-        return ('$ '+suma.toLocaleString('en-IN'));
+        return ('$ '+suma.toLocaleString('en-US'));
     },
   }
 };
