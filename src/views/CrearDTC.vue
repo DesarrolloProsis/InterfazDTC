@@ -141,9 +141,10 @@ export default {
       await this.$store.dispatch("DTC/crearDmg");
       await this.$store.commit("DTC/listaDmgClearMutation");
       this.refNum = this.$store.getters["Header/getreferenceNum"];
+      alert("Insersion Completa")
       //this.$router.push("Home");
       window.location.href = ('https://localhost:44358/api/pdf/'+this.refNum);
-      console.log('http://192.168.0.111:8084/api/pdf/'+this.refNum)
+      console.log('http://localhost:88/api/pdf/'+this.refNum)
     }
   },
   computed: {

@@ -46,8 +46,8 @@ const mutations = {
 };
 const actions = {
   async buscarComponentes({ commit }) {
-    console.log(`http://192.168.0.111:8084/api/Component/`);
-    await Axios.get(`http://192.168.0.111:8084/api/component`)
+    console.log(`http://localhost:88/api/Component/`);
+    await Axios.get(`http://localhost:88/api/component`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -62,10 +62,10 @@ const actions = {
     console.log("Hello con Vue! => ListarRefacciones");
     
     console.log(
-      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `http://localhost:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     );
     await Axios.get(
-      `http://192.168.0.111:8084/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `http://localhost:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {
         console.log("Bien");
@@ -96,7 +96,7 @@ const actions = {
 
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
-    await Axios.post(`http://192.168.0.111:8084/api/Components/`, newObject)
+    await Axios.post(`http://localhost:88/api/Components/`, newObject)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -124,10 +124,10 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
     console.log(
-      `http://192.168.0.111:8084/api/Components/${newObject.ComponentId}`
+      `http://localhost:88/api/Components/${newObject.ComponentId}`
     );
     await Axios.put(
-      `http://192.168.0.111:8084/api/Components/${newObject.ComponentId}`,
+      `http://localhost:88/api/Components/${newObject.ComponentId}`,
       newObject
     )
       .then(response => {
@@ -153,7 +153,7 @@ const actions = {
     console.log(newObject);
     console.log("Hello con Vue! => CrearCarril");
     await Axios.delete(
-      `http://192.168.0.111:8084/api/Components/${newObject.ComponentId}`
+      `http://localhost:88/api/Components/${newObject.ComponentId}`
     )
       .then(response => {
         console.log("Bien");

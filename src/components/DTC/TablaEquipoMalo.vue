@@ -587,6 +587,9 @@ export default {
       this.objectEditar = {}
     },
     agregarPartida: function() {
+
+      alert("Evento Partida")
+
       let newObject = {
         row1: this.listaComponentesSelect.length + 1,
         row2: this.datosDisable.unity,

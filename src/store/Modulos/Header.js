@@ -57,8 +57,8 @@ const mutations = {
 const actions = {
   async buscarReferencia({ commit }, value) {
     console.log(value);
-    console.log(`http://192.168.0.111:8084/api/dtcdata/${value}`);
-    await Axios.get(`http://192.168.0.111:8084/api/dtcdata/${value}`)
+    console.log(`http://localhost:88/api/dtcdata/${value}`);
+    await Axios.get(`http://localhost:88/api/dtcdata/${value}`)
       .then(response => {
         console.log(response.data + "desde axios");
         commit("referenceNumMutation", response.data);
@@ -88,7 +88,7 @@ const actions = {
     console.log("Hello con Vue! => ArmandoDTC");
     console.log(newObject);
 
-    await Axios.post(`http://192.168.0.111:8084/api/dtcData`, newObject)
+    await Axios.post(`http://localhost:88/api/dtcData`, newObject)
       .then(response => {
         console.log(response.data);
         commit();

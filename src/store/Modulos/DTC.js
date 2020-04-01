@@ -55,8 +55,8 @@ const actions = {
   },
 
   async buscarDTC({ commit }) {
-    console.log(`http://192.168.0.111:8084/api/dtcdata`);
-    await Axios.get(`http://192.168.0.111:8084/api/dtcdata`)
+    console.log(`http://localhost:88/api/dtcdata`);
+    await Axios.get(`http://localhost:88/api/dtcdata`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -68,8 +68,8 @@ const actions = {
   },
 
   async buscarDescriptions({ commit }) {
-    console.log(`http://192.168.0.111:8084/api/typedescriptions`);
-    await Axios.get(`http://192.168.0.111:8084/api/typedescriptions`)
+    console.log(`http://localhost:88/api/typedescriptions`);
+    await Axios.get(`http://localhost:88/api/typedescriptions`)
       .then(response => {
         console.log("Bien");
         console.log(response.data);
@@ -85,7 +85,7 @@ const actions = {
     console.log(state.listaDmg);
 
     await Axios.post(
-      `http://192.168.0.111:8084/api/requestedComponent`,
+      `https://localhost:44358/api/requestedComponent`,
       state.listaDmg
     )
       .then(response => {

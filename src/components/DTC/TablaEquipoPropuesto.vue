@@ -86,13 +86,7 @@
               <span class="relleno">Total M.N.</span>
             </div>
             <div class="w-1/3 h-6">
-              <input
-                class="md:border border-black"
-                id="grid-last-name"
-                type="text"
-                style="width: 26vw;"
-                placeholder="(Treinta y Cinco Mil ciento Sesenta y Nueve Pesos 17/100 M.N.)"
-              />
+     
               
             </div>
             <div class="w-1/6 h-6" style="padding-left: 15.2rem">
@@ -111,13 +105,7 @@
               </td> -->
             </div>
             <div class="w-1/6 h-6" style="padding-left: 6.8rem">
-              <input
-                class="md:border border-black"
-                id="grid-last-name"
-                type="text"
-                style="width: 6.35vw;"
-                placeholder="$ 0.00"
-              />
+      
             </div>
             <div class="w-1/6 h-6"></div>
             <div class="w-1/6 h-6"></div>
