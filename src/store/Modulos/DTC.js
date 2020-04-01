@@ -1,5 +1,4 @@
 import Axios from "axios";
-import qs from "qs";
 
 const state = {
   listaDTCTecnico: [],
@@ -23,8 +22,7 @@ const mutations = {
     state.listaDmg.push(value);
   },
   listaDmgMutationDelete: (state, value) =>{
-
-     //alert('Hola desde MutationDelete')
+     
       state.listaDmg.splice(value, 1) 
   },
   listaDmgClearMutation: (state) => {
@@ -36,29 +34,10 @@ const mutations = {
 };
 
 const actions = {
-  //Cosnsulta API Listar Carriles
-  async sdfs({ commit }, value) {
-    console.log("Hello con Vue! => ListarDTC ");
-    let response = await Axios.get(
-      `http://127.0.0.1:5000/product`,
-      qs.stringify(value)
-    );
-    console.log(response).then(
-      response => {
-        commit("listaCarrilesMutation", response.data);
-        console.log(response);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  },
-
-  async buscarDTC({ commit }) {
-    console.log(`http://localhost:88/api/dtcdata`);
-    await Axios.get(`http://localhost:88/api/dtcdata`)
-      .then(response => {
-        console.log("Bien");
+  
+  async buscarDTC({ commit }) {    
+    await Axios.get(`https://localhost:44358/api/dtcdata`)
+      .then(response => {        
         console.log(response.data);
         commit("listaDescriptionsMutation", response.data);
       })
@@ -66,13 +45,9 @@ const actions = {
         console.log(Ex);
       });
   },
-
-  async buscarDescriptions({ commit }) {
-    console.log(`http://localhost:88/api/typedescriptions`);
-    await Axios.get(`http://localhost:88/api/typedescriptions`)
+  async buscarDescriptions({ commit }) {    
+    await Axios.get(`https://localhost:44358/api/typedescriptions`)
       .then(response => {
-        console.log("Bien");
-        console.log(response.data);
         commit("listaDescriptionsMutation", response.data);
       })
       .catch(Ex => {
@@ -80,41 +55,19 @@ const actions = {
       });
   },
   //Consulta API Crear DTC
-  async crearDmg({ commit, state }) {
-    console.log("CREADMG");
-    console.log(state.listaDmg);
+  async crearDmg({ state }) {
 
     await Axios.post(
       `https://localhost:44358/api/requestedComponent`,
       state.listaDmg
     )
-      .then(response => {
-        console.log("Bien");
-        console.log(response.data);
-        commit();
+      .then(response => {        
+        console.log(response.data);        
       })
       .catch(Ex => {
         console.log(Ex);
       });
   },
-
-  //Cosnsulta API Crear Carriles
-  async nuevoDTC({ commit }, value) {
-    console.log("Hello con Vue! => CrearDTC ");
-    let response = await Axios.get(
-      `http://127.0.0.1:5000/product`,
-      qs.stringify(value)
-    );
-    console.log(response).then(
-      response => {
-        commit("listaCarrilesMutation", response.data);
-        console.log(response);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
 };
 
 export default {

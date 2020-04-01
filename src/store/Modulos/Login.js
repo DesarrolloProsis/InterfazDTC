@@ -42,9 +42,10 @@ const mutations = {
 
 const actions = {
 
+  //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async buscarHeaderTec({ commit }, value) {    
-     
-    await Axios.get(
+    
+   await Axios.get(
       `http://localhost:88/api/login/buscarHeaderTec/${value}`
     )
       .then(response => {              
@@ -53,12 +54,12 @@ const actions = {
       .catch(Ex => {
         console.log(Ex);
       });   
-},
-
+  },
+  //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
   async buscarTec({ commit }, value) {    
  
           await Axios.get(
-            `http://localhost:88/api/login/buscarTec/${value}`
+            `https://localhost:44358/api/login/buscarTec/${value}`
           )
             .then(response => {              
               commit("listaTecMutation", response.data);              
@@ -67,13 +68,10 @@ const actions = {
               console.log(Ex);
             });   
   },
-
-  async buscarUsuarioCokie({ commit }, value) {    
-    console.log(
-      `http://localhost:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`
-    );      
+  //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
+  async buscarUsuarioCokie({ commit }, value) {         
           await Axios.get(
-            `http://localhost:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`
+            `https://localhost:44358/api/login/ValidUser/${value.User}/${value.Password}/${true}`
           )
             .then(response => {              
               commit("userLogeadoMutation", response.data);              
@@ -82,15 +80,11 @@ const actions = {
               console.log(Ex);
             });   
   },
-  //Cosnsulta API Listar Headers
+  //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async buscarUsuario({ commit }, value) {
-    //alert(value)
-    console.log(
-      `http://localhost:88/api/login/${value.User}/${value.Password}/${false}`
-    );
-      
-          await Axios.get(
-            `http://localhost:88/api/login/${value.User}/${value.Password}/${false}`
+
+          await Axios.get( 
+            `https://localhost:44358/api/login/${value.User}/${value.Password}/${false}`
           )
             .then(response => {
               console.log(response.data);
@@ -100,12 +94,10 @@ const actions = {
               console.log(Ex);
             });     
   },
-  async buscarPlazas({ commit }) {
-    console.log(`http://localhost:88/api/squaresCatalog`);
-    await Axios.get(`http://localhost:88/api/squaresCatalog`)
+  //CONULTA PARA LISTAR LAS PLAZAS
+  async buscarPlazas({ commit }) {    
+    await Axios.get(`https://localhost:44358/api/squaresCatalog`)
       .then(response => {
-        console.log("Bien");
-        console.log(response.data);
         commit("listaPlazasMutation", response.data);
       })
       .catch(Ex => {

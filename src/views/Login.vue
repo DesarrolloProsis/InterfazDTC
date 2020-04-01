@@ -1,7 +1,7 @@
 <template>
   <div class="container-login100">
     <div class="wrap-login100">
-      <div class="login100-form" :class="{'blur-content': modal}">
+      <div class="login100-form" :class="{ 'blur-content': modal }">
         <span class="login100-form-title">Bienvenido</span>
         <br />
         <br />
@@ -74,58 +74,61 @@
         <br />
       </div>
     </div>
-        <div
-          v-if="modal"
-          class="bg-blue-100 rounded absolute bg-gray-500 px-24 py-24 flex flex-col"
-          @close="modal = false"
+    <div
+      v-if="modal"
+      class="bg-blue-100 rounded absolute bg-gray-500 px-24 py-24 flex flex-col"
+      @close="modal = false"
+    >
+      <div style="padding-bottom: 5vh; padding-left: 10vw">
+        <button
+          @click="modal = false"
+          style="font-weight: bold; font-size: 2vw"
         >
-          <div style="padding-bottom: 5vh; padding-left: 10vw">
-            <button  @click="modal = false" style="font-weight: bold; font-size: 2vw">
-              x
-            </button>
-          </div>
-          <div class=" mb-8">
-            <select
-              @change="buscarTec()"
-              v-model="plazaSelect"
-              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-              style="width: 10vw;"
-              type="text"
-            >
-              <option disabled value=" ">Selecionar...</option>
-              <option
-                v-for="(item, index) in listaPlazas"
-                v-bind:value="item.value"
-                :key="index"
-                >{{ item.text }}</option
-              >
-            </select>
-          </div>
-
-          <div class=" mb-8" >
-            <select
-              v-model="tecSelect"
-              class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-              style="width: 10vw;"
-              type="text"
-            >
-              <option disabled value=" ">Selecionar...</option>
-              <option
-                v-for="(item, index) in listaTec"
-                v-bind:value="item.value"
-                :key="index"
-                >{{ item.text }}</option
-              >
-            </select>
-          </div>
-          <button
-            @click="loginOther()"
-            class="text-black font-bold px-4 py-2 rounded-full"
-            style="backgroundColor: #57b846"
+          x
+        </button>
+      </div>
+      <div class=" mb-8">
+        <select
+          @change="buscarTec()"
+          v-model="plazaSelect"
+          class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+          style="width: 10vw;"
+          type="text"
+        >
+          <option disabled value=" ">Selecionar...</option>
+          <option
+            v-for="(item, index) in listaPlazas"
+            v-bind:value="item.value"
+            :key="index"
+            >{{ item.text }}</option
           >
-            Ingresar
-          </button>
-        </div>
+        </select>
+      </div>
+
+      <div class=" mb-8">
+        <select
+          v-model="tecSelect"
+          class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+          style="width: 10vw;"
+          type="text"
+        >
+          <option disabled value=" ">Selecionar...</option>
+          <option
+            v-for="(item, index) in listaTec"
+            v-bind:value="item.value"
+            :key="index"
+            >{{ item.text }}</option
+          >
+        </select>
+      </div>
+      <button
+        @click="loginOther()"
+        class="text-black font-bold px-4 py-2 rounded-full"
+        style="backgroundColor: #57b846"
+      >
+        Ingresar
+      </button>
+    </div>
   </div>
 </template>
 
@@ -142,8 +145,8 @@ export default {
       },
       listaPlazas: [],
       listaTec: [],
-      plazaSelect: " ",
-      tecSelect: " "
+      plazaSelect: "",
+      tecSelect: ""
     };
   },
 
@@ -163,20 +166,18 @@ export default {
     ingresarLogin: async function() {
       if (this.datos.checkLog === true) {
         await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
-        if (this.$store.getters["Login/getUserLogeado"]) {          
-          this.modal = true;
+        if (this.$store.getters["Login/getUserLogeado"]) {
+            this.modal = true;
         } else {
           alert("El usuario o la contraseña son incorrectos");
           this.modal = false;
         }
         //await this.$store.dispatch("Login/buscarUsuario", this.datos);
       } else {
-        await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);     
-        if ( this.$store.getters["Login/getUserLogeado"]) {
-          //alert("Si esta registrado")
-          await this.$store.dispatch("Login/buscarUsuario", this.datos);          
-          let dataHeader = await this.$store.getters["Login/getUser"];
-          console.log(dataHeader)
+        await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
+        if (this.$store.getters["Login/getUserLogeado"]) {          
+          await this.$store.dispatch("Login/buscarUsuario", this.datos);
+          let dataHeader = await this.$store.getters["Login/getUser"];          
           await this.$store.commit("Header/listaHeadersMutation", dataHeader);
           this.$router.push("home");
         } else {
@@ -237,8 +238,8 @@ h6 {
   margin: 0px;
 }
 
-.blur-content{
-  filter: blur(5px); 
+.blur-content {
+  filter: blur(5px);
 }
 
 p {
@@ -572,100 +573,4 @@ iframe {
   left: 0;
 }
 
-/* .main-div{
-      background-image: url('../assets/img/giphy.gif');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.9;
-  }
-
-  .container{
-    margin: 0 auto;
-    padding-top: 10em;
-    height: 30em;
-    width: 40em;
-    display: flex;
-    justify-content: center;
-  }
-
-  .inner{
-    border: 2px solid black;
-    border-radius: 2em;
-    height: 27em;
-    width: 20em;
-    padding-top: 3em;
-    background-color: rgba(163, 125, 125, 0.5);
-    text-align: center;
-  }
-
-  .bienvenido{
-    font-weight: bold;
-    font-size: 2em;
-  }
-
-  .img{
-    position: absolute!important;
-    background-image: url('../assets/img/loginIcon.png');
-    background-size: cover;
-    background-position: center;
-    height: 6em;
-    width: 6em;
-    margin-left: 7em;
-  }
-
-  .lbl{
-    justify-content: left !important;
-    padding-right: 8em;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  }
-
-  .inputs{
-    letter-spacing: 0.2em;
-    font-weight: bold;
-    font-size: 0.8em;
-    color: black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    border: none !important;
-    border-color: transparent !important;
-      font-family: Poppins-SemiBold;
-      font-size: 18px;
-      color: #555555;
-      line-height: 1.2;
-
-      display: block;
-      width: 100%;
-      height: 52px;
-      background: transparent;
-      padding: 0 5px;
-  }
-
-  .inpts{
-    border-radius: 2em;
-    width: 16em;
-    height: 2em;
-  }
-
-  .btn{
-    border: 1px solid black;
-    border-radius: 3em;
-    width: 14em;
-    height: 2em;
-    background-color: #29B46D;
-  }
-
-  .last1{
-    font-size: 1em;
-  }
-
-  .link{
-    color: #5D83C6;
-    font-weight: bold;
-    text-shadow: 0px 0 black, 0 0px black, 1px 0 black, 0 -1px black; 
-  }
-
-@media (max-width: 400px) {
-  .main-div{
-    
-  }
-} */
 </style>

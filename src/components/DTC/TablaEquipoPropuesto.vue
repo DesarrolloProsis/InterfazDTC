@@ -60,8 +60,7 @@
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
               >
-                 $ {{  (equipo.row14 * equipo.row4).toLocaleString('en-US') }} 
-                <!-- $ {{multiplicacion}} -->
+                 $ {{  (equipo.row14 * equipo.row4).toLocaleString('en-US') }}                 
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
             </tr>
@@ -72,7 +71,7 @@
             </tr>
             <td>
               <textarea
-                v-model="descripcion"
+                
                 class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
                 style="width: 20vw;"
                 id="grid-last-name"
@@ -85,9 +84,7 @@
             <div class="w-1/6 h-6 pl-4">
               <span class="relleno">Total M.N.</span>
             </div>
-            <div class="w-1/3 h-6">
-     
-              
+            <div class="w-1/3 h-6">                   
             </div>
             <div class="w-1/6 h-6" style="padding-left: 15.2rem">
               <input
@@ -98,14 +95,8 @@
                 style="width: 8.5vw; text-align: center;"
                 placeholder="$ 0.00"
               />
-              <!-- <td class="border-b border-black border-2"
-              style="width: 5vw"
-                >
-                <p>$ {{sumatoria.toLocaleString('en-IN')}}</p>
-              </td> -->
             </div>
-            <div class="w-1/6 h-6" style="padding-left: 6.8rem">
-      
+            <div class="w-1/6 h-6" style="padding-left: 6.8rem">      
             </div>
             <div class="w-1/6 h-6"></div>
             <div class="w-1/6 h-6"></div>
@@ -137,13 +128,7 @@ export default {
       for (let i = 0; i < this.listaEquipo.length; i++) {
         multi += this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
       }
-      return multi;
-      // multi = parseInt(this.listaEquipo["row14"] * this.listaEquipo["row4"])
-      // return multi
-      // return this.listaEquipo.forEach(element => {
-      //   multi = element.row4 * element.row14
-      //   return multi;
-      // });
+      return multi;   
     },
     sumatoria: function(){
       let suma = 0

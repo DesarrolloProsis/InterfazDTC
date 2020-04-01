@@ -122,16 +122,13 @@ export default {
       refNum: ""
     };
   },
-  mounted() {
-    this.checkForm();
+  mounted() {    
   },
-  beforeMount() {
+  created() {
     this.$store.dispatch("DTC/buscarDescriptions");
-    this.datosUser = this.$store.getters["Header/getHeaders"];
-    //console.log(this.datosUser+"hola desde creardtc")
+    this.datosUser = this.$store.getters["Header/getHeaders"];    
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
-    this.refNum = this.$store.getters["Header/getreferenceNum"];
-    console.log(this.refNum+"hola desde CrearDTC")
+    this.refNum = this.$store.getters["Header/getreferenceNum"];    
   },
   methods: {
     crearDTCTecnico: async function() {
@@ -140,11 +137,9 @@ export default {
       console.log(this.listaDmg);
       await this.$store.dispatch("DTC/crearDmg");
       await this.$store.commit("DTC/listaDmgClearMutation");
-      this.refNum = this.$store.getters["Header/getreferenceNum"];
-      alert("Insersion Completa")
+      this.refNum = this.$store.getters["Header/getreferenceNum"];      
       //this.$router.push("Home");
-      window.location.href = ('https://localhost:44358/api/pdf/'+this.refNum);
-      console.log('http://localhost:88/api/pdf/'+this.refNum)
+      window.location.href = ('https://localhost:44358/api/pdf/'+this.refNum);      
     }
   },
   computed: {

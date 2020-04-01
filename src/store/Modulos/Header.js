@@ -32,12 +32,10 @@ const getters = {
       };
     } else return state.listaHeaders;
   },
-  getnumConvenio: () => state.numConvenio,
+   getnumConvenio: () => state.numConvenio,
 
    getreferenceNum: () => state.referenceNum,
-   getDatosSinester: () => {
-     
-   }
+ 
 };
 const mutations = {
   listaHeadersMutation: (state, value) => {
@@ -56,20 +54,16 @@ const mutations = {
 
 const actions = {
   async buscarReferencia({ commit }, value) {
-    console.log(value);
-    console.log(`http://localhost:88/api/dtcdata/${value}`);
     await Axios.get(`http://localhost:88/api/dtcdata/${value}`)
-      .then(response => {
-        console.log(response.data + "desde axios");
+      .then(response => {        
         commit("referenceNumMutation", response.data);
       })
       .catch(Ex => {
         console.log(Ex);
       });
   },
-
   //Consulta API Crear Carril
-  async crearHeaders({ commit, state }, value) {
+  async crearHeaders({ state }, value) {
     let newObject = {
       ReferenceNumber: state.datosSinester.ReferenceNumber,
       SinisterNumber: state.datosSinester.SinisterNumber,
@@ -85,13 +79,9 @@ const actions = {
       userId: value.userId,
       agremmentInfoId: 2
     };
-    console.log("Hello con Vue! => ArmandoDTC");
-    console.log(newObject);
-
-    await Axios.post(`http://localhost:88/api/dtcData`, newObject)
+    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
       .then(response => {
-        console.log(response.data);
-        commit();
+        console.log(response.data);        
       })
       .catch(Ex => {
         console.log(Ex);
