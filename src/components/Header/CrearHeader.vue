@@ -347,12 +347,13 @@ export default {
       this.datosSinester.ReferenceNumber =
         nomPlaza + "-" + newYear + autoCompleteDias;    
 
-      await this.$store.dispatch(
-        "Header/buscarReferencia",
-        this.datosSinester.ReferenceNumber
-      );
-      this.datosSinester.ReferenceNumber = await this.$store.getters["Header/getreferenceNum"];
-      console.log( this.datosSinester.ReferenceNumber + "desde vista");  
+      await this.$store.commit('Header/referenceNumMutation', this.datosSinester.ReferenceNumber)
+      // await this.$store.dispatch(
+      //   "Header/buscarReferencia",
+      //   this.datosSinester.ReferenceNumber
+      // );
+      // this.datosSinester.ReferenceNumber = await this.$store.getters["Header/getreferenceNum"];
+      // console.log( this.datosSinester.ReferenceNumber + "desde vista");  
     }
 
   },

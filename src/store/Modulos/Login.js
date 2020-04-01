@@ -46,7 +46,7 @@ const actions = {
   async buscarHeaderTec({ commit }, value) {    
     
    await Axios.get(
-      `http://localhost:88/api/login/buscarHeaderTec/${value}`
+      `http://localhost:44358/api/login/buscarHeaderTec/${value}`
     )
       .then(response => {              
         commit("listaUser", response.data);              

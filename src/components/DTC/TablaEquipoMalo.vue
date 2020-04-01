@@ -320,8 +320,7 @@
               />
             </td>
             <td class="border-b border-black p-2 md:p-1 border-2">
-              <button
-                disabled="validPartida()"
+              <button                
                 @click="agregarPartida()"
                 class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 style="width: 6vw"
@@ -625,13 +624,7 @@ export default {
     }
   },
   computed:{
-      validPartida: function(){
-
-            if(this.datosManuales.cantidad > 0)
-              return false
-            else
-              return true
-      }
+     
 
   }
 };

@@ -57,6 +57,8 @@ const actions = {
   //Consulta API Crear DTC
   async crearDmg({ state }) {
 
+    alert("CrearDMF")
+    console.log(state.listaDmg)
     await Axios.post(
       `https://localhost:44358/api/requestedComponent`,
       state.listaDmg
