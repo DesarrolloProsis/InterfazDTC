@@ -1,9 +1,9 @@
 import Axios from "axios";
 
 const state = {
-  listaRefacciones: null,
-  listaRefaccionesValid: null,
-  listaLane: null
+  listaRefacciones: [],
+  listaRefaccionesValid: [],
+  listaLane: []
 };
 
 const getters = {
@@ -15,7 +15,7 @@ const getters = {
   },
   getComponentDisable: function(){
 
-    if(state.listaRefaccionesValid != [] && state.listaRefaccionesValid != null){
+    if(state.listaRefaccionesValid.length > 0){
 
         return {
           unity: state.listaRefaccionesValid[0]['unity'],
@@ -28,9 +28,14 @@ const getters = {
           componentsStockId: state.listaRefaccionesValid[0]['componentsStockId']        
         }
     }
+    else
+      return []
   },  
   getEquipoMalo: function(){
+    if(state.listaRefaccionesValid.length > 0)
       return state.listaRefaccionesValid
+    else
+      return []
     }
 };
 const mutations = {
@@ -59,7 +64,7 @@ const actions = {
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
-      .then(response => {                
+      .then(response => {    
         commit("listaRefaccionValidMutation", response.data.response);
         commit("listaLaneMutation", response.data.listLane);
       })

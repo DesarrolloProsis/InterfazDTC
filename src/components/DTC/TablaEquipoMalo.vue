@@ -106,10 +106,10 @@
                   :clear-on-select="true"
                   :hideSelected="false"
                   placeholder="Selecciona..."
-                  options="listLaneEditar"
+                  :options="listLaneEditar"
                   :multiple="true"
                 >
-                  <template slot="selection" slot-scope="{ values, search, isOpen }">
+                  <template slot="selection" slot-scope="{ values, isOpen }">
                     <span
                       class="multiselect__single"
                       v-if="values.length &amp;&amp; !isOpen"
@@ -267,7 +267,7 @@
                 :options="listLane"
                 :multiple="true"
               >
-                <template slot="selection" slot-scope="{ values, search, isOpen }">
+                <template slot="selection" slot-scope="{ values, isOpen }">
                   <span
                     class="multiselect__single"
                     v-if="values.length &amp;&amp; !isOpen"
@@ -320,8 +320,9 @@
               />
             </td>
             <td class="border-b border-black p-2 md:p-1 border-2">
-              <button                
-                @click="agregarPartida()"
+              <button                         
+                v-on:click.stop.prevent="agregarPartida()"
+                :disabled="validBotonPartida"
                 class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                 style="width: 6vw"
               >Validar Partida</button>
@@ -478,7 +479,10 @@ export default {
       this.objectEditar = newObjectEdit;
       this.updtCompEditar = datos.row3;
       this.laneSelectEditar = datos.row8.split(",");
+      if(typeof(datos.row7) === String)      
       this.numSerieSelectEditar = datos.row7.split(",");
+      else
+      this.numSerieSelectEditar = datos.row7
     },
     confirmRowTable: function(index) {
       this.listaComponentesSelect[index]["row1"] = this.objectEditar.rowUpd1;
@@ -497,8 +501,36 @@ export default {
       this.listaComponentesSelect[index]["row12"] = this.objectEditar.rowUpd12;
       this.listaComponentesSelect[index]["row13"] = this.objectEditar.rowUpd13;
       this.listaComponentesSelect[index]["rowUp"] = true;
+      alert("AcetarEdicion")
+      
+      let newObject ={
+
+            ComponentsStockId: this.objectEditar.rowIdComponent,
+            ReferenceNumber: "",
+            CapufeLaneNum: this.capufeLaneSelectEditar,
+            IdGare: this.idGareSelectEditar,
+            Marca: this.objectEditar.rowUpd5,
+            Modelo: this.objectEditar.rowUpd6,
+            NumSerie: this.numSerieSelectEditar,
+            Unity: this.objectEditar.rowUpd2,
+            dateInstallationDate: this.objectEditar.rowUpd9,
+            dateMaintenanceDate: this.objectEditar.rowUpd10,
+            dateLifeTimeReal: this.objectEditar.rowUpd12,
+            intLifeTimeExpected: this.objectEditar.rowUpd13,
+            
+            index: index
+      }
+
+      this.$store.commit('DTC/listDmgConfirmUpdate',newObject)
+
       this.saveObjectEdiar = [];
       this.objectEditar = {};
+      this.idGareSelectEditar = []
+      this.numSerieSelectEditar = []
+      this.capufeLaneSelectEditar = []
+      this.laneSelectEditar = []
+
+
     },
     abortUpdateRowTable: function(index) {
       this.listaComponentesSelect[index]["row1"] = this.saveObjectEdiar[0];
@@ -549,9 +581,9 @@ export default {
       this.datosDmgComponent.NumSerie = this.numSerieSelect;
       this.datosDmgComponent.Unity = this.datosDisable.unity;
       this.datosDmgComponent.dateInstallationDate = this.datosDisable.instalationDate;
-      this.datosDmgComponent.dateMaintenanceDate = this.datosManuales.dateMantenimiento;
+      this.datosDmgComponent.dateMaintenanceDate = this.datosManuales.dateMantenimiento != "" ? this.datosManuales.dateMantenimiento : "---";
       this.datosDmgComponent.intLifeTimeExpected = this.datosDisable.lifeTime;
-      this.datosDmgComponent.dateLifeTimeReal = this.datosManuales.tiempoVidaReal;
+      this.datosDmgComponent.dateLifeTimeReal = this.datosManuales.tiempoVidaReal != "" ? this.datosManuales.tiempoVidaReal : "---";
 
       this.$store.commit("DTC/listaDmgMutationPush", this.datosDmgComponent);
 
@@ -567,7 +599,7 @@ export default {
   },
   watch: {
     updtComp: function() {
-      this.laneSelect = null;
+      this.laneSelect = [];
       this.datosDisable = {};
       this.numSerieSelect = [];
       this.idGareSelect = [];
@@ -600,13 +632,11 @@ export default {
     laneSelectEditar: async function(newValue) {
       let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
 
-      if (newValue != null) {
-
+      if (newValue != []) {
               this.objectEditar.rowUpd4 = newValue.length;
               this.numSerieSelectEditar = [];
               this.idGareSelectEditar = [];
               this.capufeLaneSelectEditar = [];
-
         if (newValue.length === 1) {
           let item = equipoMalo.filter(x => x.lane == newValue[0]);
           this.numSerieSelectEditar.push(item[0]["serialNumber"]);
@@ -625,6 +655,10 @@ export default {
   },
   computed:{
      
+      validBotonPartida: function () {
+          
+          return this.laneSelect.length > 0 ? false : true          
+      }
 
   }
 };

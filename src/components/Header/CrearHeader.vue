@@ -16,9 +16,7 @@
             <br />
             <label class="m-16" style="font-weight: normal">Referencia:</label>
             <label style="font-weight: bold">
-              {{
-              datosSinester.ReferenceNumber
-              }}
+              {{ datosSinester.ReferenceNumber }}
             </label>
           </div>
         </div>
@@ -282,7 +280,7 @@ export default {
         ShippingElaboracionDate: "",
         Diagnosis: "",
         Observation: "",
-        TypeDescriptionId: null,
+        TypeDescriptionId: "",
         UserId: null,
         AgremmentInfoId: null,
         Descripcion: null,

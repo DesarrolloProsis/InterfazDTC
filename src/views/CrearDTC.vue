@@ -125,22 +125,23 @@ export default {
   mounted() {    
   },
   created() {
-    this.$store.dispatch("DTC/buscarDescriptions");
+    
     this.datosUser = this.$store.getters["Header/getHeaders"];    
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
     this.refNum = this.$store.getters["Header/getreferenceNum"];    
   },
   methods: {
     crearDTCTecnico: async function() {
-      console.log(this.datosUser);
-      await this.$store.dispatch("Header/crearHeaders", this.datosUser);
-      console.log(this.listaDmg);
-      await this.$store.dispatch("DTC/crearDmg");
-      await this.$store.commit("DTC/listaDmgClearMutation");
+            
+      await this.$store.dispatch("Header/crearHeaders", this.datosUser);      
       this.refNum = this.$store.getters["Header/getreferenceNum"]; 
-      alert(this.refNum)     
-      //this.$router.push("Home");
-      window.location.href = ('http://prosisdev.sytes.net:88/api/pdf/'+this.refNum);      
+      await this.$store.dispatch("DTC/crearDmg", this.refNum);
+      await this.$store.commit("DTC/listaDmgClearMutation");      
+      alert("Generando el PDF" + this.refNum)     
+      this.$router.push("Home");
+      window.open("http://prosisdev.sytes.net:88/api/pdf/" + this.refNum, "_blank");
+      
+        
     }
   },
   computed: {
