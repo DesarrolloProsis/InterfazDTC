@@ -54,7 +54,7 @@ const mutations = {
 
 const actions = {
   async buscarReferencia({ commit }, value) {
-    await Axios.get(`http://localhost:88/api/dtcdata/${value}`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/${value}`)
       .then(response => {        
         commit("referenceNumMutation", response.data);
       })
@@ -79,7 +79,7 @@ const actions = {
       userId: value.userId,
       agremmentInfoId: 2
     };
-    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
+    await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)
       .then(response => {
         console.log(response.data);        
       })

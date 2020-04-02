@@ -36,7 +36,7 @@ const mutations = {
 const actions = {
   
   async buscarDTC({ commit }) {    
-    await Axios.get(`https://localhost:44358/api/dtcdata`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
       .then(response => {        
         console.log(response.data);
         commit("listaDescriptionsMutation", response.data);
@@ -46,7 +46,7 @@ const actions = {
       });
   },
   async buscarDescriptions({ commit }) {    
-    await Axios.get(`https://localhost:44358/api/typedescriptions`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/typedescriptions`)
       .then(response => {
         commit("listaDescriptionsMutation", response.data);
       })
@@ -60,7 +60,7 @@ const actions = {
     alert("CrearDMF")
     console.log(state.listaDmg)
     await Axios.post(
-      `https://localhost:44358/api/requestedComponent`,
+      `http://prosisdev.sytes.net:88/api/requestedComponent`,
       state.listaDmg
     )
       .then(response => {        

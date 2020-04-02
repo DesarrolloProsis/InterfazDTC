@@ -137,9 +137,10 @@ export default {
       console.log(this.listaDmg);
       await this.$store.dispatch("DTC/crearDmg");
       await this.$store.commit("DTC/listaDmgClearMutation");
-      this.refNum = this.$store.getters["Header/getreferenceNum"];      
+      this.refNum = this.$store.getters["Header/getreferenceNum"]; 
+      alert(this.refNum)     
       //this.$router.push("Home");
-      //window.location.href = ('https://localhost:44358/api/pdf/'+this.refNum);      
+      window.location.href = ('http://prosisdev.sytes.net:88/api/pdf/'+this.refNum);      
     }
   },
   computed: {

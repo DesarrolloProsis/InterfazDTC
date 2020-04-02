@@ -46,7 +46,7 @@ const mutations = {
 };
 const actions = {
   async buscarComponentes({ commit }) {    
-    await Axios.get(`https://localhost:44358/api/component`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component`)
       .then(response => {
         commit("listaRefaccionesMutation", response.data);
       })
@@ -57,7 +57,7 @@ const actions = {
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {
     await Axios.get(
-      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {                
         commit("listaRefaccionValidMutation", response.data.response);
