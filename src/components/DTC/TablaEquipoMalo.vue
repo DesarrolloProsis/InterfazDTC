@@ -164,25 +164,25 @@
             <td class="border-b border-black md:p-3 border-2">
               <div v-if="equipo.rowUp">
                 <button
-                  @click="deleteItem(index)"
+                  v-on:click.stop.prevent="deleteItem(index)"
                   class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
                 >Eliminar</button>
                 <br />
                 <br />
                 <button
-                  @click="updateRowTable(index, equipo)"
+                  v-on:click.stop.prevent="updateRowTable(index, equipo)"
                   class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500"
                 >Editar</button>
               </div>
               <div v-else>
                 <button
-                  @click="abortUpdateRowTable(index)"
+                  v-on:click.stop.prevent="abortUpdateRowTable(index)"
                   class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
                 >Cancelar</button>
                 <br />
                 <br />
                 <button
-                  @click="confirmRowTable(index, equipo)"
+                  v-on:click.stop.prevent="confirmRowTable(index, equipo)"
                   class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
                 >Aceptar</button>
               </div>
