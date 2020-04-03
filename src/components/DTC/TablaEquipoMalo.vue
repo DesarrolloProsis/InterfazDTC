@@ -340,6 +340,7 @@
 import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 
+
 export default {
   name: "TablaEquipoMalo",
   components: {
