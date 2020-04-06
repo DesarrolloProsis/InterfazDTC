@@ -82,7 +82,7 @@ const actions = {
         if(state.listaDmg[i]["dateMaintenanceDate"] == "---")
         state.listaDmg[i]["dateMaintenanceDate"] = '00-00-0000'
     }
-    console.log(state.listaDmg)
+    
     await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
       state.listaDmg

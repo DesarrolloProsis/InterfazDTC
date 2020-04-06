@@ -70,8 +70,9 @@
               <th>Descripcion</th>
             </tr>
             <td>
-              <textarea
-                
+              
+              <textarea                
+              v-model="descripcion"
                 class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
                 style="width: 20vw;"
                 id="grid-last-name"
@@ -118,12 +119,14 @@ export default {
   data() {
     return {
       
-
+      descripcion: ''
     };
   },
-  methods: {
+  watch:{
+    descripcion: function(newValue){
 
-
+        this.$store.commit('Header/descripcionMutation', newValue)
+    }
   },
   computed: {
     multiplicacion: function() {

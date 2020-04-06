@@ -2,9 +2,10 @@ import Axios from "axios";
 
 const state = {
   listaHeaders: [],
-  numConvenio: null,
+  numConvenio: '',
   datosSinester: {},
-  referenceNum: 0
+  referenceNum: 0,
+  descripcion: ''
 };
 
 const getters = {
@@ -35,6 +36,7 @@ const getters = {
    getnumConvenio: () => state.numConvenio,
 
    getreferenceNum: () => state.referenceNum,
+  
  
 };
 const mutations = {
@@ -49,6 +51,9 @@ const mutations = {
   },
   referenceNumMutation: (state, value) => {
     state.referenceNum = value;
+  },
+  descripcionMutation: (state, value) =>{
+    state.descripcion = value
   }
 };
 
@@ -64,6 +69,9 @@ const actions = {
   },
   //Consulta API Crear Carril
   async crearHeaders({ state }, value) {
+
+      
+
     let newObject = {
       ReferenceNumber: state.datosSinester.ReferenceNumber,
       SinisterNumber: state.datosSinester.SinisterNumber,
@@ -74,11 +82,13 @@ const actions = {
       ShippingDate: state.datosSinester.ShippingElaboracionDate,
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
-      Diagnosis: state.datosSinester.Diagnosis,
-      Observation: state.datosSinester.Observation,
+      Diagnosis: state.descripcion,
+      Observation: state.datosSinester.Observaciones,      
       userId: value.userId,
-      agremmentInfoId: 2
+      agremmentInfoId: value.agremmentInfoId
     };
+    
+
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)
       .then(response => {
         console.log(response.data);        
