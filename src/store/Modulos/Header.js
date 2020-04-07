@@ -4,7 +4,7 @@ const state = {
   listaHeaders: [],
   numConvenio: '',
   datosSinester: {},
-  referenceNum: 0,
+  referenceNum: '',
   descripcion: ''
 };
 
@@ -59,9 +59,14 @@ const mutations = {
 
 const actions = {
   async buscarReferencia({ commit }, value) {
+    
+    console.log("`http://prosisdev.sytes.net:88/api/dtcdata/${value}`")
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/${value}`)
-      .then(response => {        
-        commit("referenceNumMutation", response.data);
+      .then(response => {             
+        if(response.data.message){
+          commit("referenceNumMutation", response.data.result);
+        }
+        
       })
       .catch(Ex => {
         console.log(Ex);
@@ -73,7 +78,7 @@ const actions = {
       
 
     let newObject = {
-      ReferenceNumber: state.datosSinester.ReferenceNumber,
+      ReferenceNumber: state.referenceNum,
       SinisterNumber: state.datosSinester.SinisterNumber,
       ReportNumber: state.datosSinester.ReportNumber,
       SinisterDate: state.datosSinester.SinisterDate,

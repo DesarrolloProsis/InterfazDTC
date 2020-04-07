@@ -266,12 +266,12 @@
                   :options="listLane"
                   :multiple="true"
                 >
-                  <template slot="selection" slot-scope="{ values, isOpen }">
+                  <template v-if="false" slot="selection" slot-scope="{ values, isOpen }">
                     <span
                       class="multiselect__single"
                       v-if="values.length &amp;&amp; !isOpen"
                     >{{ values.length }} Carriles</span>
-                  </template>
+                  </template>                 
                 </multiselect>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
