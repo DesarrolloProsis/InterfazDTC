@@ -1,65 +1,210 @@
 <template>
-  <div class="m-0 bg-white">
-    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
-      <div
-        class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
-      >
-        <!-- ************************************************************** -->
+  <div>
+    
+    <div class="flex flex-wrap border border-black justify-center sm:p-4 md:m-5 md:pl-48 md:pr-48">
+      <div class="p-3 w-screen inline">
+    <!-- ************************************************************** -->
 
-        <div class="divtitle2 h-14 mt-48">
-          <h6 class="title2">Equipo Dañado</h6>
+        <div class="text-center text-2xl font-bold mb-6">
+          <h6>Equipo Dañado</h6>
         </div>
         <br />
 
         <!-- ************************************************************** -->
+        <div class="overflow-x-scroll">
+          <table class="border-gray-700 border-solid w-full">
+            <tr>
+              <th>Partida</th>
+              <th>Unidad</th>
+              <th style="color: red;">Componente</th>
+              <th style="width: 2vw; color: red;">Cantidad</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Numero de Serie</th>
+              <th style="color: red">
+                Ubicacion
+                <br />(carril/cuerpo)
+              </th>
+              <th>Fecha de Instalacion</th>
+              <th class="text-xs">
+                Fecha
+                <br />(Ultimo Mantenimiento)
+              </th>
+              <th class="text-xs">
+                Folio
+                <br />(Ultimo Mantenimiento)
+              </th>
+              <th>Real</th>
+              <th>Fabricante</th>
+              <th></th>
+            </tr>
 
-        <table class="border-gray-700 border-solid" style="width:100%">
-          <tr>
-            <th>Partida</th>
-            <th>Unidad</th>
-            <th style="color: red;">Componente</th>
-            <th style="width: 2vw; color: red;">Cantidad</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Numero de Serie</th>
-            <th style="color: red">
-              Ubicacion
-              <br />(carril/cuerpo)
-            </th>
-            <th>Fecha de Instalacion</th>
-            <th class="text-xs">
-              Fecha
-              <br />(Ultimo Mantenimiento)
-            </th>
-            <th class="text-xs">
-              Folio
-              <br />(Ultimo Mantenimiento)
-            </th>
-            <th>Real</th>
-            <th>Fabricante</th>
-            <th></th>
-          </tr>
+            <tr
+              style="text-align: center"
+              class="hover:bg-blue-200 text-center"
+              v-for="(equipo, index) in listaComponentesSelect"
+              :key="index"
+            >
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row1 }}</div>
+                <div v-else>{{ objectEditar.rowUpd1 }}</div>
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row2 }}</div>
+                <div v-else>{{ objectEditar.rowUpd2 }}</div>
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row3 }}</div>
+                <div v-else>
+                  <select
+                    @change="UpdateCompEditado()"
+                    v-model="updtCompEditar"
+                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                    style="width: 10vw;"
+                    type="text"
+                  >
+                    <option disabled value>Selecionar...</option>
+                    <option
+                      v-for="(item, index) in listaComponentes"
+                      v-bind:value="item.text"
+                      :key="index"
+                    >{{ item.text }}</option>
+                  </select>
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
+                <div v-else>{{ objectEditar.rowUpd4 }}</div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row5 }}</div>
+                <div v-else>{{ objectEditar.rowUpd5 }}</div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row6 }}</div>
+                <div v-else>{{ objectEditar.rowUpd6 }}</div>
+              </td>
+              <td
+                class="border-b border-black border-2"
+                style="max-width: 7vw; height: auto; overflow: hidden; text-align: center;"
+              >
+                <div v-if="equipo.rowUp">
+                  <p>{{ equipo.row7 + "\n" }}</p>
+                </div>
 
-          <tr
-            style="text-align: center"
-            class="hover:bg-blue-200 text-center"
-            v-for="(equipo, index) in listaComponentesSelect"
-            :key="index"
-          >
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row1 }}</div>
-              <div v-else>{{ objectEditar.rowUpd1 }}</div>
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row2 }}</div>
-              <div v-else>{{ objectEditar.rowUpd2 }}</div>
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row3 }}</div>
-              <div v-else>
+                <div v-else>
+                  <p>{{ numSerieSelectEditar + "\n" }}</p>
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row8 }}</div>
+                <div v-else>
+                  <multiselect
+                    v-model="laneSelectEditar"
+                    :close-on-select="false"
+                    :clear-on-select="true"
+                    :hideSelected="false"
+                    placeholder="Selecciona..."
+                    :options="listLaneEditar"
+                    :multiple="true"
+                  >
+                    <template slot="selection" slot-scope="{ values, isOpen }">
+                      <span
+                        class="multiselect__single"
+                        v-if="values.length &amp;&amp; !isOpen"
+                      >{{ values.length }} Carriles</span>
+                    </template>
+                  </multiselect>
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row9 }}</div>
+                <div v-else>{{ objectEditar.rowUpd9 }}</div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row10 }}</div>
+                <div v-else>
+                  <input
+                    v-model="objectEditar.rowUpd10"
+                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                    style="width: 7vw"
+                    placeholder="Folio"
+                    type="date"
+                  />
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row11 }}</div>
+                <div v-else>
+                  <input
+                    v-model="objectEditar.rowUpd11"
+                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                    style="width: 7vw"
+                    type="text"
+                  />
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row12 }}</div>
+                <div v-else>
+                  <input
+                    v-model="objectEditar.rowUpd12"
+                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                    style="width: 7vw"
+                    type="date"
+                  />
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row13 }}</div>
+                <div v-else>{{ objectEditar.rowUpd13 }}</div>
+              </td>
+
+              <td class="border-b border-black md:p-3 border-2">
+                <div v-if="equipo.rowUp">
+                  <button
+                    v-on:click.stop.prevent="deleteItem(index)"
+                    class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
+                  >Eliminar</button>
+                  <br />
+                  <br />
+                  <button
+                    v-on:click.stop.prevent="updateRowTable(index, equipo)"
+                    class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500"
+                  >Editar</button>
+                </div>
+                <div v-else>
+                  <button
+                    v-on:click.stop.prevent="abortUpdateRowTable(index)"
+                    class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
+                  >Cancelar</button>
+                  <br />
+                  <br />
+                  <button
+                    v-on:click.stop.prevent="confirmRowTable(index, equipo)"
+                    class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
+                  >Aceptar</button>
+                </div>
+              </td>
+            </tr>
+
+            <tr style="text-align: center">
+              <td class="border-b border-black p-2 md:p-1 border-2">{{ "*" }}</td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDisable.unity"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 4vw"
+                  placeholder="Pza"
+                />
+              </td>
+
+              <td class="border-b border-black p-2 md:p-1 border-2">
                 <select
-                  @change="UpdateCompEditado()"
-                  v-model="updtCompEditar"
+                  @change="UpdateComp()"
+                  v-model="updtComp"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 10vw;"
                   type="text"
@@ -71,42 +216,54 @@
                     :key="index"
                   >{{ item.text }}</option>
                 </select>
-              </div>
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
-              <div v-else>{{ objectEditar.rowUpd4 }}</div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row5 }}</div>
-              <div v-else>{{ objectEditar.rowUpd5 }}</div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row6 }}</div>
-              <div v-else>{{ objectEditar.rowUpd6 }}</div>
-            </td>
-            <td
-              class="border-b border-black border-2"
-              style="max-width: 7vw; height: auto; overflow: hidden; text-align: center;"
-            >
-              <div v-if="equipo.rowUp">
-                <p>{{ equipo.row7 + "\n" }}</p>
-              </div>
-
-              <div v-else>
-                <p>{{ numSerieSelectEditar + "\n" }}</p>
-              </div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row8 }}</div>
-              <div v-else>
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosManuales.cantidad"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 4vw"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDisable.brand"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="M60-31"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDisable.model"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="FD1103"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="numSerieSelect"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="S/N"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
                 <multiselect
-                  v-model="laneSelectEditar"
+                  v-model="laneSelect"
                   :close-on-select="false"
                   :clear-on-select="true"
                   :hideSelected="false"
                   placeholder="Selecciona..."
-                  :options="listLaneEditar"
+                  :options="listLane"
                   :multiple="true"
                 >
                   <template slot="selection" slot-scope="{ values, isOpen }">
@@ -116,222 +273,66 @@
                     >{{ values.length }} Carriles</span>
                   </template>
                 </multiselect>
-              </div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row9 }}</div>
-              <div v-else>{{ objectEditar.rowUpd9 }}</div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row10 }}</div>
-              <div v-else>
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="objectEditar.rowUpd10"
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 7vw"
-                  placeholder="Folio"
-                  type="date"
-                />
-              </div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row11 }}</div>
-              <div v-else>
-                <input
-                  v-model="objectEditar.rowUpd11"
+                  v-model="datosDisable.instalationDate"
+                  disabled
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 7vw"
                   type="text"
                 />
-              </div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row12 }}</div>
-              <div v-else>
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="objectEditar.rowUpd12"
+                  v-model="datosManuales.dateMantenimiento"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 7vw"
                   type="date"
                 />
-              </div>
-            </td>
-            <td class="border-b border-black p-2 md:p-3 border-2">
-              <div v-if="equipo.rowUp">{{ equipo.row13 }}</div>
-              <div v-else>{{ objectEditar.rowUpd13 }}</div>
-            </td>
-
-            <td class="border-b border-black md:p-3 border-2">
-              <div v-if="equipo.rowUp">
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosManuales.folioMantenimiento"
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  style="width: 7vw"
+                  placeholder="Folio"
+                  type="text"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosManuales.tiempoVidaReal"
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  style="width: 7vw"
+                  type="date"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <input
+                  v-model="datosDisable.lifeTime"
+                  disabled
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  type="text"
+                  style="width: 6vw"
+                  placeholder="Numero de años"
+                />
+              </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
                 <button
-                  v-on:click.stop.prevent="deleteItem(index)"
-                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
-                >Eliminar</button>
-                <br />
-                <br />
-                <button
-                  v-on:click.stop.prevent="updateRowTable(index, equipo)"
-                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500"
-                >Editar</button>
-              </div>
-              <div v-else>
-                <button
-                  v-on:click.stop.prevent="abortUpdateRowTable(index)"
-                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
-                >Cancelar</button>
-                <br />
-                <br />
-                <button
-                  v-on:click.stop.prevent="confirmRowTable(index, equipo)"
-                  class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
-                >Aceptar</button>
-              </div>
-            </td>
-          </tr>
-
-          <tr style="text-align: center">
-            <td class="border-b border-black p-2 md:p-1 border-2">{{ "*" }}</td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosDisable.unity"
-                disabled
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                type="text"
-                style="width: 4vw"
-                placeholder="Pza"
-              />
-            </td>
-
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <select
-                @change="UpdateComp()"
-                v-model="updtComp"
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                style="width: 10vw;"
-                type="text"
-              >
-                <option disabled value>Selecionar...</option>
-                <option
-                  v-for="(item, index) in listaComponentes"
-                  v-bind:value="item.text"
-                  :key="index"
-                >{{ item.text }}</option>
-              </select>
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosManuales.cantidad"
-                disabled
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                type="text"
-                style="width: 4vw"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosDisable.brand"
-                disabled
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                type="text"
-                style="width: 6vw"
-                placeholder="M60-31"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosDisable.model"
-                disabled
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                type="text"
-                style="width: 6vw"
-                placeholder="FD1103"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="numSerieSelect"
-                disabled
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                type="text"
-                style="width: 6vw"
-                placeholder="S/N"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <multiselect
-                v-model="laneSelect"
-                :close-on-select="false"
-                :clear-on-select="true"
-                :hideSelected="false"
-                placeholder="Selecciona..."
-                :options="listLane"
-                :multiple="true"
-              >
-                <template slot="selection" slot-scope="{ values, isOpen }">
-                  <span
-                    class="multiselect__single"
-                    v-if="values.length &amp;&amp; !isOpen"
-                  >{{ values.length }} Carriles</span>
-                </template>
-              </multiselect>
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosDisable.instalationDate"
-                disabled
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                style="width: 7vw"
-                type="text"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosManuales.dateMantenimiento"
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                style="width: 7vw"
-                type="date"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosManuales.folioMantenimiento"
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                style="width: 7vw"
-                placeholder="Folio"
-                type="text"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosManuales.tiempoVidaReal"
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                style="width: 7vw"
-                type="date"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <input
-                v-model="datosDisable.lifeTime"
-                disabled
-                class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                type="text"
-                style="width: 6vw"
-                placeholder="Numero de años"
-              />
-            </td>
-            <td class="border-b border-black p-2 md:p-1 border-2">
-              <button                         
-                v-on:click.stop.prevent="agregarPartida()"
-                :disabled="validBotonPartida"
-                class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                style="width: 6vw"
-              >Validar Partida</button>
-            </td>
-          </tr>
-        </table>
+                  v-on:click.stop.prevent="agregarPartida()"
+                  :disabled="validBotonPartida"
+                  class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  style="width: 6vw"
+                >Validar Partida</button>
+              </td>
+            </tr>
+          </table>
+        </div>
         <br />
       </div>
-    </form>
+    </div>
+
     <TablaEquipoPropuesto :listaEquipo="listaComponentesSelect"></TablaEquipoPropuesto>
   </div>
 </template>
@@ -339,7 +340,6 @@
 <script>
 import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
-
 
 export default {
   name: "TablaEquipoMalo",
@@ -480,10 +480,9 @@ export default {
       this.objectEditar = newObjectEdit;
       this.updtCompEditar = datos.row3;
       this.laneSelectEditar = datos.row8.split(",");
-      if(typeof(datos.row7) === String)      
-      this.numSerieSelectEditar = datos.row7.split(",");
-      else
-      this.numSerieSelectEditar = datos.row7
+      if (typeof datos.row7 === String)
+        this.numSerieSelectEditar = datos.row7.split(",");
+      else this.numSerieSelectEditar = datos.row7;
     },
     confirmRowTable: function(index) {
       this.listaComponentesSelect[index]["row1"] = this.objectEditar.rowUpd1;
@@ -502,36 +501,33 @@ export default {
       this.listaComponentesSelect[index]["row12"] = this.objectEditar.rowUpd12;
       this.listaComponentesSelect[index]["row13"] = this.objectEditar.rowUpd13;
       this.listaComponentesSelect[index]["rowUp"] = true;
-      alert("AcetarEdicion")
-      
-      let newObject ={
+      alert("AcetarEdicion");
 
-            ComponentsStockId: this.objectEditar.rowIdComponent,
-            ReferenceNumber: "",
-            CapufeLaneNum: this.capufeLaneSelectEditar,
-            IdGare: this.idGareSelectEditar,
-            Marca: this.objectEditar.rowUpd5,
-            Modelo: this.objectEditar.rowUpd6,
-            NumSerie: this.numSerieSelectEditar,
-            Unity: this.objectEditar.rowUpd2,
-            dateInstallationDate: this.objectEditar.rowUpd9,
-            dateMaintenanceDate: this.objectEditar.rowUpd10,
-            dateLifeTimeReal: this.objectEditar.rowUpd12,
-            intLifeTimeExpected: this.objectEditar.rowUpd13,
-            
-            index: index
-      }
+      let newObject = {
+        ComponentsStockId: this.objectEditar.rowIdComponent,
+        ReferenceNumber: "",
+        CapufeLaneNum: this.capufeLaneSelectEditar,
+        IdGare: this.idGareSelectEditar,
+        Marca: this.objectEditar.rowUpd5,
+        Modelo: this.objectEditar.rowUpd6,
+        NumSerie: this.numSerieSelectEditar,
+        Unity: this.objectEditar.rowUpd2,
+        dateInstallationDate: this.objectEditar.rowUpd9,
+        dateMaintenanceDate: this.objectEditar.rowUpd10,
+        dateLifeTimeReal: this.objectEditar.rowUpd12,
+        intLifeTimeExpected: this.objectEditar.rowUpd13,
 
-      this.$store.commit('DTC/listDmgConfirmUpdate',newObject)
+        index: index
+      };
+
+      this.$store.commit("DTC/listDmgConfirmUpdate", newObject);
 
       this.saveObjectEdiar = [];
       this.objectEditar = {};
-      this.idGareSelectEditar = []
-      this.numSerieSelectEditar = []
-      this.capufeLaneSelectEditar = []
-      this.laneSelectEditar = []
-
-
+      this.idGareSelectEditar = [];
+      this.numSerieSelectEditar = [];
+      this.capufeLaneSelectEditar = [];
+      this.laneSelectEditar = [];
     },
     abortUpdateRowTable: function(index) {
       this.listaComponentesSelect[index]["row1"] = this.saveObjectEdiar[0];
@@ -582,9 +578,15 @@ export default {
       this.datosDmgComponent.NumSerie = this.numSerieSelect;
       this.datosDmgComponent.Unity = this.datosDisable.unity;
       this.datosDmgComponent.dateInstallationDate = this.datosDisable.instalationDate;
-      this.datosDmgComponent.dateMaintenanceDate = this.datosManuales.dateMantenimiento != "" ? this.datosManuales.dateMantenimiento : "---";
+      this.datosDmgComponent.dateMaintenanceDate =
+        this.datosManuales.dateMantenimiento != ""
+          ? this.datosManuales.dateMantenimiento
+          : "---";
       this.datosDmgComponent.intLifeTimeExpected = this.datosDisable.lifeTime;
-      this.datosDmgComponent.dateLifeTimeReal = this.datosManuales.tiempoVidaReal != "" ? this.datosManuales.tiempoVidaReal : "---";
+      this.datosDmgComponent.dateLifeTimeReal =
+        this.datosManuales.tiempoVidaReal != ""
+          ? this.datosManuales.tiempoVidaReal
+          : "---";
 
       this.$store.commit("DTC/listaDmgMutationPush", this.datosDmgComponent);
 
@@ -609,35 +611,35 @@ export default {
     laneSelect: async function(newValue) {
       let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
 
-      if(newValue != null){
-          this.datosManuales.cantidad = newValue.length;
-          this.numSerieSelect = [];
-          this.idGareSelect = [];
-          this.capufeLaneSelect = [];
+      if (newValue != null) {
+        this.datosManuales.cantidad = newValue.length;
+        this.numSerieSelect = [];
+        this.idGareSelect = [];
+        this.capufeLaneSelect = [];
 
-      if (newValue.length === 1) {
-        let item = equipoMalo.filter(x => x.lane == newValue[0]);
-        this.numSerieSelect.push(item[0]["serialNumber"]);
-        this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
-        this.idGareSelect.push(item[0]["idGare"]);
-      } else {
-        for (let i = 0; i < newValue.length; i++) {
-          let item = equipoMalo.filter(x => x.lane == newValue[i]);
+        if (newValue.length === 1) {
+          let item = equipoMalo.filter(x => x.lane == newValue[0]);
           this.numSerieSelect.push(item[0]["serialNumber"]);
           this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
           this.idGareSelect.push(item[0]["idGare"]);
+        } else {
+          for (let i = 0; i < newValue.length; i++) {
+            let item = equipoMalo.filter(x => x.lane == newValue[i]);
+            this.numSerieSelect.push(item[0]["serialNumber"]);
+            this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
+            this.idGareSelect.push(item[0]["idGare"]);
+          }
         }
-      }
       }
     },
     laneSelectEditar: async function(newValue) {
       let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
 
       if (newValue != []) {
-              this.objectEditar.rowUpd4 = newValue.length;
-              this.numSerieSelectEditar = [];
-              this.idGareSelectEditar = [];
-              this.capufeLaneSelectEditar = [];
+        this.objectEditar.rowUpd4 = newValue.length;
+        this.numSerieSelectEditar = [];
+        this.idGareSelectEditar = [];
+        this.capufeLaneSelectEditar = [];
         if (newValue.length === 1) {
           let item = equipoMalo.filter(x => x.lane == newValue[0]);
           this.numSerieSelectEditar.push(item[0]["serialNumber"]);
@@ -654,13 +656,10 @@ export default {
       }
     }
   },
-  computed:{
-     
-      validBotonPartida: function () {
-          
-          return this.laneSelect.length > 0 ? false : true          
-      }
-
+  computed: {
+    validBotonPartida: function() {
+      return this.laneSelect.length > 0 ? false : true;
+    }
   }
 };
 </script>

@@ -89,10 +89,9 @@
             <div class="w-1/2 h-6 pl-20" >
               <input
                 v-model="sumatoria"
-                class="md:border border-black"
-                id="grid-last-name"
-                type="text"
-                style="width: 8.5vw; text-align: center;"
+                disabled
+                class="md:border border-black"                
+                type="text"                
                 placeholder="$ 0.00"
               />
             </div>
