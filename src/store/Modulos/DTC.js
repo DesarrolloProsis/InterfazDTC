@@ -74,6 +74,7 @@ const actions = {
   //Consulta API Crear DTC
   async crearDmg({ state } , value ) {
 
+    console.log("DTC")
 
     for(let i = 0; i< state.listaDmg.length; i++){
         state.listaDmg[i]["ReferenceNumber"] = value
@@ -83,6 +84,7 @@ const actions = {
         state.listaDmg[i]["dateMaintenanceDate"] = '00-00-0000'
     }
     
+    console.log(value)
     await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
       state.listaDmg

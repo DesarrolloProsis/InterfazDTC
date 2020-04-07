@@ -122,7 +122,7 @@ export default {
   methods: {
     crearDTCTecnico: async function() {
       await this.$store.dispatch("Header/crearHeaders", this.datosUser);
-      this.refNum = this.$store.getters["Header/getreferenceNum"];
+      this.refNum = this.$store.getters["Header/getreferenceNum"];      
       await this.$store.dispatch("DTC/crearDmg", this.refNum);
       await this.$store.commit("DTC/listaDmgClearMutation");
       alert("Generando el PDF" + this.refNum);

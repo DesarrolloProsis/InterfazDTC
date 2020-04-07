@@ -59,8 +59,7 @@ const mutations = {
 
 const actions = {
   async buscarReferencia({ commit }, value) {
-    
-    console.log("`http://prosisdev.sytes.net:88/api/dtcdata/${value}`")
+        
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/${value}`)
       .then(response => {             
         if(response.data.message){
@@ -75,7 +74,7 @@ const actions = {
   //Consulta API Crear Carril
   async crearHeaders({ state }, value) {
 
-      
+      alert()
 
     let newObject = {
       ReferenceNumber: state.referenceNum,
@@ -93,6 +92,7 @@ const actions = {
       agremmentInfoId: value.agremmentInfoId
     };
     
+    console.log(newObject)
 
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)
       .then(response => {
