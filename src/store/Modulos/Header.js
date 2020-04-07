@@ -25,7 +25,7 @@ const getters = {
     } else return state.listaHeaders;
   },
   getConvenioPlaza: function() {
-    if (state.listaHeaders.length === 1) {
+    if (state.listaHeaders.length > 0) {
       return {
         id: null,
         numConvenio: state.listaHeaders[0]["agrement"],

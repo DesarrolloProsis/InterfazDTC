@@ -60,13 +60,15 @@ const actions = {
       });
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit }, value) {
+  async buscarComponenteId({ commit }, value) {    
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
-      .then(response => {    
-        commit("listaRefaccionValidMutation", response.data.response);
-        commit("listaLaneMutation", response.data.listLane);
+      .then(response => {         
+        if(response.data.message == 'Ok') {
+          commit("listaRefaccionValidMutation", response.data.result.response);
+          commit("listaLaneMutation", response.data.result.listLane);
+        }
       })
       .catch(Ex => {
         console.log(Ex);

@@ -410,9 +410,9 @@ export default {
     }
   },
   methods: {
-    UpdateComp: async function() {
+    UpdateComp: async function() {      
       let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-      newObject["id"] = this.updtComp;
+      newObject["id"] = this.updtComp;      
       await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
       this.datosDisable = await this.$store.getters[
         "Refacciones/getComponentDisable"
