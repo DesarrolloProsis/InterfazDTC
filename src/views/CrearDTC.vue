@@ -125,12 +125,16 @@ export default {
       this.refNum = this.$store.getters["Header/getreferenceNum"];      
       await this.$store.dispatch("DTC/crearDmg", this.refNum);
       await this.$store.commit("DTC/listaDmgClearMutation");
-      alert("Generando el PDF" + this.refNum);
-      this.$router.push("Home");
+      alert("Generando el PDF " + this.refNum);
+    
+
       window.open(
         "http://prosisdev.sytes.net:88/api/pdf/" + this.refNum,
         "_blank"
       );
+      
+      this.$router.push("Home");
+      
     }
   },
   computed: {
