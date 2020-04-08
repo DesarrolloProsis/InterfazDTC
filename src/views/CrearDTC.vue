@@ -39,8 +39,12 @@
           <textarea
             v-model="observaciones"
             class="appearance-none block bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0 h-40"
+            :class="{'border-red-700': maxleng, 'border-4': maxleng}"   
             style="width: 23vw;"            
           />
+          <div v-if="maxleng" class="bg-red-300 rounded-lg text-center mt-2" style="width: 23vw;">
+            <p>Solo Puedes Usar 100 Caracteres</p>
+          </div>
         </div>
       </div>
       
@@ -140,7 +144,14 @@ export default {
   computed: {
     validaHeader: function() {
       return false;
-    }
+    },
+    maxleng: function(){
+
+        if(this.observaciones.length > 99)
+          return true
+        else
+          return false
+    },
   }
 };
 </script>

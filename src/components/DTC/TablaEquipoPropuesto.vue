@@ -69,14 +69,16 @@
             <tr>
               <th>Descripcion</th>
             </tr>
-            <td>
-              
+            <td>              
               <textarea                
-              v-model="descripcion"
-                class="appearance-none block width-64 bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0"
-                style="width: 20vw;"
-                id="grid-last-name"
+                v-model="descripcion"   
+                :class="{'border-red-700': maxleng, 'border-4': maxleng}"                                
+                class="appearance-none  border border-black rounded-lg py-4 mb-0"
+                style="width: 20vw;"                
               />
+              <div v-if="maxleng" class="bg-red-300 rounded-lg text-center">
+                <p>Solo Puedes Usar 100 Caracteres</p>
+              </div>
             </td>
           </div>
         </div>
@@ -90,7 +92,7 @@
               <input
                 v-model="sumatoria"
                 disabled
-                class="md:border border-black"                
+                class="md:border border-black"                           
                 type="text"                
                 placeholder="$ 0.00"
               />
@@ -116,18 +118,27 @@ export default {
     }
   },
   data() {
-    return {
-      
-      descripcion: ''
+    return {      
+      descripcion: '',      
     };
   },
   watch:{
     descripcion: function(newValue){
 
-        this.$store.commit('Header/descripcionMutation', newValue)
+        this.$store.commit('Header/descripcionMutation', newValue)   
     }
+
   },
   computed: {
+
+    maxleng: function(){
+
+        if(this.descripcion.length > 99)
+          return true
+        else
+          return false
+
+    },
     multiplicacion: function() {
       let multi = 0;
       for (let i = 0; i < this.listaEquipo.length; i++) {
@@ -160,7 +171,7 @@ export default {
       return MonedaLetra
       }
       else 
-        return "---------------------------------------"
+        return "---------------------------------------------------------------"
     }
   }
 };
