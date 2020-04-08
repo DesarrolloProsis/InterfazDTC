@@ -5,7 +5,8 @@ const state = {
   numConvenio: '',
   datosSinester: {},
   referenceNum: '',
-  descripcion: ''
+  descripcion: '',
+  listaUnique: []
 };
 
 const getters = {
@@ -36,6 +37,7 @@ const getters = {
    getnumConvenio: () => state.numConvenio,
 
    getreferenceNum: () => state.referenceNum,
+   getListaunique: () => state.listaUnique
   
  
 };
@@ -54,6 +56,9 @@ const mutations = {
   },
   descripcionMutation: (state, value) =>{
     state.descripcion = value
+  },
+  listaUniqueMutation: (state, value) => {
+    state.listaUnique = value
   }
 };
 
@@ -64,6 +69,19 @@ const actions = {
       .then(response => {             
         if(response.data.message){
           commit("referenceNumMutation", response.data.result);
+        }
+        
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
+  },
+  async buscarListaUnique({ commit }) {
+        
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/InvalidReferenceNumbers`)
+      .then(response => {             
+        if(response.data.message){
+          commit("listaUniqueMutation", response.data.result);
         }
         
       })

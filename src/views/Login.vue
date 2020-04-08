@@ -156,6 +156,7 @@ export default {
       let dataHeader = await this.$store.getters["Login/getUser"];
       await this.$store.commit("Header/listaHeadersMutation", dataHeader);
       await this.$store.dispatch("DTC/buscarDescriptions");
+      await this.$store.dispatch("Header/buscarListaUnique");
       this.$router.push("home");
     },
     buscarTec: async function() {
@@ -181,6 +182,7 @@ export default {
           let dataHeader = await this.$store.getters["Login/getUser"];          
           await this.$store.commit("Header/listaHeadersMutation", dataHeader);
           await this.$store.dispatch("DTC/buscarDescriptions");
+          await this.$store.dispatch("Header/buscarListaUnique");
           this.$router.push("home");
         } else {
           alert("El usuario o la contraseña son incorrectos");

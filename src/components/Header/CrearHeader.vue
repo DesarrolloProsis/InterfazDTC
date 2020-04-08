@@ -58,6 +58,9 @@
               type="text"
               placeholder
             />
+            <div v-if="validateNumerSinester" class="mt-2 w-1/2 bg-red-300 rounded-lg text-center">
+                <p>Numero Repetido</p>
+            </div>
           </div>
           <div class="w-1/4">
             <label>Reporte:</label>
@@ -67,6 +70,9 @@
               type="text"
               placeholder="10301/3030099"
             />
+            <div v-if="validateNumerReport" class="mt-2 w-1/2 bg-red-300 rounded-lg text-center">
+                <p>Numero Repetido</p>
+            </div>
           </div>
           <div class="w-1/4">
             <label>Tipo de Descripcion:</label>
@@ -325,8 +331,39 @@ export default {
       // console.log( this.datosSinester.ReferenceNumber + "desde vista");
     }
   },
+  computed:{
+    validateNumerSinester: function(){
+      
+        let listaUnique = this.$store.getters['Header/getListaunique']
+        
+        for(let i = 0; i < listaUnique.length; i++){
+
+            if(this.datosSinester.SinisterNumber === listaUnique[0]['sinisterNumber']){
+              return true
+            }
+        }
+
+        return false
+
+    },
+     validateNumerReport: function(){
+      
+        let listaUnique = this.$store.getters['Header/getListaunique']
+        
+        for(let i = 0; i < listaUnique.length; i++){
+
+            if(this.datosSinester.ReportNumber === listaUnique[0]['reportNumber']){
+              return true
+            }
+        }
+
+        return false
+
+    }
+
+  },
   watch: {
-    //ARREGLAR WATCHER!!!!!
+    //ARREGLAR WATCHER!!!!!    
     datosUser: function(newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
@@ -338,8 +375,8 @@ export default {
       this.datosSinester.Observaciones = newValue;
     },
     datosSinester: {
-      deep: true,
-      handler(datosSinester) {
+      deep: true,      
+      handler(datosSinester) {        
         this.$store.commit("Header/datosSinesterMutation", datosSinester);
       }
     }
