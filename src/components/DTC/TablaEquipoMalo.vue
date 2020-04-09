@@ -422,8 +422,8 @@ export default {
       let conteo = 0;
 
 
-      for(let i = 0; i < this.listaComponentesSelect.length; i++){
-         if(this.listaComponentesSelect[0]['row3'] == this.updtComp){
+      for(let i = 0; i < this.listaComponentesSelect.length; i++){        
+         if(this.listaComponentesSelect[i]['row3'] === this.updtComp){
             conteo++
          }
       }
@@ -457,7 +457,7 @@ export default {
       let conteo = 0;
 
       for(let i = 0; i < this.listaComponentesSelect.length; i++){
-         if(this.listaComponentesSelect[0]['row3'] == this.updtCompEditar){
+         if(this.listaComponentesSelect[i]['row3'] == this.updtCompEditar){
             conteo++
          }
       }
