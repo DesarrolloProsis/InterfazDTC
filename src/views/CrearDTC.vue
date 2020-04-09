@@ -39,15 +39,15 @@
           <textarea
             v-model="observaciones"
             class="appearance-none block bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0 h-40"
-            :class="{'border-red-700': maxleng, 'border-4': maxleng}"   
-            style="width: 23vw;"            
+            :class="{'border-red-700': maxleng, 'border-4': maxleng}"
+            style="width: 23vw;"
           />
           <div v-if="maxleng" class="bg-red-300 rounded-lg text-center mt-2" style="width: 23vw;">
             <p>Solo Puedes Usar 100 Caracteres</p>
           </div>
         </div>
       </div>
-      
+
       <div>
         <div class="flex" style="padding: 2vw">
           <div class="w-1/3 border border-black items-center">
@@ -63,7 +63,7 @@
               <span style="font-size: 0.7vw">C.P. Hermilia Guzman</span>
             </p>
           </div>
-          <div class="w-1/3"></div>          
+          <div class="w-1/3"></div>
           <div class="w-1/3 border border-black">
             <p style="text-align: center">
               <br />
@@ -81,16 +81,14 @@
           </div>
         </div>
       </div>
-    
+
       <div class="mt-6 mb-6 md:mb-0" style="padding: 3vw;">
         <button
           @click="crearDTCTecnico()"
           class="text-grey-lighter py-3 md:py-8 w-full md:w-64 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
-        >Crear</button>              
+        >Crear</button>
+      </div>
     </div>
-    </div>
-
-
   </div>
 </template>
 
@@ -125,33 +123,59 @@ export default {
   },
   methods: {
     crearDTCTecnico: async function() {
+
+
+      let validaciones = await this.$store.getters['DTC/getValidaciones']
+      let conteoErrores = 0;
+
+      for(let i = 0; i < 4; i++){
+          if(validaciones[i] === true){
+            conteoErrores++
+          }
+
+      }
+
+      if(conteoErrores === 0){
+
       await this.$store.dispatch("Header/crearHeaders", this.datosUser);
-      this.refNum = this.$store.getters["Header/getreferenceNum"];      
+      this.refNum = this.$store.getters["Header/getreferenceNum"];
       await this.$store.dispatch("DTC/crearDmg", this.refNum);
       await this.$store.commit("DTC/listaDmgClearMutation");
       alert("Generando el PDF " + this.refNum);
-    
 
       window.open(
         "http://prosisdev.sytes.net:88/api/pdf/" + this.refNum,
         "_blank"
       );
-      
+
       this.$router.push("Home");
-      
+      }
+      else{
+        alert('Hay ' + conteoErrores + ' Campos Invalidos')
+      }
     }
   },
   computed: {
     validaHeader: function() {
       return false;
     },
-    maxleng: function(){
-
-        if(this.observaciones.length > 99)
-          return true
-        else
-          return false
-    },
+    maxleng: function() {
+      if (this.observaciones.length > 99) {
+        let newObject = {
+          index: 3,
+          data: true
+        };
+        this.$store.commit("DTC/validacionMutation", newObject);
+        return true;
+      } else {
+        let newObject = {
+          index: 3,
+          data: false
+        };
+        this.$store.commit("DTC/validacionMutation", newObject);
+        return false;
+      }
+    }
   }
 };
 </script>

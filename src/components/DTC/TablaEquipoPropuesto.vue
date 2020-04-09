@@ -133,10 +133,24 @@ export default {
 
     maxleng: function(){
 
-        if(this.descripcion.length > 99)
+        if(this.descripcion.length > 99){
+          let newObject = {
+            index: 2,
+            data: true
+          }
+          this.$store.commit('DTC/validacionMutation', newObject)
           return true
-        else
+        }
+        else{
+          let newObject = {
+              index: 2,
+              data: false
+          }
+          this.$store.commit('DTC/validacionMutation', newObject)
           return false
+
+        }
+          
 
     },
     multiplicacion: function() {

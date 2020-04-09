@@ -339,10 +339,20 @@ export default {
         for(let i = 0; i < listaUnique.length; i++){
 
             if(this.datosSinester.SinisterNumber === listaUnique[0]['sinisterNumber']){
+              let newObject = {
+                  index: 0,
+                  data: true
+              }
+              this.$store.commit('DTC/validacionMutation', newObject)
               return true
             }
         }
 
+        let newObject = {
+            index: 0,
+            data: false
+        }
+        this.$store.commit('DTC/validacionMutation', newObject)
         return false
 
     },
@@ -353,10 +363,19 @@ export default {
         for(let i = 0; i < listaUnique.length; i++){
 
             if(this.datosSinester.ReportNumber === listaUnique[0]['reportNumber']){
-              return true
+                let newObject = {
+                    index: 1,
+                    data: true
+                }
+                this.$store.commit('DTC/validacionMutation', newObject)
+                return true
             }
         }
-
+        let newObject = {
+            index: 1,
+            data: false
+        }
+        this.$store.commit('DTC/validacionMutation', newObject)
         return false
 
     }

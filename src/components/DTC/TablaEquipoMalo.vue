@@ -1,9 +1,8 @@
 <template>
   <div>
-    
     <div class="flex flex-wrap border border-black justify-center sm:p-4 md:m-5 md:pl-48 md:pr-48">
       <div class="p-3 w-screen inline">
-    <!-- ************************************************************** -->
+        <!-- ************************************************************** -->
 
         <div class="text-center text-2xl font-bold mb-6">
           <h6>Equipo Dañado</h6>
@@ -108,7 +107,11 @@
                     :options="listLaneEditar"
                     :multiple="true"
                   >
-                    <template v-if="updtCompEditar != 'Servidor de Video' && updtCompEditar != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                    <template
+                      v-if="updtCompEditar != 'Servidor de Video' && updtCompEditar != 'Servidor de Plaza'"
+                      slot="selection"
+                      slot-scope="{ values, isOpen }"
+                    >
                       <span
                         class="multiselect__single"
                         v-if="values.length &amp;&amp; !isOpen"
@@ -266,12 +269,16 @@
                   :options="listLane"
                   :multiple="true"
                 >
-                  <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                  <template
+                    v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'"
+                    slot="selection"
+                    slot-scope="{ values, isOpen }"
+                  >
                     <span
                       class="multiselect__single"
                       v-if="values.length &amp;&amp; !isOpen"
                     >{{ values.length }} Carriles</span>
-                  </template>                   
+                  </template>
                 </multiselect>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
@@ -410,23 +417,54 @@ export default {
     }
   },
   methods: {
-    UpdateComp: async function() {      
-      let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-      newObject["id"] = this.updtComp;      
-      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      this.datosDisable = await this.$store.getters[
-        "Refacciones/getComponentDisable"
-      ];
-      this.listLane = await this.$store.getters["Refacciones/getListaLane"];
+    UpdateComp: async function() { 
+      
+      let conteo = 0;
+
+
+      for(let i = 0; i < this.listaComponentesSelect.length; i++){
+         if(this.listaComponentesSelect[0]['row3'] == this.updtComp){
+            conteo++
+         }
+      }
+
+      if(conteo == 0){
+
+          let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+          newObject["id"] = this.updtComp;      
+          await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+          this.datosDisable = await this.$store.getters["Refacciones/getComponentDisable"];
+          this.listLane = await this.$store.getters["Refacciones/getListaLane"];
+
+      }
+      else{
+          this.updtComp = ''
+          alert('Componente Repetido')
+      }                  
+    
     },
     UpdateCompEditado: async function() {
+
+
       this.laneSelectEditar = [];
       this.numSerieSelectEditar = [];
       this.idGareSelectEditar = [];
       this.capufeLaneSelectEditar = [];
       this.objectEditar.rowUpd10 = "";
       this.objectEditar.rowUpd11 = "";
-      this.objectEditar.rowUpd12 = "";
+      this.objectEditar.rowUpd12 = "";   
+
+      let conteo = 0;
+
+      for(let i = 0; i < this.listaComponentesSelect.length; i++){
+         if(this.listaComponentesSelect[0]['row3'] == this.updtCompEditar){
+            conteo++
+         }
+      }
+
+      if(conteo == 0){
+ 
+
       let newObject = await this.$store.getters["Header/getConvenioPlaza"];
       newObject["id"] = this.updtCompEditar;
       await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
@@ -444,6 +482,19 @@ export default {
       this.objectEditar.rowUpd13 = datosDisable.lifeTime;
       this.objectEditar.rowUpd14 = datosDisable.unitaryPrice;
       this.objectEditar.rowIdComponent = datosDisable.componentsStockId;
+      }
+      else{  
+        this.updtCompEditar = ''
+        this.objectEditar.rowUpd3 = ''
+        this.objectEditar.rowUpd2 = ''
+        this.objectEditar.rowUpd5 = ''
+        this.objectEditar.rowUpd6 = ''
+        this.objectEditar.rowUpd9 = ''
+        this.objectEditar.rowUpd13 = ''
+        this.objectEditar.rowUpd14 = ''
+        this.objectEditar.rowIdComponent = ''      
+        alert('Componente Repetido')
+      }
     },
     deleteItem(index) {
       this.listaComponentesSelect.splice(index, 1);
