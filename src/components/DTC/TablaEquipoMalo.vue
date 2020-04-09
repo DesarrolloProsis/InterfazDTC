@@ -536,6 +536,11 @@ export default {
       else this.numSerieSelectEditar = datos.row7;
     },
     confirmRowTable: function(index) {
+
+      if(this.objectEditar.rowIdComponent != ''){
+
+        if(this.capufeLaneSelectEditar.length >  0){
+
       this.listaComponentesSelect[index]["row1"] = this.objectEditar.rowUpd1;
       this.listaComponentesSelect[index]["row2"] = this.objectEditar.rowUpd2;
       this.listaComponentesSelect[index]["row3"] = this.objectEditar.rowUpd3;
@@ -579,6 +584,14 @@ export default {
       this.numSerieSelectEditar = [];
       this.capufeLaneSelectEditar = [];
       this.laneSelectEditar = [];
+        }
+        else{
+          alert('Necesita Agregar La Ubicacion')
+        }
+      }
+      else{
+        alert('Necesita Agregar Un Componente')
+      }
     },
     abortUpdateRowTable: function(index) {
       this.listaComponentesSelect[index]["row1"] = this.saveObjectEdiar[0];
