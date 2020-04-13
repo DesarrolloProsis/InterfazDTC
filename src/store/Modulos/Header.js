@@ -91,8 +91,7 @@ const actions = {
   },
   //Consulta API Crear Carril
   async crearHeaders({ state }, value) {
-
-      alert()
+      
 
     let newObject = {
       ReferenceNumber: state.referenceNum,
@@ -111,10 +110,16 @@ const actions = {
     };
     
     console.log(newObject)
-
-    await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)    
+    
+    //await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)    
+    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
       .then(response => {
-        console.log(response.data);        
+
+        console.log(response.data)
+        if(response.data.message == 'Ok')
+        
+        
+             
       })
       .catch(Ex => {
         console.log(Ex);

@@ -136,12 +136,15 @@ export default {
       }
 
       if(conteoErrores === 0){
-
-      await this.$store.dispatch("Header/crearHeaders", this.datosUser);
+    
       this.refNum = this.$store.getters["Header/getreferenceNum"];
+      await this.$store.dispatch("Header/crearHeaders", this.datosUser);
+      
       await this.$store.dispatch("DTC/crearDmg", this.refNum);
       await this.$store.commit("DTC/listaDmgClearMutation");
       alert("Generando el PDF " + this.refNum);
+     
+
 
       window.open(
         "http://prosisdev.sytes.net:88/api/pdf/" + this.refNum,

@@ -115,9 +115,9 @@
           <option disabled value=" ">Selecionar...</option>
           <option
             v-for="(item, index) in listaTec"
-            v-bind:value="item.value"
+            v-bind:value="item.userId"
             :key="index"
-            >{{ item.text }}</option
+            >{{ item.tecnicosAsignados }}</option
           >
         </select>
       </div>
@@ -160,8 +160,9 @@ export default {
       this.$router.push("home");
     },
     buscarTec: async function() {
+      
       if (this.plazaSelect != "") {
-        await this.$store.dispatch("Login/buscarTec", this.plazaSelect);
+        await this.$store.dispatch("Login/ ", this.plazaSelect);
         this.listaTec = this.$store.getters["Login/getListaTec"];
       }
     },

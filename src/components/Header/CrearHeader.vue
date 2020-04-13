@@ -338,7 +338,7 @@ export default {
         
         for(let i = 0; i < listaUnique.length; i++){
 
-            if(this.datosSinester.SinisterNumber === listaUnique[0]['sinisterNumber']){
+            if(this.datosSinester.SinisterNumber == listaUnique[i]['sinisterNumber']){
               let newObject = {
                   index: 0,
                   data: true
@@ -362,7 +362,7 @@ export default {
         
         for(let i = 0; i < listaUnique.length; i++){
 
-            if(this.datosSinester.ReportNumber === listaUnique[0]['reportNumber']){
+            if(this.datosSinester.ReportNumber == listaUnique[i]['reportNumber']){
                 let newObject = {
                     index: 1,
                     data: true

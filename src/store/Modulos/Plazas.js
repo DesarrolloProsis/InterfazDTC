@@ -19,7 +19,7 @@ const actions = {
       .then(response => {
         console.log("Bien");
         console.log(response.data);
-        commit("listaCarrilesMutation", response.data);
+        commit("listaCarrilesMutation", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
@@ -34,7 +34,7 @@ const actions = {
         .then(response => {
           console.log("Bien");
           console.log(response.data);
-          commit("listaPlazasMutation", response.data);
+          commit("listaPlazasMutation", response.data.result);
         })
         .catch(Ex => {
           console.log(Ex);
