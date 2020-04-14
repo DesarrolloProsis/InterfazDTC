@@ -7,7 +7,8 @@ const state = {
   datosSinester: {},
   referenceNum: '',
   descripcion: '',
-  listaUnique: []
+  listaUnique: [],
+  insertHeaderComplete: false
 };
 
 const getters = {
@@ -38,7 +39,8 @@ const getters = {
    getnumConvenio: () => state.numConvenio,
 
    getreferenceNum: () => state.referenceNum,
-   getListaunique: () => state.listaUnique
+   getListaunique: () => state.listaUnique,
+   getInsertHeaderComplete: () => state.insertHeaderComplete
   
  
 };
@@ -60,6 +62,9 @@ const mutations = {
   },
   listaUniqueMutation: (state, value) => {
     state.listaUnique = value
+  },
+  insertHeaderCompleteMutation: (state, value) => {
+    state.insertHeaderComplete = value
   }
 };
 
@@ -89,7 +94,7 @@ const actions = {
       });
   },
   //Consulta API Crear Carril
-  async crearHeaders({ state, dispatch }, value) {
+  async crearHeaders({ state, commit }, value) {
               
 
     let newObject = {
@@ -106,17 +111,19 @@ const actions = {
       Observation: state.datosSinester.Observaciones,      
       UserId: value.userId,
       AgremmentInfoId: value.agremmentInfoId,
-      DateStamp: moment(Date.now()).format('YYYY-MM-DD')
+      DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss')
   
     };
-    
-    console.log( newObject)
-    
+
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
-      .then(response => {
-            console.log(response.data)
-          if(response.data.message === 'Ok')
-             dispatch('DTC/crearDmg', response.data.result, { root: true })
+      .then(response => {    
+        
+        console.log(response.data)
+          if(response.data.message == 'Ok'){             
+             //dispatch('DTC/crearDmg', response.data.result, { root: true })
+             console.log('Si se inserta')          
+             commit('insertHeaderCompleteMutation', true)
+          }
           else
             alert(response.data.message)             
       })

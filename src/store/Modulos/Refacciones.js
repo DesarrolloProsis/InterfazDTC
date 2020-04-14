@@ -60,7 +60,8 @@ const actions = {
       });
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit }, value) {      
+  async buscarComponenteId({ commit }, value) {  
+        
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )

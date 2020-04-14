@@ -6,13 +6,15 @@ const state = {
   listaDescriptions: [],
   listaDmg: [],
   listaDTC: [],
-  validaciones: [false, false, false, false]
+  validaciones: [false, false, false, false],
+  insertDmgComplete: false
 };
 
 const getters = {
   getListaDTCTecnico: () => state.listaDTCTecnico,
   getListaDescriptions: () => state.listaDescriptions,
-  getValidaciones: () => state.validaciones
+  getValidaciones: () => state.validaciones,
+  getInsertDmgComplete: () => state.insertDmgComplete,
 };
 const mutations = {
   listaDTCTecnicoMutation: (state, value) => {
@@ -52,6 +54,9 @@ const mutations = {
   },
   validacionMutation: (state, value) => {
       state.validaciones[value.index] = value.data
+  },
+  insertDmgCompleteMutation: (state, value) => {
+    state.insertDmgComplete = value
   }
 };
 
@@ -77,9 +82,8 @@ const actions = {
       });
   },
   //Consulta API Crear DTC
-  async crearDmg({ state } , value ) {
-    
-    console.log(state.listaDmg)
+  async crearDmg({ state, commit } , value ) {
+        
 
     for(let i = 0; i< state.listaDmg.length; i++){
         state.listaDmg[i]["ReferenceNumber"] = value
@@ -87,21 +91,17 @@ const actions = {
           state.listaDmg[i]["dateLifeTimeReal"] = state.listaDmg[i]['dateInstallationDate']
         if(state.listaDmg[i]["dateMaintenanceDate"] == "---")
         state.listaDmg[i]["dateMaintenanceDate"] = state.listaDmg[i]['dateInstallationDate']
-    }    
-    console.log(value)
-    console.log(state.listaDmg)    
+    }     
     await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
       state.listaDmg
     )
-      .then(response => {        
-        console.log(response.data);    
+      .then(response => {                  
         
-        if(response.data.message === 'Ok'){
-            window.open(
-              "http://prosisdev.sytes.net:88/api/pdf/" + this.refNum,
-              "_blank"
-            );
+        if(response.data.message == 'Ok'){  
+            console.log('Si se inserta')          
+            commit('insertDmgCompleteMutation', true)
+          
         }
         else{
           alert(response.data.message)

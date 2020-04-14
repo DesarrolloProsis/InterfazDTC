@@ -95,7 +95,7 @@
 <script>
 import Nav from "../components/Navbar";
 import Header from "../components/Header/CrearHeader";
-// import DTC from "../components/DTC/TablaEquipoMalo";
+import saveAs from "file-saver";
 
 export default {
   name: "CrearDTC",
@@ -123,38 +123,63 @@ export default {
   },
   methods: {
     crearDTCTecnico: async function() {
-
-
-      let validaciones = await this.$store.getters['DTC/getValidaciones']
+      let validaciones = await this.$store.getters["DTC/getValidaciones"];
       let conteoErrores = 0;
 
-      for(let i = 0; i < 4; i++){
-          if(validaciones[i] === true){
-            conteoErrores++
+      for (let i = 0; i < 4; i++) {
+        if (validaciones[i] === true) {
+          conteoErrores++;
+        }
+      }
+
+      if (conteoErrores === 0) {
+
+        this.refNum = this.$store.getters["Header/getreferenceNum"];
+        await this.$store.dispatch("Header/crearHeaders", this.datosUser);
+        let insertHeader = this.$store.getters[
+          "Header/getInsertHeaderComplete"
+        ];
+        alert('Se inserto el Header: ' + insertHeader)
+        if (insertHeader) {
+          await this.$store.dispatch("DTC/crearDmg", this.refNum);
+          let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
+          // alert('Se inserto el Dmg: ' + insertDmg)
+          if (insertDmg) {
+            // alert("Generando el PDF " + this.refNum);
+
+            var oReq = new XMLHttpRequest();
+            // The Endpoint of your server
+            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}`;
+            let namePdf = `ReportDTC-${this.refNum}.pdf`;
+            // Configure XMLHttpRequest
+            oReq.open("GET", urlTopdf, true);
+            // Important to use the blob response type
+            oReq.responseType = "blob";
+            // When the file request finishes
+            // Is up to you, the configuration for error events etc.
+            oReq.onload = function() {
+              // Once the file is downloaded, open a new window with the PDF
+              // Remember to allow the POP-UPS in your browser
+              var file = new Blob([oReq.response], {
+                type: "application/pdf"
+              });
+              // Generate file download directly in the browser !
+              saveAs(file, namePdf);              
+              
+            }
+            
+            oReq.send();
+
+            await this.$store.commit('Header/insertHeaderCompleteMutation', false)
+            await this.$store.commit('DTC/insertDmgCompleteMutation', false)
+            await this.$store.dispatch("Header/buscarListaUnique");
+            
+            this.$router.push("Home");
+
           }
-
-      }
-
-      if(conteoErrores === 0){
-    
-      this.refNum = this.$store.getters["Header/getreferenceNum"];
-      await this.$store.dispatch("Header/crearHeaders", this.datosUser);
-      
-      //await this.$store.dispatch("DTC/crearDmg", this.refNum);
-      //await this.$store.commit("DTC/listaDmgClearMutation");
-      alert("Generando el PDF " + this.refNum);
-     
-
-
-      // window.open(
-      //   "http://prosisdev.sytes.net:88/api/pdf/" + this.refNum,
-      //   "_blank"
-      // );
-
-      this.$router.push("Home");
-      }
-      else{
-        alert('Hay ' + conteoErrores + ' Campos Invalidos')
+        }
+      } else {
+        alert("Hay " + conteoErrores + " Campos Invalidos");
       }
     }
   },
