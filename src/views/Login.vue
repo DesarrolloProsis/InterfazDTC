@@ -98,9 +98,9 @@
           <option disabled value=" ">Selecionar...</option>
           <option
             v-for="(item, index) in listaPlazas"
-            v-bind:value="item.value"
+            v-bind:value="item.squareCatalogId"
             :key="index"
-            >{{ item.text }}</option
+            >{{ item.squareName }}</option
           >
         </select>
       </div>
@@ -162,7 +162,7 @@ export default {
     buscarTec: async function() {
       
       if (this.plazaSelect != "") {
-        await this.$store.dispatch("Login/ ", this.plazaSelect);
+        await this.$store.dispatch("Login/buscarTec", this.plazaSelect);
         this.listaTec = this.$store.getters["Login/getListaTec"];
       }
     },

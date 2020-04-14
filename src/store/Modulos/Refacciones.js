@@ -53,20 +53,20 @@ const actions = {
   async buscarComponentes({ commit }) {    
     await Axios.get(`http://prosisdev.sytes.net:88/api/component`)
       .then(response => {
-        commit("listaRefaccionesMutation", response.data);
+        commit("listaRefaccionesMutation", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
       });
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit }, value) {    
+  async buscarComponenteId({ commit }, value) {      
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
       .then(response => {         
-        if(response.data.message == 'Ok') {
-          commit("listaRefaccionValidMutation", response.data.result.response);
+        if(response.data.message == 'Ok') {          
+          commit("listaRefaccionValidMutation", response.data.result.result);
           commit("listaLaneMutation", response.data.result.listLane);
         }
       })

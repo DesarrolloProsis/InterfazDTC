@@ -84,9 +84,9 @@
               <option disabled value>Selecionar...</option>
               <option
                 v-for="(desc, index) in descripciones"
-                v-bind:value="desc.value"
+                v-bind:value="desc.typeDescriptionId"
                 :key="index"
-              >{{ desc.text }}</option>
+              >{{ desc.description }}</option>
             </select>
           </div>
         </div>

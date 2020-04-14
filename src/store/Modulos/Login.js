@@ -46,8 +46,7 @@ const actions = {
   async buscarHeaderTec({ commit }, value) {    
     
    await Axios.get(
-      //`http://prosisdev.sytes.net:88/api/login/buscarHeaderTec/${value}`
-      `https://localhost:44358/api/login/buscarHeaderTec/${value}`
+      `http://prosisdev.sytes.net:88/api/login/buscarHeaderTec/${value}`      
     )
       .then(response => {              
         commit("listaUser", response.data.result);              
@@ -61,8 +60,7 @@ const actions = {
           
     console.log('Action Buscar Tecnicos id Plaza')
           await Axios.get(
-            //`http://prosisdev.sytes.net:88/api/login/buscarTec/${value}`
-            `https://localhost:44358/api/login/buscarTec/${value}`
+            `http://prosisdev.sytes.net:88/api/login/buscarTec/${value}`            
           )
             .then(response => {           
               console.log(response.data.result)   
@@ -75,8 +73,7 @@ const actions = {
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
   async buscarUsuarioCokie({ commit }, value) {         
           await Axios.get(
-            //`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`
-            `https://localhost:44358/api/login/ValidUser/${value.User}/${value.Password}/${true}`
+            `http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`            
           )
             .then(response => {              
               commit("userLogeadoMutation", response.data.result); 
@@ -90,8 +87,7 @@ const actions = {
   async buscarUsuario({ commit }, value) {
 
           await Axios.get( 
-            //`http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`
-            `https://localhost:44358/api/login/${value.User}/${value.Password}/${false}`
+            `http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`            
           )
             .then(response => {
               console.log(response.data);
@@ -104,8 +100,7 @@ const actions = {
   //CONULTA PARA LISTAR LAS PLAZAS
   async buscarPlazas({ commit }) {    
     await Axios.get(
-      //`http://prosisdev.sytes.net:88/api/squaresCatalog`)
-      `https://localhost:44358/api/squaresCatalog`)
+      `http://prosisdev.sytes.net:88/api/squaresCatalog`)      
       .then(response => {
         commit("listaPlazasMutation", response.data.result);
         console.log(response.data)

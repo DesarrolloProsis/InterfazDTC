@@ -65,9 +65,9 @@
                     <option disabled value>Selecionar...</option>
                     <option
                       v-for="(item, index) in listaComponentes"
-                      v-bind:value="item.text"
+                      v-bind:value="item.description"
                       :key="index"
-                    >{{ item.text }}</option>
+                    >{{ item.description }}</option>
                   </select>
                 </div>
               </td>
@@ -215,9 +215,9 @@
                   <option disabled value>Selecionar...</option>
                   <option
                     v-for="(item, index) in listaComponentes"
-                    v-bind:value="item.text"
+                    v-bind:value="item.description"
                     :key="index"
-                  >{{ item.text }}</option>
+                  >{{ item.description }}</option>
                 </select>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">

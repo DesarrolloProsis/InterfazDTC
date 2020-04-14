@@ -1,4 +1,5 @@
 import Axios from "axios";
+import moment from 'moment'
 
 const state = {
   listaHeaders: [],
@@ -69,8 +70,7 @@ const actions = {
       .then(response => {             
         if(response.data.message){
           commit("referenceNumMutation", response.data.result);
-        }
-        
+        }        
       })
       .catch(Ex => {
         console.log(Ex);
@@ -82,16 +82,15 @@ const actions = {
       .then(response => {             
         if(response.data.message){
           commit("listaUniqueMutation", response.data.result);
-        }
-        
+        }        
       })
       .catch(Ex => {
         console.log(Ex);
       });
   },
   //Consulta API Crear Carril
-  async crearHeaders({ state }, value) {
-      
+  async crearHeaders({ state, dispatch }, value) {
+              
 
     let newObject = {
       ReferenceNumber: state.referenceNum,
@@ -105,23 +104,24 @@ const actions = {
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.descripcion,
       Observation: state.datosSinester.Observaciones,      
-      userId: value.userId,
-      agremmentInfoId: value.agremmentInfoId
+      UserId: value.userId,
+      AgremmentInfoId: value.agremmentInfoId,
+      DateStamp: moment(Date.now()).format('YYYY-MM-DD')
+  
     };
     
-    console.log(newObject)
+    console.log( newObject)
     
-    //await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)    
-    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
+    await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
       .then(response => {
-
-        console.log(response.data)
-        if(response.data.message == 'Ok')
-        
-        
-             
+            console.log(response.data)
+          if(response.data.message === 'Ok')
+             dispatch('DTC/crearDmg', response.data.result, { root: true })
+          else
+            alert(response.data.message)             
       })
       .catch(Ex => {
+        alert('No se Pudo Insertar el Header')   
         console.log(Ex);
       });
   }

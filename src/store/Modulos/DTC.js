@@ -1,5 +1,6 @@
 import Axios from "axios";
 
+
 const state = {
   listaDTCTecnico: [],
   listaDescriptions: [],
@@ -57,7 +58,7 @@ const mutations = {
 const actions = {
   
   async buscarDTC({ commit }) {    
-    await Axios.get(`https://localhost:44358/api/dtcdata`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
       .then(response => {        
         console.log(response.data);
         commit("listaDescriptionsMutation", response.data.result);
@@ -67,7 +68,7 @@ const actions = {
       });
   },
   async buscarDescriptions({ commit }) {    
-    await Axios.get(`https://localhost:44358/api/typedescriptions`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/typedescriptions`)
       .then(response => {
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -77,7 +78,6 @@ const actions = {
   },
   //Consulta API Crear DTC
   async crearDmg({ state } , value ) {
-
     
     console.log(state.listaDmg)
 
@@ -91,11 +91,22 @@ const actions = {
     console.log(value)
     console.log(state.listaDmg)    
     await Axios.post(
-      `https://localhost:44358/api/requestedComponent`,
+      `http://prosisdev.sytes.net:88/api/requestedComponent`,
       state.listaDmg
     )
       .then(response => {        
-        console.log(response.data);        
+        console.log(response.data);    
+        
+        if(response.data.message === 'Ok'){
+            window.open(
+              "http://prosisdev.sytes.net:88/api/pdf/" + this.refNum,
+              "_blank"
+            );
+        }
+        else{
+          alert(response.data.message)
+        }
+        
       })
       .catch(Ex => {
         console.log(Ex);
