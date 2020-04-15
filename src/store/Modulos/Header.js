@@ -2,8 +2,7 @@ import Axios from "axios";
 import moment from 'moment'
 
 const state = {
-  listaHeaders: [],
-  numConvenio: '',
+  listaHeaders: [],  
   datosSinester: {},
   referenceNum: '',
   descripcion: '',
@@ -35,9 +34,7 @@ const getters = {
         numPlaza: state.listaHeaders[0]["plaza"].substr(0, 3)
       };
     } else return state.listaHeaders;
-  },
-   getnumConvenio: () => state.numConvenio,
-
+  },   
    getreferenceNum: () => state.referenceNum,
    getListaunique: () => state.listaUnique,
    getInsertHeaderComplete: () => state.insertHeaderComplete
@@ -47,9 +44,6 @@ const getters = {
 const mutations = {
   listaHeadersMutation: (state, value) => {
     state.listaHeaders = value;
-  },
-  numConvenioMutation: (state, value) => {
-    state.numConvenio = value;
   },
   datosSinesterMutation: (state, value) => {
     state.datosSinester = value;
@@ -65,6 +59,10 @@ const mutations = {
   },
   insertHeaderCompleteMutation: (state, value) => {
     state.insertHeaderComplete = value
+  },
+  clearDatosSinesterMutation: (state) => {
+    state.datosSinester = {}
+    state.descripcion = ''
   }
 };
 

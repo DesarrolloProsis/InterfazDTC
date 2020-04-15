@@ -415,9 +415,6 @@ export default {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
     },
-    descripcion: function(newValue) {
-      this.datosSinester.Descripcion = newValue;
-    },
     observaciones: function(newValue) {
       this.datosSinester.Observaciones = newValue;
     },

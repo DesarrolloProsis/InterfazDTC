@@ -67,7 +67,7 @@
           </table>
           <div class="divDescription" style="width: 20%">
             <tr>
-              <th>Descripcion</th>
+              <th>Diagnostico</th>
             </tr>
             <td>              
               <textarea                
