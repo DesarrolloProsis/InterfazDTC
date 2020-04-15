@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     onClick() {
-
       if (this.datos.selector) {
         this.$store.commit("Header/numConvenioMutation", this.datos.convenio);
         this.$router.push("home");
@@ -52,8 +51,7 @@ export default {
       else this.datos.selector = false;
     }
   },
-  async beforeMount() {
-    //console.log("COmponente MOUNT");
+  async beforeMount() {    
     console.log(this.datos);
     //await this.$store.dispatch("Header/buscarHeaders", this.datos);
     this.listaConvenios = await this.$store.getters["Login/getUser"];

@@ -133,13 +133,12 @@ export default {
       }
 
       if (conteoErrores === 0) {
-
         this.refNum = this.$store.getters["Header/getreferenceNum"];
         await this.$store.dispatch("Header/crearHeaders", this.datosUser);
         let insertHeader = this.$store.getters[
           "Header/getInsertHeaderComplete"
         ];
-        alert('Se inserto el Header: ' + insertHeader)
+        alert("Se inserto el Header: " + insertHeader);
         if (insertHeader) {
           await this.$store.dispatch("DTC/crearDmg", this.refNum);
           let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
@@ -164,18 +163,20 @@ export default {
                 type: "application/pdf"
               });
               // Generate file download directly in the browser !
-              saveAs(file, namePdf);              
-              
-            }
-            
+              saveAs(file, namePdf);
+            };
+
             oReq.send();
 
-            await this.$store.commit('Header/insertHeaderCompleteMutation', false)
-            await this.$store.commit('DTC/insertDmgCompleteMutation', false)
+            await this.$store.commit(
+              "Header/insertHeaderCompleteMutation",
+              false
+            );
+            await this.$store.commit('DTC/listaDmgClearMutation')
+            await this.$store.commit("DTC/insertDmgCompleteMutation", false);
             await this.$store.dispatch("Header/buscarListaUnique");
-            
-            this.$router.push("Home");
 
+            this.$router.push("Home");
           }
         }
       } else {
@@ -207,115 +208,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.title {
-  text-align: center;
-  font-weight: bold;
-  font-size: 2vw;
-  border: 2px solid black;
-}
-
-.divtitle {
-  margin: 0 auto;
-}
-
-.divtitle2 {
-  margin: 0 auto;
-}
-.title2 {
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 20%;
-  margin-top: 30%;
-  font-size: 1.2vw;
-  border: 2px solid black;
-}
-
-.imgRefNum {
-  display: grid;
-  grid-template-columns: 20% 80%;
-}
-
-.input {
-  text-align: end;
-  padding-top: 5vh;
-}
-
-.fecha {
-  width: 12.1rem;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  font-size: 0.85rem;
-  margin-bottom: -5vh;
-}
-
-.grid-container3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  font-size: 0.85rem;
-  margin-bottom: -5vh;
-  padding-left: 3vw;
-}
-
-label {
-  font-weight: bold;
-  color: black;
-  font-family: Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.grid-container2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  font-size: 0.85rem;
-  margin-bottom: -4vh;
-  overflow: hidden;
-}
-
-.staticLabel {
-  font-weight: normal;
-}
-
-.lastContainer {
-  display: flex;
-  flex-direction: row;
-}
-
-.divDescription {
-  display: inline-block;
-  padding-left: 2vw;
-  width: 10vw;
-}
-
-.divLastTable {
-  display: inline-block;
-  padding-bottom: 1vh;
-}
-
-.inputDesc {
-  height: 10vh;
-  width: 18vw;
-}
-
-.divLastTable {
-  border-spacing: 10px;
-  border-collapse: separate;
-  display: inline-block;
-}
-
-.relleno {
-  display: inline-block;
-}
-
-@media (max-width: 750px) {
-  .grid-container {
-    margin-bottom: 0;
-  }
-  .grid-container2 {
-    margin-bottom: 0;
-  }
-}
-</style>
