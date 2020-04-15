@@ -9,7 +9,9 @@
           <div class="w-1/3">
             <img src="../../assets/img/prosis-logo.jpg" height="200" width="200" class="m-2" />
           </div>
-          <div class="w-1/3 border-2 border-black text-center p-0 md:text-lg lg:text-3xl font-extrabold">
+          <div
+            class="w-1/3 border-2 border-black text-center p-0 md:text-lg lg:text-3xl font-extrabold"
+          >
             <p class="p-0">Dictamen Tecnico y Cotizacion</p>
           </div>
           <div class="w-1/3 text-center">
@@ -58,8 +60,8 @@
               type="text"
               placeholder
             />
-            <div v-if="validateNumerSinester" class="mt-2 w-1/2 bg-red-300 rounded-lg text-center">
-                <p>Numero Repetido</p>
+            <div v-if="validateNumerSinester" class="mt-2 text-red-700 font-semibold text-center">
+              <p>{{ messageSinester }}</p>
             </div>
           </div>
           <div class="w-1/4">
@@ -70,8 +72,8 @@
               type="text"
               placeholder="10301/3030099"
             />
-            <div v-if="validateNumerReport" class="mt-2 w-1/2 bg-red-300 rounded-lg text-center">
-                <p>Numero Repetido</p>
+            <div v-if="validateNumerReport" class="mt-2 text-red-700 font-semibold text-center mr-20">
+              <p>{{ messageReport }}</p>
             </div>
           </div>
           <div class="w-1/4">
@@ -159,7 +161,7 @@
             <input
               v-model="datosSinester.FailureDate"
               class="appearance-none border border-black"
-              type="date"              
+              type="date"
             />
           </div>
           <div class="w-1/4 h-8"></div>
@@ -327,62 +329,88 @@ export default {
         "Header/buscarReferencia",
         this.datosSinester.ReferenceNumber
       );
-      this.datosSinester.ReferenceNumber = await this.$store.getters["Header/getreferenceNum"];
+      this.datosSinester.ReferenceNumber = await this.$store.getters[
+        "Header/getreferenceNum"
+      ];
       // console.log( this.datosSinester.ReferenceNumber + "desde vista");
     }
   },
-  computed:{
-    validateNumerSinester: function(){
-      
-        let listaUnique = this.$store.getters['Header/getListaunique']
-        
-        for(let i = 0; i < listaUnique.length; i++){
-
-            if(this.datosSinester.SinisterNumber == listaUnique[i]['sinisterNumber']){
-              let newObject = {
-                  index: 0,
-                  data: true
-              }
-              this.$store.commit('DTC/validacionMutation', newObject)
-              return true
-            }
-        }
-
-        let newObject = {
-            index: 0,
-            data: false
-        }
-        this.$store.commit('DTC/validacionMutation', newObject)
-        return false
-
+  computed: {
+    messageSinester: function() {
+      if (this.datosSinester.SinisterNumber == "") return "Campo requerido";
+      else return "Numero Repetido";
     },
-     validateNumerReport: function(){
-      
-        let listaUnique = this.$store.getters['Header/getListaunique']
-        
-        for(let i = 0; i < listaUnique.length; i++){
+    messageReport: function() {
+      if (this.datosSinester.ReportNumber == "") return "Campo requerido";
+      else return "Numero Repetido";
+    },
+    validateNumerSinester: function() {
+      if (this.datosSinester.SinisterNumber == "") {
+        let newObject = {
+          index: 0,
+          data: false
+        };
+        this.$store.commit("DTC/validacionMutation", newObject);
+        return true;
+      } else {
+        let listaUnique = this.$store.getters["Header/getListaunique"];
 
-            if(this.datosSinester.ReportNumber == listaUnique[i]['reportNumber']){
-                let newObject = {
-                    index: 1,
-                    data: true
-                }
-                this.$store.commit('DTC/validacionMutation', newObject)
-                return true
-            }
+        for (let i = 0; i < listaUnique.length; i++) {
+          if (
+            this.datosSinester.SinisterNumber ==
+            listaUnique[i]["sinisterNumber"]
+          ) {
+            let newObject = {
+              index: 0,
+              data: true
+            };
+            this.$store.commit("DTC/validacionMutation", newObject);
+            return true;
+          }
+        }
+
+        let newObject = {
+          index: 0,
+          data: false
+        };
+        this.$store.commit("DTC/validacionMutation", newObject);
+        return false;
+      }
+    },
+    validateNumerReport: function() {
+      if (this.datosSinester.ReportNumber == "") {
+        let newObject = {
+          index: 1,
+          data: false
+        };
+        this.$store.commit("DTC/validacionMutation", newObject);
+        return true;
+      } else {
+        let listaUnique = this.$store.getters["Header/getListaunique"];
+
+        for (let i = 0; i < listaUnique.length; i++) {
+          if (
+            this.datosSinester.ReportNumber == listaUnique[i]["reportNumber"]
+          ) {
+            let newObject = {
+              index: 1,
+              data: true
+            };
+            this.$store.commit("DTC/validacionMutation", newObject);
+            return true;
+          }
         }
         let newObject = {
-            index: 1,
-            data: false
-        }
-        this.$store.commit('DTC/validacionMutation', newObject)
-        return false
-
+          index: 1,
+          data: false
+        };
+        this.$store.commit("DTC/validacionMutation", newObject);
+        return false;
+      }
     }
-
   },
   watch: {
-    //ARREGLAR WATCHER!!!!!    
+    //ARREGLAR WATCHER!!!!!
     datosUser: function(newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
@@ -394,8 +422,8 @@ export default {
       this.datosSinester.Observaciones = newValue;
     },
     datosSinester: {
-      deep: true,      
-      handler(datosSinester) {        
+      deep: true,
+      handler(datosSinester) {
         this.$store.commit("Header/datosSinesterMutation", datosSinester);
       }
     }
@@ -415,11 +443,9 @@ export default {
 </script>
 
 <style scoped>
-
 label {
   font-weight: bold;
   color: black;
   font-family: Tahoma, Geneva, Verdana, sans-serif;
 }
-
 </style>
