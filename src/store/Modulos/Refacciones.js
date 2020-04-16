@@ -1,4 +1,5 @@
 import Axios from "axios";
+import moment from 'moment'
 
 const state = {
   listaRefacciones: [],
@@ -7,6 +8,9 @@ const state = {
 };
 
 const getters = {
+  getListaRefaccionesValid: function(){
+    return state.listaRefaccionesValid
+  },
   getListaRefacciones: function(){ 
     return state.listaRefacciones 
   },
@@ -25,7 +29,8 @@ const getters = {
           lifeTime: state.listaRefaccionesValid[0]['lifeTime'],          
           unitaryPrice: state.listaRefaccionesValid[0]['unitaryPrice'],
           idGare: state.listaRefaccionesValid[0]['idGare'],
-          componentsStockId: state.listaRefaccionesValid[0]['componentsStockId']        
+          componentsStockId: state.listaRefaccionesValid[0]['componentsStockId'],
+          maintenanceDate: moment(state.listaRefaccionesValid[0]['maintenanceDate']).format('YYYY-MM-DD'),              
         }
     }
     else

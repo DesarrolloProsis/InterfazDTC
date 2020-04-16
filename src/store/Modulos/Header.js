@@ -106,7 +106,7 @@ const actions = {
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.descripcion,
-      Observation: state.datosSinester.Observaciones,      
+      Observation: state.datosSinester.Observaciones == null ? '' : state.datosSinester.Observaciones,      
       UserId: value.userId,
       AgremmentInfoId: value.agremmentInfoId,
       DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss')
@@ -116,14 +116,14 @@ const actions = {
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
       .then(response => {    
         
-        console.log(response.data)
-          if(response.data.message == 'Ok'){             
+        console.log(response)
+          if(response.status === 201){             
              //dispatch('DTC/crearDmg', response.data.result, { root: true })
              console.log('Si se inserta')          
              commit('insertHeaderCompleteMutation', true)
           }
           else
-            alert(response.data.message)             
+            alert('No se Inserto Header')             
       })
       .catch(Ex => {
         alert('No se Pudo Insertar el Header')   

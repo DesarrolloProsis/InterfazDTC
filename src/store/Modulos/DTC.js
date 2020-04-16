@@ -5,6 +5,7 @@ const state = {
   listaDTCTecnico: [],
   listaDescriptions: [],
   listaDmg: [],
+  newlistaDmg: [],
   listaDTC: [],
   validaciones: [false, false, false, false],
   insertDmgComplete: false
@@ -20,10 +21,15 @@ const mutations = {
   listaDTCTecnicoMutation: (state, value) => {
     state.listaDTCTecnico = value;
   },
-  listaDescriptionsMutation: (state, value) => {
+  listaDescriptionsMutation: (state, value) => {    
     state.listaDescriptions = value;
   },
+  newlistaDmgMutationPush: (state, value) => {
+    
+    state.newlistaDmg.push(value);
+  },
   listaDmgMutationPush: (state, value) => {
+    
     state.listaDmg.push(value);
   },
   listaDmgMutationDelete: (state, value) =>{
@@ -50,6 +56,7 @@ const mutations = {
     state.listaDmg[value.index]["dateMaintenanceDate"] = value.dateMaintenanceDate
     state.listaDmg[value.index]["intLifeTimeExpected"] = value.intLifeTimeExpected
     state.listaDmg[value.index]["dateLifeTimeReal"] = value.dateLifeTimeReal
+    state.listaDmg[value.index]['MaintenanceFolio'] = value.MaintenanceFolio
 
   },
   validacionMutation: (state, value) => {
@@ -89,22 +96,24 @@ const actions = {
         state.listaDmg[i]["ReferenceNumber"] = value
         if(state.listaDmg[i]["dateLifeTimeReal"] == "---")
           state.listaDmg[i]["dateLifeTimeReal"] = state.listaDmg[i]['dateInstallationDate']
-        if(state.listaDmg[i]["dateMaintenanceDate"] == "---")
-        state.listaDmg[i]["dateMaintenanceDate"] = state.listaDmg[i]['dateInstallationDate']
-    }     
+    }  
+    
+    console.log(state.listaDmg)
+
     await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
       state.listaDmg
     )
       .then(response => {                  
         
-        if(response.data.message == 'Ok'){  
+        console.log(response)
+        if(response.status == 201){  
             console.log('Si se inserta')          
-            commit('insertDmgCompleteMutation', true)
+            commit('insertDmgCompleteMutation', false)
           
         }
         else{
-          alert(response.data.message)
+          alert('No se Pudo  Insertar Dmg')
         }
         
       })

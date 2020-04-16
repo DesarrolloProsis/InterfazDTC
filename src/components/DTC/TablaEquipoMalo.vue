@@ -126,26 +126,11 @@
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row10 }}</div>
-                <div v-else>
-                  <input
-                    v-model="objectEditar.rowUpd10"
-                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 7vw"
-                    placeholder="Folio"
-                    type="date"
-                  />
-                </div>
+                <div v-else>{{ objectEditar.rowUpd10 }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row11 }}</div>
-                <div v-else>
-                  <input
-                    v-model="objectEditar.rowUpd11"
-                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 7vw"
-                    type="text"
-                  />
-                </div>
+                <div v-else>{{ folioManteSelectEditar.toString() + "\n" }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row12 }}</div>
@@ -291,16 +276,18 @@
                 />
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosManuales.dateMantenimiento"
+                <input                  
+                  v-model="datosDisable.maintenanceDate"
+                  disabled
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 7vw"
-                  type="date"
+                  type="text"
                 />
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="datosManuales.folioMantenimiento"
+                  v-model="folioManteSelect"
+                  disabled
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 7vw"
                   placeholder="Folio"
@@ -363,6 +350,7 @@ export default {
       datosDisable: {},
       //datos de Tabla Principal
       datosDmgComponent: {
+        IntPartida: 0,
         ComponentsStockId: "",
         ReferenceNumber: "",
         CapufeLaneNum: [],
@@ -373,6 +361,7 @@ export default {
         Unity: "",
         dateInstallationDate: "",
         dateMaintenanceDate: "",
+        MaintenanceFolio: [],
         intLifeTimeExpected: "",
         dateLifeTimeReal: ""
       },
@@ -389,6 +378,7 @@ export default {
       idGareSelect: [],
       capufeLaneSelect: [],
       numSerieSelect: [],
+      folioManteSelect: [],
 
       //lista que se paso por prop
       listaComponentesSelect: [],
@@ -403,7 +393,8 @@ export default {
 
       idGareSelectEditar: [],
       capufeLaneSelectEditar: [],
-      numSerieSelectEditar: []
+      numSerieSelectEditar: [],
+      folioManteSelectEditar: [],
     };
   },
   props: {
@@ -450,6 +441,8 @@ export default {
       this.numSerieSelectEditar = [];
       this.idGareSelectEditar = [];
       this.capufeLaneSelectEditar = [];
+      this.folioManteSelectEditar = []
+      this.folioManteSelectEditar = []
       this.objectEditar.rowUpd10 = "";
       this.objectEditar.rowUpd11 = "";
       this.objectEditar.rowUpd12 = "";   
@@ -480,6 +473,7 @@ export default {
       this.objectEditar.rowUpd6 = datosDisable.model;
       this.objectEditar.rowUpd9 = datosDisable.instalationDate;
       this.objectEditar.rowUpd13 = datosDisable.lifeTime;
+      this.objectEditar.rowUpd10 = datosDisable.maintenanceDate
       this.objectEditar.rowUpd14 = datosDisable.unitaryPrice;
       this.objectEditar.rowIdComponent = datosDisable.componentsStockId;
       }
@@ -490,6 +484,7 @@ export default {
         this.objectEditar.rowUpd5 = ''
         this.objectEditar.rowUpd6 = ''
         this.objectEditar.rowUpd9 = ''
+        this.objectEditar.rowUpd10 = ''
         this.objectEditar.rowUpd13 = ''
         this.objectEditar.rowUpd14 = ''
         this.objectEditar.rowIdComponent = ''      
@@ -505,6 +500,8 @@ export default {
       this.$store.commit("DTC/listaDmgMutationDelete", index);
     },
     updateRowTable: async function(index, datos) {
+
+      console.log(datos)
       this.UpdateCompEditado();
       this.listaComponentesSelect[index]["rowUp"] = false;
 
@@ -530,6 +527,7 @@ export default {
 
       this.objectEditar = newObjectEdit;
       this.updtCompEditar = datos.row3;
+      this.folioManteSelectEditar = datos.row11
       this.laneSelectEditar = datos.row8.split(",");
       if (typeof datos.row7 === String)
         this.numSerieSelectEditar = datos.row7.split(",");
@@ -553,11 +551,13 @@ export default {
       ] = this.laneSelectEditar.toString();
       this.listaComponentesSelect[index]["row9"] = this.objectEditar.rowUpd9;
       this.listaComponentesSelect[index]["row10"] = this.objectEditar.rowUpd10;
-      this.listaComponentesSelect[index]["row11"] = this.objectEditar.rowUpd11;
+      this.listaComponentesSelect[index]["row11"] = this.folioManteSelectEditar.toString()
       this.listaComponentesSelect[index]["row12"] = this.objectEditar.rowUpd12;
       this.listaComponentesSelect[index]["row13"] = this.objectEditar.rowUpd13;
       this.listaComponentesSelect[index]["rowUp"] = true;
       alert("AcetarEdicion");
+
+      console.log(this.folioManteSelectEditar)
 
       let newObject = {
         ComponentsStockId: this.objectEditar.rowIdComponent,
@@ -572,6 +572,8 @@ export default {
         dateMaintenanceDate: this.objectEditar.rowUpd10,
         dateLifeTimeReal: this.objectEditar.rowUpd12,
         intLifeTimeExpected: this.objectEditar.rowUpd13,
+        MaintenanceFolio: this.folioManteSelectEditar,
+
 
         index: index
       };
@@ -584,6 +586,8 @@ export default {
       this.numSerieSelectEditar = [];
       this.capufeLaneSelectEditar = [];
       this.laneSelectEditar = [];
+      this.folioManteSelectEditar = []
+      this.updtCompEditar = ''
         }
         else{
           alert('Necesita Agregar La Ubicacion')
@@ -622,8 +626,8 @@ export default {
         row7: this.numSerieSelect.toString(),
         row8: this.laneSelect.toString(),
         row9: this.datosDisable.instalationDate,
-        row10: this.datosManuales.dateMantenimiento,
-        row11: this.datosManuales.folioMantenimiento,
+        row10: this.datosDisable.maintenanceDate,
+        row11: this.folioManteSelect.toString(),
         row12: this.datosManuales.tiempoVidaReal,
         row13: this.datosDisable.lifeTime,
         row14: this.datosDisable.unitaryPrice,
@@ -642,23 +646,46 @@ export default {
       this.datosDmgComponent.NumSerie = this.numSerieSelect;
       this.datosDmgComponent.Unity = this.datosDisable.unity;
       this.datosDmgComponent.dateInstallationDate = this.datosDisable.instalationDate;
-      this.datosDmgComponent.dateMaintenanceDate =
-        this.datosManuales.dateMantenimiento != ""
-          ? this.datosManuales.dateMantenimiento
-          : "---";
+      this.datosDmgComponent.dateMaintenanceDate = this.datosDisable.maintenanceDate
+      this.datosDmgComponent.MaintenanceFolio = this.folioManteSelect
       this.datosDmgComponent.intLifeTimeExpected = this.datosDisable.lifeTime;
       this.datosDmgComponent.dateLifeTimeReal =
         this.datosManuales.tiempoVidaReal != ""
           ? this.datosManuales.tiempoVidaReal
           : "---";
+      let componentValid = this.$store.getters['Refacciones/getListaRefaccionesValid']
+      //  let enviar = objAux.filter(item => item.lane == this.laneSelect[0])
+      //  console.log(enviar)
+      for(let i = 0; i < this.capufeLaneSelect.length; i++){
+        let objAux = componentValid.filter(item => item.lane == this.laneSelect[i])
+        let newObj = {
+          ComponentsStockId: objAux[0]['componentsStockId'],
+          ReferenceNumber: '',
+          CapufeLaneNum: objAux[0]['capufeLaneNum'],
+          IdGare: objAux[0]['idGare'],
+          Marca: objAux[0]['brand'],
+          Modelo: objAux[0]['model'],
+          NumSerie: objAux[0]['serialNumber'],
+          Unity: objAux[0]['unity'],
+          DateInstallationDate: objAux[0]['instalationDate'],
+          DateMaintenanceDate: objAux[0]['maintenanceDate'],
+          MaintenanceFolio: objAux[0]['maintenanceFolio'],
+          IntLifeTimeExpected: objAux[0]['lifeTime'],
+          DateLifeTimeReal: objAux[0]['instalationDate'],
+          IntPartida: 0
 
-      this.$store.commit("DTC/listaDmgMutationPush", this.datosDmgComponent);
+        }
+        this.$store.commit("DTC/newlistaDmgMutationPush",newObj);
+      }
+
+      //this.$store.commit("DTC/listaDmgMutationPush", this.datosDmgComponent);
 
       this.datosDmgComponent = {};
       this.datosDisable = {};
       this.datosManuales = {};
       this.numSerieSelect = [];
       this.idGareSelect = [];
+      this.folioManteSelect = []
       this.capufeLaneSelect = [];
       this.laneSelect = [];
       this.updtComp = "";
@@ -671,6 +698,7 @@ export default {
       this.numSerieSelect = [];
       this.idGareSelect = [];
       this.capufeLaneSelect = [];
+      this.folioManteSelect = []
     },
     laneSelect: async function(newValue) {
       let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
@@ -680,18 +708,21 @@ export default {
         this.numSerieSelect = [];
         this.idGareSelect = [];
         this.capufeLaneSelect = [];
+        this.folioManteSelect = []
 
         if (newValue.length === 1) {
           let item = equipoMalo.filter(x => x.lane == newValue[0]);
           this.numSerieSelect.push(item[0]["serialNumber"]);
           this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
           this.idGareSelect.push(item[0]["idGare"]);
+          this.folioManteSelect.push(item[0]['maintenanceFolio'])
         } else {
           for (let i = 0; i < newValue.length; i++) {
             let item = equipoMalo.filter(x => x.lane == newValue[i]);
             this.numSerieSelect.push(item[0]["serialNumber"]);
             this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
             this.idGareSelect.push(item[0]["idGare"]);
+            this.folioManteSelect.push(item[0]['maintenanceFolio'])
           }
         }
       }
@@ -704,17 +735,20 @@ export default {
         this.numSerieSelectEditar = [];
         this.idGareSelectEditar = [];
         this.capufeLaneSelectEditar = [];
+        this.folioManteSelectEditar = []
         if (newValue.length === 1) {
           let item = equipoMalo.filter(x => x.lane == newValue[0]);
           this.numSerieSelectEditar.push(item[0]["serialNumber"]);
           this.capufeLaneSelectEditar.push(item[0]["capufeLaneNum"]);
           this.idGareSelectEditar.push(item[0]["idGare"]);
+          this.folioManteSelectEditar.push(item[0]['maintenanceFolio'])
         } else {
           for (let i = 0; i < newValue.length; i++) {
             let item = equipoMalo.filter(x => x.lane == newValue[i]);
             this.numSerieSelectEditar.push(item[0]["serialNumber"]);
             this.capufeLaneSelectEditar.push(item[0]["capufeLaneNum"]);
             this.idGareSelectEditar.push(item[0]["idGare"]);
+            this.folioManteSelectEditar.push(item[0]['maintenanceFolio'])
           }
         }
       }
