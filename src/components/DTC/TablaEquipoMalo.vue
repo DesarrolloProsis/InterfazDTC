@@ -328,7 +328,13 @@ export default {
   methods: {
     UpdateComp: async function() {
       let componentrepetido = false;
+
       this.listLane = [];
+      this.laneSelect = []
+      for (const propiedades in this.datosPrePartida) {
+        this.datosPrePartida[propiedades] = [];
+      }
+
 
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         if (this.arrayPartidas[i]["row3"] == this.updtComp) {
