@@ -138,11 +138,11 @@ export default {
         let insertHeader = this.$store.getters[
           "Header/getInsertHeaderComplete"
         ];
-        alert("Se inserto el Header: " + insertHeader);
+        //alert("Se inserto el Header: " + insertHeader);
         if (insertHeader) {
           await this.$store.dispatch("DTC/crearDmg", this.refNum);
           let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-          alert('Se inserto el Dmg: ' + insertDmg)
+          //alert('Se inserto el Dmg: ' + insertDmg)
           if (insertDmg) {
           alert("Generando el PDF " + this.refNum);
 
@@ -175,6 +175,7 @@ export default {
             
             await this.$store.commit('DTC/listaDmgClearMutation')
             await this.$store.commit("DTC/insertDmgCompleteMutation", false);
+            await this.$store.commit("Header/insertHeaderCompleteMutation", false);
             await this.$store.dispatch("Header/buscarListaUnique");
             await this.$store.dispatch("Header/clearDatosSinesterMutation");
 

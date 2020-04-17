@@ -113,15 +113,14 @@ const actions = {
 
        await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
-      state.arrayDmg
+      arrayDmg
     )
       .then(response => {                  
         
         console.log(response)
-        if(response.status == 201){  
+        if(response.status == 201 && response.statusText == 'Created'){  
             console.log('Si se inserta')          
-            commit('insertDmgCompleteMutation', false)
-          
+            commit('insertDmgCompleteMutation', true)          
         }
         else{
           alert('No se Pudo  Insertar Dmg')
@@ -129,7 +128,7 @@ const actions = {
         
       })
       .catch(Ex => {
-        console.log(Ex);
+        console.log('ERRO!!! ' + Ex);
       });
 
     }
