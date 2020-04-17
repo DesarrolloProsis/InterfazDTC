@@ -1,6 +1,5 @@
 import Axios from "axios";
 
-
 const state = {
   listaDTCTecnico: [],
   listaDescriptions: [],
@@ -28,13 +27,8 @@ const mutations = {
     
     state.newlistaDmg.push(value);
   },
-  listaDmgMutationPush: (state, value) => {
-    
-    state.listaDmg.push(value);
-  },
-  listaDmgMutationDelete: (state, value) =>{
-     
-      state.listaDmg.splice(value, 1) 
+  listaDmgMutationDelete: (state, value) =>{    
+    state.newlistaDmg = state.newlistaDmg.filter(partida => partida.description != value)    
   },
   listaDmgClearMutation: (state) => {
     state.listaDmg = []
@@ -42,25 +36,8 @@ const mutations = {
   listaDTCMutation: (state, value) => {
     state.listaDTC = value;
   },
-  listDmgConfirmUpdate: ( state, value) => {
-
-    state.listaDmg[value.index]["ComponentsStockId"] = value.ComponentsStockId
-    state.listaDmg[value.index]["ReferenceNumber"] = value.ReferenceNumber
-    state.listaDmg[value.index]["CapufeLaneNum"] = value.CapufeLaneNum
-    state.listaDmg[value.index]["NumSerie"] = value.NumSerie
-    state.listaDmg[value.index]["IdGare"] = value.IdGare
-    state.listaDmg[value.index]["Marca"] = value.Marca
-    state.listaDmg[value.index]["Modelo"] = value.Modelo
-    state.listaDmg[value.index]["Unity"] = value.Unity
-    state.listaDmg[value.index]["dateInstallationDate"] = value.dateInstallationDate
-    state.listaDmg[value.index]["dateMaintenanceDate"] = value.dateMaintenanceDate
-    state.listaDmg[value.index]["intLifeTimeExpected"] = value.intLifeTimeExpected
-    state.listaDmg[value.index]["dateLifeTimeReal"] = value.dateLifeTimeReal
-    state.listaDmg[value.index]['MaintenanceFolio'] = value.MaintenanceFolio
-
-  },
   validacionMutation: (state, value) => {
-      state.validaciones[value.index] = value.data
+    state.validaciones[value.index] = value.data
   },
   insertDmgCompleteMutation: (state, value) => {
     state.insertDmgComplete = value
@@ -92,17 +69,51 @@ const actions = {
   async crearDmg({ state, commit } , value ) {
         
 
-    for(let i = 0; i< state.listaDmg.length; i++){
-        state.listaDmg[i]["ReferenceNumber"] = value
-        if(state.listaDmg[i]["dateLifeTimeReal"] == "---")
-          state.listaDmg[i]["dateLifeTimeReal"] = state.listaDmg[i]['dateInstallationDate']
-    }  
-    
-    console.log(state.listaDmg)
+    if(state.newlistaDmg.length > 0){
 
-    await Axios.post(
+      let arrayDmg = []    
+      let strComponent = ''
+      let intPartida = 1
+
+      strComponent = state.newlistaDmg[0]['description']
+
+        
+    for(let i = 0; i < state.newlistaDmg.length; i++){
+            
+
+    if(strComponent == state.newlistaDmg[i].description){
+        console.log(state.newlistaDmg[i].description)
+    }
+    else{
+      strComponent = state.newlistaDmg[i].description
+      intPartida++
+    }
+
+
+    let obj = {
+      ComponentsStockId: state.newlistaDmg[i].componentsStockId,
+      ReferenceNumber: value,
+      CapufeLaneNum: state.newlistaDmg[i].capufeLaneNum,
+      IdGare: state.newlistaDmg[i].idGare,
+      Marca: state.newlistaDmg[i].brand,
+      Modelo: state.newlistaDmg[i].model,
+      NumSerie: state.newlistaDmg[i].serialNumber,
+      Unity: state.newlistaDmg[i].unity,
+      DateInstallationDate: state.newlistaDmg[i].instalationDate,
+      DateMaintenanceDate: state.newlistaDmg[i].maintenanceDate,
+      MaintenanceFolio: state.newlistaDmg[i].maintenanceFolio,
+      IntLifeTimeExpected: state.newlistaDmg[i].lifeTime,
+      DateLifeTimeReal: state.newlistaDmg[i].instalationDate,        
+      IntPartida: intPartida
+    }
+    arrayDmg.push(obj)
+        
+  }
+      console.log(arrayDmg)
+
+       await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
-      state.listaDmg
+      state.arrayDmg
     )
       .then(response => {                  
         
@@ -120,6 +131,12 @@ const actions = {
       .catch(Ex => {
         console.log(Ex);
       });
+
+    }
+
+    
+
+   
   },
 };
 

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex flex-wrap border border-black justify-center sm:p-4 md:m-5 md:pl-48 md:pr-48">
-      <div class="p-3 w-screen inline">
+    <div class="flex flex-wrap border border-black justify-center sm:p-4 md:m-5">
+      <div class="inline">
         <!-- ************************************************************** -->
 
         <div class="text-center text-2xl font-bold mb-6">
@@ -11,7 +11,7 @@
 
         <!-- ************************************************************** -->
         <div class="overflow-x-scroll">
-          <table class="border-gray-700 border-solid w-full">
+          <table class="border-gray-700 border-solid w-auto">
             <tr>
               <th>Partida</th>
               <th>Unidad</th>
@@ -41,19 +41,19 @@
             <tr
               style="text-align: center"
               class="hover:bg-blue-200 text-center"
-              v-for="(equipo, index) in listaComponentesSelect"
+              v-for="(equipo, index) in arrayPartidas"
               :key="index"
             >
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row1 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
                 <div v-else>{{ objectEditar.rowUpd1 }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row2 }}</div>
-                <div v-else>{{ objectEditar.rowUpd2 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
+                <div v-else>{{ objectEditar.rowUpd2.toString() }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row3 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row3.toString() }}</div>
                 <div v-else>
                   <select
                     @change="UpdateCompEditado()"
@@ -72,31 +72,32 @@
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
-                <div v-else>{{ objectEditar.rowUpd4 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row4.toString() }}</div>
+                <div v-else>{{ objectEditar.rowUpd4.toString() }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row5 }}</div>
-                <div v-else>{{ objectEditar.rowUpd5 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
+                <div v-else>{{ objectEditar.rowUpd5.toString() }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row6 }}</div>
-                <div v-else>{{ objectEditar.rowUpd6 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row6.toString() }}</div>
+                <div v-else>{{ objectEditar.rowUpd6.toString() }}</div>
               </td>
               <td
                 class="border-b border-black border-2"
                 style="max-width: 7vw; height: auto; overflow: hidden; text-align: center;"
               >
                 <div v-if="equipo.rowUp">
-                  <p>{{ equipo.row7 + "\n" }}</p>
+                  <p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p>
                 </div>
-
                 <div v-else>
-                  <p>{{ numSerieSelectEditar + "\n" }}</p>
+                  <p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row8 }}</div>
+                <div v-if="equipo.rowUp">
+                  <p v-for="(item, key) in equipo.row8" :key="key">{{ item }}</p>
+                </div>
                 <div v-else>
                   <multiselect
                     v-model="laneSelectEditar"
@@ -121,19 +122,19 @@
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row9 }}</div>
-                <div v-else>{{ objectEditar.rowUpd9 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row9.toString().substring(0,10) }}</div>
+                <div v-else>{{ objectEditar.rowUpd9.toString().substring(0,10) }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row10 }}</div>
-                <div v-else>{{ objectEditar.rowUpd10 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row10.toString().substring(0,10) }}</div>
+                <div v-else>{{ objectEditar.rowUpd10.toString().substring(0,10) }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row11 }}</div>
-                <div v-else>{{ folioManteSelectEditar.toString() + "\n" }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row11.toString() }}</div>
+                <div v-else>{{ objectEditar.rowUpd11.toString() }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row12 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row12.toString() }}</div>
                 <div v-else>
                   <input
                     v-model="objectEditar.rowUpd12"
@@ -144,14 +145,14 @@
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row13 }}</div>
-                <div v-else>{{ objectEditar.rowUpd13 }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row13.toString() }}</div>
+                <div v-else>{{ objectEditar.rowUpd13.toString() }}</div>
               </td>
 
               <td class="border-b border-black md:p-3 border-2">
                 <div v-if="equipo.rowUp">
                   <button
-                    v-on:click.stop.prevent="deleteItem(index)"
+                    v-on:click.stop.prevent="deleteItem(equipo.row3, index)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
                   >Eliminar</button>
                   <br />
@@ -178,17 +179,9 @@
 
             <tr style="text-align: center">
               <td class="border-b border-black p-2 md:p-1 border-2">{{ "*" }}</td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDisable.unity"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 4vw"
-                  placeholder="Pza"
-                />
-              </td>
-
+              <td
+                class="border-b border-black p-2 md:p-1 border-2"
+              >{{ datosPrePartida.rowUnidad.toString() }}</td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <select
                   @change="UpdateComp()"
@@ -205,44 +198,21 @@
                   >{{ item.description }}</option>
                 </select>
               </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosManuales.cantidad"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 4vw"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDisable.brand"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="M60-31"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDisable.model"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="FD1103"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="numSerieSelect"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="S/N"
-                />
+              <td
+                class="border-b border-black p-2 md:p-1 border-2"
+              >{{ datosPrePartida.rowCantidad }}</td>
+              <td
+                class="border-b border-black p-2 md:p-1 border-2 w-32"
+              >{{ datosPrePartida.rowMarca.toString() }}</td>
+              <td
+                class="border-b border-black p-2 md:p-1 border-2 w-32"
+              >{{ datosPrePartida.rowModelo.toString() }}</td>
+              <td class="border-b border-black p-2 md:p-1 border-2 text-justify">
+                <p
+                  v-for="(item, key) in datosPrePartida.rowNumSerie"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <multiselect
@@ -266,52 +236,25 @@
                   </template>
                 </multiselect>
               </td>
+              <td
+                class="border-b border-black p-2 md:p-1 border-2 w-32"
+              >{{datosPrePartida.rowDateInstalacion.toString().substring(0,10) }}</td>
+              <td
+                class="border-b border-black p-2 md:p-1 border-2 w-32"
+              >{{ datosPrePartida.rowDateMantenimiento.toString().substring(0,10) }}</td>
+              <td
+                class="border-b border-black p-2 md:p-1 border-2"
+              >{{ datosPrePartida.rowFolioMantenimiento.toString() }}</td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <input
-                  v-model="datosDisable.instalationDate"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 7vw"
-                  type="text"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input                  
-                  v-model="datosDisable.maintenanceDate"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 7vw"
-                  type="text"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="folioManteSelect"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 7vw"
-                  placeholder="Folio"
-                  type="text"
-                />
-              </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosManuales.tiempoVidaReal"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 7vw"
                   type="date"
                 />
               </td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
-                <input
-                  v-model="datosDisable.lifeTime"
-                  disabled
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  type="text"
-                  style="width: 6vw"
-                  placeholder="Numero de años"
-                />
-              </td>
+              <td
+                class="border-b border-black p-2 md:p-1 border-2"
+              >{{datosPrePartida.rowDateFabricante.toString()}}</td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
@@ -327,7 +270,7 @@
       </div>
     </div>
 
-    <TablaEquipoPropuesto :listaEquipo="listaComponentesSelect"></TablaEquipoPropuesto>
+    <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
   </div>
 </template>
 
@@ -343,58 +286,33 @@ export default {
   },
   data() {
     return {
-      boolUodateTable: true,
+      datosPrePartida: {
+        rowPartida: [],
+        rowUnidad: [],
+        rowCantidad: 0,
+        rowMarca: [],
+        rowModelo: [],
+        rowNumSerie: [],
+        rowDateInstalacion: [],
+        rowDateMantenimiento: [],
+        rowFolioMantenimiento: [],
+        rowDateReal: [],
+        rowDateFabricante: [],
+        rowPrecio: [],
+        rowUp: true
+      },
+      arrayPartidas: [],
       //nombre del Compoente
       updtComp: "",
-      //datos ninamico Compnente
-      datosDisable: {},
-      //datos de Tabla Principal
-      datosDmgComponent: {
-        IntPartida: 0,
-        ComponentsStockId: "",
-        ReferenceNumber: "",
-        CapufeLaneNum: [],
-        IdGare: [],
-        Marca: "",
-        Modelo: "",
-        NumSerie: [],
-        Unity: "",
-        dateInstallationDate: "",
-        dateMaintenanceDate: "",
-        MaintenanceFolio: [],
-        intLifeTimeExpected: "",
-        dateLifeTimeReal: ""
-      },
-      datosManuales: {
-        cantidad: 0,
-        dateMantenimiento: "",
-        folioMantenimiento: "",
-        tiempoVidaReal: ""
-      },
       //Multiselect Normal
       listLane: [],
       laneSelect: [],
-
-      idGareSelect: [],
-      capufeLaneSelect: [],
-      numSerieSelect: [],
-      folioManteSelect: [],
-
-      //lista que se paso por prop
-      listaComponentesSelect: [],
-
       //datos para editar Componente
       saveObjectEdiar: [],
       objectEditar: {},
-
       updtCompEditar: "",
       listLaneEditar: [],
-      laneSelectEditar: [],
-
-      idGareSelectEditar: [],
-      capufeLaneSelectEditar: [],
-      numSerieSelectEditar: [],
-      folioManteSelectEditar: [],
+      laneSelectEditar: []
     };
   },
   props: {
@@ -408,347 +326,350 @@ export default {
     }
   },
   methods: {
-    UpdateComp: async function() { 
-      
-      let conteo = 0;
+    UpdateComp: async function() {
+      let componentrepetido = false;
+      this.listLane = [];
 
-
-      for(let i = 0; i < this.listaComponentesSelect.length; i++){        
-         if(this.listaComponentesSelect[i]['row3'] === this.updtComp){
-            conteo++
-         }
+      for (let i = 0; i < this.arrayPartidas.length; i++) {
+        if (this.arrayPartidas[i]["row3"] == this.updtComp) {
+          componentrepetido = true;
+        }
       }
+      if (!componentrepetido) {
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        newObject["id"] = this.updtComp;
+        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
 
-      if(conteo == 0){
-
-          let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-          newObject["id"] = this.updtComp;      
-          await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-          this.datosDisable = await this.$store.getters["Refacciones/getComponentDisable"];
-          this.listLane = await this.$store.getters["Refacciones/getListaLane"];
-
+        this.listLane = await this.$store.getters["Refacciones/getListaLane"];
+      } else {
+        this.updtComp = "";
+        alert("COMPONENTE REPETIDO!!!");
       }
-      else{
-          this.updtComp = ''
-          alert('Componente Repetido')
-      }                  
-    
     },
     UpdateCompEditado: async function() {
+      let componentrepetido = false;      
 
-
-      this.laneSelectEditar = [];
-      this.numSerieSelectEditar = [];
-      this.idGareSelectEditar = [];
-      this.capufeLaneSelectEditar = [];
-      this.folioManteSelectEditar = []
-      this.folioManteSelectEditar = []
-      this.objectEditar.rowUpd10 = "";
-      this.objectEditar.rowUpd11 = "";
-      this.objectEditar.rowUpd12 = "";   
-
-      let conteo = 0;
-
-      for(let i = 0; i < this.listaComponentesSelect.length; i++){
-         if(this.listaComponentesSelect[i]['row3'] == this.updtCompEditar){
-            conteo++
-         }
+      for (let i = 0; i < this.arrayPartidas.length; i++) {
+        if (this.arrayPartidas[i]["row3"] == this.updtCompEditar) {
+          componentrepetido = true;
+        }
       }
+      if (!componentrepetido) {
+        this.laneSelectEditar = [];
 
-      if(conteo == 0){
- 
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        newObject["id"] = this.updtCompEditar;
+        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+        this.listLaneEditar = await this.$store.getters[
+          "Refacciones/getListaLane"
+        ];
+        console.log(this.listLaneEditar);
+      } else {
+        if (this.updtCompEditar == this.saveObjectEdiar[2]) {
+          
+          alert("ESTA EDITANDO ESE ELEMENTO!!!")
 
-      let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-      newObject["id"] = this.updtCompEditar;
-      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      let datosDisable = await this.$store.getters[
-        "Refacciones/getComponentDisable"
-      ];
-      this.listLaneEditar = await this.$store.getters[
-        "Refacciones/getListaLane"
-      ];
-      this.objectEditar.rowUpd3 = this.updtCompEditar;
-      this.objectEditar.rowUpd2 = datosDisable.unity;
-      this.objectEditar.rowUpd5 = datosDisable.brand;
-      this.objectEditar.rowUpd6 = datosDisable.model;
-      this.objectEditar.rowUpd9 = datosDisable.instalationDate;
-      this.objectEditar.rowUpd13 = datosDisable.lifeTime;
-      this.objectEditar.rowUpd10 = datosDisable.maintenanceDate
-      this.objectEditar.rowUpd14 = datosDisable.unitaryPrice;
-      this.objectEditar.rowIdComponent = datosDisable.componentsStockId;
-      }
-      else{  
-        this.updtCompEditar = ''
-        this.objectEditar.rowUpd3 = ''
-        this.objectEditar.rowUpd2 = ''
-        this.objectEditar.rowUpd5 = ''
-        this.objectEditar.rowUpd6 = ''
-        this.objectEditar.rowUpd9 = ''
-        this.objectEditar.rowUpd10 = ''
-        this.objectEditar.rowUpd13 = ''
-        this.objectEditar.rowUpd14 = ''
-        this.objectEditar.rowIdComponent = ''      
-        alert('Componente Repetido')
+          let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+          newObject["id"] = this.updtCompEditar;
+          await this.$store.dispatch(
+            "Refacciones/buscarComponenteId",
+            newObject
+          );
+          this.listLaneEditar = await this.$store.getters[
+            "Refacciones/getListaLane"
+          ];
+        }
+        else{
+            
+            this.updtCompEditar = ''
+             this.laneSelectEditar = [];
+             this.listLaneEditar = []
+            for (const propiedades in this.objectEditar) {
+                this.objectEditar[propiedades] = [];
+              }
+            alert("COMPONETE REPETIDO!!!");
+
+        }
+
+     
       }
     },
-    deleteItem(index) {
-      this.listaComponentesSelect.splice(index, 1);
+    deleteItem(value, index) {
+      
+      console.log(index)
+      this.arrayPartidas = this.arrayPartidas.filter(
+        partida => partida.row3 != value
+      );
 
-      for (let i = 0; i < this.listaComponentesSelect.length; i++)
-        this.listaComponentesSelect[i]["row1"] = i + 1;
+      for(let i = 0; i < this.arrayPartidas.length; i++){
+          this.arrayPartidas[i]['row1'] = i + 1
+      }
 
-      this.$store.commit("DTC/listaDmgMutationDelete", index);
+      this.$store.commit("DTC/listaDmgMutationDelete", value);
+
+
     },
     updateRowTable: async function(index, datos) {
-
-      console.log(datos)
-      this.UpdateCompEditado();
-      this.listaComponentesSelect[index]["rowUp"] = false;
+      this.arrayPartidas[index]["rowUp"] = false;
 
       this.saveObjectEdiar = Object.values(datos);
 
-      let newObjectEdit = {
-        rowUpd1: this.saveObjectEdiar[0],
-        rowUpd2: this.saveObjectEdiar[1],
-        rowUpd3: this.saveObjectEdiar[2],
-        rowUpd4: this.saveObjectEdiar[3],
-        rowUpd5: this.saveObjectEdiar[4],
-        rowUpd6: this.saveObjectEdiar[5],
-        rowUpd7: this.saveObjectEdiar[6],
-        rowUpd8: this.saveObjectEdiar[7].toString(),
-        rowUpd9: this.saveObjectEdiar[8],
-        rowUpd10: this.saveObjectEdiar[9],
-        rowUpd11: this.saveObjectEdiar[10],
-        rowUpd12: this.saveObjectEdiar[11],
-        rowUpd13: this.saveObjectEdiar[12],
-        rowUpd14: this.saveObjectEdiar[13],
-        rowIdComponent: null
+      let newObjEdit = {
+        rowUpd1: [],
+        rowUpd2: [],
+        rowUpd3: "",
+        rowUpd4: 0,
+        rowUpd5: [],
+        rowUpd6: [],
+        rowUpd7: [],
+        rowUpd8: [],
+        rowUpd9: [],
+        rowUpd10: [],
+        rowUpd11: [],
+        rowUpd12: [],
+        rowUpd13: [],
+        rowUpd14: [],
       };
 
-      this.objectEditar = newObjectEdit;
-      this.updtCompEditar = datos.row3;
-      this.folioManteSelectEditar = datos.row11
-      this.laneSelectEditar = datos.row8.split(",");
-      if (typeof datos.row7 === String)
-        this.numSerieSelectEditar = datos.row7.split(",");
-      else this.numSerieSelectEditar = datos.row7;
+      this.objectEditar = newObjEdit;
+      this.updtCompEditar = this.saveObjectEdiar[2];
+      this.laneSelectEditar = this.saveObjectEdiar[7];
+      let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+      newObject["id"] = this.updtCompEditar;
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+      this.listLaneEditar = await this.$store.getters[
+        "Refacciones/getListaLane"
+      ];
     },
-    confirmRowTable: function(index) {
+    confirmRowTable: async function(index) {
+      if (this.updtCompEditar != "") {
+        if (this.laneSelectEditar.length > 0) {          
+          let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
+          await this.$store.commit("DTC/listaDmgMutationDelete", this.saveObjectEdiar[2]);
 
-      if(this.objectEditar.rowIdComponent != ''){
+          for (const lane of this.laneSelectEditar) {
+              let component = equipoValid.find(component => component.lane === lane);
+            await this.$store.commit("DTC/newlistaDmgMutationPush", component);
+          }          
 
-        if(this.capufeLaneSelectEditar.length >  0){
-
-      this.listaComponentesSelect[index]["row1"] = this.objectEditar.rowUpd1;
-      this.listaComponentesSelect[index]["row2"] = this.objectEditar.rowUpd2;
-      this.listaComponentesSelect[index]["row3"] = this.objectEditar.rowUpd3;
-      this.listaComponentesSelect[index]["row4"] = this.objectEditar.rowUpd4;
-      this.listaComponentesSelect[index]["row5"] = this.objectEditar.rowUpd5;
-      this.listaComponentesSelect[index]["row6"] = this.objectEditar.rowUpd6;
-      this.listaComponentesSelect[index]["row7"] = this.numSerieSelectEditar;
-      this.listaComponentesSelect[index][
-        "row8"
-      ] = this.laneSelectEditar.toString();
-      this.listaComponentesSelect[index]["row9"] = this.objectEditar.rowUpd9;
-      this.listaComponentesSelect[index]["row10"] = this.objectEditar.rowUpd10;
-      this.listaComponentesSelect[index]["row11"] = this.folioManteSelectEditar.toString()
-      this.listaComponentesSelect[index]["row12"] = this.objectEditar.rowUpd12;
-      this.listaComponentesSelect[index]["row13"] = this.objectEditar.rowUpd13;
-      this.listaComponentesSelect[index]["rowUp"] = true;
-      alert("AcetarEdicion");
-
-      console.log(this.folioManteSelectEditar)
-
-      let newObject = {
-        ComponentsStockId: this.objectEditar.rowIdComponent,
-        ReferenceNumber: "",
-        CapufeLaneNum: this.capufeLaneSelectEditar,
-        IdGare: this.idGareSelectEditar,
-        Marca: this.objectEditar.rowUpd5,
-        Modelo: this.objectEditar.rowUpd6,
-        NumSerie: this.numSerieSelectEditar,
-        Unity: this.objectEditar.rowUpd2,
-        dateInstallationDate: this.objectEditar.rowUpd9,
-        dateMaintenanceDate: this.objectEditar.rowUpd10,
-        dateLifeTimeReal: this.objectEditar.rowUpd12,
-        intLifeTimeExpected: this.objectEditar.rowUpd13,
-        MaintenanceFolio: this.folioManteSelectEditar,
+          this.arrayPartidas[index]["row1"] = this.objectEditar.rowUpd1;
+          this.arrayPartidas[index]["row2"] = this.objectEditar.rowUpd2;
+          this.arrayPartidas[index]["row3"] = this.updtCompEditar;
+          this.arrayPartidas[index]["row4"] = this.objectEditar.rowUpd4;
+          this.arrayPartidas[index]["row5"] = this.objectEditar.rowUpd5;
+          this.arrayPartidas[index]["row6"] = this.objectEditar.rowUpd6;
+          this.arrayPartidas[index]["row7"] = this.objectEditar.rowUpd7;
+          this.arrayPartidas[index]["row8"] = this.laneSelectEditar;
+          this.arrayPartidas[index]["row9"] = this.objectEditar.rowUpd9;
+          this.arrayPartidas[index]["row10"] = this.objectEditar.rowUpd10;
+          this.arrayPartidas[index]["row11"] = this.objectEditar.rowUpd11;
+          this.arrayPartidas[index]["row12"] = this.objectEditar.rowUpd12;
+          this.arrayPartidas[index]["row13"] = this.objectEditar.rowUpd13;
+          this.arrayPartidas[index]["row14"] = this.objectEditar.rowUpd14
+          this.arrayPartidas[index]["rowUp"] = true;
+          this.objectEditar = {};
+          this.saveObjectEdiar = [];
+          this.laneSelectEditar = [];
+          this.updtCompEditar = "";
 
 
-        index: index
-      };
-
-      this.$store.commit("DTC/listDmgConfirmUpdate", newObject);
-
-      this.saveObjectEdiar = [];
-      this.objectEditar = {};
-      this.idGareSelectEditar = [];
-      this.numSerieSelectEditar = [];
-      this.capufeLaneSelectEditar = [];
-      this.laneSelectEditar = [];
-      this.folioManteSelectEditar = []
-      this.updtCompEditar = ''
+        } else {
+          alert("SELECIONE LA UBICACION!!!");
         }
-        else{
-          alert('Necesita Agregar La Ubicacion')
-        }
-      }
-      else{
-        alert('Necesita Agregar Un Componente')
+      } else {
+        alert("ELIGA UN COMPONENTE!!!");
       }
     },
     abortUpdateRowTable: function(index) {
-      this.listaComponentesSelect[index]["row1"] = this.saveObjectEdiar[0];
-      this.listaComponentesSelect[index]["row2"] = this.saveObjectEdiar[1];
-      this.listaComponentesSelect[index]["row3"] = this.saveObjectEdiar[2];
-      this.listaComponentesSelect[index]["row4"] = this.saveObjectEdiar[3];
-      this.listaComponentesSelect[index]["row5"] = this.saveObjectEdiar[4];
-      this.listaComponentesSelect[index]["row6"] = this.saveObjectEdiar[5];
-      this.listaComponentesSelect[index]["row7"] = this.saveObjectEdiar[6];
-      this.listaComponentesSelect[index]["row8"] = this.saveObjectEdiar[7];
-      this.listaComponentesSelect[index]["row9"] = this.saveObjectEdiar[8];
-      this.listaComponentesSelect[index]["row10"] = this.saveObjectEdiar[9];
-      this.listaComponentesSelect[index]["row11"] = this.saveObjectEdiar[10];
-      this.listaComponentesSelect[index]["row12"] = this.saveObjectEdiar[11];
-      this.listaComponentesSelect[index]["row13"] = this.saveObjectEdiar[12];
-      this.listaComponentesSelect[index]["rowUp"] = true;
+      this.arrayPartidas[index]["row1"] = this.saveObjectEdiar[0];
+      this.arrayPartidas[index]["row2"] = this.saveObjectEdiar[1];
+      this.arrayPartidas[index]["row3"] = this.saveObjectEdiar[2];
+      this.arrayPartidas[index]["row4"] = this.saveObjectEdiar[3];
+      this.arrayPartidas[index]["row5"] = this.saveObjectEdiar[4];
+      this.arrayPartidas[index]["row6"] = this.saveObjectEdiar[5];
+      this.arrayPartidas[index]["row7"] = this.saveObjectEdiar[6];
+      this.arrayPartidas[index]["row8"] = this.saveObjectEdiar[7];
+      this.arrayPartidas[index]["row9"] = this.saveObjectEdiar[8];
+      this.arrayPartidas[index]["row10"] = this.saveObjectEdiar[9];
+      this.arrayPartidas[index]["row11"] = this.saveObjectEdiar[10];
+      this.arrayPartidas[index]["row12"] = this.saveObjectEdiar[11];
+      this.arrayPartidas[index]["row13"] = this.saveObjectEdiar[12];
+      this.arrayPartidas[index]["row14"] = this.saveObjectEdiar[13]
+      this.arrayPartidas[index]["rowUp"] = true;
       this.saveObjectEdiar = [];
       this.objectEditar = {};
     },
-    agregarPartida: function() {
+    agregarPartida: async function() {
       let newObject = {
-        row1: this.listaComponentesSelect.length + 1,
-        row2: this.datosDisable.unity,
+        row1: this.arrayPartidas.length + 1,
+        row2: this.datosPrePartida.rowUnidad,
         row3: this.updtComp,
-        row4: this.datosManuales.cantidad,
-        row5: this.datosDisable.brand,
-        row6: this.datosDisable.model,
-        row7: this.numSerieSelect.toString(),
-        row8: this.laneSelect.toString(),
-        row9: this.datosDisable.instalationDate,
-        row10: this.datosDisable.maintenanceDate,
-        row11: this.folioManteSelect.toString(),
-        row12: this.datosManuales.tiempoVidaReal,
-        row13: this.datosDisable.lifeTime,
-        row14: this.datosDisable.unitaryPrice,
+        row4: this.datosPrePartida.rowCantidad,
+        row5: this.datosPrePartida.rowMarca,
+        row6: this.datosPrePartida.rowModelo,
+        row7: this.datosPrePartida.rowNumSerie,
+        row8: this.laneSelect,
+        row9: this.datosPrePartida.rowDateInstalacion,
+        row10: this.datosPrePartida.rowDateMantenimiento,
+        row11: this.datosPrePartida.rowFolioMantenimiento,
+        row12: this.datosPrePartida.rowDateReal,
+        row13: this.datosPrePartida.rowDateFabricante,
+        row14: this.datosPrePartida.rowPrecio,
         rowUp: true
       };
 
-      this.listaComponentesSelect.push(newObject);
+      this.arrayPartidas.push(newObject);
 
-      //Se LLena el objeto Dmg para Insertar Componentes
-      this.datosDmgComponent.ComponentsStockId = this.datosDisable.componentsStockId;
-      this.datosDmgComponent.ReferenceNumber = this.numReference;
-      this.datosDmgComponent.CapufeLaneNum = this.capufeLaneSelect;
-      this.datosDmgComponent.IdGare = this.idGareSelect;
-      this.datosDmgComponent.Marca = this.datosDisable.brand;
-      this.datosDmgComponent.Modelo = this.datosDisable.model;
-      this.datosDmgComponent.NumSerie = this.numSerieSelect;
-      this.datosDmgComponent.Unity = this.datosDisable.unity;
-      this.datosDmgComponent.dateInstallationDate = this.datosDisable.instalationDate;
-      this.datosDmgComponent.dateMaintenanceDate = this.datosDisable.maintenanceDate
-      this.datosDmgComponent.MaintenanceFolio = this.folioManteSelect
-      this.datosDmgComponent.intLifeTimeExpected = this.datosDisable.lifeTime;
-      this.datosDmgComponent.dateLifeTimeReal =
-        this.datosManuales.tiempoVidaReal != ""
-          ? this.datosManuales.tiempoVidaReal
-          : "---";
-      let componentValid = this.$store.getters['Refacciones/getListaRefaccionesValid']
-      //  let enviar = objAux.filter(item => item.lane == this.laneSelect[0])
-      //  console.log(enviar)
-      for(let i = 0; i < this.capufeLaneSelect.length; i++){
-        let objAux = componentValid.filter(item => item.lane == this.laneSelect[i])
-        let newObj = {
-          ComponentsStockId: objAux[0]['componentsStockId'],
-          ReferenceNumber: '',
-          CapufeLaneNum: objAux[0]['capufeLaneNum'],
-          IdGare: objAux[0]['idGare'],
-          Marca: objAux[0]['brand'],
-          Modelo: objAux[0]['model'],
-          NumSerie: objAux[0]['serialNumber'],
-          Unity: objAux[0]['unity'],
-          DateInstallationDate: objAux[0]['instalationDate'],
-          DateMaintenanceDate: objAux[0]['maintenanceDate'],
-          MaintenanceFolio: objAux[0]['maintenanceFolio'],
-          IntLifeTimeExpected: objAux[0]['lifeTime'],
-          DateLifeTimeReal: objAux[0]['instalationDate'],
-          IntPartida: 0
+      let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
 
-        }
-        this.$store.commit("DTC/newlistaDmgMutationPush",newObj);
+      for (const lane of this.laneSelect) {
+        let component = equipoValid.find(component => component.lane === lane);
+        await this.$store.commit("DTC/newlistaDmgMutationPush", component);
       }
 
-      //this.$store.commit("DTC/listaDmgMutationPush", this.datosDmgComponent);
-
-      this.datosDmgComponent = {};
-      this.datosDisable = {};
-      this.datosManuales = {};
-      this.numSerieSelect = [];
-      this.idGareSelect = [];
-      this.folioManteSelect = []
-      this.capufeLaneSelect = [];
-      this.laneSelect = [];
+      for (const propiedades in this.datosPrePartida) {
+        if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
+        else this.datosPrePartida[propiedades] = [];
+      }
       this.updtComp = "";
+      this.laneSelect = [];
+      this.listLane = [];
     }
   },
   watch: {
-    updtComp: function() {
-      this.laneSelect = [];
-      this.datosDisable = {};
-      this.numSerieSelect = [];
-      this.idGareSelect = [];
-      this.capufeLaneSelect = [];
-      this.folioManteSelect = []
-    },
     laneSelect: async function(newValue) {
-      let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
+      for (const propiedades in this.objectEditar) {
+        this.datosPrePartida[propiedades] = [];
+      }
+
+      let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
 
       if (newValue != null) {
-        this.datosManuales.cantidad = newValue.length;
-        this.numSerieSelect = [];
-        this.idGareSelect = [];
-        this.capufeLaneSelect = [];
-        this.folioManteSelect = []
+        this.datosPrePartida.rowCantidad = this.laneSelect.length;
 
-        if (newValue.length === 1) {
-          let item = equipoMalo.filter(x => x.lane == newValue[0]);
-          this.numSerieSelect.push(item[0]["serialNumber"]);
-          this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
-          this.idGareSelect.push(item[0]["idGare"]);
-          this.folioManteSelect.push(item[0]['maintenanceFolio'])
-        } else {
-          for (let i = 0; i < newValue.length; i++) {
-            let item = equipoMalo.filter(x => x.lane == newValue[i]);
-            this.numSerieSelect.push(item[0]["serialNumber"]);
-            this.capufeLaneSelect.push(item[0]["capufeLaneNum"]);
-            this.idGareSelect.push(item[0]["idGare"]);
-            this.folioManteSelect.push(item[0]['maintenanceFolio'])
+        for (const lane of this.laneSelect) {
+          let component = equipoValid.find(
+            component => component.lane === lane
+          );
+
+          if (
+            this.datosPrePartida.rowUnidad.includes(component.unity) == false
+          ) {
+            this.datosPrePartida.rowUnidad.push(component.unity);
+          }
+          if (
+            this.datosPrePartida.rowMarca.includes(component.brand) == false
+          ) {
+            this.datosPrePartida.rowMarca.push(component.brand);
+          }
+          if (
+            this.datosPrePartida.rowModelo.includes(component.model) == false
+          ) {
+            this.datosPrePartida.rowModelo.push(component.model);
+          }
+          if (
+            this.datosPrePartida.rowNumSerie.includes(component.serialNumber) ==
+            false
+          ) {
+            this.datosPrePartida.rowNumSerie.push(component.serialNumber);
+          }
+          if (
+            this.datosPrePartida.rowDateInstalacion.includes(
+              component.instalationDate
+            ) == false
+          ) {
+            this.datosPrePartida.rowDateInstalacion.push(
+              component.instalationDate
+            );
+          }
+          if (
+            this.datosPrePartida.rowDateMantenimiento.includes(
+              component.maintenanceDate
+            ) == false
+          ) {
+            this.datosPrePartida.rowDateMantenimiento.push(
+              component.maintenanceDate
+            );
+          }
+          if (
+            this.datosPrePartida.rowFolioMantenimiento.includes(
+              component.maintenanceFolio
+            ) == false
+          ) {
+            this.datosPrePartida.rowFolioMantenimiento.push(
+              component.maintenanceFolio
+            );
+          }
+          if (
+            this.datosPrePartida.rowDateFabricante.includes(
+              component.lifeTime
+            ) == false
+          ) {
+            this.datosPrePartida.rowDateFabricante.push(component.lifeTime);
+          }
+          if(this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) == false){
+            this.datosPrePartida.rowPrecio.push(component.unitaryPrice);
           }
         }
       }
     },
     laneSelectEditar: async function(newValue) {
-      let equipoMalo = await this.$store.getters["Refacciones/getEquipoMalo"];
+      for (const propiedades in this.objectEditar) {
+        this.objectEditar[propiedades] = [];
+      }
 
-      if (newValue != []) {
-        this.objectEditar.rowUpd4 = newValue.length;
-        this.numSerieSelectEditar = [];
-        this.idGareSelectEditar = [];
-        this.capufeLaneSelectEditar = [];
-        this.folioManteSelectEditar = []
-        if (newValue.length === 1) {
-          let item = equipoMalo.filter(x => x.lane == newValue[0]);
-          this.numSerieSelectEditar.push(item[0]["serialNumber"]);
-          this.capufeLaneSelectEditar.push(item[0]["capufeLaneNum"]);
-          this.idGareSelectEditar.push(item[0]["idGare"]);
-          this.folioManteSelectEditar.push(item[0]['maintenanceFolio'])
-        } else {
-          for (let i = 0; i < newValue.length; i++) {
-            let item = equipoMalo.filter(x => x.lane == newValue[i]);
-            this.numSerieSelectEditar.push(item[0]["serialNumber"]);
-            this.capufeLaneSelectEditar.push(item[0]["capufeLaneNum"]);
-            this.idGareSelectEditar.push(item[0]["idGare"]);
-            this.folioManteSelectEditar.push(item[0]['maintenanceFolio'])
+      let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
+
+      if (newValue != null) {
+        this.objectEditar.rowUpd4 = this.laneSelectEditar.length;
+        this.objectEditar.rowUpd1 = this.saveObjectEdiar[0];
+
+        for (const lane of this.laneSelectEditar) {
+          let component = equipoValid.find(
+            component => component.lane === lane
+          );
+
+          if (this.objectEditar.rowUpd2.includes(component.unity) == false) {
+            this.objectEditar.rowUpd2.push(component.unity);
+          }
+          if (this.objectEditar.rowUpd5.includes(component.brand) == false) {
+            this.objectEditar.rowUpd5.push(component.brand);
+          }
+          if (this.objectEditar.rowUpd6.includes(component.model) == false) {
+            this.objectEditar.rowUpd6.push(component.model);
+          }
+          if (
+            this.objectEditar.rowUpd7.includes(component.serialNumber) == false
+          ) {
+            this.objectEditar.rowUpd7.push(component.serialNumber);
+          }
+          if (
+            this.objectEditar.rowUpd9.includes(component.instalationDate) ==
+            false
+          ) {
+            this.objectEditar.rowUpd9.push(component.instalationDate);
+          }
+          if (
+            this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
+            false
+          ) {
+            this.objectEditar.rowUpd10.push(component.maintenanceDate);
+          }
+          if (
+            this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
+            false
+          ) {
+            this.objectEditar.rowUpd11.push(component.maintenanceFolio);
+          }
+          if (
+            this.objectEditar.rowUpd13.includes(component.lifeTime) == false
+          ) {
+            this.objectEditar.rowUpd13.push(component.lifeTime);
+          }
+          if (
+            this.objectEditar.rowUpd14.includes(component.unitaryPrice) == false
+          ) {
+            this.objectEditar.rowUpd14.push(component.unitaryPrice);
           }
         }
       }

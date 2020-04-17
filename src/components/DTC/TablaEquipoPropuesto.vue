@@ -46,11 +46,11 @@
               :key="index"
             >
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2.toString() }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5 }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4.toString() }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5.toString() }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6.toString() }}</td>
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
               >
