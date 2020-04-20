@@ -31,7 +31,7 @@ const mutations = {
     state.newlistaDmg = state.newlistaDmg.filter(partida => partida.description != value)    
   },
   listaDmgClearMutation: (state) => {
-    state.listaDmg = []
+    state.newlistaDmg = []
   },
   listaDTCMutation: (state, value) => {
     state.listaDTC = value;

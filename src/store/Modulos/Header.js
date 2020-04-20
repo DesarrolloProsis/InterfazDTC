@@ -112,7 +112,7 @@ const actions = {
       DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss')
   
     };
-
+    console.log(newObject)
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
       .then(response => {    
         
