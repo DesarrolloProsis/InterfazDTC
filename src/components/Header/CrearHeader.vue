@@ -60,7 +60,8 @@
               type="text"
               placeholder
             />
-            <div v-if="validateNumerSinester" class="mt-2 text-red-700 font-semibold text-center">
+            <!-- <div v-if="validateNumerSinester" class="mt-2 text-red-700 font-semibold text-center"> -->
+              <div v-if="validateNumerSinester" class="mt-2 text-red-700 font-semibold text-center">
               <p>{{ messageSinester }}</p>
             </div>
           </div>

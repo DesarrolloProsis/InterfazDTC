@@ -157,7 +157,7 @@
                   >Eliminar</button>
                   <br />
                   <br />
-                  <button
+                  <button                    
                     v-on:click.stop.prevent="updateRowTable(index, equipo)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500"
                   >Editar</button>
@@ -330,12 +330,10 @@ export default {
       let componentrepetido = false;
 
       this.listLane = [];
-      this.laneSelect = []
+      this.laneSelect = [];
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
-
-
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         if (this.arrayPartidas[i]["row3"] == this.updtComp) {
           componentrepetido = true;
@@ -353,8 +351,7 @@ export default {
       }
     },
     UpdateCompEditado: async function() {
-      let componentrepetido = false;      
-
+      let componentrepetido = false;
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         if (this.arrayPartidas[i]["row3"] == this.updtCompEditar) {
           componentrepetido = true;
@@ -372,9 +369,7 @@ export default {
         console.log(this.listLaneEditar);
       } else {
         if (this.updtCompEditar == this.saveObjectEdiar[2]) {
-          
-          alert("ESTA EDITANDO ESE ELEMENTO!!!")
-
+          alert("ESTA EDITANDO ESE ELEMENTO!!!");
           let newObject = await this.$store.getters["Header/getConvenioPlaza"];
           newObject["id"] = this.updtCompEditar;
           await this.$store.dispatch(
@@ -384,42 +379,32 @@ export default {
           this.listLaneEditar = await this.$store.getters[
             "Refacciones/getListaLane"
           ];
+        } else {
+          this.updtCompEditar = "";
+          this.laneSelectEditar = [];
+          this.listLaneEditar = [];
+          for (const propiedades in this.objectEditar) {
+            this.objectEditar[propiedades] = [];
+          }
+          alert("COMPONETE REPETIDO!!!");
         }
-        else{
-            
-            this.updtCompEditar = ''
-             this.laneSelectEditar = [];
-             this.listLaneEditar = []
-            for (const propiedades in this.objectEditar) {
-                this.objectEditar[propiedades] = [];
-              }
-            alert("COMPONETE REPETIDO!!!");
-
-        }
-
-     
       }
     },
     deleteItem(value, index) {
-      
-      console.log(index)
+      console.log(index);
       this.arrayPartidas = this.arrayPartidas.filter(
         partida => partida.row3 != value
       );
-
-      for(let i = 0; i < this.arrayPartidas.length; i++){
-          this.arrayPartidas[i]['row1'] = i + 1
+      for (let i = 0; i < this.arrayPartidas.length; i++) {
+        this.arrayPartidas[i]["row1"] = i + 1;
       }
-
       this.$store.commit("DTC/listaDmgMutationDelete", value);
-
-
     },
-    updateRowTable: async function(index, datos) {
+    updateRowTable: async function(index, datos) {      
+      if(this.saveObjectEdiar.length == 0){
+            
       this.arrayPartidas[index]["rowUp"] = false;
-
       this.saveObjectEdiar = Object.values(datos);
-
       let newObjEdit = {
         rowUpd1: [],
         rowUpd2: [],
@@ -434,9 +419,8 @@ export default {
         rowUpd11: [],
         rowUpd12: [],
         rowUpd13: [],
-        rowUpd14: [],
+        rowUpd14: []
       };
-
       this.objectEditar = newObjEdit;
       this.updtCompEditar = this.saveObjectEdiar[2];
       this.laneSelectEditar = this.saveObjectEdiar[7];
@@ -446,18 +430,27 @@ export default {
       this.listLaneEditar = await this.$store.getters[
         "Refacciones/getListaLane"
       ];
+      }
+      else{
+        alert('HAY UNA EDICION PENDIENTE!!!')
+      }
     },
     confirmRowTable: async function(index) {
       if (this.updtCompEditar != "") {
-        if (this.laneSelectEditar.length > 0) {          
-          let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
-          await this.$store.commit("DTC/listaDmgMutationDelete", this.saveObjectEdiar[2]);
-
+        if (this.laneSelectEditar.length > 0) {
+          let equipoValid = await this.$store.getters[
+            "Refacciones/getEquipoMalo"
+          ];
+          await this.$store.commit(
+            "DTC/listaDmgMutationDelete",
+            this.saveObjectEdiar[2]
+          );
           for (const lane of this.laneSelectEditar) {
-              let component = equipoValid.find(component => component.lane === lane);
+            let component = equipoValid.find(
+              component => component.lane === lane
+            );
             await this.$store.commit("DTC/newlistaDmgMutationPush", component);
-          }          
-
+          }
           this.arrayPartidas[index]["row1"] = this.objectEditar.rowUpd1;
           this.arrayPartidas[index]["row2"] = this.objectEditar.rowUpd2;
           this.arrayPartidas[index]["row3"] = this.updtCompEditar;
@@ -471,14 +464,12 @@ export default {
           this.arrayPartidas[index]["row11"] = this.objectEditar.rowUpd11;
           this.arrayPartidas[index]["row12"] = this.objectEditar.rowUpd12;
           this.arrayPartidas[index]["row13"] = this.objectEditar.rowUpd13;
-          this.arrayPartidas[index]["row14"] = this.objectEditar.rowUpd14
+          this.arrayPartidas[index]["row14"] = this.objectEditar.rowUpd14;
           this.arrayPartidas[index]["rowUp"] = true;
           this.objectEditar = {};
           this.saveObjectEdiar = [];
           this.laneSelectEditar = [];
           this.updtCompEditar = "";
-
-
         } else {
           alert("SELECIONE LA UBICACION!!!");
         }
@@ -500,12 +491,18 @@ export default {
       this.arrayPartidas[index]["row11"] = this.saveObjectEdiar[10];
       this.arrayPartidas[index]["row12"] = this.saveObjectEdiar[11];
       this.arrayPartidas[index]["row13"] = this.saveObjectEdiar[12];
-      this.arrayPartidas[index]["row14"] = this.saveObjectEdiar[13]
+      this.arrayPartidas[index]["row14"] = this.saveObjectEdiar[13];
       this.arrayPartidas[index]["rowUp"] = true;
       this.saveObjectEdiar = [];
       this.objectEditar = {};
     },
     agregarPartida: async function() {
+
+      if(this.updtComp != ''){
+
+      if(this.laneSelect.length > 0){
+        
+
       let newObject = {
         row1: this.arrayPartidas.length + 1,
         row2: this.datosPrePartida.rowUnidad,
@@ -523,9 +520,7 @@ export default {
         row14: this.datosPrePartida.rowPrecio,
         rowUp: true
       };
-
       this.arrayPartidas.push(newObject);
-
       let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
 
       for (const lane of this.laneSelect) {
@@ -540,17 +535,27 @@ export default {
       this.updtComp = "";
       this.laneSelect = [];
       this.listLane = [];
+      }
+      else{
+        alert('FALTA AGREGAR UBICACION!!!')
+      }
+      }
+      else{
+        alert('FALTA AGREGAR UBICACION!!!')
+      }
     }
+
   },
   watch: {
     laneSelect: async function(newValue) {
-      for (const propiedades in this.objectEditar) {
-        this.datosPrePartida[propiedades] = [];
+      for (const propiedades in this.datosPrePartida) {
+        if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
+        else this.datosPrePartida[propiedades] = [];
       }
 
       let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
 
-      if (newValue != null) {
+      if (newValue.length > 0) {
         this.datosPrePartida.rowCantidad = this.laneSelect.length;
 
         for (const lane of this.laneSelect) {
@@ -613,7 +618,10 @@ export default {
           ) {
             this.datosPrePartida.rowDateFabricante.push(component.lifeTime);
           }
-          if(this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) == false){
+          if (
+            this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
+            false
+          ) {
             this.datosPrePartida.rowPrecio.push(component.unitaryPrice);
           }
         }
