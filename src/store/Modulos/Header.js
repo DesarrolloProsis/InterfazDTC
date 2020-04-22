@@ -97,7 +97,7 @@ const actions = {
 
     let newObject = {
       ReferenceNumber: state.referenceNum,
-      SinisterNumber: state.datosSinester.SinisterNumber,
+      SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
       ReportNumber: state.datosSinester.ReportNumber,
       SinisterDate: state.datosSinester.SinisterDate,
       FailureDate: state.datosSinester.FailureDate,

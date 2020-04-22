@@ -144,7 +144,7 @@
           <div class="w-1/4 h-8">
             <label>Fecha Elaboracion:</label>
             <input
-              v-model="datosSinester.ShippingElaboracionDate"
+            disabled="true"
               class="appearance-none border border-black"
               type="date"
             />
@@ -295,7 +295,7 @@ export default {
       if (numPlaza != null) {
         if (numPlaza == "004") nomPlaza = "TPZ";
         else if (numPlaza == "102") {
-          nomPlaza = "PMO";
+          nomPlaza = "PM";
         } else if (numPlaza == "103") nomPlaza = "TLPA";
         else if (numPlaza == "041") nomPlaza = "SLM";
         else if (numPlaza == "061") nomPlaza = "LBM";
@@ -338,7 +338,7 @@ export default {
   },
   computed: {
     messageSinester: function() {
-      if (this.datosSinester.SinisterNumber == "") return "Campo requerido";
+      if (this.datosSinester.SinisterNumber == "") return "";
       else return "Numero Repetido";
     },
     messageReport: function() {
@@ -352,7 +352,7 @@ export default {
           data: false
         };
         this.$store.commit("DTC/validacionMutation", newObject);
-        return true;
+        return false;
       } else {
         let listaUnique = this.$store.getters["Header/getListaunique"];
 

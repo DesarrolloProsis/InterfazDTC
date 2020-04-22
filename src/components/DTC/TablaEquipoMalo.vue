@@ -11,7 +11,25 @@
 
         <!-- ************************************************************** -->
         <div class="overflow-x-scroll">
-          <table class="border-gray-700 border-solid w-auto">
+          <table class="border-gray-700 border-solid w-auto"> 
+
+              <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th colspan="2" class=" text-center">Vida Util</th>              
+              <th></th>
+            </tr>    
+                           
+            
             <tr>
               <th>Partida</th>
               <th>Unidad</th>
@@ -32,7 +50,7 @@
               <th class="text-xs">
                 Folio
                 <br />(Ultimo Mantenimiento)
-              </th>
+              </th>                         
               <th>Real</th>
               <th>Fabricante</th>
               <th></th>

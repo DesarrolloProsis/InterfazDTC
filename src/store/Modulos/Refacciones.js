@@ -66,7 +66,7 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {  
-        
+        console.log(`http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`)
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
     )
