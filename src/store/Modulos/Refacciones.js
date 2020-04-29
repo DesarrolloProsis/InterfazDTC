@@ -15,7 +15,7 @@ const getters = {
     return state.listaRefacciones 
   },
   getListaLane: function(){
-     return state.listaLane
+    return state.listaLane
   },
   getComponentDisable: function(){
 
@@ -55,8 +55,8 @@ const mutations = {
   }
 };
 const actions = {
-  async buscarComponentes({ commit }) {    
-    await Axios.get(`http://prosisdev.sytes.net:88/api/component`)
+  async buscarComponentes({ commit }, value) {    
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
       .then(response => {
         commit("listaRefaccionesMutation", response.data.result);
       })

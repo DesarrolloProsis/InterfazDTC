@@ -11,25 +11,23 @@
 
         <!-- ************************************************************** -->
         <div class="overflow-x-scroll">
-          <table class="border-gray-700 border-solid w-auto"> 
+          <table class="border-gray-700 border-solid w-auto">
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th colspan="2" class="text-center">Vida Util</th>
+              <th></th>
+            </tr>
 
-              <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th colspan="2" class=" text-center">Vida Util</th>              
-              <th></th>
-            </tr>    
-                           
-            
             <tr>
               <th>Partida</th>
               <th>Unidad</th>
@@ -50,7 +48,7 @@
               <th class="text-xs">
                 Folio
                 <br />(Ultimo Mantenimiento)
-              </th>                         
+              </th>
               <th>Real</th>
               <th>Fabricante</th>
               <th></th>
@@ -145,21 +143,38 @@
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row10.toString().substring(0,10) }}</div>
-                <div v-else>{{ objectEditar.rowUpd10.toString().substring(0,10) }}</div>
-              </td>
-              <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row11.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd11.toString() }}</div>
-              </td>
-              <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row12.toString() }}</div>
                 <div v-else>
+                  <!-- {{ objectEditar.rowUpd10.toString().substring(0,10) }} -->
                   <input
-                    v-model="objectEditar.rowUpd12"
+                    v-model="dateMantenimientoEdit"
                     class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                     style="width: 7vw"
                     type="date"
                   />
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row11.toString() }}</div>
+                <div v-else>
+                  <!-- {{ objectEditar.rowUpd11.toString() }} -->
+                  <input
+                    v-model="folioMantenimientoEdit"
+                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                    style="width: 7vw"
+                    type="text"
+                  />
+                </div>
+              </td>
+              <td class="border-b border-black p-2 md:p-3 border-2">
+                <div v-if="equipo.rowUp">{{ equipo.row12.toString() }}</div>
+                <div v-else>
+                  {{ objectEditar.rowUpd12 }}
+                  <!-- <input
+                    v-model="objectEditar.rowUpd12"
+                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                    style="width: 7vw"
+                    type="date"
+                  />-->
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
@@ -170,12 +185,12 @@
               <td class="border-b border-black md:p-3 border-2">
                 <div v-if="equipo.rowUp">
                   <button
-                    v-on:click.stop.prevent="deleteItem(equipo.row3, index)"
+                    v-on:click.stop.prevent="deleteItem(index)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-red-400 hover:bg-red-500"
                   >Eliminar</button>
                   <br />
                   <br />
-                  <button                    
+                  <button
                     v-on:click.stop.prevent="updateRowTable(index, equipo)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500"
                   >Editar</button>
@@ -188,7 +203,7 @@
                   <br />
                   <br />
                   <button
-                    v-on:click.stop.prevent="confirmRowTable(index, equipo)"
+                    v-on:click.stop.prevent="confirmRowTable(index)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
                   >Aceptar</button>
                 </div>
@@ -257,19 +272,27 @@
               <td
                 class="border-b border-black p-2 md:p-1 border-2 w-32"
               >{{datosPrePartida.rowDateInstalacion.toString().substring(0,10) }}</td>
-              <td
-                class="border-b border-black p-2 md:p-1 border-2 w-32"
-              >{{ datosPrePartida.rowDateMantenimiento.toString().substring(0,10) }}</td>
-              <td
-                class="border-b border-black p-2 md:p-1 border-2"
-              >{{ datosPrePartida.rowFolioMantenimiento.toString() }}</td>
-              <td class="border-b border-black p-2 md:p-1 border-2">
+              <td class="border-b border-black p-2 md:p-1 border-2 w-32">
+                <!-- {{ datosPrePartida.rowDateMantenimiento.toString().substring(0,10) }} -->
                 <input
+                  v-model="dateMantenimiento"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 7vw"
+                  style="width: 6vw"
                   type="date"
                 />
               </td>
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <!-- {{ datosPrePartida.rowFolioMantenimiento.toString() }} -->
+                <input
+                  v-model="folioMantenimiento"
+                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                  style="width: 6vw"
+                  type="text"
+                />
+              </td>
+              <td
+                class="border-b border-black p-2 md:p-1 border-2 w-48"
+              >{{ datosPrePartida.rowDateReal.toString() }}</td>
               <td
                 class="border-b border-black p-2 md:p-1 border-2"
               >{{datosPrePartida.rowDateFabricante.toString()}}</td>
@@ -278,7 +301,7 @@
                   v-on:click.stop.prevent="agregarPartida()"
                   :disabled="validBotonPartida"
                   class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 6vw"
+                  style="width: 5vw"
                 >Validar Partida</button>
               </td>
             </tr>
@@ -295,6 +318,8 @@
 <script>
 import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
+import Service from "../../services/EquipoMaloService.js";
+import moment from "moment";
 
 export default {
   name: "TablaEquipoMalo",
@@ -312,9 +337,9 @@ export default {
         rowModelo: [],
         rowNumSerie: [],
         rowDateInstalacion: [],
-        rowDateMantenimiento: [],
-        rowFolioMantenimiento: [],
-        rowDateReal: [],
+        rowDateMantenimiento: "",
+        rowFolioMantenimiento: "",
+        rowDateReal: "",
         rowDateFabricante: [],
         rowPrecio: [],
         rowUp: true
@@ -330,7 +355,12 @@ export default {
       objectEditar: {},
       updtCompEditar: "",
       listLaneEditar: [],
-      laneSelectEditar: []
+      laneSelectEditar: [],
+      //Fecha y Folio Mantenimiento
+      dateMantenimiento: "",
+      dateMantenimientoEdit: "",
+      folioMantenimiento: "",
+      folioMantenimientoEdit: ""
     };
   },
   props: {
@@ -339,6 +369,10 @@ export default {
       default: () => []
     },
     numReference: {
+      type: String,
+      default: ""
+    },
+    dateSinester: {
       type: String,
       default: ""
     }
@@ -377,7 +411,8 @@ export default {
       }
       if (!componentrepetido) {
         this.laneSelectEditar = [];
-
+        this.dateMantenimientoEdit = "";
+        this.folioMantenimientoEdit = "";
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
@@ -388,6 +423,8 @@ export default {
       } else {
         if (this.updtCompEditar == this.saveObjectEdiar[2]) {
           alert("ESTA EDITANDO ESE ELEMENTO!!!");
+          this.dateMantenimientoEdit = "";
+          this.folioMantenimientoEdit = "";
           let newObject = await this.$store.getters["Header/getConvenioPlaza"];
           newObject["id"] = this.updtCompEditar;
           await this.$store.dispatch(
@@ -398,6 +435,8 @@ export default {
             "Refacciones/getListaLane"
           ];
         } else {
+          this.dateMantenimientoEdit = "";
+          this.folioMantenimientoEdit = "";
           this.updtCompEditar = "";
           this.laneSelectEditar = [];
           this.listLaneEditar = [];
@@ -408,86 +447,171 @@ export default {
         }
       }
     },
-    deleteItem(value, index) {
-      console.log(index);
-      this.arrayPartidas = this.arrayPartidas.filter(
-        partida => partida.row3 != value
-      );
-      for (let i = 0; i < this.arrayPartidas.length; i++) {
-        this.arrayPartidas[i]["row1"] = i + 1;
-      }
-      this.$store.commit("DTC/listaDmgMutationDelete", value);
+    deleteItem(index) {
+      
+      this.arrayPartidas.splice(index, 1)   
+      for(let i = 0; i < this.arrayPartidas.length; i++){
+          this.arrayPartidas[i]['row1'] = i + 1          
+      }            
+      this.$store.commit("DTC/listaDmgMutationDelete", index);
     },
-    updateRowTable: async function(index, datos) {      
-      if(this.saveObjectEdiar.length == 0){
-            
-      this.arrayPartidas[index]["rowUp"] = false;
-      this.saveObjectEdiar = Object.values(datos);
-      let newObjEdit = {
-        rowUpd1: [],
-        rowUpd2: [],
-        rowUpd3: "",
-        rowUpd4: 0,
-        rowUpd5: [],
-        rowUpd6: [],
-        rowUpd7: [],
-        rowUpd8: [],
-        rowUpd9: [],
-        rowUpd10: [],
-        rowUpd11: [],
-        rowUpd12: [],
-        rowUpd13: [],
-        rowUpd14: []
-      };
-      this.objectEditar = newObjEdit;
-      this.updtCompEditar = this.saveObjectEdiar[2];
-      this.laneSelectEditar = this.saveObjectEdiar[7];
-      let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-      newObject["id"] = this.updtCompEditar;
-      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      this.listLaneEditar = await this.$store.getters[
-        "Refacciones/getListaLane"
-      ];
-      }
-      else{
-        alert('HAY UNA EDICION PENDIENTE!!!')
+    updateRowTable: async function(index, datos) {
+      if (this.saveObjectEdiar.length == 0) {
+        this.arrayPartidas[index]["rowUp"] = false;
+        this.saveObjectEdiar = Object.values(datos);
+        let newObjEdit = {
+          rowUpd1: [],
+          rowUpd2: [],
+          rowUpd3: "",
+          rowUpd4: 0,
+          rowUpd5: [],
+          rowUpd6: [],
+          rowUpd7: [],
+          rowUpd8: [],
+          rowUpd9: [],
+          rowUpd10: "",
+          rowUpd11: "",
+          rowUpd12: "",
+          rowUpd13: [],
+          rowUpd14: []
+        };
+        this.objectEditar = newObjEdit;
+        this.updtCompEditar = this.saveObjectEdiar[2];
+        this.laneSelectEditar = this.saveObjectEdiar[7];
+        this.dateMantenimientoEdit = this.saveObjectEdiar[9];
+        this.folioMantenimientoEdit = this.saveObjectEdiar[10];
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        newObject["id"] = this.updtCompEditar;
+        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+        this.listLaneEditar = await this.$store.getters[
+          "Refacciones/getListaLane"
+        ];
+      } else {
+        alert("HAY UNA EDICION PENDIENTE!!!");
       }
     },
     confirmRowTable: async function(index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
+
+          alert('Aceptar')
+      
           let equipoValid = await this.$store.getters[
             "Refacciones/getEquipoMalo"
           ];
-          await this.$store.commit(
-            "DTC/listaDmgMutationDelete",
-            this.saveObjectEdiar[2]
-          );
+
+          console.log(equipoValid)
+
+          let listaAcumulada = [];
+
           for (const lane of this.laneSelectEditar) {
             let component = equipoValid.find(
               component => component.lane === lane
             );
-            await this.$store.commit("DTC/newlistaDmgMutationPush", component);
+            listaAcumulada.push(component);            
+          } 
+          
+          console.log(listaAcumulada)
+          
+          let listaMarcas = [];
+          for (let i = 0; i < listaAcumulada.length; i++) {
+            if (!listaMarcas.includes(listaAcumulada[i]["brand"]))
+              listaMarcas.push(listaAcumulada[i]["brand"]);
+          }   
+          
+          console.log(listaMarcas)
+          var lengListaAcumulada = listaAcumulada.length
+          var objPartida = [];
+          var numSerie = []
+          var lane = []
+          var modelo = []
+
+          for (const marca of listaMarcas) {            
+            for(let i = 0; i < lengListaAcumulada; i++) {
+              if(listaAcumulada[i]["brand"] === marca) {                
+                let obj = {
+                  ComponentsStockId: listaAcumulada[i].componentsStockId,
+                  ReferenceNumber: "",
+                  CapufeLaneNum: listaAcumulada[i].capufeLaneNum,
+                  IdGare: listaAcumulada[i].idGare,
+                  Marca: listaAcumulada[i].brand,
+                  Modelo: listaAcumulada[i].model,
+                  NumSerie: listaAcumulada[i].serialNumber,
+                  Unity: listaAcumulada[i].unity,
+                  DateInstallationDate: listaAcumulada[i].instalationDate,
+                  DateMaintenanceDate: this.dateMantenimientoEdit,
+                  MaintenanceFolio: this.folioMantenimientoEdit,
+                  IntLifeTimeExpected: listaAcumulada[i].lifeTime,
+                  strLifeTimeReal: this.objectEditar.rowUpd12,
+                  IntPartida: ""
+                };
+                objPartida.push(obj)  
+                numSerie.push(listaAcumulada[i]['serialNumber'])
+                lane.push(listaAcumulada[i]['lane']) 
+                
+                if(!modelo.includes(listaAcumulada[i]['model']))
+                  modelo.push(listaAcumulada[i]['model'])
+              }             
+            
+            }   
+
+            let objMutation = {
+
+                index: index,
+                value: objPartida
+            }
+
+            this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);                        
+            objPartida = []
+
+            let newObject = {
+            row1: index + 1,
+            row2: this.objectEditar.rowUpd2,
+            row3: this.updtCompEditar,
+            row4: lane.length,
+            row5: marca,
+            row6: modelo,
+            row7: numSerie,
+            row8: lane,
+            row9: this.objectEditar.rowUpd9,
+            row10: this.dateMantenimientoEdit,
+            row11: this.folioMantenimientoEdit,
+            row12: this.objectEditar.rowUpd12,
+            row13: this.objectEditar.rowUpd13,
+            row14: this.objectEditar.rowUpd14,
+            rowUp: true
+          };
+          this.arrayPartidas.splice(index, 1, newObject)
+          numSerie = []
+          lane = []
+          modelo = []
           }
-          this.arrayPartidas[index]["row1"] = this.objectEditar.rowUpd1;
-          this.arrayPartidas[index]["row2"] = this.objectEditar.rowUpd2;
-          this.arrayPartidas[index]["row3"] = this.updtCompEditar;
-          this.arrayPartidas[index]["row4"] = this.objectEditar.rowUpd4;
-          this.arrayPartidas[index]["row5"] = this.objectEditar.rowUpd5;
-          this.arrayPartidas[index]["row6"] = this.objectEditar.rowUpd6;
-          this.arrayPartidas[index]["row7"] = this.objectEditar.rowUpd7;
-          this.arrayPartidas[index]["row8"] = this.laneSelectEditar;
-          this.arrayPartidas[index]["row9"] = this.objectEditar.rowUpd9;
-          this.arrayPartidas[index]["row10"] = this.objectEditar.rowUpd10;
-          this.arrayPartidas[index]["row11"] = this.objectEditar.rowUpd11;
-          this.arrayPartidas[index]["row12"] = this.objectEditar.rowUpd12;
-          this.arrayPartidas[index]["row13"] = this.objectEditar.rowUpd13;
-          this.arrayPartidas[index]["row14"] = this.objectEditar.rowUpd14;
-          this.arrayPartidas[index]["rowUp"] = true;
-          this.objectEditar = {};
-          this.saveObjectEdiar = [];
-          this.laneSelectEditar = [];
-          this.updtCompEditar = "";
+   
+          // for (const lane of this.laneSelectEditar) {
+          //   let component = equipoValid.find(
+          //     component => component.lane === lane
+          //   );
+          //   await this.$store.commit("DTC/newlistaDmgMutationPush", component);
+          // }
+          // this.arrayPartidas[index]["row1"] = this.objectEditar.rowUpd1;
+          // this.arrayPartidas[index]["row2"] = this.objectEditar.rowUpd2;
+          // this.arrayPartidas[index]["row3"] = this.updtCompEditar;
+          // this.arrayPartidas[index]["row4"] = this.objectEditar.rowUpd4;
+          // this.arrayPartidas[index]["row5"] = this.objectEditar.rowUpd5;
+          // this.arrayPartidas[index]["row6"] = this.objectEditar.rowUpd6;
+          // this.arrayPartidas[index]["row7"] = this.objectEditar.rowUpd7;
+          // this.arrayPartidas[index]["row8"] = this.laneSelectEditar;
+          // this.arrayPartidas[index]["row9"] = this.objectEditar.rowUpd9;
+          // this.arrayPartidas[index]["row10"] = this.dateMantenimientoEdit;
+          // this.arrayPartidas[index]["row11"] = this.folioMantenimientoEdit;
+          // this.arrayPartidas[index]["row12"] = this.objectEditar.rowUpd12;
+          // this.arrayPartidas[index]["row13"] = this.objectEditar.rowUpd13;
+          // this.arrayPartidas[index]["row14"] = this.objectEditar.rowUpd14;
+          // this.arrayPartidas[index]["rowUp"] = true;
+          // this.objectEditar = {};
+          // this.saveObjectEdiar = [];
+          // this.laneSelectEditar = [];
+          // this.updtCompEditar = "";
         } else {
           alert("SELECIONE LA UBICACION!!!");
         }
@@ -515,54 +639,102 @@ export default {
       this.objectEditar = {};
     },
     agregarPartida: async function() {
+      if (this.updtComp != "") {
+        if (this.laneSelect.length > 0) {
 
-      if(this.updtComp != ''){
+          let equipoValid = await this.$store.getters[
+            "Refacciones/getEquipoMalo"
+          ];
 
-      if(this.laneSelect.length > 0){
-        
+          let listaAcumulada = [];
 
-      let newObject = {
-        row1: this.arrayPartidas.length + 1,
-        row2: this.datosPrePartida.rowUnidad,
-        row3: this.updtComp,
-        row4: this.datosPrePartida.rowCantidad,
-        row5: this.datosPrePartida.rowMarca,
-        row6: this.datosPrePartida.rowModelo,
-        row7: this.datosPrePartida.rowNumSerie,
-        row8: this.laneSelect,
-        row9: this.datosPrePartida.rowDateInstalacion,
-        row10: this.datosPrePartida.rowDateMantenimiento,
-        row11: this.datosPrePartida.rowFolioMantenimiento,
-        row12: this.datosPrePartida.rowDateReal,
-        row13: this.datosPrePartida.rowDateFabricante,
-        row14: this.datosPrePartida.rowPrecio,
-        rowUp: true
-      };
-      this.arrayPartidas.push(newObject);
-      let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
+          for (const lane of this.laneSelect) {
+            let component = equipoValid.find(
+              component => component.lane === lane
+            );
+            listaAcumulada.push(component);            
+          }          
+          let listaMarcas = [];
+          for (let i = 0; i < listaAcumulada.length; i++) {
+            if (!listaMarcas.includes(listaAcumulada[i]["brand"]))
+              listaMarcas.push(listaAcumulada[i]["brand"]);
+          }          
+          var lengListaAcumulada = listaAcumulada.length
+          var objPartida = [];
+          var numSerie = []
+          var lane = []
+          var modelo = []
 
-      for (const lane of this.laneSelect) {
-        let component = equipoValid.find(component => component.lane === lane);
-        await this.$store.commit("DTC/newlistaDmgMutationPush", component);
-      }
+          for (const marca of listaMarcas) {            
+            for(let i = 0; i < lengListaAcumulada; i++) {
+              if(listaAcumulada[i]["brand"] === marca) {                
+                let obj = {
+                  ComponentsStockId: listaAcumulada[i].componentsStockId,
+                  ReferenceNumber: "",
+                  CapufeLaneNum: listaAcumulada[i].capufeLaneNum,
+                  IdGare: listaAcumulada[i].idGare,
+                  Marca: listaAcumulada[i].brand,
+                  Modelo: listaAcumulada[i].model,
+                  NumSerie: listaAcumulada[i].serialNumber,
+                  Unity: listaAcumulada[i].unity,
+                  DateInstallationDate: listaAcumulada[i].instalationDate,
+                  DateMaintenanceDate: this.dateMantenimiento,
+                  MaintenanceFolio: this.folioMantenimiento ,
+                  IntLifeTimeExpected: listaAcumulada[i].lifeTime,
+                  strLifeTimeReal: this.datosPrePartida.rowDateReal,
+                  IntPartida: ""
+                };
+                objPartida.push(obj)  
+                numSerie.push(listaAcumulada[i]['serialNumber'])
+                lane.push(listaAcumulada[i]['lane']) 
+                
+                if(!modelo.includes(listaAcumulada[i]['model']))
+                  modelo.push(listaAcumulada[i]['model'])
+              }             
+            }                         
+            this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);                        
+            objPartida = []
 
-      for (const propiedades in this.datosPrePartida) {
-        if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
-        else this.datosPrePartida[propiedades] = [];
-      }
-      this.updtComp = "";
-      this.laneSelect = [];
-      this.listLane = [];
-      }
-      else{
-        alert('FALTA AGREGAR UBICACION!!!')
-      }
-      }
-      else{
-        alert('FALTA AGREGAR UBICACION!!!')
+            let newObject = {
+            row1: this.arrayPartidas.length + 1,
+            row2: this.datosPrePartida.rowUnidad,
+            row3: this.updtComp,
+            row4: lane.length,
+            row5: marca,
+            row6: modelo,
+            row7: numSerie,
+            row8: lane,
+            row9: this.datosPrePartida.rowDateInstalacion,
+            row10: this.dateMantenimiento,
+            row11: this.folioMantenimiento,
+            row12: this.datosPrePartida.rowDateReal,
+            row13: this.datosPrePartida.rowDateFabricante,
+            row14: this.datosPrePartida.rowPrecio,
+            rowUp: true
+          };
+          this.arrayPartidas.push(newObject);
+          numSerie = []
+          lane = []
+          modelo = []
+          }
+            //LIMPIA LA LISTA PRE_PARTIDA
+            for (const propiedades in this.datosPrePartida) {
+              if (propiedades == "rowCantidad")
+                this.datosPrePartida[propiedades] = 0;
+              else this.datosPrePartida[propiedades] = [];
+            }
+            this.updtComp = "";
+            this.laneSelect = [];
+            this.listLane = [];
+            this.dateMantenimiento = "";
+            this.folioMantenimiento = "";          
+        } else {
+          alert("FALTA AGREGAR UBICACION!!!");
+        }
+      } else {
+        alert("FALTA AGREGAR UBICACION!!!");
       }
     }
-
   },
   watch: {
     laneSelect: async function(newValue) {
@@ -611,24 +783,24 @@ export default {
               component.instalationDate
             );
           }
-          if (
-            this.datosPrePartida.rowDateMantenimiento.includes(
-              component.maintenanceDate
-            ) == false
-          ) {
-            this.datosPrePartida.rowDateMantenimiento.push(
-              component.maintenanceDate
-            );
-          }
-          if (
-            this.datosPrePartida.rowFolioMantenimiento.includes(
-              component.maintenanceFolio
-            ) == false
-          ) {
-            this.datosPrePartida.rowFolioMantenimiento.push(
-              component.maintenanceFolio
-            );
-          }
+          // if (
+          //   this.datosPrePartida.rowDateMantenimiento.includes(
+          //     component.maintenanceDate
+          //   ) == false
+          // ) {
+          //   this.datosPrePartida.rowDateMantenimiento.push(
+          //     component.maintenanceDate
+          //   );
+          // }
+          // if (
+          //   this.datosPrePartida.rowFolioMantenimiento.includes(
+          //     component.maintenanceFolio
+          //   ) == false
+          // ) {
+          //   this.datosPrePartida.rowFolioMantenimiento.push(
+          //     component.maintenanceFolio
+          //   );
+          // }
           if (
             this.datosPrePartida.rowDateFabricante.includes(
               component.lifeTime
@@ -642,6 +814,14 @@ export default {
           ) {
             this.datosPrePartida.rowPrecio.push(component.unitaryPrice);
           }
+          let fechaInstalacion = moment(
+            this.datosPrePartida.rowDateInstalacion[0]
+          ).format("DD/MM/YYYY");
+          let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
+          this.datosPrePartida.rowDateReal = Service.daysMonthsYearsInDates(
+            fechaInstalacion,
+            fechaSinester
+          );
         }
       }
     },
@@ -681,18 +861,18 @@ export default {
           ) {
             this.objectEditar.rowUpd9.push(component.instalationDate);
           }
-          if (
-            this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
-            false
-          ) {
-            this.objectEditar.rowUpd10.push(component.maintenanceDate);
-          }
-          if (
-            this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
-            false
-          ) {
-            this.objectEditar.rowUpd11.push(component.maintenanceFolio);
-          }
+          // if (
+          //   this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
+          //   false
+          // ) {
+          //   this.objectEditar.rowUpd10.push(component.maintenanceDate);
+          // }
+          // if (
+          //   this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
+          //   false
+          // ) {
+          //   this.objectEditar.rowUpd11.push(component.maintenanceFolio);
+          // }
           if (
             this.objectEditar.rowUpd13.includes(component.lifeTime) == false
           ) {
@@ -703,6 +883,14 @@ export default {
           ) {
             this.objectEditar.rowUpd14.push(component.unitaryPrice);
           }
+          let fechaInstalacion = moment(this.objectEditar.rowUpd9[0]).format(
+            "DD/MM/YYYY"
+          );
+          let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
+          this.objectEditar.rowUpd12 = Service.daysMonthsYearsInDates(
+            fechaInstalacion,
+            fechaSinester
+          );
         }
       }
     }

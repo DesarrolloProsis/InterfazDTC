@@ -23,12 +23,15 @@ const mutations = {
   listaDescriptionsMutation: (state, value) => {    
     state.listaDescriptions = value;
   },
-  newlistaDmgMutationPush: (state, value) => {
-    
+  newlistaDmgMutationPush: (state, value) => {    
     state.newlistaDmg.push(value);
   },
   listaDmgMutationDelete: (state, value) =>{    
-    state.newlistaDmg = state.newlistaDmg.filter(partida => partida.description != value)    
+    state.newlistaDmg.splice(value, 1)  
+  },
+  listaDmgMutationUpdate: (state, value) =>{   
+    console.log(value) 
+    state.newlistaDmg.splice(value.index, 1, value.value)  
   },
   listaDmgClearMutation: (state) => {
     state.newlistaDmg = []
@@ -67,58 +70,32 @@ const actions = {
   },
   //Consulta API Crear DTC
   async crearDmg({ state, commit } , value ) {
-        
 
-    if(state.newlistaDmg.length > 0){
+    let arrayDmg = []
 
-      let arrayDmg = []    
-      let strComponent = ''
-      let intPartida = 1
+    console.log(value)
 
-      strComponent = state.newlistaDmg[0]['description']
 
-        
-    for(let i = 0; i < state.newlistaDmg.length; i++){
-            
+    for(let i = 0;  i < state.newlistaDmg.length; i++){
+          
+          for(let g = 0;  g < state.newlistaDmg[i].length; g++){
 
-    if(strComponent == state.newlistaDmg[i].description){
-        console.log(state.newlistaDmg[i].description)
+                state.newlistaDmg[i][g]['ReferenceNumber'] = value
+                state.newlistaDmg[i][g]['IntPartida'] = i + 1
+                arrayDmg.push(state.newlistaDmg[i][g])
+          }
     }
-    else{
-      strComponent = state.newlistaDmg[i].description
-      intPartida++
-    }
-
-
-    let obj = {
-      ComponentsStockId: state.newlistaDmg[i].componentsStockId,
-      ReferenceNumber: value,
-      CapufeLaneNum: state.newlistaDmg[i].capufeLaneNum,
-      IdGare: state.newlistaDmg[i].idGare,
-      Marca: state.newlistaDmg[i].brand,
-      Modelo: state.newlistaDmg[i].model,
-      NumSerie: state.newlistaDmg[i].serialNumber,
-      Unity: state.newlistaDmg[i].unity,
-      DateInstallationDate: state.newlistaDmg[i].instalationDate,
-      DateMaintenanceDate: state.newlistaDmg[i].maintenanceDate,
-      MaintenanceFolio: state.newlistaDmg[i].maintenanceFolio,
-      IntLifeTimeExpected: state.newlistaDmg[i].lifeTime,
-      DateLifeTimeReal: state.newlistaDmg[i].instalationDate,        
-      IntPartida: intPartida
-    }
-    arrayDmg.push(obj)
-        
-  }
-      console.log(arrayDmg)
-
-       await Axios.post(
+      
+    console.log(arrayDmg)
+    
+      await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
       arrayDmg
-    )
+        )
       .then(response => {                  
         
         console.log(response)
-        if(response.status == 201 && response.statusText == 'Created'){  
+        if(response.status == 201){  
             console.log('Si se inserta')          
             commit('insertDmgCompleteMutation', true)          
         }
@@ -131,7 +108,7 @@ const actions = {
         console.log('ERRO!!! ' + Ex);
       });
 
-    }
+    
 
     
 

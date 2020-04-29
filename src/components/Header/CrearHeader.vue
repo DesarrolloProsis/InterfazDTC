@@ -215,6 +215,7 @@
     <TablaEquipoMalo
       :listaComponentes="listaComponentes"
       :numReference="datosSinester.ReferenceNumber"
+      :dateSinester="datosSinester.SinisterDate"
     ></TablaEquipoMalo>
   </div>
 </template>
@@ -388,7 +389,6 @@ export default {
         return true;
       } else {
         let listaUnique = this.$store.getters["Header/getListaunique"];
-
         for (let i = 0; i < listaUnique.length; i++) {
           if (
             this.datosSinester.ReportNumber == listaUnique[i]["reportNumber"]
@@ -427,7 +427,8 @@ export default {
     }
   },
   async beforeMount() {
-    await this.$store.dispatch("Refacciones/buscarComponentes");
+    let value = await this.$store.getters['Header/getConvenioPlaza']
+    await this.$store.dispatch("Refacciones/buscarComponentes", value);
     this.listaComponentes = await this.$store.getters[
       "Refacciones/getListaRefacciones"
     ];
