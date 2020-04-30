@@ -343,7 +343,7 @@ export default {
       else return "Numero Repetido";
     },
     messageReport: function() {
-      if (this.datosSinester.ReportNumber == "") return "Campo requerido";
+      if (this.datosSinester.ReportNumber == "") return "";
       else return "Numero Repetido";
     },
     validateNumerSinester: function() {
