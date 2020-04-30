@@ -56,7 +56,9 @@ const mutations = {
 };
 const actions = {
   async buscarComponentes({ commit }, value) {    
-    await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
+
+    console.log(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
+    await Axios.get(`https://localhost:44358/api/component/${value.numPlaza}/${value.numConvenio}`)
       .then(response => {
         commit("listaRefaccionesMutation", response.data.result);
       })
@@ -66,13 +68,14 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {  
-        console.log(`http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`)
+        console.log(`http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.split('*')[0]}/${value.id.split('*')[1]}`)
     await Axios.get(
-      `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id}`
+      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.split('*')[0]}/${value.id.split('*')[1]}`
     )
-      .then(response => {         
+      .then(response => {  
+        console.log(response.data)       
         if(response.data.message == 'Ok') {          
-          commit("listaRefaccionValidMutation", response.data.result.result);
+          commit("listaRefaccionValidMutation", response.data.result.listaFiltro);
           commit("listaLaneMutation", response.data.result.listLane);
         }
       })

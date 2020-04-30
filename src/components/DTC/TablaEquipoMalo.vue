@@ -168,13 +168,7 @@
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row12.toString() }}</div>
                 <div v-else>
-                  {{ objectEditar.rowUpd12 }}
-                  <!-- <input
-                    v-model="objectEditar.rowUpd12"
-                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 7vw"
-                    type="date"
-                  />-->
+                  {{ objectEditar.rowUpd12 }}   
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
@@ -226,9 +220,9 @@
                   <option disabled value>Selecionar...</option>
                   <option
                     v-for="(item, index) in listaComponentes"
-                    v-bind:value="item.description"
+                    v-bind:value="item.description + '*' + item.brand"
                     :key="index"
-                  >{{ item.description }}</option>
+                  >{{ item.description + `(${item.brand})` }}</option>
                 </select>
               </td>
               <td
@@ -382,7 +376,7 @@ export default {
       let componentrepetido = false;
 
       this.listLane = [];
-      this.laneSelect = [];
+      this.laneSelect = [];      
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
