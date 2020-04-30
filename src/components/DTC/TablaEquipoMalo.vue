@@ -69,7 +69,7 @@
                 <div v-else>{{ objectEditar.rowUpd2.toString() }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row3.toString() }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                 <div v-else>
                   <select
                     @change="UpdateCompEditado()"
@@ -81,9 +81,9 @@
                     <option disabled value>Selecionar...</option>
                     <option
                       v-for="(item, index) in listaComponentes"
-                      v-bind:value="item.description"
+                      v-bind:value="item"
                       :key="index"
-                    >{{ item.description }}</option>
+                    >{{ item.description + `(${item.brand})` }}</option>
                   </select>
                 </div>
               </td>
@@ -220,7 +220,7 @@
                   <option disabled value>Selecionar...</option>
                   <option
                     v-for="(item, index) in listaComponentes"
-                    v-bind:value="item.description + '*' + item.brand"
+                    v-bind:value="item"
                     :key="index"
                   >{{ item.description + `(${item.brand})` }}</option>
                 </select>
@@ -381,7 +381,7 @@ export default {
         this.datosPrePartida[propiedades] = [];
       }
       for (let i = 0; i < this.arrayPartidas.length; i++) {
-        if (this.arrayPartidas[i]["row3"] == this.updtComp) {
+        if (this.arrayPartidas[i]["row3"].description == this.updtComp.description && this.arrayPartidas[i]["row3"].brand == this.updtComp.brand) {
           componentrepetido = true;
         }
       }
@@ -405,6 +405,7 @@ export default {
       }
       if (!componentrepetido) {
         this.laneSelectEditar = [];
+        this.listLaneEditar = []
         this.dateMantenimientoEdit = "";
         this.folioMantenimientoEdit = "";
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
@@ -451,8 +452,13 @@ export default {
     },
     updateRowTable: async function(index, datos) {
       if (this.saveObjectEdiar.length == 0) {
+
+
+        console.log(datos)
         this.arrayPartidas[index]["rowUp"] = false;
         this.saveObjectEdiar = Object.values(datos);
+
+        console.log(this.saveObjectEdiar)
         let newObjEdit = {
           rowUpd1: [],
           rowUpd2: [],
@@ -469,6 +475,7 @@ export default {
           rowUpd13: [],
           rowUpd14: []
         };
+        try{
         this.objectEditar = newObjEdit;
         this.updtCompEditar = this.saveObjectEdiar[2];
         this.laneSelectEditar = this.saveObjectEdiar[7];
@@ -480,6 +487,10 @@ export default {
         this.listLaneEditar = await this.$store.getters[
           "Refacciones/getListaLane"
         ];
+        }
+        catch(ex){
+            console.log(ex)
+        }
       } else {
         alert("HAY UNA EDICION PENDIENTE!!!");
       }
@@ -581,31 +592,14 @@ export default {
           modelo = []
           }
    
-          // for (const lane of this.laneSelectEditar) {
-          //   let component = equipoValid.find(
-          //     component => component.lane === lane
-          //   );
-          //   await this.$store.commit("DTC/newlistaDmgMutationPush", component);
-          // }
-          // this.arrayPartidas[index]["row1"] = this.objectEditar.rowUpd1;
-          // this.arrayPartidas[index]["row2"] = this.objectEditar.rowUpd2;
-          // this.arrayPartidas[index]["row3"] = this.updtCompEditar;
-          // this.arrayPartidas[index]["row4"] = this.objectEditar.rowUpd4;
-          // this.arrayPartidas[index]["row5"] = this.objectEditar.rowUpd5;
-          // this.arrayPartidas[index]["row6"] = this.objectEditar.rowUpd6;
-          // this.arrayPartidas[index]["row7"] = this.objectEditar.rowUpd7;
-          // this.arrayPartidas[index]["row8"] = this.laneSelectEditar;
-          // this.arrayPartidas[index]["row9"] = this.objectEditar.rowUpd9;
-          // this.arrayPartidas[index]["row10"] = this.dateMantenimientoEdit;
-          // this.arrayPartidas[index]["row11"] = this.folioMantenimientoEdit;
-          // this.arrayPartidas[index]["row12"] = this.objectEditar.rowUpd12;
-          // this.arrayPartidas[index]["row13"] = this.objectEditar.rowUpd13;
-          // this.arrayPartidas[index]["row14"] = this.objectEditar.rowUpd14;
-          // this.arrayPartidas[index]["rowUp"] = true;
-          // this.objectEditar = {};
-          // this.saveObjectEdiar = [];
-          // this.laneSelectEditar = [];
-          // this.updtCompEditar = "";
+          this.objectEditar = {};
+          this.saveObjectEdiar = [];
+          this.laneSelectEditar = [];
+          this.updtCompEditar = "";
+          this.listLaneEditar = ''
+          this.dateMantenimientoEdit = ''
+          this.folioMantenimientoEdit = ''
+
         } else {
           alert("SELECIONE LA UBICACION!!!");
         }
@@ -631,6 +625,8 @@ export default {
       this.arrayPartidas[index]["rowUp"] = true;
       this.saveObjectEdiar = [];
       this.objectEditar = {};
+      this.listLaneEditar = []
+      this.updtCompEditar = ''
     },
     agregarPartida: async function() {
       if (this.updtComp != "") {

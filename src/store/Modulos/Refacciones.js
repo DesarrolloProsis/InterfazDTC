@@ -58,7 +58,7 @@ const actions = {
   async buscarComponentes({ commit }, value) {    
 
     console.log(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
-    await Axios.get(`https://localhost:44358/api/component/${value.numPlaza}/${value.numConvenio}`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
       .then(response => {
         commit("listaRefaccionesMutation", response.data.result);
       })
@@ -68,9 +68,9 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {  
-        console.log(`http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.split('*')[0]}/${value.id.split('*')[1]}`)
+        //console.log(`http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`)
     await Axios.get(
-      `https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.split('*')[0]}/${value.id.split('*')[1]}`
+      `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
     )
       .then(response => {  
         console.log(response.data)       
@@ -80,6 +80,7 @@ const actions = {
         }
       })
       .catch(Ex => {
+        console.log('Cath aqui')
         console.log(Ex);
       });
   },
