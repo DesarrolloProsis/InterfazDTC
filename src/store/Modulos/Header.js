@@ -80,7 +80,7 @@ const actions = {
       });
   },
   async buscarListaUnique({ commit }) {
-        alert('Entre A BuscaLista REpetida')
+        
         console.log(`http://prosisdev.sytes.net:88/api/dtcdata/InvalidReferenceNumbers`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/InvalidReferenceNumbers`)
       .then(response => {             
