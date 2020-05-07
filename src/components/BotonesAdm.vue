@@ -20,7 +20,7 @@
       </router-link>
 
 
-      <!-- <router-link
+      <router-link
         to="/Inventario"
         class="text-gray-700 hover:bg-gray-400 items-center text-center border-4 border-red-700 rounded-lg sm:px-40 sm:py-16 m-4"
       >
@@ -28,7 +28,7 @@
         <h1 class="text-gray-900 text-xl font-black font-mono">Inventario</h1>
       </router-link>
     </div>
-
+<!-- 
     <div
       class="flex items-stretch flex-wrap justify-center xl:flex-row lg:flex-col md:flex-col sm:flex-col lg:mt-3"
     >
@@ -56,8 +56,8 @@
       >
         <img src="../assets/img/config.png" height="150" width="150" class="m-8" />
         <h1 class="text-gray-900 text-xl font-black font-mono">Configuracion</h1>
-      </router-link> -->
+      </router-link> 
       
-    </div>
+    </div> -->
   </div>
 </template>

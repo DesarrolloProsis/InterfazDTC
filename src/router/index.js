@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import CrearDTC from '../views/CrearDTC.vue'
 import ListarDTC from '../views/ListarDTC.vue'
 import Login from '../views/Login.vue'
+import Inventario from '../views/Inventario.vue'
+
 
 Vue.use(VueRouter)
 
@@ -29,6 +31,11 @@ const routes = [
     name: 'ListarDtc',
     component: ListarDTC
   },
+  {
+    path: '/Inventario',
+    name: 'Inventario',
+    component: Inventario
+  }
 
  
 ]
