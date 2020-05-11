@@ -34,7 +34,14 @@ const routes = [
   {
     path: '/Inventario',
     name: 'Inventario',
-    component: Inventario
+    component: Inventario,
+    beforeEnter: (to, from, next) => {
+      alert("Antes de entrar al inventario.")
+      
+      window.open()
+
+      next()
+    }
   }
 
  
