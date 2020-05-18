@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
+
 
 import Home from '../views/Home.vue'
 import CrearDTC from '../views/CrearDTC.vue'
@@ -35,11 +37,11 @@ const routes = [
     path: '/Inventario',
     name: 'Inventario',
     component: Inventario,
-    beforeEnter: (to, from, next) => {
-      alert("Antes de entrar al inventario.")
-      
-      window.open()
+    beforeEnter: async function(to, from, next) {      
 
+      let plaza = store.getters['Header/getConvenioPlaza']      
+      await store.dispatch('Refacciones/buscarComponentesInventario', plaza)
+      await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')            
       next()
     }
   }

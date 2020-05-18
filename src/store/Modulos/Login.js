@@ -8,6 +8,7 @@ const state = {
 };
 
 const getters = {
+ 
   getUser: function(){ 
     return state.listUser 
   },

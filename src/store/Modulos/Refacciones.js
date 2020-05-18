@@ -2,12 +2,20 @@ import Axios from "axios";
 import moment from 'moment'
 
 const state = {
-  listaRefacciones: [],
+
+  listaRefacciones: [],  
   listaRefaccionesValid: [],
-  listaLane: []
+  listaLane: [],
+  //Inventario
+  listaInventario: [],
+  listaLaneInventario: [],
+  infoComponenteInventario: [],
+  listaUbicacionGeneralInventario: []
+
 };
 
 const getters = {
+  
   getListaRefaccionesValid: function(){
     return state.listaRefaccionesValid
   },
@@ -41,7 +49,23 @@ const getters = {
       return state.listaRefaccionesValid
     else
       return []
-    }
+  },
+  //Inventario
+  getlistaRefaccionesInventario: function(){
+    return  state.listaInventario
+  },
+  getlistaLaneInventario: function(){
+    return state.listaLaneInventario
+  },
+  getinfoComponenteInventario: function(){
+    return state.infoComponenteInventario
+  },
+  getlistaUbicacionGeneralInventario: function(){
+    return state.listaUbicacionGeneralInventario
+  }
+
+
+
 };
 const mutations = {
   listaRefaccionesMutation: (state, value) => {
@@ -52,14 +76,102 @@ const mutations = {
   },
   listaRefaccionValidMutation: (state, value) => {
     state.listaRefaccionesValid = value;
+  },
+  //Inventario
+  listaRefaccionesInventarioMutation: (state, value) => {
+    state.listaInventario = value
+  },
+  listaLaneInventarioMutation: (state, value) => {
+    state.listaLaneInventario = value
+  },  
+  infoComponenteInventarioMutation: (state, value) => {
+    state.infoComponenteInventario = value
+  },
+  listaUbicacionGeneralInventarioMutation: (state, value) => {
+    state.listaUbicacionGeneralInventario = value
   }
 };
 const actions = {
+
+  async buscarComponentesInventario({commit}, value) {
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component/Inventario/${value.numPlaza}`)
+    .then(response => {      
+      commit("listaRefaccionesInventarioMutation", response.data.result);
+    })
+    .catch(Ex => {
+      console.log(Ex);
+    });
+  },
+  async buscarCarrilesInventario({ commit }, value){
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component/Inventario/${value.componente}/${value.numPlaza}`)
+    .then(response => {      
+      commit("listaLaneInventarioMutation", response.data.result);
+    })
+    .catch(Ex => {
+      console.log(Ex);
+    });
+  },
+  async buscarInfoComponeteInventario({commit}, value){
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component/Inventario/${value.componente}/${value.carril}/${value.numPlaza}`)
+    .then(response => {    
+      commit("infoComponenteInventarioMutation", response.data.result);
+    })
+    .catch(Ex => {
+      console.log(Ex); 
+    });
+  },
+  async buscarUbicacionGeneralInventario({commit}){
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component/InventarioUbicacion`)
+    .then(response => {    
+      commit("listaUbicacionGeneralInventarioMutation", response.data.result);
+    })
+    .catch(Ex => {
+      console.log(Ex);
+    });
+  },
+  async updateComponenteInventary(context,value){
+        
+    let newObject = {
+      strFltLane: value.infoComponentes.ubicacion,
+      strFltComponent: value.infoComponentes.componente,
+      strFltSerialNumber: value.infoComponentes.numSerie,
+      strFltSquare: value.infoPlaza.numPlaza,
+      strInventaryNumCapufe: value.infoComponentes.numInventarioCapufe,
+      strInventaryNumProsis: value.infoComponentes.numInventarioProsis,
+      strMorel: value.infoComponentes.modelo,
+      strBrand: value.infoComponentes.marca,
+      strSerialNumber: value.infoComponentes.numSerie,
+      strInstalationDate: value.infoComponentes.fechaInstalacion,
+      strObservation: value.infoComponentes.observaciones,
+      intUbicacion: value.infoUbicacionGeneral[0].typeUbicationId,
+      strMaintenanceDate: value.infoComponentes.fechaUltimoMantenimiento,
+      strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento
+    }    
+    
+    console.log(newObject)
+    await Axios.put(`http://prosisdev.sytes.net:88/api/component/updateInventary`, newObject)
+    .then(response => {          
+
+      if(response.data.message == 'Ok')
+          alert('Se actualizo correctamente')
+      else
+          alert('Ocurrio un Error!!')
+      
+    })
+    .catch(Ex => {
+      console.log(Ex);
+    });
+  },
+
+
+
+
   async buscarComponentes({ commit }, value) {    
 
     console.log(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
       .then(response => {
+        
         commit("listaRefaccionesMutation", response.data.result);
       })
       .catch(Ex => {
