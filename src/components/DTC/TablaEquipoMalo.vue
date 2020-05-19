@@ -705,8 +705,8 @@ export default {
                   NumSerie: listaAcumulada[i].serialNumber,
                   Unity: listaAcumulada[i].unity,
                   DateInstallationDate: listaAcumulada[i].instalationDate,
-                  DateMaintenanceDate: listaAcumulada[i].maintenanceFolio,
-                  MaintenanceFolio: listaAcumulada[i].maintenanceDate,
+                  DateMaintenanceDate: listaAcumulada[i].maintenanceDate,
+                  MaintenanceFolio: listaAcumulada[i].maintenanceFolio,
                   IntLifeTimeExpected: listaAcumulada[i].lifeTime,
                   strLifeTimeReal: this.datosPrePartida.rowDateReal,
                   IntPartida: ""
