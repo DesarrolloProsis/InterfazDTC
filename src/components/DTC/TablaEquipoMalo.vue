@@ -142,27 +142,54 @@
                 <div v-else>{{ objectEditar.rowUpd9.toString().substring(0,10) }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row10.toString().substring(0,10) }}</div>
+                <div v-if="equipo.rowUp">
+                  <!-- {{ equipo.row10.toString().substring(0,10) }} -->
+                  
+                <p
+                  v-for="(item, key) in equipo.row10"
+                  :key="key"
+                  class="text-sm"
+                >{{ item.toString().substring(0,10) }}</p>
+                  
+                </div>
                 <div v-else>
+                <p
+                  v-for="(item, key) in  objectEditar.rowUpd10"
+                  :key="key"
+                  class="text-sm"
+                >{{ item.toString().substring(0,10) }}</p>
                   <!-- {{ objectEditar.rowUpd10.toString().substring(0,10) }} -->
-                  <input
+                  <!-- <input
                     v-model="dateMantenimientoEdit"
                     class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                     style="width: 7vw"
                     type="date"
-                  />
+                  /> -->
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row11.toString() }}</div>
+                <div v-if="equipo.rowUp">
+                  <!-- {{ equipo.row11.toString() }} -->
+                  <p
+                  v-for="(item, key) in equipo.row11"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>
+
+                </div>
                 <div v-else>
+                <p
+                  v-for="(item, key) in  objectEditar.rowUpd11"
+                  :key="key"
+                  class="text-sm"
+                >{{ item.toString().substring(0,10) }}</p>
                   <!-- {{ objectEditar.rowUpd11.toString() }} -->
-                  <input
+                  <!-- <input
                     v-model="folioMantenimientoEdit"
                     class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                     style="width: 7vw"
                     type="text"
-                  />
+                  /> -->
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
@@ -175,7 +202,6 @@
                 <div v-if="equipo.rowUp">{{ equipo.row13.toString() }}</div>
                 <div v-else>{{ objectEditar.rowUpd13.toString() }}</div>
               </td>
-
               <td class="border-b border-black md:p-3 border-2">
                 <div v-if="equipo.rowUp">
                   <button
@@ -203,7 +229,6 @@
                 </div>
               </td>
             </tr>
-
             <tr style="text-align: center">
               <td class="border-b border-black p-2 md:p-1 border-2">{{ "*" }}</td>
               <td
@@ -267,22 +292,34 @@
                 class="border-b border-black p-2 md:p-1 border-2 w-32"
               >{{datosPrePartida.rowDateInstalacion.toString().substring(0,10) }}</td>
               <td class="border-b border-black p-2 md:p-1 border-2 w-32">
+
+                <p
+                  v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
+                  :key="key"
+                  class="text-sm"
+                >{{ item.toString().substring(0,10) }}</p>
                 <!-- {{ datosPrePartida.rowDateMantenimiento.toString().substring(0,10) }} -->
-                <input
+                <!-- <input
                   v-model="dateMantenimiento"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 6vw"
                   type="date"
-                />
+                /> -->
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
+                <p
+                  v-for="(item, key) in datosPrePartida.rowFolioMantenimiento"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>
+                
                 <!-- {{ datosPrePartida.rowFolioMantenimiento.toString() }} -->
-                <input
+                <!-- <input
                   v-model="folioMantenimiento"
                   class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 6vw"
                   type="text"
-                />
+                /> -->
               </td>
               <td
                 class="border-b border-black p-2 md:p-1 border-2 w-48"
@@ -331,8 +368,8 @@ export default {
         rowModelo: [],
         rowNumSerie: [],
         rowDateInstalacion: [],
-        rowDateMantenimiento: "",
-        rowFolioMantenimiento: "",
+        rowDateMantenimiento: [],
+        rowFolioMantenimiento: [],
         rowDateReal: "",
         rowDateFabricante: [],
         rowPrecio: [],
@@ -469,8 +506,8 @@ export default {
           rowUpd7: [],
           rowUpd8: [],
           rowUpd9: [],
-          rowUpd10: "",
-          rowUpd11: "",
+          rowUpd10: [],
+          rowUpd11: [],
           rowUpd12: "",
           rowUpd13: [],
           rowUpd14: []
@@ -544,8 +581,8 @@ export default {
                   NumSerie: listaAcumulada[i].serialNumber,
                   Unity: listaAcumulada[i].unity,
                   DateInstallationDate: listaAcumulada[i].instalationDate,
-                  DateMaintenanceDate: this.dateMantenimientoEdit,
-                  MaintenanceFolio: this.folioMantenimientoEdit,
+                  DateMaintenanceDate: listaAcumulada[i].maintenanceDate,
+                  MaintenanceFolio: listaAcumulada[i].maintenanceFolio,
                   IntLifeTimeExpected: listaAcumulada[i].lifeTime,
                   strLifeTimeReal: this.objectEditar.rowUpd12,
                   IntPartida: ""
@@ -579,8 +616,8 @@ export default {
             row7: numSerie,
             row8: lane,
             row9: this.objectEditar.rowUpd9,
-            row10: this.dateMantenimientoEdit,
-            row11: this.folioMantenimientoEdit,
+            row10: this.objectEditar.rowUpd10,
+            row11: this.objectEditar.rowUpd11,
             row12: this.objectEditar.rowUpd12,
             row13: this.objectEditar.rowUpd13,
             row14: this.objectEditar.rowUpd14,
@@ -668,8 +705,8 @@ export default {
                   NumSerie: listaAcumulada[i].serialNumber,
                   Unity: listaAcumulada[i].unity,
                   DateInstallationDate: listaAcumulada[i].instalationDate,
-                  DateMaintenanceDate: this.dateMantenimiento,
-                  MaintenanceFolio: this.folioMantenimiento ,
+                  DateMaintenanceDate: listaAcumulada[i].maintenanceFolio,
+                  MaintenanceFolio: listaAcumulada[i].maintenanceDate,
                   IntLifeTimeExpected: listaAcumulada[i].lifeTime,
                   strLifeTimeReal: this.datosPrePartida.rowDateReal,
                   IntPartida: ""
@@ -695,8 +732,8 @@ export default {
             row7: numSerie,
             row8: lane,
             row9: this.datosPrePartida.rowDateInstalacion,
-            row10: this.dateMantenimiento,
-            row11: this.folioMantenimiento,
+            row10: this.datosPrePartida.rowDateMantenimiento,
+            row11: this.datosPrePartida.rowFolioMantenimiento,
             row12: this.datosPrePartida.rowDateReal,
             row13: this.datosPrePartida.rowDateFabricante,
             row14: this.datosPrePartida.rowPrecio,
@@ -773,24 +810,24 @@ export default {
               component.instalationDate
             );
           }
-          // if (
-          //   this.datosPrePartida.rowDateMantenimiento.includes(
-          //     component.maintenanceDate
-          //   ) == false
-          // ) {
-          //   this.datosPrePartida.rowDateMantenimiento.push(
-          //     component.maintenanceDate
-          //   );
-          // }
-          // if (
-          //   this.datosPrePartida.rowFolioMantenimiento.includes(
-          //     component.maintenanceFolio
-          //   ) == false
-          // ) {
-          //   this.datosPrePartida.rowFolioMantenimiento.push(
-          //     component.maintenanceFolio
-          //   );
-          // }
+          if (
+            this.datosPrePartida.rowDateMantenimiento.includes(
+              component.maintenanceDate
+            ) == false
+          ) {
+            this.datosPrePartida.rowDateMantenimiento.push(
+              component.maintenanceDate
+            );
+          }
+          if (
+            this.datosPrePartida.rowFolioMantenimiento.includes(
+              component.maintenanceFolio
+            ) == false
+          ) {
+            this.datosPrePartida.rowFolioMantenimiento.push(
+              component.maintenanceFolio
+            );
+          }
           if (
             this.datosPrePartida.rowDateFabricante.includes(
               component.lifeTime
@@ -851,18 +888,18 @@ export default {
           ) {
             this.objectEditar.rowUpd9.push(component.instalationDate);
           }
-          // if (
-          //   this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
-          //   false
-          // ) {
-          //   this.objectEditar.rowUpd10.push(component.maintenanceDate);
-          // }
-          // if (
-          //   this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
-          //   false
-          // ) {
-          //   this.objectEditar.rowUpd11.push(component.maintenanceFolio);
-          // }
+          if (
+            this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
+            false
+          ) {
+            this.objectEditar.rowUpd10.push(component.maintenanceDate);
+          }
+          if (
+            this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
+            false
+          ) {
+            this.objectEditar.rowUpd11.push(component.maintenanceFolio);
+          }
           if (
             this.objectEditar.rowUpd13.includes(component.lifeTime) == false
           ) {
