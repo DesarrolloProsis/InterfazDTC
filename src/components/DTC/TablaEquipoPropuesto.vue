@@ -10,7 +10,6 @@
           <h6 class="title2" style="font-size: 1.3rem">Equipo Propuesto</h6>
         </div>
         <br />
-
         <!-- ************************************************************** -->
         <div class="lastContainer">
           <table class style="width:71%">
@@ -47,7 +46,7 @@
             >
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2.toString() }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3 }}</td>
+              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3.description }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4.toString() }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5.toString() }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6.toString() }}</td>
@@ -108,8 +107,6 @@
 
 <script>
 
-
-
 export default {
   props: {
     listaEquipo: {
@@ -124,10 +121,8 @@ export default {
   },
   watch:{
     descripcion: function(newValue){
-
         this.$store.commit('Header/descripcionMutation', newValue)   
     }
-
   },
   computed: {
 
@@ -148,10 +143,7 @@ export default {
           }
           this.$store.commit('DTC/validacionMutation', newObject)
           return false
-
-        }
-          
-
+        }          
     },
     multiplicacion: function() {
       let multi = 0;
@@ -350,14 +342,7 @@ export default {
         else
             return Millones(data.enteros) + ' ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
     }
-
-
-
-
-
 </script>
-
-
 
 <style scoped>
 .title {
