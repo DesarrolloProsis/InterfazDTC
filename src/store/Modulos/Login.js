@@ -8,7 +8,14 @@ const state = {
 };
 
 const getters = {
- 
+
+
+  getUserForDTC: function(){
+    return {
+      numPlaza: state.listUser[0].plaza.substring(0,3),
+      idUser: state.listUser[0].userId
+    }
+  },
   getUser: function(){ 
     return state.listUser 
   },

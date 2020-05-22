@@ -7,7 +7,8 @@ const state = {
   newlistaDmg: [],
   listaDTC: [],
   validaciones: [false, false, false, false],
-  insertDmgComplete: false
+  insertDmgComplete: false,
+  listaInfoDTC: []
 };
 
 const getters = {
@@ -15,8 +16,13 @@ const getters = {
   getListaDescriptions: () => state.listaDescriptions,
   getValidaciones: () => state.validaciones,
   getInsertDmgComplete: () => state.insertDmgComplete,
+  getlistaInfoDTC: () => state.listaInfoDTC
 };
 const mutations = {
+
+  listaInfoDTCMutation: (state, value) => {
+    state.listaInfoDTC = value
+  }, 
   listaDTCTecnicoMutation: (state, value) => {
     state.listaDTCTecnico = value;
   },
@@ -71,11 +77,7 @@ const actions = {
   //Consulta API Crear DTC
   async crearDmg({ state, commit } , value ) {
 
-    let arrayDmg = []
-
-    console.log(value)
-
-
+    let arrayDmg = []    
     for(let i = 0;  i < state.newlistaDmg.length; i++){
           
           for(let g = 0;  g < state.newlistaDmg[i].length; g++){
@@ -85,35 +87,35 @@ const actions = {
                 arrayDmg.push(state.newlistaDmg[i][g])
           }
     }
-      
-    console.log(arrayDmg)
-    
-      await Axios.post(
+          await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
       arrayDmg
         )
       .then(response => {                  
-        
-        console.log(response)
+          
         if(response.status == 201){  
             console.log('Si se inserta')          
             commit('insertDmgCompleteMutation', true)          
         }
         else{
           alert('No se Pudo  Insertar Dmg')
-        }
-        
+        }        
       })
       .catch(Ex => {
         console.log('ERRO!!! ' + Ex);
       });
-
-    
-
-    
-
-   
   },
+  async buscarListaDTC({commit}, value){
+
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
+    .then(response => {
+      commit("listaInfoDTCMutation", response.data.result);
+    })
+    .catch(Ex => {
+      console.log(Ex);
+    });
+
+  }
 };
 
 export default {

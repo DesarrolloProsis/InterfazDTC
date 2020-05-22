@@ -31,19 +31,28 @@ const routes = [
   {
     path: '/ListarDtc',
     name: 'ListarDtc',
-    component: ListarDTC
+    component: ListarDTC,
+
+      beforeEnter: async function(to, from, next) {      
+
+        let info = store.getters['Login/getUserForDTC']      
+        console.log(info)
+        await store.dispatch('DTC/buscarListaDTC', info)                   
+        next()
+      }
   },
   {
     path: '/Inventario',
     name: 'Inventario',
     component: Inventario,
-    beforeEnter: async function(to, from, next) {      
 
-      let plaza = store.getters['Header/getConvenioPlaza']      
-      await store.dispatch('Refacciones/buscarComponentesInventario', plaza)
-      await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')            
-      next()
-    }
+      beforeEnter: async function(to, from, next) {      
+
+        let plaza = store.getters['Header/getConvenioPlaza']      
+        await store.dispatch('Refacciones/buscarComponentesInventario', plaza)
+        await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')            
+        next()
+      }
   }
 
  
