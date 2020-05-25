@@ -256,9 +256,14 @@
               <td
                 class="border-b border-black p-2 md:p-1 border-2 w-32"
               >{{ datosPrePartida.rowMarca.toString() }}</td>
-              <td
-                class="border-b border-black p-2 md:p-1 border-2 w-32"
-              >{{ datosPrePartida.rowModelo.toString() }}</td>
+              <td class="border-b border-black p-2 md:p-1 border-2 w-32">              
+                <p
+                  v-for="(item, key) in datosPrePartida.rowModelo"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>
+              </td>
+        
               <td class="border-b border-black p-2 md:p-1 border-2 text-justify">
                 <p
                   v-for="(item, key) in datosPrePartida.rowNumSerie"
@@ -290,14 +295,20 @@
               </td>
               <td
                 class="border-b border-black p-2 md:p-1 border-2 w-32"
-              >{{datosPrePartida.rowDateInstalacion.toString().substring(0,10) }}</td>
+              >              
+                <p
+                  v-for="(item, key) in datosPrePartida.rowDateInstalacion"
+                  :key="key"
+                  class="text-sm"
+                >{{ item  | formatDate }}</p>
+              </td>
               <td class="border-b border-black p-2 md:p-1 border-2 w-32">
 
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
                   :key="key"
                   class="text-sm"
-                >{{ item.toString().substring(0,10) }}</p>
+                >{{ item | formatDate }}</p>
                 <!-- {{ datosPrePartida.rowDateMantenimiento.toString().substring(0,10) }} -->
                 <!-- <input
                   v-model="dateMantenimiento"
@@ -323,10 +334,24 @@
               </td>
               <td
                 class="border-b border-black p-2 md:p-1 border-2 w-48"
-              >{{ datosPrePartida.rowDateReal.toString() }}</td>
+              >
+              
+                     <p
+                  v-for="(item, key) in datosPrePartida.rowDateReal"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>
+              </td>
               <td
                 class="border-b border-black p-2 md:p-1 border-2"
-              >{{datosPrePartida.rowDateFabricante.toString()}}</td>
+              >
+              
+                   <p
+                  v-for="(item, key) in datosPrePartida.rowDateFabricante"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>
+              </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
@@ -352,6 +377,7 @@ import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
 import moment from "moment";
 
+
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -370,7 +396,7 @@ export default {
         rowDateInstalacion: [],
         rowDateMantenimiento: [],
         rowFolioMantenimiento: [],
-        rowDateReal: "",
+        rowDateReal: [],
         rowDateFabricante: [],
         rowPrecio: [],
         rowUp: true
@@ -790,65 +816,67 @@ export default {
           ) {
             this.datosPrePartida.rowMarca.push(component.brand);
           }
-          if (
-            this.datosPrePartida.rowModelo.includes(component.model) == false
-          ) {
+          // if (
+          //   this.datosPrePartida.rowModelo.includes(component.model) == false
+          // ) {
             this.datosPrePartida.rowModelo.push(component.model);
-          }
+          //}
           if (
             this.datosPrePartida.rowNumSerie.includes(component.serialNumber) ==
             false
           ) {
             this.datosPrePartida.rowNumSerie.push(component.serialNumber);
           }
-          if (
-            this.datosPrePartida.rowDateInstalacion.includes(
-              component.instalationDate
-            ) == false
-          ) {
-            this.datosPrePartida.rowDateInstalacion.push(
-              component.instalationDate
-            );
-          }
-          if (
-            this.datosPrePartida.rowDateMantenimiento.includes(
-              component.maintenanceDate
-            ) == false
-          ) {
+          // if (
+          //   this.datosPrePartida.rowDateInstalacion.includes(
+          //     component.instalationDate
+          //   ) == false
+          // ) {            
+            this.datosPrePartida.rowDateInstalacion.push(component.instalationDate);
+          //}
+          // if (
+          //   this.datosPrePartida.rowDateMantenimiento.includes(
+          //     component.maintenanceDate
+          //   ) == false
+          // ) {
             this.datosPrePartida.rowDateMantenimiento.push(
               component.maintenanceDate
             );
-          }
-          if (
-            this.datosPrePartida.rowFolioMantenimiento.includes(
-              component.maintenanceFolio
-            ) == false
-          ) {
+          //}
+          // if (
+          //   this.datosPrePartida.rowFolioMantenimiento.includes(
+          //     component.maintenanceFolio
+          //   ) == false
+          // ) {
             this.datosPrePartida.rowFolioMantenimiento.push(
               component.maintenanceFolio
             );
-          }
-          if (
-            this.datosPrePartida.rowDateFabricante.includes(
-              component.lifeTime
-            ) == false
-          ) {
+          //}
+          // if (
+          //   this.datosPrePartida.rowDateFabricante.includes(
+          //     component.lifeTime
+          //   ) == false
+          // ) {
             this.datosPrePartida.rowDateFabricante.push(component.lifeTime);
-          }
-          if (
-            this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
-            false
-          ) {
+          //}
+          // if (
+          //   this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
+          //   false
+          // ) {
             this.datosPrePartida.rowPrecio.push(component.unitaryPrice);
-          }
+          //}
           let fechaInstalacion = moment(
-            this.datosPrePartida.rowDateInstalacion[0]
+            component.instalationDate
           ).format("DD/MM/YYYY");
+          console.log(fechaInstalacion)
           let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
-          this.datosPrePartida.rowDateReal = Service.daysMonthsYearsInDates(
+          let fecha_format = Service.daysMonthsYearsInDates(
             fechaInstalacion,
             fechaSinester
           );
+
+          console.log(fecha_format)
+          this.datosPrePartida.rowDateReal.push(fecha_format);
         }
       }
     },
@@ -873,9 +901,10 @@ export default {
           }
           if (this.objectEditar.rowUpd5.includes(component.brand) == false) {
             this.objectEditar.rowUpd5.push(component.brand);
-          }
-          if (this.objectEditar.rowUpd6.includes(component.model) == false) {
-            this.objectEditar.rowUpd6.push(component.model);
+          }          
+          if (this.objectEditar.rowUpd6.includes(component.model) == true) {
+            //console.log(component.model)
+            //this.objectEditar.rowUpd6.push(component.model);
           }
           if (
             this.objectEditar.rowUpd7.includes(component.serialNumber) == false
@@ -926,6 +955,13 @@ export default {
     validBotonPartida: function() {
       return this.laneSelect.length > 0 ? false : true;
     }
+  },
+  filters:{
+
+    formatDate: function(value){      
+      return moment(value.substring(0,10)).format("DD/MM/YYYY")
+    }
+
   }
 };
 </script>

@@ -108,6 +108,9 @@
               class="appearance-none border border-black"
               type="date"
             />
+            <div v-if="validateFechaSinester" class="mt-2 text-red-700 font-semibold text-center mr-20">
+              <p>Campo Requerido</p>
+            </div>
           </div>
           <div class="w-1/4"></div>
           <div class="w-1/4 h-8">
@@ -118,6 +121,9 @@
               class="appearance-none border border-black"
               type="date"
             />
+            <div v-if="validateFechaEnvio" class="mt-2 text-red-700 font-semibold text-center mr-20">
+              <p>Campo Requerido</p>
+            </div>
           </div>
         </div>
 
@@ -139,6 +145,7 @@
               type="text"
               placeholder="S/M"
             />
+
           </div>
           <div class="w-1/4 h-8"></div>
           <div class="w-1/4 h-8">
@@ -222,6 +229,8 @@
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+
+
 
 export default {
   name: "CrearHeader",
@@ -408,6 +417,16 @@ export default {
         this.$store.commit("DTC/validacionMutation", newObject);
         return false;
       }
+    },
+    validateFechaSinester: function(){
+
+        if(this.datosSinester.SinisterDate == '') return true
+        else return false
+    },
+    validateFechaEnvio: function(){
+
+      if(this.datosSinester.ShippingElaboracionDate == '') return true
+      else return false
     }
   },
   watch: {
@@ -438,6 +457,7 @@ export default {
       "DTC/getListaDescriptions"
     ];
   }
+ 
 };
 </script>
 
