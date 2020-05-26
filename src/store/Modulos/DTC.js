@@ -84,9 +84,13 @@ const actions = {
 
                 state.newlistaDmg[i][g]['ReferenceNumber'] = value
                 state.newlistaDmg[i][g]['IntPartida'] = i + 1
+                state.newlistaDmg[i][g]['strLifeTimeReal'].toString()
                 arrayDmg.push(state.newlistaDmg[i][g])
           }
     }
+
+console.log(arrayDmg)
+
           await Axios.post(
       `http://prosisdev.sytes.net:88/api/requestedComponent`,
       arrayDmg

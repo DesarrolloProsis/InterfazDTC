@@ -96,8 +96,13 @@
                 <div v-else>{{ objectEditar.rowUpd5.toString() }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row6.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd6.toString() }}</div>
+                <div v-if="equipo.rowUp">
+                    <p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p>
+                </div>
+                <div v-else>
+                  
+                   <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
+                </div>
               </td>
               <td
                 class="border-b border-black border-2"
@@ -138,8 +143,23 @@
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row9.toString().substring(0,10) }}</div>
-                <div v-else>{{ objectEditar.rowUpd9.toString().substring(0,10) }}</div>
+                <div v-if="equipo.rowUp">
+
+                <p
+                  v-for="(item, key) in equipo.row9"
+                  :key="key"
+                  class="text-sm"
+                >{{ item | formatDate }}</p>
+                  
+                </div>
+                <div v-else>
+                  
+                <p
+                  v-for="(item, key) in objectEditar.rowUpd9"
+                  :key="key"
+                  class="text-sm"
+                >{{ item |formatDate }}</p>
+                </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
@@ -149,7 +169,7 @@
                   v-for="(item, key) in equipo.row10"
                   :key="key"
                   class="text-sm"
-                >{{ item.toString().substring(0,10) }}</p>
+                >{{ item |formatDate }}</p>
                   
                 </div>
                 <div v-else>
@@ -157,7 +177,7 @@
                   v-for="(item, key) in  objectEditar.rowUpd10"
                   :key="key"
                   class="text-sm"
-                >{{ item.toString().substring(0,10) }}</p>
+                >{{ item | formatDate}}</p>
                   <!-- {{ objectEditar.rowUpd10.toString().substring(0,10) }} -->
                   <!-- <input
                     v-model="dateMantenimientoEdit"
@@ -182,7 +202,7 @@
                   v-for="(item, key) in  objectEditar.rowUpd11"
                   :key="key"
                   class="text-sm"
-                >{{ item.toString().substring(0,10) }}</p>
+                >{{ item}}</p>
                   <!-- {{ objectEditar.rowUpd11.toString() }} -->
                   <!-- <input
                     v-model="folioMantenimientoEdit"
@@ -192,15 +212,40 @@
                   /> -->
                 </div>
               </td>
-              <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row12.toString() }}</div>
-                <div v-else>
-                  {{ objectEditar.rowUpd12 }}   
+              <td class="border-b border-black p-2 md:p-3 border-2 w-48">
+                 
+                <div v-if="equipo.rowUp">
+                
+                <p
+                  v-for="(item, key) in equipo.row12"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>  
+                </div>
+                <div v-else>                
+                <p
+                  v-for="(item, key) in objectEditar.rowUpd12"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>  
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row13.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd13.toString() }}</div>
+                <div v-if="equipo.rowUp">
+                  
+                <p
+                  v-for="(item, key) in equipo.row13"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p>  
+                </div>
+                <div v-else>                  
+                <p
+                  v-for="(item, key) in objectEditar.rowUpd13"
+                  :key="key"
+                  class="text-sm"
+                >{{ item }}</p> 
+                </div>
               </td>
               <td class="border-b border-black md:p-3 border-2">
                 <div v-if="equipo.rowUp">
@@ -534,7 +579,7 @@ export default {
           rowUpd9: [],
           rowUpd10: [],
           rowUpd11: [],
-          rowUpd12: "",
+          rowUpd12: [],
           rowUpd13: [],
           rowUpd14: []
         };
@@ -610,7 +655,7 @@ export default {
                   DateMaintenanceDate: listaAcumulada[i].maintenanceDate,
                   MaintenanceFolio: listaAcumulada[i].maintenanceFolio,
                   IntLifeTimeExpected: listaAcumulada[i].lifeTime,
-                  strLifeTimeReal: this.objectEditar.rowUpd12,
+                  strLifeTimeReal: this.objectEditar.rowUpd12[i],
                   IntPartida: ""
                 };
                 objPartida.push(obj)  
@@ -734,15 +779,13 @@ export default {
                   DateMaintenanceDate: listaAcumulada[i].maintenanceDate,
                   MaintenanceFolio: listaAcumulada[i].maintenanceFolio,
                   IntLifeTimeExpected: listaAcumulada[i].lifeTime,
-                  strLifeTimeReal: this.datosPrePartida.rowDateReal,
+                  strLifeTimeReal: this.datosPrePartida.rowDateReal[i],
                   IntPartida: ""
                 };
                 objPartida.push(obj)  
                 numSerie.push(listaAcumulada[i]['serialNumber'])
-                lane.push(listaAcumulada[i]['lane']) 
-                
-                if(!modelo.includes(listaAcumulada[i]['model']))
-                  modelo.push(listaAcumulada[i]['model'])
+                lane.push(listaAcumulada[i]['lane'])                                 
+                modelo.push(listaAcumulada[i]['model'])
               }             
             }                         
             this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);                        
@@ -859,12 +902,12 @@ export default {
           // ) {
             this.datosPrePartida.rowDateFabricante.push(component.lifeTime);
           //}
-          // if (
-          //   this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
-          //   false
-          // ) {
+          if (
+            this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
+            false
+          ) {
             this.datosPrePartida.rowPrecio.push(component.unitaryPrice);
-          //}
+          }
           let fechaInstalacion = moment(
             component.instalationDate
           ).format("DD/MM/YYYY");
@@ -895,58 +938,58 @@ export default {
           let component = equipoValid.find(
             component => component.lane === lane
           );
-
+          
           if (this.objectEditar.rowUpd2.includes(component.unity) == false) {
             this.objectEditar.rowUpd2.push(component.unity);
           }
           if (this.objectEditar.rowUpd5.includes(component.brand) == false) {
             this.objectEditar.rowUpd5.push(component.brand);
           }          
-          if (this.objectEditar.rowUpd6.includes(component.model) == true) {
-            //console.log(component.model)
-            //this.objectEditar.rowUpd6.push(component.model);
-          }
-          if (
-            this.objectEditar.rowUpd7.includes(component.serialNumber) == false
-          ) {
+          //if (this.objectEditar.rowUpd6.includes(component.model) == true) {
+            console.log(component.model)
+            this.objectEditar.rowUpd6.push(component.model);
+          //}
+          // if (
+          //   this.objectEditar.rowUpd7.includes(component.serialNumber) == false
+          // ) {
             this.objectEditar.rowUpd7.push(component.serialNumber);
-          }
-          if (
-            this.objectEditar.rowUpd9.includes(component.instalationDate) ==
-            false
-          ) {
+          //}
+          // if (
+          //   this.objectEditar.rowUpd9.includes(component.instalationDate) ==
+          //   false
+          // ) {
             this.objectEditar.rowUpd9.push(component.instalationDate);
-          }
-          if (
-            this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
-            false
-          ) {
+          //}
+          // if (
+          //   this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
+          //   false
+          // ) {
             this.objectEditar.rowUpd10.push(component.maintenanceDate);
-          }
-          if (
-            this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
-            false
-          ) {
+          // }
+          // if (
+          //   this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
+          //   false
+          // ) {
             this.objectEditar.rowUpd11.push(component.maintenanceFolio);
-          }
-          if (
-            this.objectEditar.rowUpd13.includes(component.lifeTime) == false
-          ) {
+          // }
+          // if (
+          //   this.objectEditar.rowUpd13.includes(component.lifeTime) == false
+          // ) {
             this.objectEditar.rowUpd13.push(component.lifeTime);
-          }
+          //}
           if (
             this.objectEditar.rowUpd14.includes(component.unitaryPrice) == false
           ) {
             this.objectEditar.rowUpd14.push(component.unitaryPrice);
           }
-          let fechaInstalacion = moment(this.objectEditar.rowUpd9[0]).format(
+          let fechaInstalacion = moment(component.instalationDate).format(
             "DD/MM/YYYY"
           );
           let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
-          this.objectEditar.rowUpd12 = Service.daysMonthsYearsInDates(
+          this.objectEditar.rowUpd12.push(Service.daysMonthsYearsInDates(
             fechaInstalacion,
             fechaSinester
-          );
+          ));
         }
       }
     }
