@@ -34,7 +34,6 @@ const routes = [
     component: ListarDTC,
 
       beforeEnter: async function(to, from, next) {      
-
         let info = store.getters['Login/getUserForDTC']      
         console.log(info)
         await store.dispatch('DTC/buscarListaDTC', info)                   

@@ -8,7 +8,8 @@ const state = {
   listaDTC: [],
   validaciones: [false, false, false, false],
   insertDmgComplete: false,
-  listaInfoDTC: []
+  listaInfoDTC: [],
+  tableFormComponent: [],
 };
 
 const getters = {
@@ -16,7 +17,9 @@ const getters = {
   getListaDescriptions: () => state.listaDescriptions,
   getValidaciones: () => state.validaciones,
   getInsertDmgComplete: () => state.insertDmgComplete,
-  getlistaInfoDTC: () => state.listaInfoDTC
+  getlistaInfoDTC: () => state.listaInfoDTC,
+  gettableFormComp: () => state.tableFormComponent
+  
 };
 const mutations = {
 
@@ -50,6 +53,9 @@ const mutations = {
   },
   insertDmgCompleteMutation: (state, value) => {
     state.insertDmgComplete = value
+  },
+  tableFormComponentMutation: (state, value) => {
+    state.tableFormComponent = value
   }
 };
 
@@ -114,6 +120,21 @@ console.log(arrayDmg)
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
     .then(response => {
       commit("listaInfoDTCMutation", response.data.result);
+    })
+    .catch(Ex => {
+      console.log(Ex);
+    });
+
+  },
+  async tableFormComponent({commit}, value){
+
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/TableForm/${value}`)
+    .then(response => {
+
+      if(response.data.result != null)
+        commit("tableFormComponentMutation", response.data.result);
+      else
+        alert("Ocurrio un Error")
     })
     .catch(Ex => {
       console.log(Ex);

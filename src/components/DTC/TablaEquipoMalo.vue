@@ -97,11 +97,10 @@
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
-                    <p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p>
                 </div>
                 <div v-else>
-                  
-                   <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
                 </div>
               </td>
               <td
@@ -144,107 +143,71 @@
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
-
-                <p
-                  v-for="(item, key) in equipo.row9"
-                  :key="key"
-                  class="text-sm"
-                >{{ item | formatDate }}</p>
-                  
+                  <p
+                    v-for="(item, key) in equipo.row9"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item | formatDate }}</p>
                 </div>
                 <div v-else>
-                  
-                <p
-                  v-for="(item, key) in objectEditar.rowUpd9"
-                  :key="key"
-                  class="text-sm"
-                >{{ item |formatDate }}</p>
+                  <p
+                    v-for="(item, key) in objectEditar.rowUpd9"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item |formatDate }}</p>
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
-                  <!-- {{ equipo.row10.toString().substring(0,10) }} -->
-                  
-                <p
-                  v-for="(item, key) in equipo.row10"
-                  :key="key"
-                  class="text-sm"
-                >{{ item |formatDate }}</p>
-                  
+                  <p
+                    v-for="(item, key) in equipo.row10"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item |formatDate }}</p>
                 </div>
                 <div v-else>
-                <p
-                  v-for="(item, key) in  objectEditar.rowUpd10"
-                  :key="key"
-                  class="text-sm"
-                >{{ item | formatDate}}</p>
-                  <!-- {{ objectEditar.rowUpd10.toString().substring(0,10) }} -->
-                  <!-- <input
-                    v-model="dateMantenimientoEdit"
-                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 7vw"
-                    type="date"
-                  /> -->
+                  <p
+                    v-for="(item, key) in  objectEditar.rowUpd10"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item | formatDate}}</p>
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
                   <!-- {{ equipo.row11.toString() }} -->
-                  <p
-                  v-for="(item, key) in equipo.row11"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>
-
+                  <p v-for="(item, key) in equipo.row11" :key="key" class="text-sm">{{ item }}</p>
                 </div>
                 <div v-else>
-                <p
-                  v-for="(item, key) in  objectEditar.rowUpd11"
-                  :key="key"
-                  class="text-sm"
-                >{{ item}}</p>
-                  <!-- {{ objectEditar.rowUpd11.toString() }} -->
-                  <!-- <input
-                    v-model="folioMantenimientoEdit"
-                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 7vw"
-                    type="text"
-                  /> -->
+                  <p
+                    v-for="(item, key) in  objectEditar.rowUpd11"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item}}</p>
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2 w-48">
-                 
                 <div v-if="equipo.rowUp">
-                
-                <p
-                  v-for="(item, key) in equipo.row12"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>  
+                  <p v-for="(item, key) in equipo.row12" :key="key" class="text-sm">{{ item }}</p>
                 </div>
-                <div v-else>                
-                <p
-                  v-for="(item, key) in objectEditar.rowUpd12"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>  
+                <div v-else>
+                  <p
+                    v-for="(item, key) in objectEditar.rowUpd12"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item }}</p>
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
-                  
-                <p
-                  v-for="(item, key) in equipo.row13"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>  
+                  <p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p>
                 </div>
-                <div v-else>                  
-                <p
-                  v-for="(item, key) in objectEditar.rowUpd13"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p> 
+                <div v-else>
+                  <p
+                    v-for="(item, key) in objectEditar.rowUpd13"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item }}</p>
                 </div>
               </td>
               <td class="border-b border-black md:p-3 border-2">
@@ -301,14 +264,14 @@
               <td
                 class="border-b border-black p-2 md:p-1 border-2 w-32"
               >{{ datosPrePartida.rowMarca.toString() }}</td>
-              <td class="border-b border-black p-2 md:p-1 border-2 w-32">              
+              <td class="border-b border-black p-2 md:p-1 border-2 w-32">
                 <p
                   v-for="(item, key) in datosPrePartida.rowModelo"
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
               </td>
-        
+
               <td class="border-b border-black p-2 md:p-1 border-2 text-justify">
                 <p
                   v-for="(item, key) in datosPrePartida.rowNumSerie"
@@ -338,29 +301,19 @@
                   </template>
                 </multiselect>
               </td>
-              <td
-                class="border-b border-black p-2 md:p-1 border-2 w-32"
-              >              
+              <td class="border-b border-black p-2 md:p-1 border-2 w-32">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateInstalacion"
                   :key="key"
                   class="text-sm"
-                >{{ item  | formatDate }}</p>
+                >{{ item | formatDate }}</p>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2 w-32">
-
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
                   :key="key"
                   class="text-sm"
                 >{{ item | formatDate }}</p>
-                <!-- {{ datosPrePartida.rowDateMantenimiento.toString().substring(0,10) }} -->
-                <!-- <input
-                  v-model="dateMantenimiento"
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 6vw"
-                  type="date"
-                /> -->
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <p
@@ -368,30 +321,16 @@
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
-                
-                <!-- {{ datosPrePartida.rowFolioMantenimiento.toString() }} -->
-                <!-- <input
-                  v-model="folioMantenimiento"
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 6vw"
-                  type="text"
-                /> -->
               </td>
-              <td
-                class="border-b border-black p-2 md:p-1 border-2 w-48"
-              >
-              
-                     <p
+              <td class="border-b border-black p-2 md:p-1 border-2 w-48">
+                <p
                   v-for="(item, key) in datosPrePartida.rowDateReal"
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
               </td>
-              <td
-                class="border-b border-black p-2 md:p-1 border-2"
-              >
-              
-                   <p
+              <td class="border-b border-black p-2 md:p-1 border-2">
+                <p
                   v-for="(item, key) in datosPrePartida.rowDateFabricante"
                   :key="key"
                   class="text-sm"
@@ -421,7 +360,6 @@ import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
 import moment from "moment";
-
 
 export default {
   name: "TablaEquipoMalo",
@@ -484,12 +422,16 @@ export default {
       let componentrepetido = false;
 
       this.listLane = [];
-      this.laneSelect = [];      
+      this.laneSelect = [];
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
       for (let i = 0; i < this.arrayPartidas.length; i++) {
-        if (this.arrayPartidas[i]["row3"].description == this.updtComp.description && this.arrayPartidas[i]["row3"].brand == this.updtComp.brand) {
+        if (
+          this.arrayPartidas[i]["row3"].description ==
+            this.updtComp.description &&
+          this.arrayPartidas[i]["row3"].brand == this.updtComp.brand
+        ) {
           componentrepetido = true;
         }
       }
@@ -513,7 +455,7 @@ export default {
       }
       if (!componentrepetido) {
         this.laneSelectEditar = [];
-        this.listLaneEditar = []
+        this.listLaneEditar = [];
         this.dateMantenimientoEdit = "";
         this.folioMantenimientoEdit = "";
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
@@ -551,22 +493,19 @@ export default {
       }
     },
     deleteItem(index) {
-      
-      this.arrayPartidas.splice(index, 1)   
-      for(let i = 0; i < this.arrayPartidas.length; i++){
-          this.arrayPartidas[i]['row1'] = i + 1          
-      }            
+      this.arrayPartidas.splice(index, 1);
+      for (let i = 0; i < this.arrayPartidas.length; i++) {
+        this.arrayPartidas[i]["row1"] = i + 1;
+      }
       this.$store.commit("DTC/listaDmgMutationDelete", index);
     },
     updateRowTable: async function(index, datos) {
       if (this.saveObjectEdiar.length == 0) {
-
-
-        console.log(datos)
+        console.log(datos);
         this.arrayPartidas[index]["rowUp"] = false;
         this.saveObjectEdiar = Object.values(datos);
 
-        console.log(this.saveObjectEdiar)
+        console.log(this.saveObjectEdiar);
         let newObjEdit = {
           rowUpd1: [],
           rowUpd2: [],
@@ -583,21 +522,23 @@ export default {
           rowUpd13: [],
           rowUpd14: []
         };
-        try{
-        this.objectEditar = newObjEdit;
-        this.updtCompEditar = this.saveObjectEdiar[2];
-        this.laneSelectEditar = this.saveObjectEdiar[7];
-        this.dateMantenimientoEdit = this.saveObjectEdiar[9];
-        this.folioMantenimientoEdit = this.saveObjectEdiar[10];
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-        newObject["id"] = this.updtCompEditar;
-        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
-        }
-        catch(ex){
-            console.log(ex)
+        try {
+          this.objectEditar = newObjEdit;
+          this.updtCompEditar = this.saveObjectEdiar[2];
+          this.laneSelectEditar = this.saveObjectEdiar[7];
+          this.dateMantenimientoEdit = this.saveObjectEdiar[9];
+          this.folioMantenimientoEdit = this.saveObjectEdiar[10];
+          let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+          newObject["id"] = this.updtCompEditar;
+          await this.$store.dispatch(
+            "Refacciones/buscarComponenteId",
+            newObject
+          );
+          this.listLaneEditar = await this.$store.getters[
+            "Refacciones/getListaLane"
+          ];
+        } catch (ex) {
+          console.log(ex);
         }
       } else {
         alert("HAY UNA EDICION PENDIENTE!!!");
@@ -606,14 +547,13 @@ export default {
     confirmRowTable: async function(index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
+          alert("Aceptar");
 
-          alert('Aceptar')
-      
           let equipoValid = await this.$store.getters[
             "Refacciones/getEquipoMalo"
           ];
 
-          console.log(equipoValid)
+          console.log(equipoValid);
 
           let listaAcumulada = [];
 
@@ -621,27 +561,27 @@ export default {
             let component = equipoValid.find(
               component => component.lane === lane
             );
-            listaAcumulada.push(component);            
-          } 
-          
-          console.log(listaAcumulada)
-          
+            listaAcumulada.push(component);
+          }
+
+          console.log(listaAcumulada);
+
           let listaMarcas = [];
           for (let i = 0; i < listaAcumulada.length; i++) {
             if (!listaMarcas.includes(listaAcumulada[i]["brand"]))
               listaMarcas.push(listaAcumulada[i]["brand"]);
-          }   
-          
-          console.log(listaMarcas)
-          var lengListaAcumulada = listaAcumulada.length
-          var objPartida = [];
-          var numSerie = []
-          var lane = []
-          var modelo = []
+          }
 
-          for (const marca of listaMarcas) {            
-            for(let i = 0; i < lengListaAcumulada; i++) {
-              if(listaAcumulada[i]["brand"] === marca) {                
+          console.log(listaMarcas);
+          var lengListaAcumulada = listaAcumulada.length;
+          var objPartida = [];
+          var numSerie = [];
+          var lane = [];
+          var modelo = [];
+
+          for (const marca of listaMarcas) {
+            for (let i = 0; i < lengListaAcumulada; i++) {
+              if (listaAcumulada[i]["brand"] === marca) {
                 let obj = {
                   ComponentsStockId: listaAcumulada[i].componentsStockId,
                   ReferenceNumber: "",
@@ -658,56 +598,53 @@ export default {
                   strLifeTimeReal: this.objectEditar.rowUpd12[i],
                   IntPartida: ""
                 };
-                objPartida.push(obj)  
-                numSerie.push(listaAcumulada[i]['serialNumber'])
-                lane.push(listaAcumulada[i]['lane']) 
-                
-                if(!modelo.includes(listaAcumulada[i]['model']))
-                  modelo.push(listaAcumulada[i]['model'])
-              }             
-            
-            }   
+                objPartida.push(obj);
+                numSerie.push(listaAcumulada[i]["serialNumber"]);
+                lane.push(listaAcumulada[i]["lane"]);
 
-            let objMutation = {
-
-                index: index,
-                value: objPartida
+                if (!modelo.includes(listaAcumulada[i]["model"]))
+                  modelo.push(listaAcumulada[i]["model"]);
+              }
             }
 
-            this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);                        
-            objPartida = []
+            let objMutation = {
+              index: index,
+              value: objPartida
+            };
+
+            this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);
+            objPartida = [];
 
             let newObject = {
-            row1: index + 1,
-            row2: this.objectEditar.rowUpd2,
-            row3: this.updtCompEditar,
-            row4: lane.length,
-            row5: marca,
-            row6: modelo,
-            row7: numSerie,
-            row8: lane,
-            row9: this.objectEditar.rowUpd9,
-            row10: this.objectEditar.rowUpd10,
-            row11: this.objectEditar.rowUpd11,
-            row12: this.objectEditar.rowUpd12,
-            row13: this.objectEditar.rowUpd13,
-            row14: this.objectEditar.rowUpd14,
-            rowUp: true
-          };
-          this.arrayPartidas.splice(index, 1, newObject)
-          numSerie = []
-          lane = []
-          modelo = []
+              row1: index + 1,
+              row2: this.objectEditar.rowUpd2,
+              row3: this.updtCompEditar,
+              row4: lane.length,
+              row5: marca,
+              row6: modelo,
+              row7: numSerie,
+              row8: lane,
+              row9: this.objectEditar.rowUpd9,
+              row10: this.objectEditar.rowUpd10,
+              row11: this.objectEditar.rowUpd11,
+              row12: this.objectEditar.rowUpd12,
+              row13: this.objectEditar.rowUpd13,
+              row14: this.objectEditar.rowUpd14,
+              rowUp: true
+            };
+            this.arrayPartidas.splice(index, 1, newObject);
+            numSerie = [];
+            lane = [];
+            modelo = [];
           }
-   
+
           this.objectEditar = {};
           this.saveObjectEdiar = [];
           this.laneSelectEditar = [];
           this.updtCompEditar = "";
-          this.listLaneEditar = ''
-          this.dateMantenimientoEdit = ''
-          this.folioMantenimientoEdit = ''
-
+          this.listLaneEditar = "";
+          this.dateMantenimientoEdit = "";
+          this.folioMantenimientoEdit = "";
         } else {
           alert("SELECIONE LA UBICACION!!!");
         }
@@ -733,13 +670,12 @@ export default {
       this.arrayPartidas[index]["rowUp"] = true;
       this.saveObjectEdiar = [];
       this.objectEditar = {};
-      this.listLaneEditar = []
-      this.updtCompEditar = ''
+      this.listLaneEditar = [];
+      this.updtCompEditar = "";
     },
     agregarPartida: async function() {
       if (this.updtComp != "") {
         if (this.laneSelect.length > 0) {
-
           let equipoValid = await this.$store.getters[
             "Refacciones/getEquipoMalo"
           ];
@@ -750,22 +686,22 @@ export default {
             let component = equipoValid.find(
               component => component.lane === lane
             );
-            listaAcumulada.push(component);            
-          }          
+            listaAcumulada.push(component);
+          }
           let listaMarcas = [];
           for (let i = 0; i < listaAcumulada.length; i++) {
             if (!listaMarcas.includes(listaAcumulada[i]["brand"]))
               listaMarcas.push(listaAcumulada[i]["brand"]);
-          }          
-          var lengListaAcumulada = listaAcumulada.length
+          }
+          var lengListaAcumulada = listaAcumulada.length;
           var objPartida = [];
-          var numSerie = []
-          var lane = []
-          var modelo = []
+          var numSerie = [];
+          var lane = [];
+          var modelo = [];
 
-          for (const marca of listaMarcas) {            
-            for(let i = 0; i < lengListaAcumulada; i++) {
-              if(listaAcumulada[i]["brand"] === marca) {                
+          for (const marca of listaMarcas) {
+            for (let i = 0; i < lengListaAcumulada; i++) {
+              if (listaAcumulada[i]["brand"] === marca) {
                 let obj = {
                   ComponentsStockId: listaAcumulada[i].componentsStockId,
                   ReferenceNumber: "",
@@ -782,48 +718,48 @@ export default {
                   strLifeTimeReal: this.datosPrePartida.rowDateReal[i],
                   IntPartida: ""
                 };
-                objPartida.push(obj)  
-                numSerie.push(listaAcumulada[i]['serialNumber'])
-                lane.push(listaAcumulada[i]['lane'])                                 
-                modelo.push(listaAcumulada[i]['model'])
-              }             
-            }                         
-            this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);                        
-            objPartida = []
+                objPartida.push(obj);
+                numSerie.push(listaAcumulada[i]["serialNumber"]);
+                lane.push(listaAcumulada[i]["lane"]);
+                modelo.push(listaAcumulada[i]["model"]);
+              }
+            }
+            this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+            objPartida = [];
 
             let newObject = {
-            row1: this.arrayPartidas.length + 1,
-            row2: this.datosPrePartida.rowUnidad,
-            row3: this.updtComp,
-            row4: lane.length,
-            row5: marca,
-            row6: modelo,
-            row7: numSerie,
-            row8: lane,
-            row9: this.datosPrePartida.rowDateInstalacion,
-            row10: this.datosPrePartida.rowDateMantenimiento,
-            row11: this.datosPrePartida.rowFolioMantenimiento,
-            row12: this.datosPrePartida.rowDateReal,
-            row13: this.datosPrePartida.rowDateFabricante,
-            row14: this.datosPrePartida.rowPrecio,
-            rowUp: true
-          };
-          this.arrayPartidas.push(newObject);
-          numSerie = []
-          lane = []
-          modelo = []
+              row1: this.arrayPartidas.length + 1,
+              row2: this.datosPrePartida.rowUnidad,
+              row3: this.updtComp,
+              row4: lane.length,
+              row5: marca,
+              row6: modelo,
+              row7: numSerie,
+              row8: lane,
+              row9: this.datosPrePartida.rowDateInstalacion,
+              row10: this.datosPrePartida.rowDateMantenimiento,
+              row11: this.datosPrePartida.rowFolioMantenimiento,
+              row12: this.datosPrePartida.rowDateReal,
+              row13: this.datosPrePartida.rowDateFabricante,
+              row14: this.datosPrePartida.rowPrecio,
+              rowUp: true
+            };
+            this.arrayPartidas.push(newObject);
+            numSerie = [];
+            lane = [];
+            modelo = [];
           }
-            //LIMPIA LA LISTA PRE_PARTIDA
-            for (const propiedades in this.datosPrePartida) {
-              if (propiedades == "rowCantidad")
-                this.datosPrePartida[propiedades] = 0;
-              else this.datosPrePartida[propiedades] = [];
-            }
-            this.updtComp = "";
-            this.laneSelect = [];
-            this.listLane = [];
-            this.dateMantenimiento = "";
-            this.folioMantenimiento = "";          
+          //LIMPIA LA LISTA PRE_PARTIDA
+          for (const propiedades in this.datosPrePartida) {
+            if (propiedades == "rowCantidad")
+              this.datosPrePartida[propiedades] = 0;
+            else this.datosPrePartida[propiedades] = [];
+          }
+          this.updtComp = "";
+          this.laneSelect = [];
+          this.listLane = [];
+          this.dateMantenimiento = "";
+          this.folioMantenimiento = "";
         } else {
           alert("FALTA AGREGAR UBICACION!!!");
         }
@@ -862,7 +798,7 @@ export default {
           // if (
           //   this.datosPrePartida.rowModelo.includes(component.model) == false
           // ) {
-            this.datosPrePartida.rowModelo.push(component.model);
+          this.datosPrePartida.rowModelo.push(component.model);
           //}
           if (
             this.datosPrePartida.rowNumSerie.includes(component.serialNumber) ==
@@ -874,33 +810,35 @@ export default {
           //   this.datosPrePartida.rowDateInstalacion.includes(
           //     component.instalationDate
           //   ) == false
-          // ) {            
-            this.datosPrePartida.rowDateInstalacion.push(component.instalationDate);
+          // ) {
+          this.datosPrePartida.rowDateInstalacion.push(
+            component.instalationDate
+          );
           //}
           // if (
           //   this.datosPrePartida.rowDateMantenimiento.includes(
           //     component.maintenanceDate
           //   ) == false
           // ) {
-            this.datosPrePartida.rowDateMantenimiento.push(
-              component.maintenanceDate
-            );
+          this.datosPrePartida.rowDateMantenimiento.push(
+            component.maintenanceDate
+          );
           //}
           // if (
           //   this.datosPrePartida.rowFolioMantenimiento.includes(
           //     component.maintenanceFolio
           //   ) == false
           // ) {
-            this.datosPrePartida.rowFolioMantenimiento.push(
-              component.maintenanceFolio
-            );
+          this.datosPrePartida.rowFolioMantenimiento.push(
+            component.maintenanceFolio
+          );
           //}
           // if (
           //   this.datosPrePartida.rowDateFabricante.includes(
           //     component.lifeTime
           //   ) == false
           // ) {
-            this.datosPrePartida.rowDateFabricante.push(component.lifeTime);
+          this.datosPrePartida.rowDateFabricante.push(component.lifeTime);
           //}
           if (
             this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
@@ -908,17 +846,17 @@ export default {
           ) {
             this.datosPrePartida.rowPrecio.push(component.unitaryPrice);
           }
-          let fechaInstalacion = moment(
-            component.instalationDate
-          ).format("DD/MM/YYYY");
-          console.log(fechaInstalacion)
+          let fechaInstalacion = moment(component.instalationDate).format(
+            "DD/MM/YYYY"
+          );
+          console.log(fechaInstalacion);
           let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
           let fecha_format = Service.daysMonthsYearsInDates(
             fechaInstalacion,
             fechaSinester
           );
 
-          console.log(fecha_format)
+          console.log(fecha_format);
           this.datosPrePartida.rowDateReal.push(fecha_format);
         }
       }
@@ -938,44 +876,44 @@ export default {
           let component = equipoValid.find(
             component => component.lane === lane
           );
-          
+
           if (this.objectEditar.rowUpd2.includes(component.unity) == false) {
             this.objectEditar.rowUpd2.push(component.unity);
           }
           if (this.objectEditar.rowUpd5.includes(component.brand) == false) {
             this.objectEditar.rowUpd5.push(component.brand);
-          }          
+          }
           //if (this.objectEditar.rowUpd6.includes(component.model) == true) {
-            console.log(component.model)
-            this.objectEditar.rowUpd6.push(component.model);
+          console.log(component.model);
+          this.objectEditar.rowUpd6.push(component.model);
           //}
           // if (
           //   this.objectEditar.rowUpd7.includes(component.serialNumber) == false
           // ) {
-            this.objectEditar.rowUpd7.push(component.serialNumber);
+          this.objectEditar.rowUpd7.push(component.serialNumber);
           //}
           // if (
           //   this.objectEditar.rowUpd9.includes(component.instalationDate) ==
           //   false
           // ) {
-            this.objectEditar.rowUpd9.push(component.instalationDate);
+          this.objectEditar.rowUpd9.push(component.instalationDate);
           //}
           // if (
           //   this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
           //   false
           // ) {
-            this.objectEditar.rowUpd10.push(component.maintenanceDate);
+          this.objectEditar.rowUpd10.push(component.maintenanceDate);
           // }
           // if (
           //   this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
           //   false
           // ) {
-            this.objectEditar.rowUpd11.push(component.maintenanceFolio);
+          this.objectEditar.rowUpd11.push(component.maintenanceFolio);
           // }
           // if (
           //   this.objectEditar.rowUpd13.includes(component.lifeTime) == false
           // ) {
-            this.objectEditar.rowUpd13.push(component.lifeTime);
+          this.objectEditar.rowUpd13.push(component.lifeTime);
           //}
           if (
             this.objectEditar.rowUpd14.includes(component.unitaryPrice) == false
@@ -986,10 +924,9 @@ export default {
             "DD/MM/YYYY"
           );
           let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
-          this.objectEditar.rowUpd12.push(Service.daysMonthsYearsInDates(
-            fechaInstalacion,
-            fechaSinester
-          ));
+          this.objectEditar.rowUpd12.push(
+            Service.daysMonthsYearsInDates(fechaInstalacion, fechaSinester)
+          );
         }
       }
     }
@@ -999,12 +936,10 @@ export default {
       return this.laneSelect.length > 0 ? false : true;
     }
   },
-  filters:{
-
-    formatDate: function(value){      
-      return moment(value.substring(0,10)).format("DD/MM/YYYY")
+  filters: {
+    formatDate: function(value) {
+      return moment(value.substring(0, 10)).format("DD/MM/YYYY");
     }
-
   }
 };
 </script>
