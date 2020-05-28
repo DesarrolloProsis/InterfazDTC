@@ -5,11 +5,12 @@
       <div class="flex flex-wrap border border-black flex justify-center">
         <div class="md:w-1/3 mt-3 mb-3 md:mr-24 sm:mr-0">
           <p class="font-bold mb-3">Seleccione una fecha</p>
-          <input :disabled="validaReferencia" v-model="fechaFiltro" class="border" type="date" />
+          <input @change="sinFiltro" :disabled="validaReferencia" v-model="fechaFiltro" class="border" type="date" />
         </div>
         <div class="md:w1/3 mt-3 mb-3">
           <p class="font-bold mb-3">Escriba la Referencia</p>
           <input
+            @change="sinFiltro"
             v-model="referenciaFiltro"
             :disabled="validaFecha"
             class="border"
@@ -91,6 +92,14 @@ export default {
     }
   },
   methods: {
+
+    sinFiltro: function(){
+
+        if(this.fechaFiltro == ''  && this.referenciaFiltro == ''){
+           this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
+           this.numCard = this.infoDTC.length > 2 ? true : false
+        }
+    },
     filtro_Dtc: function() {
       if (this.fechaFiltro != "") {
         let dtc = this.$store.getters["DTC/getlistaInfoDTC"];

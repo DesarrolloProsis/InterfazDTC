@@ -39,8 +39,7 @@
               <td>{{ item.componente }}</td>
               <td>{{ item.cantidad }}</td>
               <td class=" text-xs">{{ item.lane }}</td>
-          </tr>
-          
+          </tr>          
          </table>
        </div>
       </div>
@@ -61,6 +60,7 @@
 <script>
 import moment from "moment";
 import saveAs from "file-saver";
+
 
 export default {
   props: {
@@ -91,7 +91,7 @@ export default {
     menos: function(){      
       this.menosMas = true
       this.showmenosMas = false
-    },
+    },   
     pdf: function(){
 
             var oReq = new XMLHttpRequest();
