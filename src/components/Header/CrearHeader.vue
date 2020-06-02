@@ -217,7 +217,6 @@
         <br />
       </div>
     </form>
-
     <!-- COMPONENTE TABLA EQUIPO DAÑANDA -->
     <TablaEquipoMalo
       :listaComponentes="listaComponentes"
@@ -306,7 +305,7 @@ export default {
         if (numPlaza == "004") nomPlaza = "TPZ";
         else if (numPlaza == "102") {
           nomPlaza = "PM";
-        } else if (numPlaza == "103") nomPlaza = "TLPA";
+        } else if (numPlaza == "103") nomPlaza = "TLA";
         else if (numPlaza == "041") nomPlaza = "SLM";
         else if (numPlaza == "061") nomPlaza = "LBM";
         else if (numPlaza == "069") nomPlaza = "JOR";
@@ -342,8 +341,7 @@ export default {
       );
       this.datosSinester.ReferenceNumber = await this.$store.getters[
         "Header/getreferenceNum"
-      ];
-      // console.log( this.datosSinester.ReferenceNumber + "desde vista");
+      ];      
     }
   },
   computed: {

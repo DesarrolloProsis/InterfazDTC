@@ -852,8 +852,6 @@ export default {
         console.log(this.laneSelectEditar)
         for (const lane of this.laneSelectEditar) {
 
-
-
           let component = equipoValid.find(
             component => component.lane === lane
           );
