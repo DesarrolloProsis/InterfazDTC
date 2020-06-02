@@ -98,10 +98,12 @@ const actions = {
 console.log(arrayDmg)
 
           await Axios.post(
-      `http://prosisdev.sytes.net:88/api/requestedComponent`,
+      `http://prosisdev.sytes.net:88/api/requestedComponent`,      
       arrayDmg
         )
-      .then(response => {                  
+      .then(response => {   
+        
+        console.log(response)
           
         if(response.status == 201){  
             console.log('Si se inserta')          
