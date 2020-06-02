@@ -116,7 +116,7 @@
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row8" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p>
                 </div>
                 <div v-else>
                   <multiselect
@@ -781,10 +781,16 @@ export default {
         this.datosPrePartida.rowCantidad = this.laneSelect.length;
 
         for (const lane of this.laneSelect) {
-          let component = equipoValid.find(
-            component => component.lane === lane
-          );
 
+          let component = {}
+          if(lane == 'Plaza---'){
+            alert('Falta Agregar el numero de serie')
+          }        
+          else{            
+             component = equipoValid.find(
+              comp => comp.lane === lane
+            );
+          }
           if (
             this.datosPrePartida.rowUnidad.includes(component.unity) == false
           ) {
@@ -795,51 +801,23 @@ export default {
           ) {
             this.datosPrePartida.rowMarca.push(component.brand);
           }
-          // if (
-          //   this.datosPrePartida.rowModelo.includes(component.model) == false
-          // ) {
-          this.datosPrePartida.rowModelo.push(component.model);
-          //}
+          this.datosPrePartida.rowModelo.push(component.model);          
           if (
             this.datosPrePartida.rowNumSerie.includes(component.serialNumber) ==
             false
           ) {
             this.datosPrePartida.rowNumSerie.push(component.serialNumber);
           }
-          // if (
-          //   this.datosPrePartida.rowDateInstalacion.includes(
-          //     component.instalationDate
-          //   ) == false
-          // ) {
           this.datosPrePartida.rowDateInstalacion.push(
             component.instalationDate
           );
-          //}
-          // if (
-          //   this.datosPrePartida.rowDateMantenimiento.includes(
-          //     component.maintenanceDate
-          //   ) == false
-          // ) {
           this.datosPrePartida.rowDateMantenimiento.push(
             component.maintenanceDate
           );
-          //}
-          // if (
-          //   this.datosPrePartida.rowFolioMantenimiento.includes(
-          //     component.maintenanceFolio
-          //   ) == false
-          // ) {
           this.datosPrePartida.rowFolioMantenimiento.push(
             component.maintenanceFolio
           );
-          //}
-          // if (
-          //   this.datosPrePartida.rowDateFabricante.includes(
-          //     component.lifeTime
-          //   ) == false
-          // ) {
-          this.datosPrePartida.rowDateFabricante.push(component.lifeTime);
-          //}
+          this.datosPrePartida.rowDateFabricante.push(component.lifeTime);    
           if (
             this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
             false
@@ -871,50 +849,26 @@ export default {
       if (newValue != null) {
         this.objectEditar.rowUpd4 = this.laneSelectEditar.length;
         this.objectEditar.rowUpd1 = this.saveObjectEdiar[0];
-
+        console.log(this.laneSelectEditar)
         for (const lane of this.laneSelectEditar) {
+
+
+
           let component = equipoValid.find(
             component => component.lane === lane
           );
-
           if (this.objectEditar.rowUpd2.includes(component.unity) == false) {
             this.objectEditar.rowUpd2.push(component.unity);
           }
           if (this.objectEditar.rowUpd5.includes(component.brand) == false) {
             this.objectEditar.rowUpd5.push(component.brand);
-          }
-          //if (this.objectEditar.rowUpd6.includes(component.model) == true) {
-          console.log(component.model);
+          }                    
           this.objectEditar.rowUpd6.push(component.model);
-          //}
-          // if (
-          //   this.objectEditar.rowUpd7.includes(component.serialNumber) == false
-          // ) {
           this.objectEditar.rowUpd7.push(component.serialNumber);
-          //}
-          // if (
-          //   this.objectEditar.rowUpd9.includes(component.instalationDate) ==
-          //   false
-          // ) {
-          this.objectEditar.rowUpd9.push(component.instalationDate);
-          //}
-          // if (
-          //   this.objectEditar.rowUpd10.includes(component.maintenanceDate) ==
-          //   false
-          // ) {
+          this.objectEditar.rowUpd9.push(component.instalationDate);          
           this.objectEditar.rowUpd10.push(component.maintenanceDate);
-          // }
-          // if (
-          //   this.objectEditar.rowUpd11.includes(component.maintenanceFolio) ==
-          //   false
-          // ) {
           this.objectEditar.rowUpd11.push(component.maintenanceFolio);
-          // }
-          // if (
-          //   this.objectEditar.rowUpd13.includes(component.lifeTime) == false
-          // ) {
-          this.objectEditar.rowUpd13.push(component.lifeTime);
-          //}
+          this.objectEditar.rowUpd13.push(component.lifeTime);          
           if (
             this.objectEditar.rowUpd14.includes(component.unitaryPrice) == false
           ) {
@@ -939,6 +893,16 @@ export default {
   filters: {
     formatDate: function(value) {
       return moment(value.substring(0, 10)).format("DD/MM/YYYY");
+    },
+    formatPlaza: function(value){
+
+      if(value.length > 3){
+
+        return 'Plaza'
+
+      }
+      return value
+
     }
   }
 };
