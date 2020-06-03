@@ -296,27 +296,7 @@ export default {
       for (let i = 1; i < mesActual; i++) {
         diaCorriente += parseInt(new Date(yearActual, i, 0).getDate());
       }
-
-      let numPlaza = parseInt(this.datosUser.plaza.substr(0, 3));
-
-      let nomPlaza = "";
-
-      if (numPlaza != null) {
-        if (numPlaza == "004") nomPlaza = "TPZ";
-        else if (numPlaza == "102") {
-          nomPlaza = "PM";
-        } else if (numPlaza == "103") nomPlaza = "TLA";
-        else if (numPlaza == "041") nomPlaza = "SLM";
-        else if (numPlaza == "061") nomPlaza = "LBM";
-        else if (numPlaza == "069") nomPlaza = "JOR";
-        else if (numPlaza == "070") nomPlaza = "POL";
-        else if (numPlaza == "127") nomPlaza = "CHI";
-        else if (numPlaza == "183") nomPlaza = "VIL";
-        else if (numPlaza == "186") nomPlaza = "CGO";
-        else nomPlaza = "Inserte un numero correcto";
-      } else {
-        ("Inserte un numero correcto");
-      }
+      let nomPlaza = this.datosUser.referenceSquare;
 
       let autoCompleteDias;
 

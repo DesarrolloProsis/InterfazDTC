@@ -48,9 +48,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
     if (cantDays > 0) {
         totoal_dias += totoal_dias + cantDays
     }   
-
-    if (cantYears > 0 && totoal_dias > 0){
-        
+    if (cantYears > 0 && totoal_dias > 0){        
         msg += 'y '
     }
     else{
@@ -59,10 +57,9 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
     if(totoal_dias > 0){
         msg +=  totoal_dias + ' dias'
     }
-
     
     return msg;
-    }
+}
 
 
 

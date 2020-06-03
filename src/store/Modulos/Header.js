@@ -22,7 +22,8 @@ const getters = {
         nombre: state.listaHeaders[0]["nombre"],
         agremmentInfoId: state.listaHeaders[0]["agremmentInfoId"],
         userId: state.listaHeaders[0]["userId"],
-        regionalCoordination: state.listaHeaders[0]["regionalCoordination"]
+        regionalCoordination: state.listaHeaders[0]["regionalCoordination"],
+        referenceSquare: state.listaHeaders[0]["referenceSquare"]
       };
     } else return state.listaHeaders;
   },

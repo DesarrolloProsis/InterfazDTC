@@ -200,6 +200,7 @@ export default {
             numInventarioProsis: '',
             ubicacionGeneral: '',
             observaciones: '',
+            oldNumSerie:'',
         }
     };
   },
@@ -239,9 +240,8 @@ export default {
           componente: this.objDatos.componente          
         }
         await this.$store.dispatch('Refacciones/buscarInfoComponeteInventario', newObject)
-        let infoComponente = this.$store.getters['Refacciones/getinfoComponenteInventario']
-        console.log(infoComponente[0]['ubication'])
-        
+        let infoComponente = this.$store.getters['Refacciones/getinfoComponenteInventario']        
+        this.objDatos.oldNumSerie = infoComponente[0]['serialNumber']
         if(infoComponente.length == 1){
           this.onliInfoComponente = true          
           this.objDatos.marca = infoComponente[0]['brand']
@@ -254,6 +254,7 @@ export default {
           this.objDatos.numInventarioProsis = infoComponente[0]['inventaryNumProsis']
           this.objDatos.ubicacionGeneral = infoComponente[0]['ubication']
           this.objDatos.observaciones = infoComponente[0]['observations']
+          
         }
         else{
           this.onliInfoComponente = false
@@ -281,7 +282,7 @@ export default {
                 this.objDatos.numInventarioCapufe = this.multiComponente[i]['inventaryNumCapufe']
                 this.objDatos.numInventarioProsis = this.multiComponente[i]['inventaryNumProsis']
                 this.objDatos.ubicacionGeneral = this.multiComponente[i]['ubication']
-                this.objDatos.observaciones = this.multiComponente[i]['observations']
+                this.objDatos.observaciones = this.multiComponente[i]['observations']                
             }
           }
     },
@@ -289,7 +290,6 @@ export default {
 
       let idUbicacion = this.listaUbicacionGeneral.filter(x => x.ubicacion == this.objDatos.ubicacionGeneral)          
       let parametros = {
-
         infoComponentes: this.objDatos,
         infoPlaza: this.infoPlaza,
         infoUbicacionGeneral: idUbicacion

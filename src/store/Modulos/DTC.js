@@ -119,6 +119,7 @@ console.log(arrayDmg)
   },
   async buscarListaDTC({commit}, value){
 
+    console.log(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
     .then(response => {
       commit("listaInfoDTCMutation", response.data.result);

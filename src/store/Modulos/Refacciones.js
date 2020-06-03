@@ -134,7 +134,7 @@ const actions = {
     let newObject = {
       strFltLane: value.infoComponentes.ubicacion,
       strFltComponent: value.infoComponentes.componente,
-      strFltSerialNumber: value.infoComponentes.numSerie,
+      strFltSerialNumber: value.infoComponentes.oldNumSerie,
       strFltSquare: value.infoPlaza.numPlaza,
       strInventaryNumCapufe: value.infoComponentes.numInventarioCapufe,
       strInventaryNumProsis: value.infoComponentes.numInventarioProsis,
@@ -162,9 +162,6 @@ const actions = {
       console.log(Ex);
     });
   },
-
-
-
 
   async buscarComponentes({ commit }, value) {    
 
