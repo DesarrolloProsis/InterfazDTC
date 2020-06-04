@@ -74,7 +74,6 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) =>{
-
       
     if(to.name == 'login'){
       next()
@@ -86,8 +85,6 @@ router.beforeEach((to, from, next) =>{
     else{      
       next({name: 'login'})
     }
-
-
 })
 
 export default router

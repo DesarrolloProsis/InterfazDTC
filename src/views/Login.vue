@@ -50,7 +50,7 @@
           <button
             @click="ingresarLogin()"
             type="button"
-            class="login100-form-btn"
+            class="login100-form-btn text-blue-600"
           >
             Login
           </button>
@@ -61,7 +61,7 @@
           <li class="m-b-8">
             <span class="txt1">
               Olvidaste
-              <a href="#" class="txt2">Usuario/Contraseña?</a>
+              <a href="#" class="txt2 text-blue-700">Usuario/Contraseña?</a>
             </span>
           </li>
           <li>
@@ -354,7 +354,7 @@ iframe {
 .txt2 {
   font-family: Poppins-Regular;
   font-size: 15px;
-  color: #57b846;
+  color: #03347e;
   line-height: 1.5;
 }
 
@@ -459,7 +459,7 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 
-  background: #57b846;
+  background: #03347e;
 }
 
 .focus-input100::after {
@@ -528,14 +528,14 @@ iframe {
   padding: 0 20px;
   width: 100%;
   height: 50px;
-  background-color: #57b846;
+  background-color: #1c3b7e;
   border-radius: 25px;
 
-  box-shadow: 0 10px 30px 0px rgba(87, 184, 70, 0.5);
-  -moz-box-shadow: 0 10px 30px 0px rgba(87, 184, 70, 0.5);
-  -webkit-box-shadow: 0 10px 30px 0px rgba(87, 184, 70, 0.5);
-  -o-box-shadow: 0 10px 30px 0px rgba(87, 184, 70, 0.5);
-  -ms-box-shadow: 0 10px 30px 0px rgba(87, 184, 70, 0.5);
+  box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
+  -moz-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
+  -webkit-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
+  -o-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
+  -ms-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
 
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
