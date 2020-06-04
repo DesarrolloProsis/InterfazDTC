@@ -89,6 +89,15 @@ const mutations = {
   },
   listaUbicacionGeneralInventarioMutation: (state, value) => {
     state.listaUbicacionGeneralInventario = value
+  },
+  cleanOut: (state) => {
+    state.infoComponenteInventario = []
+    state.listaInventario = []
+    state.listaLane = []
+    state.listaLaneInventario = []
+    state.listaRefacciones = []
+    state.listaRefaccionesValid = []
+    state.listaUbicacionGeneralInventario = []
   }
 };
 const actions = {

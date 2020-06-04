@@ -24,7 +24,10 @@
           Inicio</router-link>    
         </div>
 
+        
+
         <div>
+          <p class=" text-white inline-block">Bienvenido:  {{nameUser}}</p>
         <router-link to="/" 
             class="inline-block 
             text-sm 
@@ -47,6 +50,24 @@
     </div>    
 </template>
 
-<style>
 
-</style>
+<script>
+export default {
+
+  data: function(){
+
+    return{
+      nameUser: ''
+    }
+
+  },
+
+    beforeMount: function(){
+      let header = this.$store.getters["Header/getHeaders"];
+      this.nameUser = header.nombre
+      
+
+    }
+
+}
+</script>

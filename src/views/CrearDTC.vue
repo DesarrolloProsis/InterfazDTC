@@ -70,13 +70,13 @@
               <br />
               <br />
               <br />
-              <span style="font-weight: bold">Jose Juan Iturbide Espin</span>
+              <span style="font-weight: bold">{{ datosUser.adminName }}</span>
             </p>
             <hr />
             <p style="text-align: center">
               <span>Administrador Plaza de Cobro</span>
               <br />
-              <span>c102adm@capufe.gob.mx</span>
+              <span>{{ datosUser.adminMail }}</span>
             </p>
           </div>
         </div>

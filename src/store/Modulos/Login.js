@@ -45,6 +45,11 @@ const mutations = {
   },
   listaTecMutation: (state, value) => {
     state.listaTec = value;
+  },
+  cleanOut: (state) => {
+    state.listUser = []
+    state.listaPlazas = []
+    state.userLogeado = []
   }
 };
 

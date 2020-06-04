@@ -56,6 +56,13 @@ const mutations = {
   },
   tableFormComponentMutation: (state, value) => {
     state.tableFormComponent = value
+  },
+  cleanOut: (state) => {
+
+    state.listaDescriptions = []
+    state.listaInfoDTC = []
+    state.validaciones =[false, false, false, false]
+
   }
 };
 

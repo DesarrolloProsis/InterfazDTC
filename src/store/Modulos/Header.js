@@ -23,7 +23,9 @@ const getters = {
         agremmentInfoId: state.listaHeaders[0]["agremmentInfoId"],
         userId: state.listaHeaders[0]["userId"],
         regionalCoordination: state.listaHeaders[0]["regionalCoordination"],
-        referenceSquare: state.listaHeaders[0]["referenceSquare"]
+        referenceSquare: state.listaHeaders[0]["referenceSquare"],
+        adminName: state.listaHeaders[0]["adminName"],
+        adminMail: state.listaHeaders[0]["adminMail"]
       };
     } else return state.listaHeaders;
   },
@@ -64,6 +66,11 @@ const mutations = {
   clearDatosSinesterMutation: (state) => {
     state.datosSinester = {}
     state.descripcion = ''
+  },
+  cleanOut: (state) => {
+    state.listaHeaders = []
+    state.listaUnique = []
+    state.referenceNum = ''
   }
 };
 
