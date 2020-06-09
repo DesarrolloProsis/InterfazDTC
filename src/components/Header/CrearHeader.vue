@@ -44,9 +44,7 @@
             <label class for="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
           </div>
         </div>
-
         <!-- --------------------------------------------------- -->
-
         <div class="flex md:mb-5 md:text-xs lg:text-lg">
           <div class="w-1/4 mr-6">
             <label>Atencion:</label>
@@ -93,9 +91,7 @@
             </select>
           </div>
         </div>
-
         <!--***********************************************************-->
-
         <div class="flex md:mb-5 md:text-xs lg:text-lg">
           <div class="w-1/4 mr-6">
             <label class="inline">Cargo:</label>
@@ -104,6 +100,7 @@
           <div class="w-1/4">
             <label>Fecha Siniestro:</label>
             <input
+              @change="crearReferencia()"
               v-model="datosSinester.SinisterDate"
               class="appearance-none border border-black"
               type="date"
@@ -115,8 +112,7 @@
           <div class="w-1/4"></div>
           <div class="w-1/4 h-8">
             <label>Fecha de Envio:</label>
-            <input
-              @change="crearReferencia()"
+            <input              
               v-model="datosSinester.ShippingElaboracionDate"
               class="appearance-none border border-black"
               type="date"
@@ -157,7 +153,6 @@
             />
           </div>
         </div>
-
         <!--***********************************************************-->
         <div class="flex md:text-xs lg:text-lg">
           <div class="w-1/4 mr-6">
@@ -229,8 +224,6 @@
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
 
-
-
 export default {
   name: "CrearHeader",
   props: {
@@ -278,17 +271,19 @@ export default {
   methods: {
     async crearReferencia() {
       let diaActual = parseInt(
-        this.datosSinester.ShippingElaboracionDate.substr(8, 2)
+        this.datosSinester.SinisterDate.substr(8, 2)
       );
       let mesActual = parseInt(
-        this.datosSinester.ShippingElaboracionDate.substr(6, 2)
+        this.datosSinester.SinisterDate.substr(6, 2)
       );
       let yearActual = parseInt(
-        this.datosSinester.ShippingElaboracionDate.substr(0, 4)
+        this.datosSinester.SinisterDate.substr(0, 4)
       );
+
       let diaCorriente = 0;
+
       let newYear = parseInt(
-        this.datosSinester.ShippingElaboracionDate.substr(2, 2)
+        this.datosSinester.SinisterDate.substr(2, 2)
       );
 
       diaCorriente = diaActual;

@@ -118,7 +118,8 @@ const actions = {
       Observation: state.datosSinester.Observaciones == null ? '' : state.datosSinester.Observaciones,      
       UserId: value.userId,
       AgremmentInfoId: value.agremmentInfoId,
-      DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss')
+      DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
+      DTCStatus: 0
   
     };
     console.log(newObject)
