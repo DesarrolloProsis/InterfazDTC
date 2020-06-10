@@ -62,6 +62,7 @@ import Nav from "../components/Navbar";
 import CardListDTC from "../components/DTC/CardListaDTC.vue";
 import moment from "moment";
 
+
 export default {
   data() {
     return {
@@ -76,9 +77,7 @@ export default {
     CardListDTC
   },
   beforeMount: function() {
-    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
-
-    this.numCard = this.infoDTC.length > 2 ? true : false
+    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];    
   },
   computed: {
     validaFecha: function() {
@@ -89,15 +88,21 @@ export default {
     validaReferencia: function() {
       if (this.referenciaFiltro != "") return true;
       else return false;
-    }
+    }    
+  },
+  watch: {
+
+      infoDTC: function(newValue){
+
+          this.numCard = newValue.length > 2 ? true : false
+      }
   },
   methods: {
 
     sinFiltro: function(){
 
         if(this.fechaFiltro == ''  && this.referenciaFiltro == ''){
-           this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
-           this.numCard = this.infoDTC.length > 2 ? true : false
+           this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];           
         }
     },
     filtro_Dtc: function() {
@@ -123,13 +128,10 @@ export default {
           if (this.referenciaFiltro == item.referenceNumber) {
             newArray.push(item);
           }
-        }
-        console.log(newArray);
-        this.numCard =  newArray.length > 2 ? true : false
+        }                
         this.infoDTC = newArray;
       } else {
-        let dtc = this.$store.getters["DTC/getlistaInfoDTC"];
-        this.numCard = dtc.length > 2 ? true : false
+        let dtc = this.$store.getters["DTC/getlistaInfoDTC"];        
         this.infoDTC = dtc;
       }
     }

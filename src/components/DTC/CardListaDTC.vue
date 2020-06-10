@@ -128,9 +128,19 @@ export default {
             oReq.send();            
     },
     borrar: function(){
-
-        alert(this.infoCard.referenceNumber)
-
+        
+        this.$store.dispatch('DTC/BORRAR_DTC',this.infoCard.referenceNumber)     
+        this.menosMas = true,
+        this.showmenosMas =  false,   
+        this.$notify.default({
+          title: "Ok!",
+          msg: `EL DTC CON LA REFERENCIA ${this.infoCard.referenceNumber} SE ELIMINO CORRECTAMENTE.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })
 
     }
   }

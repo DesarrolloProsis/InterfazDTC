@@ -137,14 +137,32 @@ export default {
         await this.$store.dispatch("Header/crearHeaders", this.datosUser);
         let insertHeader = this.$store.getters[
           "Header/getInsertHeaderComplete"
-        ];
-        //alert("Se inserto el Header: " + insertHeader);
+        ];        
         if (insertHeader) {
+
+          this.$notify.success({
+            title: "Ok!",
+            msg: `EL HEDER CON LA REFERENCIA ${this.refNum} SE INSERTO CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: {              
+              height: 100,
+              width: 500
+            }
+          })
+
           await this.$store.dispatch("DTC/crearDmg", this.refNum);
-          let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-          //alert('Se inserto el Dmg: ' + insertDmg)
+          let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];          
           if (insertDmg) {
-          alert("Generando el PDF " + this.refNum);
+
+            this.$notify.success({
+              title: "Ok!",
+              msg: `LOS COMPONENTES SE INSERTARON CORRECTAMENTE.`,
+              position: "bottom right",
+              styles: {              
+                height: 100,
+                width: 500
+              }
+            })
 
             var oReq = new XMLHttpRequest();
             // The Endpoint of your server
@@ -167,6 +185,16 @@ export default {
             };
 
             oReq.send();
+
+            this.$notify.success({
+              title: "Ok!",
+              msg: `CREANDO EL REPORTE ${this.refNum}.`,
+              position: "bottom right",
+              styles: {              
+                height: 100,
+                width: 500
+              }
+            })
             
             await this.$store.commit('DTC/listaDmgClearMutation')
             await this.$store.commit("DTC/insertDmgCompleteMutation", false);
@@ -176,9 +204,44 @@ export default {
 
             this.$router.push("Home");
           }
+          else{
+
+            this.$notify.error({
+              title: "Ups!",
+              msg: `NO SE INSERTARON LOS COMPONENTES.`,
+              position: "bottom right",
+              styles: {              
+                height: 100,
+                width: 500
+              }
+            })
+
+          }
         }
-      } else {
-        alert("Hay " + conteoErrores + " Campos Invalidos");
+        else{
+            
+          this.$notify.error({
+            title: "Ups!",
+            msg: `NO SE INSERTO EL HEDER CON LA REFERENCIA ${this.refNum}.`,
+            position: "bottom right",
+            styles: {              
+              height: 100,
+              width: 500
+            }
+          })          
+        }
+      } 
+      else {
+
+        this.$notify.error({
+          title: "Ups!",
+          msg: `FALTAN LLENAR CAMPOS.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })
       }
     }
   },

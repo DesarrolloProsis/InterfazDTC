@@ -88,8 +88,7 @@ const actions = {
       });
   },
   async buscarListaUnique({ commit }) {
-        
-        console.log(`http://prosisdev.sytes.net:88/api/dtcdata/InvalidReferenceNumbers`)
+                
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/InvalidReferenceNumbers`)
       .then(response => {             
         if(response.data.message){
@@ -121,22 +120,18 @@ const actions = {
       DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
       DTCStatus: 0
   
-    };
-    console.log(newObject)
+    };    
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
       .then(response => {    
         
         console.log(response)
-          if(response.status === 201){             
-             //dispatch('DTC/crearDmg', response.data.result, { root: true })
-             console.log('Si se inserta')          
+          if(response.status === 201){                                            
              commit('insertHeaderCompleteMutation', true)
           }
-          else
-            alert('No se Inserto Header')             
+          
+                    
       })
-      .catch(Ex => {
-        alert('No se Pudo Insertar el Header')   
+      .catch(Ex => {        
         console.log(Ex);
       });
   }

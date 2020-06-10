@@ -64,15 +64,13 @@ const mutations = {
     state.validaciones =[false, false, false, false]
   },
   BORRAR_DTC_MUTATION: (state, value) => {
-
-    let index = state.listaInfoDTC.map(function(item){ item.ReferenceNumber }).indexOf(value)
-    state.splice(index, 1)
-
+    state.listaInfoDTC.splice( state.listaInfoDTC.findIndex(a => a.referenceNumber == value) , 1);
   }
 };
 
 const actions = {
   
+
   async buscarDTC({ commit }) {    
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
       .then(response => {        
@@ -157,12 +155,12 @@ console.log(arrayDmg)
 
   },
   async BORRAR_DTC({commit},value){
-
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/Delete/${value}`)
+        
+    await Axios.delete(`http://prosisdev.sytes.net:88/api/dtcData/Delete/${value}`)
     .then(response => {
 
         console.log(response)
-      commit("BORRAR_DTC_MUTATION", value)
+        commit("BORRAR_DTC_MUTATION", value)
     })
     .catch(Ex => {
       console.log(Ex);
