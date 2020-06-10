@@ -3,12 +3,10 @@
     <div class="flex flex-wrap border border-black justify-center sm:p-4 md:m-5">
       <div class="inline">
         <!-- ************************************************************** -->
-
         <div class="text-center text-2xl font-bold mb-6">
           <h6>Equipo Dañado</h6>
         </div>
         <br />
-
         <!-- ************************************************************** -->
         <div class="overflow-x-scroll">
           <table class="border-gray-700 border-solid w-auto">

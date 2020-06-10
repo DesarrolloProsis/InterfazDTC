@@ -55,9 +55,9 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
     }
     if(totoal_dias > 0){
         msg +=  totoal_dias + ' dias'
-    }
-    
-    return msg;
+    }    
+	
+	return msg;
 }
 
 
