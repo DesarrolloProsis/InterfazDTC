@@ -2,7 +2,7 @@
     <div>
     <nav class="flex 
                 justify-between 
-                bg-gray-800
+                bg-blue-900
                 
                 p-3" id="nav">   
                        

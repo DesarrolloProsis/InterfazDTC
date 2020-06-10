@@ -1,5 +1,22 @@
 @tailwind base;
 
+.is_valid {
+
+    @apply border;
+    @apply border-green-500;
+}
+
+.is_invalid {
+
+    @apply border;
+    @apply border-red-500;
+}
+
+
 @tailwind components;
 
 @tailwind utilities;
+
+
+
+

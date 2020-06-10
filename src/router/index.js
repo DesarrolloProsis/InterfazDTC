@@ -8,6 +8,7 @@ import CrearDTC from '../views/CrearDTC.vue'
 import ListarDTC from '../views/ListarDTC.vue'
 import Login from '../views/Login.vue'
 import Inventario from '../views/Inventario.vue'
+import Valida from '../views/ejemploValidacion.vue'
 
 
 Vue.use(VueRouter)
@@ -15,7 +16,11 @@ Vue.use(VueRouter)
 
 const routes = [
 
-
+  {
+    path: '/valida',
+    name: 'valida',
+    component: Valida
+  },
   {
     path: '/',
     name: 'login',

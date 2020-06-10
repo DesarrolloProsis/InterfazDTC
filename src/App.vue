@@ -1,14 +1,26 @@
 <template>
   <div id="app">
-    <div id="nav">
-
+    <div id="nav">      
     </div>
     <router-view/>
   </div>
 </template>
+<script>
 
-<style>
+
+export default {
+  
+}
+</script>
+
+
+<style scoped>
+
   body {
     margin: 0%;
-  }
+  };
+
+
+
+
 </style>

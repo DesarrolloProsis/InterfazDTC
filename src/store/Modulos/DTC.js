@@ -62,6 +62,11 @@ const mutations = {
     state.listaDescriptions = []
     state.listaInfoDTC = []
     state.validaciones =[false, false, false, false]
+  },
+  BORRAR_DTC_MUTATION: (state, value) => {
+
+    let index = state.listaInfoDTC.map(function(item){ item.ReferenceNumber }).indexOf(value)
+    state.splice(index, 1)
 
   }
 };
@@ -145,6 +150,19 @@ console.log(arrayDmg)
         commit("tableFormComponentMutation", response.data.result);
       else
         alert("Ocurrio un Error")
+    })
+    .catch(Ex => {
+      console.log(Ex);
+    });
+
+  },
+  async BORRAR_DTC({commit},value){
+
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/Delete/${value}`)
+    .then(response => {
+
+        console.log(response)
+      commit("BORRAR_DTC_MUTATION", value)
     })
     .catch(Ex => {
       console.log(Ex);

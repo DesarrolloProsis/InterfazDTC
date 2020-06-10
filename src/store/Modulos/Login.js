@@ -85,14 +85,22 @@ const actions = {
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
   async buscarUsuarioCokie({ commit }, value) {         
+         console.log(`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`)            
           await Axios.get(
             `http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`            
           )
-            .then(response => {              
-              commit("userLogeadoMutation", response.data.result); 
-              console.log(response.data)             
+            .then(response => {    
+              
+              if(response.data.result != null){
+                commit("userLogeadoMutation", response.data.result); 
+                console.log(response.data)     
+              }
+              else{
+                commit("userLogeadoMutation", []); 
+              }        
             })
             .catch(Ex => {
+              commit("userLogeadoMutation", []); 
               console.log(Ex);
             });   
   },

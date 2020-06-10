@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="flex justify-end">
-        <a @click="mas" v-show="menosMas" class=" cursor-pointer text-green-700 mr-6 md:mr-10">Ver Mas</a>
+        <a @click="mas" v-show="menosMas" class=" cursor-pointer text-green-700">Ver Mas</a>
       </div>
     </div>
 
@@ -43,15 +43,27 @@
          </table>
        </div>
       </div>
-      <div class="flex justify-end">
-        <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer">Menos ↑</a>
+
+      <div class="flex justify-between">
+        <div>        
+          <button
+            @click.prevent="borrar"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 "
+          >
+            <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1" />
+            <span>Borrar</span>
+          </button>
+        </div>
+        <div>
+          <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>     
             <button
             @click.prevent="pdf"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
           >
-            <img src="../../assets/img/pdf.png" class="mr-2" width="25" height="2" />
+            <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1" />
             <span>PDF</span>
           </button>
+        </div>
       </div>
     </div>
   </div>
@@ -60,7 +72,6 @@
 <script>
 import moment from "moment";
 import saveAs from "file-saver";
-
 
 export default {
   props: {
@@ -115,6 +126,12 @@ export default {
             };
 
             oReq.send();            
+    },
+    borrar: function(){
+
+        alert(this.infoCard.referenceNumber)
+
+
     }
   }
 };
