@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div >
       <div class="flex flex-col md:flex-row inline-block md:justify-between mb-6 inline-block">
         <p class="font-black mb-3">{{ infoCard.referenceNumber }}</p>
         <p class>{{ infoCard.elaborationDate | formatDate }}</p>
@@ -20,7 +20,8 @@
           <img src="../../assets/img/Dtc.png" class="w-64" alt />
         </div>
       </div>
-      <div class="flex justify-end">
+      <div class="flex justify-between">
+        <a @click="mas" v-show="menosMas" class=" text-sm text-gray-900">Status: {{ infoCard.statusDescription }}</a>
         <a @click="mas" v-show="menosMas" class=" cursor-pointer text-green-700">Ver Mas</a>
       </div>
     </div>
@@ -57,6 +58,7 @@
         <div>
           <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>     
             <button
+            v-if="showBotonPDF"
             @click.prevent="pdf"
             class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
           >
@@ -66,7 +68,12 @@
         </div>
       </div>
     </div>
-  </div>
+
+ 
+  
+
+ 
+  </div>  
 </template>
 
 <script>
@@ -84,7 +91,8 @@ export default {
     return{
       menosMas: true,
       showmenosMas: false,
-      tableFormat: []
+      tableFormat: [],
+      showBotonPDF: true
     }
   },
   filters: {
@@ -128,21 +136,17 @@ export default {
             oReq.send();            
     },
     borrar: function(){
-        
-        this.$store.dispatch('DTC/BORRAR_DTC',this.infoCard.referenceNumber)     
-        this.menosMas = true,
-        this.showmenosMas =  false,   
-        this.$notify.default({
-          title: "Ok!",
-          msg: `EL DTC CON LA REFERENCIA ${this.infoCard.referenceNumber} SE ELIMINO CORRECTAMENTE.`,
-          position: "bottom right",
-          styles: {              
-            height: 100,
-            width: 500
-          }
-        })
+                
+        this.$emit('borrar-card', this.infoCard.referenceNumber)   
+        this.menosMas = true
+        this.showmenosMas = false         
+    },
+  },
+  beforeMount() {
+    
 
-    }
-  }
+      this.showBotonPDF = this.infoCard.statusId == 2 ? true : false
+
+  },
 };
 </script>

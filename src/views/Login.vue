@@ -13,7 +13,7 @@
         <div class="mt-10">
           <div class="mb-5">
             <input
-              class="bg-gray-200 hover:bg-white hover:border-gray-300 focus:border-gray-300 focus:shadow-none focus:bg-white w-full h-8 rounded-lg outline-none"
+              class="w-full h-8"
               type="text"
               name="Usuario"
               placeholder="  Usuario"
@@ -26,7 +26,7 @@
             <input
               @keyup.enter="ingresarLogin()"
               placeholder=" Contraseña"
-              class="bg-gray-200 hover:bg-white hover:border-gray-300 focus:border-gray-300 focus:shadow-none focus:bg-white w-full h-8 hover:border-gray-700 rounded-lg outline-none"
+              class=" w-full h-8"
               v-validate="'required'"
               type="password"
               name="Contraseña"
@@ -64,7 +64,7 @@
           @change="buscarTec()"
           v-validate="'required'"          
           v-model="plazaSelect"
-          class="bg-gray-200 hover:bg-white hover:border-gray-300 focus:border-gray-300 focus:shadow-none focus:bg-white w-48 h-8 hover:border-gray-700 rounded-lg outline-none"
+          class="w-48 h-8"
           type="text"
           name="Plaza"
         >
@@ -82,7 +82,7 @@
         <select
           v-model="tecSelect"
           v-validate="'required'"
-          class="bg-gray-200 hover:bg-white hover:border-gray-300 focus:border-gray-300 focus:shadow-none focus:bg-white h-8 w-48 hover:border-gray-700 rounded-lg outline-none"        
+          class="h-8 w-48"        
           type="text"
           name="Tecnico"
         >
@@ -122,7 +122,6 @@ export default {
     loginOther: async function() {
       
       if(this.fields.Plaza.valid && this.fields.Tecnico.valid){
-
           await this.$store.dispatch("Login/buscarHeaderTec", this.tecSelect);
           let dataHeader = await this.$store.getters["Login/getUser"];
           await this.$store.commit("Header/listaHeadersMutation", dataHeader);
@@ -172,7 +171,7 @@ export default {
   },
   async beforeMount() {
     await this.$store.dispatch("Login/buscarPlazas");
-    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];
+    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];      
   },
 };
 </script>

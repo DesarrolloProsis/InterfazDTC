@@ -7,6 +7,7 @@ import Multiselect from 'vue-multiselect'
 
 import VeeValidate from 'vee-validate';
 import { Validator } from 'vee-validate';
+import es from "vee-validate/dist/locale/es";
 
 //import Notifications from 'vue-notification'
 
@@ -18,27 +19,27 @@ Vue.use(VeeValidate, {
       valid: 'is_valid',
       invalid: 'is_invalid'
     }
-  });
-const dictionary = {
-  es: {
-    messages:{
-      required: () => 'Campo Requerido!!'
-    }
+  });  
+const NoSiniestro = {
+  validate(value){
+      return store.getters['Header/getUniqueNoSinester'](value)
   }
-};
-Validator.localize(dictionary);
-Validator.localize('es');
+}
+const NoReporte = {
+  validate(value){
+    return store.getters['Header/getUniqueNoReport'](value)
+  }
+}
+Validator.extend('uniqueSinester', NoSiniestro)
+Validator.extend('uniqueReport', NoReporte)
+Validator.localize("es",es);
 
 // Componente Multiselect
 Vue.component('multiselect', Multiselect)
 
-
 // Notificaciones 
-
-//Vue.use(Notifications)
-
 import VueNotify from 'vuejs-notify'
-Vue.use(VueNotify) // use defaults
+Vue.use(VueNotify)
 
 
 Vue.config.productionTip = false

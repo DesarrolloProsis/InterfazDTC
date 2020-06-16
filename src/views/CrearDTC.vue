@@ -6,8 +6,7 @@
       :datosUser="datosUser"
       :observaciones="observaciones"
       :descripcion="descripcion"
-    ></Header>
-    <br />
+    ></Header>    
     <div
       class="md:border border-black"
       style="margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw"
@@ -38,13 +37,12 @@
           <br />
           <textarea
             v-model="observaciones"
-            class="appearance-none block bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0 h-40"
-            :class="{'border-red-700': maxleng, 'border-4': maxleng}"
+            v-validate="'max:120'"
+            class="appearance-none block bg-grey-lighter text-grey-darker border border-black rounded-lg py-4 mb-0 h-40"            
             style="width: 23vw;"
+            name="Observaciones"
           />
-          <div v-if="maxleng" class="bg-red-300 rounded-lg text-center mt-2" style="width: 23vw;">
-            <p>Solo Puedes Usar 100 Caracteres</p>
-          </div>
+          <p class="text-red-600 text-xs">{{ errors.first('Observaciones') }}</p>
         </div>
       </div>
 
@@ -82,13 +80,18 @@
         </div>
       </div>
 
-      <div class="mt-6 mb-6 md:mb-0" style="padding: 3vw;">
-        <button
-          @click="crearDTCTecnico()"
-          class="text-grey-lighter py-3 md:py-8 w-full md:w-64 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
-        >Crear</button>
+      <div class="mt-6 mb-6 md:mb-0 " style="padding: 3vw;">
+      
+        <button @click="crearDTCTecnico(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700">
+            <img src="../assets/img/save.png" class="mr-2" width="50" height="50">
+            <span>Guardar</span>
+        </button>    
+         <button @click="crearDTCTecnico(2)" class="bg-gray-300 ml-5 hover:bg-gray-400 text-gray-800 font-bold py-2 px-8 rounded inline-flex items-center border border-blue-700">
+            <img src="../assets/img/add.png" class="mr-2" width="50" height="50">
+            <span>Crear</span>
+        </button>   
       </div>
-    </div>
+      </div>      
   </div>
 </template>
 
@@ -122,19 +125,10 @@ export default {
     this.refNum = this.$store.getters["Header/getreferenceNum"];
   },
   methods: {
-    crearDTCTecnico: async function() {
-      let validaciones = await this.$store.getters["DTC/getValidaciones"];
-      let conteoErrores = 0;
-
-      for (let i = 0; i < 4; i++) {
-        if (validaciones[i] === true) {
-          conteoErrores++;
-        }
-      }
-
-      if (conteoErrores === 0) {
+    crearDTCTecnico: async function(status) {      
+              
         this.refNum = this.$store.getters["Header/getreferenceNum"];
-        await this.$store.dispatch("Header/crearHeaders", this.datosUser);
+        await this.$store.dispatch("Header/crearHeaders",{ datosUser: this.datosUser, status: status});
         let insertHeader = this.$store.getters[
           "Header/getInsertHeaderComplete"
         ];        
@@ -163,38 +157,43 @@ export default {
                 width: 500
               }
             })
+            
+            if(status == 2){
+              var oReq = new XMLHttpRequest();
+              // The Endpoint of your server
+              let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}`;
+              let namePdf = `ReportDTC-${this.refNum}.pdf`;
+              // Configure XMLHttpRequest
+              oReq.open("GET", urlTopdf, true);
+              // Important to use the blob response type
+              oReq.responseType = "blob";
+              // When the file request finishes
+              // Is up to you, the configuration for error events etc.
+              oReq.onload = function() {
+                // Once the file is downloaded, open a new window with the PDF
+                // Remember to allow the POP-UPS in your browser
+                var file = new Blob([oReq.response], {
+                  type: "application/pdf"
+                });
+                // Generate file download directly in the browser !
+                saveAs(file, namePdf);
+              };
+  
+              oReq.send();
 
-            var oReq = new XMLHttpRequest();
-            // The Endpoint of your server
-            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}`;
-            let namePdf = `ReportDTC-${this.refNum}.pdf`;
-            // Configure XMLHttpRequest
-            oReq.open("GET", urlTopdf, true);
-            // Important to use the blob response type
-            oReq.responseType = "blob";
-            // When the file request finishes
-            // Is up to you, the configuration for error events etc.
-            oReq.onload = function() {
-              // Once the file is downloaded, open a new window with the PDF
-              // Remember to allow the POP-UPS in your browser
-              var file = new Blob([oReq.response], {
-                type: "application/pdf"
-              });
-              // Generate file download directly in the browser !
-              saveAs(file, namePdf);
-            };
+              this.$notify.success({
+                title: "Ok!",
+                msg: `CREANDO EL REPORTE ${this.refNum}.`,
+                position: "bottom right",
+                styles: {              
+                  height: 100,
+                  width: 500
+                }
+              })
 
-            oReq.send();
+            } 
+  
 
-            this.$notify.success({
-              title: "Ok!",
-              msg: `CREANDO EL REPORTE ${this.refNum}.`,
-              position: "bottom right",
-              styles: {              
-                height: 100,
-                width: 500
-              }
-            })
             
             await this.$store.commit('DTC/listaDmgClearMutation')
             await this.$store.commit("DTC/insertDmgCompleteMutation", false);
@@ -230,40 +229,11 @@ export default {
             }
           })          
         }
-      } 
-      else {
-
-        this.$notify.error({
-          title: "Ups!",
-          msg: `FALTAN LLENAR CAMPOS.`,
-          position: "bottom right",
-          styles: {              
-            height: 100,
-            width: 500
-          }
-        })
-      }
     }
   },
   computed: {
   
-    maxleng: function() {
-      if (this.observaciones.length > 99) {
-        let newObject = {
-          index: 3,
-          data: true
-        };
-        this.$store.commit("DTC/validacionMutation", newObject);
-        return true;
-      } else {
-        let newObject = {
-          index: 3,
-          data: false
-        };
-        this.$store.commit("DTC/validacionMutation", newObject);
-        return false;
-      }
-    }
+
   }
 };
 </script>

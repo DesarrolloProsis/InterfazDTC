@@ -1,6 +1,6 @@
 <template>
   <div class="m-0 bg-white">
-    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
+    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center font-light">
       <div
         class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
       >
@@ -10,27 +10,22 @@
             <img src="../../assets/img/prosis-logo.jpg" height="200" width="200" class="m-2" />
           </div>
           <div
-            class="w-1/3 border-2 border-black text-center p-0 md:text-lg lg:text-3xl font-extrabold"
+            class="w-1/3 border-2 border-black text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold"
           >
             <p class="p-0">Dictamen Tecnico y Cotizacion</p>
           </div>
           <div class="w-1/3 text-center">
             <br />
-            <label class="m-16" style="font-weight: normal">Referencia:</label>
+            <label class="ml-5 mr-2" style="font-weight: normal">Referencia:</label>
             <label style="font-weight: bold">{{ datosSinester.ReferenceNumber }}</label>
           </div>
         </div>
-
         <!-- SubTitulo -->
         <div class="flex mt-5 mb-16">
           <div class="w-1/3">
             <br />
             <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
-            <label style="font-weight: bold; padding-left: 0.5vw">
-              {{
-              datosUser.agrement
-              }}
-            </label>
+            <label style="font-weight: bold; padding-left: 0.5vw"> {{ datosUser.agrement }}</label>
           </div>
           <div class="w-1/3">
             <br />
@@ -38,117 +33,113 @@
               <h6>En caso de Siniestro</h6>
             </div>
           </div>
-          <div class="w-1/3 text-center">
+          <div class="w-1/3 text-center pl-12">
             <br />
-            <label class for="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
-            <label class for="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
+            <label class="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
+            <label class="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
           </div>
         </div>
         <!-- --------------------------------------------------- -->
         <div class="flex md:mb-5 md:text-xs lg:text-lg">
           <div class="w-1/4 mr-6">
             <label>Atencion:</label>
-            <label style="font-weight: normal">{{ datosUser.managerName }}</label>
+            <label class="ml-2 text-sm" style="font-weight: normal">{{ datosUser.managerName }}</label>
           </div>
-          <div class="w-1/4">
-            <label>No. Siniestro:</label>
+          <div class="w-1/4 pl-2 pr-2">
+            <p class="text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
             <input
+              v-validate="'uniqueSinester'"
               v-model="datosSinester.SinisterNumber"
-              class="border border-black"
+              class="w-full bg-white border-gray-600 border shadow"
               type="text"
+              name="NoSiniestro"
               placeholder
             />
-            <!-- <div v-if="validateNumerSinester" class="mt-2 text-red-700 font-semibold text-center"> -->
-              <div v-if="validateNumerSinester" class="mt-2 text-red-700 font-semibold text-center">
-              <p>{{ messageSinester }}</p>
-            </div>
+            <p class="text-red-600 text-xs">{{ errors.first('NoSiniestro') }}</p>
           </div>
-          <div class="w-1/4">
-            <label>Reporte:</label>
+          <div class="w-1/4 pl-2 pr-2">
+            <p class="text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
             <input
+              v-validate="'uniqueReport'"
               v-model="datosSinester.ReportNumber"
-              class="border border-black"
-              type="text"
-              placeholder="10301/3030099"
+              class="w-full bg-white border-gray-600 border shadow"
+              type="text"  
+              name="NoReporte"                         
             />
-            <div v-if="validateNumerReport" class="mt-2 text-red-700 font-semibold text-center mr-20">
-              <p>{{ messageReport }}</p>
-            </div>
+            <p class="text-red-600 text-xs">{{ errors.first('NoReporte') }}</p>
           </div>
-          <div class="w-1/4">
-            <label>Tipo de Descripcion:</label>
+          <div class="w-1/4 pl-2 pr-2">
+            <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
             <select
               v-model="datosSinester.TypeDescriptionId"
-              class="appearance-none border border-black"
+              v-validate="'required'" 
+              class="w-full bg-white border-gray-600 border shadow"
               type="text"
+              name="TipoDescripcion"
             >
-              <option disabled value>Selecionar...</option>
+              <option disabled value="">Selecionar...</option>
               <option
                 v-for="(desc, index) in descripciones"
                 v-bind:value="desc.typeDescriptionId"
                 :key="index"
               >{{ desc.description }}</option>
             </select>
+            <p class="text-red-600 text-xs">{{ errors.first('TipoDescripcion') }}</p>
           </div>
         </div>
         <!--***********************************************************-->
-        <div class="flex md:mb-5 md:text-xs lg:text-lg">
+        <div class="flex lg:text-lg">
           <div class="w-1/4 mr-6">
             <label class="inline">Cargo:</label>
-            <label class="inline" style="font-weight: normal">{{ datosUser.position }}</label>
+            <label class="inline ml-2 text-sm" style="font-weight: normal">{{ datosUser.position }}</label>
           </div>
-          <div class="w-1/4">
-            <label>Fecha Siniestro:</label>
+          <div class="w-1/4 pl-2 pr-2">
+            
+            <p class="text-md mb-1 font-semibold text-gray-900">Fecha Siniestro:</p>
             <input
               @change="crearReferencia()"
+              v-validate="'required'" 
               v-model="datosSinester.SinisterDate"
-              class="appearance-none border border-black"
+              class="w-full bg-white border-gray-600 border shadow"
+              name="FechaSiniestro"
               type="date"
             />
-            <div v-if="validateFechaSinester" class="mt-2 text-red-700 font-semibold text-center mr-20">
-              <p>Campo Requerido</p>
-            </div>
+             <p class="text-red-600 text-xs">{{ errors.first('FechaSiniestro') }}</p>
           </div>
           <div class="w-1/4"></div>
-          <div class="w-1/4 h-8">
-            <label>Fecha de Envio:</label>
+          <div class="w-1/4 pl-2 pr-2">            
+            <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
             <input              
               v-model="datosSinester.ShippingElaboracionDate"
-              class="appearance-none border border-black"
+              v-validate="'required'" 
+              class="w-full bg-white border-gray-600 border shadow"
               type="date"
+              name="FechaEnvio"
             />
-            <div v-if="validateFechaEnvio" class="mt-2 text-red-700 font-semibold text-center mr-20">
-              <p>Campo Requerido</p>
-            </div>
+            <p class="text-red-600 text-xs">{{ errors.first('FechaEnvio') }}</p>
           </div>
         </div>
-
         <!--***********************************************************-->
         <div class="flex md:text-xs lg:text-lg">
           <div class="w-1/4 mr-6">
             <label class="inline">Correo:</label>
-            <label class="inline" style="color: blue;">
-              {{
-              datosUser.mail
-              }}
-            </label>
+            <label class="inline ml-2 text-sm" style="color: blue;">{{ datosUser.mail }}</label>
           </div>
-          <div class="w-1/4">
-            <label>Folio Falla:</label>
+          <div class="w-1/4 pl-2 pr-2">            
+            <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
             <input
-              v-model="datosSinester.FailureNumber"
-              class="md:border border-black"
+              v-model="datosSinester.FailureNumber" 
+              class="w-full bg-white border-gray-600 border shadow"          
               type="text"
               placeholder="S/M"
             />
-
           </div>
-          <div class="w-1/4 h-8"></div>
-          <div class="w-1/4 h-8">
-            <label>Fecha Elaboracion:</label>
+          <div class="w-1/4"></div>
+          <div class="w-1/4 pl-2 pr-2">            
+            <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion</p>
             <input
             disabled="true"
-              class="appearance-none border border-black"
+              class="w-full bg-white border-gray-600 border shadow"
               type="date"
             />
           </div>
@@ -157,52 +148,52 @@
         <div class="flex md:text-xs lg:text-lg">
           <div class="w-1/4 mr-6">
             <label>Plaza Cobro:</label>
-            <label style="font-weight: normal">{{ datosUser.plaza }}</label>
+            <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ datosUser.plaza }}</label>
           </div>
-          <div class="w-1/4">
-            <label class for="inline-full-name">Fecha Falla:</label>
+          <div class="w-1/4 pl-2 pr-2">        
+            <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
             <input
               v-model="datosSinester.FailureDate"
-              class="appearance-none border border-black"
+              class="w-full bg-white border-gray-600 border shadow"
               type="date"
             />
           </div>
-          <div class="w-1/4 h-8"></div>
-          <div class="w-1/4 h-8">
+          <div class="w-1/4"></div>
+          <div class="w-1/4 pl-2 pr-2">
             <label>Tecnico Responsable:</label>
-            <label style="font-weight: normal;">{{ datosUser.nombre }}</label>
+            <label class="text-md ml-2" style="font-weight: normal">{{ datosUser.nombre }}</label>
           </div>
         </div>
         <!--***********************************************************-->
-        <div class="flex md:text-xs lg:text-lg">
+        <div class="flex h-16">
           <div class="w-1/4"></div>
           <div class="w-1/4"></div>
           <div class="w-1/4"></div>
-          <div class="w-1/4">
+          <div class="w-1/4 pl-2 pr-2">
             <label>Coordinacion Regional:</label>
-            <label style="font-weight: normal;">{{ datosUser.regionalCoordination }}</label>
+            <label class="text-md" style="font-weight: normal;">{{ datosUser.regionalCoordination }}</label>
           </div>
         </div>
         <!--***********************************************************-->
-        <div class="flex md:text-xs text-sm">
+        <div class="flex h-12">
           <div class="w-1/4"></div>
           <div class="w-1/4"></div>
           <div class="w-1/4"></div>
-          <div class="w-1/4">
+          <div class="w-1/4 pl-2 pr-2">
             <label>Centro de Servicio:</label>
             <label>CDMX</label>
           </div>
         </div>
         <!--***********************************************************-->
 
-        <div class="flex md:text-xs lg:text-sm">
+        <div class="flex">
           <div class="w-1/4"></div>
 
           <div class="w-1/4"></div>
 
           <div class="w-1/4"></div>
 
-          <div class="w-1/4">
+          <div class="w-1/4 pl-2 pr-2">
             <label>Correo:</label>
             <label>hguzman@grupo-prosis.com</label>
           </div>
@@ -223,6 +214,7 @@
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+
 
 export default {
   name: "CrearHeader",
@@ -319,89 +311,6 @@ export default {
       ];      
     }
   },
-  computed: {
-    messageSinester: function() {
-      if (this.datosSinester.SinisterNumber == "") return "";
-      else return "Numero Repetido";
-    },
-    messageReport: function() {
-      if (this.datosSinester.ReportNumber == "") return "";
-      else return "Numero Repetido";
-    },
-    validateNumerSinester: function() {
-      if (this.datosSinester.SinisterNumber == "") {
-        let newObject = {
-          index: 0,
-          data: false
-        };
-        this.$store.commit("DTC/validacionMutation", newObject);
-        return false;
-      } else {
-        let listaUnique = this.$store.getters["Header/getListaunique"];
-
-        for (let i = 0; i < listaUnique.length; i++) {
-          if (
-            this.datosSinester.SinisterNumber ==
-            listaUnique[i]["sinisterNumber"]
-          ) {
-            let newObject = {
-              index: 0,
-              data: true
-            };
-            this.$store.commit("DTC/validacionMutation", newObject);
-            return true;
-          }
-        }
-
-        let newObject = {
-          index: 0,
-          data: false
-        };
-        this.$store.commit("DTC/validacionMutation", newObject);
-        return false;
-      }
-    },
-    validateNumerReport: function() {
-      if (this.datosSinester.ReportNumber == "") {
-        let newObject = {
-          index: 1,
-          data: false
-        };
-        this.$store.commit("DTC/validacionMutation", newObject);
-        return true;
-      } else {
-        let listaUnique = this.$store.getters["Header/getListaunique"];
-        for (let i = 0; i < listaUnique.length; i++) {
-          if (
-            this.datosSinester.ReportNumber == listaUnique[i]["reportNumber"]
-          ) {
-            let newObject = {
-              index: 1,
-              data: true
-            };
-            this.$store.commit("DTC/validacionMutation", newObject);
-            return true;
-          }
-        }
-        let newObject = {
-          index: 1,
-          data: false
-        };
-        this.$store.commit("DTC/validacionMutation", newObject);
-        return false;
-      }
-    },
-    validateFechaSinester: function(){
-
-        if(this.datosSinester.SinisterDate == '') return true
-        else return false
-    },
-    validateFechaEnvio: function(){
-
-      if(this.datosSinester.ShippingElaboracionDate == '') return true
-      else return false
-    }
-  },
   watch: {
     //ARREGLAR WATCHER!!!!!
     datosUser: function(newValue) {
@@ -429,6 +338,9 @@ export default {
     this.listaDescripciones = await this.$store.getters[
       "DTC/getListaDescriptions"
     ];
+
+    
+    //this.$validator.validateAll();
   }
  
 };

@@ -39,8 +39,19 @@ const getters = {
     } else return state.listaHeaders;
   },   
    getreferenceNum: () => state.referenceNum,
-   getListaunique: () => state.listaUnique,
-   getInsertHeaderComplete: () => state.insertHeaderComplete
+
+   getUniqueNoSinester: (state) => (num) => {
+         
+     return state.listaUnique.every(item =>{       
+      return item.sinisterNumber != num
+     })     
+  },
+  getUniqueNoReport: (state) => (num) => {         
+    return state.listaUnique.every(item =>{      
+     return item.reportNumber != num
+    })     
+ },
+  getInsertHeaderComplete: () => state.insertHeaderComplete
   
  
 };
@@ -101,35 +112,35 @@ const actions = {
   },
   //Consulta API Crear Carril
   async crearHeaders({ state, commit }, value) {
-              
+    
+    console.log(value)
 
     let newObject = {
       ReferenceNumber: state.referenceNum,
       SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
       ReportNumber: state.datosSinester.ReportNumber,
       SinisterDate: state.datosSinester.SinisterDate,
-      FailureDate: state.datosSinester.FailureDate,
+      FailureDate: state.datosSinester.FailureDate == '' ? null : state.datosSinester.FailureDate,
       FailureNumber: state.datosSinester.FailureNumber,
       ShippingDate: state.datosSinester.ShippingElaboracionDate,
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.descripcion,
       Observation: state.datosSinester.Observaciones == null ? '' : state.datosSinester.Observaciones,      
-      UserId: value.userId,
-      AgremmentInfoId: value.agremmentInfoId,
+      UserId: value.datosUser.userId,
+      AgremmentInfoId: value.datosUser.agremmentInfoId,
       DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
-      DTCStatus: 0
+      DTCStatus: value.status
   
-    };    
+    }; 
+        
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
       .then(response => {    
         
         console.log(response)
           if(response.status === 201){                                            
              commit('insertHeaderCompleteMutation', true)
-          }
-          
-                    
+          }                              
       })
       .catch(Ex => {        
         console.log(Ex);

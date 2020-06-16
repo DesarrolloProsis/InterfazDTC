@@ -70,14 +70,13 @@
             </tr>
             <td>              
               <textarea                
-                v-model="descripcion"   
-                :class="{'border-red-700': maxleng, 'border-4': maxleng}"                                
+                v-model="descripcion"  
+                v-validate="'max:120'"                                              
                 class="appearance-none  border border-black rounded-lg py-4 mb-0"
-                style="width: 20vw;"                
-              />
-              <div v-if="maxleng" class="bg-red-300 rounded-lg text-center">
-                <p>Solo Puedes Usar 100 Caracteres</p>
-              </div>
+                style="width: 20vw;"  
+                name="Diagnostico"              
+              />     
+              <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p> 
             </td>
           </div>
         </div>
@@ -126,25 +125,6 @@ export default {
   },
   computed: {
 
-    maxleng: function(){
-
-        if(this.descripcion.length > 99){
-          let newObject = {
-            index: 2,
-            data: true
-          }
-          this.$store.commit('DTC/validacionMutation', newObject)
-          return true
-        }
-        else{
-          let newObject = {
-              index: 2,
-              data: false
-          }
-          this.$store.commit('DTC/validacionMutation', newObject)
-          return false
-        }          
-    },
     multiplicacion: function() {
       let multi = 0;
       for (let i = 0; i < this.listaEquipo.length; i++) {

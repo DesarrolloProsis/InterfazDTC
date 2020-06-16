@@ -52,7 +52,6 @@ const mutations = {
     state.userLogeado = []
   }
 };
-
 const actions = {
 
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO

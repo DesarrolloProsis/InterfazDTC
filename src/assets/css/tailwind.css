@@ -12,11 +12,46 @@
     @apply border-red-500;
 }
 
+input {
+    @apply bg-gray-200;        
+    @apply rounded-lg;
+    @apply outline-none;        
+}
+input:hover {
+       
+    @apply bg-white;   
+    @apply border-gray-300;
+    @apply border-gray-700;
+}
+input:focus {
+
+    @apply border-gray-300; 
+    @apply shadow-none;
+    @apply bg-white;
+}
+select {
+    @apply bg-gray-200;        
+    @apply rounded-lg;
+    @apply outline-none;        
+}
+select:hover {
+       
+    @apply bg-white;   
+    @apply border-gray-300;
+    @apply border-gray-700;
+}
+select:focus {
+
+    @apply border-gray-300; 
+    @apply shadow-none;
+    @apply bg-white;
+}
+
+
 
 @tailwind components;
 
 @tailwind utilities;
-
-
+        
 
 

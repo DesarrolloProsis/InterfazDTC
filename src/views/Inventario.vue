@@ -59,9 +59,9 @@
             <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
               <p>Modelo</p>
             </div>
-            <div class="border-black border-2">
+            
           <input v-model="objDatos.modelo" class=" w-64" type="text" placeholder="Modelo">
-            </div>
+            
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@
               <p>No. Inventario Prosis</p>
             </div>
             <div class="border-black border-2">
-                <input v-model="objDatos.numInventarioProsis" class=" w-64" type="text">
+                <input v-model="objDatos.numInventarioProsis" class="w-64" type="text">
             </div>
           </div>
           <div class="md:w-1/4 ml-5">

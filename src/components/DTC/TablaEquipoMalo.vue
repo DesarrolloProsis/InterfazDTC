@@ -25,7 +25,6 @@
               <th colspan="2" class="text-center">Vida Util</th>
               <th></th>
             </tr>
-
             <tr>
               <th>Partida</th>
               <th>Unidad</th>
@@ -51,7 +50,6 @@
               <th>Fabricante</th>
               <th></th>
             </tr>
-
             <tr
               style="text-align: center"
               class="hover:bg-blue-200 text-center"

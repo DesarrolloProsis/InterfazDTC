@@ -1,56 +1,84 @@
   <template>
   <div>
     <Nav></Nav>
-    <div class="p-5 sm:ml-2 mt-5 items-center flex flex-col">
-      <div class="flex flex-wrap border border-black flex justify-center">
-        <div class="md:w-1/3 mt-3 mb-3 md:mr-24 sm:mr-0">
-          <p class="font-bold mb-3">Seleccione una fecha</p>
-          <input @change="sinFiltro" :disabled="validaReferencia" v-model="fechaFiltro" class="border" type="date" />
-        </div>
-        <div class="md:w1/3 mt-3 mb-3">
-          <p class="font-bold mb-3">Escriba la Referencia</p>
-          <input
-            @change="sinFiltro"
-            v-model="referenciaFiltro"
-            :disabled="validaFecha"
-            class="border"
-            placeholder="PM-000000"
-          />
-        </div>
-        <div class="md:w-1/3 mt-5 mb-3">
-          <button
-            @click.prevent="filtro_Dtc"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 ml-14 rounded inline-flex items-center border border-blue-700"
-          >
-            <img src="../assets/img/filter.png" class="mr-2" width="25" height="2" />
-            <span>Filtrar</span>
-          </button>
+    
+    <div class=" relative">
+      <div :class="{ 'pointer-events-none': modal }"  class="p-5 sm:ml-2 mt-5 items-center flex flex-col">
+        <div class="flex flex-wrap border border-black flex justify-center">
+          <div class="md:w-1/3 mt-3 mb-3 md:mr-24 sm:mr-0">
+            <p class="font-bold mb-3">Seleccione una fecha</p>
+            <input @change="sinFiltro" :disabled="validaReferencia" v-model="fechaFiltro" class="border" type="date" />
+          </div>
+          <div class="md:w1/3 mt-3 mb-3">
+            <p class="font-bold mb-3">Escriba la Referencia</p>
+            <input
+              @change="sinFiltro"
+              v-model="referenciaFiltro"
+              :disabled="validaFecha"
+              class="border"
+              placeholder="PM-000000"
+            />
+          </div>
+          <div class="md:w-1/3 mt-5 mb-3">
+            <button
+              @click.prevent="filtro_Dtc"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 ml-14 rounded inline-flex items-center border border-blue-700"
+            >
+              <img src="../assets/img/filter.png" class="mr-2" width="25" height="2" />
+              <span>Filtrar</span>
+            </button>
+          </div>
         </div>
       </div>
+
+      <div class="flex absolute justify-center inset-x-0">
+         <div
+          v-if="modal"
+          class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl"
+        >   
+        <p class=" text-gray-900 font-thin text-md">Seguro que quiere eliminar este DTC  {{ refNum }}</p>     
+        <div class=" justify-center flex mt-5">         
+          <button @click="borrar" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+          <button @click="modal = false, refNum = ''" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+        </div>
+      </div>
+      </div>
+ 
+
+      
+      <div :class="{ 'pointer-events-none': modal }"  class="flex w-full sm:ml-24 lg:ml-32" v-if="numCard">
+        <div   class="grid grid-cols-3" >
+          <div
+          
+            class="ml-10 shadow-2xl lg:w-1/4 rounded-lg p-4 m-3 md:m-5 bg-gray-100 inline-block"
+            v-for="(dtc, index) in infoDTC"
+            :key="index"
+          >
+            <CardListDTC @borrar-card="confimaBorrar" :infoCard="dtc"></CardListDTC>
+          </div>
+        </div>     
+      </div>
+      <div :class="{ 'pointer-events-none': modal }"  class="flex w-full ml-4" v-else>
+         <div   class="mx-auto">
+          <div          
+            class="shadow-2xl lg:max-w-2xl  rounded-lg p-4 m-3 md:m-5 bg-gray-100 inline-flex"
+            v-for="(dtc, index) in infoDTC"
+            :key="index"
+          >        
+            <CardListDTC  @borrar-card="confimaBorrar" :infoCard="dtc"></CardListDTC>        
+          </div>
+        </div>
+      </div>
+
+                          
     </div>
 
-    <div class="flex w-full sm:ml-24 lg:ml-32" v-if="numCard">
-      <div class="grid grid-cols-3" >
-        <div
-          class="ml-10 shadow-2xl lg:w-1/4 rounded-lg p-4 m-3 md:m-5 bg-gray-100 inline-block"
-          v-for="(dtc, index) in infoDTC"
-          :key="index"
-        >
-          <CardListDTC :infoCard="dtc"></CardListDTC>
-        </div>
-      </div>     
-    </div>
-    <div class="flex w-full ml-4" v-else>
-       <div class="mx-auto">
-        <div
-          class="shadow-2xl lg:max-w-2xl  rounded-lg p-4 m-3 md:m-5 bg-gray-100 inline-flex"
-          v-for="(dtc, index) in infoDTC"
-          :key="index"
-        >
-          <CardListDTC :infoCard="dtc"></CardListDTC>
-        </div>
-      </div>
-    </div>
+  
+
+
+
+
+
   </div>
 </template>
 
@@ -69,7 +97,9 @@ export default {
       infoDTC: [],
       fechaFiltro: "",
       referenciaFiltro: "",
-      numCard: true
+      numCard: true,
+      modal: false,
+      refNum: ''
     };
   },
   components: {
@@ -99,6 +129,31 @@ export default {
   },
   methods: {
 
+    borrar: function(){
+
+        this.modal = false
+        this.$store.dispatch('DTC/BORRAR_DTC', this.refNum)     
+        this.menosMas = true,
+        this.showmenosMas =  false,   
+        this.$notify.default({
+          title: "Ok!",
+          msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })
+
+        this.refNum = ''
+
+    },
+    confimaBorrar: function(refNum){
+
+        this.refNum = refNum
+        this.modal = true;     
+
+    },
     sinFiltro: function(){
 
         if(this.fechaFiltro == ''  && this.referenciaFiltro == ''){
@@ -138,3 +193,5 @@ export default {
   }
 };
 </script>
+
+<style>

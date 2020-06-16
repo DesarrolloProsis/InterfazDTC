@@ -5,8 +5,7 @@ const state = {
   listaDescriptions: [],
   listaDmg: [],
   newlistaDmg: [],
-  listaDTC: [],
-  validaciones: [false, false, false, false],
+  listaDTC: [],  
   insertDmgComplete: false,
   listaInfoDTC: [],
   tableFormComponent: [],
@@ -14,8 +13,7 @@ const state = {
 
 const getters = {
   getListaDTCTecnico: () => state.listaDTCTecnico,
-  getListaDescriptions: () => state.listaDescriptions,
-  getValidaciones: () => state.validaciones,
+  getListaDescriptions: () => state.listaDescriptions,  
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => state.listaInfoDTC,
   gettableFormComp: () => state.tableFormComponent
@@ -38,8 +36,7 @@ const mutations = {
   listaDmgMutationDelete: (state, value) =>{    
     state.newlistaDmg.splice(value, 1)  
   },
-  listaDmgMutationUpdate: (state, value) =>{   
-    console.log(value) 
+  listaDmgMutationUpdate: (state, value) =>{       
     state.newlistaDmg.splice(value.index, 1, value.value)  
   },
   listaDmgClearMutation: (state) => {
@@ -47,10 +44,7 @@ const mutations = {
   },
   listaDTCMutation: (state, value) => {
     state.listaDTC = value;
-  },
-  validacionMutation: (state, value) => {
-    state.validaciones[value.index] = value.data
-  },
+  },    
   insertDmgCompleteMutation: (state, value) => {
     state.insertDmgComplete = value
   },
@@ -60,8 +54,7 @@ const mutations = {
   cleanOut: (state) => {
 
     state.listaDescriptions = []
-    state.listaInfoDTC = []
-    state.validaciones =[false, false, false, false]
+    state.listaInfoDTC = []    
   },
   BORRAR_DTC_MUTATION: (state, value) => {
     state.listaInfoDTC.splice( state.listaInfoDTC.findIndex(a => a.referenceNumber == value) , 1);
@@ -70,7 +63,6 @@ const mutations = {
 
 const actions = {
   
-
   async buscarDTC({ commit }) {    
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
       .then(response => {        
@@ -104,31 +96,19 @@ const actions = {
                 arrayDmg.push(state.newlistaDmg[i][g])
           }
     }
-
-console.log(arrayDmg)
-
-          await Axios.post(
-      `http://prosisdev.sytes.net:88/api/requestedComponent`,      
-      arrayDmg
-        )
+    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent`,arrayDmg)
       .then(response => {   
-        
-        console.log(response)
-          
-        if(response.status == 201){  
-            console.log('Si se inserta')          
+                          
+        if(response.status == 201){                    
             commit('insertDmgCompleteMutation', true)          
-        }
-        else{
-          alert('No se Pudo  Insertar Dmg')
-        }        
+        }      
       })
       .catch(Ex => {
-        console.log('ERRO!!! ' + Ex);
+        console.log('ERROR!!! ' + Ex);
       });
   },
   async buscarListaDTC({commit}, value){
-
+    
     console.log(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
     .then(response => {
@@ -137,7 +117,6 @@ console.log(arrayDmg)
     .catch(Ex => {
       console.log(Ex);
     });
-
   },
   async tableFormComponent({commit}, value){
 
@@ -152,10 +131,8 @@ console.log(arrayDmg)
     .catch(Ex => {
       console.log(Ex);
     });
-
   },
-  async BORRAR_DTC({commit},value){
-        
+  async BORRAR_DTC({commit},value){        
     await Axios.delete(`http://prosisdev.sytes.net:88/api/dtcData/Delete/${value}`)
     .then(response => {
 

@@ -40,27 +40,21 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
    
     var msg = '';
     var totoal_dias = cantMonths * 30;
-
-    if (cantYears > 0){
-        msg = cantYears + ' años ';
-    }
-    if (cantDays > 0) {
-        totoal_dias += cantDays
-    }   
-    if (cantYears > 0 && totoal_dias > 0){        
+    if (cantYears > 0)
+        msg = cantYears + ' años ';    
+    if (cantDays > 0)
+        totoal_dias += cantDays    
+    if (cantYears > 0 && totoal_dias > 0){       
         msg += 'y '
-    }
+    }    
     else{
         msg += ' '
     }
-    if(totoal_dias > 0){
+    if(totoal_dias > 0)
         msg +=  totoal_dias + ' dias'
-    }    
 	
 	return msg;
 }
-
-
 
 export default{
 
