@@ -3,7 +3,7 @@
     <div >
       <div class="flex flex-col md:flex-row inline-block md:justify-between mb-6 inline-block">
         <p class="font-black mb-3">{{ infoCard.referenceNumber }}</p>
-        <p class>{{ infoCard.elaborationDate | formatDate }}</p>
+        <p class>{{ infoCard.sinisterDate | formatDate }}</p>
         <hr class="md:hidden mt-3 border-black" />
       </div>
       <div class="flex-col md:flex-row flex mb-6">
