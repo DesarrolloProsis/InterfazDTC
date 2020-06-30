@@ -4,9 +4,10 @@
     <Header
       :descripciones="descripcionHeaders"
       :datosUser="datosUser"
-      :observaciones="observaciones"
-      :descripcion="descripcion"
-    ></Header>    
+      :headerEdit="headerEdit"
+      :observaciones="observaciones"      
+    ></Header>
+
     <div
       class="md:border border-black"
       style="margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw"
@@ -82,7 +83,7 @@
 
       <div class="mt-6 mb-6 md:mb-0 " style="padding: 3vw;">
       
-        <button @click="crearDTCTecnico(1)" class=" hidden bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700">
+        <button @click="crearDTCTecnico(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700">
             <img src="../assets/img/save.png" class="mr-2" width="50" height="50">
             <span>Guardar</span>
         </button>    
@@ -112,23 +113,43 @@ export default {
   data() {
     return {
       descripcionHeaders: [],
-      datosUser: {},
-      descripcion: "",
+      datosUser: {},      
       observaciones: "",
-      refNum: ""
+      refNum: "",
+      headerEdit: {},
+      flagCreate: 0,
+      listaComponentes: '',
+      dateSinester: ''
+
     };
-  },
-  mounted() {},
-  created() {
+  },  
+  beforeMount() {
     this.datosUser = this.$store.getters["Header/getHeaders"];
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
-    this.refNum = this.$store.getters["Header/getreferenceNum"];
+    this.flagCreate = true
+
+  
+
+    if(JSON.stringify(this.$route.query) != '{}'){
+        
+        this.headerEdit = this.$route.query.headerInfo
+        this.observaciones = this.headerEdit.observation
+        this.$store.commit('Header/referenceNumMutation', this.headerEdit.referenceNumber)        
+        this.$store.commit('Header/DIAGNOSTICO_MUTATION', this.headerEdit.diagnosis)        
+        this.flagCreate = false        
+
+    }                  
+  },
+  watch: {
+    observaciones: function(newValue) {      
+      this.$store.commit('Header/OBSERVACION_MUTATION', newValue)
+    },
   },
   methods: {
     crearDTCTecnico: async function(status) {      
               
         this.refNum = this.$store.getters["Header/getreferenceNum"];
-        await this.$store.dispatch("Header/crearHeaders",{ datosUser: this.datosUser, status: status});
+        await this.$store.dispatch("Header/crearHeaders",{ datosUser: this.datosUser, status: status, flag: this.flagCreate});
         let insertHeader = this.$store.getters[
           "Header/getInsertHeaderComplete"
         ];        
@@ -191,10 +212,7 @@ export default {
                 }
               })
 
-            } 
-  
-
-            
+            }               
             await this.$store.commit('DTC/listaDmgClearMutation')
             await this.$store.commit("DTC/insertDmgCompleteMutation", false);
             await this.$store.commit("Header/insertHeaderCompleteMutation", false);
@@ -230,10 +248,6 @@ export default {
           })          
         }
     }
-  },
-  computed: {
-  
-
   }
 };
 </script>

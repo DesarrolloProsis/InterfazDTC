@@ -65,6 +65,14 @@
             <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1" />
             <span>PDF</span>
           </button>
+            <button
+            v-if="!showBotonPDF"
+            @click.prevent="pruebas"
+            class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
+            >
+            <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1" />
+            <span class=" text-xs">Editar</span>
+          </button>
         </div>
       </div>
     </div>
@@ -79,6 +87,7 @@
 <script>
 import moment from "moment";
 import saveAs from "file-saver";
+
 
 export default {
   props: {
@@ -110,7 +119,47 @@ export default {
     menos: function(){      
       this.menosMas = true
       this.showmenosMas = false
-    },   
+    },  
+    pruebas: async function(){
+
+        await this.$store.dispatch('DTC/COMPONENT_EDIT', this.infoCard.referenceNumber)
+
+        let datosSinester = {
+          ReferenceNumber: "",
+          SinisterNumber: "",
+          ReportNumber: "",
+          SinisterDate: "",
+          FailureDate: "",
+          FailureNumber: "",
+          ShippingElaboracionDate: "",
+          Diagnosis: "",
+          Observation: "",
+          TypeDescriptionId: "",
+          UserId: null,
+          AgremmentInfoId: null,
+          Descripcion: null,
+          Observaciones: null
+        } 
+
+        datosSinester.ReferenceNumber = this.infoCard.referenceNumber
+        datosSinester.SinisterNumber = this.infoCard.sinisterNumber
+        datosSinester.ReportNumber = this.infoCard.reportNumber
+        datosSinester.SinisterDate = moment(this.infoCard.sinisterDate).format('YYYY-MM-DD')
+        datosSinester.FailureNumber = this.infoCard.failureNumber
+        datosSinester.FailureDate = moment(this.infoCard.failureDate).format('YYYY-MM-DD')
+        datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format('YYYY-MM-DD')
+        datosSinester.TypeDescriptionId = 2 
+
+        this.$store.commit('Header/datosSinesterMutation',datosSinester) 
+
+        this.$router.push({
+          path: '/NuevoDtc',
+          query: {
+            headerInfo: { ...this.infoCard }
+          },
+       
+        })
+    }, 
     pdf: function(){
 
             var oReq = new XMLHttpRequest();
@@ -144,7 +193,6 @@ export default {
   },
   beforeMount() {
     
-
       this.showBotonPDF = this.infoCard.statusId == 2 ? true : false
 
   },

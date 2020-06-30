@@ -1,13 +1,13 @@
-import Axios from "axios";
-import moment from 'moment'
+import Axios from "axios"
 
 const state = {
   listaHeaders: [],  
   datosSinester: {},
   referenceNum: '',
-  descripcion: '',
+  observaciones: '',
+  diagnostico: '',
   listaUnique: [],
-  insertHeaderComplete: false
+  insertHeaderComplete: false,  
 };
 
 const getters = {
@@ -38,10 +38,9 @@ const getters = {
       };
     } else return state.listaHeaders;
   },   
-   getreferenceNum: () => state.referenceNum,
+   getreferenceNum: () => state.referenceNum,   
 
-   getUniqueNoSinester: (state) => (num) => {
-         
+   getUniqueNoSinester: (state) => (num) => {         
      return state.listaUnique.every(item =>{       
       return item.sinisterNumber != num
      })     
@@ -51,8 +50,11 @@ const getters = {
      return item.reportNumber != num
     })     
  },
-  getInsertHeaderComplete: () => state.insertHeaderComplete
+  getInsertHeaderComplete: () => state.insertHeaderComplete,
+
+  getDiagnostico: () => state.diagnostico,  
   
+  getFechaSiniestro: () => state.datosSinester.SinisterDate
  
 };
 const mutations = {
@@ -64,9 +66,6 @@ const mutations = {
   },
   referenceNumMutation: (state, value) => {
     state.referenceNum = value;
-  },
-  descripcionMutation: (state, value) =>{
-    state.descripcion = value
   },
   listaUniqueMutation: (state, value) => {
     state.listaUnique = value
@@ -82,7 +81,20 @@ const mutations = {
     state.listaHeaders = []
     state.listaUnique = []
     state.referenceNum = ''
+  },
+  OBSERVACION_MUTATION: (state, value) => {
+
+    state.observaciones = value
+  },
+  DIAGNOSTICO_MUTATION: (state, value) => {
+
+    state.diagnostico = value
+  },
+  INFO_CARD_DTC: (state, value) => {
+
+    state.infoDTCCard = value
   }
+
 };
 
 const actions = {
@@ -125,15 +137,15 @@ const actions = {
       ShippingDate: state.datosSinester.ShippingElaboracionDate,
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
-      Diagnosis: state.descripcion,
-      Observation: state.datosSinester.Observaciones == null ? '' : state.datosSinester.Observaciones,      
+      Diagnosis: state.diagnostico,
+      Observation: state.observaciones == null ? '' : state.observaciones,      
       UserId: value.datosUser.userId,
       AgremmentInfoId: value.datosUser.agremmentInfoId,
-      DateStamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
+      flag: value.flag,      
       DTCStatus: value.status
   
-    }; 
-        
+    }
+      console.log(newObject)
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
       .then(response => {    
         

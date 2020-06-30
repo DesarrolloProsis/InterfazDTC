@@ -99,6 +99,7 @@
             <input
               @change="crearReferencia()"
               v-validate="'required'" 
+              :disabled="fechaSiniestoEdit"
               v-model="datosSinester.SinisterDate"
               class="w-full bg-white border-gray-600 border shadow"
               name="FechaSiniestro"
@@ -185,7 +186,6 @@
           </div>
         </div>
         <!--***********************************************************-->
-
         <div class="flex">
           <div class="w-1/4"></div>
 
@@ -205,8 +205,7 @@
     </form>
     <!-- COMPONENTE TABLA EQUIPO DAÑANDA -->
     <TablaEquipoMalo
-      :listaComponentes="listaComponentes"
-      :numReference="datosSinester.ReferenceNumber"
+      :listaComponentes="listaComponentes"      
       :dateSinester="datosSinester.SinisterDate"
     ></TablaEquipoMalo>
   </div>
@@ -214,7 +213,7 @@
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
-
+import moment from "moment";
 
 export default {
   name: "CrearHeader",
@@ -227,13 +226,9 @@ export default {
       type: Object,
       default: () => {}
     },
-    descripcion: {
-      type: String,
-      default: ""
-    },
-    observaciones: {
-      type: String,
-      default: ""
+    headerEdit:{
+      type: Object,
+      default: () => {}
     }
   },
   components: {
@@ -257,7 +252,8 @@ export default {
         Descripcion: null,
         Observaciones: null
       },
-      listaComponentes: []
+      listaComponentes: [],
+      fechaSiniestoEdit: false
     };
   },
   methods: {
@@ -317,17 +313,16 @@ export default {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
     },
-    observaciones: function(newValue) {
-      this.datosSinester.Observaciones = newValue;
-    },
-    datosSinester: {
+    datosSinester: {      
       deep: true,
       handler(datosSinester) {
+        
         this.$store.commit("Header/datosSinesterMutation", datosSinester);
       }
     }
   },
-  async beforeMount() {
+  beforeMount: async function() {
+
     let value = await this.$store.getters['Header/getConvenioPlaza']
     await this.$store.dispatch("Refacciones/buscarComponentes", value);
     this.listaComponentes = await this.$store.getters[
@@ -339,7 +334,18 @@ export default {
       "DTC/getListaDescriptions"
     ];
 
-    
+    if(JSON.stringify(this.headerEdit) != '{}'){
+
+          this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber
+          this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber
+          this.datosSinester.ReportNumber = this.headerEdit.reportNumber
+          this.datosSinester.SinisterDate = moment(this.headerEdit.sinisterDate).format('YYYY-MM-DD')
+          this.datosSinester.FailureNumber = this.headerEdit.failureNumber
+          this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format('YYYY-MM-DD')
+          this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format('YYYY-MM-DD')
+          this.datosSinester.TypeDescriptionId = 2  
+          this.fechaSiniestoEdit = true
+    }    
     //this.$validator.validateAll();
   }
  
@@ -347,9 +353,9 @@ export default {
 </script>
 
 <style scoped>
-label {
-  font-weight: bold;
-  color: black;
-  font-family: Tahoma, Geneva, Verdana, sans-serif;
-}
+  label {
+    font-weight: bold;
+    color: black;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+  }
 </style>

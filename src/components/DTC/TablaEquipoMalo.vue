@@ -10,6 +10,9 @@
         <!-- ************************************************************** -->
         <div class="overflow-x-scroll">
           <table class="border-gray-700 border-solid w-auto">
+            <!--/////////////////////////////////////////////////////////////////
+            ////                 CABECERA DE LA TABLA                       ////
+            //////////////////////////////////////////////////////////////////// -->
             <tr>
               <th></th>
               <th></th>
@@ -49,7 +52,10 @@
               <th>Real</th>
               <th>Fabricante</th>
               <th></th>
-            </tr>
+            </tr>                      
+            <!--/////////////////////////////////////////////////////////////////
+            ////                 CUERPO DE LA TABLA                          ////
+            //////////////////////////////////////////////////////////////////// -->
             <tr
               style="text-align: center"
               class="hover:bg-blue-200 text-center"
@@ -62,7 +68,7 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd2.toString() }}</div>
+                <div v-else>{{ objectEditar.rowUpd2 }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
@@ -84,12 +90,14 @@
                 </div>
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
-                <div v-if="equipo.rowUp">{{ equipo.row4.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd4.toString() }}</div>
+                <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
+                <div v-else>{{ objectEditar.rowUpd4 }}</div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd5.toString() }}</div>
+                <div v-else>
+                  <p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p>
+                  </div>
               </td>
               <td class="border-b border-black p-2 md:p-3 border-2">
                 <div v-if="equipo.rowUp">
@@ -215,7 +223,7 @@
                   <br />
                   <br />
                   <button
-                    v-on:click.stop.prevent="updateRowTable(index, equipo)"
+                    v-on:click.prevent="updateRowTable(index, equipo)"
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-yellow-400 hover:bg-yellow-500"
                   >Editar</button>
                 </div>
@@ -232,7 +240,10 @@
                   >Aceptar</button>
                 </div>
               </td>
-            </tr>
+            </tr>                      
+            <!--/////////////////////////////////////////////////////////////////
+            ////           FOOTER DE LA TABLA +PARTIDA                       ////
+            //////////////////////////////////////////////////////////////////// -->
             <tr style="text-align: center">
               <td class="border-b border-black p-2 md:p-1 border-2">{{ "*" }}</td>
               <td
@@ -334,8 +345,7 @@
               </td>
               <td class="border-b border-black p-2 md:p-1 border-2">
                 <button
-                  v-on:click.stop.prevent="agregarPartida()"
-                  :disabled="validBotonPartida"
+                  v-on:click.stop.prevent="agregarPartida()"                  
                   class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
                   style="width: 5vw"
                 >Validar Partida</button>
@@ -354,8 +364,9 @@
 <script>
 import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
-import Service from "../../services/EquipoMaloService.js";
-import moment from "moment";
+import Service from "../../services/EquipoMaloService.js"
+import moment from "moment"
+
 
 export default {
   name: "TablaEquipoMalo",
@@ -368,10 +379,12 @@ export default {
       datosPrePartida: {
         rowPartida: [],
         rowUnidad: [],
+        rowName:'',
         rowCantidad: 0,
         rowMarca: [],
         rowModelo: [],
         rowNumSerie: [],
+        rowUbicacion: [],
         rowDateInstalacion: [],
         rowDateMantenimiento: [],
         rowFolioMantenimiento: [],
@@ -391,102 +404,107 @@ export default {
       objectEditar: {},
       updtCompEditar: "",
       listLaneEditar: [],
-      laneSelectEditar: [],
-      //Fecha y Folio Mantenimiento
-      dateMantenimiento: "",
-      dateMantenimientoEdit: "",
-      folioMantenimiento: "",
-      folioMantenimientoEdit: ""
-    };
+      laneSelectEditar: [], 
+    }
   },
   props: {
     listaComponentes: {
-      type: Array,
+      type: Array,      
       default: () => []
     },
-    numReference: {
-      type: String,
-      default: ""
-    },
     dateSinester: {
-      type: String,
+      type: String,   
+      required: true,   
       default: ""
     }
   },
   methods: {
     UpdateComp: async function() {
-      let componentrepetido = false;
 
-      this.listLane = [];
-      this.laneSelect = [];
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
-      for (let i = 0; i < this.arrayPartidas.length; i++) {
-        if (
-          this.arrayPartidas[i]["row3"].description ==
-            this.updtComp.description &&
-          this.arrayPartidas[i]["row3"].brand == this.updtComp.brand
-        ) {
-          componentrepetido = true;
-        }
-      }
-      if (!componentrepetido) {
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-        newObject["id"] = this.updtComp;
-        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+      this.listLane = []
+      this.laneSelect = []
 
-        this.listLane = await this.$store.getters["Refacciones/getListaLane"];
-      } else {
-        this.updtComp = "";
-        alert("COMPONENTE REPETIDO!!!");
+      let comp_rep = this.arrayPartidas.some(item => {
+        return item['row3'].description == this.updtComp.description 
+        && item['row3'].brand == this.updtComp .brand
+      })  
+
+      if (!comp_rep) {
+
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"]
+        newObject["id"] = this.updtComp
+        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject)
+        this.listLane = await this.$store.getters["Refacciones/getListaLane"]
+      } 
+      else {
+
+        this.updtComp = ""
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `EL COMPONENTE ESTA REPETIDO.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        }) 
       }
     },
     UpdateCompEditado: async function() {
-      let componentrepetido = false;
-      for (let i = 0; i < this.arrayPartidas.length; i++) {
-        if (this.arrayPartidas[i]["row3"] == this.updtCompEditar) {
-          componentrepetido = true;
-        }
-      }
-      if (!componentrepetido) {
-        this.laneSelectEditar = [];
-        this.listLaneEditar = [];
-        this.dateMantenimientoEdit = "";
-        this.folioMantenimientoEdit = "";
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-        newObject["id"] = this.updtCompEditar;
-        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+
+      let comp_rep = this.arrayPartidas.some(item => {
+        return item['row3'].description == this.updtCompEditar.description 
+        && item['row3'].brand == this.updtCompEditar.brand
+      })          
+
+      if(!comp_rep){
+
+        this.laneSelectEditar = []
+        this.listLaneEditar = []                
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"]
+        newObject["id"] = this.updtCompEditar
+        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject)
         this.listLaneEditar = await this.$store.getters[
           "Refacciones/getListaLane"
-        ];
-        console.log(this.listLaneEditar);
-      } else {
-        if (this.updtCompEditar == this.saveObjectEdiar[2]) {
-          alert("ESTA EDITANDO ESE ELEMENTO!!!");
-          this.dateMantenimientoEdit = "";
-          this.folioMantenimientoEdit = "";
-          let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-          newObject["id"] = this.updtCompEditar;
-          await this.$store.dispatch(
-            "Refacciones/buscarComponenteId",
-            newObject
-          );
-          this.listLaneEditar = await this.$store.getters[
-            "Refacciones/getListaLane"
-          ];
-        } else {
-          this.dateMantenimientoEdit = "";
-          this.folioMantenimientoEdit = "";
-          this.updtCompEditar = "";
-          this.laneSelectEditar = [];
-          this.listLaneEditar = [];
-          for (const propiedades in this.objectEditar) {
-            this.objectEditar[propiedades] = [];
-          }
-          alert("COMPONETE REPETIDO!!!");
-        }
+        ]
+      
       }
+      else if(this.updtCompEditar.description == this.saveObjectEdiar[2].description && this.updtCompEditar.brand == this.saveObjectEdiar[2].brand){
+
+        this.updtCompEditar = ""
+        this.laneSelectEditar = []
+        this.listLaneEditar = []
+        for (const propiedades in this.objectEditar) {
+          this.objectEditar[propiedades] = []
+        }
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `ESTAS EDITANDO EL COMPONENTE.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })
+      }
+      else{
+        this.laneSelectEditar = []
+        for (const propiedades in this.objectEditar) {
+          this.objectEditar[propiedades] = [];
+        }
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `EL COMPONENTE ESTA REPETIDO.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })        
+      }  
     },
     deleteItem(index) {
       this.arrayPartidas.splice(index, 1);
@@ -496,414 +514,257 @@ export default {
       this.$store.commit("DTC/listaDmgMutationDelete", index);
     },
     updateRowTable: async function(index, datos) {
-      if (this.saveObjectEdiar.length == 0) {
-        console.log(datos);
-        this.arrayPartidas[index]["rowUp"] = false;
-        this.saveObjectEdiar = Object.values(datos);
 
-        console.log(this.saveObjectEdiar);
-        let newObjEdit = {
-          rowUpd1: [],
-          rowUpd2: [],
-          rowUpd3: "",
-          rowUpd4: 0,
-          rowUpd5: [],
-          rowUpd6: [],
-          rowUpd7: [],
-          rowUpd8: [],
-          rowUpd9: [],
-          rowUpd10: [],
-          rowUpd11: [],
-          rowUpd12: [],
-          rowUpd13: [],
-          rowUpd14: []
-        };
-        try {
-          this.objectEditar = newObjEdit;
-          this.updtCompEditar = this.saveObjectEdiar[2];
-          this.laneSelectEditar = this.saveObjectEdiar[7];
-          this.dateMantenimientoEdit = this.saveObjectEdiar[9];
-          this.folioMantenimientoEdit = this.saveObjectEdiar[10];
-          let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-          newObject["id"] = this.updtCompEditar;
-          await this.$store.dispatch(
-            "Refacciones/buscarComponenteId",
-            newObject
-          );
-          this.listLaneEditar = await this.$store.getters[
-            "Refacciones/getListaLane"
-          ];
-        } catch (ex) {
-          console.log(ex);
-        }
-      } else {
-        alert("HAY UNA EDICION PENDIENTE!!!");
+      if (this.saveObjectEdiar.length == 0) {
+          
+        this.saveObjectEdiar = Object.values(datos);        
+        this.updtCompEditar = this.saveObjectEdiar[2];
+
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];        
+         newObject["id"] = this.updtCompEditar;
+         await this.$store.dispatch(
+           "Refacciones/buscarComponenteId",
+           newObject
+         );
+         this.listLaneEditar = await this.$store.getters[
+           "Refacciones/getListaLane"
+         ];
+
+        this.laneSelectEditar = this.saveObjectEdiar[7];        
+        this.arrayPartidas[index]["rowUp"] = false;
+    
+      } 
+      else {
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `YA SE ESTA EDITANDO UN COMPONENTE.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })
       }
     },
     confirmRowTable: async function(index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
-          alert("Aceptar");
-
+                    
           let equipoValid = await this.$store.getters[
             "Refacciones/getEquipoMalo"
           ];
+            //AGREGAMOS PARTIDA AL STORE
+          let objPartida = Service.obj_partida(this.laneSelectEditar, equipoValid, this.dateSinester)
+          
+          let objMutation = {
+            index: index,
+            value: objPartida
+          }          
+          this.$store.commit("DTC/listaDmgMutationUpdate", objMutation)
 
-          console.log(equipoValid);
+          //COMPLETAMOS ATRIBUTOS QUE FALTAN
+          let key_partidas = ['row1','row2','row3','row4','row5','row6','row7','row8','row9','row10','row11','row12','row13','row14','rowUp']          
+          let new_partida = Service.lane_select(this.laneSelectEditar, key_partidas, equipoValid, this.dateSinester)
+                            
+          new_partida['row1'] = index + 1
+          new_partida['row2'] = this.objectEditar.rowUpd2
+          new_partida['row3'] = this.updtCompEditar
+          new_partida['row8'] = this.laneSelectEditar
+              
+          this.arrayPartidas.splice(index, 1, new_partida);
 
-          let listaAcumulada = [];
-
-          for (const lane of this.laneSelectEditar) {
-            let component = equipoValid.find(
-              component => component.lane === lane
-            );
-            listaAcumulada.push(component);
-          }
-
-          console.log(listaAcumulada);
-
-          let listaMarcas = [];
-          for (let i = 0; i < listaAcumulada.length; i++) {
-            if (!listaMarcas.includes(listaAcumulada[i]["brand"]))
-              listaMarcas.push(listaAcumulada[i]["brand"]);
-          }
-
-          console.log(listaMarcas);
-          var lengListaAcumulada = listaAcumulada.length;
-          var objPartida = [];
-          var numSerie = [];
-          var lane = [];
-          var modelo = [];
-
-          for (const marca of listaMarcas) {
-            for (let i = 0; i < lengListaAcumulada; i++) {
-              if (listaAcumulada[i]["brand"] === marca) {
-                let obj = {
-                  ComponentsStockId: listaAcumulada[i].componentsStockId,
-                  ReferenceNumber: "",
-                  CapufeLaneNum: listaAcumulada[i].capufeLaneNum,
-                  IdGare: listaAcumulada[i].idGare,
-                  Marca: listaAcumulada[i].brand,
-                  Modelo: listaAcumulada[i].model,
-                  NumSerie: listaAcumulada[i].serialNumber,
-                  Unity: listaAcumulada[i].unity,
-                  DateInstallationDate: listaAcumulada[i].instalationDate,
-                  DateMaintenanceDate: listaAcumulada[i].maintenanceDate,
-                  MaintenanceFolio: listaAcumulada[i].maintenanceFolio,
-                  IntLifeTimeExpected: listaAcumulada[i].lifeTime,
-                  strLifeTimeReal: this.objectEditar.rowUpd12[i],
-                  IntPartida: ""
-                };
-                objPartida.push(obj);
-                numSerie.push(listaAcumulada[i]["serialNumber"]);
-                lane.push(listaAcumulada[i]["lane"]);
-
-                if (!modelo.includes(listaAcumulada[i]["model"]))
-                  modelo.push(listaAcumulada[i]["model"]);
-              }
+          this.objectEditar = {}
+          this.saveObjectEdiar = []
+          this.laneSelectEditar = []
+          this.updtCompEditar = ""
+          this.listLaneEditar = [""]                 
+        }          
+        else {
+            this.$notify.warning({
+            title: "Ups!",
+            msg: `FALTA AGREGAR LA UBICACION.`,
+            position: "bottom right",
+            styles: {              
+              height: 100,
+              width: 500
             }
-
-            let objMutation = {
-              index: index,
-              value: objPartida
-            };
-
-            this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);
-            objPartida = [];
-
-            let newObject = {
-              row1: index + 1,
-              row2: this.objectEditar.rowUpd2,
-              row3: this.updtCompEditar,
-              row4: lane.length,
-              row5: marca,
-              row6: modelo,
-              row7: numSerie,
-              row8: lane,
-              row9: this.objectEditar.rowUpd9,
-              row10: this.objectEditar.rowUpd10,
-              row11: this.objectEditar.rowUpd11,
-              row12: this.objectEditar.rowUpd12,
-              row13: this.objectEditar.rowUpd13,
-              row14: this.objectEditar.rowUpd14,
-              rowUp: true
-            };
-            this.arrayPartidas.splice(index, 1, newObject);
-            numSerie = [];
-            lane = [];
-            modelo = [];
-          }
-
-          this.objectEditar = {};
-          this.saveObjectEdiar = [];
-          this.laneSelectEditar = [];
-          this.updtCompEditar = "";
-          this.listLaneEditar = "";
-          this.dateMantenimientoEdit = "";
-          this.folioMantenimientoEdit = "";
-        } else {
-          alert("SELECIONE LA UBICACION!!!");
+          })
         }
-      } else {
-        alert("ELIGA UN COMPONENTE!!!");
+      } 
+      else {
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `FALTA AGREGAR UN COMPONENTE.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })
       }
     },
     abortUpdateRowTable: function(index) {
-      this.arrayPartidas[index]["row1"] = this.saveObjectEdiar[0];
-      this.arrayPartidas[index]["row2"] = this.saveObjectEdiar[1];
-      this.arrayPartidas[index]["row3"] = this.saveObjectEdiar[2];
-      this.arrayPartidas[index]["row4"] = this.saveObjectEdiar[3];
-      this.arrayPartidas[index]["row5"] = this.saveObjectEdiar[4];
-      this.arrayPartidas[index]["row6"] = this.saveObjectEdiar[5];
-      this.arrayPartidas[index]["row7"] = this.saveObjectEdiar[6];
-      this.arrayPartidas[index]["row8"] = this.saveObjectEdiar[7];
-      this.arrayPartidas[index]["row9"] = this.saveObjectEdiar[8];
-      this.arrayPartidas[index]["row10"] = this.saveObjectEdiar[9];
-      this.arrayPartidas[index]["row11"] = this.saveObjectEdiar[10];
-      this.arrayPartidas[index]["row12"] = this.saveObjectEdiar[11];
-      this.arrayPartidas[index]["row13"] = this.saveObjectEdiar[12];
-      this.arrayPartidas[index]["row14"] = this.saveObjectEdiar[13];
-      this.arrayPartidas[index]["rowUp"] = true;
-      this.saveObjectEdiar = [];
-      this.objectEditar = {};
-      this.listLaneEditar = [];
-      this.updtCompEditar = "";
+
+      let lanes =  this.saveObjectEdiar[7]
+      let key_abort = ['row1','row2','row3','row4','row5','row6','row7','row8','row9','row10','row11','row12','row13','row14','rowUp'] 
+      let newObject = this.$store.getters["Header/getConvenioPlaza"];
+        newObject["id"] = this.saveObjectEdiar[2];      
+      this.$store.dispatch("Refacciones/buscarComponenteId", newObject);  
+      let equipoValid = this.$store.getters["Refacciones/getEquipoMalo"];
+      let obj_abort = Service.lane_select(lanes, key_abort, equipoValid, this.dateSinester)
+
+      obj_abort['row3'] = this.saveObjectEdiar[2]
+      obj_abort['row8'] = this.saveObjectEdiar[7]      
+      this.arrayPartidas[index] = obj_abort
+
+      this.saveObjectEdiar = []
+      this.objectEditar = {}
+      this.listLaneEditar = ['']
+      this.updtCompEditar = ""
+      this.laneSelectEditar = []
     },
     agregarPartida: async function() {
-      if (this.updtComp != "") {
-        if (this.laneSelect.length > 0) {
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
+        
+      if(this.updtComp != ""){
+        if(this.laneSelect.length > 0){
 
-          let listaAcumulada = [];
-
-          for (const lane of this.laneSelect) {
-            let component = equipoValid.find(
-              component => component.lane === lane
-            );
-            listaAcumulada.push(component);
-          }
-          let listaMarcas = [];
-          for (let i = 0; i < listaAcumulada.length; i++) {
-            if (!listaMarcas.includes(listaAcumulada[i]["brand"]))
-              listaMarcas.push(listaAcumulada[i]["brand"]);
-          }
-          var lengListaAcumulada = listaAcumulada.length;
-          var objPartida = [];
-          var numSerie = [];
-          var lane = [];
-          var modelo = [];
-
-          for (const marca of listaMarcas) {
-            for (let i = 0; i < lengListaAcumulada; i++) {
-              if (listaAcumulada[i]["brand"] === marca) {
-                let obj = {
-                  ComponentsStockId: listaAcumulada[i].componentsStockId,
-                  ReferenceNumber: "",
-                  CapufeLaneNum: listaAcumulada[i].capufeLaneNum,
-                  IdGare: listaAcumulada[i].idGare,
-                  Marca: listaAcumulada[i].brand,
-                  Modelo: listaAcumulada[i].model,
-                  NumSerie: listaAcumulada[i].serialNumber,
-                  Unity: listaAcumulada[i].unity,
-                  DateInstallationDate: listaAcumulada[i].instalationDate,
-                  DateMaintenanceDate: listaAcumulada[i].maintenanceDate,
-                  MaintenanceFolio: listaAcumulada[i].maintenanceFolio,
-                  IntLifeTimeExpected: listaAcumulada[i].lifeTime,
-                  strLifeTimeReal: this.datosPrePartida.rowDateReal[i],
-                  IntPartida: ""
-                };
-                objPartida.push(obj);
-                numSerie.push(listaAcumulada[i]["serialNumber"]);
-                lane.push(listaAcumulada[i]["lane"]);
-                modelo.push(listaAcumulada[i]["model"]);
-              }
-            }
-            this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
-            objPartida = [];
-
-            let newObject = {
-              row1: this.arrayPartidas.length + 1,
-              row2: this.datosPrePartida.rowUnidad,
-              row3: this.updtComp,
-              row4: lane.length,
-              row5: marca,
-              row6: modelo,
-              row7: numSerie,
-              row8: lane,
-              row9: this.datosPrePartida.rowDateInstalacion,
-              row10: this.datosPrePartida.rowDateMantenimiento,
-              row11: this.datosPrePartida.rowFolioMantenimiento,
-              row12: this.datosPrePartida.rowDateReal,
-              row13: this.datosPrePartida.rowDateFabricante,
-              row14: this.datosPrePartida.rowPrecio,
-              rowUp: true
-            };
-            this.arrayPartidas.push(newObject);
-            numSerie = [];
-            lane = [];
-            modelo = [];
-          }
+          let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
+          //AGREGAMOS PARTIDA AL STORE
+          let objPartida = Service.obj_partida(this.laneSelect, equipoValid, this.dateSinester)
+          this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);          
+        
+          //COMPLETAMOS ATRIBUTOS QUE FALTAN
+          let key_partidas = ['row1','row2','row3','row4','row5','row6','row7','row8','row9','row10','row11','row12','row13','row14','rowUp']          
+          let new_partida = Service.lane_select(this.laneSelect, key_partidas, equipoValid, this.dateSinester)
+                            
+          new_partida['row1'] = this.arrayPartidas.length + 1
+          new_partida['row3'] = this.updtComp
+          new_partida['row8'] = this.laneSelect
+        
+          this.arrayPartidas.push(new_partida)                           
+                  
           //LIMPIA LA LISTA PRE_PARTIDA
           for (const propiedades in this.datosPrePartida) {
             if (propiedades == "rowCantidad")
               this.datosPrePartida[propiedades] = 0;
             else this.datosPrePartida[propiedades] = [];
           }
-          this.updtComp = "";
-          this.laneSelect = [];
-          this.listLane = [];
-          this.dateMantenimiento = "";
-          this.folioMantenimiento = "";
-        } else {
-          alert("FALTA AGREGAR UBICACION!!!");
-        }
-      } else {
-        alert("FALTA AGREGAR UBICACION!!!");
+          //LIMPIAMOS COMPONENTE Y LANE
+          this.updtComp = ''
+          this.laneSelect = []  
+          this.listLane = []
+        } 
+        else{
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `FALTA AGREGAR UN COMPONENTE.`,
+            position: "bottom right",
+            styles: {              
+              height: 100,
+              width: 500
+            }
+          })
+        } 
+      }
+      else{
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `FALTA AGREGAR LA UBICACION.`,
+          position: "bottom right",
+          styles: {              
+            height: 100,
+            width: 500
+          }
+        })
       }
     }
   },
   watch: {
     laneSelect: async function(newValue) {
+      
       for (const propiedades in this.datosPrePartida) {
         if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
         else this.datosPrePartida[propiedades] = [];
       }
+      if(newValue.length > 0){
 
-      let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
-
-      if (newValue.length > 0) {
-        this.datosPrePartida.rowCantidad = this.laneSelect.length;
-
-        for (const lane of this.laneSelect) {
-
-          let component = {}
-          if(lane == 'Plaza---'){
-            alert('Falta Agregar el numero de serie')
-          }        
-          else{            
-             component = equipoValid.find(
-              comp => comp.lane === lane
-            );
-          }
-          if (
-            this.datosPrePartida.rowUnidad.includes(component.unity) == false
-          ) {
-            this.datosPrePartida.rowUnidad.push(component.unity);
-          }
-          if (
-            this.datosPrePartida.rowMarca.includes(component.brand) == false
-          ) {
-            this.datosPrePartida.rowMarca.push(component.brand);
-          }
-          this.datosPrePartida.rowModelo.push(component.model);          
-          if (
-            this.datosPrePartida.rowNumSerie.includes(component.serialNumber) ==
-            false
-          ) {
-            this.datosPrePartida.rowNumSerie.push(component.serialNumber);
-          }
-          this.datosPrePartida.rowDateInstalacion.push(
-            component.instalationDate
-          );
-          this.datosPrePartida.rowDateMantenimiento.push(
-            component.maintenanceDate
-          );
-          this.datosPrePartida.rowFolioMantenimiento.push(
-            component.maintenanceFolio
-          );
-          this.datosPrePartida.rowDateFabricante.push(component.lifeTime);    
-          if (
-            this.datosPrePartida.rowPrecio.includes(component.unitaryPrice) ==
-            false
-          ) {
-            this.datosPrePartida.rowPrecio.push(component.unitaryPrice);
-          }
-          let fechaInstalacion = moment(component.instalationDate).format(
-            "DD/MM/YYYY"
-          );
-          console.log(fechaInstalacion);
-          let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
-          let fecha_format = Service.daysMonthsYearsInDates(
-            fechaInstalacion,
-            fechaSinester
-          );
-
-          console.log(fecha_format);
-          this.datosPrePartida.rowDateReal.push(fecha_format);
-        }
+        let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
+        this.datosPrePartida = Service.lane_select(newValue, this.datosPrePartida, equipoValid, this.dateSinester)        
       }
     },
     laneSelectEditar: async function(newValue) {
+
       for (const propiedades in this.objectEditar) {
-        this.objectEditar[propiedades] = [];
+        if(propiedades == "rowUpd4") this.objectEditar[propiedades] = 0
+        else this.objectEditar[propiedades] = [];
       }
-
-      let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
-
-      if (newValue != null) {
-        this.objectEditar.rowUpd4 = this.laneSelectEditar.length;
-        this.objectEditar.rowUpd1 = this.saveObjectEdiar[0];
-        console.log(this.laneSelectEditar)
-        for (const lane of this.laneSelectEditar) {
-
-          let component = equipoValid.find(
-            component => component.lane === lane
-          );
-          if (this.objectEditar.rowUpd2.includes(component.unity) == false) {
-            this.objectEditar.rowUpd2.push(component.unity);
-          }
-          if (this.objectEditar.rowUpd5.includes(component.brand) == false) {
-            this.objectEditar.rowUpd5.push(component.brand);
-          }                    
-          this.objectEditar.rowUpd6.push(component.model);
-          this.objectEditar.rowUpd7.push(component.serialNumber);
-          this.objectEditar.rowUpd9.push(component.instalationDate);          
-          this.objectEditar.rowUpd10.push(component.maintenanceDate);
-          this.objectEditar.rowUpd11.push(component.maintenanceFolio);
-          this.objectEditar.rowUpd13.push(component.lifeTime);          
-          if (
-            this.objectEditar.rowUpd14.includes(component.unitaryPrice) == false
-          ) {
-            this.objectEditar.rowUpd14.push(component.unitaryPrice);
-          }
-          let fechaInstalacion = moment(component.instalationDate).format(
-            "DD/MM/YYYY"
-          );
-          let fechaSinester = moment(this.dateSinester).format("DD/MM/YYYY");
-          this.objectEditar.rowUpd12.push(
-            Service.daysMonthsYearsInDates(fechaInstalacion, fechaSinester)
-          );
-        }
-      }
-    }
-  },
-  computed: {
-    validBotonPartida: function() {
-      return this.laneSelect.length > 0 ? false : true;
+      if(newValue.length >0){   
+        let key_updt = ['rowUpd1','rowUpd2','rowUpd3','rowUpd4','rowUpd5','rowUpd6','rowUpd7','rowUpd8','rowUpd9','rowUpd10','rowUpd11','rowUpd12','rowUpd13','rowUpd14','rowUpd15']                                                                                                                        
+        let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];
+        this.objectEditar = await Service.lane_select(newValue, key_updt, equipoValid, this.dateSinester)       
+        this.listLaneEditar = await this.$store.getters["Refacciones/getListaLane"]        
+      }              
     }
   },
   filters: {
-    formatDate: function(value) {
-      return moment(value.substring(0, 10)).format("DD/MM/YYYY");
-    },
-    formatPlaza: function(value){
+    formatDate: function(value) { return moment(value.substring(0, 10)).format("DD/MM/YYYY"); },
+    formatPlaza: function(value){ return value.split('-')[0] }
+  },
+  destroyed: function(){
 
-      if(value.length > 3){
+      this.arrayPartidas = []   
+      this.$store.commit('DTC/listaDmgClearMutation')
+      this.$store.commit("DTC/insertDmgCompleteMutation", false)
+      this.$store.commit("Header/insertHeaderCompleteMutation", false)
+      this.$store.dispatch("Header/buscarListaUnique")
+      this.$store.commit("Header/clearDatosSinesterMutation"); 
+      this.$store.commit("DTC/COMPONENTES_EDIT", {}) 
+      this.$store.commit('Header/DIAGNOSTICO_MUTATION', "")        
 
-        return 'Plaza'
+  },
+  beforeMount: async function(){
+ 
+      let componetesEdit = await this.$store.getters['DTC/getcomponentesEdit']                
+     
+      
+      if(JSON.stringify(componetesEdit) != '{}'){
+
+
+          for(const item of componetesEdit.items){
+                        
+              let newObject = await this.$store.getters["Header/getConvenioPlaza"]
+              newObject["id"] = { description: item.name, brand: item.marca }
+              await this.$store.dispatch("Refacciones/buscarComponenteId", newObject)               
+              let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"]
+              
+              let array_ubicacion = []
+
+              componetesEdit.serialNumbers                  
+                  .map(lane => {                                        
+                    if(item.item == lane.item)
+                      array_ubicacion.push(lane.lane_SerialNumber.replace(/ /g,""))                   
+              })
+
+              let otra_prueba = await this.$store.getters['Header/getFechaSiniestro']              
+              //AGREGAMOS PARTIDA AL STORE
+              let objPartida =  Service.obj_partida(array_ubicacion, equipoValid, otra_prueba)
+              
+              await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);          
+
+              //COMPLETAMOS ATRIBUTOS QUE FALTAN
+              let key_partidas = ['row1','row2','row3','row4','row5','row6','row7','row8','row9','row10','row11','row12','row13','row14','rowUp']          
+              let new_partida = Service.lane_select(array_ubicacion, key_partidas, equipoValid, otra_prueba)
+
+              new_partida['row1'] = this.arrayPartidas.length + 1
+              new_partida['row3'] = { description: item.name, brand: item.marca }
+              new_partida['row8'] = array_ubicacion
+
+              this.arrayPartidas.push(new_partida)                 
+          }
 
       }
-      return value
-
-    }
+        
   }
 };
 </script>
 
-<style scoped>
-.blur-content {
-  filter: blur(5px);
-}
-</style>

@@ -1,10 +1,9 @@
   <template>
   <div>
-    <Nav></Nav>
-    
+    <Nav></Nav>    
     <div class=" relative">
       <div :class="{ 'pointer-events-none': modal }"  class="p-5 sm:ml-2 mt-5 items-center flex flex-col">
-        <div class="flex flex-wrap border border-black flex justify-center">
+        <div class="flex flex-wrap border border-black justify-center">
           <div class="md:w-1/3 mt-3 mb-3 md:mr-24 sm:mr-0">
             <p class="font-bold mb-3">Seleccione una fecha</p>
             <input @change="sinFiltro" :disabled="validaReferencia" v-model="fechaFiltro" class="border" type="date" />
@@ -72,17 +71,8 @@
 
                           
     </div>
-
-  
-
-
-
-
-
   </div>
 </template>
-
-
 
 
 <script>
@@ -121,9 +111,8 @@ export default {
     }    
   },
   watch: {
-
+    
       infoDTC: function(newValue){
-
           this.numCard = newValue.length > 2 ? true : false
       }
   },

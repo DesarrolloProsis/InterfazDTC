@@ -8,7 +8,8 @@ import CrearDTC from '../views/CrearDTC.vue'
 import ListarDTC from '../views/ListarDTC.vue'
 import Login from '../views/Login.vue'
 import Inventario from '../views/Inventario.vue'
-import Valida from '../views/ejemploValidacion.vue'
+import prueba from '../views/VistaPrueba.vue'
+
 
 
 Vue.use(VueRouter)
@@ -16,11 +17,6 @@ Vue.use(VueRouter)
 
 const routes = [
 
-  {
-    path: '/valida',
-    name: 'valida',
-    component: Valida
-  },
   {
     path: '/',
     name: 'login',
@@ -44,11 +40,22 @@ const routes = [
     path: '/NuevoDtc',
     name: 'NuevoDtc',
     component: CrearDTC
-  },
+  }, 
+  {
+    path: '/prueba',
+    name: 'prueba',
+    component: prueba,
+    beforeEnter: async function(to, from, next) {
+
+      let plaza = store.getters['Header/getConvenioPlaza']
+      await store.dispatch('Refacciones/buscarComponentesInventario', plaza)      
+      next()
+    }
+  }, 
   {
     path: '/ListarDtc',
     name: 'ListarDtc',
-    component: ListarDTC,
+    component: ListarDTC,   
 
       beforeEnter: async function(to, from, next) {
         let info = store.getters['Login/getUserForDTC']        
@@ -77,7 +84,6 @@ const router = new VueRouter({
   routes
 })
 
-
 router.beforeEach((to, from, next) =>{
       
     if(to.name == 'login'){
@@ -85,7 +91,6 @@ router.beforeEach((to, from, next) =>{
     }
     else if(to.name !== 'login' && store.getters['Login/getUserLogeado']){      
       next()
-
     }
     else{      
       next({name: 'login'})

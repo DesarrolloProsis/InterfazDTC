@@ -70,7 +70,7 @@
             </tr>
             <td>              
               <textarea                
-                v-model="descripcion"  
+                v-model="diagnostico"  
                 v-validate="'max:120'"                                              
                 class="appearance-none  border border-black rounded-lg py-4 mb-0"
                 style="width: 20vw;"  
@@ -115,12 +115,17 @@ export default {
   },
   data() {
     return {      
-      descripcion: '',      
+      diagnostico: '',      
     };
   },
+  beforeMount: function(){
+
+    this.diagnostico =  this.$store.getters['Header/getDiagnostico']
+
+  },
   watch:{
-    descripcion: function(newValue){
-        this.$store.commit('Header/descripcionMutation', newValue)   
+    diagnostico: function(newValue){
+        this.$store.commit('Header/DIAGNOSTICO_MUTATION', newValue)   
     }
   },
   computed: {

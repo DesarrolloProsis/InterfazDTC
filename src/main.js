@@ -9,9 +9,6 @@ import VeeValidate from 'vee-validate';
 import { Validator } from 'vee-validate';
 import es from "vee-validate/dist/locale/es";
 
-//import Notifications from 'vue-notification'
-
-
 //Validaciones en formularios
 Vue.use(VeeValidate, { 
     classes: true,

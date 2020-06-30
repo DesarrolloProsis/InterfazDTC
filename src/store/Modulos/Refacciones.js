@@ -186,16 +186,14 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {  
-        //console.log(`http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`)
+    
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
     )
-      .then(response => {  
-        console.log(response.data)       
-        if(response.data.message == 'Ok') {          
+      .then(response => {    
+                
           commit("listaRefaccionValidMutation", response.data.result.listaFiltro);
-          commit("listaLaneMutation", response.data.result.listLane);
-        }
+          commit("listaLaneMutation", response.data.result.listLane);        
       })
       .catch(Ex => {
         console.log('Cath aqui')
