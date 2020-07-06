@@ -39,9 +39,7 @@ const mutations = {
     state.newlistaDmg.splice(value, 1)  
   },
   listaDmgMutationUpdate: (state, value) =>{    
-    
-    console.log('mutacion')
-    console.log(value)
+            
     state.newlistaDmg.splice(value.index, 1, value.value)  
   },
   listaDmgClearMutation: (state) => {
@@ -99,13 +97,16 @@ const actions = {
           
           for(let g = 0;  g < state.newlistaDmg[i].length; g++){
 
-                state.newlistaDmg[i][g]['ReferenceNumber'] = value
+                state.newlistaDmg[i][g]['ReferenceNumber'] = value.refNum
                 state.newlistaDmg[i][g]['IntPartida'] = i + 1
                 state.newlistaDmg[i][g]['strLifeTimeReal'].toString()
                 arrayDmg.push(state.newlistaDmg[i][g])
           }
     }
-    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent`,arrayDmg)
+    console.log(JSON.stringify(arrayDmg))
+    console.log(`https://localhost:44358/api/requestedComponent/1`)
+    //await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/0`,arrayDmg)
+    await Axios.post(`https://localhost:44358/api/RequestedComponent/${value.flagCreate}`,arrayDmg)
       .then(response => {   
                           
         if(response.status == 201){                    

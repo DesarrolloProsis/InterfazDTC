@@ -117,13 +117,14 @@ export default {
       observaciones: "",
       refNum: "",
       headerEdit: {},
-      flagCreate: 0,
+      flagCreate:true,
       listaComponentes: '',
-      dateSinester: ''
+      dateSinester: '',      
 
     };
   },  
   beforeMount() {
+
     this.datosUser = this.$store.getters["Header/getHeaders"];
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
     this.flagCreate = true
@@ -136,8 +137,7 @@ export default {
         this.observaciones = this.headerEdit.observation
         this.$store.commit('Header/referenceNumMutation', this.headerEdit.referenceNumber)        
         this.$store.commit('Header/DIAGNOSTICO_MUTATION', this.headerEdit.diagnosis)        
-        this.flagCreate = false        
-
+        this.flagCreate = false
     }                  
   },
   watch: {
@@ -164,8 +164,12 @@ export default {
               width: 500
             }
           })
+          let value_insert = {
 
-          await this.$store.dispatch("DTC/crearDmg", this.refNum);
+            refNum: this.refNum,
+            flagCreate: this.flagCreate            
+          }
+          await this.$store.dispatch("DTC/crearDmg", value_insert);
           let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];          
           if (insertDmg) {
 
