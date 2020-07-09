@@ -50,7 +50,7 @@
             <input
               v-validate="'uniqueSinester'"
               v-model="datosSinester.SinisterNumber"
-              class="w-full bg-white border-gray-600 border shadow"
+              class="w-full"
               type="text"
               name="NoSiniestro"
               placeholder
@@ -62,7 +62,7 @@
             <input
               v-validate="'uniqueReport'"
               v-model="datosSinester.ReportNumber"
-              class="w-full bg-white border-gray-600 border shadow"
+              class="w-full"
               type="text"  
               name="NoReporte"                         
             />
@@ -73,7 +73,7 @@
             <select
               v-model="datosSinester.TypeDescriptionId"
               v-validate="'required'" 
-              class="w-full bg-white border-gray-600 border shadow"
+              class="w-full"
               type="text"
               name="TipoDescripcion"
             >
@@ -101,7 +101,7 @@
               v-validate="'required'" 
               :disabled="fechaSiniestoEdit"
               v-model="datosSinester.SinisterDate"
-              class="w-full bg-white border-gray-600 border shadow"
+              class="w-full"
               name="FechaSiniestro"
               type="date"
             />
@@ -113,7 +113,7 @@
             <input              
               v-model="datosSinester.ShippingElaboracionDate"
               v-validate="'required'" 
-              class="w-full bg-white border-gray-600 border shadow"
+              class="w-full"
               type="date"
               name="FechaEnvio"
             />
@@ -130,7 +130,7 @@
             <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
             <input
               v-model="datosSinester.FailureNumber" 
-              class="w-full bg-white border-gray-600 border shadow"          
+              class="w-full"
               type="text"
               placeholder="S/M"
             />
@@ -140,7 +140,7 @@
             <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion</p>
             <input
             disabled="true"
-              class="w-full bg-white border-gray-600 border shadow"
+              class="w-full"
               type="date"
             />
           </div>
@@ -155,7 +155,7 @@
             <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
             <input
               v-model="datosSinester.FailureDate"
-              class="w-full bg-white border-gray-600 border shadow"
+              class="w-full"
               type="date"
             />
           </div>

@@ -15,7 +15,11 @@
 input {
     @apply bg-gray-200;        
     @apply rounded-lg;
-    @apply outline-none;        
+    @apply outline-none;
+    @apply border-gray-600;   
+    @apply bg-white;
+    @apply border; 
+    @apply shadow;
 }
 input:hover {
        
@@ -32,7 +36,11 @@ input:focus {
 select {
     @apply bg-gray-200;        
     @apply rounded-lg;
-    @apply outline-none;        
+    @apply outline-none;  
+    @apply border-gray-600;     
+    @apply bg-white;
+    @apply border; 
+    @apply shadow;   
 }
 select:hover {
        

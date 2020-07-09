@@ -38,8 +38,7 @@ const mutations = {
   listaDmgMutationDelete: (state, value) =>{    
     state.newlistaDmg.splice(value, 1)  
   },
-  listaDmgMutationUpdate: (state, value) =>{    
-            
+  listaDmgMutationUpdate: (state, value) =>{                
     state.newlistaDmg.splice(value.index, 1, value.value)  
   },
   listaDmgClearMutation: (state) => {
@@ -105,8 +104,8 @@ const actions = {
     }
     console.log(JSON.stringify(arrayDmg))
     console.log(`https://localhost:44358/api/requestedComponent/1`)
-    //await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/0`,arrayDmg)
-    await Axios.post(`https://localhost:44358/api/RequestedComponent/${value.flagCreate}`,arrayDmg)
+    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/0`,arrayDmg)
+    //await Axios.post(`https://localhost:44358/api/RequestedComponent/${value.flagCreate}`,arrayDmg)
       .then(response => {   
                           
         if(response.status == 201){                    
@@ -162,7 +161,7 @@ const actions = {
     .catch(Ex => {
       console.log(Ex);
     });
-  }
+  }  
 
 };
 

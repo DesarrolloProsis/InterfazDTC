@@ -1,7 +1,7 @@
 <template>
   <div>
     <div >
-      <div class="flex flex-col md:flex-row inline-block md:justify-between mb-6 inline-block">
+      <div class="flex flex-col md:flex-row inline-block md:justify-between mb-6">
         <p class="font-black mb-3">{{ infoCard.referenceNumber }}</p>
         <p class>{{ infoCard.sinisterDate | formatDate }}</p>
         <hr class="md:hidden mt-3 border-black" />

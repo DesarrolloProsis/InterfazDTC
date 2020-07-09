@@ -10,12 +10,22 @@ const state = {
   listaInventario: [],
   listaLaneInventario: [],
   infoComponenteInventario: [],
-  listaUbicacionGeneralInventario: []
+  listaUbicacionGeneralInventario: [],
+  full_Component: [],
 
 };
 
 const getters = {
-  
+
+
+  getPaginationComponent: (state) => (index) => {
+
+      let fin = index * 10
+      let inicio = fin - 10
+      return state.full_Component.slice(inicio ,fin)
+
+  },
+
   getListaRefaccionesValid: function(){
     return state.listaRefaccionesValid
   },
@@ -64,8 +74,6 @@ const getters = {
     return state.listaUbicacionGeneralInventario
   }
 
-
-
 };
 const mutations = {
   listaRefaccionesMutation: (state, value) => {
@@ -98,8 +106,15 @@ const mutations = {
     state.listaRefacciones = []
     state.listaRefaccionesValid = []
     state.listaUbicacionGeneralInventario = []
+  },
+
+  FULL_COMPONENT_MUTATION: (state, value) => {
+
+      state.full_Component = value
   }
-};
+
+}
+
 const actions = {
 
   async buscarComponentesInventario({commit}, value) {
@@ -198,8 +213,23 @@ const actions = {
       .catch(Ex => {
         console.log('Cath aqui')
         console.log(Ex);
-      });
+      })
   },
+  async FULL_COMPONETES({commit}, value){
+
+
+    console.log(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
+      .then(response => {    
+          
+        console.log(response.data.result)
+          commit("FULL_COMPONENT_MUTATION", response.data.result)          
+      })
+      .catch(Ex => {
+        console.log('Catch aqui')
+        console.log(Ex);
+      })
+  }
 };
 
 export default {
