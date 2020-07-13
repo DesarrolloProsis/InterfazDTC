@@ -9,6 +9,7 @@ import ListarDTC from '../views/ListarDTC.vue'
 import Login from '../views/Login.vue'
 import Inventario from '../views/Inventario.vue'
 import prueba from '../views/VistaPrueba.vue'
+import Configuracion from '../views/Configuracion.vue'
 
 
 
@@ -40,6 +41,11 @@ const routes = [
     path: '/NuevoDtc',
     name: 'NuevoDtc',
     component: CrearDTC
+  },
+  {
+    path: '/Configuracion',
+    name: 'Configuracion',
+    component: Configuracion
   }, 
   {
     path: '/prueba',

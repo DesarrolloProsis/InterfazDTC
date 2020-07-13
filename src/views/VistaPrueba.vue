@@ -38,7 +38,7 @@
                        <img src="../assets/img/save.png" class="mr-2" width="25" height="25" />
                        <span class=" text-xs">Guardar</span>
                    </button>
-                   <span class="ml-5 text-gray-800">{{'Editado: ' +  0}}</span>
+                   <span class="ml-5 text-gray-800">{{'Editado: ' +  list_Editados.length}}</span>
                </div>     
             </div> 
             <div>  
@@ -58,19 +58,22 @@
                      <td class="text-center border-2 border-gray-800">{{ item.component }}</td>                            
                      <td class="text-center border-2 border-gray-800">{{ item.lane }}</td>
                      <td class="text-center border-2 border-gray-800">
-                         <input 
+                         <input
+                           @change="guardar_editado(item)" 
                            v-model="item.serialNumber"
                            type="text"
                          />
                      </td>
                      <td class="text-center border-2 border-gray-800">
-                         <input                  
+                         <input    
+                           @change="guardar_editado(item)"               
                            v-model="item.installationDate"
                            type="date"
                          />                
                      </td>
                      <td class="text-center border-2 border-gray-800">
-                           <input                  
+                           <input  
+                               @change="guardar_editado(item)"                 
                                v-model="item.maintenanceDate"
                                type="date"
                            />  
@@ -117,9 +120,9 @@ export default {
             buscar_palabra: '',
             array_paginacion: [],
             list_Component: [],
+            list_Editados: [],
             boolUbicacion: true,
-            boolComponente: false
-            
+            boolComponente: false            
         }
     },
     methods:{
@@ -134,11 +137,9 @@ export default {
                     this.crear_array_paginacion('inicio')
                 }
                 else if(this.array_paginacion[2] != 2) {
-
-                    //alert(this.array_paginacion[2] - 1)
+                    
                     this.list_Component = this.$store.getters['Refacciones/getPaginationComponent'](this.array_paginacion[2] - 1)  
                     this.crear_array_paginacion('anterior')
-
                 }                
             }
             else if(value == 'Mas'){
@@ -221,7 +222,6 @@ export default {
         },
         change_orden: function(orden){
             
-
             if(orden == 'ubicacion'){
                 
                 this.boolUbicacion == true ? this.boolComponente = false : this.boolComponente = true
@@ -236,7 +236,6 @@ export default {
             }
             else if(orden  == 'componente'){
                 
-
                 this.boolComponente == true ? this.boolUbicacion = false : this.boolUbicacion = true
                 this.full_Component.sort((a ,b) => {
 
@@ -247,12 +246,33 @@ export default {
                 })
                 this.cambiar_Pagina(1)
             }
+        },
+        guardar_editado: function(value){
+
+            if(this.list_Editados.length == 0)
+                this.list_Editados.push(Object.assign({},value))
+            else{
+                
+                if(this.list_Editados.some(item => item['lane'] == value['lane'] && item['component'] == value['component'])){
+                                        
+                    for(let i = 0; i < this.list_Editados.length; i++){
+
+                        if(this.list_Editados[i]['lane'] == value['lane'] && this.list_Editados[i]['component'] == value['component']){
+
+                            this.list_Editados[i] =  Object.assign({},value)
+                        }
+                    }                    
+                }
+                else{
+
+                    this.list_Editados.push(Object.assign({},value))
+                }
+            }
         }
     },
     watch:{
 
         buscar_palabra: function(newValue, oldValue){
-
 
             this.buscar_palabra.toUpperCase()
             console.log(oldValue)
@@ -300,15 +320,7 @@ export default {
 
         this.list_Component = this.$store.getters['Refacciones/getPaginationComponent'](1)
         this.crear_array_paginacion('inicio')
-        /*
-        let otro = this.full_Component.sort((a ,b) => {
-
-            if(a.component < b.component) return -1;
-            if(a.component > b.component) return 1;
-
-            return 0;
-        })
-        */
+    
        this.full_Component.sort((a ,b) => {
 
             if(a.lane < b.lane) return -1;

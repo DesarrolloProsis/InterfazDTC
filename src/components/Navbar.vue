@@ -30,8 +30,7 @@
           <p class=" text-white inline-block">Bienvenido:  {{nameUser}}</p>
         <router-link to="/" 
             class="inline-block 
-            text-sm 
-            text-black 
+            ml-2           
             px-8 
             py-2    
             text-white
