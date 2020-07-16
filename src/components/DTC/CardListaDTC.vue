@@ -156,8 +156,7 @@ export default {
           path: '/NuevoDtc',
           query: {
             headerInfo: { ...this.infoCard }
-          },
-       
+          },       
         })
     }, 
     pdf: function(){

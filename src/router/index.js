@@ -8,7 +8,7 @@ import CrearDTC from '../views/CrearDTC.vue'
 import ListarDTC from '../views/ListarDTC.vue'
 import Login from '../views/Login.vue'
 import Inventario from '../views/Inventario.vue'
-import prueba from '../views/VistaPrueba.vue'
+import InventarioDetalle from '../views/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
 
 
@@ -48,9 +48,9 @@ const routes = [
     component: Configuracion
   }, 
   {
-    path: '/prueba',
-    name: 'prueba',
-    component: prueba,
+    path: '/Inventario',
+    name: 'Inventario',
+    component: Inventario,
     beforeEnter: async function(to, from, next) {
 
       let plaza = store.getters['Header/getConvenioPlaza']
@@ -70,9 +70,9 @@ const routes = [
       }
   },
   {
-    path: '/Inventario',
-    name: 'Inventario',
-    component: Inventario,
+    path: '/InventarioDetalle',
+    name: 'InventarioDetalle',
+    component: InventarioDetalle,
 
       beforeEnter: async function(to, from, next) {
 

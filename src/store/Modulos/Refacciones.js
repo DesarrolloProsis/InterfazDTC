@@ -217,7 +217,6 @@ const actions = {
   },
   async FULL_COMPONETES({commit}, value){
 
-
     console.log(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
       .then(response => {    
@@ -229,6 +228,21 @@ const actions = {
         console.log('Catch aqui')
         console.log(Ex);
       })
+  },
+  async EDIT_COMPONETE_QUICK({dispatch}, value){
+    
+    await Axios.put(`http://prosisdev.sytes.net:88/api/Component/UpdateInventoryList`, value)
+      .then(response => {    
+          
+        console.log(response.data.result)
+        dispatch('FULL_COMPONETES')
+               
+      })
+      .catch(Ex => {
+        console.log('Catch aqui')
+        console.log(Ex);
+      })
+
   }
 };
 
