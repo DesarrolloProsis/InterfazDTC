@@ -1,8 +1,9 @@
 <template>
    <div>   
        <Nav></Nav>  
-       <div class="flex justify-center">
+       <div class="flex justify-center">           
         <div>            
+            <h1 class=" text-black text-center text-4xl mt-3 mb-10">Inventario</h1>
             <div class="mt-5 mb-5 flex justify-between">
                <div class="inline-flex mt-2">
                    <div class="mr-3">

@@ -2,7 +2,7 @@
   <div>
     <Nav></Nav>
     <div class=" max-w-6xl mx-auto flex-auto mt-3">
-    <h1 class=" text-black text-center text-4xl">Inventario</h1>
+    <h1 class=" text-black text-center text-4xl">Detalle de Componente</h1>
     </div>
     <div class="border-black border-4 max-w-6xl mx-auto flex-auto h-40 mt-3">
       <div class="pt-8 mr-5 ml-1">
