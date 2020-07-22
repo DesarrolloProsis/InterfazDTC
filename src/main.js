@@ -9,6 +9,8 @@ import VeeValidate from 'vee-validate';
 import { Validator } from 'vee-validate';
 import es from "vee-validate/dist/locale/es";
 
+import './registerServiceWorker'
+
 //Validaciones en formularios
 Vue.use(VeeValidate, { 
     classes: true,
