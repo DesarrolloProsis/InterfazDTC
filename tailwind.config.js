@@ -2,6 +2,10 @@ module.exports = {
   theme: {
     
   },
-  variants: {},
+  variants: {
+
+    
+
+  },
   plugins: []
 }
