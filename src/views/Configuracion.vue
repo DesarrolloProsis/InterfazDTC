@@ -52,13 +52,13 @@
         <div class="flex absolute justify-center inset-x-0 mt-24">
             <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl"> 
                 <div class=" justify-end flex"> 
-                    <button @click="modal = false, modal_Part = false">X</button>                   
+                    <button @click="clearUser">X</button>                   
                 </div>
                 <div class="mt-3" v-if="!modal_Part">  
                     <div class="">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
                         <input    
-                            v-model="newUSer.Name"                        
+                            v-model="User.Name"                        
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -67,7 +67,7 @@
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Materno</p>
                         <input      
-                            v-model="newUSer.LastName1"                       
+                            v-model="User.LastName1"                       
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -76,7 +76,7 @@
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Paterno</p>
                         <input   
-                            v-model="newUSer.LastName2"                                                
+                            v-model="User.LastName2"                                                
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -85,7 +85,7 @@
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
                         <select    
-                            v-model="newUSer.Roll"                  
+                            v-model="User.Roll"                  
                             class="w-full"                                                
                         >    
                         <option disabled value="">Selecionar...</option>                   
@@ -102,7 +102,7 @@
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
                         <input  
-                            v-model="newUSer.Mail"                             
+                            v-model="User.Mail"                             
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -110,7 +110,9 @@
                     </div> 
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-                        <input                            
+                        <input 
+                            disabled="disablePass"   
+                            v-model="User.Password"                       
                             class="w-full"
                             type="password"  
                             name="NoReporte"                         
@@ -118,7 +120,9 @@
                     </div>  
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-                        <input                            
+                        <input   
+                            disabled="disablePass"
+                            v-model="User.RePassword"                       
                             class="w-full"
                             type="password"  
                             name="NoReporte"                         
@@ -148,8 +152,8 @@ export default {
         return{
 
             lista_Usuarios: [],
-            newUSer: {
-
+            User: {
+                Id: '',
                 Name: '',
                 LastName1: '',
                 LastName2: '',
@@ -160,7 +164,8 @@ export default {
 
             },
             modal: false,
-            modal_Part: false
+            modal_Part: false,
+            disablePass: false
 
         }
     },
@@ -174,7 +179,16 @@ export default {
     },
     methods: {
 
+        clearUser: function(){
 
+            for(let prop in this.User){
+
+                this.User[prop] = ''                
+            }
+            this.modal = false
+            this.modal_Part = false
+            this.disablePass = false
+        },
         agregarUsuario: function(){
 
 
@@ -182,7 +196,17 @@ export default {
         editarUsuario: function(item){
 
             console.log(item)
-
+            this.disablePass = true
+            this.User.Id = item.userId
+            this.User.Name = item.name
+            this.User.LastName1 = item.lastName1
+            this.User.LastName2 = item.lastName2
+            this.User.Roll = item.roll
+            this.User.Mail = item.mail
+            this.User.Password = '***********'
+            this.User.RePassword = '***********'
+            this.modal = true
+                        
         }
     }
 

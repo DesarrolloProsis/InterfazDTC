@@ -33,7 +33,7 @@ const actions = {
 
         console.log(value)
         await Axios.post(
-            `https://localhost:44358/api/User/consulta`,value      
+            `http://prosisdev.sytes.net:88/api/User/consulta`,value      
           )
             .then(response => {
                 
