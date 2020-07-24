@@ -39,7 +39,7 @@
                            <span class=" text-xs">Editar</span>
                        </button>
                          <button   
-                           @click="Mostrar_Mas(item)"                 
+                           @click="Borrar(item)"                 
                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700"
                        >
                            <img src="../assets/img/bin.png" class="mr-2" width="15" height="15" />
@@ -60,8 +60,7 @@
                         <input    
                             v-model="User.Name"                        
                             class="w-full"
-                            type="text"  
-                            name="NoReporte"                         
+                            type="text"                                                    
                         />                       
                     </div>   
                     <div class="mt-3">   
@@ -79,7 +78,7 @@
                             v-model="User.LastName2"                                                
                             class="w-full"
                             type="text"  
-                            name="NoReporte"                         
+                                                  
                         />                       
                     </div> 
                     <div class="mt-3">   
@@ -89,8 +88,8 @@
                             class="w-full"                                                
                         >    
                         <option disabled value="">Selecionar...</option>                   
-                        <option value="1">Administrador</option>
-                        <option value="2">Tecnico</option>
+                        <option value="1">Tecnico</option>
+                        <option value="2">Administrador</option>
                         </select>
                     </div>   
                     <div class="mt-8 flex justify-center">                           
@@ -104,32 +103,28 @@
                         <input  
                             v-model="User.Mail"                             
                             class="w-full"
-                            type="text"  
-                            name="NoReporte"                         
+                            type="text"                                                    
                         />                       
-                    </div> 
-                    <div class="mt-3">   
+                    </div>                     
+                    <div class="mt-3" v-if="!disablePass">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-                        <input 
-                            disabled="disablePass"   
+                        <input                              
                             v-model="User.Password"                       
                             class="w-full"
                             type="password"  
-                            name="NoReporte"                         
+                                                   
                         />                       
                     </div>  
-                    <div class="mt-3">   
+                    <div class="mt-3" v-if="!disablePass">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-                        <input   
-                            disabled="disablePass"
+                        <input                               
                             v-model="User.RePassword"                       
                             class="w-full"
-                            type="password"  
-                            name="NoReporte"                         
+                            type="password"                                                  
                         />                       
                     </div>                    
                     <div class="mt-8 flex justify-center">   
-                            <button @click="agregarUsuario" class="text-white mb-5 px-4 py-2 rounded-lg bg-green-700 w-32">Crear Usuario</button>                             
+                            <button @click="confirmar" class="text-white mb-5 px-4 py-2 rounded-lg bg-green-700 w-32">Crear Usuario</button>                             
                         </div>                                      
                         <div class="mt-1 flex justify-center">
                             <button @click="modal_Part = false" class="text-white px-4 py-2 rounded-lg bg-blue-800 w-32">Regresar</button>                                                  
@@ -153,7 +148,8 @@ export default {
 
             lista_Usuarios: [],
             User: {
-                Id: '',
+                UserId: '',
+                UserName: '',
                 Name: '',
                 LastName1: '',
                 LastName2: '',
@@ -197,16 +193,61 @@ export default {
 
             console.log(item)
             this.disablePass = true
-            this.User.Id = item.userId
+            this.User.UserId = item.userId
+            this.User.UserName = item.userName
             this.User.Name = item.name
             this.User.LastName1 = item.lastName1
             this.User.LastName2 = item.lastName2
-            this.User.Roll = item.roll
+            this.User.Roll = item.rollId
             this.User.Mail = item.mail
             this.User.Password = '***********'
             this.User.RePassword = '***********'
             this.modal = true
                         
+        },
+        confirmar: function(){
+
+
+            if(!this.disablePass){
+
+                alert('Agregar Usuario')
+                   let CreateUser = {
+                    
+                    Name: this.User.Name,
+                    LastName1:   this.User.LastName1,
+                    LastName2:   this.User.LastName2,
+                    Password: this.User.Password,
+                    Rol: this.User.Roll,                                        
+                }    
+
+                this.$store.dispatch('Usuarios/NuevoUser', CreateUser)
+            }
+            else{
+            
+                let UpUser = {
+
+                    UserId: this.User.UserId,
+                    UserName: this.User.UserName,
+                    LastName1:   this.User.LastName1,
+                    LastName2:   this.User.LastName2,
+                    Name: this.User.Name,
+                    Mail: this.User.Mail,
+                    Rol: this.User.Roll,                                        
+                }            
+                this.$store.dispatch('Usuarios/Update_User', UpUser)
+                console.log(UpUser)
+            }
+        },
+        Borrar: function(item) {
+
+            let User = {
+
+                id: item.userId,
+                square: ''
+            }
+
+            this.$store.dispatch('Usuarios/BorrarUser', User)
+
         }
     }
 

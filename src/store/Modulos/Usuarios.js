@@ -44,7 +44,60 @@ const actions = {
               console.log(Ex);
             }); 
 
+    },
+    async Update_User({commit}, value){
+
+        commit
+        console.log(value)
+        await Axios.put(
+            `https://localhost:44358/api/User/update`,value      
+          )
+            .then(response => {
+                
+            console.log(response.data)
+                           
+            })
+            .catch(Ex => {
+              console.log(Ex);
+        }); 
+
+    },
+    async BorrarUser({commit}, value){
+
+        commit
+        alert(JSON.stringify(value))
+        console.log(value)
+        await Axios.put(
+            `https://localhost:44358/api/User/delete`,value      
+          )
+            .then(response => {
+                
+            console.log(response.data)
+                           
+            })
+            .catch(Ex => {
+              console.log(Ex);
+        }); 
+    },
+    async NuevoUser({commit}, value){
+
+        commit
+        alert(JSON.stringify(value))
+        console.log(value)
+        await Axios.put(
+            `https://localhost:44358/api/User/nuevo`,value      
+          )
+            .then(response => {
+                
+            console.log(response.data)
+                           
+            })
+            .catch(Ex => {
+              console.log(Ex);
+        }); 
     }
+    
+    
 
 
 }
