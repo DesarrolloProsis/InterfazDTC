@@ -86,7 +86,8 @@ const actions = {
   async buscarUsuarioCokie({ commit }, value) {         
          console.log(`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`)            
           await Axios.get(
-            `http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`            
+            //`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`            
+            `https://localhost:44358/api/login/ValidUser/${value.User}/${value.Password}/${true}`            
           )
             .then(response => {    
               

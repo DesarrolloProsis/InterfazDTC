@@ -92,14 +92,7 @@
                     </div>                                      
                 </div>
                   <div class="mt-2" v-else>  
-                    <div class="">   
-                        <p class="text-sm mb-1 font-semibold text-gray-700">Nombre Usuario</p>
-                        <input                            
-                            class="w-full"
-                            type="text"  
-                            name="NoReporte"                         
-                        />                       
-                    </div>   
+                   
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
                         <input                            
