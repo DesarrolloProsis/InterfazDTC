@@ -27,8 +27,8 @@
                         <th class="w-56 border-2 border-gray-800">Acciones</th> 
                     </tr>               
                     <tr class=" h-12 text-gray-900 text-sm" v-for="(item, key) in lista_Usuarios" :key="key">                          
-                        <td class="text-center border-2 border-gray-800">{{ item.name }}</td>                            
-                        <td class="text-center border-2 border-gray-800">{{ item.tipo }}</td>
+                        <td class="text-center border-2 border-gray-800">{{ item.name + ' ' + item.lastName1 + ' ' + item.lastName2 }}</td>                            
+                        <td class="text-center border-2 border-gray-800">{{ item.roll }}</td>
                         <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
                         <td class="text-center border-2 border-gray-800">
                         <button   
@@ -147,14 +147,7 @@ export default {
 
         return{
 
-            lista_Usuarios: [
-
-                {'name': 'Jose Alberto Zarate', 'tipo': 'Tecnico', 'mail': 'geoffreyytorres25@gmail.com'},
-                {'name': 'Jose Alberto Zarate', 'tipo': 'Tecnico', 'mail': 'geoffreyytorres25@gmail.com'},
-                {'name': 'Jose Alberto Zarate', 'tipo': 'Tecnico', 'mail': 'geoffreyytorres25@gmail.com'},
-                {'name': 'Jose Alberto Zarate', 'tipo': 'Tecnico', 'mail': 'geoffreyytorres25@gmail.com'},
-                {'name': 'Jose Alberto Zarate', 'tipo': 'Tecnico', 'mail': 'geoffreyytorres25@gmail.com'},
-            ],
+            lista_Usuarios: [],
             newUSer: {
 
                 Name: '',
@@ -174,6 +167,10 @@ export default {
     components:{
 
         Nav
+    },
+    beforeMount: function(){
+
+        this.lista_Usuarios = this.$store.getters['Usuarios/getUsers']
     },
     methods: {
 
