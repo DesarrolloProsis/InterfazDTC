@@ -32,7 +32,7 @@
                         <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
                         <td class="text-center border-2 border-gray-800">
                         <button   
-                           @click="Mostrar_Mas(item)"                 
+                           @click="editarUsuario(item)"                 
                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 mr-3"
                        >
                            <img src="../assets/img/pencil.png" class="mr-2" width="15" height="15" />
@@ -57,7 +57,8 @@
                 <div class="mt-3" v-if="!modal_Part">  
                     <div class="">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
-                        <input                            
+                        <input    
+                            v-model="newUSer.Name"                        
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -65,7 +66,8 @@
                     </div>   
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Materno</p>
-                        <input                            
+                        <input      
+                            v-model="newUSer.LastName1"                       
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -73,7 +75,8 @@
                     </div> 
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Paterno</p>
-                        <input                            
+                        <input   
+                            v-model="newUSer.LastName2"                                                
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -81,10 +84,13 @@
                     </div> 
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
-                        <select                            
+                        <select    
+                            v-model="newUSer.Roll"                  
                             class="w-full"                                                
                         >    
                         <option disabled value="">Selecionar...</option>                   
+                        <option value="1">Administrador</option>
+                        <option value="2">Tecnico</option>
                         </select>
                     </div>   
                     <div class="mt-8 flex justify-center">                           
@@ -95,7 +101,8 @@
                    
                     <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
-                        <input                            
+                        <input  
+                            v-model="newUSer.Mail"                             
                             class="w-full"
                             type="text"  
                             name="NoReporte"                         
@@ -118,7 +125,7 @@
                         />                       
                     </div>                    
                     <div class="mt-8 flex justify-center">   
-                            <button @click="loginOther()" class="text-white mb-5 px-4 py-2 rounded-lg bg-green-700 w-32">Crear Usuario</button>                             
+                            <button @click="agregarUsuario" class="text-white mb-5 px-4 py-2 rounded-lg bg-green-700 w-32">Crear Usuario</button>                             
                         </div>                                      
                         <div class="mt-1 flex justify-center">
                             <button @click="modal_Part = false" class="text-white px-4 py-2 rounded-lg bg-blue-800 w-32">Regresar</button>                                                  
@@ -148,6 +155,17 @@ export default {
                 {'name': 'Jose Alberto Zarate', 'tipo': 'Tecnico', 'mail': 'geoffreyytorres25@gmail.com'},
                 {'name': 'Jose Alberto Zarate', 'tipo': 'Tecnico', 'mail': 'geoffreyytorres25@gmail.com'},
             ],
+            newUSer: {
+
+                Name: '',
+                LastName1: '',
+                LastName2: '',
+                Roll: '',
+                Mail: '',
+                Password: '',
+                RePassword: ''
+
+            },
             modal: false,
             modal_Part: false
 
@@ -156,6 +174,19 @@ export default {
     components:{
 
         Nav
+    },
+    methods: {
+
+
+        agregarUsuario: function(){
+
+
+        },
+        editarUsuario: function(item){
+
+            console.log(item)
+
+        }
     }
 
 
