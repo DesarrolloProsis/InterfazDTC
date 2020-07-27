@@ -50,7 +50,7 @@ const actions = {
         commit
         console.log(value)
         await Axios.put(
-            `https://localhost:44358/api/User/update`,value      
+            `http://prosisdev.sytes.net:88/api/User/update`,value      
           )
             .then(response => {
                 
@@ -68,7 +68,7 @@ const actions = {
         alert(JSON.stringify(value))
         console.log(value)
         await Axios.put(
-            `https://localhost:44358/api/User/delete`,value      
+            `http://prosisdev.sytes.net:88/api/User/delete`,value      
           )
             .then(response => {
                 
@@ -84,8 +84,8 @@ const actions = {
         commit
         alert(JSON.stringify(value))
         console.log(value)
-        await Axios.put(
-            `https://localhost:44358/api/User/nuevo`,value      
+        await Axios.post(
+            `https://localhost:44358/api/user/nuevo`,value      
           )
             .then(response => {
                 

@@ -81,7 +81,24 @@
                                                   
                         />                       
                     </div> 
+                   
+                    <div class="mt-8 flex justify-center">                           
+                        <button @click="modal_Part = true" class="text-white mb-5 px-4 py-2 rounded-lg bg-blue-800 w-32">Siguiente</button>                       
+                    </div>                                      
+                </div>
+                  <div class="mt-2" v-else>  
+<!--                    
                     <div class="mt-3">   
+                        <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
+                        <input  
+                            v-model="User.Mail"                             
+                            class="w-full"
+                            type="text"                                                    
+                        />                       
+                    </div>   
+                                       -->
+
+                                         <div class="mt-3">   
                         <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
                         <select    
                             v-model="User.Roll"                  
@@ -91,35 +108,23 @@
                         <option value="1">Tecnico</option>
                         <option value="2">Administrador</option>
                         </select>
-                    </div>   
-                    <div class="mt-8 flex justify-center">                           
-                        <button @click="modal_Part = true" class="text-white mb-5 px-4 py-2 rounded-lg bg-blue-800 w-32">Siguiente</button>                       
-                    </div>                                      
-                </div>
-                  <div class="mt-2" v-else>  
-                   
-                    <div class="mt-3">   
-                        <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
-                        <input  
-                            v-model="User.Mail"                             
-                            class="w-full"
-                            type="text"                                                    
-                        />                       
-                    </div>                     
-                    <div class="mt-3" v-if="!disablePass">   
+                    </div>  
+                    <div class="mt-3">
                         <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
                         <input                              
                             v-model="User.Password"                       
                             class="w-full"
+                            :disabled="disablePass"
                             type="password"  
                                                    
                         />                       
                     </div>  
-                    <div class="mt-3" v-if="!disablePass">   
+                    <div class="mt-3">
                         <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
                         <input                               
                             v-model="User.RePassword"                       
                             class="w-full"
+                            :disabled="disablePass"
                             type="password"                                                  
                         />                       
                     </div>                    
@@ -236,6 +241,18 @@ export default {
                 }            
                 this.$store.dispatch('Usuarios/Update_User', UpUser)
                 console.log(UpUser)
+
+                this.$notify.success({
+                    title: "Ops!!",
+                    msg: 'EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.',
+                    position: "bottom right",
+                    styles: {              
+                      height: 100,
+                      width: 500
+                    }
+                })
+
+                this.clearUser()
             }
         },
         Borrar: function(item) {
