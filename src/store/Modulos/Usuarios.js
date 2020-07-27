@@ -85,7 +85,7 @@ const actions = {
         alert(JSON.stringify(value))
         console.log(value)
         await Axios.post(
-            `https://localhost:44358/api/user/nuevo`,value      
+            `http://prosisdev.sytes.net:88/api/user/nuevo`,value      
           )
             .then(response => {
                 
