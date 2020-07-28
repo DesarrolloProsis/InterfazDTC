@@ -1,104 +1,99 @@
 <template>
   <div>
-    <div class="flex flex-wrap border border-black justify-center sm:p-4 md:m-5">
-      <div class="inline">
-        <!-- ************************************************************** -->
-        <div class="text-center text-2xl font-normal mb-6">
-          <h6>Equipo Dañado</h6>
-        </div>
-        <br />
-        <!-- ************************************************************** -->
-        <div class="overflow-x-auto">
-          <table class="table-fixed">
+      <div class="flex justify-center">            
+        <div class="sm:overflow-auto">
+          <table class="border-collapse table-fixed w-full">
             <!--/////////////////////////////////////////////////////////////////
             ////                 CABECERA DE LA TABLA                       ////
-            //////////////////////////////////////////////////////////////////// -->        
-            <tr class="border text-sm">
-              <th class="px-1">Partida</th>
-              <th class="px-1">Unidad</th>
-              <th class="px-4 text-red-600">Componente</th>
-              <th class="px-4 text-red-600">Cantidad</th>
-              <th class="px-4">Marca</th>
-              <th class="px-4">Modelo</th>
-              <th class="px-4">Numero de Serie</th>
-              <th class="px-4 text-red-600">Ubicacion
-                <br />(carril/cuerpo)
-              </th>
-              <th class="px-4 text-xs">Fecha de Instalacion</th>
-              <th class="px-4 text-xs">Fecha
-                <br />(Ultimo Mantenimiento)
-              </th>
-              <th class="px-4 text-xs">Folio
-                <br />(Ultimo Mantenimiento)
-              </th>
-              <th class=" px-12">Real</th>
-              <th class="px-1">Fabricante</th>
-              <th class="px-4"></th>
-            </tr>                      
+            //////////////////////////////////////////////////////////////////// -->     
+            <thead>   
+              <tr class="border text-sm sm:text-xs">
+                <th class="w-1/14 sm:w-10">Partida</th>
+                <th class="w-1/14 sm:w-10">Unidad</th>
+                <th class="w-1/14 sm:w-32 text-red-600">Componente</th>
+                <th class="w-1/14 sm:w-10 text-red-600">Cantidad</th>
+                <th class="w-1/14 sm:w-20">Marca</th>
+                <th class="w-1/14 sm:w-10">Modelo</th>
+                <th class="w-1/14 sm:w-10">Numero de Serie</th>
+                <th class="w-1/14 sm:w-10 text-red-600">Ubicacion
+                  <br />(carril/cuerpo)
+                </th>
+                <th class="sm:w-10 text-xs">Fecha de Instalacion</th>
+                <th class="sm:w-10 text-xs">Fecha
+                  <br />(Ultimo Mantenimiento)
+                </th>
+                <th class="sm:w-10 text-xs">Folio
+                  <br />(Ultimo Mantenimiento)
+                </th>
+                <th class="sm:w-20">Real</th>
+                <th class="sm:w-10">Fabricante</th>
+                <th class="sm:w-14"></th>
+              </tr>    
+            </thead>                  
             <!--/////////////////////////////////////////////////////////////////
             ////                 CUERPO DE LA TABLA                          ////
-            //////////////////////////////////////////////////////////////////// -->
-            <tr              
-              class="hover:bg-blue-200 text-center"
-              v-for="(equipo, index) in arrayPartidas"
-              :key="index"
-            >
-              <td class="border">
-                <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd1 }}</div>
-              </td>
-              <td class="border">
-                <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd2 }}</div>
-              </td>
-              <td class="border">
-                <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
-                <div v-else>
-                  <select
-                    @change="UpdateCompEditado()"
-                    v-model="updtCompEditar"
-                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 10vw;"
-                    type="text"
-                  >
-                    <option disabled value>Selecionar...</option>
-                    <option
-                      v-for="(item, index) in listaComponentes"
-                      v-bind:value="item"
-                      :key="index"
-                    >{{ item.description + `(${item.brand})` }}</option>
-                  </select>
+            //////////////////////////////////////////////////////////////////// -->    
+            <tbody>        
+              <tr              
+                class="hover:bg-blue-200 text-center"
+                v-for="(equipo, index) in arrayPartidas"
+                :key="index">
+                <td class="border">
+                  <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
+                  <div v-else>{{ objectEditar.rowUpd1 }}</div>
+                </td>
+                <td class="border">
+                  <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
+                  <div v-else>{{ objectEditar.rowUpd2 }}</div>
+                </td>
+                <td class="border">
+                  <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
+                  <div v-else>
+                    <select
+                      @change="UpdateCompEditado()"
+                      v-model="updtCompEditar"
+                      class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                      style="width: 10vw;"
+                      type="text"
+                    >
+                      <option disabled value>Selecionar...</option>
+                      <option
+                        v-for="(item, index) in listaComponentes"
+                        v-bind:value="item"
+                        :key="index"
+                      >{{ item.description + `(${item.brand})` }}</option>
+                    </select>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
                 <div v-else>{{ objectEditar.rowUpd4 }}</div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
                 <div v-else>
                   <p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p>
                   </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p>
                 </div>
                 <div v-else>
                   <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
                 </div>
-              </td>
-              <td
+                </td>
+                <td
                 class="border"                
-              >
+                >
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p>
                 </div>
                 <div v-else>
                   <p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p>
                 </div>
@@ -124,8 +119,8 @@
                     </template>
                   </multiselect>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <p
                     v-for="(item, key) in equipo.row9"
@@ -140,8 +135,8 @@
                     class="text-sm"
                   >{{ item |formatDate }}</p>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <p
                     v-for="(item, key) in equipo.row10"
@@ -156,8 +151,8 @@
                     class="text-sm"
                   >{{ item | formatDate}}</p>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <!-- {{ equipo.row11.toString() }} -->
                   <p v-for="(item, key) in equipo.row11" :key="key" class="text-sm">{{ item }}</p>
@@ -169,8 +164,8 @@
                     class="text-sm"
                   >{{ item}}</p>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row12" :key="key" class="text-sm">{{ item }}</p>
                 </div>
@@ -181,8 +176,8 @@
                     class="text-sm"
                   >{{ item }}</p>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p>
                 </div>
@@ -193,8 +188,8 @@
                     class="text-sm"
                   >{{ item }}</p>
                 </div>
-              </td>
-              <td class="border">
+                </td>
+                <td class="border">
                 <div v-if="equipo.rowUp">
                   <button
                     v-on:click.stop.prevent="deleteItem(index)"
@@ -219,131 +214,134 @@
                     class="text-grey-lighter py-2 w-20 font-bold rounded text-xs bg-green-400 hover:bg-green-500"
                   >Aceptar</button>
                 </div>
-              </td>
-            </tr>                      
-            <!--/////////////////////////////////////////////////////////////////
-            ////           FOOTER DE LA TABLA + PARTIDA                      ////
-            //////////////////////////////////////////////////////////////////// -->
-            <tr class="text-center">
-              <td class="border">{{ "*" }}</td>
-              <td
-                class="border"
-              >{{ datosPrePartida.rowUnidad.toString() }}</td>
-              <td class="border">
-                <select
-                  @change="UpdateComp()"
-                  v-model="updtComp"
-                  class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  style="width: 10vw;"
-                  type="text"
-                >
-                  <option disabled value>Selecionar...</option>
-                  <option
-                    v-for="(item, index) in listaComponentes"
-                    v-bind:value="item"
-                    :key="index"
-                  >{{ item.description + `(${item.brand})` }}</option>
-                </select>
-              </td>
-              <td
-                class="border"
-              >{{ datosPrePartida.rowCantidad }}</td>
-              <td
-                class="border"
-              >{{ datosPrePartida.rowMarca.toString() }}</td>
-              <td class="border">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowModelo"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>
-              </td>
-
-              <td class="border">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowNumSerie"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>
-              </td>
-              <td class="border">
-                <multiselect
-                  v-model="laneSelect"
-                  :close-on-select="false"
-                  :clear-on-select="true"
-                  :hideSelected="false"
-                  placeholder="Selecciona..."
-                  :options="listLane"
-                  :multiple="true"
-                >
-                  <template
-                    v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'"
-                    slot="selection"
-                    slot-scope="{ values, isOpen }"
+                </td>
+              </tr>                      
+              <!--/////////////////////////////////////////////////////////////////
+              ////           FOOTER DE LA TABLA + PARTIDA                      ////
+              //////////////////////////////////////////////////////////////////// -->
+              <tr class="text-center">
+                <td class="border">{{ "*" }}</td>
+                <td
+                  class="border">
+                  {{ datosPrePartida.rowUnidad.toString() }}</td>
+                <td class="border">
+                  <select
+                    @change="UpdateComp()"
+                    v-model="updtComp"
+                    class=""
+                    
+                    type="text"
                   >
-                    <span
-                      class="multiselect__single"
-                      v-if="values.length &amp;&amp; !isOpen"
-                    >{{ values.length }} Carriles</span>
-                  </template>
-                </multiselect>
-              </td>
-              <td class="border">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateInstalacion"
-                  :key="key"
-                  class="text-sm"
-                >{{ item | formatDate }}</p>
-              </td>
-              <td class="border">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
-                  :key="key"
-                  class="text-sm"
-                >{{ item | formatDate }}</p>
-              </td>
-              <td class="border">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowFolioMantenimiento"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>
-              </td>
-              <td class="border">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateReal"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>
-              </td>
-              <td class="border">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateFabricante"
-                  :key="key"
-                  class="text-sm"
-                >{{ item }}</p>
-              </td>
-              <td class="border">
-                <button
-                  v-on:click.stop.prevent="agregarPartida()"                  
-                  class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                  
-                >Validar Partida</button>
-              </td>
-            </tr>
+                    <option disabled value>Selecionar...</option>
+                    <option
+                      v-for="(item, index) in listaComponentes"
+                      v-bind:value="item"
+                      :key="index"
+                    >{{ item.description + `(${item.brand})` }}</option>
+                  </select>
+                </td>
+                <td
+                  class="border"
+                >{{ datosPrePartida.rowCantidad }}</td>
+                <td
+                  class="border"
+                >{{ datosPrePartida.rowMarca.toString() }}</td>
+                <td class="border">
+                  <p
+                    v-for="(item, key) in datosPrePartida.rowModelo"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item }}</p>
+                </td>
+
+                <td class="border">
+                  <p
+                    v-for="(item, key) in datosPrePartida.rowNumSerie"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item }}</p>
+                </td>
+                <td class="border">
+                  <multiselect
+                    v-model="laneSelect"
+                    :close-on-select="false"
+                    :clear-on-select="true"
+                    :hideSelected="false"
+                    placeholder="Selecciona..."
+                    :options="listLane"
+                    :multiple="true"
+                  >
+                    <template
+                      v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'"
+                      slot="selection"
+                      slot-scope="{ values, isOpen }"
+                    >
+                      <span
+                        class="multiselect__single"
+                        v-if="values.length &amp;&amp; !isOpen"
+                      >{{ values.length }} Carriles</span>
+                    </template>
+                  </multiselect>
+                </td>
+                <td class="border">
+                  <p
+                    v-for="(item, key) in datosPrePartida.rowDateInstalacion"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item | formatDate }}</p>
+                </td>
+                <td class="border">
+                  <p
+                    v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item | formatDate }}</p>
+                </td>
+                <td class="border">
+                  <p
+                    v-for="(item, key) in datosPrePartida.rowFolioMantenimiento"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item }}</p>
+                </td>
+                <td class="border">
+                  <p
+                    v-for="(item, key) in datosPrePartida.rowDateReal"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item }}</p>
+                </td>
+                <td class="border">
+                  <p
+                    v-for="(item, key) in datosPrePartida.rowDateFabricante"
+                    :key="key"
+                    class="text-sm"
+                  >{{ item }}</p>
+                </td>
+                <td class="border">
+                  <button
+                    v-on:click.stop.prevent="agregarPartida()"                  
+                    class="appearance-none bg-green-400 w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+
+                  >Validar Partida</button>
+                </td>
+              </tr> 
+            </tbody>           
           </table>
         </div>
+
+    
+
         <br />
       </div>
-    </div>
-
-    <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
+       
+    <!-- <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto> -->
   </div>
 </template>
 
 <script>
 import Multiselect from "vue-multiselect";
-import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
+// import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js"
 import moment from "moment"
 
@@ -352,7 +350,7 @@ export default {
   name: "TablaEquipoMalo",
   components: {
     Multiselect,
-    TablaEquipoPropuesto
+    //TablaEquipoPropuesto
   },
   data() {
     return {
@@ -747,4 +745,9 @@ export default {
   }
 };
 </script>
+
+
+<style>
+
+</style>
 

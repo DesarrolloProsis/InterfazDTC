@@ -50,7 +50,7 @@
                    <span class="ml-5 text-gray-800">{{'Editado: ' +  list_Editados.length}}</span>
                </div>     
             </div> 
-            <div>  
+            <div class="overflow-scroll">  
                 <table class="border-2 border-gray-800">
                   <tr class=" text-md text-gray-400 font-normal bg-blue-800">
                     <!-- <th class="w-8  border-2 border-gray-800">*</th>       -->

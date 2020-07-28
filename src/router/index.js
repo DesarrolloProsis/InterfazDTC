@@ -10,6 +10,7 @@ import Login from '../views/Login.vue'
 import Inventario from '../views/Inventario.vue'
 import InventarioDetalle from '../views/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
+import Responsive from '../views/Responsive.vue'
 
 
 
@@ -36,6 +37,11 @@ const routes = [
     path: '/home',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/responsive',
+    name: 'responsive',
+    component: Responsive
   },
   {
     path: '/NuevoDtc',
