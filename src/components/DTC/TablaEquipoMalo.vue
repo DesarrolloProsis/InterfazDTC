@@ -1,33 +1,33 @@
 <template>
   <div>
       <div class="flex justify-center">            
-        <div class="sm:overflow-auto">
-          <table class="border-collapse table-fixed w-full">
+        <div class="sm:overflow-x-auto">
+          <table class="border-collapse">
             <!--/////////////////////////////////////////////////////////////////
             ////                 CABECERA DE LA TABLA                       ////
             //////////////////////////////////////////////////////////////////// -->     
             <thead>   
-              <tr class="border text-sm sm:text-xs">
-                <th class="w-1/14 sm:w-10">Partida</th>
-                <th class="w-1/14 sm:w-10">Unidad</th>
-                <th class="w-1/14 sm:w-32 text-red-600">Componente</th>
-                <th class="w-1/14 sm:w-10 text-red-600">Cantidad</th>
-                <th class="w-1/14 sm:w-20">Marca</th>
-                <th class="w-1/14 sm:w-10">Modelo</th>
-                <th class="w-1/14 sm:w-10">Numero de Serie</th>
-                <th class="w-1/14 sm:w-10 text-red-600">Ubicacion
+              <tr class="border text-sm">
+                <th class="px-1">Partida</th>
+                <th class="px-1">Unidad</th>
+                <th class="px-4 text-red-600">Componente</th>
+                <th class="px-4 text-red-600">Cantidad</th>
+                <th class="px-4">Marca</th>
+                <th class="px-4">Modelo</th>
+                <th class="px-4">Numero de Serie</th>
+                <th class="px-4 text-red-600">Ubicacion
                   <br />(carril/cuerpo)
                 </th>
-                <th class="sm:w-10 text-xs">Fecha de Instalacion</th>
-                <th class="sm:w-10 text-xs">Fecha
+                <th class="px-4 text-xs">Fecha de Instalacion</th>
+                <th class="px-4 text-xs">Fecha
                   <br />(Ultimo Mantenimiento)
                 </th>
-                <th class="sm:w-10 text-xs">Folio
+                <th class="px-4 text-xs">Folio
                   <br />(Ultimo Mantenimiento)
                 </th>
-                <th class="sm:w-20">Real</th>
-                <th class="sm:w-10">Fabricante</th>
-                <th class="sm:w-14"></th>
+                <th class=" px-12">Real</th>
+                <th class="px-1">Fabricante</th>
+                <th class="px-4"></th>
               </tr>    
             </thead>                  
             <!--/////////////////////////////////////////////////////////////////
@@ -47,22 +47,22 @@
                   <div v-else>{{ objectEditar.rowUpd2 }}</div>
                 </td>
                 <td class="border">
-                  <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
-                  <div v-else>
-                    <select
-                      @change="UpdateCompEditado()"
-                      v-model="updtCompEditar"
-                      class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                      style="width: 10vw;"
-                      type="text"
-                    >
-                      <option disabled value>Selecionar...</option>
-                      <option
-                        v-for="(item, index) in listaComponentes"
-                        v-bind:value="item"
-                        :key="index"
-                      >{{ item.description + `(${item.brand})` }}</option>
-                    </select>
+                <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
+                <div v-else>
+                  <select
+                    @change="UpdateCompEditado()"
+                    v-model="updtCompEditar"
+                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
+                    style="width: 10vw;"
+                    type="text"
+                  >
+                    <option disabled value>Selecionar...</option>
+                    <option
+                      v-for="(item, index) in listaComponentes"
+                      v-bind:value="item"
+                      :key="index"
+                    >{{ item.description + `(${item.brand})` }}</option>
+                  </select>
                 </div>
                 </td>
                 <td class="border">
@@ -484,7 +484,7 @@ export default {
         })        
       }  
     },
-    deleteItem(index) {
+    deleteItem: function(index) {
       this.arrayPartidas.splice(index, 1);
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         this.arrayPartidas[i]["row1"] = i + 1;
@@ -745,9 +745,4 @@ export default {
   }
 };
 </script>
-
-
-<style>
-
-</style>
 
