@@ -41,22 +41,11 @@
           </div>
         </div>
       </div>
-       
-      <div :class="{ 'pointer-events-none': modal }"  class="flex w-full" v-if="numCard">
-        <div   class="grid grid-cols-3" >
+
+      <div :class="{ 'pointer-events-none': modal }"  class="flex w-full">
+         <div class="mx-auto p-1">
           <div          
-            class="shadow-2xl lg:w-1/4 rounded-lg p-4 m-3 md:m-5 bg-gray-100 inline-block"
-            v-for="(dtc, index) in infoDTC"
-            :key="index"
-          >
-            <CardListDTC @borrar-card="confimaBorrar" :infoCard="dtc"></CardListDTC>
-          </div>
-        </div>     
-      </div>
-      <div :class="{ 'pointer-events-none': modal }"  class="flex w-full" v-else>
-         <div class="mx-auto">
-          <div          
-            class="shadow-2xl lg:max-w-2xl  rounded-lg p-4 m-3 md:m-5 bg-gray-100 inline-flex"
+            class="shadow-2xl inline-block focus m-4 p-3 sm:m-6"
             v-for="(dtc, index) in infoDTC"
             :key="index"
           >        
@@ -64,6 +53,30 @@
           </div>
         </div>
       </div>
+       
+      <!-- <div :class="{ 'pointer-events-none': modal }"  class="flex justify-center" v-if="numCard">
+        <div class="grid grid-cols-3" >
+          <div          
+            class="shadow-2xl inline-block m-5 p-5"
+            v-for="(dtc, index) in infoDTC"
+            :key="index"
+          >
+            <CardListDTC @borrar-card="confimaBorrar" :infoCard="dtc"></CardListDTC>
+          </div>
+        </div>     
+      </div>
+
+      <div :class="{ 'pointer-events-none': modal }"  class="flex w-full" v-else>
+         <div class="mx-auto">
+          <div          
+            class="shadow-2xl inline-block"
+            v-for="(dtc, index) in infoDTC"
+            :key="index"
+          >        
+            <CardListDTC  @borrar-card="confimaBorrar" :infoCard="dtc"></CardListDTC>        
+          </div>
+        </div>
+      </div> -->
 
                           
     </div>

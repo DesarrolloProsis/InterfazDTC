@@ -24,9 +24,9 @@
         </div>
 
         
-
-        <div>
-          <p class=" text-white inline-block">Bienvenido:  {{nameUser}}</p>
+        
+        <div class="flex sm:mt-4">
+          <p class="sm:ml-6 text-white inline-block sm:text-sm">Bienvenido:  {{nameUser}}</p>
         <router-link to="/" 
             class="inline-block 
             ml-2           

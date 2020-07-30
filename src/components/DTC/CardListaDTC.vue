@@ -1,22 +1,24 @@
 <template>
   <div>
-    <div >
-      <div class="flex flex-col md:flex-row inline-block md:justify-between mb-6">
-        <p class="font-black mb-3">{{ infoCard.referenceNumber }}</p>
-        <p class>{{ infoCard.sinisterDate | formatDate }}</p>
-        <hr class="md:hidden mt-3 border-black" />
+    <div>
+      <div class="flex flex-row mb-6">
+        <div class="flex justify-between">
+          <p class="font-black m-3 w-1/2">{{ infoCard.referenceNumber }}</p>
+          <p class="m-3 w-1/12">{{ infoCard.sinisterDate | formatDate }}</p>          
+        </div>
+        <hr/>
       </div>
       <div class="flex-col md:flex-row flex mb-6">
         <div class="md:w-2/3">
           <p class="text-left font-bold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-bold text-sm mb-6">Folio: {{ infoCard.failureNumber }}</p>
-          <div>
-            <p class="text-sm text-left w-20 font-bold">Observaciones:</p>
+          <div class=" w-64 break-words text-left text-gray-800 font-normal">
+            <p class="text-sm text-black w-40 font-bold">Observaciones:</p>
             {{ infoCard.observation }}
           </div>
         </div>
-        <div class="sm_mt-5 md:w-1/3">
+        <div class="m-5">
           <img src="../../assets/img/Dtc.png" class="w-64" alt />
         </div>
       </div>
@@ -24,17 +26,16 @@
         <a @click="mas" v-show="menosMas" class=" text-sm text-gray-900">Status: {{ infoCard.statusDescription }}</a>
         <a @click="mas" v-show="menosMas" class=" cursor-pointer text-green-700">Ver Mas</a>
       </div>
-    </div>
 
-    <!-- VerMar -->
+        <!-- VerMar -->
     <div v-if="showmenosMas">
       <div class="flex-col md:flex-row flex mb-6">
-       <div class="text-sm  font-sans text-center">
-         <table class="border  border-black">
+       <div class="text-xs  font-sans text-center">
+         <table class="border border-black table-fixed">
            <tr>
-             <th class="w-56 border border-black">Componete</th>
-             <th class="w-20 border border-black">Cantidad</th>
-             <th class="w-48 border border-black">Ubicacion</th>
+             <th class="w-1/3 border border-black">Componete</th>
+             <th class="w-1/8 border border-black">Cantidad</th>
+             <th class="w-1/8 border border-black">Ubicacion</th>
            </tr>
            <tr class=" h-10" v-for="(item, key) in tableFormat" :key="key">
               <td>{{ item.componente }}</td>
@@ -44,12 +45,11 @@
          </table>
        </div>
       </div>
-
       <div class="flex justify-between">
         <div>        
           <button
             @click.prevent="borrar"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 "
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1"
           >
             <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1" />
             <span>Borrar</span>
@@ -76,6 +76,9 @@
         </div>
       </div>
     </div>   
+    </div>
+
+  
   </div>  
 </template>
 
