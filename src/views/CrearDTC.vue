@@ -81,7 +81,11 @@
         </div>
       </div>
 
+
       <div class="mt-6 mb-6 md:mb-0 " style="padding: 3vw;">
+
+        
+   
       
         <button @click="crearDTCTecnico(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700">
             <img src="../assets/img/save.png" class="mr-2" width="50" height="50">

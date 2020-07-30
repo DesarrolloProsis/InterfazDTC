@@ -4,7 +4,7 @@
        <div class="flex justify-center">           
         <div>            
             <h1 class=" text-black text-center text-4xl mt-3 mb-10">Inventario</h1>
-            <div class="mt-5 mb-5 flex justify-between">
+            <!-- <div class="mt-5 mb-5 flex justify-between">
                <div class="inline-flex mt-2">
                    <div class="mr-3">
                        <span class="mr-2">Buscar</span>
@@ -49,61 +49,65 @@
                    </button>
                    <span class="ml-5 text-gray-800">{{'Editado: ' +  list_Editados.length}}</span>
                </div>     
-            </div> 
-            <div class="overflow-scroll">  
-                <table class="border-2 border-gray-800">
-                  <tr class=" text-md text-gray-400 font-normal bg-blue-800">
-                    <!-- <th class="w-8  border-2 border-gray-800">*</th>       -->
-                    <th class="w-56 border-2 border-gray-800">Componete</th>      
-                    <th class="w-24 border-2 border-gray-800">Ubicación</th>
-                    <th class="w-56 border-2 border-gray-800">Numero Serie</th>
-                    <th class="w-40 border-2 border-gray-800">Fecha Instalacion</th>
-                    <th class="w-40 border-2 border-gray-800">Fecha Mantenimiento</th>
-                    <th class="w-32 border-2 border-gray-800">Folio Mantenimiento</th>
-                    <th class="w-32 border-2 border-gray-800">Acciones</th>
-                  </tr>
-                  <tr class=" h-12 text-gray-900 text-sm" v-for="(item, key) in list_Component" :key="key">               
-                     <!-- <td class="text-center border-2 border-gray-800">{{ key + 1 }}</td>                             -->
-                     <td class="text-center border-2 border-gray-800">{{ item.component }}</td>                            
-                     <td class="text-center border-2 border-gray-800">{{ item.lane }}</td>
-                     <td class="text-center border-2 border-gray-800">
-                         <input
-                           @change="guardar_editado(item)" 
-                           v-model="item.serialNumber"
-                           type="text"
-                         />
-                     </td>
-                     <td class="text-center border-2 border-gray-800">
-                         <input    
-                           @change="guardar_editado(item)"               
-                           v-model="item.installationDate"
-                           type="date"
-                         />                
-                     </td>
-                     <td class="text-center border-2 border-gray-800">
-                           <input  
-                               @change="guardar_editado(item)"                 
-                               v-model="item.maintenanceDate"
-                               type="date"
-                           />  
-                     </td>
-                     <td class="text-center border-2 border-gray-800">
-                            <input  
-                               @change="guardar_editado(item)"                 
-                               v-model="item.maintenanceFolio"
-                               type="text"
-                           />                          
-                    </td>
-                     <td class="text-center border-2 border-gray-800">        
-                       <button   
-                           @click="Mostrar_Mas(item)"                 
-                           class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700"
-                       >
-                           <img src="../assets/img/more.png" class="mr-2" width="15" height="15" />
-                           <span class=" text-xs">Mas</span>
-                       </button>
-                     </td>
-                 </tr>          
+            </div>  -->
+            <div class="sm:overflow-x-auto">
+                <table class="border-2 border-gray-800 table-fixed">
+                    <thead>
+                        <tr class=" text-md text-gray-400 font-normal bg-blue-800">
+                          <!-- <th class="w-8  border-2 border-gray-800">*</th>       -->
+                          <th class="w-56 border-2 border-gray-800">Componete</th>      
+                          <th class="w-24 border-2 border-gray-800">Ubicación</th>
+                          <th class="w-56 border-2 border-gray-800">Numero Serie</th>
+                          <th class="w-40 border-2 border-gray-800">Fecha Instalacion</th>
+                          <th class="w-40 border-2 border-gray-800">Fecha Mantenimiento</th>
+                          <th class="w-32 border-2 border-gray-800">Folio Mantenimiento</th>
+                          <th class="w-32 border-2 border-gray-800">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class=" h-12 text-gray-900 text-sm" v-for="(item, key) in list_Component" :key="key">               
+                           <!-- <td class="text-center border-2 border-gray-800">{{ key + 1 }}</td>                             -->
+                           <td class="text-center border-2 border-gray-800">{{ item.component }}</td>                            
+                           <td class="text-center border-2 border-gray-800">{{ item.lane }}</td>
+                           <td class="text-center border-2 border-gray-800">
+                               <input
+                                 @change="guardar_editado(item)" 
+                                 v-model="item.serialNumber"
+                                 type="text"
+                               />
+                           </td>
+                           <td class="text-center border-2 border-gray-800">
+                               <input    
+                                 @change="guardar_editado(item)"               
+                                 v-model="item.installationDate"
+                                 type="date"
+                               />                
+                           </td>
+                           <td class="text-center border-2 border-gray-800">
+                                 <input  
+                                     @change="guardar_editado(item)"                 
+                                     v-model="item.maintenanceDate"
+                                     type="date"
+                                 />  
+                           </td>
+                           <td class="text-center border-2 border-gray-800">
+                                  <input  
+                                     @change="guardar_editado(item)"                 
+                                     v-model="item.maintenanceFolio"
+                                     type="text"
+                                 />                          
+                          </td>
+                           <td class="text-center border-2 border-gray-800">        
+                             <button   
+                                 @click="Mostrar_Mas(item)"                 
+                                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700"
+                             >
+                                 <img src="../assets/img/more.png" class="mr-2" width="15" height="15" />
+                                 <span class=" text-xs">Mas</span>
+                             </button>
+                           </td>
+                        </tr>          
+                    </tbody>
                 </table>
             </div>
             <div class=" flex justify-center mt-2 mb-2">
