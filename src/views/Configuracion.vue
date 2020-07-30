@@ -1,8 +1,7 @@
 <template>
   <div>
-      <Nav></Nav>
-     
-      <div class="flex justify-center">                     
+      <Nav></Nav>     
+      <div class="flex justify-center p-4">                     
             <div class="mt-5">
                 <h1 class=" text-4xl font-medium text-gray-800 text-center">Lista de Usuarios</h1>
                 <div class="mt-5 mb-5 flex justify-between">
@@ -19,35 +18,37 @@
                                  
                </div>     
             </div> 
+            <div class="overflow-x-auto">
                 <table class="border-2 border-gray-800">
-                    <tr class=" text-md text-gray-400 font-normal bg-blue-800">                    
+                    <tr class=" text-md sm:text-sm text-gray-400 font-normal bg-blue-800">                    
                         <th class="w-64 border-2 border-gray-800">Nombre</th> 
                         <th class="w-56 border-2 border-gray-800">Tipo de Usuario</th>      
-                        <th class="w-56 border-2 border-gray-800">Correo</th>                 
-                        <th class="w-56 border-2 border-gray-800">Acciones</th> 
+                        <th class="w-64 border-2 border-gray-800">Correo</th>                 
+                        <th class="w-48 border-2 border-gray-800">Acciones</th> 
                     </tr>               
-                    <tr class=" h-12 text-gray-900 text-sm" v-for="(item, key) in lista_Usuarios" :key="key">                          
+                    <tr class=" h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios" :key="key">                          
                         <td class="text-center border-2 border-gray-800">{{ item.name + ' ' + item.lastName1 + ' ' + item.lastName2 }}</td>                            
                         <td class="text-center border-2 border-gray-800">{{ item.roll }}</td>
-                        <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
+                        <td class="text-center border-2 border-gray-800 break-all">{{ item.mail }}</td>
                         <td class="text-center border-2 border-gray-800">
-                        <button   
-                           @click="editarUsuario(item)"                 
-                           class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 mr-3"
-                       >
-                           <img src="../assets/img/pencil.png" class="mr-2" width="15" height="15" />
-                           <span class=" text-xs">Editar</span>
-                       </button>
-                         <button   
-                           @click="Borrar(item)"                 
-                           class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700"
-                       >
-                           <img src="../assets/img/bin.png" class="mr-2" width="15" height="15" />
-                           <span class=" text-xs">Borrar</span>
-                       </button>
-                    </td>
-              </tr>
-            </table>
+                            <button   
+                               @click="editarUsuario(item)"                 
+                               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
+                           >
+                               <img src="../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15" />
+                               <span class="text-xs sm:hidden">Editar</span>
+                           </button>
+                             <button   
+                               @click="Borrar(item)"                 
+                               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+                           >
+                               <img src="../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15" />
+                               <span class="text-xs sm:hidden">Borrar</span>
+                           </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="flex absolute justify-center inset-x-0 mt-24">
             <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl"> 
