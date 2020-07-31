@@ -1,174 +1,130 @@
 <template>
   <div>
     <Nav></Nav>
-    <div class=" max-w-6xl mx-auto flex-auto mt-3">
-    <h1 class=" text-black text-center text-4xl">Detalle de Componente</h1>
-    </div>
-    <div class="border-black border-4 max-w-6xl mx-auto flex-auto h-40 mt-3">
-      <div class="pt-8 mr-5 ml-1">
-        <div class="flex flex-auto">
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Componente</p>
-            </div>
-            <div>
-              <select 
-                @change="buscarCarriles"
-                v-model="objDatos.componente"
-                class="w-64"              
-              >
-                <option disabled value=''>Selecionar...</option>
-                <option
-                    v-for="(item, index) in listaComponentes"
-                    v-bind:value="item.componente"
-                    :key="index"
-                  >{{ item.componente }}</option>
-              </select>
+    <h1 class=" text-black text-center text-4xl mt-3  sm:mb-1">Inventario</h1>
+    <div class="flex justify-center">      
+      <div class="flex border border-gray-400 shadow-lg rounded-md m-4">                          
+        <div class="m-10 mt-3 sm:m-1 text-base font-light text-gray-900">
+          <div class="m-5 sm:mr-0">
+            <p class="mb-1">Componente</p>
+             <select 
+               @change="buscarCarriles"
+               v-model="objDatos.componente"
+               class="w-64 sm:w-32"              
+             >
+               <option disabled value=''>Selecionar...</option>
+               <option
+                   v-for="(item, index) in listaComponentes"
+                   v-bind:value="item.componente"
+                   :key="index"
+                 >{{ item.componente }}</option>
+            </select>
+          </div>
 
-            </div>
+          <div class="m-5 sm:mr-0">
+            <p class="mb-1">Ubicación</p>
+            <select 
+             @change="buscarInfoComponente"
+             v-model="objDatos.ubicacion"
+             class="w-64 sm:w-32">
+             <option disabled value>Selecionar...</option>
+             <option
+                 v-for="(item, index) in listaCarriles"
+                 v-bind:value="item.lane"
+                 :key="index"
+               >{{ item.lane }}</option>
+            </select>
           </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Ubicación</p>
-            </div>
-            
-            <div>
-              <select 
-                @change="buscarInfoComponente"
-                v-model="objDatos.ubicacion"
-                class="w-64"
-              >
-                <option disabled value>Selecionar...</option>
-                <option
-                    v-for="(item, index) in listaCarriles"
-                    v-bind:value="item.lane"
-                    :key="index"
-                  >{{ item.lane }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Marca</p>
-            </div>
-            <div>         
-                <input v-model="objDatos.marca" class=" w-64" type="text" placeholder="Marca">
-            </div>
-          </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Modelo</p>
-            </div>
-            
-          <input v-model="objDatos.modelo" class=" w-64" type="text" placeholder="Modelo">
-            
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="border-black border-4 max-w-6xl mx-auto flex-auto h-40 mt-3">
-      <div class="pt-8 mr-5 ml-1">
-        <div class="flex flex-auto">
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Numero de Serie</p>
-            </div>
-            <div v-if="onliInfoComponente">
-                <input v-model="objDatos.numSerie" class=" w-64" type="text" placeholder="Numero de Serie">
-            </div>
-            <div v-else>
-              <select @change="actualizaInfoComponente" v-model="objDatos.numSerie" class="w-64">
-                <option disabled value>Selecionar...</option>
-                  <option
-                    v-for="(item, index) in listaNumSerie"
-                    v-bind:value="item.numSerie"
-                    :key="index"
-                    >{{ item.numSerie }}
-                  </option>
-              </select>
-            </div>
-          </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Fecha de Instalacion</p>
-            </div>
-            <div>
-                <input v-model="objDatos.fechaInstalacion" class=" w-64" type="date">
-            </div>
-          </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Fecha Ultimo Mantenimiento</p>
-            </div>
-            <div>
-                <input v-model="objDatos.fechaUltimoMantenimiento" class=" w-64" type="date">
-            </div>
-          </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Folio Ultimo Mantenimiento</p>
-            </div>
-            <div>
-                <input v-model="objDatos.folioUltimoMantenimiento" class=" w-64" type="text" placeholder="Folio Mantenimiento">
-            </div>
-          </div>
-        </div>
-      </div>            
-    </div>
 
-    <div class="border-black border-4 max-w-6xl mx-auto flex-auto h-40 mt-3">
-      <div class="pt-8 mr-5 ml-1">
-        <div class="flex flex-auto">
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>No. Inventario CAPUFE</p>
-            </div>
-            <div>
-                <input v-model="objDatos.numInventarioCapufe" class=" w-64" type="text" placeholder="Numero Inventario Capufe">
-            </div>
+          <div class="m-5 sm:mr-0">
+            <p class="mb-1">Marca</p>
+            <input v-model="objDatos.marca" class=" w-64 sm:w-32" type="text" placeholder="Marca">    
           </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>No. Inventario Prosis</p>
-            </div>
-            <div>
-                <input v-model="objDatos.numInventarioProsis" placeholder="Numero Inventario" class="w-64" type="text">
-            </div>
+
+          <div class="m-5 sm:mr-0">
+            <p class="mb-1">Modelo</p>
+            <input v-model="objDatos.modelo" class=" w-64 sm:w-32" type="text" placeholder="Modelo">
           </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Ubicacion</p>
-            </div>
-            <div>
-              <select v-model="objDatos.ubicacionGeneral" class="w-64">
-                <option disabled value>Selecionar...</option>
-                  <option
-                    v-for="(item, index) in listaUbicacionGeneral"
-                    v-bind:value="item.ubicacion"
-                    :key="index"
-                    >{{ item.ubicacion }}
-                  </option>
-              </select>
-            </div>
-          </div>
-          <div class="md:w-1/4 ml-5">
-            <div class="mb-8 border-blue-700 border-4 text-center h-8 bg-gray-300">
-              <p>Observacion</p>
-            </div>
-            <div>
-              <input v-model="objDatos.observaciones" class=" w-64" type="text" placeholder="Observaciones">
-            </div>
-          </div>
+                                
+          <div class="m-5 sm:mr-0" v-if="onliInfoComponente">
+              <p class="mb-1">Numero de Serie</p>
+             <input v-model="objDatos.numSerie" class=" w-64 sm:w-32" type="text" placeholder="Numero de Serie">
+         </div>
+         <div class="m-5 sm:mr-0" v-else>
+           <p class="mb-1">Numero de Serie</p>
+           <select @change="actualizaInfoComponente" v-model="objDatos.numSerie" class="w-64 sm:w-32">
+             <option disabled value>Selecionar...</option>
+               <option
+                 v-for="(item, index) in listaNumSerie"
+                 v-bind:value="item.numSerie"
+                 :key="index"
+                 >{{ item.numSerie }}
+               </option>
+           </select>
+         </div>
+         
+         <div class="m-5 sm:mr-0">
+           <p class="mb-1">Observacion</p>
+           <textarea v-model="objDatos.observaciones" 
+           class="appearance-none block bg-grey-lighter text-grey-darker border border-gray-600 rounded-lg h-20 w-64 sm:w-32"  
+            type="text" placeholder="Observaciones" />
+         </div>
+
         </div>
-      </div>            
-    </div>
-    <div class="max-w-6xl mx-auto flex-auto mt-5">
-        <div class="flex justify-end">
-            <button @click.prevent="AgregarComponente" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-green-700">
-                <img src="../assets/img/more.png" class="mr-2" width="25" height="2">
+
+
+
+        <div class="m-10 mt-3 sm:m-1 sm:text-sm text-base font-light text-gray-900 sm:mb-6">
+          
+          <div class="m-5 sm:ml-10">
+            <p class="mb-1">Fecha de Instalacion</p>
+            <input v-model="objDatos.fechaInstalacion" class=" w-64 sm:w-32" type="date">
+          </div>
+          
+          <div class="m-5 sm:ml-10">          
+            <p class="mb-1">Fecha Ultimo Mantenimiento</p>
+            <input v-model="objDatos.fechaUltimoMantenimiento" class="w-64 sm:w-32" type="date">
+          </div>
+
+          <div class="m-5 sm:ml-10">
+            <p >Folio Ultimo Mantenimiento</p>
+            <input v-model="objDatos.folioUltimoMantenimiento" class="w-64 sm:w-32" type="text" placeholder="Folio Mantenimiento">
+          </div>
+
+          <div class="m-5 sm:ml-10">
+            <p class="mb-1">No. Inventario CAPUFE</p>
+            <input v-model="objDatos.numInventarioCapufe" class="w-64 sm:w-32" type="text" placeholder="Numero Inventario Capufe">
+          </div>
+
+          <div class="m-5 sm:ml-10">
+            <p class="mb-1">No. Inventario Prosis</p>
+            <input v-model="objDatos.numInventarioProsis" placeholder="Numero Inventario" class="w-64 sm:w-32" type="text">
+          </div>
+
+          <div class="m-5 sm:ml-10">
+            <p class="mb-1">Ubicacion</p>
+             <select v-model="objDatos.ubicacionGeneral" class="w-64 sm:w-32">
+               <option disabled value>Selecionar...</option>
+                 <option
+                   v-for="(item, index) in listaUbicacionGeneral"
+                   v-bind:value="item.ubicacion"
+                   :key="index"
+                   >{{ item.ubicacion }}
+                 </option>
+            </select>
+          </div>
+
+          <div class="flex justify-center mt-5 sm:ml-5 sm:text-xs">
+            <button @click.prevent="AgregarComponente" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-green-700 sm:w-32">
+                <img src="../assets/img/more.png" class="mr-2 " width="25" height="2">
                 <span>Editar Componente</span>
             </button>
+          </div>   
+
+        
+
         </div>
+      </div>                    
     </div>
   </div>
 </template>
