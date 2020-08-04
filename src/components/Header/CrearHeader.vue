@@ -25,7 +25,7 @@
           <div class="w-1/3">
             <br />
             <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
-            <label style="font-weight: bold; padding-left: 0.5vw"> {{ datosUser.agrement }}</label>
+            <label style="font-weight: bold; padding-left: 0.5vw">{{ datosUser.agrement }}</label>
           </div>
           <div class="w-1/3">
             <br />
@@ -63,8 +63,8 @@
               v-validate="'uniqueReport'"
               v-model="datosSinester.ReportNumber"
               class="w-full"
-              type="text"  
-              name="NoReporte"                         
+              type="text"
+              name="NoReporte"
             />
             <p class="text-red-600 text-xs">{{ errors.first('NoReporte') }}</p>
           </div>
@@ -72,12 +72,12 @@
             <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
             <select
               v-model="datosSinester.TypeDescriptionId"
-              v-validate="'required'" 
+              v-validate="'required'"
               class="w-full"
               type="text"
               name="TipoDescripcion"
             >
-              <option disabled value="">Selecionar...</option>
+              <option disabled value>Selecionar...</option>
               <option
                 v-for="(desc, index) in descripciones"
                 v-bind:value="desc.typeDescriptionId"
@@ -94,25 +94,24 @@
             <label class="inline ml-2 text-sm" style="font-weight: normal">{{ datosUser.position }}</label>
           </div>
           <div class="w-1/4 pl-2 pr-2">
-            
             <p class="text-md mb-1 font-semibold text-gray-900">Fecha Siniestro:</p>
             <input
               @change="crearReferencia()"
-              v-validate="'required'" 
+              v-validate="'required'"
               :disabled="fechaSiniestoEdit"
               v-model="datosSinester.SinisterDate"
               class="w-full"
               name="FechaSiniestro"
               type="date"
             />
-             <p class="text-red-600 text-xs">{{ errors.first('FechaSiniestro') }}</p>
+            <p class="text-red-600 text-xs">{{ errors.first('FechaSiniestro') }}</p>
           </div>
           <div class="w-1/4"></div>
-          <div class="w-1/4 pl-2 pr-2">            
+          <div class="w-1/4 pl-2 pr-2">
             <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
-            <input              
+            <input
               v-model="datosSinester.ShippingElaboracionDate"
-              v-validate="'required'" 
+              v-validate="'required'"
               class="w-full"
               type="date"
               name="FechaEnvio"
@@ -126,38 +125,33 @@
             <label class="inline">Correo:</label>
             <label class="inline ml-2 text-sm" style="color: blue;">{{ datosUser.mail }}</label>
           </div>
-          <div class="w-1/4 pl-2 pr-2">            
+          <div class="w-1/4 pl-2 pr-2">
             <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
             <input
-              v-model="datosSinester.FailureNumber" 
+              v-model="datosSinester.FailureNumber"
               class="w-full"
               type="text"
               placeholder="S/M"
             />
           </div>
           <div class="w-1/4"></div>
-          <div class="w-1/4 pl-2 pr-2">            
+          <div class="w-1/4 pl-2 pr-2">
             <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion</p>
-            <input
-            disabled="true"
-              class="w-full"
-              type="date"
-            />
+            <input disabled="true" class="w-full" type="date" />
           </div>
         </div>
         <!--***********************************************************-->
         <div class="flex md:text-xs lg:text-lg">
           <div class="w-1/4 mr-6">
             <label>Plaza Cobro:</label>
-            <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ datosUser.plaza }}</label>
+            <label
+              class="text-sm text-gray-900 ml-2"
+              style="font-weight: normal"
+            >{{ datosUser.plaza }}</label>
           </div>
-          <div class="w-1/4 pl-2 pr-2">        
+          <div class="w-1/4 pl-2 pr-2">
             <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
-            <input
-              v-model="datosSinester.FailureDate"
-              class="w-full"
-              type="date"
-            />
+            <input v-model="datosSinester.FailureDate" class="w-full" type="date" />
           </div>
           <div class="w-1/4"></div>
           <div class="w-1/4 pl-2 pr-2">
@@ -204,15 +198,19 @@
       </div>
     </form>
     <!-- COMPONENTE TABLA EQUIPO DAÑANDA -->
-    <TablaEquipoMalo
-      :listaComponentes="listaComponentes"      
-      :dateSinester="datosSinester.SinisterDate"
-    ></TablaEquipoMalo>
+
+    <div>
+      <TablaEquipoMalo
+        :listaComponentes="listaComponentes"
+        :dateSinester="datosSinester.SinisterDate"
+      ></TablaEquipoMalo>
+    </div>
   </div>
 </template>
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+
 import moment from "moment";
 
 export default {
@@ -220,19 +218,19 @@ export default {
   props: {
     descripciones: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     datosUser: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
-    headerEdit:{
+    headerEdit: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   components: {
-    TablaEquipoMalo
+    TablaEquipoMalo,
   },
   data() {
     return {
@@ -250,29 +248,23 @@ export default {
         UserId: null,
         AgremmentInfoId: null,
         Descripcion: null,
-        Observaciones: null
+        Observaciones: null,
       },
       listaComponentes: [],
-      fechaSiniestoEdit: false
+      fechaSiniestoEdit: false,
+
+      sizeSmall: false,
     };
   },
   methods: {
     async crearReferencia() {
-      let diaActual = parseInt(
-        this.datosSinester.SinisterDate.substr(8, 2)
-      );
-      let mesActual = parseInt(
-        this.datosSinester.SinisterDate.substr(6, 2)
-      );
-      let yearActual = parseInt(
-        this.datosSinester.SinisterDate.substr(0, 4)
-      );
+      let diaActual = parseInt(this.datosSinester.SinisterDate.substr(8, 2));
+      let mesActual = parseInt(this.datosSinester.SinisterDate.substr(6, 2));
+      let yearActual = parseInt(this.datosSinester.SinisterDate.substr(0, 4));
 
       let diaCorriente = 0;
 
-      let newYear = parseInt(
-        this.datosSinester.SinisterDate.substr(2, 2)
-      );
+      let newYear = parseInt(this.datosSinester.SinisterDate.substr(2, 2));
 
       diaCorriente = diaActual;
 
@@ -304,26 +296,24 @@ export default {
       );
       this.datosSinester.ReferenceNumber = await this.$store.getters[
         "Header/getreferenceNum"
-      ];      
-    }
+      ];
+    },
   },
   watch: {
     //ARREGLAR WATCHER!!!!!
-    datosUser: function(newValue) {
+    datosUser: function (newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
     },
-    datosSinester: {      
+    datosSinester: {
       deep: true,
       handler(datosSinester) {
-        
         this.$store.commit("Header/datosSinesterMutation", datosSinester);
-      }
-    }
+      },
+    },
   },
-  beforeMount: async function() {
-
-    let value = await this.$store.getters['Header/getConvenioPlaza']
+  beforeMount: async function () {
+    let value = await this.$store.getters["Header/getConvenioPlaza"];
     await this.$store.dispatch("Refacciones/buscarComponentes", value);
     this.listaComponentes = await this.$store.getters[
       "Refacciones/getListaRefacciones"
@@ -334,28 +324,32 @@ export default {
       "DTC/getListaDescriptions"
     ];
 
-    if(JSON.stringify(this.headerEdit) != '{}'){
-
-          this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber
-          this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber
-          this.datosSinester.ReportNumber = this.headerEdit.reportNumber
-          this.datosSinester.SinisterDate = moment(this.headerEdit.sinisterDate).format('YYYY-MM-DD')
-          this.datosSinester.FailureNumber = this.headerEdit.failureNumber
-          this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format('YYYY-MM-DD')
-          this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format('YYYY-MM-DD')
-          this.datosSinester.TypeDescriptionId = 2  
-          this.fechaSiniestoEdit = true
-    }    
+    if (JSON.stringify(this.headerEdit) != "{}") {
+      this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
+      this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
+      this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
+      this.datosSinester.SinisterDate = moment(
+        this.headerEdit.sinisterDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
+      this.datosSinester.FailureDate = moment(
+        this.headerEdit.failureDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.ShippingElaboracionDate = moment(
+        this.headerEdit.shippingDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.TypeDescriptionId = 2;
+      this.fechaSiniestoEdit = true;
+    }
     //this.$validator.validateAll();
-  }
- 
+  },
 };
 </script>
 
 <style scoped>
-  label {
-    font-weight: bold;
-    color: black;
-    font-family: Tahoma, Geneva, Verdana, sans-serif;
-  }
+label {
+  font-weight: bold;
+  color: black;
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
 </style>

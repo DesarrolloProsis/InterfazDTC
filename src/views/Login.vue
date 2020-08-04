@@ -9,7 +9,7 @@
           </div>
         </div>
         <br />
-        
+
         <div class="mt-10">
           <div class="mb-5">
             <input
@@ -26,7 +26,7 @@
             <input
               @keyup.enter="ingresarLogin()"
               placeholder=" Contraseña"
-              class=" w-full h-8"
+              class="w-full h-8"
               v-validate="'required'"
               type="password"
               name="Contraseña"
@@ -40,9 +40,8 @@
           <span>Generar Por Otra Persona</span>
         </div>
         <div class="container-login100-form-btn">
-          <button           
+          <button
             @click="ingresarLogin()"
-            
             type="button"
             class="login100-form-btn text-blue-600 outline-none"
           >Login</button>
@@ -52,23 +51,24 @@
     <div
       v-if="modal"
       class="rounded-lg absolute border border-gray-700 bg-white px-24 py-20 flex flex-col"
-      @close="modal = false">     
-        <div>
-          <div class="flex mb-8">
-            <img src="../assets/img/change.png" class=" w-24 mx-auto" />
-          </div>
-        </div> 
+      @close="modal = false"
+    >
+      <div>
+        <div class="flex mb-8">
+          <img src="../assets/img/change.png" class="w-24 mx-auto" />
+        </div>
+      </div>
       <div class="mb-4">
         <p class="text-xs mb-1 text-gray-900">Plaza</p>
         <select
           @change="buscarTec()"
-          v-validate="'required'"          
+          v-validate="'required'"
           v-model="plazaSelect"
           class="w-48 h-8"
           type="text"
           name="Plaza"
         >
-          <option  value="">Selecionar...</option>
+          <option value>Selecionar...</option>
           <option
             v-for="(item, index) in listaPlazas"
             v-bind:value="item.squareCatalogId"
@@ -82,11 +82,11 @@
         <select
           v-model="tecSelect"
           v-validate="'required'"
-          class="h-8 w-48"        
+          class="h-8 w-48"
           type="text"
           name="Tecnico"
         >
-          <option  value="">Selecionar...</option>
+          <option value>Selecionar...</option>
           <option
             v-for="(item, index) in listaTec"
             v-bind:value="item.userId"
@@ -95,7 +95,10 @@
         </select>
         <p class="text-red-600 text-xs">{{ errors.first('Tecnico') }}</p>
       </div>
-      <button @click="loginOther()" class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800">Ingresar</button>
+      <button
+        @click="loginOther()"
+        class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800"
+      >Ingresar</button>
       <button @click="modal = false" class="text-white px-4 py-2 rounded-full bg-red-800">Cancelar</button>
     </div>
   </div>
@@ -110,68 +113,63 @@ export default {
       datos: {
         User: "",
         Password: "",
-        checkLog: false
+        checkLog: false,
       },
       listaPlazas: [],
       listaTec: [],
       plazaSelect: "",
-      tecSelect: ""
+      tecSelect: "",
     };
   },
   methods: {
-    loginOther: async function() {
-      
-      if(this.fields.Plaza.valid && this.fields.Tecnico.valid){
-          await this.$store.dispatch("Login/buscarHeaderTec", this.tecSelect);
+    loginOther: async function () {
+      if (this.fields.Plaza.valid && this.fields.Tecnico.valid) {
+        await this.$store.dispatch("Login/buscarHeaderTec", this.tecSelect);
+        let dataHeader = await this.$store.getters["Login/getUser"];
+        await this.$store.commit("Header/listaHeadersMutation", dataHeader);
+        await this.$store.dispatch("DTC/buscarDescriptions");
+        await this.$store.dispatch("Header/buscarListaUnique");
+        this.$router.push("home");
+      }
+    },
+    buscarTec: async function () {
+      if (this.plazaSelect != "") {
+        await this.$store.dispatch("Login/buscarTec", this.plazaSelect);
+        this.listaTec = this.$store.getters["Login/getListaTec"];
+      } else {
+        this.listaTec = [];
+        this.tecSelect = "";
+      }
+    },
+    ingresarLogin: async function () {
+      await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
+      if (this.$store.getters["Login/getUserLogeado"]) {
+        if (this.datos.checkLog === true) {
+          this.modal = true;
+        } else {
+          await this.$store.dispatch("Login/buscarUsuario", this.datos);
           let dataHeader = await this.$store.getters["Login/getUser"];
           await this.$store.commit("Header/listaHeadersMutation", dataHeader);
           await this.$store.dispatch("DTC/buscarDescriptions");
           await this.$store.dispatch("Header/buscarListaUnique");
           this.$router.push("home");
-      }      
-    },
-    buscarTec: async function() {
-      if (this.plazaSelect != "") {
-        await this.$store.dispatch("Login/buscarTec", this.plazaSelect);
-        this.listaTec = this.$store.getters["Login/getListaTec"];
-      }
-      else{
-          this.listaTec = []
-          this.tecSelect = ""
-      }
-    },
-    ingresarLogin: async function() {
-
-      await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);      
-      if(this.$store.getters["Login/getUserLogeado"]){
-        if (this.datos.checkLog === true) {
-            this.modal = true
         }
-        else{
-            await this.$store.dispatch("Login/buscarUsuario", this.datos);
-            let dataHeader = await this.$store.getters["Login/getUser"];
-            await this.$store.commit("Header/listaHeadersMutation", dataHeader);
-            await this.$store.dispatch("DTC/buscarDescriptions");
-            await this.$store.dispatch("Header/buscarListaUnique");
-            this.$router.push("home");
-        }
-      }
-      else{
-          this.$notify.error({
+      } else {
+        this.$notify.error({
           title: "Ops!!",
-          msg: 'EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.',
+          msg: "EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.",
           position: "bottom right",
-          styles: {              
+          styles: {
             height: 100,
-            width: 500
-          }
+            width: 500,
+          },
         });
-      }             
-    }
+      }
+    },
   },
   async beforeMount() {
     await this.$store.dispatch("Login/buscarPlazas");
-    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];      
+    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];
   },
 };
 </script>

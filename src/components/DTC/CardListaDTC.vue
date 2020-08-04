@@ -4,16 +4,16 @@
       <div class="flex flex-row mb-6">
         <div class="flex justify-between">
           <p class="font-black m-3 w-1/2">{{ infoCard.referenceNumber }}</p>
-          <p class="m-3 w-1/12">{{ infoCard.sinisterDate | formatDate }}</p>          
+          <p class="m-3 w-1/12">{{ infoCard.sinisterDate | formatDate }}</p>
         </div>
-        <hr/>
+        <hr />
       </div>
       <div class="flex-col md:flex-row flex mb-6">
         <div class="md:w-2/3">
           <p class="text-left font-bold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-bold text-sm mb-6">Folio: {{ infoCard.failureNumber }}</p>
-          <div class=" w-64 break-words text-left text-gray-800 font-normal">
+          <div class="w-64 break-words text-left text-gray-800 font-normal">
             <p class="text-sm text-black w-40 font-bold">Observaciones:</p>
             {{ infoCard.observation }}
           </div>
@@ -23,175 +23,183 @@
         </div>
       </div>
       <div class="flex justify-between">
-        <a @click="mas" v-show="menosMas" class=" text-sm text-gray-900">Status: {{ infoCard.statusDescription }}</a>
-        <a @click="mas" v-show="menosMas" class=" cursor-pointer text-green-700">Ver Mas</a>
+        <a
+          @click="mas"
+          v-show="menosMas"
+          class="text-sm text-gray-900"
+        >Status: {{ infoCard.statusDescription }}</a>
+        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700">Ver Mas</a>
       </div>
 
-        <!-- VerMar -->
-    <div v-if="showmenosMas">
-      <div class="flex-col md:flex-row flex mb-6">
-       <div class="text-xs  font-sans text-center">
-         <table class="border border-black table-fixed">
-           <tr>
-             <th class="w-1/3 border border-black">Componete</th>
-             <th class="w-1/8 border border-black">Cantidad</th>
-             <th class="w-1/8 border border-black">Ubicacion</th>
-           </tr>
-           <tr class=" h-10" v-for="(item, key) in tableFormat" :key="key">
-              <td>{{ item.componente }}</td>
-              <td>{{ item.cantidad }}</td>
-              <td class=" text-xs">{{ item.lane }}</td>
-          </tr>          
-         </table>
-       </div>
-      </div>
-      <div class="flex justify-between">
-        <div>        
-          <button
-            @click.prevent="borrar"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1"
-          >
-            <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1" />
-            <span>Borrar</span>
-          </button>
+      <!-- VerMar -->
+      <div v-if="showmenosMas">
+        <div class="flex-col md:flex-row flex mb-6">
+          <div class="text-xs font-sans text-center">
+            <table class="border border-black table-fixed">
+              <tr>
+                <th class="w-1/3 border border-black">Componete</th>
+                <th class="w-1/8 border border-black">Cantidad</th>
+                <th class="w-1/8 border border-black">Ubicacion</th>
+              </tr>
+              <tr class="h-10" v-for="(item, key) in tableFormat" :key="key">
+                <td>{{ item.componente }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td class="text-xs">{{ item.lane }}</td>
+              </tr>
+            </table>
+          </div>
         </div>
-        <div>
-          <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>     
+        <div class="flex justify-between">
+          <div>
             <button
-            v-if="showBotonPDF"
-            @click.prevent="pdf"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
-          >
-            <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1" />
-            <span>PDF</span>
-          </button>
-            <button
-            v-if="!showBotonPDF"
-            @click.prevent="pruebas"
-            class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
+              @click.prevent="borrar"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1"
             >
-            <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1" />
-            <span class=" text-xs">Editar</span>
-          </button>
+              <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1" />
+              <span>Borrar</span>
+            </button>
+          </div>
+          <div>
+            <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>
+            <button
+              v-if="showBotonPDF"
+              @click.prevent="pdf"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
+            >
+              <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1" />
+              <span>PDF</span>
+            </button>
+            <button
+              v-if="!showBotonPDF"
+              @click.prevent="pruebas"
+              class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
+            >
+              <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1" />
+              <span class="text-xs">Editar</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>   
     </div>
-
-  
-  </div>  
+  </div>
 </template>
 
 <script>
 import moment from "moment";
 import saveAs from "file-saver";
 
-
 export default {
   props: {
     infoCard: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
-  data: function() {
-    return{
+  data: function () {
+    return {
       menosMas: true,
       showmenosMas: false,
       tableFormat: [],
-      showBotonPDF: true
-    }
+      showBotonPDF: true,
+    };
   },
   filters: {
-    formatDate: function(value) {
+    formatDate: function (value) {
       return moment(value.substring(0, 10)).format("DD/MM/YYYY");
-    }
+    },
   },
   methods: {
-    mas: async function(){      
-      this.menosMas = false      
-      await this.$store.dispatch('DTC/tableFormComponent',this.infoCard.referenceNumber)
-      this.tableFormat = await this.$store.getters['DTC/gettableFormComp']
-      this.showmenosMas = true
+    mas: async function () {
+      this.menosMas = false;
+      await this.$store.dispatch(
+        "DTC/tableFormComponent",
+        this.infoCard.referenceNumber
+      );
+      this.tableFormat = await this.$store.getters["DTC/gettableFormComp"];
+      this.showmenosMas = true;
     },
-    menos: function(){      
-      this.menosMas = true
-      this.showmenosMas = false
-    },  
-    pruebas: async function(){
-
-        await this.$store.dispatch('DTC/COMPONENT_EDIT', this.infoCard.referenceNumber)
-
-        let datosSinester = {
-          ReferenceNumber: "",
-          SinisterNumber: "",
-          ReportNumber: "",
-          SinisterDate: "",
-          FailureDate: "",
-          FailureNumber: "",
-          ShippingElaboracionDate: "",
-          Diagnosis: "",
-          Observation: "",
-          TypeDescriptionId: "",
-          UserId: null,
-          AgremmentInfoId: null,
-          Descripcion: null,
-          Observaciones: null
-        } 
-
-        datosSinester.ReferenceNumber = this.infoCard.referenceNumber
-        datosSinester.SinisterNumber = this.infoCard.sinisterNumber
-        datosSinester.ReportNumber = this.infoCard.reportNumber
-        datosSinester.SinisterDate = moment(this.infoCard.sinisterDate).format('YYYY-MM-DD')
-        datosSinester.FailureNumber = this.infoCard.failureNumber
-        datosSinester.FailureDate = moment(this.infoCard.failureDate).format('YYYY-MM-DD')
-        datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format('YYYY-MM-DD')
-        datosSinester.TypeDescriptionId = 2 
-
-        this.$store.commit('Header/datosSinesterMutation',datosSinester) 
-
-        this.$router.push({
-          path: '/NuevoDtc',
-          query: {
-            headerInfo: { ...this.infoCard }
-          },       
-        })
-    }, 
-    pdf: function(){
-
-            var oReq = new XMLHttpRequest();
-            // The Endpoint of your server
-            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`;
-            let namePdf = `ReportDTC-${this.refNum}.pdf`;
-            // Configure XMLHttpRequest
-            oReq.open("GET", urlTopdf, true);
-            // Important to use the blob response type
-            oReq.responseType = "blob";
-            // When the file request finishes
-            // Is up to you, the configuration for error events etc.
-            oReq.onload = function() {
-              // Once the file is downloaded, open a new window with the PDF
-              // Remember to allow the POP-UPS in your browser
-              var file = new Blob([oReq.response], {
-                type: "application/pdf"
-              });
-              // Generate file download directly in the browser !
-              saveAs(file, namePdf);
-            };
-
-            oReq.send();            
+    menos: function () {
+      this.menosMas = true;
+      this.showmenosMas = false;
     },
-    borrar: function(){
-                
-        this.$emit('borrar-card', this.infoCard.referenceNumber)   
-        this.menosMas = true
-        this.showmenosMas = false         
+    pruebas: async function () {
+      await this.$store.dispatch(
+        "DTC/COMPONENT_EDIT",
+        this.infoCard.referenceNumber
+      );
+
+      let datosSinester = {
+        ReferenceNumber: "",
+        SinisterNumber: "",
+        ReportNumber: "",
+        SinisterDate: "",
+        FailureDate: "",
+        FailureNumber: "",
+        ShippingElaboracionDate: "",
+        Diagnosis: "",
+        Observation: "",
+        TypeDescriptionId: "",
+        UserId: null,
+        AgremmentInfoId: null,
+        Descripcion: null,
+        Observaciones: null,
+      };
+
+      datosSinester.ReferenceNumber = this.infoCard.referenceNumber;
+      datosSinester.SinisterNumber = this.infoCard.sinisterNumber;
+      datosSinester.ReportNumber = this.infoCard.reportNumber;
+      datosSinester.SinisterDate = moment(this.infoCard.sinisterDate).format(
+        "YYYY-MM-DD"
+      );
+      datosSinester.FailureNumber = this.infoCard.failureNumber;
+      datosSinester.FailureDate = moment(this.infoCard.failureDate).format(
+        "YYYY-MM-DD"
+      );
+      datosSinester.ShippingElaboracionDate = moment(
+        this.infoCard.shippingDate
+      ).format("YYYY-MM-DD");
+      datosSinester.TypeDescriptionId = 2;
+
+      this.$store.commit("Header/datosSinesterMutation", datosSinester);
+
+      this.$router.push({
+        path: "/NuevoDtc",
+        query: {
+          headerInfo: { ...this.infoCard },
+        },
+      });
+    },
+    pdf: function () {
+      var oReq = new XMLHttpRequest();
+      // The Endpoint of your server
+      let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`;
+      let namePdf = `ReportDTC-${this.refNum}.pdf`;
+      // Configure XMLHttpRequest
+      oReq.open("GET", urlTopdf, true);
+      // Important to use the blob response type
+      oReq.responseType = "blob";
+      // When the file request finishes
+      // Is up to you, the configuration for error events etc.
+      oReq.onload = function () {
+        // Once the file is downloaded, open a new window with the PDF
+        // Remember to allow the POP-UPS in your browser
+        var file = new Blob([oReq.response], {
+          type: "application/pdf",
+        });
+        // Generate file download directly in the browser !
+        saveAs(file, namePdf);
+      };
+
+      oReq.send();
+    },
+    borrar: function () {
+      this.$emit("borrar-card", this.infoCard.referenceNumber);
+      this.menosMas = true;
+      this.showmenosMas = false;
     },
   },
   beforeMount() {
-    
-      this.showBotonPDF = this.infoCard.statusId == 2 ? true : false
-
+    this.showBotonPDF = this.infoCard.statusId == 2 ? true : false;
   },
 };
 </script>

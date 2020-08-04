@@ -52,15 +52,11 @@
               <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6.toString() }}</td>
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
-              >
-                $ {{ equipo.row14.toLocaleString('en-US') }}
-              </td>
+              >$ {{ equipo.row14.toLocaleString('en-US') }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
               <td
                 class="border-b border-black p-2 md:p-3 border-2"
-              >
-                 $ {{  (equipo.row14 * equipo.row4).toLocaleString('en-US') }}                 
-              </td>
+              >$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
               <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
             </tr>
           </table>
@@ -68,15 +64,15 @@
             <tr>
               <th>Diagnostico</th>
             </tr>
-            <td>              
-              <textarea                
-                v-model="diagnostico"  
-                v-validate="'max:120'"                                              
-                class="appearance-none  border border-black rounded-lg py-4 mb-0"
-                style="width: 20vw;"  
-                name="Diagnostico"              
-              />     
-              <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p> 
+            <td>
+              <textarea
+                v-model="diagnostico"
+                v-validate="'max:120'"
+                class="appearance-none border border-black rounded-lg py-4 mb-0"
+                style="width: 20vw;"
+                name="Diagnostico"
+              />
+              <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
             </td>
           </div>
         </div>
@@ -85,17 +81,16 @@
             <div class="w-1/2 h-6 pl-4">
               <p class="inline">Total: {{ letraMoneda }}</p>
             </div>
-      
-            <div class="w-1/2 h-6 pl-20" >
+
+            <div class="w-1/2 h-6 pl-20">
               <input
                 v-model="sumatoria"
                 disabled
-                class="md:border border-black"                           
-                type="text"                
+                class="md:border border-black"
+                type="text"
                 placeholder="$ 0.00"
               />
             </div>
-           
           </div>
           <hr />
         </div>
@@ -105,228 +100,257 @@
 </template>
 
 <script>
-
 export default {
   props: {
     listaEquipo: {
-        type: Array,
-        default: () => []
-    }
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
-    return {      
-      diagnostico: '',      
+    return {
+      diagnostico: "",
     };
   },
-  beforeMount: function(){
-
-    this.diagnostico =  this.$store.getters['Header/getDiagnostico']
-
+  beforeMount: function () {
+    this.diagnostico = this.$store.getters["Header/getDiagnostico"];
   },
-  watch:{
-    diagnostico: function(newValue){
-        this.$store.commit('Header/DIAGNOSTICO_MUTATION', newValue)   
-    }
+  watch: {
+    diagnostico: function (newValue) {
+      this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
+    },
   },
   computed: {
-
-    multiplicacion: function() {
+    multiplicacion: function () {
       let multi = 0;
       for (let i = 0; i < this.listaEquipo.length; i++) {
         multi += this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
-      }            
-      return multi;   
+      }
+      return multi;
     },
-    sumatoria: function(){
-      let suma = 0
+    sumatoria: function () {
+      let suma = 0;
       for (let i = 0; i < this.listaEquipo.length; i++) {
         let multi = this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
         suma += multi;
       }
-        return ('$ '+suma.toLocaleString('en-US'));
+      return "$ " + suma.toLocaleString("en-US");
     },
-    letraMoneda: function(){
-
+    letraMoneda: function () {
       let multi = 0;
       for (let i = 0; i < this.listaEquipo.length; i++) {
         multi += this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
-      }   
-
-      if(multi > 0){  
-      let MonedaLetra = NumeroALetras(multi, {
-                plural: "PESOS",
-                singular: "PESO",
-                centPlural: "CENTAVOS",
-                centSingular: "CENTAVO"
-      });
-      return MonedaLetra
       }
-      else 
-        return "--------------------------------------------------------------------------------------"
-    }
-  }
+
+      if (multi > 0) {
+        let MonedaLetra = NumeroALetras(multi, {
+          plural: "PESOS",
+          singular: "PESO",
+          centPlural: "CENTAVOS",
+          centSingular: "CENTAVO",
+        });
+        return MonedaLetra;
+      } else
+        return "--------------------------------------------------------------------------------------";
+    },
+  },
 };
 
-
 // Código basado en https://gist.github.com/alfchee/e563340276f89b22042a
-    function Unidades(num){
+function Unidades(num) {
+  switch (num) {
+    case 1:
+      return "UN";
+    case 2:
+      return "DOS";
+    case 3:
+      return "TRES";
+    case 4:
+      return "CUATRO";
+    case 5:
+      return "CINCO";
+    case 6:
+      return "SEIS";
+    case 7:
+      return "SIETE";
+    case 8:
+      return "OCHO";
+    case 9:
+      return "NUEVE";
+  }
 
-        switch(num)
-        {
-            case 1: return 'UN';
-            case 2: return 'DOS';
-            case 3: return 'TRES';
-            case 4: return 'CUATRO';
-            case 5: return 'CINCO';
-            case 6: return 'SEIS';
-            case 7: return 'SIETE';
-            case 8: return 'OCHO';
-            case 9: return 'NUEVE';
-        }
+  return "";
+} //Unidades()
 
-        return '';
-    }//Unidades()
+function Decenas(num) {
+  let decena = Math.floor(num / 10);
+  let unidad = num - decena * 10;
 
-    function Decenas(num){
+  switch (decena) {
+    case 1:
+      switch (unidad) {
+        case 0:
+          return "DIEZ";
+        case 1:
+          return "ONCE";
+        case 2:
+          return "DOCE";
+        case 3:
+          return "TRECE";
+        case 4:
+          return "CATORCE";
+        case 5:
+          return "QUINCE";
+        default:
+          return "DIECI" + Unidades(unidad);
+      }
+    case 2:
+      switch (unidad) {
+        case 0:
+          return "VEINTE";
+        default:
+          return "VEINTI" + Unidades(unidad);
+      }
+    case 3:
+      return DecenasY("TREINTA", unidad);
+    case 4:
+      return DecenasY("CUARENTA", unidad);
+    case 5:
+      return DecenasY("CINCUENTA", unidad);
+    case 6:
+      return DecenasY("SESENTA", unidad);
+    case 7:
+      return DecenasY("SETENTA", unidad);
+    case 8:
+      return DecenasY("OCHENTA", unidad);
+    case 9:
+      return DecenasY("NOVENTA", unidad);
+    case 0:
+      return Unidades(unidad);
+  }
+} //Unidades()
 
-        let decena = Math.floor(num/10);
-        let unidad = num - (decena * 10);
+function DecenasY(strSin, numUnidades) {
+  if (numUnidades > 0) return strSin + " Y " + Unidades(numUnidades);
 
-        switch(decena)
-        {
-            case 1:
-                switch(unidad)
-                {
-                    case 0: return 'DIEZ';
-                    case 1: return 'ONCE';
-                    case 2: return 'DOCE';
-                    case 3: return 'TRECE';
-                    case 4: return 'CATORCE';
-                    case 5: return 'QUINCE';
-                    default: return 'DIECI' + Unidades(unidad);
-                }
-            case 2:
-                switch(unidad)
-                {
-                    case 0: return 'VEINTE';
-                    default: return 'VEINTI' + Unidades(unidad);
-                }
-            case 3: return DecenasY('TREINTA', unidad);
-            case 4: return DecenasY('CUARENTA', unidad);
-            case 5: return DecenasY('CINCUENTA', unidad);
-            case 6: return DecenasY('SESENTA', unidad);
-            case 7: return DecenasY('SETENTA', unidad);
-            case 8: return DecenasY('OCHENTA', unidad);
-            case 9: return DecenasY('NOVENTA', unidad);
-            case 0: return Unidades(unidad);
-        }
-    }//Unidades()
+  return strSin;
+} //DecenasY()
 
-    function DecenasY(strSin, numUnidades) {
-        if (numUnidades > 0)
-            return strSin + ' Y ' + Unidades(numUnidades)
+function Centenas(num) {
+  let centenas = Math.floor(num / 100);
+  let decenas = num - centenas * 100;
 
-        return strSin;
-    }//DecenasY()
+  switch (centenas) {
+    case 1:
+      if (decenas > 0) return "CIENTO " + Decenas(decenas);
+      return "CIEN";
+    case 2:
+      return "DOSCIENTOS " + Decenas(decenas);
+    case 3:
+      return "TRESCIENTOS " + Decenas(decenas);
+    case 4:
+      return "CUATROCIENTOS " + Decenas(decenas);
+    case 5:
+      return "QUINIENTOS " + Decenas(decenas);
+    case 6:
+      return "SEISCIENTOS " + Decenas(decenas);
+    case 7:
+      return "SETECIENTOS " + Decenas(decenas);
+    case 8:
+      return "OCHOCIENTOS " + Decenas(decenas);
+    case 9:
+      return "NOVECIENTOS " + Decenas(decenas);
+  }
 
-    function Centenas(num) {
-        let centenas = Math.floor(num / 100);
-        let decenas = num - (centenas * 100);
+  return Decenas(decenas);
+} //Centenas()
 
-        switch(centenas)
-        {
-            case 1:
-                if (decenas > 0)
-                    return 'CIENTO ' + Decenas(decenas);
-                return 'CIEN';
-            case 2: return 'DOSCIENTOS ' + Decenas(decenas);
-            case 3: return 'TRESCIENTOS ' + Decenas(decenas);
-            case 4: return 'CUATROCIENTOS ' + Decenas(decenas);
-            case 5: return 'QUINIENTOS ' + Decenas(decenas);
-            case 6: return 'SEISCIENTOS ' + Decenas(decenas);
-            case 7: return 'SETECIENTOS ' + Decenas(decenas);
-            case 8: return 'OCHOCIENTOS ' + Decenas(decenas);
-            case 9: return 'NOVECIENTOS ' + Decenas(decenas);
-        }
+function Seccion(num, divisor, strSingular, strPlural) {
+  let cientos = Math.floor(num / divisor);
+  let resto = num - cientos * divisor;
 
-        return Decenas(decenas);
-    }//Centenas()
+  let letras = "";
 
-    function Seccion(num, divisor, strSingular, strPlural) {
-        let cientos = Math.floor(num / divisor)
-        let resto = num - (cientos * divisor)
+  if (cientos > 0)
+    if (cientos > 1) letras = Centenas(cientos) + " " + strPlural;
+    else letras = strSingular;
 
-        let letras = '';
+  if (resto > 0) letras += "";
 
-        if (cientos > 0)
-            if (cientos > 1)
-                letras = Centenas(cientos) + ' ' + strPlural;
-            else
-                letras = strSingular;
+  return letras;
+} //Seccion()
 
-        if (resto > 0)
-            letras += '';
+function Miles(num) {
+  let divisor = 1000;
+  let cientos = Math.floor(num / divisor);
+  let resto = num - cientos * divisor;
 
-        return letras;
-    }//Seccion()
+  let strMiles = Seccion(num, divisor, "UN MIL", "MIL");
+  let strCentenas = Centenas(resto);
 
-    function Miles(num) {
-        let divisor = 1000;
-        let cientos = Math.floor(num / divisor)
-        let resto = num - (cientos * divisor)
+  if (strMiles == "") return strCentenas;
 
-        let strMiles = Seccion(num, divisor, 'UN MIL', 'MIL');
-        let strCentenas = Centenas(resto);
+  return strMiles + " " + strCentenas;
+} //Miles()
 
-        if(strMiles == '')
-            return strCentenas;
+function Millones(num) {
+  let divisor = 1000000;
+  let cientos = Math.floor(num / divisor);
+  let resto = num - cientos * divisor;
 
-        return strMiles + ' ' + strCentenas;
-    }//Miles()
+  let strMillones = Seccion(num, divisor, "UN MILLON DE", "MILLONES DE");
+  let strMiles = Miles(resto);
 
-    function Millones(num) {
-        let divisor = 1000000;
-        let cientos = Math.floor(num / divisor)
-        let resto = num - (cientos * divisor)
+  if (strMillones == "") return strMiles;
 
-        let strMillones = Seccion(num, divisor, 'UN MILLON DE', 'MILLONES DE');
-        let strMiles = Miles(resto);
+  return strMillones + " " + strMiles;
+} //Millones()
 
-        if(strMillones == '')
-            return strMiles;
+function NumeroALetras(num, currency) {
+  currency = currency || {};
+  let data = {
+    numero: num,
+    enteros: Math.floor(num),
+    centavos: Math.round(num * 100) - Math.floor(num) * 100,
+    letrasCentavos: "",
+    letrasMonedaPlural: currency.plural || "PESOS CHILENOS", //'PESOS', 'Dólares', 'Bolívares', 'etcs'
+    letrasMonedaSingular: currency.singular || "PESO CHILENO", //'PESO', 'Dólar', 'Bolivar', 'etc'
+    letrasMonedaCentavoPlural: currency.centPlural || "CHIQUI PESOS CHILENOS",
+    letrasMonedaCentavoSingular: currency.centSingular || "CHIQUI PESO CHILENO",
+  };
 
-        return strMillones + ' ' + strMiles;
-    }//Millones()
-
-    function NumeroALetras(num, currency) {
-        currency = currency || {};
-        let data = {
-            numero: num,
-            enteros: Math.floor(num),
-            centavos: (((Math.round(num * 100)) - (Math.floor(num) * 100))),
-            letrasCentavos: '',
-            letrasMonedaPlural: currency.plural || 'PESOS CHILENOS',//'PESOS', 'Dólares', 'Bolívares', 'etcs'
-            letrasMonedaSingular: currency.singular || 'PESO CHILENO', //'PESO', 'Dólar', 'Bolivar', 'etc'
-            letrasMonedaCentavoPlural: currency.centPlural || 'CHIQUI PESOS CHILENOS',
-            letrasMonedaCentavoSingular: currency.centSingular || 'CHIQUI PESO CHILENO'
-        };
-
-        if (data.centavos > 0) {
-            data.letrasCentavos = 'CON ' + (function () {
-                    if (data.centavos == 1)
-                        return Millones(data.centavos) + ' ' + data.letrasMonedaCentavoSingular;
-                    else
-                        return Millones(data.centavos) + ' ' + data.letrasMonedaCentavoPlural;
-                })();
-        }
-
-        if(data.enteros == 0)
-            return 'CERO ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
-        if (data.enteros == 1)
-            return Millones(data.enteros) + ' ' + data.letrasMonedaSingular + ' ' + data.letrasCentavos;
+  if (data.centavos > 0) {
+    data.letrasCentavos =
+      "CON " +
+      (function () {
+        if (data.centavos == 1)
+          return (
+            Millones(data.centavos) + " " + data.letrasMonedaCentavoSingular
+          );
         else
-            return Millones(data.enteros) + ' ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
-    }
+          return Millones(data.centavos) + " " + data.letrasMonedaCentavoPlural;
+      })();
+  }
+
+  if (data.enteros == 0)
+    return "CERO " + data.letrasMonedaPlural + " " + data.letrasCentavos;
+  if (data.enteros == 1)
+    return (
+      Millones(data.enteros) +
+      " " +
+      data.letrasMonedaSingular +
+      " " +
+      data.letrasCentavos
+    );
+  else
+    return (
+      Millones(data.enteros) +
+      " " +
+      data.letrasMonedaPlural +
+      " " +
+      data.letrasCentavos
+    );
+}
 </script>
 
 <style scoped>
