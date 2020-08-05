@@ -366,13 +366,13 @@
           ////////////////////////////////////////////////////////////////////-->
           <thead>
             <tr class="border text-xs">
-              <th class>Partida</th>
-              <th class="text-red-600">Componente</th>
-              <th class="text-red-600">
+              <th class="w-20">Partida</th>
+              <th class="w-48 text-red-600">Componente</th>
+              <th class="w-48 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
-              <th class></th>
+              <th class="w-48"></th>
             </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
