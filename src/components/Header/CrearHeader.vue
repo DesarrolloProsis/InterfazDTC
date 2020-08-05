@@ -1,211 +1,219 @@
 <template>
-  <div class="m-0 bg-white">
-    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center font-light">
-      <div
-        class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
-      >
-        <!-- TituloyReferencia -->
-        <div class="flex">
-          <div class="w-1/3">
-            <img src="../../assets/img/prosis-logo.jpg" height="200" width="200" class="m-2" />
-          </div>
-          <div
-            class="w-1/3 border-2 border-black text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold"
-          >
-            <p class="p-0">Dictamen Tecnico y Cotizacion</p>
-          </div>
-          <div class="w-1/3 text-center">
-            <br />
-            <label class="ml-5 mr-2" style="font-weight: normal">Referencia:</label>
-            <label style="font-weight: bold">{{ datosSinester.ReferenceNumber }}</label>
-          </div>
-        </div>
-        <!-- SubTitulo -->
-        <div class="flex mt-5 mb-16">
-          <div class="w-1/3">
-            <br />
-            <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
-            <label style="font-weight: bold; padding-left: 0.5vw"> {{ datosUser.agrement }}</label>
-          </div>
-          <div class="w-1/3">
-            <br />
-            <div class="border-black border-2 text-lg text-center font-bold">
-              <h6>En caso de Siniestro</h6>
-            </div>
-          </div>
-          <div class="w-1/3 text-center pl-12">
-            <br />
-            <label class="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
-            <label class="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
-          </div>
-        </div>
-        <!-- --------------------------------------------------- -->
-        <div class="flex md:mb-5 md:text-xs lg:text-lg">
-          <div class="w-1/4 mr-6">
-            <label>Atencion:</label>
-            <label class="ml-2 text-sm" style="font-weight: normal">{{ datosUser.managerName }}</label>
-          </div>
-          <div class="w-1/4 pl-2 pr-2">
-            <p class="text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
-            <input
-              v-validate="'uniqueSinester'"
-              v-model="datosSinester.SinisterNumber"
-              class="w-full"
-              type="text"
-              name="NoSiniestro"
-              placeholder
-            />
-            <p class="text-red-600 text-xs">{{ errors.first('NoSiniestro') }}</p>
-          </div>
-          <div class="w-1/4 pl-2 pr-2">
-            <p class="text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
-            <input
-              v-validate="'uniqueReport'"
-              v-model="datosSinester.ReportNumber"
-              class="w-full"
-              type="text"  
-              name="NoReporte"                         
-            />
-            <p class="text-red-600 text-xs">{{ errors.first('NoReporte') }}</p>
-          </div>
-          <div class="w-1/4 pl-2 pr-2">
-            <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
-            <select
-              v-model="datosSinester.TypeDescriptionId"
-              v-validate="'required'" 
-              class="w-full"
-              type="text"
-              name="TipoDescripcion"
-            >
-              <option disabled value="">Selecionar...</option>
-              <option
-                v-for="(desc, index) in descripciones"
-                v-bind:value="desc.typeDescriptionId"
-                :key="index"
-              >{{ desc.description }}</option>
-            </select>
-            <p class="text-red-600 text-xs">{{ errors.first('TipoDescripcion') }}</p>
-          </div>
-        </div>
-        <!--***********************************************************-->
-        <div class="flex lg:text-lg">
-          <div class="w-1/4 mr-6">
-            <label class="inline">Cargo:</label>
-            <label class="inline ml-2 text-sm" style="font-weight: normal">{{ datosUser.position }}</label>
-          </div>
-          <div class="w-1/4 pl-2 pr-2">
-            
-            <p class="text-md mb-1 font-semibold text-gray-900">Fecha Siniestro:</p>
-            <input
-              @change="crearReferencia()"
-              v-validate="'required'" 
-              :disabled="fechaSiniestoEdit"
-              v-model="datosSinester.SinisterDate"
-              class="w-full"
-              name="FechaSiniestro"
-              type="date"
-            />
-             <p class="text-red-600 text-xs">{{ errors.first('FechaSiniestro') }}</p>
-          </div>
-          <div class="w-1/4"></div>
-          <div class="w-1/4 pl-2 pr-2">            
-            <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
-            <input              
-              v-model="datosSinester.ShippingElaboracionDate"
-              v-validate="'required'" 
-              class="w-full"
-              type="date"
-              name="FechaEnvio"
-            />
-            <p class="text-red-600 text-xs">{{ errors.first('FechaEnvio') }}</p>
-          </div>
-        </div>
-        <!--***********************************************************-->
-        <div class="flex md:text-xs lg:text-lg">
-          <div class="w-1/4 mr-6">
-            <label class="inline">Correo:</label>
-            <label class="inline ml-2 text-sm" style="color: blue;">{{ datosUser.mail }}</label>
-          </div>
-          <div class="w-1/4 pl-2 pr-2">            
-            <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
-            <input
-              v-model="datosSinester.FailureNumber" 
-              class="w-full"
-              type="text"
-              placeholder="S/M"
-            />
-          </div>
-          <div class="w-1/4"></div>
-          <div class="w-1/4 pl-2 pr-2">            
-            <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion</p>
-            <input
-            disabled="true"
-              class="w-full"
-              type="date"
-            />
-          </div>
-        </div>
-        <!--***********************************************************-->
-        <div class="flex md:text-xs lg:text-lg">
-          <div class="w-1/4 mr-6">
-            <label>Plaza Cobro:</label>
-            <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ datosUser.plaza }}</label>
-          </div>
-          <div class="w-1/4 pl-2 pr-2">        
-            <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
-            <input
-              v-model="datosSinester.FailureDate"
-              class="w-full"
-              type="date"
-            />
-          </div>
-          <div class="w-1/4"></div>
-          <div class="w-1/4 pl-2 pr-2">
-            <label>Tecnico Responsable:</label>
-            <label class="text-md ml-2" style="font-weight: normal">{{ datosUser.nombre }}</label>
-          </div>
-        </div>
-        <!--***********************************************************-->
-        <div class="flex h-16">
-          <div class="w-1/4"></div>
-          <div class="w-1/4"></div>
-          <div class="w-1/4"></div>
-          <div class="w-1/4 pl-2 pr-2">
-            <label>Coordinacion Regional:</label>
-            <label class="text-md" style="font-weight: normal;">{{ datosUser.regionalCoordination }}</label>
-          </div>
-        </div>
-        <!--***********************************************************-->
-        <div class="flex h-12">
-          <div class="w-1/4"></div>
-          <div class="w-1/4"></div>
-          <div class="w-1/4"></div>
-          <div class="w-1/4 pl-2 pr-2">
-            <label>Centro de Servicio:</label>
-            <label>CDMX</label>
-          </div>
-        </div>
-        <!--***********************************************************-->
-        <div class="flex">
-          <div class="w-1/4"></div>
-
-          <div class="w-1/4"></div>
-
-          <div class="w-1/4"></div>
-
-          <div class="w-1/4 pl-2 pr-2">
-            <label>Correo:</label>
-            <label>hguzman@grupo-prosis.com</label>
-          </div>
-          <br />
-        </div>
-        <br />
-        <br />
+  <div class="bg-blue-400 m-0 p-0 bg-white">
+    <div
+      class="mt-8  grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
+    >
+      <!-- TituloyReferencia -->
+      <div>
+        <img
+          src="../../assets/img/prosis-logo.jpg"
+          height="200"
+          width="200"
+          class="m-2"
+        />
       </div>
-    </form>
+      <div
+        class="border-2 border-black text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold"
+      >
+        <p class="p-0">Dictamen Tecnico y Cotizacion</p>
+      </div>
+      <div class="text-left pl-2">
+        <br />
+        <label class="mr-2" style="font-weight: normal">Referencia:</label>
+        <label style="font-weight: bold">{{
+          datosSinester.ReferenceNumber
+        }}</label>
+      </div>
+
+      <!-- SubTitulo -->
+
+      <div>
+        <br />
+        <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
+        <label style="font-weight: bold; padding-left: 0.5vw">{{ datosUser.agrement }}</label>
+      </div>
+
+      <div>
+        <br />
+        <div class="border-black border-2 text-lg text-center font-bold">
+          <h6>En caso de Siniestro</h6>
+        </div>
+      </div>
+
+      <div class="text-left pl-2">
+        <br />
+        <label class="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
+        <label class="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
+      </div>
+
+      <!-- ------Tercera Linea-------- -->
+        <div class="mr-6">
+          <label>Atencion:</label>
+          <label class="ml-2 text-sm" style="font-weight: normal">{{
+            datosUser.managerName
+          }}</label>
+        </div>
+        <div class="flex pl-2 pr-2">
+          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
+          <input
+            v-validate="'uniqueSinester'"
+            v-model="datosSinester.SinisterNumber"
+            class="w-full"
+            type="text"
+            name="NoSiniestro"
+            placeholder
+          />
+          <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
+          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
+          <input
+            v-validate="'uniqueReport'"
+            v-model="datosSinester.ReportNumber"
+            class="w-full"
+            type="text"
+            name="NoReporte"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
+        </div>
+        <!-- <div class="pl-2 pr-2"></div> -->
+        <div class="w-1/4 pl-2 pr-2">
+          <p class="text-md font-semibold mb-1 text-gray-900">
+            Tipo de Descripcion
+          </p>
+          <select
+            v-model="datosSinester.TypeDescriptionId"
+            v-validate="'required'"
+            class="w-full"
+            type="text"
+            name="TipoDescripcion"
+          >
+            <option disabled value="">Selecionar...</option>
+            <option
+              v-for="(desc, index) in descripciones"
+              v-bind:value="desc.typeDescriptionId"
+              :key="index"
+              >{{ desc.description }}</option
+            >
+          </select>
+          <p class="text-red-600 text-xs">
+            {{ errors.first("TipoDescripcion") }}
+          </p>
+        </div>
+        <!-- ------cuarta Linea-------- -->
+        <div class="mr-6">
+          <label class="inline">Cargo:</label>
+          <label class="inline ml-2 text-sm" style="font-weight: normal">{{
+            datosUser.position
+          }}</label>
+        </div>
+        <div class="pl-2 pr-2">
+          <p class="text-md mb-1 font-semibold text-gray-900">
+            Fecha Siniestro:
+          </p>
+          <input
+            @change="crearReferencia()"
+            v-validate="'required'"
+            :disabled="fechaSiniestoEdit"
+            v-model="datosSinester.SinisterDate"
+            class="w-full"
+            name="FechaSiniestro"
+            type="date"
+          />
+          <p class="text-red-600 text-xs">
+            {{ errors.first("FechaSiniestro") }}
+          </p>
+        </div>
+        <div class="pl-2 pr-2">
+          <p class="text-md mb-1 font-semibold text-gray-900">
+            Fecha de Envio:
+          </p>
+          <input
+            v-model="datosSinester.ShippingElaboracionDate"
+            v-validate="'required'"
+            class="w-full"
+            type="date"
+            name="FechaEnvio"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first("FechaEnvio") }}</p>
+        </div>
+      <!--*************** Quinta Linea ***********************-->
+        <div class="mr-6">
+          <label class="inline">Correo:</label>
+          <label class="inline ml-2 text-sm" style="color: blue;">{{
+            datosUser.mail
+          }}</label>
+        </div>
+        <div class="pl-2 pr-2">
+          <p class="text-md mb-1 font-semibold text-gray-900">
+            Folio de Falla:
+          </p>
+          <input
+            v-model="datosSinester.FailureNumber"
+            class="w-full"
+            type="text"
+            placeholder="S/M"
+          />
+        </div>
+          <div class="pl-2 pr-2">
+          <p class="text-md mb-1 font-semibold text-gray-900">
+            Fecha de Elaboracion:
+          </p>
+          <input disabled="true" class="w-full" type="date" />
+        </div>
+      <!--*********************Sexta Linea**************************************-->
+        <div class="mr-6">
+          <label>Plaza Cobro:</label>
+          <label
+            class="text-sm text-gray-900 ml-2"
+            style="font-weight: normal"
+            >{{ datosUser.plaza }}</label
+          >
+        </div>
+        <div class="pl-2 pr-2">
+          <p class="text-md mb-1 font-semibold text-gray-900">
+            Fecha de Falla:
+          </p>
+          <input
+            v-model="datosSinester.FailureDate"
+            class="w-full"
+            type="date"
+          />
+        </div>
+        <div class="pl-2 pr-2">
+          <label>Tecnico Responsable:</label>
+          <label class="text-md ml-2" style="font-weight: normal">{{
+            datosUser.nombre
+          }}</label>
+        </div>
+      <!--**************Septima Linea******************************-->
+      <div></div>
+      <div></div>
+      <div class="w-1/4 pl-2 pr-2">
+          <label>Coordinacion Regional:</label>
+          <label class="text-md" style="font-weight: normal;">{{
+            datosUser.regionalCoordination
+          }}</label>
+        </div>
+      <!--***************Octava linea****************************-->
+        <div></div>
+        <div></div>
+        <div class="pl-2 pr-2">
+          <label>Centro de Servicio:</label>
+          <label>CDMX</label>
+        </div>
+      <!--***************novena Linea****************************-->
+        <div></div>
+        <div></div>
+        <div class="w-1/4 pl-2 pr-2">
+          <label>Correo:</label>
+          <label>hguzman@grupo-prosis.com</label>
+        </div>
+      <!--***********************************************************-->
+      <br />
+      <br />
+    </div>
     <!-- COMPONENTE TABLA EQUIPO DAÑANDA -->
     <TablaEquipoMalo
-      :listaComponentes="listaComponentes"      
+      :listaComponentes="listaComponentes"
       :dateSinester="datosSinester.SinisterDate"
     ></TablaEquipoMalo>
   </div>
@@ -220,19 +228,19 @@ export default {
   props: {
     descripciones: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     datosUser: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
-    headerEdit:{
+    headerEdit: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   components: {
-    TablaEquipoMalo
+    TablaEquipoMalo,
   },
   data() {
     return {
@@ -250,29 +258,21 @@ export default {
         UserId: null,
         AgremmentInfoId: null,
         Descripcion: null,
-        Observaciones: null
+        Observaciones: null,
       },
       listaComponentes: [],
-      fechaSiniestoEdit: false
+      fechaSiniestoEdit: false,
     };
   },
   methods: {
     async crearReferencia() {
-      let diaActual = parseInt(
-        this.datosSinester.SinisterDate.substr(8, 2)
-      );
-      let mesActual = parseInt(
-        this.datosSinester.SinisterDate.substr(6, 2)
-      );
-      let yearActual = parseInt(
-        this.datosSinester.SinisterDate.substr(0, 4)
-      );
+      let diaActual = parseInt(this.datosSinester.SinisterDate.substr(8, 2));
+      let mesActual = parseInt(this.datosSinester.SinisterDate.substr(6, 2));
+      let yearActual = parseInt(this.datosSinester.SinisterDate.substr(0, 4));
 
       let diaCorriente = 0;
 
-      let newYear = parseInt(
-        this.datosSinester.SinisterDate.substr(2, 2)
-      );
+      let newYear = parseInt(this.datosSinester.SinisterDate.substr(2, 2));
 
       diaCorriente = diaActual;
 
@@ -304,8 +304,8 @@ export default {
       );
       this.datosSinester.ReferenceNumber = await this.$store.getters[
         "Header/getreferenceNum"
-      ];      
-    }
+      ];
+    },
   },
   watch: {
     //ARREGLAR WATCHER!!!!!
@@ -313,17 +313,15 @@ export default {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
     },
-    datosSinester: {      
+    datosSinester: {
       deep: true,
       handler(datosSinester) {
-        
         this.$store.commit("Header/datosSinesterMutation", datosSinester);
-      }
-    }
+      },
+    },
   },
   beforeMount: async function() {
-
-    let value = await this.$store.getters['Header/getConvenioPlaza']
+    let value = await this.$store.getters["Header/getConvenioPlaza"];
     await this.$store.dispatch("Refacciones/buscarComponentes", value);
     this.listaComponentes = await this.$store.getters[
       "Refacciones/getListaRefacciones"
@@ -334,28 +332,32 @@ export default {
       "DTC/getListaDescriptions"
     ];
 
-    if(JSON.stringify(this.headerEdit) != '{}'){
-
-          this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber
-          this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber
-          this.datosSinester.ReportNumber = this.headerEdit.reportNumber
-          this.datosSinester.SinisterDate = moment(this.headerEdit.sinisterDate).format('YYYY-MM-DD')
-          this.datosSinester.FailureNumber = this.headerEdit.failureNumber
-          this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format('YYYY-MM-DD')
-          this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format('YYYY-MM-DD')
-          this.datosSinester.TypeDescriptionId = 2  
-          this.fechaSiniestoEdit = true
-    }    
+    if (JSON.stringify(this.headerEdit) != "{}") {
+      this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
+      this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
+      this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
+      this.datosSinester.SinisterDate = moment(
+        this.headerEdit.sinisterDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
+      this.datosSinester.FailureDate = moment(
+        this.headerEdit.failureDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.ShippingElaboracionDate = moment(
+        this.headerEdit.shippingDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.TypeDescriptionId = 2;
+      this.fechaSiniestoEdit = true;
+    }
     //this.$validator.validateAll();
-  }
- 
+  },
 };
 </script>
 
 <style scoped>
-  label {
-    font-weight: bold;
-    color: black;
-    font-family: Tahoma, Geneva, Verdana, sans-serif;
-  }
+label {
+  font-weight: bold;
+  color: black;
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
 </style>
