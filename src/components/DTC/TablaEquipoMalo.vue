@@ -345,7 +345,7 @@
                   v-on:click.stop.prevent="agregarPartida()"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
                 >
-                  <img src="../../assets/img/more.png" class="m-2" width="20" height="20" />
+                  <img src="../../assets/img/more.png" width="20" height="20" />
                   <span class="text-xs">Agregar Partida</span>
                 </button>
               </td>
@@ -442,7 +442,7 @@
                     v-on:click.stop.prevent="deleteItem(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
-                    <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15" />
+                    <img src="../../assets/img/bin.png" width="15" height="15" />
                   </button>
 
                   <button
@@ -450,8 +450,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
                   >
                     <img
-                      src="../../assets/img/pencil.png"
-                      class="mr-2 sm:m-1"
+                      src="../../assets/img/pencil.png"                      
                       width="15"
                       height="15"
                     />
@@ -461,7 +460,7 @@
                     v-on:click.stop.prevent="infoModal(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700 m-2"
                   >
-                    <img src="../../assets/img/mas.png" class="mr-2 sm:m-1" width="15" height="15" />
+                    <img src="../../assets/img/mas.png" width="15" height="15" />
                   </button>
                 </div>
                 <div v-else>
@@ -470,8 +469,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
                     <img
-                      src="../../assets/img/cerrar.png"
-                      class="mr-2 sm:m-1"
+                      src="../../assets/img/cerrar.png"                      
                       width="15"
                       height="15"
                     />
@@ -482,8 +480,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
                   >
                     <img
-                      src="../../assets/img/garrapata.png"
-                      class="mr-2 sm:m-1"
+                      src="../../assets/img/garrapata.png"                      
                       width="15"
                       height="15"
                     />
@@ -535,7 +532,7 @@
               <td class="border p-3">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
-                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800  rounded inline-flex items-center border-2 border-green-700"
                 >
                   <img src="../../assets/img/more.png" class="" width="20" height="20" />
                 </button>

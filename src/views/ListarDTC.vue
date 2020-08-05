@@ -56,7 +56,7 @@
       <div :class="{ 'pointer-events-none': modal }" class="flex w-full">
         <div class="mx-auto p-1">
           <div
-            class="shadow-2xl inline-block focus m-4 p-3 sm:m-6"
+            class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 "
             v-for="(dtc, index) in infoDTC"
             :key="index"
           >

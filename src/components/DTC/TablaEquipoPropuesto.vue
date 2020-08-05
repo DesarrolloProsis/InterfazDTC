@@ -2,16 +2,16 @@
   <div>
     <div class="flex justify-center sm:hidden">
       <div
-        class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full  flex flex-col"
+        class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full flex flex-col"
       >
         <!-- ************************************************************** -->
-        <div class=" text-center mb-5">
-          <h6 class="">Equipo Propuesto</h6>
+        <div class="text-center mb-2">
+          <h6 class>Equipo Propuesto</h6>
         </div>
         <!-- ************************************************************** -->
         <div class="inline-flex">
           <table>
-            <tr>
+            <tr class="border text-sm">
               <th class="w-20">Partida</th>
               <th class="w-24">Unidad</th>
               <th class="w-32">Componente</th>
@@ -35,30 +35,30 @@
                 <br />(Dolares)
               </th>
             </tr>
-
-            <tr
-              style="text-align: center"
-              class="hover:bg-blue-200 text-center"
+            <tr              
+              class="hover:bg-blue-200 text-center text-xs"
               v-for="(equipo, index) in listaEquipo"
               :key="index"
             >
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row1}}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row2.toString() }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row3.description }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row4.toString() }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row5.toString() }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ equipo.row6.toString() }}</td>
+              <td class="border">{{ equipo.row1}}</td>
+              <td class="border">{{ equipo.row2.toString() }}</td>
+              <td class="border">{{ equipo.row3.description }}</td>
+              <td class="border">{{ equipo.row4.toString() }}</td>
+              <td class="border">{{ equipo.row5.toString() }}</td>
+              <td class="border">
+                <p v-for="(item, key) in equipo.row6" :key="key" class="text-sm">{{ item }}</p>
+              </td>
               <td
-                class="border-b border-black p-2 md:p-3 border-2"
+                class="border"
               >$ {{ equipo.row14.toLocaleString('en-US') }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+              <td class="border">{{ '-----' }}</td>
               <td
-                class="border-b border-black p-2 md:p-3 border-2"
+                class="border"
               >$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
-              <td class="border-b border-black p-2 md:p-3 border-2">{{ '-----' }}</td>
+              <td class="border">{{ '-----' }}</td>
             </tr>
           </table>
-          <div class="divDescription" style="width: 20%">
+          <div >
             <tr>
               <th>Diagnostico</th>
             </tr>
@@ -97,41 +97,38 @@
 
     <div class="md:hidden lg:hidden xl:hidden flex justify-center flex-col">
       <div :class="{ 'hidden': modal }">
-        <div class=" text-center mb-5">
-          <h6 class="">Equipo Propuesto</h6>
+        <div class="text-center mb-5">
+          <h6 class>Equipo Propuesto</h6>
         </div>
         <div class="p-4">
-          <table>
-              <tr class="border text-xs">
-                <th class="w-10">Partida</th>              
-                <th class="w-32">Componente</th>                                               
-                <th class="w-32">
-                  Precio Total
-                  <br />(Pesos)
-                </th> 
-                <th>Accion</th>
-              </tr>
+          <table class=" table-fixed border-collapse">
+            <tr class="border text-xs text-center">
+              <th class="w-20">Partida</th>
+              <th class=" w-48">Componente</th>
+              <th class="w-48">
+                Precio Total
+                <br />(Pesos)
+              </th>
+              <th class="w-40">Accion</th>
+            </tr>
 
-              <tr
-    
-                class="hover:bg-blue-200 text-center text-xs"
-                v-for="(equipo, index) in listaEquipo"
-                :key="index"
-              >
-                <td class="border">{{ equipo.row1}}</td>                
-                <td class="border">{{ equipo.row3.description }}</td>                                                                             
-                <td
-                  class="border"
-                >$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>   
-                <td class="border">                
-                  <button
-                    v-on:click.stop.prevent="infoFull(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
-                  >
-                    <img src="../../assets/img/mas.png" class="" width="20" height="20" />
-                  </button>
-                </td>             
-              </tr>
+            <tr
+              class="hover:bg-blue-200 text-center text-xs"
+              v-for="(equipo, index) in listaEquipo"
+              :key="index"
+            >
+              <td class="border">{{ equipo.row1}}</td>
+              <td class="border">{{ equipo.row3.description }}</td>
+              <td class="border">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
+              <td class="border">
+                <button
+                  v-on:click.stop.prevent="infoFull(index)"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
+                >
+                  <img src="../../assets/img/mas.png" class width="20" height="20" />
+                </button>
+              </td>
+            </tr>
           </table>
         </div>
 
@@ -141,14 +138,8 @@
               <p class="inline">Total: {{ letraMoneda | totalLinea }}</p>
             </div>
 
-            <div class=" p-2">
-              <input
-                v-model="sumatoria"
-                disabled
-                class="w-24"
-                type="text"
-                placeholder="$ 0.00"
-              />
+            <div class="p-2">
+              <input v-model="sumatoria" disabled class="w-24" type="text" placeholder="$ 0.00" />
             </div>
           </div>
           <hr />
@@ -164,72 +155,70 @@
               name="Diagnostico"
             />
           </div>
-          <div class=" text-center">
-            <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>            
+          <div class="text-center">
+            <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
           </div>
         </div>
       </div>
       <div class="flex flex-col p-5" v-if="modal">
         <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
-            <div class="inline-flex m-2">
-              <div class="w-24 m-1">
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Componete</p>
-                <p>{{ infoRow.row3.description }}</p>
-              </div>
-              <div class="w-24 m-1">
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unidad</p>
-                <p>{{ infoRow.row2 }}</p>
-              </div>
-              <div class="w-24 m-1">
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Cantidad</p>
-                <p class="">{{ infoRow.row4 }}</p>
-              </div>
+          <div class="inline-flex m-2">
+            <div class=" w-20 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Componete</p>
+              <p>{{ infoRow.row3.description }}</p>
             </div>
-
-            <div class="inline-flex m-2">
-              <div class="w-32 m-1">                
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>                
-                <p class="border-b-2">{{ '----------' }}</p>
-              </div>
-              <div class="w-32 m-1">
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Dolares</p>
-                <p class="border-b-2">{{ '----------' }}</p>
-              </div>
+            <div class="w-20 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unidad</p>
+              <p>{{ infoRow.row2 }}</p>
             </div>
-  
-             <div class="inline-flex m-2">
-              <div class="w-32 m-1">                
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>                
-                <p class="border-b-2">$ {{ (infoRow.row14).toLocaleString('en-US') }}</p>
-              </div>
-              <div class="w-32 m-1">
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Pesos</p>
-                <p class="border-b-2">$ {{ (infoRow.row14 * infoRow.row4).toLocaleString('en-US') }}</p>
-              </div>
+            <div class="w-20 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Cantidad</p>
+              <p class>{{ infoRow.row4 }}</p>
             </div>
-
-
-            <div class="inline-flex m-2">
-              <div class="w-32 m-1">
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Marca</p>
-                <p class="border-b-2" v-for="(item, id) in infoRow.row5" :key="id">{{ item }}</p>
-              </div>
-              <div class="w-32 m-1">
-                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Modelo</p>
-                <p class="border-b-2" v-for="(item, id) in infoRow.row6" :key="id">{{ item }}</p>
-              </div>
-            </div>
-
-            <div class="flex justify-end">
-              <button
-                v-on:click.stop.prevent="modal = false, infoRow = {}"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3   rounded inline-flex items-center border-2 border-red-700 mr-10 mb-5 mt-3"
-              >
-                <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
-                <span class="text-sm">Cerrar</span>
-              </button>
           </div>
 
+          <div class="inline-flex m-2">
+            <div class="w-32 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>
+              <p class="border-b-2">{{ '----------' }}</p>
+            </div>
+            <div class="w-32 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Dolares</p>
+              <p class="border-b-2">{{ '----------' }}</p>
+            </div>
+          </div>
+
+          <div class="inline-flex m-2">
+            <div class="w-32 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>
+              <p class="border-b-2">$ {{ (infoRow.row14).toLocaleString('en-US') }}</p>
+            </div>
+            <div class="w-32 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Pesos</p>
+              <p class="border-b-2">$ {{ (infoRow.row14 * infoRow.row4).toLocaleString('en-US') }}</p>
+            </div>
+          </div>
+
+          <div class="inline-flex m-2">
+            <div class="w-32 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Marca</p>
+              <p class="border-b-2" v-for="(item, id) in infoRow.row5" :key="id">{{ item }}</p>
+            </div>
+            <div class="w-32 m-1">
+              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Modelo</p>
+              <p class="border-b-2" v-for="(item, id) in infoRow.row6" :key="id">{{ item }}</p>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button
+              v-on:click.stop.prevent="modal = false, infoRow = {}"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 mr-10 mb-5 mt-3"
+            >
+              <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
+              <span class="text-sm">Cerrar</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -248,15 +237,13 @@ export default {
     return {
       diagnostico: "",
       modal: false,
-      infoRow: {}
+      infoRow: {},
     };
   },
-  filters:{
-
-    totalLinea: function(value){
-
-        return value.substr(0,30)
-    }
+  filters: {
+    totalLinea: function (value) {
+      return value.substr(0, 30);
+    },
   },
   beforeMount: function () {
     this.diagnostico = this.$store.getters["Header/getDiagnostico"];
@@ -267,13 +254,10 @@ export default {
     },
   },
   methods: {
-
-      infoFull: function(value){
-
-        this.modal = true
-        this.infoRow = Object.assign(this.listaEquipo[value])
-
-      }
+    infoFull: function (value) {
+      this.modal = true;
+      this.infoRow = Object.assign(this.listaEquipo[value]);
+    },
   },
   computed: {
     multiplicacion: function () {
@@ -508,117 +492,7 @@ function NumeroALetras(num, currency) {
 }
 </script>
 
-<style scoped>
-.title {
-  text-align: center;
-  font-weight: bold;
-  font-size: 2vw;
-  border: 2px solid black;
-}
 
-.divtitle {
-  margin: 0 auto;
-}
 
-.divtitle2 {
-  margin: 0 auto;
-}
-
-.title2 {
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 20%;
-  margin-top: 30%;
-  font-size: 1.2vw;
-  border: 2px solid black;
-}
-
-.imgRefNum {
-  display: grid;
-  grid-template-columns: 20% 80%;
-}
-
-.input {
-  text-align: end;
-  padding-top: 5vh;
-}
-
-.fecha {
-  width: 12.1rem;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  font-size: 0.85rem;
-  margin-bottom: -5vh;
-}
-
-.grid-container3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  font-size: 0.85rem;
-  margin-bottom: -5vh;
-  padding-left: 3vw;
-}
-
-label {
-  font-weight: bold;
-  color: black;
-  font-family: Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.grid-container2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  font-size: 0.85rem;
-  margin-bottom: -4vh;
-  overflow: hidden;
-}
-
-.staticLabel {
-  font-weight: normal;
-}
-
-.lastContainer {
-  display: flex;
-  flex-direction: row;
-}
-
-.divDescription {
-  display: inline-block;
-  padding-left: 2vw;
-  width: 10vw;
-}
-
-.divLastTable {
-  display: inline-block;
-  padding-bottom: 1vh;
-}
-
-.inputDesc {
-  height: 10vh;
-  width: 18vw;
-}
-
-.divLastTable {
-  border-spacing: 10px;
-  border-collapse: separate;
-  display: inline-block;
-}
-
-.relleno {
-  display: inline-block;
-}
-
-@media (max-width: 750px) {
-  .grid-container {
-    margin-bottom: 0;
-  }
-  .grid-container2 {
-    margin-bottom: 0;
-  }
-}
-</style>
 
 
