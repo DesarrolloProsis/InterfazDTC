@@ -221,6 +221,7 @@
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+
 import moment from "moment";
 
 export default {
@@ -262,6 +263,8 @@ export default {
       },
       listaComponentes: [],
       fechaSiniestoEdit: false,
+
+      sizeSmall: false,
     };
   },
   methods: {
@@ -309,7 +312,7 @@ export default {
   },
   watch: {
     //ARREGLAR WATCHER!!!!!
-    datosUser: function(newValue) {
+    datosUser: function (newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
     },

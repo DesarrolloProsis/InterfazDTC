@@ -13,9 +13,9 @@
       style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw"
     >
       <div
-        class=" mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3  gap-4"
+        class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4"
       >
-        <div class=" border border-black">
+        <div class="border border-black">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
             <br />
@@ -35,26 +35,22 @@
           </p>
         </div>
         <div></div>
-        <div class="items-center ">
+        <div class="items-center">
           <p class="text-center">
             <span style="font-weight: bold text-center">Observaciones</span>
           </p>
           <textarea
             v-model="observaciones"
             v-validate="'max:120'"
-            class="appearance-none block  bg-grey-lighter container mx-auto text-grey-darker border border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
             placeholder="jane@example.com"
             name="Observaciones"
           />
-          <p class="text-xs">
-            {{ errors.first("Observaciones") }}
-          </p>
+          <p class="text-xs">{{ errors.first("Observaciones") }}</p>
         </div>
         <div class="border border-black items-center">
           <p style="text-align: center">
-            <span style="font-weight: bold"
-              >Autorizacion Tecnica y Comercial:</span
-            >
+            <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
             <br />
             <br />
             <br />
@@ -81,21 +77,13 @@
             <span>{{ datosUser.adminMail }}</span>
           </p>
         </div>
-        <div
-          class="flex flex-grow content-start flex-wrap bg-gray-200"
-          style="padding: 3vw;"
-        >
+        <div class="flex flex-grow content-start flex-wrap bg-gray-200" style="padding: 3vw;">
           <div class="bg-red-500 w-1/2 p-2">
             <button
               @click="crearDTCTecnico(1)"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border"
             >
-              <img
-                src="../assets/img/save.png"
-                class="mr-2"
-                width="50"
-                height="50"
-              />
+              <img src="../assets/img/save.png" class="mr-2" width="50" height="50" />
               <span>Guardar</span>
             </button>
           </div>
@@ -104,12 +92,7 @@
               @click="crearDTCTecnico(2)"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700"
             >
-              <img
-                src="../assets/img/add.png"
-                class="mr-2"
-                width="50"
-                height="50"
-              />
+              <img src="../assets/img/add.png" class="mr-2" width="50" height="50" />
               <span>Crear</span>
             </button>
           </div>
@@ -165,12 +148,12 @@ export default {
     }
   },
   watch: {
-    observaciones: function(newValue) {
+    observaciones: function (newValue) {
       this.$store.commit("Header/OBSERVACION_MUTATION", newValue);
     },
   },
   methods: {
-    crearDTCTecnico: async function(status) {
+    crearDTCTecnico: async function (status) {
       this.refNum = this.$store.getters["Header/getreferenceNum"];
       await this.$store.dispatch("Header/crearHeaders", {
         datosUser: this.datosUser,
@@ -216,7 +199,7 @@ export default {
             oReq.responseType = "blob";
             // When the file request finishes
             // Is up to you, the configuration for error events etc.
-            oReq.onload = function() {
+            oReq.onload = function () {
               // Once the file is downloaded, open a new window with the PDF
               // Remember to allow the POP-UPS in your browser
               var file = new Blob([oReq.response], {
