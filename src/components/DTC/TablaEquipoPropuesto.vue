@@ -1,38 +1,36 @@
 <template>
-  <div class="m-0 bg-white">
-    <form class="flex flex-no-wrap bg-white md:ml-5 md:mr-5 justify-center">
+  <div>
+    <div class="flex justify-center sm:hidden">
       <div
-        class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
+        class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full  flex flex-col"
       >
         <!-- ************************************************************** -->
-        <br />
-        <div class="divtitle2">
-          <h6 class="title2" style="font-size: 1.3rem">Equipo Propuesto</h6>
+        <div class=" text-center mb-5">
+          <h6 class="">Equipo Propuesto</h6>
         </div>
-        <br />
         <!-- ************************************************************** -->
-        <div class="lastContainer">
-          <table class style="width:71%">
+        <div class="inline-flex">
+          <table>
             <tr>
-              <th>Partida</th>
-              <th>Unidad</th>
-              <th>Componente</th>
-              <th>Cantidad</th>
-              <th>Marca</th>
-              <th>Modelo</th>
-              <th>
+              <th class="w-20">Partida</th>
+              <th class="w-24">Unidad</th>
+              <th class="w-32">Componente</th>
+              <th class="w-24">Cantidad</th>
+              <th class="w-24">Marca</th>
+              <th class="w-24">Modelo</th>
+              <th class="w-32">
                 Precio
                 <br />(Unitario Peso)
               </th>
-              <th>
+              <th class="w-32">
                 Precio
                 <br />(Unitario Dolar)
               </th>
-              <th>
+              <th class="w-32">
                 Precio Total
                 <br />(Pesos)
               </th>
-              <th>
+              <th class="w-32">
                 Precio Total
                 <br />(Dolares)
               </th>
@@ -68,7 +66,7 @@
               <textarea
                 v-model="diagnostico"
                 v-validate="'max:120'"
-                class="appearance-none border border-black rounded-lg py-4 mb-0"
+                class="appearance-none border border-black rounded-lg py-4 mt-5"
                 style="width: 20vw;"
                 name="Diagnostico"
               />
@@ -95,7 +93,82 @@
           <hr />
         </div>
       </div>
-    </form>
+    </div>
+
+    <div class="md:hidden lg:hidden xl:hidden flex justify-center flex-col">
+        <div class=" text-center mb-5">
+          <h6 class="">Equipo Propuesto</h6>
+        </div>
+        <div class="p-4">
+          <table>
+              <tr class="border text-xs">
+                <th class="w-10">Partida</th>              
+                <th class="w-32">Componente</th>                                               
+                <th class="w-32">
+                  Precio Total
+                  <br />(Pesos)
+                </th> 
+                <th>Accion</th>
+              </tr>
+
+              <tr
+    
+                class="hover:bg-blue-200 text-center text-xs"
+                v-for="(equipo, index) in listaEquipo"
+                :key="index"
+              >
+                <td class="border">{{ equipo.row1}}</td>                
+                <td class="border">{{ equipo.row3.description }}</td>                                                                             
+                <td
+                  class="border"
+                >$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>   
+                <td class="border">                
+                  <button
+                    v-on:click.stop.prevent="infoFull(index)"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
+                  >
+                    <img src="../../assets/img/mas.png" class="" width="20" height="20" />
+                  </button>
+                </td>             
+              </tr>
+          </table>
+        </div>
+
+        <div>
+          <div class="flex p-4">
+            <div class="text-xs p-2">
+              <p class="inline">Total: {{ letraMoneda | totalLinea }}</p>
+            </div>
+
+            <div class=" p-2">
+              <input
+                v-model="sumatoria"
+                disabled
+                class="w-24"
+                type="text"
+                placeholder="$ 0.00"
+              />
+            </div>
+          </div>
+          <hr />
+        </div>
+
+        <div class="flex justify-center flex-col">
+          <div>
+            <textarea
+              v-model="diagnostico"
+              v-validate="'max:120'"
+              placeholder="Dignostico"
+              class="appearance-none block bg-grey-lighter container mx-auto text-grey-darkerr border-black rounded-lg mb-0 h-40 placeholder-gray-500 border"
+              name="Diagnostico"
+            />
+          </div>
+          <div class=" text-center">
+            <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
+          </div>
+        </div>
+
+    </div>
   </div>
 </template>
 
@@ -111,6 +184,13 @@ export default {
     return {
       diagnostico: "",
     };
+  },
+  filters:{
+
+    totalLinea: function(value){
+
+        return value.substr(0,30)
+    }
   },
   beforeMount: function () {
     this.diagnostico = this.$store.getters["Header/getDiagnostico"];

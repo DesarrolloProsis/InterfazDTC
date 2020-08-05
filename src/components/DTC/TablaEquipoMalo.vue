@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="flex justify-center sm:hidden">
-      <div class="p-4">
+      <div class="p-4">        
+        <div class=" text-center mb-5">
+          <h6 class="">Equipo Dañado</h6>
+        </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
             ////                 CABECERA DE LA TABLA                       ////
@@ -354,6 +357,9 @@
 
     <div class="flex justify-center md:hidden lg:hidden xl:hidden">
       <div class="p-4" :class="{ 'hidden': modal }">
+          <div class=" text-center mb-5">
+          <h6 class="">Equipo Dañado</h6>
+        </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
               ////                 CABECERA DE LA TABLA                       ////
@@ -531,7 +537,7 @@
                   v-on:click.stop.prevent="agregarPartida()"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
                 >
-                  <img src="../../assets/img/more.png" class="m-2" width="20" height="20" />
+                  <img src="../../assets/img/more.png" class="" width="20" height="20" />
                 </button>
               </td>
             </tr>
@@ -611,13 +617,13 @@
         </div>
       </div>
     </div>
-    <!-- <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto> -->
+    <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
   </div>
 </template>
 
 <script>
 import Multiselect from "vue-multiselect";
-//import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
+import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
 import moment from "moment";
 
@@ -625,7 +631,7 @@ export default {
   name: "TablaEquipoMalo",
   components: {
     Multiselect,
-    //TablaEquipoPropuesto
+    TablaEquipoPropuesto
   },
   data() {
     return {
