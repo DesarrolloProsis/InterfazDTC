@@ -96,6 +96,7 @@
     </div>
 
     <div class="md:hidden lg:hidden xl:hidden flex justify-center flex-col">
+      <div :class="{ 'hidden': modal }">
         <div class=" text-center mb-5">
           <h6 class="">Equipo Propuesto</h6>
         </div>
@@ -164,10 +165,73 @@
             />
           </div>
           <div class=" text-center">
-            <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
+            <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>            
           </div>
         </div>
+      </div>
+      <div class="flex flex-col p-5" v-if="modal">
+        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
+            <div class="inline-flex m-2">
+              <div class="w-24 m-1">
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Componete</p>
+                <p>{{ infoRow.row3.description }}</p>
+              </div>
+              <div class="w-24 m-1">
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unidad</p>
+                <p>{{ infoRow.row2 }}</p>
+              </div>
+              <div class="w-24 m-1">
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Cantidad</p>
+                <p class="">{{ infoRow.row4 }}</p>
+              </div>
+            </div>
 
+            <div class="inline-flex m-2">
+              <div class="w-32 m-1">                
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>                
+                <p class="border-b-2">{{ '----------' }}</p>
+              </div>
+              <div class="w-32 m-1">
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Dolares</p>
+                <p class="border-b-2">{{ '----------' }}</p>
+              </div>
+            </div>
+  
+             <div class="inline-flex m-2">
+              <div class="w-32 m-1">                
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>                
+                <p class="border-b-2">$ {{ (infoRow.row14).toLocaleString('en-US') }}</p>
+              </div>
+              <div class="w-32 m-1">
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Pesos</p>
+                <p class="border-b-2">$ {{ (infoRow.row14 * infoRow.row4).toLocaleString('en-US') }}</p>
+              </div>
+            </div>
+
+
+            <div class="inline-flex m-2">
+              <div class="w-32 m-1">
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Marca</p>
+                <p class="border-b-2" v-for="(item, id) in infoRow.row5" :key="id">{{ item }}</p>
+              </div>
+              <div class="w-32 m-1">
+                <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Modelo</p>
+                <p class="border-b-2" v-for="(item, id) in infoRow.row6" :key="id">{{ item }}</p>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button
+                v-on:click.stop.prevent="modal = false, infoRow = {}"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3   rounded inline-flex items-center border-2 border-red-700 mr-10 mb-5 mt-3"
+              >
+                <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
+                <span class="text-sm">Cerrar</span>
+              </button>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -183,6 +247,8 @@ export default {
   data() {
     return {
       diagnostico: "",
+      modal: false,
+      infoRow: {}
     };
   },
   filters:{
@@ -199,6 +265,15 @@ export default {
     diagnostico: function (newValue) {
       this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
     },
+  },
+  methods: {
+
+      infoFull: function(value){
+
+        this.modal = true
+        this.infoRow = Object.assign(this.listaEquipo[value])
+
+      }
   },
   computed: {
     multiplicacion: function () {
