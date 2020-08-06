@@ -1,15 +1,15 @@
 <template>
-  <div class="bg-blue-400 m-0 p-0 bg-white">
+  <div class="m-0 p-0 bg-white">
     <div
       class="mt-8  grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
     >
       <!-- TituloyReferencia -->
-      <div>
+      <div class="flex flex-col bg-gray-200 sm:flex-col">
         <img
           src="../../assets/img/prosis-logo.jpg"
           height="200"
           width="200"
-          class="m-2"
+          class="text-center  m-2"
         />
       </div>
       <div
@@ -75,7 +75,7 @@
           <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
         </div>
         <!-- <div class="pl-2 pr-2"></div> -->
-        <div class="w-1/4 pl-2 pr-2">
+        <div class="pl-2 pr-2">
           <p class="text-md font-semibold mb-1 text-gray-900">
             Tipo de Descripcion
           </p>

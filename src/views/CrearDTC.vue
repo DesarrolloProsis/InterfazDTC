@@ -77,17 +77,17 @@
             <span>{{ datosUser.adminMail }}</span>
           </p>
         </div>
-        <div class="flex flex-grow content-start flex-wrap bg-gray-200" style="padding: 3vw;">
-          <div class="bg-red-500 w-1/2 p-2">
+        <div class="flex flex-grow content-start flex-wrap bg-gray-100" style="padding: 3vw;">
+          <div class="w-1/2 p-2">
             <button
               @click="crearDTCTecnico(1)"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700"
             >
               <img src="../assets/img/save.png" class="mr-2" width="50" height="50" />
               <span>Guardar</span>
             </button>
           </div>
-          <div class="bg-red-700 w-1/2 p-2">
+          <div class="w-1/2 p-2">
             <button
               @click="crearDTCTecnico(2)"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700"
