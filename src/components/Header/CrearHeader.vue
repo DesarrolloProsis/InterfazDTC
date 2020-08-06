@@ -4,20 +4,30 @@
       class="mt-8  grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
     >
       <!-- TituloyReferencia -->
-      <div class="flex flex-col bg-gray-200 sm:flex-col">
+
+      <div
+        class="box-content p-4 border-4 border-gray-400 xl:w-3/4"
+      >
+        <img
+          src="../../assets/img/prosis-logo.jpg"
+          class="xl:h-12 4k:h-12"
+        />
+        
+      </div>
+      <!-- <div class="flex flex-col bg-gray-200 sm:flex-col">
         <img
           src="../../assets/img/prosis-logo.jpg"
           height="200"
           width="200"
           class="text-center  m-2"
         />
-      </div>
+      </div> -->
       <div
         class="border-2 border-black text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold"
       >
-        <p class="p-0">Dictamen Tecnico y Cotizacion</p>
+        Dictamen Tecnico y Cotizacion
       </div>
-      <div class="text-left pl-2">
+      <div class="text-left">
         <br />
         <label class="mr-2" style="font-weight: normal">Referencia:</label>
         <label style="font-weight: bold">{{
@@ -29,8 +39,12 @@
 
       <div>
         <br />
-        <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
-        <label style="font-weight: bold; padding-left: 0.5vw">{{ datosUser.agrement }}</label>
+        <label class for="inline-full-name" style="font-weight: normal"
+          >Contrato / Oferta:</label
+        >
+        <label style="font-weight: bold; padding-left: 0.5vw">{{
+          datosUser.agrement
+        }}</label>
       </div>
 
       <div>
@@ -40,173 +54,177 @@
         </div>
       </div>
 
-      <div class="text-left pl-2">
+      <div class="text-left">
         <br />
-        <label class="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
-        <label class="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
+        <label class="inline-full-name" style="font-weight: normal"
+          >Tipo de Dictamen:</label
+        >
+        <label class="inline-full-name" style="padding-left: 0.5vw"
+          >CORRECTIVO</label
+        >
       </div>
 
       <!-- ------Tercera Linea-------- -->
-        <div class="mr-6">
-          <label>Atencion:</label>
-          <label class="ml-2 text-sm" style="font-weight: normal">{{
-            datosUser.managerName
-          }}</label>
-        </div>
-        <div class="flex pl-2 pr-2">
-          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
-          <input
-            v-validate="'uniqueSinester'"
-            v-model="datosSinester.SinisterNumber"
-            class="w-full"
-            type="text"
-            name="NoSiniestro"
-            placeholder
-          />
-          <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
-          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
-          <input
-            v-validate="'uniqueReport'"
-            v-model="datosSinester.ReportNumber"
-            class="w-full"
-            type="text"
-            name="NoReporte"
-          />
-          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
-        </div>
-        <!-- <div class="pl-2 pr-2"></div> -->
-        <div class="pl-2 pr-2">
-          <p class="text-md font-semibold mb-1 text-gray-900">
-            Tipo de Descripcion
-          </p>
-          <select
-            v-model="datosSinester.TypeDescriptionId"
-            v-validate="'required'"
-            class="w-full"
-            type="text"
-            name="TipoDescripcion"
+      <div class="mr-6">
+        <label>Atencion:</label>
+        <label class="ml-2 text-sm" style="font-weight: normal">{{
+          datosUser.managerName
+        }}</label>
+      </div>
+      <div class="flex sm:flex-col pr-2">
+        <p class="w-1/2  text-md mb-1 font-semibold text-gray-900">
+          No. Siniestros
+        </p>
+        <input
+          v-validate="'uniqueSinester'"
+          v-model="datosSinester.SinisterNumber"
+          class=" w-full"
+          type="text"
+          name="NoSiniestro"
+          placeholder
+        />
+        <p class="w-1/2 text-red-600 text-xs">
+          {{ errors.first("NoSiniestro") }}
+        </p>
+        <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">
+          No. Reporte:
+        </p>
+        <input
+          v-validate="'uniqueReport'"
+          v-model="datosSinester.ReportNumber"
+          class="w-full"
+          type="text"
+          name="NoReporte"
+        />
+        <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
+      </div>
+      <!-- <div class="pl-2 pr-2"></div> -->
+      <div class="pr-2">
+        <p class="text-md font-semibold mb-1 text-gray-900">
+          Tipo de Descripcion
+        </p>
+        <select
+          v-model="datosSinester.TypeDescriptionId"
+          v-validate="'required'"
+          class="w-full"
+          type="text"
+          name="TipoDescripcion"
+        >
+          <option disabled value="">Selecionar...</option>
+          <option
+            v-for="(desc, index) in descripciones"
+            v-bind:value="desc.typeDescriptionId"
+            :key="index"
+            >{{ desc.description }}</option
           >
-            <option disabled value="">Selecionar...</option>
-            <option
-              v-for="(desc, index) in descripciones"
-              v-bind:value="desc.typeDescriptionId"
-              :key="index"
-              >{{ desc.description }}</option
-            >
-          </select>
-          <p class="text-red-600 text-xs">
-            {{ errors.first("TipoDescripcion") }}
-          </p>
-        </div>
-        <!-- ------cuarta Linea-------- -->
-        <div class="mr-6">
-          <label class="inline">Cargo:</label>
-          <label class="inline ml-2 text-sm" style="font-weight: normal">{{
-            datosUser.position
-          }}</label>
-        </div>
-        <div class="pl-2 pr-2">
-          <p class="text-md mb-1 font-semibold text-gray-900">
-            Fecha Siniestro:
-          </p>
-          <input
-            @change="crearReferencia()"
-            v-validate="'required'"
-            :disabled="fechaSiniestoEdit"
-            v-model="datosSinester.SinisterDate"
-            class="w-full"
-            name="FechaSiniestro"
-            type="date"
-          />
-          <p class="text-red-600 text-xs">
-            {{ errors.first("FechaSiniestro") }}
-          </p>
-        </div>
-        <div class="pl-2 pr-2">
-          <p class="text-md mb-1 font-semibold text-gray-900">
-            Fecha de Envio:
-          </p>
-          <input
-            v-model="datosSinester.ShippingElaboracionDate"
-            v-validate="'required'"
-            class="w-full"
-            type="date"
-            name="FechaEnvio"
-          />
-          <p class="text-red-600 text-xs">{{ errors.first("FechaEnvio") }}</p>
-        </div>
+        </select>
+        <p class="text-red-600 text-xs">
+          {{ errors.first("TipoDescripcion") }}
+        </p>
+      </div>
+      <!-- ------cuarta Linea-------- -->
+      <div class="mr-6">
+        <label class="inline">Cargo:</label>
+        <label class="inline ml-2 text-sm" style="font-weight: normal">{{
+          datosUser.position
+        }}</label>
+      </div>
+      <div class="pr-2" >
+        <p class="text-md mb-1 font-semibold text-gray-900">
+          Fecha de Siniestro:
+        </p>
+        <input
+          @change="crearReferencia()"
+          v-validate="'required'"
+          :disabled="fechaSiniestoEdit"
+          v-model="datosSinester.SinisterDate"
+          class="w-full"
+          name="FechaSiniestro"
+          type="date"
+        />
+        <p class="text-red-600 text-xs">
+          {{ errors.first("FechaSiniestro") }}
+        </p>
+      </div>
+      <div class="pr-2">
+        <p class="text-md mb-1 font-semibold text-gray-900">
+          Fecha de Envio:
+        </p>
+        <input
+          v-model="datosSinester.ShippingElaboracionDate"
+          v-validate="'required'"
+          class="w-full"
+          type="date"
+          name="FechaEnvio"
+        />
+        <p class="text-red-600 text-xs">{{ errors.first("FechaEnvio") }}</p>
+      </div>
       <!--*************** Quinta Linea ***********************-->
-        <div class="mr-6">
-          <label class="inline">Correo:</label>
-          <label class="inline ml-2 text-sm" style="color: blue;">{{
-            datosUser.mail
-          }}</label>
-        </div>
-        <div class="pl-2 pr-2">
-          <p class="text-md mb-1 font-semibold text-gray-900">
-            Folio de Falla:
-          </p>
-          <input
-            v-model="datosSinester.FailureNumber"
-            class="w-full"
-            type="text"
-            placeholder="S/M"
-          />
-        </div>
-          <div class="pl-2 pr-2">
-          <p class="text-md mb-1 font-semibold text-gray-900">
-            Fecha de Elaboracion:
-          </p>
-          <input disabled="true" class="w-full" type="date" />
-        </div>
+      <div class="mr-6">
+        <label class="inline">Correo:</label>
+        <label class="inline ml-2 text-sm" style="color: blue;">{{
+          datosUser.mail
+        }}</label>
+      </div>
+      <div class="pr-2">
+        <p class="text-md mb-1 font-semibold text-gray-900">
+          Folio de Falla:
+        </p>
+        <input
+          v-model="datosSinester.FailureNumber"
+          class="w-full"
+          type="text"
+          placeholder="S/M"
+        />
+      </div>
+      <div class="pr-2">
+        <p class="text-md mb-1 font-semibold text-gray-900">
+          Fecha de Elaboracion:
+        </p>
+        <input disabled="true" class="w-full" type="date" />
+      </div>
       <!--*********************Sexta Linea**************************************-->
-        <div class="mr-6">
-          <label>Plaza Cobro:</label>
-          <label
-            class="text-sm text-gray-900 ml-2"
-            style="font-weight: normal"
-            >{{ datosUser.plaza }}</label
-          >
-        </div>
-        <div class="pl-2 pr-2">
-          <p class="text-md mb-1 font-semibold text-gray-900">
-            Fecha de Falla:
-          </p>
-          <input
-            v-model="datosSinester.FailureDate"
-            class="w-full"
-            type="date"
-          />
-        </div>
-        <div class="pl-2 pr-2">
-          <label>Tecnico Responsable:</label>
-          <label class="text-md ml-2" style="font-weight: normal">{{
-            datosUser.nombre
-          }}</label>
-        </div>
+      <div class="mr-6">
+        <label>Plaza Cobro:</label>
+        <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{
+          datosUser.plaza
+        }}</label>
+      </div>
+      <div class="pr-2">
+        <p class="text-md mb-1 font-semibold text-gray-900">
+          Fecha de Falla:
+        </p>
+        <input v-model="datosSinester.FailureDate" class="w-full" type="date" />
+      </div>
+      <div class="pr-2">
+        <label>Tecnico Responsable:</label>
+        <label class="text-md ml-2" style="font-weight: normal">{{
+          datosUser.nombre
+        }}</label>
+      </div>
       <!--**************Septima Linea******************************-->
       <div></div>
       <div></div>
-      <div class="w-1/4 pl-2 pr-2">
-          <label>Coordinacion Regional:</label>
-          <label class="text-md" style="font-weight: normal;">{{
-            datosUser.regionalCoordination
-          }}</label>
-        </div>
+      <div class="pr-2">
+        <label>Coordinacion Regional:</label>
+        <label class="text-md" style="font-weight: normal;">{{
+          datosUser.regionalCoordination 
+        }}</label>
+      </div>
       <!--***************Octava linea****************************-->
-        <div></div>
-        <div></div>
-        <div class="pl-2 pr-2">
-          <label>Centro de Servicio:</label>
-          <label>CDMX</label>
-        </div>
+      <div></div>
+      <div></div>
+      <div class="pr-2">
+        <label>Centro de Servicio:</label>
+        <label>CDMX</label>
+      </div>
       <!--***************novena Linea****************************-->
-        <div></div>
-        <div></div>
-        <div class="w-1/4 pl-2 pr-2">
-          <label>Correo:</label>
-          <label>hguzman@grupo-prosis.com</label>
-        </div>
+      <div></div>
+      <div></div>
+      <div class=" pr-2">
+        <label>Correo:</label>
+        <label>hguzman@grupo-prosis.com</label>
+      </div>
       <!--***********************************************************-->
       <br />
       <br />
@@ -312,7 +330,7 @@ export default {
   },
   watch: {
     //ARREGLAR WATCHER!!!!!
-    datosUser: function (newValue) {
+    datosUser: function(newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
     },
