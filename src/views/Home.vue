@@ -1,21 +1,19 @@
 <template>
-  <div>    
+  <div>
     <Nav></Nav>
-      <BotonesAdm></BotonesAdm>   
+    <BotonesAdm></BotonesAdm>
   </div>
 </template>
 
 <script>
-
-import Nav from '../components/Navbar'
-import BotonesAdm from '../components/BotonesAdm'
+import Nav from "../components/Navbar";
+import BotonesAdm from "../components/BotonesAdm";
 
 export default {
   name: "home",
   components: {
-    Nav,    
-    BotonesAdm
+    Nav,
+    BotonesAdm,
   },
- 
 };
 </script>
