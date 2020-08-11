@@ -300,6 +300,7 @@ export default {
         query: {
           infoComponent: {
             component: item.component,
+            idComponent: item.tableFolio,
             lane: item.lane,
             serialNumber: item.serialNumber,
           },

@@ -162,6 +162,7 @@ export default {
       listaNumSerie: [],
       multiComponente: [],
       objDatos: {
+        idComponent: '',
         componente: "",
         ubicacion: "",
         marca: "",
@@ -193,6 +194,9 @@ export default {
     console.log(this.$route.query.infoComponent);
 
     if (JSON.stringify(this.$route.query) != "{}") {
+
+      this.objDatos.idComponent = this.$route.query.infoComponent.idComponent 
+
       this.objDatos.componente = this.$route.query.infoComponent.component;
 
       let newObject = {
@@ -321,11 +325,21 @@ export default {
         infoUbicacionGeneral: idUbicacion,
       };
       this.$store.dispatch("Refacciones/updateComponenteInventary", parametros);
-      this.listaCarriles = [];
 
-      for (const prop in this.objDatos) {
-        this.objDatos[prop] = "";
-      }
+      this.$notify.success({
+          title: "Ok!",
+          msg: `SE ACTUALIZO CORRECTAMENTE EL COMPONENTE.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      // this.listaCarriles = [];
+
+      // for (const prop in this.objDatos) {
+      //   this.objDatos[prop] = "";
+      // }
     },
   },
 };

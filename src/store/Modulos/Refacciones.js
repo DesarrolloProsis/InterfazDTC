@@ -156,10 +156,11 @@ const actions = {
   async updateComponenteInventary(context,value){
         
     let newObject = {
-      strFltLane: value.infoComponentes.ubicacion,
-      strFltComponent: value.infoComponentes.componente,
-      strFltSerialNumber: value.infoComponentes.oldNumSerie,
-      strFltSquare: value.infoPlaza.numPlaza,
+      // strFltLane: value.infoComponentes.ubicacion,
+      // strFltComponent: value.infoComponentes.componente,
+      // strFltSerialNumber: value.infoComponentes.oldNumSerie,
+      // strFltSquare: value.infoPlaza.numPlaza,
+      TableFolio: value.infoComponentes.idComponent,
       strInventaryNumCapufe: value.infoComponentes.numInventarioCapufe,
       strInventaryNumProsis: value.infoComponentes.numInventarioProsis,
       strMorel: value.infoComponentes.modelo,
@@ -173,13 +174,10 @@ const actions = {
     }    
     
     console.log(newObject)
-    await Axios.put(`http://prosisdev.sytes.net:88/api/component/updateInventary`, newObject)
+    await Axios.put(`http://prosisdev.sytes.net:88/api/component/updateInventory`, newObject)
     .then(response => {          
 
-      if(response.data.message == 'Ok')
-          alert('Se actualizo correctamente')
-      else
-          alert('Ocurrio un Error!!')
+        console.log(response)
       
     })
     .catch(Ex => {
