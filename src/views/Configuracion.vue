@@ -264,10 +264,10 @@ export default {
                if (this.enviarPassword) {
             alert('hola')
             let UpUser = {
-              UserId: this.User.UserId,
+              IdUser: this.User.UserId,
               Password: this.User.Password,
             };
-            //this.$store.dispatch('Usuarios/UPDATE_PASSWORD')
+            this.$store.dispatch('Usuarios/UPDATE_PASSWORD',UpUser)
             console.log(UpUser);
           }     
           this.clearUser();
