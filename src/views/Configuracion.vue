@@ -8,6 +8,7 @@
           <div class="inline-flex mt-2">
             <button
               @click="modal = true"
+              v-if="typeUser"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
             >
               <img src="../assets/img/more.png" class="mr-2" width="25" height="25" />
@@ -76,22 +77,14 @@
             <div class="mt-8 flex justify-center">
               <button
                 @click="modal_Part = true"
-                class="text-white mb-5 px-4 py-2 rounded-lg bg-blue-800 w-32"
-              >Siguiente</button>
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700 m-1"
+              >
+                <img src="../assets/img/rehacer.png" class="mr-2" width="25" height="25" />
+                <span class="text-xs">Siguiente</span>
+              </button>
             </div>
           </div>
           <div class="mt-2" v-else>
-            <!--                    
-                    <div class="mt-3">   
-                        <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
-                        <input  
-                            v-model="User.Mail"                             
-                            class="w-full"
-                            type="text"                                                    
-                        />                       
-                    </div>   
-            -->
-
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
               <select v-model="User.Roll" class="w-full">
@@ -102,28 +95,51 @@
             </div>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-              <input v-model="User.Password" class="w-full" :disabled="disablePass" type="password" />
+              <input
+              
+                v-model="User.Password"
+                class="w-full"
+                :disabled="!enviarPassword"
+                type="password"
+              />
             </div>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
               <input
                 v-model="User.RePassword"
                 class="w-full"
-                :disabled="disablePass"
+                :disabled="!enviarPassword"
                 type="password"
               />
             </div>
-            <div class="mt-8 flex justify-center">
-              <button
-                @click="confirmar"
-                class="text-white mb-5 px-4 py-2 rounded-lg bg-green-700 w-32"
-              >Crear Usuario</button>
-            </div>
-            <div class="mt-1 flex justify-center">
+
+            <div class="flex justify-center mt-5">
               <button
                 @click="modal_Part = false"
-                class="text-white px-4 py-2 rounded-lg bg-blue-800 w-32"
-              >Regresar</button>
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
+              >
+                <img src="../assets/img/deshacer.png" class="mr-4" width="25" height="25" />
+                <span class="text-xs">Regresar</span>
+              </button>
+            </div>
+            <div class="flex justify-center">
+              <button
+                v-if="disablePass"
+                @click="editPassWord"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
+              >
+                <img src="../assets/img/contraseña.png" class="mr-1" width="25" height="25" />
+                <span class="text-xs">Contraseña</span>
+              </button>
+            </div>
+            <div class="flex justify-center">
+              <button
+                @click="confirmar"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-green-700 m-1"
+              >
+                <img src="../assets/img/more.png" class="mr-1" width="25" height="25" />
+                <span class="text-xs">Crear Usuario</span>
+              </button>
             </div>
           </div>
         </div>
@@ -153,6 +169,8 @@ export default {
       modal: false,
       modal_Part: false,
       disablePass: false,
+      enviarPassword: false,
+      typeUser: true
     };
   },
   components: {
@@ -160,8 +178,23 @@ export default {
   },
   beforeMount: function () {
     this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];
+    if(this.$store.getters['Login/getTypeUser'] == 1){
+        this.typeUser = false
+    }
   },
   methods: {
+    editPassWord: function () {
+      //disbalePass False cuando quieraenviar la contraseña
+      if (this.enviarPassword) {
+        this.enviarPassword = false;
+        this.User.Password = "***********";
+        this.User.RePassword = "***********";
+      } else {
+        this.enviarPassword = true;
+        this.User.Password = "";
+        this.User.RePassword = "";
+      }
+    },
     clearUser: function () {
       for (let prop in this.User) {
         this.User[prop] = "";
@@ -169,8 +202,15 @@ export default {
       this.modal = false;
       this.modal_Part = false;
       this.disablePass = false;
+      if(this.enviarPassword){
+        this.enviarPassword = false;
+        this.User.Password = "***********";
+        this.User.RePassword = "***********";
+      }
+      
+      
+      
     },
-    agregarUsuario: function () {},
     editarUsuario: function (item) {
       console.log(item);
       this.disablePass = true;
@@ -186,41 +226,63 @@ export default {
       this.modal = true;
     },
     confirmar: function () {
-      if (!this.disablePass) {
-        alert("Agregar Usuario");
-        let CreateUser = {
-          Name: this.User.Name,
-          LastName1: this.User.LastName1,
-          LastName2: this.User.LastName2,
-          Password: this.User.Password,
-          Rol: this.User.Roll,
-        };
+      if (this.User.Password == this.User.RePassword) {
+        if (!this.disablePass) {
+          alert("Agregar Usuario");
+          let CreateUser = {
+            Name: this.User.Name,
+            LastName1: this.User.LastName1,
+            LastName2: this.User.LastName2,
+            Password: this.User.Password,
+            Rol: this.User.Roll,
+          };
+          this.$store.dispatch("Usuarios/NuevoUser", CreateUser);
+      
+          this.modal = false
+        } else {
+          let UpUser = {
+            UserId: this.User.UserId,
+            UserName: this.User.UserName,
+            LastName1: this.User.LastName1,
+            LastName2: this.User.LastName2,
+            Name: this.User.Name,
+            Mail: this.User.Mail,
+            Rol: this.User.Roll,
+          };
+          this.$store.dispatch("Usuarios/Update_User", UpUser);
+          console.log(UpUser);          
 
-        this.$store.dispatch("Usuarios/NuevoUser", CreateUser);
+          this.$notify.success({
+            title: "Ops!!",
+            msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });    
+               if (this.enviarPassword) {
+            alert('hola')
+            let UpUser = {
+              UserId: this.User.UserId,
+              Password: this.User.Password,
+            };
+            //this.$store.dispatch('Usuarios/UPDATE_PASSWORD')
+            console.log(UpUser);
+          }     
+          this.clearUser();
+          this.modal = false
+        }
       } else {
-        let UpUser = {
-          UserId: this.User.UserId,
-          UserName: this.User.UserName,
-          LastName1: this.User.LastName1,
-          LastName2: this.User.LastName2,
-          Name: this.User.Name,
-          Mail: this.User.Mail,
-          Rol: this.User.Roll,
-        };
-        this.$store.dispatch("Usuarios/Update_User", UpUser);
-        console.log(UpUser);
-
-        this.$notify.success({
+        this.$notify.error({
           title: "Ops!!",
-          msg: "EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.",
+          msg: "LAS CONTRASEÑAS NO COINCIDEN.",
           position: "bottom right",
           styles: {
             height: 100,
             width: 500,
           },
         });
-
-        this.clearUser();
       }
     },
     Borrar: function (item) {
@@ -228,7 +290,6 @@ export default {
         id: item.userId,
         square: "",
       };
-
       this.$store.dispatch("Usuarios/BorrarUser", User);
     },
   },

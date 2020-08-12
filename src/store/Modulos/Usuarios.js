@@ -95,7 +95,26 @@ const actions = {
             .catch(Ex => {
               console.log(Ex);
         }); 
-    }
+    },
+    async UPDATE_PASSWORD({commit}, value){
+
+      commit
+      alert(JSON.stringify(value))
+      console.log(value)
+      await Axios.post(
+          `http://prosisdev.sytes.net:88/api/user/nuevo`,value      
+        )
+          .then(response => {
+              
+          console.log(response.data)
+                         
+          })
+          .catch(Ex => {
+            console.log(Ex);
+      }); 
+  },
+  
+    
     
     
 

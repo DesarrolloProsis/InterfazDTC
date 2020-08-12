@@ -29,6 +29,10 @@ const getters = {
     else
       return false
   },
+  getTypeUser: function(){
+
+    return state.userLogeado[0].rollId  
+  },
   getListaTec: function(){
     return state.listaTec
   }
