@@ -266,7 +266,7 @@ export default {
               IdPassWord: this.User.UserId,
               Password: this.User.Password,
             };
-            //this.$store.dispatch('Usuarios/UPDATE_PASSWORD')
+            this.$store.dispatch('Usuarios/UPDATE_PASSWORD',UpUser)
             console.log(UpUser);
           }     
           this.clearUser();

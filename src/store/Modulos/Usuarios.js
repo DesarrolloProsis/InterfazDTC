@@ -101,8 +101,8 @@ const actions = {
       commit
       alert(JSON.stringify(value))
       console.log(value)
-      await Axios.post(
-          `http://prosisdev.sytes.net:88/api/user/nuevo`,value      
+      await Axios.put(
+          `http://prosisdev.sytes.net:88/api/User/newPassword`,value      
         )
           .then(response => {
               
