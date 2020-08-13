@@ -45,6 +45,11 @@
             type="button"
             class="login100-form-btn text-blue-600 outline-none"
           >Login</button>
+
+        </div>
+        <div class="flex flex-col text-center mt-3 text-blue-700">
+            <a class="hover:text-blue-900" href="/register">Registrarse</a>
+            <a class="hover:text-blue-900" href="">¿Olvidaste tu constraseña?</a>            
         </div>
       </div>
     </div>

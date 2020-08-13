@@ -96,10 +96,9 @@
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
               <input
-              
                 v-model="User.Password"
                 class="w-full"
-                :disabled="!enviarPassword"
+                :disabled="enviarPassword"
                 type="password"
               />
             </div>
@@ -108,7 +107,7 @@
               <input
                 v-model="User.RePassword"
                 class="w-full"
-                :disabled="!enviarPassword"
+                :disabled="enviarPassword"
                 type="password"
               />
             </div>
@@ -261,10 +260,10 @@ export default {
               width: 500,
             },
           });    
-               if (this.enviarPassword) {
-            alert('hola')
+          if (this.enviarPassword) {
+            
             let UpUser = {
-              UserId: this.User.UserId,
+              IdPassWord: this.User.UserId,
               Password: this.User.Password,
             };
             //this.$store.dispatch('Usuarios/UPDATE_PASSWORD')
