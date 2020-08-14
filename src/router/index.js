@@ -109,7 +109,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) =>{
       
-    if(to.name == 'login'){
+    if(to.name == 'login' || to.name == 'register' ){
       next()
     }
     else if(to.name !== 'login' && store.getters['Login/getUserLogeado']){      

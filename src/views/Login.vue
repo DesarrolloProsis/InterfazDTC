@@ -48,8 +48,8 @@
 
         </div>
         <div class="flex flex-col text-center mt-3 text-blue-700">
-            <a class="hover:text-blue-900" href="/register">Registrarse</a>
-            <a class="hover:text-blue-900" href="">¿Olvidaste tu constraseña?</a>            
+            <a class="hover:text-blue-900 cursor-pointer" @click="register">Registrarse</a>
+            <a class="hover:text-blue-900 cursor-pointer" @click="passPerdido">¿Olvidaste tu constraseña?</a>            
         </div>
       </div>
     </div>
@@ -127,6 +127,15 @@ export default {
     };
   },
   methods: {
+    register: function(){
+
+      this.$router.push("register");
+
+    },
+    passPerdido: function(){
+
+      this.$router.push("home");
+    },
     loginOther: async function () {
       if (this.fields.Plaza.valid && this.fields.Tecnico.valid) {
         await this.$store.dispatch("Login/buscarHeaderTec", this.tecSelect);
