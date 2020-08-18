@@ -5,40 +5,89 @@
         <h1>Crear Usuario</h1>
       </div>
       <div class="inline-flex justify-center mt-6">
-        <div class="m-3">
+        <div class="m-3 flex-col">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Nombre</p>
-          <input type="text" class="w-64" name="nombre" />
+          <input
+            v-model="dataRegister.nombre"
+            type="text"
+            class="w-64"
+            name="nombre"
+            v-validate="'required'"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first('nombre') }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Apellido Materno</p>
-          <input type="text" class="w-64" name="nombre" />
+          <input
+            v-model="dataRegister.apellidoMaterno"
+            type="text"
+            class="w-64"
+            name="apellidoPaterno"
+            v-validate="'required'"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first('apellidoPaterno') }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Apellido Paterno</p>
-          <input type="text" class="w-64" name="nombre" />
+          <input
+            v-model="dataRegister.apellidoPaterno"
+            type="text"
+            class="w-64"
+            name="apellidoMaterno"
+            v-validate="'required'"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first('apellidoMaterno') }}</p>
+        </div>
+      </div>
+      <div class="inline-flex justify-center">
+        <div class="m-3">
+          <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
+          <select
+            v-model="dataRegister.tipoUsuario"
+            class="w-64"
+            name="tipoUsuario"
+            v-validate="'required'"
+          >
+            <option disabled value>Selecionar...</option>
+            <option value="1">Tecnico</option>
+            <option value="2">Administrador</option>
+          </select>
+          <p class="text-red-600 text-xs">{{ errors.first('tipoUsuario') }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Contraseña</p>
-          <input type="text" class="w-64" name="nombre" />
+          <input
+            v-model="dataRegister.constraseña"
+            type="password"
+            class="w-64"
+            name="password"
+            v-validate="'required'"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first('password') }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-5">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Repite Contraseña</p>
-          <input type="text" class="w-64" name="nombre" />
+          <input
+            v-model="dataRegister.reContraseña"
+            type="password"
+            class="w-64"
+            name="repassword"
+            v-validate="'required'"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first('repassword') }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center mb-5">
         <div class="m-5">
-            <button class=" border-green-600 border w-64 h-12">
-                Registrar
-            </button>
+          <button @click="crear" class="border-green-600 border w-64 h-12">Registrar</button>
         </div>
       </div>
     </div>
@@ -48,7 +97,57 @@
 <script>
 export default {
   data: function () {
-    return {};
+    return {
+      dataRegister: {
+        nombre: "",
+        apellidoMaterno: "",
+        apellidoPaterno: "",
+        tipoUsuario: "",
+        constraseña: "",
+        reContraseña: "",
+      },
+    };
+  },
+  methods: {
+    crear: function () {
+      this.$validator.validate().then((row) => {
+        if (row === true) {
+          if (
+            this.dataRegister.constraseña === this.dataRegister.reContraseña
+          ) {
+            let CreateUser = {
+              Name: this.dataRegister.nombre,
+              LastName1: this.dataRegister.apellidoMaterno,
+              LastName2: this.dataRegister.apellidoPaterno,
+              Password: this.dataRegister.constraseña,
+              Rol: this.dataRegister.tipoUsuario,
+            };
+            alert('hola')
+            this.$store.dispatch("Usuarios/NuevoUser", CreateUser);
+          } else {
+            this.$notify.error({
+              title: "Ops!!",
+              msg: "LAS CONTRASEÑAS NO COINCIDEN.",
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          }
+        } else {
+          this.$notify.error({
+            title: "Ops!!",
+            msg: "FALTAN CAMPOS PARA LLENAR.",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        }
+      });
+    },
   },
 };
 </script>
