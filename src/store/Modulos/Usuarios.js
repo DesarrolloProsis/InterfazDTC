@@ -82,12 +82,13 @@ const actions = {
     async NuevoUser({commit}, value){
 
         commit
+        console.log(JSON.stringify(value))
         await Axios.post(
             `http://prosisdev.sytes.net:88/api/user/nuevo`,value      
           )
             .then(response => {
                 
-            console.log(response.data)
+              return response.data
                            
             })
             .catch(Ex => {

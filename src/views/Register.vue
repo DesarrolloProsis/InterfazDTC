@@ -123,7 +123,37 @@ export default {
               Rol: this.dataRegister.tipoUsuario,
             };
             alert('hola')
-            this.$store.dispatch("Usuarios/NuevoUser", CreateUser);
+            this.$store.dispatch("Usuarios/NuevoUser", CreateUser)
+              .then(result =>{
+
+                if(JSON.stringify(result) != '{}'){
+                    
+              this.$notify.success({
+                title: "Ok!!",
+                msg: "SE CREO CORRECTAMENTE EL USUARIO.",
+                position: "bottom right",
+                styles: {
+                  height: 100,
+                  width: 500,
+                },                  
+              });
+              this.$router.push("login");
+                }
+              })
+              .catch(error => {
+
+                   this.$notify.error({
+              title: "Ops!!",
+              msg: error,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+
+
+              })
           } else {
             this.$notify.error({
               title: "Ops!!",
@@ -134,6 +164,8 @@ export default {
                 width: 500,
               },
             });
+            this.dataRegister.constraseña = ''
+            this.dataRegister.reContraseña = ''
           }
         } else {
           this.$notify.error({
