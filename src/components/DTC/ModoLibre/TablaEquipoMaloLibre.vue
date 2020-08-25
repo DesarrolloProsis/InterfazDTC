@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="flex justify-center sm:hidden">
-      <div class="p-4">        
-        <div class=" text-center mb-5">
-          <h6 class="">Equipo Dañado</h6>
+      <div class="p-4">
+        <div class="text-center mb-5">
+          <h6 class>Equipo Dañado</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
@@ -33,7 +33,34 @@
               </th>
               <th class="px-12">Real</th>
               <th class="px-1">Fabricante</th>
-              <th class="px-4"></th>
+              <th class="px-4">
+                <button
+                v-if="modo_Libre"
+                  v-on:click.stop.prevent="modo_Libre = false"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+                >
+                  <!-- <img
+                      src="../../../assets/img/garrapata.png"
+                      class="mr-2 sm:m-1"
+                      width="15"
+                      height="15"
+                  />-->
+                  <span class="text-xs">Modo Libre</span>
+                </button>
+                    <button
+                v-else
+                  v-on:click.stop.prevent="modo_Libre = true"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+                >
+                  <!-- <img
+                      src="../../../assets/img/garrapata.png"
+                      class="mr-2 sm:m-1"
+                      width="15"
+                      height="15"
+                  />-->
+                  <span class="text-xs">Compoente Vitales</span>
+                </button>
+              </th>
             </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
@@ -203,7 +230,12 @@
                     v-on:click.stop.prevent="deleteItem(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
-                    <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15" />
+                    <img
+                      src="../../../assets/img/bin.png"
+                      class="mr-2 sm:m-1"
+                      width="15"
+                      height="15"
+                    />
                     <span>Borrar</span>
                   </button>
 
@@ -212,7 +244,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
                   >
                     <img
-                      src="../../assets/img/pencil.png"
+                      src="../../../assets/img/pencil.png"
                       class="mr-2 sm:m-1"
                       width="15"
                       height="15"
@@ -226,7 +258,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
                     <img
-                      src="../../assets/img/cerrar.png"
+                      src="../../../assets/img/cerrar.png"
                       class="mr-2 sm:m-1"
                       width="15"
                       height="15"
@@ -238,7 +270,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
                   >
                     <img
-                      src="../../assets/img/garrapata.png"
+                      src="../../../assets/img/garrapata.png"
                       class="mr-2 sm:m-1"
                       width="15"
                       height="15"
@@ -249,9 +281,9 @@
               </td>
             </tr>
             <!--/////////////////////////////////////////////////////////////////
-              ////           FOOTER DE LA TABLA + PARTIDA                      ////
+              ////           FOOTER DE LA TABLA + PARTIDA                    ////
             ////////////////////////////////////////////////////////////////////-->
-            <tr class="text-center">
+            <tr class="text-center" v-if="modo_Libre">
               <td class="border">{{ "*" }}</td>
               <td class="border">{{ datosPrePartida.rowUnidad.toString() }}</td>
               <td class="border">
@@ -345,7 +377,82 @@
                   v-on:click.stop.prevent="agregarPartida()"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
                 >
-                  <img src="../../assets/img/more.png" width="20" height="20" />
+                  <img src="../../../assets/img/more.png" width="20" height="20" />
+                  <span class="text-xs">Agregar Partida</span>
+                </button>
+              </td>
+            </tr>
+            <!--/////////////////////////////////////////////////////////////////
+              ////           FOOTER DE LA TABLA + PARTIDA                    ////
+            ////////////////////////////////////////////////////////////////////-->
+            <tr class="text-center" v-else>
+              <td class="border">{{ "*" }}</td>
+              <td class="border">
+                <select>
+                  <option>PZA</option>
+                </select>
+              </td>
+              <td class="border">
+                <input class="w-40" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-12" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-20" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-20" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-20" type="text" />
+              </td>
+              <td class="border">
+                <multiselect
+                  v-model="laneSelect"
+                  :close-on-select="false"
+                  :clear-on-select="true"
+                  :hideSelected="false"
+                  placeholder="Selecciona..."
+                  :options="listLane"
+                  :multiple="true"
+                >
+                  <template
+                    v-if="
+                      updtComp != 'Servidor de Video' &&
+                        updtComp != 'Servidor de Plaza'
+                    "
+                    slot="selection"
+                    slot-scope="{ values, isOpen }"
+                  >
+                    <span
+                      class="multiselect__single"
+                      v-if="values.length &amp;&amp; !isOpen"
+                    >{{ values.length }} Carriles</span>
+                  </template>
+                </multiselect>
+              </td>
+              <td class="border">
+                <input class="w-32" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-32" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-32" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-24" type="text" />
+              </td>
+              <td class="border">
+                <input class="w-20" type="text" />
+              </td>
+              <td class="border p-2">
+                <button
+                  v-on:click.stop.prevent="agregarPartida()"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
+                >
+                  <img src="../../../assets/img/more.png" width="20" height="20" />
                   <span class="text-xs">Agregar Partida</span>
                 </button>
               </td>
@@ -357,8 +464,8 @@
 
     <div class="flex justify-center md:hidden lg:hidden xl:hidden">
       <div class="p-4" :class="{ 'hidden': modal }">
-          <div class=" text-center mb-5">
-          <h6 class="">Equipo Dañado</h6>
+        <div class="text-center mb-5">
+          <h6 class>Equipo Dañado</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
@@ -408,7 +515,7 @@
                 </div>
               </td>
 
-              <td class="border text-sm">
+              <td class="border text-sm" v-if="modo_Libre">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p>
                 </div>
@@ -442,25 +549,21 @@
                     v-on:click.stop.prevent="deleteItem(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
-                    <img src="../../assets/img/bin.png" width="15" height="15" />
+                    <img src="../../../assets/img/bin.png" width="15" height="15" />
                   </button>
 
                   <button
                     v-on:click.prevent="updateRowTable(index, equipo)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
                   >
-                    <img
-                      src="../../assets/img/pencil.png"                      
-                      width="15"
-                      height="15"
-                    />
+                    <img src="../../../assets/img/pencil.png" width="15" height="15" />
                   </button>
 
                   <button
                     v-on:click.stop.prevent="infoModal(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700 m-2"
                   >
-                    <img src="../../assets/img/mas.png" width="15" height="15" />
+                    <img src="../../../assets/img/mas.png" width="15" height="15" />
                   </button>
                 </div>
                 <div v-else>
@@ -468,22 +571,14 @@
                     v-on:click.stop.prevent="abortUpdateRowTable(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
-                    <img
-                      src="../../assets/img/cerrar.png"                      
-                      width="15"
-                      height="15"
-                    />
+                    <img src="../../../assets/img/cerrar.png" width="15" height="15" />
                   </button>
 
                   <button
                     v-on:click.stop.prevent="confirmRowTable(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
                   >
-                    <img
-                      src="../../assets/img/garrapata.png"                      
-                      width="15"
-                      height="15"
-                    />
+                    <img src="../../../assets/img/garrapata.png" width="15" height="15" />
                   </button>
                 </div>
               </td>
@@ -532,9 +627,9 @@
               <td class="border p-3">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
-                  class="bg-gray-300 hover:bg-gray-400 text-gray-800  rounded inline-flex items-center border-2 border-green-700"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 rounded inline-flex items-center border-2 border-green-700"
                 >
-                  <img src="../../assets/img/more.png" class="" width="20" height="20" />
+                  <img src="../../../assets/img/more.png" class width="20" height="20" />
                 </button>
               </td>
             </tr>
@@ -607,7 +702,7 @@
               v-on:click.stop.prevent="modal = false, objectModal = {}"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
             >
-              <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
+              <img src="../../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
               <span class="text-sm">Cerrar</span>
             </button>
           </div>
@@ -620,15 +715,15 @@
 
 <script>
 import Multiselect from "vue-multiselect";
-import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
-import Service from "../../services/EquipoMaloService.js";
+import TablaEquipoPropuesto from "../ModoLibre/TablaEquipoPropuestoLibre";
+import Service from "../../../services/EquipoMaloService";
 import moment from "moment";
 
 export default {
   name: "TablaEquipoMalo",
   components: {
     Multiselect,
-    TablaEquipoPropuesto
+    TablaEquipoPropuesto,
   },
   data() {
     return {
@@ -664,6 +759,7 @@ export default {
       //Modal atributos
       modal: false,
       objectModal: {},
+      modo_Libre: true,
     };
   },
   props: {

@@ -11,6 +11,7 @@ import Inventario from '../views/Inventario.vue'
 import InventarioDetalle from '../views/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
+import CrearDtcLibre from '../views/CrearDTCLibre.vue'
 
 
 
@@ -47,6 +48,11 @@ const routes = [
     path: '/NuevoDtc',
     name: 'NuevoDtc',
     component: CrearDTC
+  },
+  {
+    path: '/NuevoDtcLibre',
+    name: 'NuevoDtcLibre',
+    component: CrearDtcLibre
   },
   {
     path: '/Configuracion',

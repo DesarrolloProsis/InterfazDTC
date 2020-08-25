@@ -199,7 +199,7 @@
 </template>
 
 <script>
-import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+import TablaEquipoMalo from "../DTC/ModoLibre/TablaEquipoMaloLibre"
 import moment from "moment";
 export default {
   name: "CrearHeader",
