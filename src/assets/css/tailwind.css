@@ -33,6 +33,27 @@ input:focus {
     @apply shadow-none;
     @apply bg-white;
 }
+textarea {
+    @apply bg-gray-200;        
+    @apply rounded-lg;
+    @apply outline-none;
+    @apply border-gray-600;   
+    @apply bg-white;
+    @apply border; 
+    @apply shadow;
+}
+textarea:hover {
+       
+    @apply bg-white;   
+    @apply border-gray-300;
+    @apply border-gray-700;
+}
+textarea:focus {
+
+    @apply border-gray-300; 
+    @apply shadow-none;
+    @apply bg-white;
+}
 select {
     @apply bg-gray-200;        
     @apply rounded-lg;
