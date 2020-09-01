@@ -34,8 +34,9 @@
                 Precio Total
                 <br />(Dolares)
               </th>
+              <th></th>
             </tr>
-            <tr              
+            <tr
               class="hover:bg-blue-200 text-center"
               v-for="(equipo, index) in listaEquipo"
               :key="index"
@@ -44,19 +45,84 @@
               <td class="border">{{ equipo.unidad }}</td>
               <td class="border">{{ equipo.componente }}</td>
               <td class="border">{{ equipo.cantidad }}</td>
-              <td class="border">{{ equipo.marca }}</td>
-              <td class="border">{{ equipo.modelo }}</td>
-              <td
-                class="border"
-              >$ {{ equipo.partida.toLocaleString('en-US') }}</td>
+              <td class="border">
+                <template v-if="equipo.rowUpPropuesto">
+                  <textarea v-model="marca" class="w-20" type="text"></textarea>
+                </template>
+                <template v-else>
+                  <p v-for="(item, key) in infoRow[index].marca.split(`\n`)" :key="key">{{ item }}</p>
+                </template>
+              </td>
+              <td class="border">
+                <template v-if="equipo.rowUpPropuesto">
+                  <textarea v-model="modelo" class="w-20" type="text"></textarea>
+                </template>
+                <template v-else>
+                  <p v-for="(item, key) in infoRow[index].modelo.split(`\n`)" :key="key">{{ item }}</p>
+                </template>
+              </td>
+              <td class="border">
+                <template v-if="equipo.rowUpPropuesto">
+                  <textarea v-model="precioUnitario" class="w-20" type="text"></textarea>
+                </template>
+                <template v-else>
+                  <p
+                    v-for="(item, key) in infoRow[index].precioUnitario.split(`\n`)"
+                    :key="key"
+                  >{{ item }}</p>
+                </template>
+              </td>
               <td class="border">{{ '-----' }}</td>
-              <td
-                class="border"
-              >$ {{ (equipo.partida * equipo.partida).toLocaleString('en-US') }}</td>
+              <td class="border">
+                <template v-if="equipo.rowUpPropuesto">
+                  <textarea
+                    v-model="precioTotal"
+                    :disabled="!equipo.rowUpPropuesto"
+                    class="w-20"
+                    type="text"
+                  ></textarea>
+                </template>
+                <template v-else>
+                  <p
+                    v-for="(item, key) in infoRow[index].precioTotal.split(`\n`)"
+                    :key="key"
+                  >{{ item }}</p>
+                </template>
+              </td>
               <td class="border">{{ '-----' }}</td>
+              <td class="border">
+                <template v-if="equipo.rowUpPropuesto">
+                  <button
+                    @click="aceptar(index, equipo)"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+                  >
+                    <img
+                      src="../../../assets/img/bin.png"
+                      class="mr-2 sm:m-1"
+                      width="20"
+                      height="20"
+                    />
+                    <span>Aceptar</span>
+                  </button>
+                </template>
+                <template v-else>
+                  <button
+                    @click="cancelar(index)"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
+                  >
+                    <img
+                      src="../../../assets/img/pencil.png"
+                      class="mr-2 sm:m-1"
+                      width="15"
+                      height="15"
+                    />
+                    <span>Editar</span>
+                  </button>
+                </template>
+              </td>
             </tr>
           </table>
-          <div >
+          <div>
             <tr>
               <th>Diagnostico</th>
             </tr>
@@ -79,13 +145,7 @@
             </div>
 
             <div class="w-1/2 h-6 pl-20">
-              <input
-                
-                disabled
-                class="md:border border-black"
-                type="text"
-                placeholder="$ 0.00"
-              />
+              <input disabled class="md:border border-black" type="text" placeholder="$ 0.00" />
             </div>
           </div>
           <hr />
@@ -219,7 +279,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -235,7 +295,11 @@ export default {
     return {
       diagnostico: "",
       modal: false,
-      infoRow: {},
+      marca: "",
+      modelo: "",
+      precioUnitario: "",
+      precioTotal: "",
+      infoRow: [],
     };
   },
   filters: {
@@ -247,18 +311,57 @@ export default {
     this.diagnostico = this.$store.getters["Header/getDiagnostico"];
   },
   watch: {
-    // diagnostico: function (newValue) {
-    //   this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
-    // },
+    diagnostico: function (newValue) {
+      this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
+    },
+
+    infoRow: {
+      deep: true,
+      handler(newValue) {
+        this.$store.commit("DTC/LISTA_PROPUESTO_LIBRE_EDIT_MUTATION", newValue);
+      },
+    },
   },
   methods: {
+    cancelar: function (index) {
+      this.marca = this.infoRow[index].marca;
+      this.modelo = this.infoRow[index].modelo;
+      this.precioUnitario = this.infoRow[index].precioUnitario;
+      this.precioTotal = this.infoRow[index].precioTotal;
+
+      this.listaEquipo[index].rowUpPropuesto = true;
+      console.log(this.listaEquipo[index]);
+    },
+    aceptar: function (index, item) {
+      console.log(index);
+      console.log(item);
+      this.listaEquipo[index].rowUpPropuesto = false;
+      console.log(this.listaEquipo);
+
+      let newPartida = {
+        partida: item.partida,
+        unidad: item.unidad,
+        componente: item.componente,
+        cantidad: item.cantidad,
+        marca: this.marca,
+        modelo: this.modelo,
+        precioUnitario: this.precioUnitario,
+        precioTotal: this.precioTotal,
+      };
+      this.marca = "";
+      this.modelo = "";
+      this.precioUnitario = "";
+      this.precioTotal = "";
+      this.$emit("desbloquear_partida");
+      if (this.infoRow.length > index) this.infoRow[index] = newPartida;
+      else this.infoRow.push(newPartida);
+    },
     // infoFull: function (value) {
     //   this.modal = true;
     //   this.infoRow = Object.assign(this.listaEquipo[value]);
     // },
   },
   computed: {
-
     // multiplicacion: function () {
     //   let multi = 0;
     //   for (let i = 0; i < this.listaEquipo.length; i++) {
@@ -279,7 +382,6 @@ export default {
     //   for (let i = 0; i < this.listaEquipo.length; i++) {
     //     multi += this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
     //   }
-
     //   if (multi > 0) {
     //     let MonedaLetra = NumeroALetras(multi, {
     //       plural: "PESOS",

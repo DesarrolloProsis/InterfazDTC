@@ -11,6 +11,10 @@ const state = {
 };
 
 const getters = {
+  getDatosSinester: function() {
+
+    return { ...state.datosSinester, 'diagnostico': state.diagnostico, 'observaciones': state.observaciones  }
+  },
   getHeaders: function() {
     if (state.listaHeaders.length === 1) {
       return {

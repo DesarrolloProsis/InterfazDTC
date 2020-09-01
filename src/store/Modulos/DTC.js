@@ -4,6 +4,8 @@ const state = {
   listaDTCTecnico: [],
   listaDescriptions: [],
   listaDmg: [],
+  listaDmgLibre: [],
+  listaPropuestoLibre:[],
   newlistaDmg: [],
   listaDTC: [],  
   insertDmgComplete: false,
@@ -18,7 +20,9 @@ const getters = {
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => state.listaInfoDTC,
   gettableFormComp: () => state.tableFormComponent,
-  getcomponentesEdit: () => state.componetesEdit
+  getcomponentesEdit: () => state.componetesEdit,
+  getDmgLibre: () => state.listaDmgLibre,
+  getPropuestoLibre: () => state.listaPropuestoLibre
   
 };
 const mutations = {
@@ -64,6 +68,14 @@ const mutations = {
   COMPONENTES_EDIT: (state, value) => {
 
     state.componetesEdit = value
+  },  
+  LISTA_DMG_LIBRE_MUTATION: (state, value) => {
+
+    state.listaDmgLibre = value
+  },
+  LISTA_PROPUESTO_LIBRE_EDIT_MUTATION: (state, value) => {
+
+    state.listaPropuestoLibre = value
   }
 };
 

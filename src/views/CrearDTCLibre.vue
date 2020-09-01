@@ -105,7 +105,7 @@
 <script>
 import Nav from "../components/Navbar";
 import Header from "../components/Header/CrearHeaderLibre";
-import saveAs from "file-saver";
+
 
 export default {
   name: "CrearDTC",
@@ -153,106 +153,21 @@ export default {
     },
   },
   methods: {
-    crearDTCTecnico: async function (status) {
-      this.refNum = this.$store.getters["Header/getreferenceNum"];
-      await this.$store.dispatch("Header/crearHeaders", {
-        datosUser: this.datosUser,
-        status: status,
-        flag: this.flagCreate,
-      });
-      let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
-      if (insertHeader) {
-        this.$notify.success({
-          title: "Ok!",
-          msg: `EL HEDER CON LA REFERENCIA ${this.refNum} SE INSERTO CORRECTAMENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-        let value_insert = {
-          refNum: this.refNum,
-          flagCreate: this.flagCreate,
-        };
-        await this.$store.dispatch("DTC/crearDmg", value_insert);
-        let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-        if (insertDmg) {
-          this.$notify.success({
-            title: "Ok!",
-            msg: `LOS COMPONENTES SE INSERTARON CORRECTAMENTE.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
+    crearDTCTecnico: async function (status){
 
-          if (status == 2) {
-            var oReq = new XMLHttpRequest();
-            // The Endpoint of your server
-            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}`;
-            let namePdf = `ReportDTC-${this.refNum}.pdf`;
-            // Configure XMLHttpRequest
-            oReq.open("GET", urlTopdf, true);
-            // Important to use the blob response type
-            oReq.responseType = "blob";
-            // When the file request finishes
-            // Is up to you, the configuration for error events etc.
-            oReq.onload = function () {
-              // Once the file is downloaded, open a new window with the PDF
-              // Remember to allow the POP-UPS in your browser
-              var file = new Blob([oReq.response], {
-                type: "application/pdf",
-              });
-              // Generate file download directly in the browser !
-              saveAs(file, namePdf);
-            };
+        console.log(status)
+        let header = this.$store.getters['Header/getDatosSinester']
+        let equipoMalo = this.$store.getters['DTC/getDmgLibre']
+        let equipoPropuesto = this.$store.getters['DTC/getPropuestoLibre']
 
-            oReq.send();
-
-            this.$notify.success({
-              title: "Ok!",
-              msg: `CREANDO EL REPORTE ${this.refNum}.`,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            });
-          }
-          await this.$store.commit("DTC/listaDmgClearMutation");
-          await this.$store.commit("DTC/insertDmgCompleteMutation", false);
-          await this.$store.commit(
-            "Header/insertHeaderCompleteMutation",
-            false
-          );
-          await this.$store.dispatch("Header/buscarListaUnique");
-          await this.$store.commit("Header/clearDatosSinesterMutation");
-
-          this.$router.push("Home");
-        } else {
-          this.$notify.error({
-            title: "Ups!",
-            msg: `NO SE INSERTARON LOS COMPONENTES.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
+        let dtcNuevo = {
+          "header": header,
+          "equipoMalo": equipoMalo,
+          "equipoPropuesto": equipoPropuesto
         }
-      } else {
-        this.$notify.error({
-          title: "Ups!",
-          msg: `NO SE INSERTO EL HEDER CON LA REFERENCIA ${this.refNum}.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
+
+        console.log(dtcNuevo)
+   
     },
   },
 };
