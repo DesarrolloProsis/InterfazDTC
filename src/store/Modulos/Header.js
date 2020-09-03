@@ -146,7 +146,8 @@ const actions = {
       UserId: value.datosUser.userId,
       AgremmentInfoId: value.datosUser.agremmentInfoId,
       flag: value.flag,      
-      DTCStatus: value.status
+      DTCStatus: value.status,
+      OpenFlag : value.openFlag
   
     }
       console.log(newObject)

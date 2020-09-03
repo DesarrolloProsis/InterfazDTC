@@ -171,7 +171,51 @@ const actions = {
     .catch(Ex => {
       console.log(Ex);
     });
-  }  
+  },
+  async crearDmgLibre({ state, commit } , value ) {
+
+    let arrayDmg = []    
+    for(let i = 0;  i < state.listaDmgLibre .length; i++){
+          
+      let newItem = {
+
+          BitFlag: '', 
+          StrReferenceNumber : value.refNum, 
+          StrUnity : state.listaDmgLibre[i].unidad, 
+          StrComponent : state.listaDmgLibre[i].componente, 
+          StrQuantity : state.listaDmgLibre[i].cantidad, 
+          StrBrand : state.listaDmgLibre[i].marca, 
+          StrModel : state.listaDmgLibre[i].modelo, 
+          StrSerialNumber : state.listaDmgLibre[i].numserie, 
+          StrLane: state.listaDmgLibre[i].ubicacion, 
+          DateInstallationDate: state.listaDmgLibre[i].fechaInstalacion,  
+          DateMaintenanceDate: state.listaDmgLibre[i].fechaMantenimiento, 
+          StrLifeTimeExpected: state.listaDmgLibre[i].fechaFabricante, 
+          IntItem: state.listaDmgLibre[i].partida, 
+          StrMaintenanceFolio: state.listaDmgLibre[i].folioMantenimiento,
+          StrLifeTimeReal: state.listaDmgLibre[i].fechaReal, 
+
+          //Equipo Propuesto
+          StrUnitaryPrice: stat.listaPropuestoLibre[i].precioUnitario, 
+          StrDollarUnitaryPrice: '------------', 
+          StrTotalPrice: state.listaPropuestoLibre[i].precioTotal, 
+          StrDollarTotalPrice: '--------------', 
+      }
+      arrayDmg.push(newItem)
+   
+    }
+    console.log(JSON.stringify(arrayDmg))        
+    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`,arrayDmg)
+      .then(response => {   
+                          
+        if(response.status == 201){                    
+            commit('insertDmgCompleteMutation', true)          
+        }      
+      })
+      .catch(Ex => {
+        console.log('ERROR!!! ' + Ex);
+      });
+  }, 
 
 };
 

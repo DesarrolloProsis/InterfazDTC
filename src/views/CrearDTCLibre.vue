@@ -155,18 +155,25 @@ export default {
   methods: {
     crearDTCTecnico: async function (status){
 
+      // 1 ---> Modo Libre 
+      // 0 ---> 
+        await this.$store.dispatch("Header/crearHeaders", {
+          datosUser: this.datosUser,
+          status: status,
+          flag: this.flagCreate,
+        });
         console.log(status)
+
+          let value_insert = {
+          refNum: this.refNum,
+          flagCreate: this.flagCreate,
+        };
+        await this.$store.dispatch("DTC/crearDmgLibre", value_insert);
+
         let header = this.$store.getters['Header/getDatosSinester']
         let equipoMalo = this.$store.getters['DTC/getDmgLibre']
         let equipoPropuesto = this.$store.getters['DTC/getPropuestoLibre']
 
-        let dtcNuevo = {
-          "header": header,
-          "equipoMalo": equipoMalo,
-          "equipoPropuesto": equipoPropuesto
-        }
-
-        console.log(dtcNuevo)
    
     },
   },
