@@ -188,8 +188,8 @@ const actions = {
           StrModel : state.listaDmgLibre[i].modelo, 
           StrSerialNumber : state.listaDmgLibre[i].numserie, 
           StrLane: state.listaDmgLibre[i].ubicacion, 
-          DateInstallationDate: state.listaDmgLibre[i].fechaInstalacion,  
-          DateMaintenanceDate: state.listaDmgLibre[i].fechaMantenimiento, 
+          StrInstallationDate: state.listaDmgLibre[i].fechaInstalacion,  
+          StrMaintenanceDate: state.listaDmgLibre[i].fechaMantenimiento, 
           StrLifeTimeExpected: state.listaDmgLibre[i].fechaFabricante, 
           IntItem: state.listaDmgLibre[i].partida, 
           StrMaintenanceFolio: state.listaDmgLibre[i].folioMantenimiento,
@@ -200,6 +200,9 @@ const actions = {
           StrDollarUnitaryPrice: '------------', 
           StrTotalPrice: state.listaPropuestoLibre[i].precioTotal, 
           StrDollarTotalPrice: '--------------', 
+          StrBrandProposed: state.listaPropuestoLibre[i].marca, 
+          StrModelProposed: state.listaPropuestoLibre[i].modelo, 
+
       }
       arrayDmg.push(newItem)
    
