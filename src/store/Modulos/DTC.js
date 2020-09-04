@@ -194,7 +194,6 @@ const actions = {
           IntItem: state.listaDmgLibre[i].partida, 
           StrMaintenanceFolio: state.listaDmgLibre[i].folioMantenimiento,
           StrLifeTimeReal: state.listaDmgLibre[i].fechaReal, 
-
           //Equipo Propuesto
           StrUnitaryPrice: state.listaPropuestoLibre[i].precioUnitario, 
           StrDollarUnitaryPrice: '------------', 
@@ -207,7 +206,7 @@ const actions = {
    
     }
     console.log(arrayDmg)     
-    await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`,arrayDmg)
+    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/Open/${value.flagCreate}`,arrayDmg)
       .then(response => {   
                           
         if(response.status == 201){                    
