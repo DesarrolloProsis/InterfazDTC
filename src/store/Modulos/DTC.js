@@ -179,7 +179,7 @@ const actions = {
           
       let newItem = {
 
-          BitFlag: '', 
+          BitFlag: 1, 
           StrReferenceNumber : value.refNum, 
           StrUnity : state.listaDmgLibre[i].unidad, 
           StrComponent : state.listaDmgLibre[i].componente, 
@@ -196,19 +196,18 @@ const actions = {
           StrLifeTimeReal: state.listaDmgLibre[i].fechaReal, 
 
           //Equipo Propuesto
-          StrUnitaryPrice: stat.listaPropuestoLibre[i].precioUnitario, 
+          StrUnitaryPrice: state.listaPropuestoLibre[i].precioUnitario, 
           StrDollarUnitaryPrice: '------------', 
           StrTotalPrice: state.listaPropuestoLibre[i].precioTotal, 
           StrDollarTotalPrice: '--------------', 
           StrBrandProposed: state.listaPropuestoLibre[i].marca, 
           StrModelProposed: state.listaPropuestoLibre[i].modelo, 
-
       }
       arrayDmg.push(newItem)
    
     }
-    console.log(JSON.stringify(arrayDmg))        
-    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`,arrayDmg)
+    console.log(arrayDmg)     
+    await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`,arrayDmg)
       .then(response => {   
                           
         if(response.status == 201){                    

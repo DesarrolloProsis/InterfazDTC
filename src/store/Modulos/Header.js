@@ -151,7 +151,7 @@ const actions = {
   
     }
       console.log(newObject)
-    await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)        
+    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)        
       .then(response => {    
         
         console.log(response)
