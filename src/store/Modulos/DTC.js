@@ -196,7 +196,7 @@ const actions = {
           StrLifeTimeReal: state.listaDmgLibre[i].fechaReal, 
 
           //Equipo Propuesto
-          StrUnitaryPrice: stat.listaPropuestoLibre[i].precioUnitario, 
+          StrUnitaryPrice: state.listaPropuestoLibre[i].precioUnitario, 
           StrDollarUnitaryPrice: '------------', 
           StrTotalPrice: state.listaPropuestoLibre[i].precioTotal, 
           StrDollarTotalPrice: '--------------', 
