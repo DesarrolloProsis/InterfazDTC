@@ -2,7 +2,7 @@
 <template>
   <div class="m-0 p-0 bg-white">
     <div
-      class="mt-8 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 mt-8 w-full sm:screen flex flex-col flex-wrap my-2"
+      class="mt-8 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8  w-full sm:screen flex-col flex-wrap my-2"
     >
       <!-- TituloyReferencia -->
       <div class="box-content p-4 border-4 border-gray-400 xl:w-3/4">

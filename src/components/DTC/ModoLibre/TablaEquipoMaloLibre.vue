@@ -321,12 +321,251 @@
         </table>
       </div>
     </div>
-    <TablaEquipoPropuesto @desbloquear_partida="desbloquear_partida" :listaEquipo="listaequipoMalo"></TablaEquipoPropuesto>
+
+    <div class="flex flex-col justify-center md:hidden lg:hidden xl:hidden">
+      <div class="p-4" :class="{ 'hidden': modal }">
+        <div class="text-center mb-5">
+          <h6 class>Equipo Dañado</h6>
+        </div>
+        <table class="border-collapse">
+          <!--/////////////////////////////////////////////////////////////////
+              ////                 CABECERA DE LA TABLA                       ////
+          ////////////////////////////////////////////////////////////////////-->
+          <thead>
+            <tr class="border text-xs">
+              <th class="w-20">Partida</th>
+              <th class="w-48 text-red-600">Componente</th>
+              <th class="w-48 text-red-600">
+                Ubicacion
+                <br />(carril/cuerpo)
+              </th>
+              <th class="w-48">Acciones</th>
+            </tr>
+          </thead>
+          <!--/////////////////////////////////////////////////////////////////
+              ////                 CUERPO DE LA TABLA                          ////
+          ////////////////////////////////////////////////////////////////////-->
+          <tbody>
+            <!--/////////////////////////////////////////////////////////////////
+                ////           FOOTER DE LA TABLA + PARTIDA                      ////
+            ////////////////////////////////////////////////////////////////////-->
+            <tr class="text-center" v-for="(item, key) in listaequipoMalo" :key="key">
+              <td class="border">{{ item.partida }}</td>
+              <td class="border">{{ item.componente }}</td>
+              <td class="border">{{ item.ubicacion }}</td>
+              <td class="border">
+                <button
+                  v-on:click.stop.prevent="editar_componente_cel(key)"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"
+                >
+                  <img src="../../../assets/img/pencil.png" class width="10" height="10" />
+                  <span class="text-sm">Editar</span>
+                </button>
+                <button
+                  v-on:click.stop.prevent="borrar_componente"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-600 m-2"
+                >
+                  <img src="../../../assets/img/cerrar.png" class width="10" height="10" />
+                  <span class="text-sm">Borrar</span>
+                </button>
+              </td>
+            </tr>
+
+            <tr class="text-center">
+              <td class></td>
+              <td class></td>
+              <td class></td>
+              <td class>
+                <button
+                  v-on:click.stop.prevent="modal = true, objectMalo.rowUpPropuesto = true"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+                >
+                  <img src="../../../assets/img/more.png" class width="10" height="10" />
+                  <span class="text-sm">Agregar</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex flex-col p-5" v-if="modal">
+        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40 h-72 p-2">
+          <h1 class="text-lg">Equipo Dañado</h1>
+          <div class="inline-flex m-2">
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Componente:</p>
+              <template v-if="!modalEdit">
+                <input v-model="objectMalo.componente" class="w-full" type="text" />
+              </template>
+              <template v-else>
+                <input v-model="editComponent.componente" class="w-full" type="text" />
+              </template>
+            </div>
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Unidad:</p>
+              <template v-if="!modalEdit">
+                <input v-model="objectMalo.unidad" class="w-12" type="text" />
+              </template>
+              <template v-else>
+                <input v-model="editComponent.unidad" class="w-12" type="text" />
+              </template>
+            </div>
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Cantidad:</p>
+              <template v-if="!modalEdit">
+                <input v-model="objectMalo.cantidad" class="w-12" type="text" />
+              </template>
+              <template v-else>
+                <input v-model="editComponent.cantidad" class="w-12" type="text" />
+              </template>
+            </div>
+          </div>
+          <div class="inline-flex m-2">
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Marca:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.marca" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.marca" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Modelo:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.modelo" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.modelo" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Numero Serie:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.numserie" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.numserie" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+          </div>
+          <div class="inline-flex m-2">
+            <div class="m-1 mt-5">
+              <p class="text-md mb-1 font-semibold text-gray-900">Ubicacion:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.ubicacion" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.ubicacion" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Instalacion:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.fechaInstalacion" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.fechaInstalacion" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Ultimo Mantenimiento:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.fechaMantenimiento" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.fechaMantenimiento" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+          </div>
+          <div class="inline-flex m-2">
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Folio Ultimo Mantenimiento:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.folioMantenimiento" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.folioMantenimiento" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+            <div class="m-1 mt-5">
+              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Real:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.fechaReal" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.fechaReal" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+            <div class="m-1">
+              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Fabricante:</p>
+              <template v-if="!modalEdit">
+                <textarea v-model="objectMalo.fechaFabricante" class="w-full" type="text"></textarea>
+              </template>
+              <template v-else>
+                <textarea v-model="editComponent.fechaFabricante" class="w-full" type="text"></textarea>
+              </template>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <template v-if="!modalEdit">
+              <button
+                v-on:click.stop.prevent="modal = false, objectModal = {}"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+              >
+                <img
+                  src="../../../assets/img/cerrar.png"
+                  class="mr-2 sm:m-1"
+                  width="15"
+                  height="15"
+                />
+                <span class="text-sm">Cancelar Normal</span>
+              </button>
+              <button
+                v-on:click.stop.prevent="agregar_componente_cel"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+              >
+                <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15" />
+                <span class="text-sm">Aceptar</span>
+              </button>
+            </template>
+            <template v-else>
+              <button
+                v-on:click.stop.prevent="modal = false, objectModal = {}"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+              >
+                <img
+                  src="../../../assets/img/cerrar.png"
+                  class="mr-2 sm:m-1"
+                  width="15"
+                  height="15"
+                />
+                <span class="text-sm">Cancelar</span>
+              </button>
+              <button
+                v-on:click.stop.prevent="confirmar_componente_cel"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+              >
+                <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15" />
+                <span class="text-sm">Aceptar</span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <TablaEquipoPropuesto
+      @desbloquear_partida="desbloquear_partida"
+      :listaEquipo="listaequipoMalo"
+      :typeCel="typoCelBool"
+    ></TablaEquipoPropuesto>
   </div>
 </template>
 
 <script>
 import TablaEquipoPropuesto from "../ModoLibre/TablaEquipoPropuestoLibre";
+import EventBus from "../../../services/EventBus.js";
 
 export default {
   name: "TablaEquipoMalo",
@@ -355,6 +594,9 @@ export default {
       },
       editComponent: {},
       disable_agregar: false,
+      modal: false,
+      modalEdit: false,
+      typoCelBool: true,
     };
   },
   props: {
@@ -372,8 +614,6 @@ export default {
     listaequipoMalo: {
       deep: true,
       handler(newValue) {
-        console.log(newValue);
-
         this.$store.commit("DTC/LISTA_DMG_LIBRE_MUTATION", newValue);
       },
     },
@@ -381,9 +621,7 @@ export default {
   methods: {
     borrar_componente: function (index) {
       this.listaequipoMalo.splice(index, 1);
-
       let partida = 1;
-
       for (let item of this.listaequipoMalo) {
         item.partida = partida;
         partida += 1;
@@ -394,6 +632,51 @@ export default {
     },
     cancelar_edicion: function (index) {
       this.listaequipoMalo[index].rowUp = false;
+      this.editComponent = {};
+    },
+    cancelar_edicion_cel: function (index) {
+      this.listaequipoMalo[index].rowUp = false;
+      this.editComponent = {};
+    },
+    confirmar_componente_cel: function () {
+      let index = this.listaequipoMalo.findIndex(
+        (item) => item.partida == this.editComponent.partida
+      );
+      console.log(index);
+
+      this.listaequipoMalo[index].partida = this.editComponent.partida;
+      this.listaequipoMalo[index].unidad = this.editComponent.unidad;
+      this.listaequipoMalo[index].componente = this.editComponent.componente;
+      this.listaequipoMalo[index].cantidad = this.editComponent.cantidad;
+      this.listaequipoMalo[index].marca = this.editComponent.marca;
+      this.listaequipoMalo[index].modelo = this.editComponent.modelo;
+      this.listaequipoMalo[index].numserie = this.editComponent.numserie;
+      this.listaequipoMalo[index].ubicacion = this.editComponent.ubicacion;
+      this.listaequipoMalo[
+        index
+      ].fechaInstalacion = this.editComponent.fechaInstalacion;
+      this.listaequipoMalo[
+        index
+      ].fechaMantenimiento = this.editComponent.fechaMantenimiento;
+      this.listaequipoMalo[
+        index
+      ].folioMantenimiento = this.editComponent.folioMantenimiento;
+      this.listaequipoMalo[index].fechaReal = this.editComponent.fechaReal;
+      this.listaequipoMalo[
+        index
+      ].fechaFabricante = this.editComponent.fechaFabricante;
+
+      this.listaequipoMalo[index].rowUp = false;
+
+      let obj = {
+        data: this.editComponent,
+        index: index,
+      };
+
+      EventBus.$emit("editar_componente", obj);
+
+      this.modal = false;
+      this.modalEdit = false;
       this.editComponent = {};
     },
     confirmar_componente: function (index) {
@@ -422,9 +705,54 @@ export default {
       this.listaequipoMalo[index].rowUp = false;
       this.editComponent = {};
     },
+    editar_componente_cel: function (index) {
+      this.editComponent.rowUpPropuesto = this.listaequipoMalo[
+        index
+      ].rowUpPropuesto;
+      this.editComponent.rowUp = this.listaequipoMalo[index].rowUp;
+      this.editComponent.partida = this.listaequipoMalo[index].partida;
+      this.editComponent.unidad = this.listaequipoMalo[index].unidad;
+      this.editComponent.componente = this.listaequipoMalo[index].componente;
+      this.editComponent.cantidad = this.listaequipoMalo[index].cantidad;
+      this.editComponent.marca = this.listaequipoMalo[index].marca;
+      this.editComponent.modelo = this.listaequipoMalo[index].modelo;
+      this.editComponent.numserie = this.listaequipoMalo[index].numserie;
+      this.editComponent.ubicacion = this.listaequipoMalo[index].ubicacion;
+      this.editComponent.fechaInstalacion = this.listaequipoMalo[
+        index
+      ].fechaInstalacion;
+      this.editComponent.fechaMantenimiento = this.listaequipoMalo[
+        index
+      ].fechaMantenimiento;
+      this.editComponent.folioMantenimiento = this.listaequipoMalo[
+        index
+      ].folioMantenimiento;
+      this.editComponent.fechaReal = this.listaequipoMalo[index].fechaReal;
+      this.editComponent.fechaFabricante = this.listaequipoMalo[
+        index
+      ].fechaFabricante;
+
+      this.modal = true;
+      this.modalEdit = true;
+    },
     editar_componente: function (index) {
       this.editComponent = { ...this.listaequipoMalo[index] };
       this.listaequipoMalo[index].rowUp = true;
+    },
+    agregar_componente_cel: function () {
+      let partida = 0;
+
+      this.typoCelBool = false;
+      this.objectMalo.rowUpPropuesto = false;
+      this.objectMalo.partida = this.listaequipoMalo.length + 1;
+      partida = this.objectMalo.partida;
+      this.listaequipoMalo.push(Object.assign({}, this.objectMalo));
+      for (const propiedades in this.objectMalo) {
+        this.objectMalo[propiedades] = "";
+      }
+      this.modal = false;
+      console.log("antes del bus");
+      EventBus.$emit("nuevo_componente", partida);
     },
     agregar_componente: function () {
       this.disable_agregar = true;

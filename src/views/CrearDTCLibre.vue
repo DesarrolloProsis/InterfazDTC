@@ -105,7 +105,7 @@
 <script>
 import Nav from "../components/Navbar";
 import Header from "../components/Header/CrearHeaderLibre";
-
+import saveAs from "file-saver";
 
 export default {
   name: "CrearDTC",
@@ -163,13 +163,33 @@ export default {
         status: status,
         flag: this.flagCreate,
       });
-      console.log(status)
+      
         let value_insert = {
         refNum: this.refNum,
         flagCreate: this.flagCreate,
       };
-      console.log(value_insert)
+      
       await this.$store.dispatch("DTC/crearDmgLibre", value_insert);
+      var oReq = new XMLHttpRequest();
+      // The Endpoint of your server
+      let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}`;
+      let namePdf = `ReportDTC-${this.refNum}.pdf`;
+      // Configure XMLHttpRequest
+      oReq.open("GET", urlTopdf, true);
+      // Important to use the blob response type
+      oReq.responseType = "blob";
+      // When the file request finishes
+      // Is up to you, the configuration for error events etc.
+      oReq.onload = function () {
+        // Once the file is downloaded, open a new window with the PDF
+        // Remember to allow the POP-UPS in your browser
+        var file = new Blob([oReq.response], {
+          type: "application/pdf",
+        });
+        // Generate file download directly in the browser !
+        saveAs(file, namePdf);
+      }
+      oReq.send();
       // let header = this.$store.getters['Header/getDatosSinester']
       // let equipoMalo = this.$store.getters['DTC/getDmgLibre']
       // let equipoPropuesto = this.$store.getters['DTC/getPropuestoLibre']
