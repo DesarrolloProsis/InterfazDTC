@@ -51,7 +51,12 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <select v-model="editComponent.unidad">
+                  <select
+                     v-validate="'required'"
+                     v-model="editComponent.unidad"
+                     name="unidad"
+                     >
+                    
                     <option value>Seleccion</option>
                     <option value="Pza">Pza</option>
                   </select>
@@ -60,7 +65,13 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <input class="w-32" type="text" v-model="editComponent.componente" />
+                  <input  
+                    class="w-32" 
+                    type="text"                     
+                    v-validate="'required'"
+                    name="componente"
+                    v-model="editComponent.componente" />
+                    <p class="text-red-600 text-xs">{{ errors.first("componente") }}</p>
                 </template>
                 <template v-else>{{equipo.componente}}</template>
               </td>
