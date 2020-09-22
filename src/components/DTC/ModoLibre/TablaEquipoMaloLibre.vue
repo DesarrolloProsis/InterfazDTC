@@ -4,7 +4,6 @@
       <div class="p-4">
         <div class="text-center mb-5">
           <h6 class>Equipo Dañado</h6>
-          <input type="text" v-validate="'required'">
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
@@ -52,12 +51,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <select
-                     v-validate="'required'"
-                     v-model="editComponent.unidad"
-                     name="unidad"
-                     >
-                    
+                  <select v-model="editComponent.unidad" name="unidad">
                     <option value>Seleccion</option>
                     <option value="Pza">Pza</option>
                   </select>
@@ -66,13 +60,14 @@
               </td>
               <td class="border">
                 <div v-if="equipo.rowUp">
-                  <input  
-                    class="w-32" 
-                    type="text"                     
+                  <input
+                    class="w-32"
+                    type="text"
                     v-validate="'required'"
                     name="pruebas"
-                    v-model="editComponent.componente" />
-                    <p class="text-red-600 text-xs">{{ errors.first("pruebas") }}</p>
+                    v-model="editComponent.componente"
+                  />
+                  <p class="text-red-600 text-xs">{{ errors.first("pruebas") }}</p>
                 </div>
                 <div v-else>{{equipo.componente}}</div>
               </td>
@@ -225,13 +220,18 @@
             <tr class="text-center">
               <td class="border">{{ "*" }}</td>
               <td class="border">
-                <select v-model="objectMalo.unidad" :disabled="disable_agregar">
+                <select
+                  v-model="objectMalo.unidad"
+                  :disabled="disable_agregar"
+                  v-validate="'required'"
+                >
                   <option value>Seleccion</option>
                   <option value="Pza">Pza</option>
                 </select>
               </td>
               <td class="border">
                 <input
+                  v-validate="'required'"
                   class="w-32"
                   type="text"
                   v-model="objectMalo.componente"
@@ -240,6 +240,7 @@
               </td>
               <td class="border">
                 <input
+                  v-validate="'required'"
                   class="w-12"
                   type="text"
                   v-model="objectMalo.cantidad"
@@ -248,6 +249,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.marca"
@@ -256,6 +258,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.modelo"
@@ -264,6 +267,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.numserie"
@@ -272,6 +276,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.ubicacion"
@@ -280,6 +285,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.fechaInstalacion"
@@ -288,6 +294,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.fechaMantenimiento"
@@ -296,6 +303,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.folioMantenimiento"
@@ -304,6 +312,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.fechaReal"
@@ -312,6 +321,7 @@
               </td>
               <td class="border">
                 <textarea
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   v-model="objectMalo.fechaFabricante"
@@ -408,28 +418,53 @@
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Componente:</p>
               <template v-if="!modalEdit">
-                <input v-model="objectMalo.componente" class="w-full" type="text" />
+                <input
+                  v-validate="'required'"
+                  v-model="objectMalo.componente"
+                  class="w-full"
+                  type="text"
+                />
               </template>
               <template v-else>
-                <input v-model="editComponent.componente" class="w-full" type="text" />
+                <input
+                  v-validate="'required'"
+                  v-model="editComponent.componente"
+                  class="w-full"
+                  type="text"
+                />
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Unidad:</p>
               <template v-if="!modalEdit">
-                <input v-model="objectMalo.unidad" class="w-12" type="text" />
+                <input v-validate="'required'" v-model="objectMalo.unidad" class="w-12" type="text" />
               </template>
               <template v-else>
-                <input v-model="editComponent.unidad" class="w-12" type="text" />
+                <input
+                  v-validate="'required'"
+                  v-model="editComponent.unidad"
+                  class="w-12"
+                  type="text"
+                />
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Cantidad:</p>
               <template v-if="!modalEdit">
-                <input v-model="objectMalo.cantidad" class="w-12" type="text" />
+                <input
+                  v-validate="'required'"
+                  v-model="objectMalo.cantidad"
+                  class="w-12"
+                  type="text"
+                />
               </template>
               <template v-else>
-                <input v-model="editComponent.cantidad" class="w-12" type="text" />
+                <input
+                  v-validate="'required'"
+                  v-model="editComponent.cantidad"
+                  class="w-12"
+                  type="text"
+                />
               </template>
             </div>
           </div>
@@ -437,28 +472,58 @@
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Marca:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.marca" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.marca"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.marca" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.marca"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Modelo:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.modelo" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.modelo"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.modelo" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.modelo"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Numero Serie:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.numserie" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.numserie"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.numserie" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.numserie"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
           </div>
@@ -466,28 +531,58 @@
             <div class="m-1 mt-5">
               <p class="text-md mb-1 font-semibold text-gray-900">Ubicacion:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.ubicacion" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.ubicacion"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.ubicacion" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.ubicacion"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Fecha Instalacion:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.fechaInstalacion" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.fechaInstalacion"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.fechaInstalacion" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.fechaInstalacion"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Fecha Ultimo Mantenimiento:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.fechaMantenimiento" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.fechaMantenimiento"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.fechaMantenimiento" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.fechaMantenimiento"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
           </div>
@@ -495,28 +590,58 @@
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Folio Ultimo Mantenimiento:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.folioMantenimiento" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.folioMantenimiento"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.folioMantenimiento" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.folioMantenimiento"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
             <div class="m-1 mt-5">
               <p class="text-md mb-1 font-semibold text-gray-900">Fecha Real:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.fechaReal" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.fechaReal"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.fechaReal" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.fechaReal"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Fecha Fabricante:</p>
               <template v-if="!modalEdit">
-                <textarea v-model="objectMalo.fechaFabricante" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="objectMalo.fechaFabricante"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
               <template v-else>
-                <textarea v-model="editComponent.fechaFabricante" class="w-full" type="text"></textarea>
+                <textarea
+                  v-validate="'required'"
+                  v-model="editComponent.fechaFabricante"
+                  class="w-full"
+                  type="text"
+                ></textarea>
               </template>
             </div>
           </div>
@@ -752,29 +877,83 @@ export default {
       this.listaequipoMalo[index].rowUp = true;
     },
     agregar_componente_cel: function () {
-      let partida = 0;
-
-      this.typoCelBool = false;
-      this.objectMalo.rowUpPropuesto = false;
-      this.objectMalo.partida = this.listaequipoMalo.length + 1;
-      partida = this.objectMalo.partida;
-      this.listaequipoMalo.push(Object.assign({}, this.objectMalo));
-      for (const propiedades in this.objectMalo) {
-        this.objectMalo[propiedades] = "";
-      }
-      this.modal = false;
-      console.log("antes del bus");
-      EventBus.$emit("nuevo_componente", partida);
+      this.$validator
+        .validateAll()
+        .then((item) => {
+          if (item) {
+            let partida = 0;
+            this.typoCelBool = false;
+            this.objectMalo.rowUpPropuesto = false;
+            this.objectMalo.partida = this.listaequipoMalo.length + 1;
+            partida = this.objectMalo.partida;
+            this.listaequipoMalo.push(Object.assign({}, this.objectMalo));
+            for (const propiedades in this.objectMalo) {
+              this.objectMalo[propiedades] = "";
+            }
+            this.modal = false;
+            console.log("antes del bus");
+            EventBus.$emit("nuevo_componente", partida);
+          } else {
+            this.$notify.error({
+              title: "Error",
+              msg: `FALTA LLENAR CAMPOS PARA LA PARTIDA.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          }
+        })
+        .catch((err) => {
+          this.$notify.error({
+            title: "Error",
+            msg: `${err}.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        });
     },
     agregar_componente: function () {
-      this.disable_agregar = true;
-      this.objectMalo.partida = this.listaequipoMalo.length + 1;
-      this.objectMalo.rowUp = false;
-      this.objectMalo.rowUpPropuesto = true;
-      this.listaequipoMalo.push(Object.assign({}, this.objectMalo));
-      for (const propiedades in this.objectMalo) {
-        this.objectMalo[propiedades] = "";
-      }
+      this.$validator
+        .validateAll()
+        .then((item) => {
+          if (item) {
+            this.disable_agregar = true;
+            this.objectMalo.partida = this.listaequipoMalo.length + 1;
+            this.objectMalo.rowUp = false;
+            this.objectMalo.rowUpPropuesto = true;
+            this.listaequipoMalo.push(Object.assign({}, this.objectMalo));
+            for (const propiedades in this.objectMalo) {
+              this.objectMalo[propiedades] = "";
+            }
+            console.log(item);
+          } else {
+            this.$notify.error({
+              title: "Error",
+              msg: `FALTA LLENAR CAMPOS PARA LA PARTIDA.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          }
+        })
+        .catch((err) => {
+          this.$notify.error({
+            title: "Error",
+            msg: `${err}.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        });
     },
   },
 };

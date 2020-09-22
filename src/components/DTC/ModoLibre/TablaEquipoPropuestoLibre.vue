@@ -47,7 +47,7 @@
               <td class="border">{{ equipo.cantidad }}</td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea v-model="marca" class="w-20" type="text"></textarea>
+                  <textarea v-validate="'required'" v-model="marca" class="w-20" type="text"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in infoRow[index].marca.split(`\n`)" :key="key">{{ item }}</p>
@@ -55,7 +55,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea v-model="modelo" class="w-20" type="text"></textarea>
+                  <textarea v-validate="'required'" v-model="modelo" class="w-20" type="text"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in infoRow[index].modelo.split(`\n`)" :key="key">{{ item }}</p>
@@ -63,7 +63,12 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea v-model="precioUnitario" class="w-20" type="text"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    v-model="precioUnitario"
+                    class="w-20"
+                    type="text"
+                  ></textarea>
                 </template>
                 <template v-else>
                   <p
@@ -76,6 +81,7 @@
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
+                    v-validate="'required'"
                     v-model="precioTotal"
                     :disabled="!equipo.rowUpPropuesto"
                     class="w-20"
@@ -183,7 +189,7 @@
               <td class="border">{{ item.precioTotal }}</td>
               <td class="border">
                 <button
-                  v-on:click.stop.prevent="modal = true"
+                  v-on:click.stop.prevent="editar_cel(key)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"
                 >
                   <img src="../../../assets/img/pencil.png" class width="10" height="10" />
@@ -215,17 +221,17 @@
           <div class="inline-flex m-2">
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Marca:</p>
-              <textarea v-model="marca" class="w-full" type="text"></textarea>
+              <textarea v-validate="'required'" v-model="marca" class="w-full" type="text"></textarea>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Modelo:</p>
-              <textarea v-model="modelo" class="w-full" type="text"></textarea>
+              <textarea v-validate="'required'" v-model="modelo" class="w-full" type="text"></textarea>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="m-1 mr-8">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario:</p>
-              <textarea v-model="precioUnitario" class="w-full" type="text"></textarea>
+              <input v-validate="'required'" v-model="precioUnitario" class="w-full" type="text /">
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario Dolar:</p>
@@ -235,7 +241,7 @@
           <div class="inline-flex m-2">
             <div class="m-1 mr-10">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Total Unitario:</p>
-              <textarea v-model="precioTotal" class="w-full" type="text"></textarea>
+              <input v-validate="'required'" v-model="precioTotal" class="w-full" type="text" />
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Total Dolar:</p>
@@ -281,6 +287,8 @@ export default {
       precioTotal: "",
       infoRow: [],
       info_confirmar: {},
+      index_editar: "",
+      bool_editar: false
     };
   },
   filters: {
@@ -328,45 +336,122 @@ export default {
 
       this.listaEquipo[index].rowUpPropuesto = true;
     },
+    editar_cel: function (index) {
+      this.modal = true;
+      this.index_editar = index;
+      this.bool_editar = true
+      this.marca = this.infoRow[index].marca;
+      this.modelo = this.infoRow[index].modelo;
+      this.precioUnitario = this.infoRow[index].precioUnitario;
+      this.precioTotal = this.infoRow[index].precioTotal;
+    },
     aceptar_cel: function () {
-      let newPartida = {
-        partida: this.info_confirmar.partida,
-        unidad: this.info_confirmar.unidad,
-        componente: this.info_confirmar.componente,
-        cantidad: this.info_confirmar.cantidad,
-        marca: this.marca,
-        modelo: this.modelo,
-        precioUnitario: this.precioUnitario,
-        precioTotal: this.precioTotal,
-      };
-      this.marca = "";
-      this.modelo = "";
-      this.precioUnitario = "";
-      this.precioTotal = "";
+      this.$validator
+        .validateAll()
+        .then((item) => {
+          if (item) {
+            console.log()
+            if(this.bool_editar) {
+              
+              console.log('editar')
+              this.infoRow[this.index_editar].marca = this.marca
+              this.infoRow[this.index_editar].modelo = this.modelo
+              this.infoRow[this.index_editar].precioUnitario = this.precioUnitario
+              this.infoRow[this.index_editar].precioTotal = this.precioTotal
+              this.modal = false;
+              this.index_editar = ''
+              this.bool_editar = false
 
-      this.infoRow.push(newPartida);
-      this.modal = false;
+            }
+            else {
+              let newPartida = {
+                partida: this.info_confirmar.partida,
+                unidad: this.info_confirmar.unidad,
+                componente: this.info_confirmar.componente,
+                cantidad: this.info_confirmar.cantidad,
+                marca: this.marca,
+                modelo: this.modelo,
+                precioUnitario: this.precioUnitario,
+                precioTotal: this.precioTotal,
+              };
+              this.marca = "";
+              this.modelo = "";
+              this.precioUnitario = "";
+              this.precioTotal = "";
+              this.infoRow.push(newPartida);
+              this.modal = false;
+            }
+          } else {
+            this.$notify.error({
+              title: "Error",
+              msg: `FALTA LLENAR CAMPOS PARA LA PARTIDA.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          }
+        })
+        .catch((err) => {
+          this.$notify.error({
+            title: "Error",
+            msg: `${err}.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        });
     },
     aceptar: function (index, item) {
-      this.listaEquipo[index].rowUpPropuesto = false;
-
-      let newPartida = {
-        partida: item.partida,
-        unidad: item.unidad,
-        componente: item.componente,
-        cantidad: item.cantidad,
-        marca: this.marca,
-        modelo: this.modelo,
-        precioUnitario: this.precioUnitario,
-        precioTotal: this.precioTotal,
-      };
-      this.marca = "";
-      this.modelo = "";
-      this.precioUnitario = "";
-      this.precioTotal = "";
-      this.$emit("desbloquear_partida");
-      if (this.infoRow.length > index) this.infoRow[index] = newPartida;
-      else this.infoRow.push(newPartida);
+      this.$validator
+        .validateAll()
+        .then((val) => {
+          if (val) {
+            
+            this.listaEquipo[index].rowUpPropuesto = false;
+            let newPartida = {
+              partida: item.partida,
+              unidad: item.unidad,
+              componente: item.componente,
+              cantidad: item.cantidad,
+              marca: this.marca,
+              modelo: this.modelo,
+              precioUnitario: this.precioUnitario,
+              precioTotal: this.precioTotal,
+            };
+            this.marca = "";
+            this.modelo = "";
+            this.precioUnitario = "";
+            this.precioTotal = "";
+            this.$emit("desbloquear_partida");
+            if (this.infoRow.length > index) this.infoRow[index] = newPartida;
+            else this.infoRow.push(newPartida);
+          } else {
+            this.$notify.error({
+              title: "Error",
+              msg: `FALTA LLENAR CAMPOS PARA LA PARTIDA.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          }
+        })
+        .catch((err) => {
+          this.$notify.error({
+            title: "Error",
+            msg: `${err}.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        });
     },
     // infoFull: function (value) {
     //   this.modal = true;
