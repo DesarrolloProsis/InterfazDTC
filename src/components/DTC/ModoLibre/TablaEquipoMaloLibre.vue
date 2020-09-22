@@ -4,6 +4,7 @@
       <div class="p-4">
         <div class="text-center mb-5">
           <h6 class>Equipo Dañado</h6>
+          <input type="text" v-validate="'required'">
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
@@ -13,7 +14,7 @@
             <tr class="border text-sm">
               <th class="px-1">Partida</th>
               <th class="px-1">Unidad</th>
-              <th class="px-4 text-red-600">Componente</th>
+              <th class="px-4 text-red-600">Componentes</th>
               <th class="px-4 text-red-600 text-xs">Cantidad</th>
               <th class="px-4">Marca</th>
               <th class="px-4">Modelo</th>
@@ -64,16 +65,16 @@
                 <template v-else>{{ equipo.unidad }}</template>
               </td>
               <td class="border">
-                <template v-if="equipo.rowUp">
+                <div v-if="equipo.rowUp">
                   <input  
                     class="w-32" 
                     type="text"                     
                     v-validate="'required'"
-                    name="componente"
+                    name="pruebas"
                     v-model="editComponent.componente" />
-                    <p class="text-red-600 text-xs">{{ errors.first("componente") }}</p>
-                </template>
-                <template v-else>{{equipo.componente}}</template>
+                    <p class="text-red-600 text-xs">{{ errors.first("pruebas") }}</p>
+                </div>
+                <div v-else>{{equipo.componente}}</div>
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
