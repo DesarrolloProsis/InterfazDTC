@@ -747,6 +747,34 @@ export default {
       default: "",
     },
   },
+  beforeMount: function () {
+    let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
+
+    if (JSON.stringify(componetesEdit) != "{}") {
+      console.log(componetesEdit);
+
+      for (let item of componetesEdit.requestedComponents) {
+        let objectMalo = {
+          rowUpPropuesto: false,
+          rowUp: false,
+          partida: item.item,
+          unidad: item.unity,
+          componente: item.component,
+          cantidad: item.quantity,
+          marca: item.brand,
+          modelo: item.model,
+          numserie: item.serialNumber,
+          ubicacion: item.lane,
+          fechaInstalacion: item.installationDate,
+          fechaMantenimiento: item.maintenanceDate,
+          folioMantenimiento: item.maintenanceFolio,
+          fechaReal: item.lifeTimeReal,
+          fechaFabricante: item.lifeTimeExpected,
+        };
+        this.listaequipoMalo.push(objectMalo)
+      }
+    }
+  },
   watch: {
     listaequipoMalo: {
       deep: true,

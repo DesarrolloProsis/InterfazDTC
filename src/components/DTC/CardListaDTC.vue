@@ -123,8 +123,13 @@ export default {
       this.showmenosMas = false;
     },
     pruebas: async function () {
+
+      let ruta = this.infoCard.openMode
+      ? 'COMPONENT_EDIT_OPEN'
+      : 'COMPONENT_EDIT'
+
       await this.$store.dispatch(
-        "DTC/COMPONENT_EDIT",
+        `DTC/${ruta}`,
         this.infoCard.referenceNumber
       );
 
@@ -162,8 +167,12 @@ export default {
 
       this.$store.commit("Header/datosSinesterMutation", datosSinester);
 
+      let page = this.infoCard.openMode
+      ? 'NuevoDtcLibre'
+      : 'NuevoDtc'
+
       this.$router.push({
-        path: "/NuevoDtc",
+        path: `/${page}`,
         query: {
           headerInfo: { ...this.infoCard },
         },
@@ -172,7 +181,10 @@ export default {
     pdf: function () {
       var oReq = new XMLHttpRequest();
       // The Endpoint of your server
-      let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`;
+      let urlTopdf = this.infoCard.openMode
+      ? `http://prosisdev.sytes.net:88/api/pdf/open/${this.infoCard.referenceNumber}`
+      : `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`
+
       let namePdf = `ReportDTC-${this.refNum}.pdf`;
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);

@@ -231,7 +231,7 @@
           <div class="inline-flex m-2">
             <div class="m-1 mr-8">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario:</p>
-              <input v-validate="'required'" v-model="precioUnitario" class="w-full" type="text /">
+              <input v-validate="'required'" v-model="precioUnitario" class="w-full" type="text /" />
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario Dolar:</p>
@@ -288,7 +288,7 @@ export default {
       infoRow: [],
       info_confirmar: {},
       index_editar: "",
-      bool_editar: false
+      bool_editar: false,
     };
   },
   filters: {
@@ -314,10 +314,31 @@ export default {
   },
   beforeMount: function () {
     this.diagnostico = this.$store.getters["Header/getDiagnostico"];
+        
+
+      let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
+
+      if (JSON.stringify(componetesEdit) != "{}") {
+        console.log(componetesEdit);
+
+        for (let item of componetesEdit.proposedComponents) {
+            let newPartida = {
+                partida: item.item,
+                unidad: item.unity,
+                componente: item.component,
+                cantidad: item.quantity,
+                marca: item.brand,
+                modelo: item.model,
+                precioUnitario: item.unitaryPrice,
+                precioTotal: item.totalPrice
+              };
+          this.infoRow.push(newPartida);
+        }
+      }
   },
   watch: {
     diagnostico: function (newValue) {
-      this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
+        this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
     },
 
     infoRow: {
@@ -339,7 +360,7 @@ export default {
     editar_cel: function (index) {
       this.modal = true;
       this.index_editar = index;
-      this.bool_editar = true
+      this.bool_editar = true;
       this.marca = this.infoRow[index].marca;
       this.modelo = this.infoRow[index].modelo;
       this.precioUnitario = this.infoRow[index].precioUnitario;
@@ -350,20 +371,19 @@ export default {
         .validateAll()
         .then((item) => {
           if (item) {
-            console.log()
-            if(this.bool_editar) {
-              
-              console.log('editar')
-              this.infoRow[this.index_editar].marca = this.marca
-              this.infoRow[this.index_editar].modelo = this.modelo
-              this.infoRow[this.index_editar].precioUnitario = this.precioUnitario
-              this.infoRow[this.index_editar].precioTotal = this.precioTotal
+            console.log();
+            if (this.bool_editar) {
+              console.log("editar");
+              this.infoRow[this.index_editar].marca = this.marca;
+              this.infoRow[this.index_editar].modelo = this.modelo;
+              this.infoRow[
+                this.index_editar
+              ].precioUnitario = this.precioUnitario;
+              this.infoRow[this.index_editar].precioTotal = this.precioTotal;
               this.modal = false;
-              this.index_editar = ''
-              this.bool_editar = false
-
-            }
-            else {
+              this.index_editar = "";
+              this.bool_editar = false;
+            } else {
               let newPartida = {
                 partida: this.info_confirmar.partida,
                 unidad: this.info_confirmar.unidad,
@@ -410,7 +430,6 @@ export default {
         .validateAll()
         .then((val) => {
           if (val) {
-            
             this.listaEquipo[index].rowUpPropuesto = false;
             let newPartida = {
               partida: item.partida,

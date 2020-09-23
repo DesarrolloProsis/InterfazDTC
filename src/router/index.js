@@ -105,8 +105,6 @@ const routes = [
         next()
       }
   }
-
-
 ]
 
 const router = new VueRouter({

@@ -172,7 +172,7 @@ export default {
       await this.$store.dispatch("DTC/crearDmgLibre", value_insert);
       var oReq = new XMLHttpRequest();
       // The Endpoint of your server
-      let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}`;
+      let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/open/${this.refNum}`;
       let namePdf = `ReportDTC-${this.refNum}.pdf`;
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);

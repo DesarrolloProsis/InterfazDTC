@@ -5,9 +5,9 @@ const state = {
   listaDescriptions: [],
   listaDmg: [],
   listaDmgLibre: [],
-  listaPropuestoLibre:[],
+  listaPropuestoLibre: [],
   newlistaDmg: [],
-  listaDTC: [],  
+  listaDTC: [],
   insertDmgComplete: false,
   listaInfoDTC: [],
   tableFormComponent: [],
@@ -16,41 +16,41 @@ const state = {
 
 const getters = {
   getListaDTCTecnico: () => state.listaDTCTecnico,
-  getListaDescriptions: () => state.listaDescriptions,  
+  getListaDescriptions: () => state.listaDescriptions,
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => state.listaInfoDTC,
   gettableFormComp: () => state.tableFormComponent,
   getcomponentesEdit: () => state.componetesEdit,
   getDmgLibre: () => state.listaDmgLibre,
   getPropuestoLibre: () => state.listaPropuestoLibre
-  
+
 };
 const mutations = {
 
   listaInfoDTCMutation: (state, value) => {
     state.listaInfoDTC = value
-  }, 
+  },
   listaDTCTecnicoMutation: (state, value) => {
     state.listaDTCTecnico = value;
   },
-  listaDescriptionsMutation: (state, value) => {    
+  listaDescriptionsMutation: (state, value) => {
     state.listaDescriptions = value;
   },
-  newlistaDmgMutationPush: (state, value) => {    
+  newlistaDmgMutationPush: (state, value) => {
     state.newlistaDmg.push(value);
   },
-  listaDmgMutationDelete: (state, value) =>{    
-    state.newlistaDmg.splice(value, 1)  
+  listaDmgMutationDelete: (state, value) => {
+    state.newlistaDmg.splice(value, 1)
   },
-  listaDmgMutationUpdate: (state, value) =>{                
-    state.newlistaDmg.splice(value.index, 1, value.value)  
+  listaDmgMutationUpdate: (state, value) => {
+    state.newlistaDmg.splice(value.index, 1, value.value)
   },
   listaDmgClearMutation: (state) => {
     state.newlistaDmg = []
   },
   listaDTCMutation: (state, value) => {
     state.listaDTC = value;
-  },    
+  },
   insertDmgCompleteMutation: (state, value) => {
     state.insertDmgComplete = value
   },
@@ -60,15 +60,15 @@ const mutations = {
   cleanOut: (state) => {
 
     state.listaDescriptions = []
-    state.listaInfoDTC = []    
+    state.listaInfoDTC = []
   },
   BORRAR_DTC_MUTATION: (state, value) => {
-    state.listaInfoDTC.splice( state.listaInfoDTC.findIndex(a => a.referenceNumber == value) , 1);
+    state.listaInfoDTC.splice(state.listaInfoDTC.findIndex(a => a.referenceNumber == value), 1);
   },
   COMPONENTES_EDIT: (state, value) => {
 
     state.componetesEdit = value
-  },  
+  },
   LISTA_DMG_LIBRE_MUTATION: (state, value) => {
 
     state.listaDmgLibre = value
@@ -80,10 +80,10 @@ const mutations = {
 };
 
 const actions = {
-  
-  async buscarDTC({ commit }) {    
+
+  async buscarDTC({ commit }) {
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
-      .then(response => {        
+      .then(response => {
         console.log(response.data);
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -91,7 +91,7 @@ const actions = {
         console.log(Ex);
       });
   },
-  async buscarDescriptions({ commit }) {    
+  async buscarDescriptions({ commit }) {
     await Axios.get(`http://prosisdev.sytes.net:88/api/typedescriptions`)
       .then(response => {
         commit("listaDescriptionsMutation", response.data.result);
@@ -101,122 +101,131 @@ const actions = {
       });
   },
   //Consulta API Crear DTC
-  async crearDmg({ state, commit } , value ) {
+  async crearDmg({ state, commit }, value) {
 
-    let arrayDmg = []    
-    for(let i = 0;  i < state.newlistaDmg.length; i++){
-          
-          for(let g = 0;  g < state.newlistaDmg[i].length; g++){
+    let arrayDmg = []
+    for (let i = 0; i < state.newlistaDmg.length; i++) {
 
-                state.newlistaDmg[i][g]['ReferenceNumber'] = value.refNum
-                state.newlistaDmg[i][g]['IntPartida'] = i + 1
-                state.newlistaDmg[i][g]['strLifeTimeReal'].toString()
-                arrayDmg.push(state.newlistaDmg[i][g])
-          }
+      for (let g = 0; g < state.newlistaDmg[i].length; g++) {
+
+        state.newlistaDmg[i][g]['ReferenceNumber'] = value.refNum
+        state.newlistaDmg[i][g]['IntPartida'] = i + 1
+        state.newlistaDmg[i][g]['strLifeTimeReal'].toString()
+        arrayDmg.push(state.newlistaDmg[i][g])
+      }
     }
-    console.log(JSON.stringify(arrayDmg))        
-    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`,arrayDmg)
-      .then(response => {   
-                          
-        if(response.status == 201){                    
-            commit('insertDmgCompleteMutation', true)          
-        }      
+    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`, arrayDmg)
+      .then(response => {
+
+        if (response.status == 201) {
+          commit('insertDmgCompleteMutation', true)
+        }
       })
       .catch(Ex => {
         console.log('ERROR!!! ' + Ex);
       });
   },
-  async buscarListaDTC({commit}, value){
-        
+  async buscarListaDTC({ commit }, value) {
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
-    .then(response => {
-      commit("listaInfoDTCMutation", response.data.result);
-    })
-    .catch(Ex => {
-      console.log(Ex);
-    });
+      .then(response => {
+        commit("listaInfoDTCMutation", response.data.result);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
   },
-  async tableFormComponent({commit}, value){
+  async tableFormComponent({ commit }, value) {
 
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/TableForm/${value}`)
-    .then(response => {
+      .then(response => {
 
-      if(response.data.result != null)
-        commit("tableFormComponentMutation", response.data.result);
-      else
-        alert("Ocurrio un Error")
-    })
-    .catch(Ex => {
-      console.log(Ex);
-    });
+        if (response.data.result != null)
+          commit("tableFormComponentMutation", response.data.result);
+        else
+          alert("Ocurrio un Error")
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
   },
-  async BORRAR_DTC({commit},value){        
+  async BORRAR_DTC({ commit }, value) {
     await Axios.delete(`http://prosisdev.sytes.net:88/api/dtcData/Delete/${value}`)
-    .then(response => {
+      .then(response => {
 
         console.log(response)
         commit("BORRAR_DTC_MUTATION", value)
-    })
-    .catch(Ex => {
-      console.log(Ex);
-    });
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
   },
-  async COMPONENT_EDIT({commit}, value){
+  async COMPONENT_EDIT({ commit }, value) {
 
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/${value}`)
-    .then(response => {
-        
-        commit("COMPONENTES_EDIT", response.data.result)
-    })
-    .catch(Ex => {
-      console.log(Ex);
-    });
-  },
-  async crearDmgLibre({ state, commit } , value ) {
+      .then(response => {
 
-    let arrayDmg = []    
-    for(let i = 0;  i < state.listaDmgLibre .length; i++){
-          
+        commit("COMPONENTES_EDIT", response.data.result)
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
+  },
+  async COMPONENT_EDIT_OPEN({ commit }, value) {
+
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/Open/${value}`)
+      .then(response => {
+
+        commit("COMPONENTES_EDIT", response.data.result)
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
+  },
+  async crearDmgLibre({ state, commit }, value) {
+
+    let arrayDmg = []
+    for (let i = 0; i < state.listaDmgLibre.length; i++) {
+
       let newItem = {
 
-          BitFlag: 1, 
-          StrReferenceNumber : value.refNum, 
-          StrUnity : state.listaDmgLibre[i].unidad, 
-          StrComponent : state.listaDmgLibre[i].componente, 
-          StrQuantity : state.listaDmgLibre[i].cantidad, 
-          StrBrand : state.listaDmgLibre[i].marca, 
-          StrModel : state.listaDmgLibre[i].modelo, 
-          StrSerialNumber : state.listaDmgLibre[i].numserie, 
-          StrLane: state.listaDmgLibre[i].ubicacion, 
-          StrInstallationDate: state.listaDmgLibre[i].fechaInstalacion,  
-          StrMaintenanceDate: state.listaDmgLibre[i].fechaMantenimiento, 
-          StrLifeTimeExpected: state.listaDmgLibre[i].fechaFabricante, 
-          IntItem: state.listaDmgLibre[i].partida, 
-          StrMaintenanceFolio: state.listaDmgLibre[i].folioMantenimiento,
-          StrLifeTimeReal: state.listaDmgLibre[i].fechaReal, 
-          //Equipo Propuesto
-          StrUnitaryPrice: state.listaPropuestoLibre[i].precioUnitario, 
-          StrDollarUnitaryPrice: '------------', 
-          StrTotalPrice: state.listaPropuestoLibre[i].precioTotal, 
-          StrDollarTotalPrice: '--------------', 
-          StrBrandProposed: state.listaPropuestoLibre[i].marca, 
-          StrModelProposed: state.listaPropuestoLibre[i].modelo, 
+        BitFlag: 1,
+        StrReferenceNumber: value.refNum,
+        StrUnity: state.listaDmgLibre[i].unidad,
+        StrComponent: state.listaDmgLibre[i].componente,
+        StrQuantity: state.listaDmgLibre[i].cantidad,
+        StrBrand: state.listaDmgLibre[i].marca,
+        StrModel: state.listaDmgLibre[i].modelo,
+        StrSerialNumber: state.listaDmgLibre[i].numserie,
+        StrLane: state.listaDmgLibre[i].ubicacion,
+        StrInstallationDate: state.listaDmgLibre[i].fechaInstalacion,
+        StrMaintenanceDate: state.listaDmgLibre[i].fechaMantenimiento,
+        StrLifeTimeExpected: state.listaDmgLibre[i].fechaFabricante,
+        IntItem: state.listaDmgLibre[i].partida,
+        StrMaintenanceFolio: state.listaDmgLibre[i].folioMantenimiento,
+        StrLifeTimeReal: state.listaDmgLibre[i].fechaReal,
+        //Equipo Propuesto
+        StrUnitaryPrice: state.listaPropuestoLibre[i].precioUnitario,
+        StrDollarUnitaryPrice: '------------',
+        StrTotalPrice: state.listaPropuestoLibre[i].precioTotal,
+        StrDollarTotalPrice: '--------------',
+        StrBrandProposed: state.listaPropuestoLibre[i].marca,
+        StrModelProposed: state.listaPropuestoLibre[i].modelo,
       }
       arrayDmg.push(newItem)
-   
+
     }
-    console.log(arrayDmg)     
-    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/Open/${value.flagCreate}`,arrayDmg)
-      .then(response => {   
-                          
-        if(response.status == 201){                    
-            commit('insertDmgCompleteMutation', true)          
-        }      
+    console.log(arrayDmg)
+    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/Open/${value.flagCreate}`, arrayDmg)
+      .then(response => {
+
+        if (response.status == 201) {
+          commit('insertDmgCompleteMutation', true)
+        }
       })
       .catch(Ex => {
         console.log('ERROR!!! ' + Ex);
       });
-  }, 
+  },
 
 };
 
