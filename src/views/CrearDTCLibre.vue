@@ -198,7 +198,7 @@ export default {
         };
         await this.$store.dispatch("DTC/crearDmgLibre", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-
+        
         if (insertDmg) {
           this.$notify.success({
             title: "Ok!",
@@ -240,8 +240,9 @@ export default {
               // Generate file download directly in the browser !
               saveAs(file, namePdf);
             };
+            oReq.send();
           }
-          oReq.send();
+          
 
           await this.$store.commit("DTC/listaDmgLibreClearMutation");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);

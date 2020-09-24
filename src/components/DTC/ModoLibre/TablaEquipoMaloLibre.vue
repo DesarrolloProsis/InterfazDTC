@@ -51,7 +51,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <select v-model="editComponent.unidad" name="unidad">
+                  <select v-validate="'required'" v-model="editComponent.unidad" name="unidad">
                     <option value>Seleccion</option>
                     <option value="Pza">Pza</option>
                   </select>
@@ -73,13 +73,13 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <input class="w-32" type="text" v-model="editComponent.cantidad" />
+                  <input v-validate="'required'" class="w-32" type="text" v-model="editComponent.cantidad" />
                 </template>
                 <template v-else>{{ equipo.cantidad }}</template>
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.marca"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.marca"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in equipo.marca.split(`\n`)" :key="key">{{ item }}</p>
@@ -87,7 +87,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.modelo"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.modelo"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in equipo.modelo.split(`\n`)" :key="key">{{ item }}</p>
@@ -95,7 +95,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.numserie"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.numserie"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in equipo.numserie.split(`\n`)" :key="key">{{ item }}</p>
@@ -103,7 +103,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.ubicacion"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.ubicacion"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in equipo.ubicacion.split(`\n`)" :key="key">{{ item }}</p>
@@ -111,7 +111,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.fechaInstalacion"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaInstalacion"></textarea>
                 </template>
                 <template v-else>
                   <p
@@ -122,7 +122,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.fechaMantenimiento"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaMantenimiento"></textarea>
                 </template>
                 <template v-else>
                   <p
@@ -133,7 +133,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.folioMantenimiento"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.folioMantenimiento"></textarea>
                 </template>
                 <template v-else>
                   <p
@@ -144,7 +144,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.fechaReal"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaReal"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in equipo.fechaReal.split(`\n`)" :key="key">{{ item }}</p>
@@ -152,7 +152,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea class="w-20" type="text" v-model="editComponent.fechaFabricante"></textarea>
+                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaFabricante"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in equipo.fechaFabricante.split(`\n`)" :key="key">{{ item }}</p>
@@ -221,6 +221,7 @@
               <td class="border">{{ "*" }}</td>
               <td class="border">
                 <select
+                  name="_unidad"
                   v-model="objectMalo.unidad"
                   :disabled="disable_agregar"
                   v-validate="'required'"
@@ -234,6 +235,7 @@
                   v-validate="'required'"
                   class="w-32"
                   type="text"
+                  name="_componente"
                   v-model="objectMalo.componente"
                   :disabled="disable_agregar"
                 />
@@ -243,6 +245,7 @@
                   v-validate="'required'"
                   class="w-12"
                   type="text"
+                  name="_cantidad"
                   v-model="objectMalo.cantidad"
                   :disabled="disable_agregar"
                 />
@@ -252,6 +255,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_marca"
                   v-model="objectMalo.marca"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -261,6 +265,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_modelo"
                   v-model="objectMalo.modelo"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -270,6 +275,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_numserie"
                   v-model="objectMalo.numserie"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -279,6 +285,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_ubicacion"
                   v-model="objectMalo.ubicacion"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -288,6 +295,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_fechaInstalacion"
                   v-model="objectMalo.fechaInstalacion"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -297,6 +305,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_fechaMantenimiento"
                   v-model="objectMalo.fechaMantenimiento"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -306,6 +315,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_folioMantenimiento"
                   v-model="objectMalo.folioMantenimiento"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -315,6 +325,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_fechaReal"
                   v-model="objectMalo.fechaReal"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -324,6 +335,7 @@
                   v-validate="'required'"
                   class="w-20"
                   type="text"
+                  name="_fechaFabricante"
                   v-model="objectMalo.fechaFabricante"
                   :disabled="disable_agregar"
                 ></textarea>

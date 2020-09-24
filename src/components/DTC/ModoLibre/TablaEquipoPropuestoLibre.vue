@@ -47,7 +47,7 @@
               <td class="border">{{ equipo.cantidad }}</td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea v-validate="'required'" v-model="marca" class="w-20" type="text"></textarea>
+                  <textarea v-validate="'required'" v-model="marca" class="w-20" name="marca" type="text"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in infoRow[index].marca.split(`\n`)" :key="key">{{ item }}</p>
@@ -55,7 +55,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea v-validate="'required'" v-model="modelo" class="w-20" type="text"></textarea>
+                  <textarea v-validate="'required'" v-model="modelo" class="w-20" name="modelo" type="text"></textarea>
                 </template>
                 <template v-else>
                   <p v-for="(item, key) in infoRow[index].modelo.split(`\n`)" :key="key">{{ item }}</p>
@@ -68,6 +68,7 @@
                     v-model="precioUnitario"
                     class="w-20"
                     type="text"
+                    name="precioUnitario"
                   ></textarea>
                 </template>
                 <template v-else>
@@ -85,6 +86,7 @@
                     v-model="precioTotal"
                     :disabled="!equipo.rowUpPropuesto"
                     class="w-20"
+                    name="precioTotal"
                     type="text"
                   ></textarea>
                 </template>
