@@ -80,6 +80,7 @@ const mutations = {
   clearDatosSinesterMutation: (state) => {
     state.datosSinester = {}
     state.descripcion = ''
+    state.observaciones = ''
   },
   cleanOut: (state) => {
     state.listaHeaders = []

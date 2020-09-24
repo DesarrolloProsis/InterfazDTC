@@ -48,6 +48,10 @@ const mutations = {
   listaDmgClearMutation: (state) => {
     state.newlistaDmg = []
   },
+  listaDmgLibreClearMutation: (state) => {
+    state.listaDmgLibre = []
+    state.listaPropuestoLibre = []
+  },
   listaDTCMutation: (state, value) => {
     state.listaDTC = value;
   },

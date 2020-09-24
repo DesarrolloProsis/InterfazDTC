@@ -10,7 +10,7 @@
 
     <div
       class="md:border border-black"
-      style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw"
+      style="margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw"
     >
       <div
         class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4"
@@ -42,7 +42,7 @@
           <textarea
             v-model="observaciones"
             v-validate="'max:120'"
-            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500"
             placeholder="jane@example.com"
             name="Observaciones"
           />
@@ -50,7 +50,9 @@
         </div>
         <div class="border border-black items-center">
           <p style="text-align: center">
-            <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
+            <span style="font-weight: bold"
+              >Autorizacion Tecnica y Comercial:</span
+            >
             <br />
             <br />
             <br />
@@ -77,13 +79,21 @@
             <span>{{ datosUser.adminMail }}</span>
           </p>
         </div>
-        <div class="flex flex-grow content-start flex-wrap bg-gray-100" style="padding: 3vw;">
+        <div
+          class="flex flex-grow content-start flex-wrap bg-gray-100"
+          style="padding: 3vw"
+        >
           <div class="w-1/2 p-2">
             <button
               @click="crearDTCTecnico(1)"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700"
             >
-              <img src="../assets/img/save.png" class="mr-2" width="50" height="50" />
+              <img
+                src="../assets/img/save.png"
+                class="mr-2"
+                width="50"
+                height="50"
+              />
               <span>Guardar</span>
             </button>
           </div>
@@ -92,7 +102,12 @@
               @click="crearDTCTecnico(2)"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700"
             >
-              <img src="../assets/img/add.png" class="mr-2" width="50" height="50" />
+              <img
+                src="../assets/img/add.png"
+                class="mr-2"
+                width="50"
+                height="50"
+              />
               <span>Crear</span>
             </button>
           </div>
@@ -153,46 +168,112 @@ export default {
     },
   },
   methods: {
-    crearDTCTecnico: async function (status){
-
-      // 1 ---> Modo Libre 
-      // 0 ---> 
+    crearDTCTecnico: async function (status) {
+      // 1 ---> Modo Libre
+      // 0 --->
       this.refNum = this.$store.getters["Header/getreferenceNum"];
+
       await this.$store.dispatch("Header/crearHeaders", {
         datosUser: this.datosUser,
         status: status,
         flag: this.flagCreate,
+        openFlag: false,
       });
-      
-        let value_insert = {
-        refNum: this.refNum,
-        flagCreate: this.flagCreate,
-      };
-      
-      await this.$store.dispatch("DTC/crearDmgLibre", value_insert);
-      var oReq = new XMLHttpRequest();
-      // The Endpoint of your server
-      let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/open/${this.refNum}`;
-      let namePdf = `ReportDTC-${this.refNum}.pdf`;
-      // Configure XMLHttpRequest
-      oReq.open("GET", urlTopdf, true);
-      // Important to use the blob response type
-      oReq.responseType = "blob";
-      // When the file request finishes
-      // Is up to you, the configuration for error events etc.
-      oReq.onload = function () {
-        // Once the file is downloaded, open a new window with the PDF
-        // Remember to allow the POP-UPS in your browser
-        var file = new Blob([oReq.response], {
-          type: "application/pdf",
+      let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
+
+      if (insertHeader) {
+        this.$notify.success({
+          title: "Ok!",
+          msg: `EL HEDER CON LA REFERENCIA ${this.refNum} SE INSERTO CORRECTAMENTE.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
         });
-        // Generate file download directly in the browser !
-        saveAs(file, namePdf);
+
+        let value_insert = {
+          refNum: this.refNum,
+          flagCreate: this.flagCreate,
+        };
+        await this.$store.dispatch("DTC/crearDmgLibre", value_insert);
+        let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
+
+        if (insertDmg) {
+          this.$notify.success({
+            title: "Ok!",
+            msg: `LOS COMPONENTES SE INSERTARON CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+
+          if (status == 2) {
+            this.$notify.success({
+              title: "Ok!",
+              msg: `CREANDO EL REPORTE ${this.refNum}.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+
+            var oReq = new XMLHttpRequest();
+            // The Endpoint of your server
+            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/open/${this.refNum}`;
+            let namePdf = `ReportDTC-${this.refNum}.pdf`;
+            // Configure XMLHttpRequest
+            oReq.open("GET", urlTopdf, true);
+            // Important to use the blob response type
+            oReq.responseType = "blob";
+            // When the file request finishes
+            // Is up to you, the configuration for error events etc.
+            oReq.onload = function () {
+              // Once the file is downloaded, open a new window with the PDF
+              // Remember to allow the POP-UPS in your browser
+              var file = new Blob([oReq.response], {
+                type: "application/pdf",
+              });
+              // Generate file download directly in the browser !
+              saveAs(file, namePdf);
+            };
+          }
+          oReq.send();
+
+          await this.$store.commit("DTC/listaDmgLibreClearMutation");
+          await this.$store.commit("DTC/insertDmgCompleteMutation", false);
+          await this.$store.commit(
+            "Header/insertHeaderCompleteMutation",
+            false
+          );
+          await this.$store.dispatch("Header/buscarListaUnique");
+          await this.$store.commit("Header/clearDatosSinesterMutation");
+          this.$router.push("Home");
+        } else {
+          this.$notify.error({
+            title: "Ups!",
+            msg: `NO SE INSERTARON LOS COMPONENTES.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        }
+      } else {
+        this.$notify.error({
+          title: "Ups!",
+          msg: `NO SE INSERTO EL HEDER CON LA REFERENCIA ${this.refNum}.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
       }
-      oReq.send();
-      // let header = this.$store.getters['Header/getDatosSinester']
-      // let equipoMalo = this.$store.getters['DTC/getDmgLibre']
-      // let equipoPropuesto = this.$store.getters['DTC/getPropuestoLibre']
     },
   },
 };
