@@ -11,6 +11,8 @@ import es from "vee-validate/dist/locale/es";
 
 import './registerServiceWorker'
 
+import moment from "moment";
+
 //Validaciones en formularios
 Vue.use(VeeValidate, { 
     classes: true,
@@ -29,8 +31,27 @@ const NoReporte = {
     return store.getters['Header/getUniqueNoReport'](value)
   }
 }
+const FechaValidaList = {
+  validate(value) {
+      let fechas = value.split('\n')
+      for(let item of fechas){
+        if(item.length == 10){
+          if(!moment(item, 'YYYY/MM/DD').isValid()){
+            return false
+          }
+        }
+        else{
+          return false
+        }
+      }
+      return true
+   
+
+  }
+}
 Validator.extend('uniqueSinester', NoSiniestro)
 Validator.extend('uniqueReport', NoReporte)
+Validator.extend('FechaValidaList',FechaValidaList)
 Validator.localize("es",es);
 
 // Componente Multiselect

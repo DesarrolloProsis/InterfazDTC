@@ -111,7 +111,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaInstalacion"></textarea>
+                  <textarea v-validate="'required|FechaValidaList'" class="w-20" type="text" v-model="editComponent.fechaInstalacion"></textarea>
                 </template>
                 <template v-else>
                   <p
@@ -122,7 +122,7 @@
               </td>
               <td class="border">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaMantenimiento"></textarea>
+                  <textarea v-validate="'required|FechaValidaList'" class="w-20" type="text" v-model="editComponent.fechaMantenimiento"></textarea>
                 </template>
                 <template v-else>
                   <p
@@ -292,7 +292,7 @@
               </td>
               <td class="border">
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   class="w-20"
                   type="text"
                   name="_fechaInstalacion"
@@ -302,7 +302,7 @@
               </td>
               <td class="border">
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   class="w-20"
                   type="text"
                   name="_fechaMantenimiento"
@@ -563,7 +563,7 @@
               <p class="text-md mb-1 font-semibold text-gray-900">Fecha Instalacion:</p>
               <template v-if="!modalEdit">
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   v-model="objectMalo.fechaInstalacion"
                   class="w-full"
                   type="text"
@@ -571,7 +571,7 @@
               </template>
               <template v-else>
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   v-model="editComponent.fechaInstalacion"
                   class="w-full"
                   type="text"
@@ -582,7 +582,7 @@
               <p class="text-md mb-1 font-semibold text-gray-900">Fecha Ultimo Mantenimiento:</p>
               <template v-if="!modalEdit">
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   v-model="objectMalo.fechaMantenimiento"
                   class="w-full"
                   type="text"
@@ -590,7 +590,7 @@
               </template>
               <template v-else>
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   v-model="editComponent.fechaMantenimiento"
                   class="w-full"
                   type="text"

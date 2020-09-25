@@ -64,7 +64,7 @@
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
-                    v-validate="'required'"
+                    v-validate="'required|numeric'"
                     v-model="precioUnitario"
                     class="w-20"
                     type="text"
@@ -82,13 +82,14 @@
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
-                    v-validate="'required'"
+                    v-validate="'required|numeric'"
                     v-model="precioTotal"
                     :disabled="!equipo.rowUpPropuesto"
                     class="w-20"
                     name="precioTotal"
                     type="text"
                   ></textarea>
+                  
                 </template>
                 <template v-else>
                   <p
@@ -155,8 +156,11 @@
             <div class="w-1/2 h-6 pl-20">
               <input v-model="sumatoria" class="md:border border-black" type="text" placeholder="$ 0.00" />
             </div>
+            
           </div>
-          <hr />
+              <p class="text-red-600 text-xs text-center">{{ errors.first("precioTotal") }}</p>
+              <p class="text-red-600 text-xs text-center">{{ errors.first("precioUnitario") }}</p>
+          <hr />          
         </div>
       </div>
     </div>
@@ -233,7 +237,7 @@
           <div class="inline-flex m-2">
             <div class="m-1 mr-8">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario:</p>
-              <input v-validate="'required'" v-model="precioUnitario" class="w-full" type="text /" />
+              <input v-validate="'required|numeric'" v-model="precioUnitario" class="w-full" type="text /" />
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario Dolar:</p>
@@ -243,7 +247,7 @@
           <div class="inline-flex m-2">
             <div class="m-1 mr-10">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Total Unitario:</p>
-              <input v-validate="'required'" v-model="precioTotal" class="w-full" type="text" />
+              <input v-validate="'required|numeric'" v-model="precioTotal" class="w-full" type="text" />
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Precio Total Dolar:</p>
