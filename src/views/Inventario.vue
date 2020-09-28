@@ -2,9 +2,9 @@
   <div>
     <Nav></Nav>
     <div class="flex justify-center">
-      <div class="grid gap-4 grid-cols-1">
+      <div class="grid gap-4 grid-cols-1 pl-3 pr-3">
         <h1 class="text-black text-center text-4xl mt-3 mb-10 sm:mb-1">Inventario</h1>
-        <div class="mt-5 mb-5 flex justify-between sm:block sm:p-1 border sm:m-1 shadow-md">
+        <div class="mt-5 mb-5 flex justify-between sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
           <div class="inline-flex mt-2 sm:text-xs sm:ml-3">
             <div class="mr-3 sm:mr-1">
               <span class="mr-2">Buscar</span>

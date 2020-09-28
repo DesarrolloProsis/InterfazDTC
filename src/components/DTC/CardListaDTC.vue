@@ -33,9 +33,9 @@
 
       <!-- VerMar -->
       <div v-if="showmenosMas">
-        <div class="flex-col md:flex-row flex mb-6">
+        <div class="flex flex-col md:flex-row mb-6">
           <div class="text-xs font-sans text-center">
-            <table class="border border-black table-fixed">
+            <table class="border border-black table-fixed w-full">
               <tr>
                 <th class="w-1/3 border border-black">Componete</th>
                 <th class="w-1/8 border border-black">Cantidad</th>
