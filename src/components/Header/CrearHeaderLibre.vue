@@ -50,7 +50,7 @@
           }}
         </label>
       </div>
-      <div class="flex sm:flex-col pr-2">
+      <div class=" inline-block sm:flex-col pr-2">
         <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
         <input
           v-validate="'uniqueSinester'"

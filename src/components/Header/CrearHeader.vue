@@ -13,7 +13,7 @@
       >Dictamen Tecnico y Cotizacion</div>
       <div class="text-left">
         <br />
-        <label class="mr-2" style="font-weight: normal">Referencia:</label>
+        <label class="mr-2 ml-5 text-lg">Referencia:</label>
         <label style="font-weight: bold">
           {{
           datosSinester.ReferenceNumber
@@ -50,7 +50,7 @@
           }}
         </label>
       </div>
-      <div class="flex sm:flex-col pr-2">
+      <div class="sm:flex-col pr-2 inline-block">
         <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
         <input
           v-validate="'uniqueSinester'"

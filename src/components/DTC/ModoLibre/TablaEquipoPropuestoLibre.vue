@@ -41,24 +41,46 @@
               v-for="(equipo, index) in listaEquipo"
               :key="index"
             >
-              <td class="border">{{ equipo.partida}}</td>
+              <td class="border">{{ equipo.partida }}</td>
               <td class="border">{{ equipo.unidad }}</td>
               <td class="border">{{ equipo.componente }}</td>
               <td class="border">{{ equipo.cantidad }}</td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea v-validate="'required'" v-model="marca" class="w-20" name="marca" type="text"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    v-model="marca"
+                    class="w-20"
+                    name="marca"
+                    type="text"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in infoRow[index].marca.split(`\n`)" :key="key">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in infoRow[index].marca.split(`\n`)"
+                    :key="key"
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea v-validate="'required'" v-model="modelo" class="w-20" name="modelo" type="text"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    v-model="modelo"
+                    class="w-20"
+                    name="modelo"
+                    type="text"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in infoRow[index].modelo.split(`\n`)" :key="key">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in infoRow[index].modelo.split(`\n`)"
+                    :key="key"
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border">
@@ -73,12 +95,16 @@
                 </template>
                 <template v-else>
                   <p
-                    v-for="(item, key) in infoRow[index].precioUnitario.split(`\n`)"
+                    v-for="(item, key) in infoRow[index].precioUnitario.split(
+                      `\n`
+                    )"
                     :key="key"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
-              <td class="border">{{ '-----' }}</td>
+              <td class="border">{{ "-----" }}</td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
@@ -89,16 +115,19 @@
                     name="precioTotal"
                     type="text"
                   ></textarea>
-                  
                 </template>
                 <template v-else>
                   <p
-                    v-for="(item, key) in infoRow[index].precioTotal.split(`\n`)"
+                    v-for="(item, key) in infoRow[index].precioTotal.split(
+                      `\n`
+                    )"
                     :key="key"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
-              <td class="border">{{ '-----' }}</td>
+              <td class="border">{{ "-----" }}</td>
               <td class="border">
                 <template v-if="equipo.rowUpPropuesto">
                   <button
@@ -140,10 +169,12 @@
                 v-model="diagnostico"
                 v-validate="'max:120'"
                 class="appearance-none border border-black rounded-lg py-4 mt-5"
-                style="width: 20vw;"
+                style="width: 20vw"
                 name="Diagnostico"
               />
-              <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
+              <p class="text-red-600 text-xs">
+                {{ errors.first("Diagnostico") }}
+              </p>
             </td>
           </div>
         </div>
@@ -154,19 +185,27 @@
             </div>
 
             <div class="w-1/2 h-6 pl-20">
-              <input v-model="sumatoria" class="md:border border-black" type="text" placeholder="$ 0.00" />
+              <input
+                v-model="sumatoria"
+                class="md:border border-black"
+                type="text"
+                placeholder="$ 0.00"
+              />
             </div>
-            
           </div>
-              <p class="text-red-600 text-xs text-center">{{ errors.first("precioTotal") }}</p>
-              <p class="text-red-600 text-xs text-center">{{ errors.first("precioUnitario") }}</p>
-          <hr />          
+          <p class="text-red-600 text-xs text-center">
+            {{ errors.first("precioTotal") }}
+          </p>
+          <p class="text-red-600 text-xs text-center">
+            {{ errors.first("precioUnitario") }}
+          </p>
+          <hr />
         </div>
       </div>
     </div>
 
     <div class="flex flex-col justify-center md:hidden lg:hidden xl:hidden">
-      <div class="p-4" :class="{ 'hidden': modal }">
+      <div class="p-4" :class="{ hidden: modal }">
         <div class="text-center mb-5">
           <h6 class>Equipo Dañado</h6>
         </div>
@@ -198,7 +237,12 @@
                   v-on:click.stop.prevent="editar_cel(key)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"
                 >
-                  <img src="../../../assets/img/pencil.png" class width="10" height="10" />
+                  <img
+                    src="../../../assets/img/pencil.png"
+                    class
+                    width="10"
+                    height="10"
+                  />
                   <span class="text-sm">Editar</span>
                 </button>
               </td>
@@ -208,11 +252,15 @@
       </div>
 
       <div class="flex flex-col p-5" v-if="modal">
-        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40 h-72 p-2">
+        <div
+          class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40 h-72 p-2"
+        >
           <h1 class="text-lg">Equipo Propuesto</h1>
           <div class="inline-flex m-2">
             <div class="m-1 mr-10">
-              <p class="text-md mb-1 font-semibold text-gray-900">Componente:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Componente:
+              </p>
               <h1>{{ info_confirmar.componente }}</h1>
             </div>
             <div class="m-1 mr-10">
@@ -227,30 +275,58 @@
           <div class="inline-flex m-2">
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Marca:</p>
-              <textarea v-validate="'required'" v-model="marca" class="w-full" type="text"></textarea>
+              <textarea
+                v-validate="'required'"
+                v-model="marca"
+                class="w-full"
+                type="text"
+              ></textarea>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Modelo:</p>
-              <textarea v-validate="'required'" v-model="modelo" class="w-full" type="text"></textarea>
+              <textarea
+                v-validate="'required'"
+                v-model="modelo"
+                class="w-full"
+                type="text"
+              ></textarea>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="m-1 mr-8">
-              <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario:</p>
-              <input v-validate="'required|numeric'" v-model="precioUnitario" class="w-full" type="text /" />
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Precio Unitario:
+              </p>
+              <input
+                v-validate="'required|numeric'"
+                v-model="precioUnitario"
+                class="w-full"
+                type="text /"
+              />
             </div>
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Precio Unitario Dolar:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Precio Unitario Dolar:
+              </p>
               <h1>--------</h1>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="m-1 mr-10">
-              <p class="text-md mb-1 font-semibold text-gray-900">Precio Total Unitario:</p>
-              <input v-validate="'required|numeric'" v-model="precioTotal" class="w-full" type="text" />
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Precio Total Unitario:
+              </p>
+              <input
+                v-validate="'required|numeric'"
+                v-model="precioTotal"
+                class="w-full"
+                type="text"
+              />
             </div>
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Precio Total Dolar:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Precio Total Dolar:
+              </p>
               <h1>--------</h1>
             </div>
           </div>
@@ -259,13 +335,31 @@
               @click="aceptar_cel"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
             >
-              <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15" />
+              <img
+                src="../../../assets/img/more.png"
+                class="mr-2 sm:m-1"
+                width="15"
+                height="15"
+              />
               <span class="text-sm">Aceptar</span>
             </button>
           </div>
         </div>
       </div>
     </div>
+    
+      <div class="flex p-4  flex-col items-center w-auto">
+        <p class="text-center">
+          <span style="font-weight: bold text-center">Diagnostico</span>
+        </p>
+        <textarea
+          v-model="diagnostico"
+          v-validate="'max:120'"
+          class="appearance-none border w-full rounded-lg mt-2 h-24"
+          name="Diagnostico"
+        />
+        <p class="text-xs">{{ errors.first("Observaciones") }}</p>
+      </div>
   </div>
 </template>
 
@@ -320,31 +414,30 @@ export default {
   },
   beforeMount: function () {
     this.diagnostico = this.$store.getters["Header/getDiagnostico"];
-        
 
-      let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
+    let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
 
-      if (JSON.stringify(componetesEdit) != "{}") {
-        console.log(componetesEdit);
+    if (JSON.stringify(componetesEdit) != "{}") {
+      console.log(componetesEdit);
 
-        for (let item of componetesEdit.proposedComponents) {
-            let newPartida = {
-                partida: item.item,
-                unidad: item.unity,
-                componente: item.component,
-                cantidad: item.quantity,
-                marca: item.brand,
-                modelo: item.model,
-                precioUnitario: item.unitaryPrice,
-                precioTotal: item.totalPrice
-              };
-          this.infoRow.push(newPartida);
-        }
+      for (let item of componetesEdit.proposedComponents) {
+        let newPartida = {
+          partida: item.item,
+          unidad: item.unity,
+          componente: item.component,
+          cantidad: item.quantity,
+          marca: item.brand,
+          modelo: item.model,
+          precioUnitario: item.unitaryPrice,
+          precioTotal: item.totalPrice,
+        };
+        this.infoRow.push(newPartida);
       }
+    }
   },
   watch: {
     diagnostico: function (newValue) {
-        this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
+      this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
     },
 
     infoRow: {
@@ -493,22 +586,20 @@ export default {
     // },
     sumatoria: function () {
       let suma = 0;
-      for(let item of this.infoRow) {
-        console.log(item)
-        suma  +=  parseInt(item.precioTotal)
-        
+      for (let item of this.infoRow) {
+        console.log(item);
+        suma += parseInt(item.precioTotal);
       }
-      console.log(suma)
+      console.log(suma);
       return "$ " + suma.toLocaleString("en-US");
     },
     letraMoneda: function () {
       let suma = 0;
-      for(let item of this.infoRow) {
-        console.log(item)
-        suma  +=  parseInt(item.precioTotal)
-        
+      for (let item of this.infoRow) {
+        console.log(item);
+        suma += parseInt(item.precioTotal);
       }
-      if(suma > 0) {
+      if (suma > 0) {
         let MonedaLetra = NumeroALetras(suma, {
           plural: "PESOS",
           singular: "PESO",
