@@ -3,37 +3,37 @@
     <div class="flex justify-center sm:hidden">
       <div class="p-4">
         <div class="text-center mb-5">
-          <h6 class>Equipo Dañado</h6>
+          <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
             ////                 CABECERA DE LA TABLA                       ////
           ////////////////////////////////////////////////////////////////////-->
           <thead>
-            <tr class="border text-sm">
-              <th class="px-1">Partida</th>
-              <th class="px-1">Unidad</th>
-              <th class="px-4 text-red-600">Componentes</th>
-              <th class="px-4 text-red-600 text-xs">Cantidad</th>
-              <th class="px-4">Marca</th>
-              <th class="px-4">Modelo</th>
-              <th class="px-4">Numero de Serie</th>
-              <th class="px-4 text-red-600">
+            <tr class="border-2 text-xs text-gray-400 font-normal bg-blue-800">
+              <th class="px-1 border-2 border-gray-800 xl:w-20">Partida</th>
+              <th class="px-1 border-2 border-gray-800 xl:w-32">Unidad</th>
+              <th class="px-4 border-2 border-gray-800 text-red-600 xl:w-40">Componentes</th>
+              <th class="px-4 border-2 border-gray-800 text-red-600 text-xs">Cantidad</th>
+              <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
+              <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
+              <th class="px-4 border-2 border-gray-800">Numero de Serie</th>
+              <th class="px-4 border-2 border-gray-800 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
-              <th class="px-4 text-xs">Fecha de Instalacion</th>
-              <th class="px-4 text-xs">
+              <th class="px-4 text-xs border-2 border-gray-800">Fecha de Instalacion</th>
+              <th class="px-4 text-xs border-2 border-gray-800">
                 Fecha
                 <br />(Ultimo Mantenimiento)
               </th>
-              <th class="px-4 text-xs">
+              <th class="px-4 text-xs border-2 border-gray-800">
                 Folio
                 <br />(Ultimo Mantenimiento)
               </th>
-              <th class="px-12">Real</th>
-              <th class="px-1">Fabricante</th>
-              <th class="px-4"></th>
+              <th class="px-12 border-2 border-gray-800">Real</th>
+              <th class="px-1 border-2 border-gray-800 xl:w-32">Fabricante</th>
+              <th class="px-4 border-2 border-gray-800"></th>
             </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
@@ -45,11 +45,11 @@
               v-for="(equipo, index) in listaequipoMalo"
               :key="index"
             >
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp"></template>
                 <template v-else>{{ equipo.partida }}</template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <select v-validate="'required'" v-model="editComponent.unidad" name="unidad">
                     <option value>Seleccion</option>
@@ -58,7 +58,7 @@
                 </template>
                 <template v-else>{{ equipo.unidad }}</template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <input
                     class="w-32"
@@ -71,13 +71,13 @@
                 </div>
                 <div v-else>{{equipo.componente}}</div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <input v-validate="'required'" class="w-32" type="text" v-model="editComponent.cantidad" />
                 </template>
                 <template v-else>{{ equipo.cantidad }}</template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.marca"></textarea>
                 </template>
@@ -85,7 +85,7 @@
                   <p v-for="(item, key) in equipo.marca.split(`\n`)" :key="key">{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.modelo"></textarea>
                 </template>
@@ -93,7 +93,7 @@
                   <p v-for="(item, key) in equipo.modelo.split(`\n`)" :key="key">{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.numserie"></textarea>
                 </template>
@@ -101,7 +101,7 @@
                   <p v-for="(item, key) in equipo.numserie.split(`\n`)" :key="key">{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.ubicacion"></textarea>
                 </template>
@@ -109,7 +109,7 @@
                   <p v-for="(item, key) in equipo.ubicacion.split(`\n`)" :key="key">{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required|FechaValidaList'" class="w-20" type="text" v-model="editComponent.fechaInstalacion"></textarea>
                 </template>
@@ -120,7 +120,7 @@
                   >{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required|FechaValidaList'" class="w-20" type="text" v-model="editComponent.fechaMantenimiento"></textarea>
                 </template>
@@ -131,7 +131,7 @@
                   >{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.folioMantenimiento"></textarea>
                 </template>
@@ -142,7 +142,7 @@
                   >{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaReal"></textarea>
                 </template>
@@ -150,7 +150,7 @@
                   <p v-for="(item, key) in equipo.fechaReal.split(`\n`)" :key="key">{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaFabricante"></textarea>
                 </template>
@@ -158,7 +158,7 @@
                   <p v-for="(item, key) in equipo.fechaFabricante.split(`\n`)" :key="key">{{ item }}</p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <button
                     @click="cancelar_edicion(index)"
@@ -218,8 +218,8 @@
               ////           FOOTER DE LA TABLA + PARTIDA                    ////
             ////////////////////////////////////////////////////////////////////-->
             <tr class="text-center">
-              <td class="border">{{ "*" }}</td>
-              <td class="border">
+              <td class="border border-gray-800">{{ "*" }}</td>
+              <td class="border border-gray-800">
                 <select
                   name="_unidad"
                   v-model="objectMalo.unidad"
@@ -230,7 +230,7 @@
                   <option value="Pza">Pza</option>
                 </select>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <input
                   v-validate="'required'"
                   class="w-32"
@@ -240,7 +240,7 @@
                   :disabled="disable_agregar"
                 />
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <input
                   v-validate="'required'"
                   class="w-12"
@@ -250,7 +250,7 @@
                   :disabled="disable_agregar"
                 />
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
                   class="w-20"
@@ -260,7 +260,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
                   class="w-20"
@@ -270,7 +270,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
                   class="w-20"
@@ -280,7 +280,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
                   class="w-20"
@@ -290,7 +290,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required|FechaValidaList'"
                   class="w-20"
@@ -300,7 +300,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required|FechaValidaList'"
                   class="w-20"
@@ -310,7 +310,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
                   class="w-20"
@@ -320,7 +320,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
                   class="w-20"
@@ -330,7 +330,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
                   class="w-20"
@@ -340,7 +340,7 @@
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border p-2">
+              <td class="border border-gray-800 p-2">
                 <button
                   v-on:click.stop.prevent="agregar_componente()"
                   :disabled="disable_agregar"
@@ -359,21 +359,21 @@
     <div class="flex flex-col justify-center md:hidden lg:hidden xl:hidden">
       <div class="p-4" :class="{ 'hidden': modal }">
         <div class="text-center mb-5">
-          <h6 class>Equipo Dañado</h6>
+          <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
               ////                 CABECERA DE LA TABLA                       ////
           ////////////////////////////////////////////////////////////////////-->
           <thead>
-            <tr class="border text-xs">
-              <th class="w-20">Partida</th>
-              <th class="w-48 text-red-600">Componente</th>
-              <th class="w-48 text-red-600">
+            <tr class="border-2 text-xs text-gray-400 font-normal bg-blue-800">
+              <th class="w-20 border-2 border-gray-800">Partida</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
-              <th class="w-48">Acciones</th>
+              <th class="w-48 border-2 border-gray-800">Acciones</th>
             </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
@@ -384,10 +384,10 @@
                 ////           FOOTER DE LA TABLA + PARTIDA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <tr class="text-center" v-for="(item, key) in listaequipoMalo" :key="key">
-              <td class="border">{{ item.partida }}</td>
-              <td class="border">{{ item.componente }}</td>
-              <td class="border">{{ item.ubicacion }}</td>
-              <td class="border">
+              <td class="border-2 border-gray-800">{{ item.partida }}</td>
+              <td class="border-2 border-gray-800">{{ item.componente }}</td>
+              <td class="border-2 border-gray-800">{{ item.ubicacion }}</td>
+              <td class="border-2 border-gray-800">
                 <button
                   v-on:click.stop.prevent="editar_componente_cel(key)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"

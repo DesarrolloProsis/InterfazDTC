@@ -1,51 +1,51 @@
 <template>
   <div>
-    <div class="flex justify-center sm:hidden" v-if="typeCel">
+    <div class="flex w-auto justify-center sm:hidden" v-if="typeCel">
       <div
         class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full flex flex-col"
       >
         <!-- ************************************************************** -->
         <div class="text-center mb-2">
-          <h6 class>Equipo Propuesto</h6>
+          <h6 class="font-bold text-xl text-gray-800">Equipo Propuesto</h6>
         </div>
         <!-- ************************************************************** -->
         <div class="inline-flex">
           <table>
-            <tr class="border text-sm">
-              <th class="w-20">Partida</th>
-              <th class="w-24">Unidad</th>
-              <th class="w-32">Componente</th>
-              <th class="w-24">Cantidad</th>
-              <th class="w-24">Marca</th>
-              <th class="w-24">Modelo</th>
-              <th class="w-32">
+            <tr class="border text-sm bg-blue-800 text-gray-400 font-normal"> 
+              <th class="w-20 border-2 border-gray-800">Partida</th>
+              <th class="w-24 border-2 border-gray-800">Unidad</th>
+              <th class="w-32 border-2 border-gray-800">Componente</th>
+              <th class="w-24 border-2 border-gray-800">Cantidad</th>
+              <th class="w-24 border-2 border-gray-800 xl:w-32">Marca</th>
+              <th class="w-24 border-2 border-gray-800 xl:w-32">Modelo</th>
+              <th class="w-32 border-2 border-gray-800 xl:w-40">
                 Precio
                 <br />(Unitario Peso)
               </th>
-              <th class="w-32">
+              <th class="w-32 border-2 border-gray-800 xl:w-40">
                 Precio
                 <br />(Unitario Dolar)
               </th>
-              <th class="w-32">
+              <th class="w-32 border-2 border-gray-800 xl:w-40">
                 Precio Total
                 <br />(Pesos)
               </th>
-              <th class="w-32">
+              <th class="w-32 border-2 border-gray-800 xl:w-40">
                 Precio Total
                 <br />(Dolares)
               </th>
-              <th></th>
+              <th class="border-2 border-gray-800"></th>
             </tr>
             <tr
               class="hover:bg-blue-200 text-center"
               v-for="(equipo, index) in listaEquipo"
               :key="index"
             >
-              <td class="border">{{ equipo.partida }}</td>
-              <td class="border">{{ equipo.unidad }}</td>
-              <td class="border">{{ equipo.componente }}</td>
-              <td class="border">{{ equipo.cantidad }}</td>
-              <td class="border">
+              <td class="border border-gray-800">{{ equipo.partida }}</td>
+              <td class="border border-gray-800">{{ equipo.unidad }}</td>
+              <td class="border border-gray-800">{{ equipo.componente }}</td>
+              <td class="border border-gray-800">{{ equipo.cantidad }}</td>
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
                     v-validate="'required'"
@@ -64,7 +64,7 @@
                   </p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
                     v-validate="'required'"
@@ -83,7 +83,7 @@
                   </p>
                 </template>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
                     v-validate="'required|numeric'"
@@ -104,8 +104,8 @@
                   </p>
                 </template>
               </td>
-              <td class="border">{{ "-----" }}</td>
-              <td class="border">
+              <td class="border border-gray-800">{{ "-----" }}</td>
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
                     v-validate="'required|numeric'"
@@ -127,8 +127,8 @@
                   </p>
                 </template>
               </td>
-              <td class="border">{{ "-----" }}</td>
-              <td class="border">
+              <td class="border border-gray-800">{{ "-----" }}</td>
+              <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
                   <button
                     @click="aceptar(index, equipo)"
@@ -162,14 +162,13 @@
           </table>
           <div>
             <tr>
-              <th>Diagnostico</th>
+              <th class="font-bold text-xl text-gray-800">Diagnostico</th>
             </tr>
             <td>
               <textarea
                 v-model="diagnostico"
                 v-validate="'max:120'"
-                class="appearance-none border border-black rounded-lg py-4 mt-5"
-                style="width: 20vw"
+                class="appearance-none border border-black rounded-lg h-20 mt-3 ml-3 w-64 xl:w-68"                
                 name="Diagnostico"
               />
               <p class="text-red-600 text-xs">
@@ -184,10 +183,10 @@
               <p class="inline">Total: {{ letraMoneda }}</p>
             </div>
 
-            <div class="w-1/2 h-6 pl-20">
+            <div class="w-1/2 h-6 pl-16">
               <input
                 v-model="sumatoria"
-                class="md:border border-black"
+                class="md:border border-black w-40"
                 type="text"
                 placeholder="$ 0.00"
               />
@@ -207,18 +206,18 @@
     <div class="flex flex-col justify-center md:hidden lg:hidden xl:hidden">
       <div class="p-4" :class="{ hidden: modal }">
         <div class="text-center mb-5">
-          <h6 class>Equipo Dañado</h6>
+          <h6 class="font-bold text-xl text-gray-800">Equipo Propuesto</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
               ////                 CABECERA DE LA TABLA                       ////
           ////////////////////////////////////////////////////////////////////-->
           <thead>
-            <tr class="border text-xs">
-              <th class="w-20">Partida</th>
-              <th class="w-48 text-red-600">Componente</th>
-              <th class="w-48 text-red-600">Precio Total</th>
-              <th class="w-48">Acciones</th>
+            <tr class="border text-xs h-10 bg-blue-800 text-gray-400 font-normal bg-blue-800">
+              <th class="w-20 border-2 border-gray-800">Partida</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">Precio Total</th>
+              <th class="w-48 border-2 border-gray-800">Acciones</th>
             </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
@@ -229,10 +228,10 @@
                 ////           FOOTER DE LA TABLA + PARTIDA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <tr class="text-center" v-for="(item, key) in infoRow" :key="key">
-              <td class="border">{{ item.partida }}</td>
-              <td class="border">{{ item.componente }}</td>
-              <td class="border">{{ item.precioTotal }}</td>
-              <td class="border">
+              <td class="border-2 border-gray-800">{{ item.partida }}</td>
+              <td class="border-2 border-gray-800">{{ item.componente }}</td>
+              <td class="border-2 border-gray-800">{{ item.precioTotal }}</td>
+              <td class="border-2 border-gray-800">
                 <button
                   v-on:click.stop.prevent="editar_cel(key)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"
@@ -249,6 +248,34 @@
             </tr>
           </tbody>
         </table>
+        <div class=" mt-10 pl-2 pr-2">
+          <div class="flex">
+            <div class="h- ml-1 mt-2">
+              <p class="inline mt-2">Total: {{ letraMonedaCel }}</p>
+            </div>
+
+            <div class="h-6 ml-20 mt-2">
+              <input
+                v-model="sumatoria"
+                class="md:border w-32 border-black"
+                type="text"
+                placeholder="$ 0.00"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="mt-6">
+          <h1 class="font-bold text-xl text-center text-gray-800">Diagnostico</h1>
+            <textarea
+                v-model="diagnostico"
+                v-validate="'max:120'"
+                class="appearance-none border border-black rounded-lg h-20 mt-3 ml-1 w-66"                
+                name="Diagnostico"
+              />
+              <p class="text-red-600 text-xs">
+                {{ errors.first("Diagnostico") }}
+              </p>
+        </div>
       </div>
 
       <div class="flex flex-col p-5" v-if="modal">
@@ -346,20 +373,9 @@
           </div>
         </div>
       </div>
+      <div></div>
     </div>
-    
-      <div class="flex p-4  flex-col items-center w-auto">
-        <p class="text-center">
-          <span style="font-weight: bold text-center">Diagnostico</span>
-        </p>
-        <textarea
-          v-model="diagnostico"
-          v-validate="'max:120'"
-          class="appearance-none border w-full rounded-lg mt-2 h-24"
-          name="Diagnostico"
-        />
-        <p class="text-xs">{{ errors.first("Observaciones") }}</p>
-      </div>
+
   </div>
 </template>
 
@@ -609,6 +625,23 @@ export default {
         return MonedaLetra;
       } else
         return "--------------------------------------------------------------------------------------";
+    },
+     letraMonedaCel: function () {
+      let suma = 0;
+      for (let item of this.infoRow) {
+        console.log(item);
+        suma += parseInt(item.precioTotal);
+      }
+      if (suma > 0) {
+        let MonedaLetra = NumeroALetras(suma, {
+          plural: "PESOS",
+          singular: "PESO",
+          centPlural: "CENTAVOS",
+          centSingular: "CENTAVO",
+        });
+        return MonedaLetra;
+      } else
+        return "------------";
     },
   },
 };

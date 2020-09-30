@@ -2,38 +2,38 @@
   <div>
     <div class="flex justify-center sm:hidden">
       <div class="p-4">        
-        <div class=" text-center mb-5">
-          <h6 class="">Equipo Dañado</h6>
+        <div class="text-center mb-5">
+          <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
             ////                 CABECERA DE LA TABLA                       ////
           ////////////////////////////////////////////////////////////////////-->
           <thead>
-            <tr class="border text-sm">
-              <th class="px-1">Partida</th>
-              <th class="px-1">Unidad</th>
-              <th class="px-4 text-red-600">Componente</th>
-              <th class="px-4 text-red-600">Cantidad</th>
-              <th class="px-4">Marca</th>
-              <th class="px-4">Modelo</th>
-              <th class="px-4">Numero de Serie</th>
-              <th class="px-4 text-red-600">
+            <tr class="border text-xs md:text-sm bg-blue-800 text-white">
+              <th class="px-1 border-2 border-gray-800">Partida</th>
+              <th class="px-1 border-2 border-gray-800 xl:w-24">Unidad</th>
+              <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
+              <th class="px-4 text-red-600 border-2 border-gray-800">Cantidad</th>
+              <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
+              <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
+              <th class="px-4 border-2 border-gray-800 xl:w-32">Numero de Serie</th>
+              <th class="px-4 border-2 border-gray-800 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
-              <th class="px-4 text-xs">Fecha de Instalacion</th>
-              <th class="px-4 text-xs">
+              <th class="px-4 text-xs border-2 border-gray-800">Fecha de Instalacion</th>
+              <th class="px-4 text-xs border-2 border-gray-800">
                 Fecha
                 <br />(Ultimo Mantenimiento)
               </th>
-              <th class="px-4 text-xs">
+              <th class="px-4 text-xs border-2 border-gray-800">
                 Folio
                 <br />(Ultimo Mantenimiento)
               </th>
-              <th class="px-12">Real</th>
-              <th class="px-1">Fabricante</th>
-              <th class="px-4"></th>
+              <th class="px-12 border-2 border-gray-800 xl:w-48">Real</th>
+              <th class="px-1 border-2 border-gray-800 xl:w-32">Fabricante</th>
+              <th class="px-4 border-2 border-gray-800"></th>
             </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
@@ -45,15 +45,15 @@
               v-for="(equipo, index) in arrayPartidas"
               :key="index"
             >
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
                 <div v-else>{{ objectEditar.rowUpd1 }}</div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
                 <div v-else>{{ objectEditar.rowUpd2 }}</div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                 <div v-else>
                   <select
@@ -72,17 +72,17 @@
                   </select>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
                 <div v-else>{{ objectEditar.rowUpd4 }}</div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
                 <div v-else>
                   <p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p>
                 </div>
@@ -90,7 +90,7 @@
                   <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p>
                 </div>
@@ -98,7 +98,7 @@
                   <p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p>
                 </div>
@@ -128,7 +128,7 @@
                   </multiselect>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <p
                     v-for="(item, key) in equipo.row9"
@@ -144,7 +144,7 @@
                   >{{ item | formatDate }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <p
                     v-for="(item, key) in equipo.row10"
@@ -160,7 +160,7 @@
                   >{{ item | formatDate }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <!-- {{ equipo.row11.toString() }} -->
                   <p v-for="(item, key) in equipo.row11" :key="key" class="text-sm">{{ item }}</p>
@@ -173,7 +173,7 @@
                   >{{ item }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row12" :key="key" class="text-sm">{{ item }}</p>
                 </div>
@@ -185,7 +185,7 @@
                   >{{ item }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p>
                 </div>
@@ -197,7 +197,7 @@
                   >{{ item }}</p>
                 </div>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <button
                     v-on:click.stop.prevent="deleteItem(index)"
@@ -252,9 +252,9 @@
               ////           FOOTER DE LA TABLA + PARTIDA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <tr class="text-center">
-              <td class="border">{{ "*" }}</td>
-              <td class="border">{{ datosPrePartida.rowUnidad.toString() }}</td>
-              <td class="border">
+              <td class="border border-gray-800">{{ "*" }}</td>
+              <td class="border border-gray-800">{{ datosPrePartida.rowUnidad.toString() }}</td>
+              <td class="border border-gray-800">
                 <select @change="UpdateComp()" v-model="updtComp" class="w-40" type="text">
                   <option disabled value>Selecionar...</option>
                   <option
@@ -264,23 +264,23 @@
                   >{{ item.description + `(${item.brand})` }}</option>
                 </select>
               </td>
-              <td class="border">{{ datosPrePartida.rowCantidad }}</td>
-              <td class="border">{{ datosPrePartida.rowMarca.toString() }}</td>
-              <td class="border">
+              <td class="border border-gray-800">{{ datosPrePartida.rowCantidad }}</td>
+              <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
+              <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowModelo"
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowNumSerie"
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <multiselect
                   v-model="laneSelect"
                   :close-on-select="false"
@@ -305,42 +305,42 @@
                   </template>
                 </multiselect>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateInstalacion"
                   :key="key"
                   class="text-sm"
                 >{{ item | formatDate }}</p>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
                   :key="key"
                   class="text-sm"
                 >{{ item | formatDate }}</p>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowFolioMantenimiento"
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateReal"
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
               </td>
-              <td class="border">
+              <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateFabricante"
                   :key="key"
                   class="text-sm"
                 >{{ item }}</p>
               </td>
-              <td class="border p-2">
+              <td class="border border-gray-800 p-2">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
@@ -358,7 +358,7 @@
     <div class="flex justify-center md:hidden lg:hidden xl:hidden">
       <div class="p-4" :class="{ 'hidden': modal }">
           <div class=" text-center mb-5">
-          <h6 class="">Equipo Dañado</h6>
+          <h6 class=" font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////

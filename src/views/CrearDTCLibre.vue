@@ -37,7 +37,7 @@
         <div></div>
         <div class="items-center">
           <p class="text-center">
-            <span style="font-weight: bold text-center">Observaciones</span>
+            <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
           </p>
           <textarea
             v-model="observaciones"

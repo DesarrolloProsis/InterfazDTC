@@ -6,37 +6,37 @@
       >
         <!-- ************************************************************** -->
         <div class="text-center mb-2">
-          <h6 class>Equipo Propuesto</h6>
+          <h6 class=" font-bold text-xl text-gray-800">Equipo Propuesto</h6>
         </div>
         <!-- ************************************************************** -->
         <div class="inline-flex">
           <table>
-            <tr class="border text-sm">
-              <th class="w-20">Partida</th>
-              <th class="w-24">Unidad</th>
-              <th class="w-32">Componente</th>
-              <th class="w-24">Cantidad</th>
-              <th class="w-24">Marca</th>
-              <th class="w-24">Modelo</th>
-              <th class="w-32">
+            <tr class="border text-sm bg-blue-800 text-white">
+              <th class="w-20 border-2 border-gray-800">Partida</th>
+              <th class="w-24 border-2 border-gray-800">Unidad</th>
+              <th class="w-32 xl:w-48 border-2 border-gray-800">Componente</th>
+              <th class="w-24 border-2 border-gray-800">Cantidad</th>
+              <th class="w-24 xl:w-32 border-2 border-gray-800">Marca</th>
+              <th class="w-24 xl:w-32 border-2 border-gray-800">Modelo</th>
+              <th class="w-32 xl:w-48 border-2 border-gray-800">
                 Precio
                 <br />(Unitario Peso)
               </th>
-              <th class="w-32">
+              <th class="w-32 xl:w-48 border-2 border-gray-800">
                 Precio
                 <br />(Unitario Dolar)
               </th>
-              <th class="w-32">
+              <th class="w-32 xl:w-48 border-2 border-gray-800">
                 Precio Total
                 <br />(Pesos)
               </th>
-              <th class="w-32">
+              <th class="w-32 xl:w-40 border-2 border-gray-800">
                 Precio Total
                 <br />(Dolares)
               </th>
             </tr>
             <tr              
-              class="hover:bg-blue-200 text-center text-xs"
+              class="hover:bg-blue-200 text-center text-xs h-12 xl:text-base"
               v-for="(equipo, index) in listaEquipo"
               :key="index"
             >
@@ -66,8 +66,7 @@
               <textarea
                 v-model="diagnostico"
                 v-validate="'max:120'"
-                class="appearance-none border border-black rounded-lg py-4 mt-5"
-                style="width: 20vw;"
+                class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6"
                 name="Diagnostico"
               />
               <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
@@ -84,7 +83,7 @@
               <input
                 v-model="sumatoria"
                 disabled
-                class="md:border border-black"
+                class="md:border border-black w-32"
                 type="text"
                 placeholder="$ 0.00"
               />

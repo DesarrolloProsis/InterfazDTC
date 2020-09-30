@@ -37,7 +37,7 @@
         <div></div>
         <div class="items-center">
           <p class="text-center">
-            <span style="font-weight: bold text-center">Observaciones</span>
+            <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
           </p>
           <textarea
             v-model="observaciones"
@@ -81,7 +81,7 @@
           <div class="w-1/2 p-2">
             <button
               @click="crearDTCTecnico(1)"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16"
             >
               <img src="../assets/img/save.png" class="mr-2" width="50" height="50" />
               <span>Guardar</span>
@@ -90,9 +90,9 @@
           <div class="w-1/2 p-2">
             <button
               @click="crearDTCTecnico(2)"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32"
             >
-              <img src="../assets/img/add.png" class="mr-2" width="50" height="50" />
+              <img src="../assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
           </div>
