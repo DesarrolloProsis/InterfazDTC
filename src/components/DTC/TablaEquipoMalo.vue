@@ -365,14 +365,14 @@
               ////                 CABECERA DE LA TABLA                       ////
           ////////////////////////////////////////////////////////////////////-->
           <thead>
-            <tr class="border text-xs">
-              <th class="w-20">Partida</th>
-              <th class="w-48 text-red-600">Componente</th>
-              <th class="w-48 text-red-600">
+            <tr class="border text-xs bg-blue-800 text-white">
+              <th class="w-20 border-2 border-gray-800">Partida</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
-              <th class="w-48"></th>
+              <th class="w-48 border-2 border-gray-800"></th>
             </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
@@ -384,12 +384,12 @@
               v-for="(equipo, index) in arrayPartidas"
               :key="index"
             >
-              <td class="border text-sm">
+              <td class="border border-gray-800 text-sm">
                 <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
                 <div v-else>{{ objectEditar.rowUpd1 }}</div>
               </td>
 
-              <td class="border text-sm">
+              <td class="border border-gray-800 text-sm">
                 <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                 <div v-else>
                   <select
@@ -408,7 +408,7 @@
                 </div>
               </td>
 
-              <td class="border text-sm">
+              <td class="border border-gray-800 text-sm">
                 <div v-if="equipo.rowUp">
                   <p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p>
                 </div>
@@ -436,7 +436,7 @@
                 </div>
               </td>
 
-              <td class="border">
+              <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <button
                     v-on:click.stop.prevent="deleteItem(index)"
@@ -492,9 +492,9 @@
                 ////           FOOTER DE LA TABLA + PARTIDA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <tr class="text-center">
-              <td class="border">{{ "*" }}</td>
+              <td class="border border-gray-800">{{ "*" }}</td>
 
-              <td class="border">
+              <td class="border border-gray-800">
                 <select @change="UpdateComp()" v-model="updtComp" class="w-32" type="text">
                   <option disabled value>Selecionar...</option>
                   <option
@@ -505,7 +505,7 @@
                 </select>
               </td>
 
-              <td class="border">
+              <td class="border border-gray-800">
                 <multiselect
                   v-model="laneSelect"
                   :close-on-select="false"
@@ -529,7 +529,7 @@
                 </multiselect>
               </td>
 
-              <td class="border p-3">
+              <td class="border border-gray-800 p-3">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800  rounded inline-flex items-center border-2 border-green-700"

@@ -101,14 +101,14 @@
         </div>
         <div class="p-4">
           <table class=" table-fixed border-collapse">
-            <tr class="border text-xs text-center">
-              <th class="w-20">Partida</th>
-              <th class=" w-48">Componente</th>
-              <th class="w-48">
+            <tr class=" border-gray-800 bg-blue-800 text-white text-xs text-center">
+              <th class="w-20 border-2 border-gray-800">Partida</th>
+              <th class=" w-48 border-2 border-gray-800">Componente</th>
+              <th class="w-48 border-2 border-gray-800">
                 Precio Total
                 <br />(Pesos)
               </th>
-              <th class="w-40">Accion</th>
+              <th class="w-40 border-2 border-gray-800">Accion</th>
             </tr>
 
             <tr
@@ -116,10 +116,10 @@
               v-for="(equipo, index) in listaEquipo"
               :key="index"
             >
-              <td class="border">{{ equipo.row1}}</td>
-              <td class="border">{{ equipo.row3.description }}</td>
-              <td class="border">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
-              <td class="border">
+              <td class="border border-gray-800">{{ equipo.row1}}</td>
+              <td class="border border-gray-800">{{ equipo.row3.description }}</td>
+              <td class="border border-gray-800">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
+              <td class="border border-gray-800">
                 <button
                   v-on:click.stop.prevent="infoFull(index)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
