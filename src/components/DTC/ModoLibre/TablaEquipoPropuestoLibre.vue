@@ -100,7 +100,7 @@
                     )"
                     :key="key"
                   >
-                    {{ item }}
+                   $ {{ item.toLocaleString("en-US") }}
                   </p>
                 </template>
               </td>
@@ -123,7 +123,7 @@
                     )"
                     :key="key"
                   >
-                    {{ item }}
+                    $ {{ item.toLocaleString("en-US") }}
                   </p>
                 </template>
               </td>
@@ -230,8 +230,9 @@
             <tr class="text-center" v-for="(item, key) in infoRow" :key="key">
               <td class="border-2 border-gray-800">{{ item.partida }}</td>
               <td class="border-2 border-gray-800">{{ item.componente }}</td>
-              <td class="border-2 border-gray-800">{{ item.precioTotal }}</td>
+              <td class="border-2 border-gray-800">$ {{ item.precioTotal.toLocaleString("en-US") }}</td>
               <td class="border-2 border-gray-800">
+                             
                 <button
                   v-on:click.stop.prevent="editar_cel(key)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"
@@ -606,7 +607,6 @@ export default {
         console.log(item);
         suma += parseInt(item.precioTotal);
       }
-      console.log(suma);
       return "$ " + suma.toLocaleString("en-US");
     },
     letraMoneda: function () {
