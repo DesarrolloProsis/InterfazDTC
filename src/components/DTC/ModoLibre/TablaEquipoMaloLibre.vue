@@ -13,8 +13,12 @@
             <tr class="border-2 text-xs text-gray-400 font-normal bg-blue-800">
               <th class="px-1 border-2 border-gray-800 xl:w-20">Partida</th>
               <th class="px-1 border-2 border-gray-800 xl:w-32">Unidad</th>
-              <th class="px-4 border-2 border-gray-800 text-red-600 xl:w-40">Componentes</th>
-              <th class="px-4 border-2 border-gray-800 text-red-600 text-xs">Cantidad</th>
+              <th class="px-4 border-2 border-gray-800 text-red-600 xl:w-40">
+                Componentes
+              </th>
+              <th class="px-4 border-2 border-gray-800 text-red-600 text-xs">
+                Cantidad
+              </th>
               <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
               <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
               <th class="px-4 border-2 border-gray-800">Numero de Serie</th>
@@ -22,7 +26,9 @@
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
-              <th class="px-4 text-xs border-2 border-gray-800">Fecha de Instalacion</th>
+              <th class="px-4 text-xs border-2 border-gray-800">
+                Fecha de Instalacion
+              </th>
               <th class="px-4 text-xs border-2 border-gray-800">
                 Fecha
                 <br />(Ultimo Mantenimiento)
@@ -51,7 +57,11 @@
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <select v-validate="'required'" v-model="editComponent.unidad" name="unidad">
+                  <select
+                    v-validate="'required'"
+                    v-model="editComponent.unidad"
+                    name="unidad"
+                  >
                     <option value>Seleccion</option>
                     <option value="Pza">Pza</option>
                   </select>
@@ -67,95 +77,180 @@
                     name="pruebas"
                     v-model="editComponent.componente"
                   />
-                  <p class="text-red-600 text-xs">{{ errors.first("pruebas") }}</p>
+                  <p class="text-red-600 text-xs">
+                    {{ errors.first("pruebas") }}
+                  </p>
                 </div>
-                <div v-else>{{equipo.componente}}</div>
+                <div v-else>{{ equipo.componente }}</div>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <input v-validate="'required'" class="w-32" type="text" v-model="editComponent.cantidad" />
+                  <input
+                    v-validate="'required'"
+                    class="w-32"
+                    type="text"
+                    v-model="editComponent.cantidad"
+                  />
                 </template>
                 <template v-else>{{ equipo.cantidad }}</template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.marca"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.marca"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in equipo.marca.split(`\n`)" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in equipo.marca.split(`\n`)" :key="key">
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.modelo"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.modelo"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in equipo.modelo.split(`\n`)" :key="key">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.modelo.split(`\n`)"
+                    :key="key"
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.numserie"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.numserie"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in equipo.numserie.split(`\n`)" :key="key">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.numserie.split(`\n`)"
+                    :key="key"
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.ubicacion"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.ubicacion"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in equipo.ubicacion.split(`\n`)" :key="key">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.ubicacion.split(`\n`)"
+                    :key="key"
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required|FechaValidaList'" class="w-20" type="text" v-model="editComponent.fechaInstalacion"></textarea>
+                  <textarea
+                    v-validate="'required|FechaValidaList'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.fechaInstalacion"
+                  ></textarea>
                 </template>
                 <template v-else>
                   <p
                     v-for="(item, key) in equipo.fechaInstalacion.split(`\n`)"
                     :key="key"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required|FechaValidaList'" class="w-20" type="text" v-model="editComponent.fechaMantenimiento"></textarea>
+                  <textarea
+                    v-validate="'required|FechaValidaList'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.fechaMantenimiento"
+                  ></textarea>
                 </template>
                 <template v-else>
                   <p
                     v-for="(item, key) in equipo.fechaMantenimiento.split(`\n`)"
                     :key="key"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.folioMantenimiento"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.folioMantenimiento"
+                  ></textarea>
                 </template>
                 <template v-else>
                   <p
                     v-for="(item, key) in equipo.folioMantenimiento.split(`\n`)"
                     :key="key"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaReal"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.fechaReal"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in equipo.fechaReal.split(`\n`)" :key="key">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.fechaReal.split(`\n`)"
+                    :key="key"
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
-                  <textarea v-validate="'required'" class="w-20" type="text" v-model="editComponent.fechaFabricante"></textarea>
+                  <textarea
+                    v-validate="'required'"
+                    class="w-20"
+                    type="text"
+                    v-model="editComponent.fechaFabricante"
+                  ></textarea>
                 </template>
                 <template v-else>
-                  <p v-for="(item, key) in equipo.fechaFabricante.split(`\n`)" :key="key">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.fechaFabricante.split(`\n`)"
+                    :key="key"
+                  >
+                    {{ item }}
+                  </p>
                 </template>
               </td>
               <td class="border border-gray-800">
@@ -312,7 +407,7 @@
               </td>
               <td class="border border-gray-800">
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   class="w-20"
                   type="text"
                   name="_folioMantenimiento"
@@ -322,7 +417,7 @@
               </td>
               <td class="border border-gray-800">
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   class="w-20"
                   type="text"
                   name="_fechaReal"
@@ -332,7 +427,7 @@
               </td>
               <td class="border border-gray-800">
                 <textarea
-                  v-validate="'required'"
+                  v-validate="'required|FechaValidaList'"
                   class="w-20"
                   type="text"
                   name="_fechaFabricante"
@@ -346,7 +441,11 @@
                   :disabled="disable_agregar"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700"
                 >
-                  <img src="../../../assets/img/more.png" width="20" height="20" />
+                  <img
+                    src="../../../assets/img/more.png"
+                    width="20"
+                    height="20"
+                  />
                   <span class="ml-2 text-xs">Agregar Partida</span>
                 </button>
               </td>
@@ -357,7 +456,7 @@
     </div>
 
     <div class="flex flex-col justify-center md:hidden lg:hidden xl:hidden">
-      <div class="p-4" :class="{ 'hidden': modal }">
+      <div class="p-4" :class="{ hidden: modal }">
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
@@ -368,7 +467,9 @@
           <thead>
             <tr class="border-2 text-xs text-gray-400 font-normal bg-blue-800">
               <th class="w-20 border-2 border-gray-800">Partida</th>
-              <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">
+                Componente
+              </th>
               <th class="w-48 border-2 border-gray-800 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
@@ -383,7 +484,11 @@
             <!--/////////////////////////////////////////////////////////////////
                 ////           FOOTER DE LA TABLA + PARTIDA                      ////
             ////////////////////////////////////////////////////////////////////-->
-            <tr class="text-center" v-for="(item, key) in listaequipoMalo" :key="key">
+            <tr
+              class="text-center"
+              v-for="(item, key) in listaequipoMalo"
+              :key="key"
+            >
               <td class="border-2 border-gray-800">{{ item.partida }}</td>
               <td class="border-2 border-gray-800">{{ item.componente }}</td>
               <td class="border-2 border-gray-800">{{ item.ubicacion }}</td>
@@ -392,14 +497,24 @@
                   v-on:click.stop.prevent="editar_componente_cel(key)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"
                 >
-                  <img src="../../../assets/img/pencil.png" class width="10" height="10" />
+                  <img
+                    src="../../../assets/img/pencil.png"
+                    class
+                    width="10"
+                    height="10"
+                  />
                   <span class="text-sm">Editar</span>
                 </button>
                 <button
                   v-on:click.stop.prevent="borrar_componente"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-600 m-2"
                 >
-                  <img src="../../../assets/img/cerrar.png" class width="10" height="10" />
+                  <img
+                    src="../../../assets/img/cerrar.png"
+                    class
+                    width="10"
+                    height="10"
+                  />
                   <span class="text-sm">Borrar</span>
                 </button>
               </td>
@@ -411,10 +526,17 @@
               <td class></td>
               <td class>
                 <button
-                  v-on:click.stop.prevent="modal = true, objectMalo.rowUpPropuesto = true"
+                  v-on:click.stop.prevent="
+                    (modal = true), (objectMalo.rowUpPropuesto = true)
+                  "
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
                 >
-                  <img src="../../../assets/img/more.png" class width="10" height="10" />
+                  <img
+                    src="../../../assets/img/more.png"
+                    class
+                    width="10"
+                    height="10"
+                  />
                   <span class="text-sm">Agregar</span>
                 </button>
               </td>
@@ -424,11 +546,15 @@
       </div>
 
       <div class="flex flex-col p-5" v-if="modal">
-        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40 h-72 p-2">
+        <div
+          class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40 h-72 p-2"
+        >
           <h1 class="text-lg">Equipo Dañado</h1>
           <div class="inline-flex m-2">
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Componente:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Componente:
+              </p>
               <template v-if="!modalEdit">
                 <input
                   v-validate="'required'"
@@ -449,7 +575,12 @@
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Unidad:</p>
               <template v-if="!modalEdit">
-                <input v-validate="'required'" v-model="objectMalo.unidad" class="w-12" type="text" />
+                <input
+                  v-validate="'required'"
+                  v-model="objectMalo.unidad"
+                  class="w-12"
+                  type="text"
+                />
               </template>
               <template v-else>
                 <input
@@ -520,7 +651,9 @@
               </template>
             </div>
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Numero Serie:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Numero Serie:
+              </p>
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
@@ -560,7 +693,9 @@
               </template>
             </div>
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Instalacion:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Fecha Instalacion:
+              </p>
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required|FechaValidaList'"
@@ -579,7 +714,9 @@
               </template>
             </div>
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Ultimo Mantenimiento:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Fecha Ultimo Mantenimiento:
+              </p>
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required|FechaValidaList'"
@@ -600,7 +737,9 @@
           </div>
           <div class="inline-flex m-2">
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Folio Ultimo Mantenimiento:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Folio Ultimo Mantenimiento:
+              </p>
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
@@ -619,7 +758,9 @@
               </template>
             </div>
             <div class="m-1 mt-5">
-              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Real:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Fecha Real:
+              </p>
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
@@ -638,7 +779,9 @@
               </template>
             </div>
             <div class="m-1">
-              <p class="text-md mb-1 font-semibold text-gray-900">Fecha Fabricante:</p>
+              <p class="text-md mb-1 font-semibold text-gray-900">
+                Fecha Fabricante:
+              </p>
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
@@ -660,7 +803,7 @@
           <div class="flex justify-end">
             <template v-if="!modalEdit">
               <button
-                v-on:click.stop.prevent="modal = false, objectModal = {}"
+                v-on:click.stop.prevent="(modal = false), (objectModal = {})"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
               >
                 <img
@@ -675,13 +818,18 @@
                 v-on:click.stop.prevent="agregar_componente_cel"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
               >
-                <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15" />
+                <img
+                  src="../../../assets/img/more.png"
+                  class="mr-2 sm:m-1"
+                  width="15"
+                  height="15"
+                />
                 <span class="text-sm">Aceptar</span>
               </button>
             </template>
             <template v-else>
               <button
-                v-on:click.stop.prevent="modal = false, objectModal = {}"
+                v-on:click.stop.prevent="(modal = false), (objectModal = {})"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
               >
                 <img
@@ -696,7 +844,12 @@
                 v-on:click.stop.prevent="confirmar_componente_cel"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
               >
-                <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15" />
+                <img
+                  src="../../../assets/img/more.png"
+                  class="mr-2 sm:m-1"
+                  width="15"
+                  height="15"
+                />
                 <span class="text-sm">Aceptar</span>
               </button>
             </template>
@@ -783,7 +936,7 @@ export default {
           fechaReal: item.lifeTimeReal,
           fechaFabricante: item.lifeTimeExpected,
         };
-        this.listaequipoMalo.push(objectMalo)
+        this.listaequipoMalo.push(objectMalo);
       }
     }
   },
@@ -798,6 +951,7 @@ export default {
   methods: {
     borrar_componente: function (index) {
       this.listaequipoMalo.splice(index, 1);
+      EventBus.$emit("borrar_componente", index);
       let partida = 1;
       for (let item of this.listaequipoMalo) {
         item.partida = partida;

@@ -86,7 +86,7 @@
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
-                    v-validate="'required|numeric'"
+                    v-validate="'required|decimal'"
                     v-model="precioUnitario"
                     class="w-20"
                     type="text"
@@ -100,7 +100,7 @@
                     )"
                     :key="key"
                   >
-                   $ {{ item.toLocaleString("en-US") }}
+                   $ {{ parseInt(item).toLocaleString("en-US") }}
                   </p>
                 </template>
               </td>
@@ -108,7 +108,7 @@
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
                   <textarea
-                    v-validate="'required|numeric'"
+                    v-validate="'required|decimal'"
                     v-model="precioTotal"
                     :disabled="!equipo.rowUpPropuesto"
                     class="w-20"
@@ -123,7 +123,7 @@
                     )"
                     :key="key"
                   >
-                    $ {{ item.toLocaleString("en-US") }}
+                    $ {{ parseInt(item).toLocaleString("en-US") }}
                   </p>
                 </template>
               </td>
@@ -406,6 +406,7 @@ export default {
       info_confirmar: {},
       index_editar: "",
       bool_editar: false,
+      sumatoria: ''
     };
   },
   filters: {
@@ -428,6 +429,10 @@ export default {
       this.infoRow[value.index].componente = value.data.componente;
       this.infoRow[value.index].cantidad = value.data.cantidad;
     });
+    EventBus.$on("borrar_componente", (value) => {
+
+        this.borrar_componente_bus(value)
+    })
   },
   beforeMount: function () {
     this.diagnostico = this.$store.getters["Header/getDiagnostico"];
@@ -460,6 +465,7 @@ export default {
     infoRow: {
       deep: true,
       handler(newValue) {
+    
         this.$store.commit("DTC/LISTA_PROPUESTO_LIBRE_EDIT_MUTATION", newValue);
       },
     },
@@ -472,6 +478,15 @@ export default {
       this.precioTotal = this.infoRow[index].precioTotal;
 
       this.listaEquipo[index].rowUpPropuesto = true;
+    },
+    sumatoria_conteo: function(){
+          
+        let suma = 0;
+        for (let item of this.infoRow) {
+          console.log(item);
+          suma += parseInt(item.precioTotal);
+        } 
+        this.sumatoria = "$ " + suma.toLocaleString("en-US");
     },
     editar_cel: function (index) {
       this.modal = true;
@@ -499,6 +514,7 @@ export default {
               this.modal = false;
               this.index_editar = "";
               this.bool_editar = false;
+              this.sumatoria_conteo()
             } else {
               let newPartida = {
                 partida: this.info_confirmar.partida,
@@ -516,6 +532,7 @@ export default {
               this.precioTotal = "";
               this.infoRow.push(newPartida);
               this.modal = false;
+              this.sumatoria_conteo()
             }
           } else {
             this.$notify.error({
@@ -564,6 +581,8 @@ export default {
             this.$emit("desbloquear_partida");
             if (this.infoRow.length > index) this.infoRow[index] = newPartida;
             else this.infoRow.push(newPartida);
+
+            this.sumatoria_conteo()
           } else {
             this.$notify.error({
               title: "Error",
@@ -588,27 +607,25 @@ export default {
           });
         });
     },
+    borrar_componente_bus: function(index){
+
+      this.infoRow.splice(index, 1);
+      this.sumatoria_conteo()
+    }
     // infoFull: function (value) {
     //   this.modal = true;
     //   this.infoRow = Object.assign(this.listaEquipo[value]);
     // },
   },
   computed: {
-    // multiplicacion: function () {
-    //   let multi = 0;
-    //   for (let i = 0; i < this.listaEquipo.length; i++) {
-    //     multi += this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
+    // sumatoria: function () {
+    //   let suma = 0;
+    //   for (let item of this.infoRow) {
+    //     console.log(item);
+    //     suma += parseInt(item.precioTotal);
     //   }
-    //   return multi;
+    //   return "$ " + suma.toLocaleString("en-US");
     // },
-    sumatoria: function () {
-      let suma = 0;
-      for (let item of this.infoRow) {
-        console.log(item);
-        suma += parseInt(item.precioTotal);
-      }
-      return "$ " + suma.toLocaleString("en-US");
-    },
     letraMoneda: function () {
       let suma = 0;
       for (let item of this.infoRow) {
@@ -645,8 +662,6 @@ export default {
     },
   },
 };
-
-// Código basado en https://gist.github.com/alfchee/e563340276f89b22042a
 function Unidades(num) {
   switch (num) {
     case 1:
