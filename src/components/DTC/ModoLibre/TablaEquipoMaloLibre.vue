@@ -321,7 +321,6 @@
                   :disabled="disable_agregar"
                   v-validate="'required'"
                 >
-                  <option value>Seleccion</option>
                   <option value="Pza">Pza</option>
                 </select>
               </td>
