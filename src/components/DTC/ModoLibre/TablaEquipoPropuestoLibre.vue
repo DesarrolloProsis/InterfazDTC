@@ -11,7 +11,7 @@
         <!-- ************************************************************** -->
         <div class="inline-flex">
           <table>
-            <tr class="border text-sm bg-blue-800 text-gray-400 font-normal"> 
+            <tr class="border text-sm bg-blue-800 text-gray-400 font-normal">
               <th class="w-20 border-2 border-gray-800">Partida</th>
               <th class="w-24 border-2 border-gray-800">Unidad</th>
               <th class="w-32 border-2 border-gray-800">Componente</th>
@@ -85,13 +85,13 @@
               </td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea
+                  <input
                     v-validate="'required|decimal'"
                     v-model="precioUnitario"
                     class="w-20"
                     type="text"
                     name="precioUnitario"
-                  ></textarea>
+                  />
                 </template>
                 <template v-else>
                   <p
@@ -100,21 +100,14 @@
                     )"
                     :key="key"
                   >
-                   $ {{ parseInt(item).toLocaleString("en-US") }}
+                    $ {{ parseInt(item).toLocaleString("en-US") }}
                   </p>
                 </template>
               </td>
               <td class="border border-gray-800">{{ "-----" }}</td>
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUpPropuesto">
-                  <textarea
-                    v-validate="'required|decimal'"
-                    v-model="precioTotal"
-                    :disabled="!equipo.rowUpPropuesto"
-                    class="w-20"
-                    name="precioTotal"
-                    type="text"
-                  ></textarea>
+                  <p></p>
                 </template>
                 <template v-else>
                   <p
@@ -168,7 +161,7 @@
               <textarea
                 v-model="diagnostico"
                 v-validate="'max:120'"
-                class="appearance-none border border-black rounded-lg h-20 mt-3 ml-3 w-64 xl:w-68"                
+                class="appearance-none border border-black rounded-lg h-20 mt-3 ml-3 w-64 xl:w-68"
                 name="Diagnostico"
               />
               <p class="text-red-600 text-xs">
@@ -213,10 +206,16 @@
               ////                 CABECERA DE LA TABLA                       ////
           ////////////////////////////////////////////////////////////////////-->
           <thead>
-            <tr class="border text-xs h-10 bg-blue-800 text-gray-400 font-normal bg-blue-800">
+            <tr
+              class="border text-xs h-10 bg-blue-800 text-gray-400 font-normal bg-blue-800"
+            >
               <th class="w-20 border-2 border-gray-800">Partida</th>
-              <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
-              <th class="w-48 border-2 border-gray-800 text-red-600">Precio Total</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">
+                Componente
+              </th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">
+                Precio Total
+              </th>
               <th class="w-48 border-2 border-gray-800">Acciones</th>
             </tr>
           </thead>
@@ -230,9 +229,10 @@
             <tr class="text-center" v-for="(item, key) in infoRow" :key="key">
               <td class="border-2 border-gray-800">{{ item.partida }}</td>
               <td class="border-2 border-gray-800">{{ item.componente }}</td>
-              <td class="border-2 border-gray-800">$ {{ item.precioTotal.toLocaleString("en-US") }}</td>
               <td class="border-2 border-gray-800">
-                             
+                $ {{ item.precioTotal.toLocaleString("en-US") }}
+              </td>
+              <td class="border-2 border-gray-800">
                 <button
                   v-on:click.stop.prevent="editar_cel(key)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-yellow-500 m-2"
@@ -249,7 +249,7 @@
             </tr>
           </tbody>
         </table>
-        <div class=" mt-10 pl-2 pr-2">
+        <div class="mt-10 pl-2 pr-2">
           <div class="flex">
             <div class="h- ml-1 mt-2">
               <p class="inline mt-2">Total: {{ letraMonedaCel }}</p>
@@ -266,16 +266,18 @@
           </div>
         </div>
         <div class="mt-6">
-          <h1 class="font-bold text-xl text-center text-gray-800">Diagnostico</h1>
-            <textarea
-                v-model="diagnostico"
-                v-validate="'max:120'"
-                class="appearance-none border border-black rounded-lg h-20 mt-3 ml-1 w-66"                
-                name="Diagnostico"
-              />
-              <p class="text-red-600 text-xs">
-                {{ errors.first("Diagnostico") }}
-              </p>
+          <h1 class="font-bold text-xl text-center text-gray-800">
+            Diagnostico
+          </h1>
+          <textarea
+            v-model="diagnostico"
+            v-validate="'max:120'"
+            class="appearance-none border border-black rounded-lg h-20 mt-3 ml-1 w-66"
+            name="Diagnostico"
+          />
+          <p class="text-red-600 text-xs">
+            {{ errors.first("Diagnostico") }}
+          </p>
         </div>
       </div>
 
@@ -326,7 +328,7 @@
                 Precio Unitario:
               </p>
               <input
-                v-validate="'required|numeric'"
+                v-validate="'required|decimal'"
                 v-model="precioUnitario"
                 class="w-full"
                 type="text /"
@@ -344,12 +346,13 @@
               <p class="text-md mb-1 font-semibold text-gray-900">
                 Precio Total Unitario:
               </p>
-              <input
+              <p>---------</p>
+              <!-- <input
                 v-validate="'required|numeric'"
                 v-model="precioTotal"
                 class="w-full"
                 type="text"
-              />
+              /> -->
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">
@@ -376,7 +379,6 @@
       </div>
       <div></div>
     </div>
-
   </div>
 </template>
 
@@ -406,7 +408,7 @@ export default {
       info_confirmar: {},
       index_editar: "",
       bool_editar: false,
-      sumatoria: ''
+      sumatoria: "",
     };
   },
   filters: {
@@ -423,16 +425,17 @@ export default {
     });
     EventBus.$on("editar_componente", (value) => {
       console.log(value);
-
       this.infoRow[value.index].partida = value.data.partida;
       this.infoRow[value.index].unidad = value.data.unidad;
       this.infoRow[value.index].componente = value.data.componente;
       this.infoRow[value.index].cantidad = value.data.cantidad;
+      this.infoRow[value.index].precioTotal = (value.data.cantidad * parseInt(this.infoRow[value.index].precioUnitario)).toString()
+      this.sumatoria_conteo();
+
     });
     EventBus.$on("borrar_componente", (value) => {
-
-        this.borrar_componente_bus(value)
-    })
+      this.borrar_componente_bus(value);
+    });
   },
   beforeMount: function () {
     this.diagnostico = this.$store.getters["Header/getDiagnostico"];
@@ -465,12 +468,12 @@ export default {
     infoRow: {
       deep: true,
       handler(newValue) {
-    
         this.$store.commit("DTC/LISTA_PROPUESTO_LIBRE_EDIT_MUTATION", newValue);
       },
     },
   },
   methods: {
+
     cancelar: function (index) {
       this.marca = this.infoRow[index].marca;
       this.modelo = this.infoRow[index].modelo;
@@ -479,14 +482,13 @@ export default {
 
       this.listaEquipo[index].rowUpPropuesto = true;
     },
-    sumatoria_conteo: function(){
-          
-        let suma = 0;
-        for (let item of this.infoRow) {
-          console.log(item);
-          suma += parseInt(item.precioTotal);
-        } 
-        this.sumatoria = "$ " + suma.toLocaleString("en-US");
+    sumatoria_conteo: function () {
+      let suma = 0;
+      for (let item of this.infoRow) {
+        console.log(item);
+        suma += parseInt(item.precioTotal);
+      }
+      this.sumatoria = "$ " + suma.toLocaleString("en-US");
     },
     editar_cel: function (index) {
       this.modal = true;
@@ -510,11 +512,14 @@ export default {
               this.infoRow[
                 this.index_editar
               ].precioUnitario = this.precioUnitario;
-              this.infoRow[this.index_editar].precioTotal = this.precioTotal;
+              this.infoRow[this.index_editar].precioTotal = (
+                this.precioUnitario *
+                parseInt(this.infoRow[this.index_editar].cantidad)
+              ).toString();
               this.modal = false;
               this.index_editar = "";
               this.bool_editar = false;
-              this.sumatoria_conteo()
+              this.sumatoria_conteo();
             } else {
               let newPartida = {
                 partida: this.info_confirmar.partida,
@@ -524,7 +529,9 @@ export default {
                 marca: this.marca,
                 modelo: this.modelo,
                 precioUnitario: this.precioUnitario,
-                precioTotal: this.precioTotal,
+                precioTotal: (
+                  this.precioUnitario * parseInt(this.info_confirmar.cantidad)
+                ).toString(),
               };
               this.marca = "";
               this.modelo = "";
@@ -532,7 +539,7 @@ export default {
               this.precioTotal = "";
               this.infoRow.push(newPartida);
               this.modal = false;
-              this.sumatoria_conteo()
+              this.sumatoria_conteo();
             }
           } else {
             this.$notify.error({
@@ -563,6 +570,7 @@ export default {
         .validateAll()
         .then((val) => {
           if (val) {
+            
             this.listaEquipo[index].rowUpPropuesto = false;
             let newPartida = {
               partida: item.partida,
@@ -572,17 +580,20 @@ export default {
               marca: this.marca,
               modelo: this.modelo,
               precioUnitario: this.precioUnitario,
-              precioTotal: this.precioTotal,
+              precioTotal: (
+                this.precioUnitario * parseInt(item.cantidad)
+              ).toString(),
             };
             this.marca = "";
             this.modelo = "";
             this.precioUnitario = "";
             this.precioTotal = "";
             this.$emit("desbloquear_partida");
+
             if (this.infoRow.length > index) this.infoRow[index] = newPartida;
             else this.infoRow.push(newPartida);
 
-            this.sumatoria_conteo()
+            this.sumatoria_conteo();
           } else {
             this.$notify.error({
               title: "Error",
@@ -607,11 +618,10 @@ export default {
           });
         });
     },
-    borrar_componente_bus: function(index){
-
+    borrar_componente_bus: function (index) {
       this.infoRow.splice(index, 1);
-      this.sumatoria_conteo()
-    }
+      this.sumatoria_conteo();
+    },
     // infoFull: function (value) {
     //   this.modal = true;
     //   this.infoRow = Object.assign(this.listaEquipo[value]);
@@ -643,7 +653,7 @@ export default {
       } else
         return "--------------------------------------------------------------------------------------";
     },
-     letraMonedaCel: function () {
+    letraMonedaCel: function () {
       let suma = 0;
       for (let item of this.infoRow) {
         console.log(item);
@@ -657,8 +667,7 @@ export default {
           centSingular: "CENTAVO",
         });
         return MonedaLetra;
-      } else
-        return "------------";
+      } else return "------------";
     },
   },
 };

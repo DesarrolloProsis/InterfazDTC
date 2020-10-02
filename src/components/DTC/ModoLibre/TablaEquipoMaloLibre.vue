@@ -64,6 +64,7 @@
                   >
                     <option value>Seleccion</option>
                     <option value="Pza">Pza</option>
+                    <option value="Metro">Metro</option>
                   </select>
                 </template>
                 <template v-else>{{ equipo.unidad }}</template>
@@ -86,7 +87,7 @@
               <td class="border border-gray-800">
                 <template v-if="equipo.rowUp">
                   <input
-                    v-validate="'required'"
+                    v-validate="'required|numeric'"
                     class="w-32"
                     type="text"
                     v-model="editComponent.cantidad"
@@ -167,7 +168,7 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required|FechaValidaList'"
-                    class="w-20"
+                    class="w-24 text-md"
                     type="text"
                     v-model="editComponent.fechaInstalacion"
                   ></textarea>
@@ -185,7 +186,7 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required|FechaValidaList'"
-                    class="w-20"
+                    class="w-24 text-md"
                     type="text"
                     v-model="editComponent.fechaMantenimiento"
                   ></textarea>
@@ -336,7 +337,7 @@
               </td>
               <td class="border border-gray-800">
                 <input
-                  v-validate="'required'"
+                  v-validate="'required|numeric'"
                   class="w-12"
                   type="text"
                   name="_cantidad"
@@ -387,7 +388,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required|FechaValidaList'"
-                  class="w-20"
+                  class="w-24 text-md"
                   type="text"
                   name="_fechaInstalacion"
                   v-model="objectMalo.fechaInstalacion"
@@ -397,7 +398,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required|FechaValidaList'"
-                  class="w-20"
+                  class="w-24 text-md"
                   type="text"
                   name="_fechaMantenimiento"
                   v-model="objectMalo.fechaMantenimiento"
@@ -574,27 +575,47 @@
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Unidad:</p>
               <template v-if="!modalEdit">
-                <input
+                <!-- <input
                   v-validate="'required'"
                   v-model="objectMalo.unidad"
                   class="w-12"
                   type="text"
-                />
+                /> -->
+                 <select
+                    v-validate="'required'"
+                    class="w-12"
+                    v-model="objectMalo.unidad"
+                    name="unidad"
+                  >
+                    <option value>Seleccion</option>
+                    <option value="Pza">Pza</option>
+                    <option value="Metro">Metro</option>
+                  </select>
               </template>
               <template v-else>
-                <input
+                <!-- <input
                   v-validate="'required'"
                   v-model="editComponent.unidad"
                   class="w-12"
                   type="text"
-                />
+                /> -->
+                 <select
+                    v-validate="'required'"
+                    v-model="editComponent.unidad"
+                    class="w-12"
+                    name="unidad"
+                  >
+                    <option value>Seleccion</option>
+                    <option value="Pza">Pza</option>
+                    <option value="Metro">Metro</option>
+                  </select>
               </template>
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Cantidad:</p>
               <template v-if="!modalEdit">
                 <input
-                  v-validate="'required'"
+                  v-validate="'required|numeric'"
                   v-model="objectMalo.cantidad"
                   class="w-12"
                   type="text"
@@ -1032,7 +1053,16 @@ export default {
         index
       ].fechaFabricante = this.editComponent.fechaFabricante;
 
+      
+
+
       this.listaequipoMalo[index].rowUp = false;
+      let obj = {
+        data: this.editComponent,
+        index: index,
+      };
+
+      EventBus.$emit("editar_componente", obj);
       this.editComponent = {};
     },
     editar_componente_cel: function (index) {
@@ -1084,7 +1114,7 @@ export default {
               this.objectMalo[propiedades] = "";
             }
             this.modal = false;
-            console.log("antes del bus");
+            this.objectMalo.unidad = 'Pza'
             EventBus.$emit("nuevo_componente", partida);
           } else {
             this.$notify.error({
@@ -1123,7 +1153,7 @@ export default {
             for (const propiedades in this.objectMalo) {
               this.objectMalo[propiedades] = "";
             }
-            console.log(item);
+            this.objectMalo.unidad = 'Pza'
           } else {
             this.$notify.error({
               title: "Error",

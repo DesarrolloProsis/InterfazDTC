@@ -2,7 +2,10 @@
   <div>
     <Nav></Nav>
     <div class="relative">
-      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center mt-2">
+      <div
+        :class="{ 'pointer-events-none': modal }"
+        class="flex justify-center mt-2"
+      >
         <div class="border-2 px-16 shadow-lg z-10">
           <div class="flex sm:inline-block">
             <div class="m-3">
@@ -31,50 +34,73 @@
               @click.prevent="sinFiltroFull"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1"
             >
-              <img src="../assets/img/bin.png" class="mr-2" width="25" height="2" />
+              <img
+                src="../assets/img/bin.png"
+                class="mr-2"
+                width="25"
+                height="2"
+              />
               <span>Limpiar</span>
             </button>
-               <button
+            <button
               @click.prevent="filtro_Dtc"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700 m-1"
             >
-              <img src="../assets/img/lupa.png" class="mr-2" width="25" height="2" />
+              <img
+                src="../assets/img/lupa.png"
+                class="mr-2"
+                width="25"
+                height="2"
+              />
               <span>Buscar</span>
             </button>
           </div>
         </div>
       </div>
-
       <div class="flex absolute justify-center inset-x-0">
-        <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
-          <p
-            class="text-gray-900 font-thin text-md"
-          >Seguro que quiere eliminar este DTC {{ refNum }}</p>
+        <div
+          v-if="modal"
+          class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl"
+        >
+          <p class="text-gray-900 font-thin text-md">
+            Seguro que quiere eliminar este DTC {{ refNum }}
+          </p>
           <div class="justify-center flex mt-5">
-            <button @click="borrar" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
             <button
-              @click="modal = false, refNum = ''"
+              @click="borrar"
+              class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600"
+            >
+              Si
+            </button>
+            <button
+              @click="(modal = false), (refNum = '')"
               class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700"
-            >No</button>
+            >
+              No
+            </button>
           </div>
         </div>
       </div>
-
-      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center w-full">
-        <div class=" flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
+      <div
+        :class="{ 'pointer-events-none': modal }"
+        class="flex justify-center w-full"
+      >
+        <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div
-            class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 "
+            class="shadow-2xl inline-block focus m-4 p-3 sm:m-6"
             v-for="(dtc, index) in infoDTC"
             :key="index"
           >
-            <CardListDTC @borrar-card="confimaBorrar" :infoCard="dtc"></CardListDTC>
+            <CardListDTC
+              @borrar-card="confimaBorrar"
+              :infoCard="dtc"
+            ></CardListDTC>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import Nav from "../components/Navbar";
@@ -137,8 +163,10 @@ export default {
       this.refNum = refNum;
       this.modal = true;
     },
-    sinFiltroFull(){
+    sinFiltroFull() {
       this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
+      this.fechaFiltro = " "
+      this.referenciaFiltro = " "
     },
     sinFiltro: function () {
       if (this.fechaFiltro == "" && this.referenciaFiltro == "") {
