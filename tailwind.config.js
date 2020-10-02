@@ -1,7 +1,12 @@
 module.exports = {
   
   theme: {
-    
+    purge: [
+      './src/**/*.html',
+      './src/**/*.vue',
+      './src/**/*.jsx',
+      './src/**/*.js',
+    ],
     screens:{
       'sm': {'min': '320px', 'max': '895px'},
       'md': {'min': '896px', 'max': '1024px'},
