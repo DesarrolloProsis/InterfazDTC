@@ -35,7 +35,7 @@
       <div v-if="showmenosMas">
         <div class="flex flex-col md:flex-row mb-6">
           <div class="text-xs font-sans text-center">
-            <table class="border border-black table-fixed w-full">
+            <table class="border border-black ml-2 table-fixed w-66 sm:w-65">
               <tr>
                 <th class="w-1/3 border border-black">Componete</th>
                 <th class="w-1/8 border border-black">Cantidad</th>
@@ -44,7 +44,10 @@
               <tr class="h-10" v-for="(item, key) in tableFormat" :key="key">
                 <td>{{ item.componente }}</td>
                 <td>{{ item.cantidad }}</td>
-                <td class="text-xs">{{ item.lane }}</td>
+                <td class="text-xs">
+                  
+                  <p v-for="(value, key2) in item.lane.split(',')" :key="key2">{{value}}</p>
+                  </td>
               </tr>
             </table>
           </div>

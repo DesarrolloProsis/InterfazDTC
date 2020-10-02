@@ -135,7 +135,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
                   >
                     <img
-                      src="../../../assets/img/bin.png"
+                      src="../../../assets/img/more.png"
                       class="mr-2 sm:m-1"
                       width="20"
                       height="20"

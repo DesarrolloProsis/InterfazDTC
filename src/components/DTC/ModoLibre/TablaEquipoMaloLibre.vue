@@ -406,7 +406,7 @@
               </td>
               <td class="border border-gray-800">
                 <textarea
-                  v-validate="'required|FechaValidaList'"
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   name="_folioMantenimiento"
@@ -416,7 +416,7 @@
               </td>
               <td class="border border-gray-800">
                 <textarea
-                  v-validate="'required|FechaValidaList'"
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   name="_fechaReal"
@@ -426,7 +426,7 @@
               </td>
               <td class="border border-gray-800">
                 <textarea
-                  v-validate="'required|FechaValidaList'"
+                  v-validate="'required'"
                   class="w-20"
                   type="text"
                   name="_fechaFabricante"
@@ -880,7 +880,7 @@ export default {
         rowUpPropuesto: "",
         rowUp: "",
         partida: "",
-        unidad: "",
+        unidad: 'Pza',
         componente: "",
         cantidad: "",
         marca: "",
