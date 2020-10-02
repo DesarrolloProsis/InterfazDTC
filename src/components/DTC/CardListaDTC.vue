@@ -18,42 +18,43 @@
             {{ infoCard.observation }}
           </div>
         </div>
-        <div class="m-10">
+        <div class="m-10" v-if="!showmenosMas">
           <img src="../../assets/img/Dtc.png" class="w-64" alt />
         </div>
       </div>
-      <div class="flex justify-between">
+      <div class="flex justify-between static bg-bottom">
         <a
           @click="mas"
           v-show="menosMas"
-          class="text-sm text-gray-900"
+          class="text-sm text-gray-900 relative"
         >Status: {{ infoCard.statusDescription }}</a>
-        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700">Ver Mas</a>
-      </div>
+        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 rel">Ver Mas</a>
 
-      <!-- VerMar -->
+      </div>
+        <!-- VerMar --> 
       <div v-if="showmenosMas">
-        <div class="flex flex-col md:flex-row mb-6">
+        <div class="flex flex-col md:flex-row mb-6 mt-8">
           <div class="text-xs font-sans text-center">
-            <table class="border border-black ml-2 table-fixed w-66 sm:w-65">
-              <tr>
-                <th class="w-1/3 border border-black">Componete</th>
-                <th class="w-1/8 border border-black">Cantidad</th>
-                <th class="w-1/8 border border-black">Ubicacion</th>
+            <table class="ml-2 table-fixed w-66 sm:w-65">
+              <tr class="bg-blue-800 text-white h-8">
+                <th class="w-1/3 border-2 border-gray-800">Componete</th>
+                <th class="w-1/8 border-2 border-gray-800">Cantidad</th>
+                <th class="w-1/8 border-2 border-gray-800">Ubicacion</th>
               </tr>
-              <tr class="h-10" v-for="(item, key) in tableFormat" :key="key">
-                <td>{{ item.componente }}</td>
-                <td>{{ item.cantidad }}</td>
-                <td class="text-xs">
-                  
+              <tr class="" v-for="(item, key) in tableFormat" :key="key">
+                <td class="border border-gray-800">{{ item.componente }}</td>
+                <td class="border border-gray-800">{{ item.cantidad }}</td>
+                <td class="text-xs border border-gray-800">                  
                   <p v-for="(value, key2) in item.lane.split(',')" :key="key2">{{value}}</p>
-                  </td>
+                </td>
               </tr>
             </table>
           </div>
         </div>
+      </div>
+      <div class="" v-if="showmenosMas">
         <div class="flex justify-between">
-          <div>
+          <div class="">
             <button
               @click.prevent="borrar"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1"
@@ -84,6 +85,7 @@
         </div>
       </div>
     </div>
+  
   </div>
 </template>
 

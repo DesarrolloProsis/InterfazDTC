@@ -28,10 +28,17 @@
           </div>
           <div class="m-3 text-center">
             <button
-              @click.prevent="filtro_Dtc"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700"
+              @click.prevent="sinFiltroFull"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1"
             >
-              <img src="../assets/img/filter.png" class="mr-2" width="25" height="2" />
+              <img src="../assets/img/bin.png" class="mr-2" width="25" height="2" />
+              <span>Limpiar</span>
+            </button>
+               <button
+              @click.prevent="filtro_Dtc"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700 m-1"
+            >
+              <img src="../assets/img/lupa.png" class="mr-2" width="25" height="2" />
               <span>Buscar</span>
             </button>
           </div>
@@ -54,7 +61,7 @@
       </div>
 
       <div :class="{ 'pointer-events-none': modal }" class="flex justify-center w-full">
-        <div class="grid grid-cols-3 gap-4 sm:grid-cols-1">
+        <div class=" flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div
             class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 "
             v-for="(dtc, index) in infoDTC"
@@ -129,6 +136,9 @@ export default {
     confimaBorrar: function (refNum) {
       this.refNum = refNum;
       this.modal = true;
+    },
+    sinFiltroFull(){
+      this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
     },
     sinFiltro: function () {
       if (this.fechaFiltro == "" && this.referenciaFiltro == "") {
