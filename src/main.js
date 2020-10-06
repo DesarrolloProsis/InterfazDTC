@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import "./assets/css/tailwind.css"
+
 import Multiselect from 'vue-multiselect'
 
 import VeeValidate from 'vee-validate';
@@ -15,11 +16,8 @@ import moment from "moment";
 
 //Validaciones en formularios
 Vue.use(VeeValidate, { 
-    classes: true,
-    classNames: {
-      valid: 'is_valid',
-      invalid: 'is_invalid'
-    }
+    classes: false,
+
   });  
 const NoSiniestro = {
   validate(value){

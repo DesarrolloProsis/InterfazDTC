@@ -16,18 +16,22 @@
               class="w-full h-8"
               type="text"
               name="Usuario"
+              :class="{ 'is_valid': !errors.first('Usuario'), 'is_invalid': errors.first('Usuario')}"
               placeholder="  Usuario"
               v-validate="'required'"
               v-model="datos.User"
             />
             <span class="text-red-600 text-xs">{{ errors.first('Usuario') }}</span>
           </div>
+          
+          
           <div class="mb-5">
             <input
               @keyup.enter="ingresarLogin()"
               placeholder=" Contraseña"
               class="w-full h-8"
               v-validate="'required'"
+              :class="{ 'is_valid': !errors.first('Contraseña'), 'is_invalid': errors.first('Contraseña')}"
               type="password"
               name="Contraseña"
               v-model="datos.Password"
@@ -68,6 +72,7 @@
         <select
           @change="buscarTec()"
           v-validate="'required'"
+          :class="{ 'is_valid': !errors.first('Plaza'), 'is_invalid': errors.first('Plaza')}"
           v-model="plazaSelect"
           class="w-48 h-8"
           type="text"
@@ -88,6 +93,7 @@
           v-model="tecSelect"
           v-validate="'required'"
           class="h-8 w-48"
+          :class="{ 'is_valid': !errors.first('Tecnico'), 'is_invalid': errors.first('Tecnico')}"
           type="text"
           name="Tecnico"
         >

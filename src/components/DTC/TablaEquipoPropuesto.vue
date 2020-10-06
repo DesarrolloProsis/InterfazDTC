@@ -66,6 +66,7 @@
               <textarea
                 v-model="diagnostico"
                 v-validate="'max:120'"
+                :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
                 class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6"
                 name="Diagnostico"
               />
@@ -149,6 +150,7 @@
             <textarea
               v-model="diagnostico"
               v-validate="'max:120'"
+              :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
               placeholder="Dignostico"
               class="appearance-none block bg-grey-lighter container mx-auto text-grey-darkerr border-black rounded-lg mb-0 h-40 placeholder-gray-500 border"
               name="Diagnostico"

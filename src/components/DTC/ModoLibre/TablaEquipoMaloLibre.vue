@@ -59,6 +59,7 @@
                 <template v-if="equipo.rowUp">
                   <select
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('unidad'), 'is_invalid': errors.first('unidad')}"
                     v-model="editComponent.unidad"
                     name="unidad"
                   >
@@ -75,11 +76,12 @@
                     class="w-32"
                     type="text"
                     v-validate="'required'"
-                    name="pruebas"
+                    :class="{ 'is_valid': !errors.first('componentes'), 'is_invalid': errors.first('componentes')}"
+                    name="componentes"
                     v-model="editComponent.componente"
                   />
                   <p class="text-red-600 text-xs">
-                    {{ errors.first("pruebas") }}
+                    {{ errors.first("componentes") }}
                   </p>
                 </div>
                 <div v-else>{{ equipo.componente }}</div>
@@ -88,7 +90,9 @@
                 <template v-if="equipo.rowUp">
                   <input
                     v-validate="'required|numeric'"
+                    :class="{ 'is_valid': !errors.first('cantidades'), 'is_invalid': errors.first('cantidades')}"
                     class="w-32"
+                    name="cantidades"
                     type="text"
                     v-model="editComponent.cantidad"
                   />
@@ -99,8 +103,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('marcas'), 'is_invalid': errors.first('marcas')}"
                     class="w-20"
                     type="text"
+                    name="marcas"
                     v-model="editComponent.marca"
                   ></textarea>
                 </template>
@@ -114,8 +120,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('modelos'), 'is_invalid': errors.first('modelos')}"
                     class="w-20"
                     type="text"
+                    name="modelos"
                     v-model="editComponent.modelo"
                   ></textarea>
                 </template>
@@ -132,8 +140,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('numseries'), 'is_invalid': errors.first('numseries')}"
                     class="w-20"
                     type="text"
+                    name="numseries"
                     v-model="editComponent.numserie"
                   ></textarea>
                 </template>
@@ -150,8 +160,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('ubicaciones'), 'is_invalid': errors.first('ubicaciones')}"
                     class="w-20"
                     type="text"
+                    name="ubicaciones"
                     v-model="editComponent.ubicacion"
                   ></textarea>
                 </template>
@@ -168,8 +180,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required|FechaValidaList'"
+                    :class="{ 'is_valid': !errors.first('fechaInstalaciones'), 'is_invalid': errors.first('fechaInstalaciones')}"
                     class="w-24 text-md"
                     type="text"
+                    name="fechaInstalaciones"
                     v-model="editComponent.fechaInstalacion"
                   ></textarea>
                 </template>
@@ -186,8 +200,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required|FechaValidaList'"
+                    :class="{ 'is_valid': !errors.first('fechaMantenimientos'), 'is_invalid': errors.first('fechaMantenimientos')}"
                     class="w-24 text-md"
                     type="text"
+                    name="fechaMantenimientos"
                     v-model="editComponent.fechaMantenimiento"
                   ></textarea>
                 </template>
@@ -204,8 +220,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('folioMantenimientos'), 'is_invalid': errors.first('folioMantenimientos')}"
                     class="w-20"
                     type="text"
+                    name="folioMantenimientos"
                     v-model="editComponent.folioMantenimiento"
                   ></textarea>
                 </template>
@@ -222,8 +240,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('fechaReales'), 'is_invalid': errors.first('fechaReales')}"
                     class="w-20"
                     type="text"
+                    name="fechaReales"
                     v-model="editComponent.fechaReal"
                   ></textarea>
                 </template>
@@ -240,8 +260,10 @@
                 <template v-if="equipo.rowUp">
                   <textarea
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('fechaFabricantes'), 'is_invalid': errors.first('fechaFabricantes')}"
                     class="w-20"
                     type="text"
+                    name="fechaFabricantes"
                     v-model="editComponent.fechaFabricante"
                   ></textarea>
                 </template>
@@ -321,6 +343,7 @@
                   v-model="objectMalo.unidad"
                   :disabled="disable_agregar"
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_unidad'), 'is_invalid': errors.first('_unidad')}"
                 >
                   <option value="Pza">Pza</option>
                 </select>
@@ -330,6 +353,7 @@
                   v-validate="'required'"
                   class="w-32"
                   type="text"
+                  :class="{ 'is_valid': !errors.first('_componente'), 'is_invalid': errors.first('_componente')}"
                   name="_componente"
                   v-model="objectMalo.componente"
                   :disabled="disable_agregar"
@@ -338,6 +362,7 @@
               <td class="border border-gray-800">
                 <input
                   v-validate="'required|numeric'"
+                  :class="{ 'is_valid': !errors.first('_cantidad'), 'is_invalid': errors.first('_cantidad')}"
                   class="w-12"
                   type="text"
                   name="_cantidad"
@@ -348,6 +373,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_marca'), 'is_invalid': errors.first('_marca')}"
                   class="w-20"
                   type="text"
                   name="_marca"
@@ -358,6 +384,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_modelo'), 'is_invalid': errors.first('_modelo')}"
                   class="w-20"
                   type="text"
                   name="_modelo"
@@ -368,6 +395,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_numserie'), 'is_invalid': errors.first('_numserie')}"
                   class="w-20"
                   type="text"
                   name="_numserie"
@@ -378,6 +406,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_ubicacion'), 'is_invalid': errors.first('_ubicacion')}"
                   class="w-20"
                   type="text"
                   name="_ubicacion"
@@ -388,6 +417,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required|FechaValidaList'"
+                  :class="{ 'is_valid': !errors.first('_fechaInstalacion'), 'is_invalid': errors.first('_fechaInstalacion')}"
                   class="w-24 text-md"
                   type="text"
                   name="_fechaInstalacion"
@@ -398,6 +428,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required|FechaValidaList'"
+                  :class="{ 'is_valid': !errors.first('_fechaMantenimiento'), 'is_invalid': errors.first('_fechaMantenimiento')}"
                   class="w-24 text-md"
                   type="text"
                   name="_fechaMantenimiento"
@@ -408,6 +439,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_folioMantenimiento'), 'is_invalid': errors.first('_folioMantenimiento')}"
                   class="w-20"
                   type="text"
                   name="_folioMantenimiento"
@@ -418,6 +450,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_fechaReal'), 'is_invalid': errors.first('_fechaReal')}"
                   class="w-20"
                   type="text"
                   name="_fechaReal"
@@ -428,6 +461,7 @@
               <td class="border border-gray-800">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('_fechaFabricante'), 'is_invalid': errors.first('_fechaFabricante')}"
                   class="w-20"
                   type="text"
                   name="_fechaFabricante"
@@ -558,16 +592,20 @@
               <template v-if="!modalEdit">
                 <input
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('componente_'), 'is_invalid': errors.first('componente_')}"
                   v-model="objectMalo.componente"
                   class="w-full"
+                  name="componente_"
                   type="text"
                 />
               </template>
               <template v-else>
                 <input
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('componente_'), 'is_invalid': errors.first('componente_')}"
                   v-model="editComponent.componente"
                   class="w-full"
+                  name="componente_"
                   type="text"
                 />
               </template>
@@ -575,17 +613,12 @@
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Unidad:</p>
               <template v-if="!modalEdit">
-                <!-- <input
-                  v-validate="'required'"
-                  v-model="objectMalo.unidad"
-                  class="w-12"
-                  type="text"
-                /> -->
                  <select
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('unidad_'), 'is_invalid': errors.first('unidad_')}"
                     class="w-12"
                     v-model="objectMalo.unidad"
-                    name="unidad"
+                    name="unidad_"
                   >
                     <option value>Seleccion</option>
                     <option value="Pza">Pza</option>
@@ -593,17 +626,12 @@
                   </select>
               </template>
               <template v-else>
-                <!-- <input
-                  v-validate="'required'"
-                  v-model="editComponent.unidad"
-                  class="w-12"
-                  type="text"
-                /> -->
                  <select
                     v-validate="'required'"
+                    :class="{ 'is_valid': !errors.first('unidad_'), 'is_invalid': errors.first('unidad_')}"
                     v-model="editComponent.unidad"
                     class="w-12"
-                    name="unidad"
+                    name="unidad_"
                   >
                     <option value>Seleccion</option>
                     <option value="Pza">Pza</option>
@@ -616,15 +644,19 @@
               <template v-if="!modalEdit">
                 <input
                   v-validate="'required|numeric'"
+                  :class="{ 'is_valid': !errors.first('cantidad_'), 'is_invalid': errors.first('cantidad_')}"
                   v-model="objectMalo.cantidad"
                   class="w-12"
+                  name="cantidad_"
                   type="text"
                 />
               </template>
               <template v-else>
                 <input
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('cantidad_'), 'is_invalid': errors.first('cantidad_')}"
                   v-model="editComponent.cantidad"
+                  name="cantidad_"
                   class="w-12"
                   type="text"
                 />
@@ -637,16 +669,20 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('marca_'), 'is_invalid': errors.first('marca_')}"
                   v-model="objectMalo.marca"
                   class="w-full"
+                  name="marca_"
                   type="text"
                 ></textarea>
               </template>
               <template v-else>
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('marca_'), 'is_invalid': errors.first('marca_')}"
                   v-model="editComponent.marca"
                   class="w-full"
+                  name="marca_"
                   type="text"
                 ></textarea>
               </template>
@@ -656,17 +692,21 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('modelo_'), 'is_invalid': errors.first('modelo_')}"
                   v-model="objectMalo.modelo"
                   class="w-full"
                   type="text"
+                  name="modelo_"
                 ></textarea>
               </template>
               <template v-else>
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('modelo_'), 'is_invalid': errors.first('modelo_')}"
                   v-model="editComponent.modelo"
                   class="w-full"
                   type="text"
+                  name="modelo_"
                 ></textarea>
               </template>
             </div>
@@ -677,17 +717,21 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('numserie_'), 'is_invalid': errors.first('numserie_')}"
                   v-model="objectMalo.numserie"
                   class="w-full"
                   type="text"
+                  name="numserie_"
                 ></textarea>
               </template>
               <template v-else>
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('numserie_'), 'is_invalid': errors.first('numserie_')}"
                   v-model="editComponent.numserie"
                   class="w-full"
                   type="text"
+                  name="numserie_"
                 ></textarea>
               </template>
             </div>
@@ -698,16 +742,20 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('ubicacion_'), 'is_invalid': errors.first('ubicacion_')}"
                   v-model="objectMalo.ubicacion"
                   class="w-full"
+                  name="ubicacion_"
                   type="text"
                 ></textarea>
               </template>
               <template v-else>
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('ubicacion_'), 'is_invalid': errors.first('ubicacion_')}"
                   v-model="editComponent.ubicacion"
                   class="w-full"
+                  name="ubicacion_"
                   type="text"
                 ></textarea>
               </template>
@@ -719,16 +767,20 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required|FechaValidaList'"
+                  :class="{ 'is_valid': !errors.first('fechaInstalacion_'), 'is_invalid': errors.first('fechaInstalacion_')}"
                   v-model="objectMalo.fechaInstalacion"
                   class="w-full"
+                  name="fechaInstalacion_"
                   type="text"
                 ></textarea>
               </template>
               <template v-else>
                 <textarea
                   v-validate="'required|FechaValidaList'"
+                  :class="{ 'is_valid': !errors.first('fechaInstalacion_'), 'is_invalid': errors.first('fechaInstalacion_')}"
                   v-model="editComponent.fechaInstalacion"
                   class="w-full"
+                  name="fechaInstalacion_"
                   type="text"
                 ></textarea>
               </template>
@@ -740,16 +792,20 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required|FechaValidaList'"
+                  :class="{ 'is_valid': !errors.first('fechaMantenimiento_'), 'is_invalid': errors.first('fechaMantenimiento_')}"
                   v-model="objectMalo.fechaMantenimiento"
                   class="w-full"
+                  name="fechaMantenimiento_"
                   type="text"
                 ></textarea>
               </template>
               <template v-else>
                 <textarea
                   v-validate="'required|FechaValidaList'"
+                  :class="{ 'is_valid': !errors.first('fechaMantenimiento_'), 'is_invalid': errors.first('fechaMantenimiento_')}"
                   v-model="editComponent.fechaMantenimiento"
                   class="w-full"
+                  name="fechaMantenimiento_"
                   type="text"
                 ></textarea>
               </template>
@@ -763,7 +819,9 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('folioMantenimiento_'), 'is_invalid': errors.first('folioMantenimiento_')}"
                   v-model="objectMalo.folioMantenimiento"
+                  name="folioMantenimiento_"
                   class="w-full"
                   type="text"
                 ></textarea>
@@ -771,7 +829,9 @@
               <template v-else>
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('folioMantenimiento_'), 'is_invalid': errors.first('folioMantenimiento_')}"
                   v-model="editComponent.folioMantenimiento"
+                  name="folioMantenimiento_"
                   class="w-full"
                   type="text"
                 ></textarea>
@@ -784,7 +844,9 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('fechaReal_'), 'is_invalid': errors.first('fechaReal_')}"
                   v-model="objectMalo.fechaReal"
+                  name="fechaReal_"
                   class="w-full"
                   type="text"
                 ></textarea>
@@ -792,8 +854,10 @@
               <template v-else>
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('fechaReal_'), 'is_invalid': errors.first('fechaReal_')}"
                   v-model="editComponent.fechaReal"
                   class="w-full"
+                  name="fechaReal_"
                   type="text"
                 ></textarea>
               </template>
@@ -805,7 +869,9 @@
               <template v-if="!modalEdit">
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('fechaFabricante_'), 'is_invalid': errors.first('fechaFabricante_')}"
                   v-model="objectMalo.fechaFabricante"
+                  name="fechaFabricante_"
                   class="w-full"
                   type="text"
                 ></textarea>
@@ -813,7 +879,9 @@
               <template v-else>
                 <textarea
                   v-validate="'required'"
+                  :class="{ 'is_valid': !errors.first('fechaFabricante_'), 'is_invalid': errors.first('fechaFabricante_')}"
                   v-model="editComponent.fechaFabricante"
+                  name="fechaFabricante_"
                   class="w-full"
                   type="text"
                 ></textarea>

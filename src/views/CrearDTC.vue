@@ -42,7 +42,8 @@
           <textarea
             v-model="observaciones"
             v-validate="'max:120'"
-            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+            :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
             placeholder="jane@example.com"
             name="Observaciones"
           />

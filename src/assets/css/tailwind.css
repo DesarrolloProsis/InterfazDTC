@@ -6,15 +6,15 @@
     @apply border-green-500;
 }
 
-/* .is_invalid {
+.is_invalid {
 
     @apply border;
     @apply border-red-500;
-} */
-.is_invalid {
+}
+/* .is_invalid {
 
     background-color: coral;
-}
+} */
 
 input {
     @apply bg-gray-200;        

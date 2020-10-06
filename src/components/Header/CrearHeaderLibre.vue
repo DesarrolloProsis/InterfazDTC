@@ -54,6 +54,7 @@
         <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
         <input
           v-validate="'uniqueSinester'"
+          :class="{ 'is_valid': !errors.first('NoSiniestro'), 'is_invalid': errors.first('NoSiniestro')}"
           v-model="datosSinester.SinisterNumber"
           class="w-full"
           type="text"
@@ -64,6 +65,7 @@
         <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
         <input
           v-validate="'uniqueReport'"
+          :class="{ 'is_valid': !errors.first('NoReporte'), 'is_invalid': errors.first('NoReporte')}"
           v-model="datosSinester.ReportNumber"
           class="w-full"
           type="text"
@@ -77,6 +79,7 @@
         <select
           v-model="datosSinester.TypeDescriptionId"
           v-validate="'required'"
+          :class="{ 'is_valid': !errors.first('TipoDescripcion'), 'is_invalid': errors.first('TipoDescripcion')}"
           class="w-full"
           type="text"
           name="TipoDescripcion"
@@ -104,6 +107,7 @@
         <input
           @change="crearReferencia()"
           v-validate="'required'"
+          :class="{ 'is_valid': !errors.first('FechaSiniestro'), 'is_invalid': errors.first('FechaSiniestro')}"
           :disabled="fechaSiniestoEdit"
           v-model="datosSinester.SinisterDate"
           class="w-full"
@@ -117,6 +121,7 @@
         <input
           v-model="datosSinester.ShippingElaboracionDate"
           v-validate="'required'"
+          :class="{ 'is_valid': !errors.first('FechaEnvio'), 'is_invalid': errors.first('FechaEnvio')}"
           class="w-full"
           type="date"
           name="FechaEnvio"
