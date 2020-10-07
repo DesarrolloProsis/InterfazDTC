@@ -213,6 +213,7 @@ export default {
         : `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`;
 
       let namePdf = `ReportDTC-${this.refNum}.pdf`;
+      console.log(urlTopdf)
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);
       // Important to use the blob response type

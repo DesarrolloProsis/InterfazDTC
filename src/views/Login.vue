@@ -30,6 +30,7 @@
               @keyup.enter="ingresarLogin()"
               placeholder=" Contraseña"
               class="w-full h-8"
+              
               v-validate="'required'"
               :class="{ 'is_valid': !errors.first('Contraseña'), 'is_invalid': errors.first('Contraseña')}"
               type="password"
@@ -44,7 +45,7 @@
           <span>Generar Por Otra Persona</span>
         </div>
         <div class="container-login100-form-btn">
-          <button
+          <button            
             @click="ingresarLogin()"
             type="button"
             class="login100-form-btn text-blue-600 outline-none"

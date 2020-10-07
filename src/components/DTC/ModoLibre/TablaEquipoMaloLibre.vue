@@ -162,6 +162,7 @@
                     v-validate="'required'"
                     :class="{ 'is_valid': !errors.first('ubicaciones'), 'is_invalid': errors.first('ubicaciones')}"
                     class="w-20"
+                    placeholder="A01"
                     type="text"
                     name="ubicaciones"
                     v-model="editComponent.ubicacion"
@@ -184,6 +185,7 @@
                     class="w-24 text-md"
                     type="text"
                     name="fechaInstalaciones"
+                    placeholder="dd/mm/yyyy"
                     v-model="editComponent.fechaInstalacion"
                   ></textarea>
                 </template>
@@ -203,6 +205,7 @@
                     :class="{ 'is_valid': !errors.first('fechaMantenimientos'), 'is_invalid': errors.first('fechaMantenimientos')}"
                     class="w-24 text-md"
                     type="text"
+                    placeholder="dd/mm/yyyy"
                     name="fechaMantenimientos"
                     v-model="editComponent.fechaMantenimiento"
                   ></textarea>
@@ -353,6 +356,7 @@
                   v-validate="'required'"
                   class="w-32"
                   type="text"
+                  
                   :class="{ 'is_valid': !errors.first('_componente'), 'is_invalid': errors.first('_componente')}"
                   name="_componente"
                   v-model="objectMalo.componente"
@@ -409,18 +413,27 @@
                   :class="{ 'is_valid': !errors.first('_ubicacion'), 'is_invalid': errors.first('_ubicacion')}"
                   class="w-20"
                   type="text"
+                  placeholder="A01"
                   name="_ubicacion"
                   v-model="objectMalo.ubicacion"
                   :disabled="disable_agregar"
                 ></textarea>
               </td>
-              <td class="border border-gray-800">
+              <td class="border border-gray-800 ">
                 <textarea
                   v-validate="'required|FechaValidaList'"
                   :class="{ 'is_valid': !errors.first('_fechaInstalacion'), 'is_invalid': errors.first('_fechaInstalacion')}"
                   class="w-24 text-md"
+                  v-tooltip="{ content: `La fecha debe tener este formato DD/MM/YYYY.`,                        
+                        classes: ['text-xs', 'border-yellow-600', 'border','rounded-full', 'text-gray-900' ],
+                        delay: {
+                          show: 100,
+                          hide: 300,
+                        },
+                  }"
                   type="text"
                   name="_fechaInstalacion"
+                  placeholder="dd/mm/yyyy"
                   v-model="objectMalo.fechaInstalacion"
                   :disabled="disable_agregar"
                 ></textarea>
@@ -431,6 +444,14 @@
                   :class="{ 'is_valid': !errors.first('_fechaMantenimiento'), 'is_invalid': errors.first('_fechaMantenimiento')}"
                   class="w-24 text-md"
                   type="text"
+                    v-tooltip="{ content: `La fecha debe tener este formato DD/MM/YYYY.`,                        
+                        classes: ['text-xs', 'border-yellow-600', 'border','rounded-full', 'text-gray-900' ],
+                        delay: {
+                          show: 100,
+                          hide: 300,
+                        },
+                  }"
+                  placeholder="dd/mm/yyyy"
                   name="_fechaMantenimiento"
                   v-model="objectMalo.fechaMantenimiento"
                   :disabled="disable_agregar"
@@ -471,6 +492,7 @@
               </td>
               <td class="border border-gray-800 p-2">
                 <button
+                
                   v-on:click.stop.prevent="agregar_componente()"
                   :disabled="disable_agregar"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700"
@@ -745,6 +767,7 @@
                   :class="{ 'is_valid': !errors.first('ubicacion_'), 'is_invalid': errors.first('ubicacion_')}"
                   v-model="objectMalo.ubicacion"
                   class="w-full"
+                  placeholder="A01"
                   name="ubicacion_"
                   type="text"
                 ></textarea>
@@ -756,6 +779,7 @@
                   v-model="editComponent.ubicacion"
                   class="w-full"
                   name="ubicacion_"
+                  placeholder="A01"
                   type="text"
                 ></textarea>
               </template>
@@ -770,6 +794,7 @@
                   :class="{ 'is_valid': !errors.first('fechaInstalacion_'), 'is_invalid': errors.first('fechaInstalacion_')}"
                   v-model="objectMalo.fechaInstalacion"
                   class="w-full"
+                  placeholder="dd/mm/yyyy"
                   name="fechaInstalacion_"
                   type="text"
                 ></textarea>
@@ -780,6 +805,7 @@
                   :class="{ 'is_valid': !errors.first('fechaInstalacion_'), 'is_invalid': errors.first('fechaInstalacion_')}"
                   v-model="editComponent.fechaInstalacion"
                   class="w-full"
+                  placeholder="dd/mm/yyyy"
                   name="fechaInstalacion_"
                   type="text"
                 ></textarea>
@@ -795,6 +821,7 @@
                   :class="{ 'is_valid': !errors.first('fechaMantenimiento_'), 'is_invalid': errors.first('fechaMantenimiento_')}"
                   v-model="objectMalo.fechaMantenimiento"
                   class="w-full"
+                  placeholder="dd/mm/yyyy"
                   name="fechaMantenimiento_"
                   type="text"
                 ></textarea>
@@ -805,6 +832,7 @@
                   :class="{ 'is_valid': !errors.first('fechaMantenimiento_'), 'is_invalid': errors.first('fechaMantenimiento_')}"
                   v-model="editComponent.fechaMantenimiento"
                   class="w-full"
+                  placeholder="dd/mm/yyyy"
                   name="fechaMantenimiento_"
                   type="text"
                 ></textarea>
@@ -1250,3 +1278,103 @@ export default {
 };
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+
+
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+
+}
+
+.tooltip .tooltip-inner {
+  background: #2d3748;
+  opacity: .80;
+  color: white;
+  border-radius: 56px;
+
+  padding: 5px 10px 4px;
+}
+
+.tooltip .tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+  border-color: #2d3748;
+}
+
+.tooltip[x-placement^="top"] {
+  margin-bottom: 5px;
+}
+
+.tooltip[x-placement^="top"] .tooltip-arrow {
+  border-width: 5px 5px 0 5px;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip[x-placement^="bottom"] {
+  margin-top: 5px;
+}
+
+.tooltip[x-placement^="bottom"] .tooltip-arrow {
+  border-width: 0 5px 5px 5px;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-top-color: transparent !important;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip[x-placement^="right"] {
+  margin-left: 5px;
+}
+
+.tooltip[x-placement^="right"] .tooltip-arrow {
+  border-width: 5px 5px 5px 0;
+  border-left-color: transparent !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  left: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.tooltip[x-placement^="left"] {
+  margin-right: 5px;
+}
+
+.tooltip[x-placement^="left"] .tooltip-arrow {
+  border-width: 5px 0 5px 5px;
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  right: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.tooltip[aria-hidden='true'] {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .15s, visibility .15s;
+}
+
+.tooltip[aria-hidden='false'] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .15s;
+}
+
+</style>

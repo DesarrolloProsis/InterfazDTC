@@ -3,22 +3,23 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import "./assets/css/tailwind.css"
-
 import Multiselect from 'vue-multiselect'
-
 import VeeValidate from 'vee-validate';
 import { Validator } from 'vee-validate';
 import es from "vee-validate/dist/locale/es";
-
 import './registerServiceWorker'
-
 import moment from "moment";
+//ToolTip
+import VTooltip from 'v-tooltip'
+Vue.use(VTooltip)
+
 
 //Validaciones en formularios
 Vue.use(VeeValidate, { 
     classes: false,
 
-  });  
+  }); 
+  
 const NoSiniestro = {
   validate(value){
       return store.getters['Header/getUniqueNoSinester'](value)
