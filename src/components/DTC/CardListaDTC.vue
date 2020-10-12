@@ -24,8 +24,33 @@
             {{ infoCard.observation }}
           </div>
         </div>
-        <div class="m-10" v-if="!showmenosMas">
-          <img src="../../assets/img/Dtc.png" class="w-64" alt />
+        <div
+          class="m-10 flex text-center cursor-pointer border-gray-800 w-64 flex-col"
+          v-if="!showmenosMas"
+        >
+          <!-- <img src="../../assets/img/png-1.png" class="opacity-50 w-56" alt /> -->
+          
+          <VueFileAgent
+          
+            v-model="fileRecords"
+            :helpText="'Eliga la imagenes.'"
+            class=" w-auto sm:mr-6"
+            :theme="'list'"
+            :deletable="true"
+            ref="vueFileAgent"
+            :multiple="true"
+            @delete="fileDeleted($event)"
+            @select="filesSelected($event)"
+            @beforedelete="onBeforeDelete($event)"
+          ></VueFileAgent>
+          <button
+            class=" border-green-800 border-2 rounded-lg bg-green-400 opacity-75 mt-1"
+            v-show="fileRecordsForUpload.length != 0"
+            @click="uploadFiles()"
+          >
+            Subir {{ fileRecordsForUpload.length }} imagenes
+          </button>
+          
         </div>
       </div>
       <div class="flex justify-between static bg-bottom">
@@ -114,6 +139,10 @@
         </div>
       </div>
     </div>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/vue-file-agent@latest/dist/vue-file-agent.css"
+    />
   </div>
 </template>
 
@@ -128,12 +157,17 @@ export default {
       default: () => {},
     },
   },
+
   data: function () {
     return {
       menosMas: true,
       showmenosMas: false,
       tableFormat: [],
       showBotonPDF: true,
+      //Imagen
+      fileRecords: [],
+      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
+      fileRecordsForUpload: [],
     };
   },
   filters: {
@@ -142,6 +176,9 @@ export default {
     },
   },
   methods: {
+    onChange() {
+      console.log("Picture changed!");
+    },
     mas: async function () {
       this.menosMas = false;
       await this.$store.dispatch(
@@ -213,7 +250,7 @@ export default {
         : `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`;
 
       let namePdf = `ReportDTC-${this.refNum}.pdf`;
-      console.log(urlTopdf)
+      console.log(urlTopdf);
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);
       // Important to use the blob response type
@@ -237,9 +274,59 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
+    fileDeleted: function (fileRecord) {
+      console.log("SE ELIMINO");
+      var i = this.fileRecordsForUpload.indexOf(fileRecord);
+      if (i !== -1) {
+        this.fileRecordsForUpload.splice(i, 1);
+      } else {
+        this.deleteUploadedFile(fileRecord);
+      }
+    },
+    filesSelected: function (fileRecordsNewlySelected) {
+      var validFileRecords = fileRecordsNewlySelected.filter(
+        (fileRecord) => !fileRecord.error
+      );
+      this.fileRecordsForUpload = this.fileRecordsForUpload.concat(
+        validFileRecords
+      );
+    },
+    onBeforeDelete: function (fileRecord) {
+      var i = this.fileRecordsForUpload.indexOf(fileRecord);
+      if (i !== -1) {
+        this.fileRecordsForUpload.splice(i, 1);
+      } else {
+        if (confirm("Seguro que quieres eliminar?")) {
+          this.$refs.vueFileAgent.deleteFileRecord(fileRecord); // will trigger 'delete' event
+        }
+      }
+    },
+    uploadFiles: function () {
+      // Using the default uploader. You may use another uploader instead.
+            alert('adios')
+
+            console.log(this.fileRecordsForUpload)
+      
+      // this.$refs.vueFileAgent.upload(
+      //   this.uploadUrl,
+      //   this.uploadHeaders,
+      //   this.fileRecordsForUpload
+      // );
+      this.fileRecordsForUpload = [];
+    },
+    deleteUploadedFile: function (fileRecord) {
+      // Using the default uploader. You may use another uploader instead.
+
+      this.$refs.vueFileAgent.deleteUpload(
+        this.uploadUrl,
+        this.uploadHeaders,
+        fileRecord
+      );
+    },
   },
   beforeMount() {
     this.showBotonPDF = this.infoCard.statusId == 2 ? true : false;
   },
 };
 </script>
+

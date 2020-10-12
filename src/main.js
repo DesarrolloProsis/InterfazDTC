@@ -12,6 +12,9 @@ import moment from "moment";
 //ToolTip
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
+//Img
+import VueFileAgent from 'vue-file-agent';
+Vue.use(VueFileAgent);
 
 
 //Validaciones en formularios
