@@ -160,8 +160,9 @@ export default {
         datosUser: this.datosUser,
         status: status,
         flag: this.flagCreate,
-        openFlag: true
+        openFlag: 0
       });
+
       let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
       if (insertHeader) {
         this.$notify.success({

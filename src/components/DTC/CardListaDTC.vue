@@ -148,6 +148,7 @@
 
 <script>
 import moment from "moment";
+import Axios from "axios"
 import saveAs from "file-saver";
 
 export default {
@@ -246,8 +247,8 @@ export default {
       var oReq = new XMLHttpRequest();
       // The Endpoint of your server
       let urlTopdf = this.infoCard.openMode
-        ? `http://prosisdev.sytes.net:88/api/pdf/open/${this.infoCard.referenceNumber}`
-        : `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`;
+        ? `https://localhost:44358/api/pdf/open/${this.infoCard.referenceNumber}`
+        : `https://localhost:44358/api/pdf/${this.infoCard.referenceNumber}`;
 
       let namePdf = `ReportDTC-${this.refNum}.pdf`;
       console.log(urlTopdf);
@@ -301,18 +302,23 @@ export default {
         }
       }
     },
-    uploadFiles: function () {
+    uploadFiles: async function () {
       // Using the default uploader. You may use another uploader instead.
-            alert('adios')
+        const formData = new FormData();                
+        
+        for(const item of this.fileRecordsForUpload){
+          formData.append('file', item.file) 
+          await Axios.post(
+              `https://localhost:44358/api/Image/Prueba`, formData)      
+              .then(response => {
 
-            console.log(this.fileRecordsForUpload)
-      
-      // this.$refs.vueFileAgent.upload(
-      //   this.uploadUrl,
-      //   this.uploadHeaders,
-      //   this.fileRecordsForUpload
-      // );
-      this.fileRecordsForUpload = [];
+                console.log(response.data)
+              })
+              .catch(Ex => {
+                console.log(Ex);
+              });      
+        }                                         
+        this.fileRecordsForUpload = [];
     },
     deleteUploadedFile: function (fileRecord) {
       // Using the default uploader. You may use another uploader instead.

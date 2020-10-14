@@ -148,7 +148,7 @@ const actions = {
       AgremmentInfoId: value.datosUser.agremmentInfoId,
       flag: value.flag,      
       DTCStatus: value.status,
-      OpenFlag : value.flag
+      OpenFlag : value.openFlag
   
     }
       console.log(newObject)
