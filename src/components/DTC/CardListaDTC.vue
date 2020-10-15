@@ -298,31 +298,35 @@ export default {
         this.fileRecordsForUpload.splice(i, 1);
       } else {
         if (confirm("Seguro que quieres eliminar?")) {
-          this.$refs.vueFileAgent.deleteFileRecord(fileRecord); // will trigger 'delete' event
+          this.$refs.vueFileAgent.deleteFileRecord(fileRecord);
         }
       }
     },
-    uploadFiles: async function () {
-      // Using the default uploader. You may use another uploader instead.
-        const formData = new FormData();                
+    uploadFiles: async function () {      
+        const formData = new FormData();   
         
+        let array_img = []
+        formData.append('id',this.infoCard.referenceNumber) 
+
         for(const item of this.fileRecordsForUpload){
-          formData.append('file', item.file) 
-          await Axios.post(
-              `https://localhost:44358/api/Image/Prueba`, formData)      
-              .then(response => {
-
-                console.log(response.data)
-              })
-              .catch(Ex => {
-                console.log(Ex);
-              });      
-        }                                         
+          
+          array_img.push(item.file)
+        
+        }         
+        formData.append('file', array_img) 
+        await Axios.post(
+            `https://localhost:44358/api/Image/Prueba`, formData)
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(Ex => {
+              console.log(Ex);
+            });      
+            
         this.fileRecordsForUpload = [];
+        this.fileRecords = []
     },
-    deleteUploadedFile: function (fileRecord) {
-      // Using the default uploader. You may use another uploader instead.
-
+    deleteUploadedFile: function (fileRecord) {      
       this.$refs.vueFileAgent.deleteUpload(
         this.uploadUrl,
         this.uploadHeaders,
