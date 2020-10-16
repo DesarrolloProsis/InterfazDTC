@@ -35,6 +35,10 @@ const getters = {
   },
   getListaTec: function(){
     return state.listaTec
+  },
+  getPlaza: function(){
+
+    return state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[0].squareCatalogId)
   }
 };
 const mutations = {
