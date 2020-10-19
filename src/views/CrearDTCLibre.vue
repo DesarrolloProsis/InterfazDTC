@@ -177,8 +177,13 @@ export default {
         datosUser: this.datosUser,
         status: status,
         flag: this.flagCreate,
+<<<<<<< HEAD
         openFlag: true,
+=======
+        openFlag: 1,
+>>>>>>> e5406791b884d1b1d6eb50d81ab279390df4d535
       });
+
       let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
 
       if (insertHeader) {
