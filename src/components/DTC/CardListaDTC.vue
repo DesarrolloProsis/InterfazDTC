@@ -306,12 +306,7 @@ export default {
             alert('adios')
 
             console.log(this.fileRecordsForUpload)
-      
-      // this.$refs.vueFileAgent.upload(
-      //   this.uploadUrl,
-      //   this.uploadHeaders,
-      //   this.fileRecordsForUpload
-      // );
+  
       this.fileRecordsForUpload = [];
     },
     deleteUploadedFile: function (fileRecord) {
