@@ -333,6 +333,8 @@ export default {
       }
     },
     filesSelected: function (fileRecordsNewlySelected) {
+
+      
       console.log(fileRecordsNewlySelected  )
       var validFileRecords = fileRecordsNewlySelected.filter(
         (fileRecord) => !fileRecord.error
