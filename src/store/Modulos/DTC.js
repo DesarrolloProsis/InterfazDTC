@@ -140,7 +140,7 @@ const actions = {
   },
   async tableFormComponent({ commit }, value) {
 
-    await Axios.get(`https://localhost:44358/api/dtcData/TableForm/${value}`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/TableForm/${value}`)
       .then(response => {
 
         if (response.data.result != null)

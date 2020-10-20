@@ -28,75 +28,7 @@
           class="m-10 flex text-center cursor-pointer border-gray-800 w-64 flex-col"
           v-if="!showmenosMas"
         >
-          <template v-if="cargarImagen">
-            <VueFileAgent
-              v-model="fileRecords"
-              :helpText="'Eliga la imagenes.'"
-              class="w-auto sm:mr-6"
-              :theme="'list'"
-              :deletable="true"
-              :ref="vueFileAgent"
-              :multiple="true"
-              @delete="fileDeleted($event)"
-              @select="filesSelected($event)"
-              @beforedelete="onBeforeDelete($event)"
-            ></VueFileAgent>
-            <button
-              class="border-green-800 border-2 rounded-lg bg-green-400 opacity-75 mt-1"
-              v-show="fileRecordsForUpload.length != 0"
-              @click="guardar_imagenes()"
-            >
-              Subir {{ fileRecordsForUpload.length }} imagenes
-            </button>
-          </template>
-          <template v-else>
-            <div class="flex justify-between">
-              <div class="justify-start">
-                <button
-                  @click="uploadFiles"
-                  class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700"
-                >
-                  Agregar
-                  <img
-                    src="../../assets/img/image-mini.png"
-                    class="w-6 border opacity-75"
-                    alt
-                  />
-                </button>
-              </div>
-              <div class="justify-end">
-                <button
-                  @click="cambiar_imagen('anterior')"
-                  class="m-1 border hover:border-blue-500 rounded-md"
-                >
-                  <img
-                    src="../../assets/img/flecha-izquierda.png"
-                    class="w-6 border opacity-75"
-                    alt
-                  />
-                </button>
-                <button
-                  @click="cambiar_imagen('siguiente')"
-                  class="m-1 border hover:border-blue-500 rounded-md"
-                >
-                  <img
-                    src="../../assets/img/flecha-derecha.png"
-                    class="w-6 border opacity-75"
-                    alt
-                  />
-                </button>
-              </div>
-            </div>
-            <div class="p-1">
-              <img
-                :src="`data:image/jpeg;base64,${
-                  imgbase64[this.index_imagen_actual]
-                }`"
-                style="width: 500px !important; height: 200px !important"
-                alt
-              />
-            </div>
-          </template>
+          <ImagenesCard :referenceNumber="this.infoCard.referenceNumber"></ImagenesCard>
         </div>
       </div>
       <div class="flex justify-between static bg-bottom">
@@ -196,6 +128,7 @@
 import moment from "moment";
 import Axios from "axios";
 import saveAs from "file-saver";
+import ImagenesCard from "../DTC/ImagenesCard.vue"
 
 export default {
   props: {
@@ -204,20 +137,15 @@ export default {
       default: () => {},
     },
   },
-
+  components: {
+    ImagenesCard
+  },
   data: function () {
     return {
       menosMas: true,
       showmenosMas: false,
       tableFormat: [],
       showBotonPDF: true,
-      //Imagen
-      fileRecords: [],
-      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
-      fileRecordsForUpload: [],
-      cargarImagen: true,
-      imgbase64: [],
-      index_imagen_actual: 0,
     };
   },
   filters: {
@@ -226,9 +154,7 @@ export default {
     },
   },
   methods: {
-    onChange() {
-      console.log("Picture changed!");
-    },
+  
     mas: async function () {
       this.menosMas = false;
       await this.$store.dispatch(
@@ -296,8 +222,8 @@ export default {
       var oReq = new XMLHttpRequest();
       // The Endpoint of your server
       let urlTopdf = this.infoCard.openMode
-        ? `https://localhost:44358/api/pdf/${this.infoCard.referenceNumber}`
-        : `https://localhost:44358/api/pdf/open/${this.infoCard.referenceNumber}`;
+        ? `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`
+        : `http://prosisdev.sytes.net:88/api/pdf/open/${this.infoCard.referenceNumber}`;
 
       let namePdf = `ReportDTC-${this.refNum}.pdf`;
       console.log(urlTopdf);
@@ -323,147 +249,7 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
-    fileDeleted: function (fileRecord) {
-      console.log("SE ELIMINO");
-      var i = this.fileRecordsForUpload.indexOf(fileRecord);
-      if (i !== -1) {
-        this.fileRecordsForUpload.splice(i, 1);
-      } else {
-        this.deleteUploadedFile(fileRecord);
-      }
-    },
-    filesSelected: function (fileRecordsNewlySelected) {
-
-      
-      console.log(fileRecordsNewlySelected  )
-      var validFileRecords = fileRecordsNewlySelected.filter(
-        (fileRecord) => !fileRecord.error
-      );
-      this.fileRecordsForUpload = this.fileRecordsForUpload.concat(
-        validFileRecords
-      );
-    },
-    onBeforeDelete: function (fileRecord) {
-      var i = this.fileRecordsForUpload.indexOf(fileRecord);
-      if (i !== -1) {
-        this.fileRecordsForUpload.splice(i, 1);
-      } else {
-        if (confirm("Seguro que quieres eliminar?")) {
-          this.$refs.vueFileAgent.deleteFileRecord(fileRecord);
-        }
-      }
-    },
-    guardar_imagenes: async function () {
-      let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
-
-      var i = 1;
-      for (const item of this.fileRecordsForUpload) {
-        let formData = new FormData();
-        formData.append("id", this.infoCard.referenceNumber);
-        formData.append("plaza", nombre_plaza);
-        formData.append("name", "img" + i + "." + item.ext);
-        formData.append("file", item.file);
-        console.log("img" + i + "." + item.ext);
-        i++;
-
-        await Axios.post(`https://localhost:44358/api/Image/Prueba`, formData)
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((ex) => {
-            console.log(ex);
-            this.$notify.error({
-              title: "ups!",
-              msg: ex,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            });
-          });
-      }
-
-      this.$notify.success({
-        title: "Ok!",
-        msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
-        position: "bottom right",
-        styles: {
-          height: 100,
-          width: 500,
-        },
-      });
-
-  
-  
-      this.fileRecordsForUpload = [];
-      this.fileRecords = [];
-      this.cargarImagen = false;
-    },
-    deleteUploadedFile: function (fileRecord) {
-      this.$refs.vueFileAgent.deleteUpload(
-        this.uploadUrl,
-        this.uploadHeaders,
-        fileRecord
-      );
-    },
-    //Metodos Imagen EMI
-    cambiar_imagen: function (value) {
-      if (value == "anterior") {
-        if (this.index_imagen_actual == 0)
-          this.index_imagen_actual = this.imgbase64.length - 1;
-        else this.index_imagen_actual = this.index_imagen_actual - 1;
-      }
-      if (value == "siguiente") {
-        if (this.index_imagen_actual == this.imgbase64.length - 1)
-          this.index_imagen_actual = 0;
-        else this.index_imagen_actual = this.index_imagen_actual + 1;
-      }
-    },
-    uploadFiles: function () {
-      let dataurl = "data:image/jpeg;base64," + this.imgbase64[0];
-      var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-
-      let nuevo_file = new File([u8arr], "img1.jpg", { type: mime });
-      var reader = new FileReader();
-
-      reader.readAsText(nuevo_file);
-
-      console.log(reader)
-
-      console.log(nuevo_file);
-      this.fileRecords.push({
-        "lastModified": nuevo_file.lastModified,
-        "name": nuevo_file.name,
-        "size": nuevo_file.size,
-        "type": nuevo_file.type,
-        "webkitRelativePath": nuevo_file.webkitRelativePath
-      })
-      //   // "name": "Golf.mp4",
-      //   // "lastModified": 1576563996233,
-      //   // "sizeText": "549 KB",
-      //   // "size": 561813,
-      //   // "type": "video/mp4",
-      //   // "ext": "mp4",
-      //   // "dimensions": {
-      //   //   "width": 640,
-      //   //   "height": 360
-      //   // },
-      //   // "url": "https://safrazik.com/vue-file-agent/website/assets/files/Golf.mp4",
-      //   // "videoThumbnail": "https://safrazik.com/vue-file-agent/website/assets/files/Golf-thumb.jpg",
-      //   // "imageColor": [66, 62, 45]
-      // });
-
-      this.cargarImagen = true;
-    },
+   
   },
   beforeMount() {
     this.showBotonPDF = this.infoCard.statusId == 2 ? true : false;
@@ -471,7 +257,7 @@ export default {
     let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
 
     Axios.get(
-      `https://localhost:44358/api/Image/Download/${nombre_plaza}/${this.infoCard.referenceNumber}`
+      `http://prosisdev.sytes.net:88/api/Image/Download/${nombre_plaza}/${this.infoCard.referenceNumber}`
     )
       .then((response) => {
         this.imgbase64 = response.data;
