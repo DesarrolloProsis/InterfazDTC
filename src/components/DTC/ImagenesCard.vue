@@ -42,6 +42,20 @@
               </button>
             </div>
           </div>
+          <div class="inline-flex justify-center" v-show="imgbase64.length > 0">
+            <input
+              type="file"
+              class="opacity-0 w-64 h-12 absolute"
+              multiple
+              @change="recibirImagenes"
+            />
+            <img
+              src="../../assets/img/image-mini.png"
+              class="w-6 mr-3 mt-3 border opacity-75"
+              alt
+            />
+            <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
+          </div>
           <div>
             <button @click="uploadFiles" class="w-64 h-8 text-green-700">
               Agregar
@@ -109,7 +123,7 @@ export default {
   props: {
     referenceNumber: {
       type: String,
-      default: () => ""
+      default: () => "",
     },
   },
   data: function () {
@@ -119,6 +133,29 @@ export default {
       imgbase64: [],
       index_imagen_actual: 0,
     };
+  },
+  beforeMount: function () {
+    let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
+
+    Axios.get(
+      `https://localhost:44358/api/Image/Download/${nombre_plaza}/${this.referenceNumber}`
+    )
+      .then((response) => {
+        this.imgbase64 = response.data;
+        this.cargarImagen = false;
+      })
+      .catch((ex) => {
+        console.log(ex);
+        this.$notify.error({
+          title: "ups!",
+          msg: ex,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      });
   },
   methods: {
     recibirImagenes: function (e) {
@@ -134,7 +171,6 @@ export default {
     },
     crearImage(file) {
       var reader = new FileReader();
-
       reader.onload = (e) => {
         let obj = {
           imgbase: e.target.result,
@@ -148,65 +184,59 @@ export default {
       if (confirm("¿Seguro que quiere eliminar esta imagen?"))
         this.fileUpload.splice(item, 1);
     },
-    // cambiar_imagen: function (value) {
-    //   if (value == "anterior") {
-    //     if (this.index_imagen_actual == 0)
-    //       this.index_imagen_actual = this.imgbase64.length - 1;
-    //     else this.index_imagen_actual = this.index_imagen_actual - 1;
-    //   }
-    //   if (value == "siguiente") {
-    //     if (this.index_imagen_actual == this.imgbase64.length - 1)
-    //       this.index_imagen_actual = 0;
-    //     else this.index_imagen_actual = this.index_imagen_actual + 1;
-    //   }
-    // },
+    cambiar_imagen: function (value) {
+      console.log(value);
+      if (value == "anterior") {
+        if (this.index_imagen_actual == 0)
+          this.index_imagen_actual = this.imgbase64.length - 1;
+        else this.index_imagen_actual = this.index_imagen_actual - 1;
+      }
+      if (value == "siguiente") {
+        if (this.index_imagen_actual == this.imgbase64.length - 1)
+          this.index_imagen_actual = 0;
+        else this.index_imagen_actual = this.index_imagen_actual + 1;
+      }
+    },
     // //Metodos Imagen EMI
-    // editar_img: function () {
-    //   let dataurl = "data:image/jpeg;base64," + this.imgbase64[0];
-    //   var arr = dataurl.split(","),
-    //     mime = arr[0].match(/:(.*?);/)[1],
-    //     bstr = atob(arr[1]),
-    //     n = bstr.length,
-    //     u8arr = new Uint8Array(n);
+    editar_img: function () {
+      for (let imgbase64 of this.imgbase64) {
+        let dataurl = "data:image/jpeg;base64," + imgbase64;
+        var arr = dataurl.split(","),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]),
+          n = bstr.length,
+          u8arr = new Uint8Array(n);
 
-    //   while (n--) {
-    //     u8arr[n] = bstr.charCodeAt(n);
-    //   }
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
 
-    //   let nuevo_file = new File([u8arr], "img1.jpg", { type: mime });
-    //   var reader = new FileReader();
+        let nuevo_file = new File([u8arr], "img1.jpg", { type: mime });
 
-    //   reader.readAsText(nuevo_file);
+        let obj = {
+          imgbase: dataurl,
+          file: nuevo_file,
+        };
 
-    //   console.log(reader);
+        this.fileUpload.push(obj);
+      }
 
-    //   console.log(nuevo_file);
-    //   this.fileRecordsForUpload.push({
-    //     lastModified: nuevo_file.lastModified,
-    //     name: nuevo_file.name,
-    //     size: nuevo_file.size,
-    //     type: nuevo_file.type,
-    //     webkitRelativePath: nuevo_file.webkitRelativePath,
-    //   });
-    //   this.cargarImagen = true;
-    // },
+      this.cargarImagen = true;
+    },
     uploadFiles: async function () {
-        alert()
+      alert();
       let nombre_plaza = await this.$store.getters["Login/getPlaza"].squareName;
       var i = 1;
       for (const item of this.fileUpload) {
-          console.log(item)
+        console.log(item.file);
         let formData = new FormData();
         formData.append("id", this.referenceNumber);
         formData.append("plaza", nombre_plaza);
         formData.append("name", "img" + i + "." + "jpg");
-        formData.append("file", item.file);        
+        formData.append("image", item.file);
         i++;
 
-        await Axios.post(
-          `http://prosisdev.sytes.net:88/api/Image/Prueba`,
-          formData
-        )
+        await Axios.post(`https://localhost:44358/api/Image/Prueba`, formData)
           .then((response) => {
             console.log(response.data);
           })
@@ -232,7 +262,7 @@ export default {
           width: 500,
         },
       });
-      
+
       this.fileUpload = [];
       this.cargarImagen = false;
     },

@@ -126,7 +126,7 @@
 
 <script>
 import moment from "moment";
-import Axios from "axios";
+//import Axios from "axios";
 import saveAs from "file-saver";
 import ImagenesCard from "../DTC/ImagenesCard.vue"
 
@@ -254,27 +254,7 @@ export default {
   beforeMount() {
     this.showBotonPDF = this.infoCard.statusId == 2 ? true : false;
 
-    let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
-
-    Axios.get(
-      `http://prosisdev.sytes.net:88/api/Image/Download/${nombre_plaza}/${this.infoCard.referenceNumber}`
-    )
-      .then((response) => {
-        this.imgbase64 = response.data;
-        this.cargarImagen = false;
-      })
-      .catch((ex) => {
-        console.log(ex);
-        this.$notify.error({
-          title: "ups!",
-          msg: ex,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      });
+  
   },
 };
 </script>
