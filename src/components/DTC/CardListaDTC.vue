@@ -117,10 +117,6 @@
         </div>
       </div>
     </div>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/vue-file-agent@latest/dist/vue-file-agent.css"
-    />
   </div>
 </template>
 

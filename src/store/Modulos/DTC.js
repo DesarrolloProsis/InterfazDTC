@@ -11,7 +11,8 @@ const state = {
   insertDmgComplete: false,
   listaInfoDTC: [],
   tableFormComponent: [],
-  componetesEdit: {}
+  componetesEdit: {},
+  listaImagenesDTC: []
 };
 
 const getters = {
@@ -22,7 +23,11 @@ const getters = {
   gettableFormComp: () => state.tableFormComponent,
   getcomponentesEdit: () => state.componetesEdit,
   getDmgLibre: () => state.listaDmgLibre,
-  getPropuestoLibre: () => state.listaPropuestoLibre
+  getPropuestoLibre: () => state.listaPropuestoLibre,
+  getImagenesDTC: (state) => (reference) => {
+
+    return state.listaImagenesDTC.find(item => item.referenceNumber == reference)
+  }
 
 };
 const mutations = {
@@ -80,6 +85,10 @@ const mutations = {
   LISTA_PROPUESTO_LIBRE_EDIT_MUTATION: (state, value) => {
 
     state.listaPropuestoLibre = value
+  },
+  LISTA_IMAGENES_DTC_MUTATION: (state, value) => {
+  
+    state.listaImagenesDTC.push(value)
   }
 };
 
