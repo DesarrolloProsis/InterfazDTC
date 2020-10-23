@@ -130,9 +130,7 @@
         </div>
         <div class="p-1">
           <img
-            :src="`data:image/jpeg;base64,${
-              imgbase64.array_img[this.index_imagen_actual].image
-            }`"
+            :src="`${imgbase64.array_img[this.index_imagen_actual].image}`"
             style="width: 500px !important; height: 200px !important"
             alt
           />

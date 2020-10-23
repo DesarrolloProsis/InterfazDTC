@@ -96,24 +96,17 @@ const routes = [
           //`http://prosisdev.sytes.net:88/api/Image/Download/${nombre_plaza}/${this.referenceNumber}`
         )
           .then((response) => {  
-                        
-            console.log(response.InventarioDetalle)
+                                    
               for(let item2 of response.data){
-
-             Axios.get(
-                  `https://localhost:44358/api/Image/Download/${nombre_plaza}/${item.referenceNumber}/${item2}`          
-                )
-                .then((response) => {
-
-                    arrayimg.push(response.data)
-                })
+                                  
+                arrayimg.push({"image": `https://localhost:44358/api/Image/Download/${nombre_plaza}/${item.referenceNumber}/${item2}`})
+                
               }
               let obj = {
                 "referenceNumber": item.referenceNumber,
                 "array_img": arrayimg
-              }
-              //ARRAY_TOTAL.push(obj) 
-               store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj)               
+              }            
+              store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj)               
           })
           .catch((ex) => {
             console.log(ex);           
