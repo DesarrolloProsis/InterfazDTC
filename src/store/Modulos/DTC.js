@@ -89,6 +89,16 @@ const mutations = {
   LISTA_IMAGENES_DTC_MUTATION: (state, value) => {
   
     state.listaImagenesDTC.push(value)
+  },
+  LIMPIAR_IMAGENES_REF: (state, value) => {
+
+     let index = state.listaImagenesDTC
+            .map(function (e) {
+              return e.referenceNumber;
+            })
+            .indexOf(value);
+      if(index > -1)
+            state.listaImagenesDTC.splice(index, 1)
   }
 };
 
