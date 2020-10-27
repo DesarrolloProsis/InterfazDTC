@@ -84,35 +84,40 @@ const routes = [
       let info = store.getters['Login/getUserForDTC']
       await store.dispatch('DTC/buscarListaDTC', info)
       let nombre_plaza = await store.getters["Login/getPlaza"].squareName;
-      let dtc = await store.getters["DTC/getlistaInfoDTC"];      
-      //var ARRAY_TOTAL = []
-      
-      
+      let dtc = await store.getters["DTC/getlistaInfoDTC"];
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
 
-      for(let item of dtc){    
-        let arrayimg = []    
+      for (let item of dtc) {
+        let arrayimg = []
         await Axios.get(
-          `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${item.referenceNumber}`          
-          //`http://prosisdev.sytes.net:88/api/Image/Download/${nombre_plaza}/${this.referenceNumber}`
+          `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${item.referenceNumber}`
         )
-          .then((response) => {  
+          .then((response) => {
+           
+            for (let item2 of response.data) {
+              Axios.get(`https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${item.referenceNumber}/${item2}`
+              )
+              .then(() => {
                                     
-              for(let item2 of response.data){
-                                  
-                arrayimg.push({"image": `https://localhost:44358/api/Image/Download/${nombre_plaza}/${item.referenceNumber}/${item2}`})
-                
-              }
-              let obj = {
-                "referenceNumber": item.referenceNumber,
-                "array_img": arrayimg
-              }            
-              store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj)               
+                  arrayimg.push({"fileName": item2, "image": `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${item.referenceNumber}/${item2}` })
+                  sleep(200000000);
+                  
+              })
+              
+            }
+            let obj = {
+              "referenceNumber": item.referenceNumber,
+              "array_img": arrayimg
+            }
+            store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj)
           })
           .catch((ex) => {
-            console.log(ex);           
-          });               
+            console.log(ex);
+          });
       }
-              
+      
       next()
     }
   },

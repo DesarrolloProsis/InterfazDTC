@@ -32,9 +32,16 @@
           >
             <div class="inline-flex">
               <img
+                :src="`${item.imgbase}`"
+                class="w-10 h-10"
+                alt=""
+                v-if="item.imgbase.length < 100"
+              />
+              <img
                 :src="`data:image/jpeg;base64,${item.imgbase}`"
                 class="w-10 h-10"
                 alt=""
+                v-else
               />
               <p class="ml-3 mt-2">
                 {{ item.name }}
@@ -128,9 +135,9 @@
             </button>
           </div>
         </div>
-        <div class="p-1">
+        <div class="p-1" v-show="!agregarbool">
           <img
-            :src="`${imgbase64.array_img[this.index_imagen_actual].image}`"
+            :src="imgbase64.array_img[this.index_imagen_actual].image"
             style="width: 500px !important; height: 200px !important"
             alt
           />
@@ -162,17 +169,17 @@ export default {
       eliminar_name: [],
     };
   },
-  beforeMount: function () {
-    this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](
+  beforeMount: async function () {
+    this.imgbase64 = await this.$store.getters["DTC/getImagenesDTC"](
       this.referenceNumber
     );
 
-    if (JSON.stringify(this.imgbase64) == undefined) {
-      this.agregarbool = true;
-      this.cargarImagen = true;
-    } else {
+    if (typeof this.imgbase64.array_img == "object") {
       this.agregarbool = false;
       this.cargarImagen = false;
+    } else {
+      this.agregarbool = true;
+      this.cargarImagen = true;
     }
   },
   methods: {
@@ -234,7 +241,7 @@ export default {
           this.index_imagen_actual = 0;
         else this.index_imagen_actual = this.index_imagen_actual + 1;
       }
-    },    
+    },
     editar_img: function () {
       for (let imgbase64 of this.imgbase64.array_img) {
         let obj = {
@@ -247,84 +254,211 @@ export default {
       this.editar_imagen = false;
       this.cargarImagen = true;
     },
-    uploadFiles: function () {
-      let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
-
-      for(let eliminar of this.eliminar_name){
-
-          Axios.get(`https://localhost:44358/api/Image/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`)
-          .then((response) => {
-            console.log(response.data);
-            console.log('Elimine algo')
-          })
-          .catch((ex) => {
-            console.log(ex);
-            this.$notify.error({
-              title: "ups!",
-              msg: ex,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            });
-          });
-
-      }
+    uploadFiles:  function () {
+      let nombre_plaza =  this.$store.getters["Login/getPlaza"].squareName;
       
-      for (const item of this.imagenes_enviar) {
-        
-        let formData = new FormData();
-        formData.append("id", this.referenceNumber);
-        formData.append("plaza", nombre_plaza);        
-        formData.append("image", this.base64ToFile(item.imgbase, item.name));
-      
-        Axios.post(`https://localhost:44358/api/Image/InsertImage`, formData)
-          .then((response) => {
-            console.log(response.data);
-            alert('YA INSERTE IMAGENES');
-          })
-          .catch((ex) => {
-            console.log(ex);
-            this.$notify.error({
-              title: "ups!",
-              msg: ex,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            });
-          });
-      }
-      this.$notify.success({
-        title: "Ok!",
-        msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
-        position: "bottom right",
-        styles: {
-          height: 100,
-          width: 500,
-        },
-      });
-      this.fileUpload = [];
-      this.cargarImagen = false;
-    },
-    base64ToFile: function(dataurl,fileName){
 
-      
-        let url = 'data:image/jpeg;base64,' + dataurl
-        var arr = url.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), 
-            n = bstr.length, 
-            u8arr = new Uint8Array(n);
-            
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
+      // let eliminar_promise = new Promise((resolve, reject) => {
+      //   console.log("inicie a eliminar");
+      //   if (this.eliminar_name.length > 0) {
+      //     for (let eliminar of this.eliminar_name) {
+      //      Axios.get(
+      //         `https://localhost:44358/api/Image/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`
+      //       )
+      //         .then(() => {})
+      //         .catch((ex) => {
+      //           reject("mal");
+      //           this.$notify.error({
+      //             title: "ups!",
+      //             msg: ex,
+      //             position: "bottom right",
+      //             styles: {
+      //               height: 100,
+      //               width: 500,
+      //             },
+      //           });
+      //         });
+      //     }
+      //     console.log("termine de eliminar");
+      //     resolve("ok");
+      //   }
+      //   resolve('ok')
+      // });
+
+      let agregar_promise = new Promise((resolve, reject) => {
+        console.log("inicie a insertar");
+        if (this.imagenes_enviar.length > 0) {
+          for (const item of this.imagenes_enviar) {
+            let formData = new FormData();
+            formData.append("id", this.referenceNumber);
+            formData.append("plaza", nombre_plaza);
+            formData.append(
+              "image",
+              this.base64ToFile(item.imgbase, item.name)
+            );
+
+           Axios.post(
+              `https://localhost:44358/api/Image/InsertImage`,
+              formData
+            )
+              .then(() => {
+                this.$notify.success({
+                  title: "Ok!",
+                  msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+              })
+              .catch((ex) => {
+                reject("mal");
+
+                this.$notify.error({
+                  title: "ups!",
+                  msg: ex,
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+              });
+          }
+          console.log("termine de agregar");
+          resolve("ok");
         }
-        
-        return new File([u8arr], fileName, {type:mime});
-    }
+        resolve('ok')
+      });
+      
+      
+
+      
+      // let actualizar_promise = new Promise((resolve, reject) => {
+
+      //   console.log('inicie a actualizar')
+      //   this.agregarbool = false;
+      //   this.cargarImagen = false;
+      //   this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
+
+      //   let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
+      //   let isvacio = false;
+      //   Axios.get(
+      //     `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
+      //   )
+      //     .then((response) => {
+      //       let arrayimg = [];
+      //       for (let item2 of response.data) {
+      //         Axios.get(
+      //           `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`
+      //         ).then(() => {
+      //           arrayimg.push({
+      //             fileName: item2,
+      //             image: `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
+      //           });
+      //         });
+      //       }
+      //       let obj = {
+      //         referenceNumber: this.referenceNumber,
+      //         array_img: arrayimg,
+      //       };
+      //       this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);
+      //       this.imgbase64 = obj;
+
+      //       this.eliminar_name = [];
+      //       this.imagenes_enviar = [];
+
+      //       if (isvacio) {              
+      //         this.agregarbool = true;
+      //         this.cargarImagen = true;
+      //       } else {
+      //         this.agregarbool = false;
+      //         this.cargarImagen = false;
+      //       }
+
+      //       console.log('termine de actualizar')
+      //       resolve("ok");
+      //     })
+      //     .catch((ex) => {
+      //       reject("mal");
+      //       console.log(ex);
+      //     });
+      // });
+
+     agregar_promise().then(() =>{
+
+        // eliminar_promise().then(() =>{
+
+        //     actualizar_promise().then(() =>{
+
+              console.log('termine todas las promesas')
+        //     })
+        // })
+     }).catch((err) => console.log(err))
+
+     
+    },
+    actualizar_store: async function () {
+      this.agregarbool = false;
+      this.cargarImagen = false;
+      this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
+
+      let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
+      let isvacio = false;
+      await Axios.get(
+        `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
+      )
+        .then((response) => {
+          let arrayimg = [];
+          for (let item2 of response.data) {
+            Axios.get(
+              `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`
+            ).then(() => {
+              arrayimg.push({
+                fileName: item2,
+                image: `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
+              });
+            });
+          }
+          let obj = {
+            referenceNumber: this.referenceNumber,
+            array_img: arrayimg,
+          };
+          this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);
+          this.imgbase64 = obj;
+
+          this.eliminar_name = [];
+          this.imagenes_enviar = [];
+
+          if (isvacio) {
+            alert("soy 0");
+            this.agregarbool = true;
+            this.cargarImagen = true;
+          } else {
+            alert("no soy 0");
+            this.agregarbool = false;
+            this.cargarImagen = false;
+          }
+        })
+        .catch((ex) => {
+          console.log(ex);
+        });
+    },
+    base64ToFile: function (dataurl, fileName) {
+      let url = "data:image/jpeg;base64," + dataurl;
+      var arr = url.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], fileName, { type: mime });
+    },
   },
 };
 </script>
