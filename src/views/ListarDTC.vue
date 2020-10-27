@@ -123,7 +123,8 @@ export default {
     CardListDTC,
   },
   beforeMount: function () {
-    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
+
+    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];     
   },
   computed: {
     validaFecha: function () {
