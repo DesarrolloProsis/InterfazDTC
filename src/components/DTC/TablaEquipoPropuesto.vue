@@ -165,48 +165,48 @@
         <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
           <div class="inline-flex m-2">
             <div class=" w-20 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Componete</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Componete</p>
               <p>{{ infoRow.row3.description }}</p>
             </div>
             <div class="w-20 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unidad</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Unidad</p>
               <p>{{ infoRow.row2 }}</p>
             </div>
             <div class="w-20 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Cantidad</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Cantidad</p>
               <p class>{{ infoRow.row4 }}</p>
             </div>
           </div>
 
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Unitario Dolares</p>
               <p class="border-b-2">{{ '----------' }}</p>
             </div>
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Dolares</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Total Dolares</p>
               <p class="border-b-2">{{ '----------' }}</p>
             </div>
           </div>
 
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Unitario Dolares</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Unitario Dolares</p>
               <p class="border-b-2">$ {{ (infoRow.row14).toLocaleString('en-US') }}</p>
             </div>
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Total Pesos</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Total Pesos</p>
               <p class="border-b-2">$ {{ (infoRow.row14 * infoRow.row4).toLocaleString('en-US') }}</p>
             </div>
           </div>
 
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Marca</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Marca</p>
               <p class="border-b-2" v-for="(item, id) in infoRow.row5" :key="id">{{ item }}</p>
             </div>
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Modelo</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Modelo</p>
               <p class="border-b-2" v-for="(item, id) in infoRow.row6" :key="id">{{ item }}</p>
             </div>
           </div>

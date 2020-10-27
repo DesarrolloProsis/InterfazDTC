@@ -395,7 +395,7 @@
                   <select
                     @change="UpdateCompEditado()"
                     v-model="updtCompEditar"
-                    class="w-32"
+                    class=" w-20"
                     type="text"
                   >
                     <option disabled value>Selecionar...</option>
@@ -440,14 +440,14 @@
                 <div v-if="equipo.rowUp">
                   <button
                     v-on:click.stop.prevent="deleteItem(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
                   >
                     <img src="../../assets/img/bin.png" width="15" height="15" />
                   </button>
 
                   <button
                     v-on:click.prevent="updateRowTable(index, equipo)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-1"
                   >
                     <img
                       src="../../assets/img/pencil.png"                      
@@ -458,7 +458,7 @@
 
                   <button
                     v-on:click.stop.prevent="infoModal(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700 m-2"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
                   >
                     <img src="../../assets/img/mas.png" width="15" height="15" />
                   </button>
@@ -466,7 +466,7 @@
                 <div v-else>
                   <button
                     v-on:click.stop.prevent="abortUpdateRowTable(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
                   >
                     <img
                       src="../../assets/img/cerrar.png"                      
@@ -477,7 +477,7 @@
 
                   <button
                     v-on:click.stop.prevent="confirmRowTable(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-1"
                   >
                     <img
                       src="../../assets/img/garrapata.png"                      
@@ -495,7 +495,7 @@
               <td class="border border-gray-800">{{ "*" }}</td>
 
               <td class="border border-gray-800">
-                <select @change="UpdateComp()" v-model="updtComp" class="w-32" type="text">
+                <select @change="UpdateComp()" v-model="updtComp" class="w-20" type="text">
                   <option disabled value>Selecionar...</option>
                   <option
                     v-for="(item, index) in listaComponentes"
@@ -514,7 +514,7 @@
                   placeholder="Selecciona..."
                   :options="listLane"
                   :multiple="true"
-                  class="appearance-none rounded-lg"
+                  
                 >
                   <template
                     v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'"
@@ -532,9 +532,10 @@
               <td class="border border-gray-800 p-3">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
-                  class="bg-gray-300 hover:bg-gray-400 text-gray-800  rounded inline-flex items-center border-2 border-green-700"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs  rounded inline-flex items-center border-2 border-green-700"
                 >
-                  <img src="../../assets/img/more.png" class="" width="20" height="20" />
+                
+                  <img src="../../assets/img/more.png" class="m-1" width="15" height="15" />
                 </button>
               </td>
             </tr>
@@ -546,11 +547,11 @@
         <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Componete</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Componete</p>
               <p>{{ objectModal.row3.description }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Carriles</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Carriles</p>
               <p
                 class="border-b-2"
                 v-for="(item, id) in objectModal.row8"
@@ -558,28 +559,28 @@
               >{{ item | formatPlaza}}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Marca</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Marca</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row5" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Numero Serie</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Numero Serie</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row7" :key="id">{{ item }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Modelo</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Modelo</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row6" :key="id">{{ item }}</p>
             </div>
 
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Folio</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Folio</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row11" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Fecha de Instalacion</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Fecha de Instalacion</p>
               <p
                 class="border-b-2"
                 v-for="(item, id) in objectModal.row9"
@@ -588,7 +589,7 @@
             </div>
             <div class="w-24 m-1">
               <p
-                class="mb-3 font-bold text-gray-800 border-4 border-blue-600"
+                class="mb-3 font-bold text-gray-800 border-2 border-blue-800"
               >Fecha Ultimo Mantenimiento</p>
               <p
                 class="border-b-2"
@@ -598,7 +599,7 @@
             </div>
             <div class="w-24 m-1">
               <p></p>
-              <p class="mb-3 font-bold text-gray-800 border-4 border-blue-600">Tiempo de Vida Real</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Tiempo de Vida Real</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row12" :key="id">{{ item }}</p>
             </div>
           </div>

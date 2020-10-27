@@ -4,13 +4,13 @@
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 pl-3 pr-3">
         <h1 class="text-black text-center text-4xl mt-3 mb-10 sm:mb-1">Inventario</h1>
-        <div class="mt-5 mb-5 flex justify-between sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
-          <div class="inline-flex mt-2 sm:text-xs sm:ml-3">
-            <div class="mr-3 sm:mr-1">
+        <div class="mt-1 mb-5 flex justify-between sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
+          <div class="inline-flex mt-2 sm:text-xs sm:ml-3 m-6">
+            <div class="mr-3 sm:mr-1 mt-5">
               <span class="mr-2">Buscar</span>
               <input v-model="buscar_palabra" class="bg-white sm:w-24" />
             </div>
-            <div class="mr-3">
+            <div class="mr-3 mt-5">
               <span class="mr-2">Ubicación</span>
               <input
                 v-model="boolUbicacion"
@@ -19,7 +19,7 @@
                 type="checkbox"
               />
             </div>
-            <div>
+            <div class="mt-5">
               <span class="mr-2">Componente</span>
               <input
                 v-model="boolComponente"
@@ -29,7 +29,7 @@
               />
             </div>
           </div>
-          <div class="sm:mt-5 sm:ml-4 sm:text-xs">
+          <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
             <button
               @click="Cancelar"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 mr-3"
@@ -44,7 +44,7 @@
               <img src="../assets/img/save.png" class="mr-2" width="25" height="25" />
               <span class="text-xs">Guardar</span>
             </button>
-            <span class="ml-5 text-gray-800">{{'Editado: ' + list_Editados.length}}</span>
+            <span class="ml-5 text-gray-800">{{'Editados: ' + list_Editados.length}}</span>
           </div>
         </div>
         <div class="overflow-x-auto sm:m-2 sm:text-xs">
