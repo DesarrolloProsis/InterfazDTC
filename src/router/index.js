@@ -85,12 +85,10 @@ const routes = [
       await store.dispatch('DTC/buscarListaDTC', info)
       let nombre_plaza = await store.getters["Login/getPlaza"].squareName;
       let dtc = await store.getters["DTC/getlistaInfoDTC"];
-      function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
 
       for (let item of dtc) {
         let arrayimg = []
+        store.commit("DTC/LIMPIAR_IMAGENES_REF", item);
         await Axios.get(
           `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${item.referenceNumber}`
         )
@@ -102,7 +100,7 @@ const routes = [
               .then(() => {
                                     
                   arrayimg.push({"fileName": item2, "image": `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${item.referenceNumber}/${item2}` })
-                  sleep(200000000);
+
                   
               })
               
