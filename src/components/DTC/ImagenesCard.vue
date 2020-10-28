@@ -216,6 +216,8 @@ export default {
         this.imagenes_enviar.push(obj);
       };
       reader.readAsDataURL(file);
+      this.cargarImagen = true
+      this.agregarbool = true
       this.editar_imagen = false;
     },
     eliminarImagen: function (item) {
@@ -351,13 +353,6 @@ export default {
 
       Promise.all([agregar_promise, eliminar_promise]);
 
-      // agregar_promise
-      //   .then(() => {
-      //     eliminar_promise.then(() => {
-      //       console.log('termine todas las  funciones')
-      //     });
-      //   })
-      //   .catch((err) => console.log(err));
     },
     actualizar_img: async function (nombre_plaza) {
       let array_nombre_imagenes = [];
@@ -382,7 +377,7 @@ export default {
       console.log("antes del push");
       console.log(array_nombre_imagenes);
 
-      if ((array_nombre_imagenes.length > 0)) {
+      if (array_nombre_imagenes.length > 0) {
         for (let item2 of array_nombre_imagenes) {
           console.log("push");
           arrayimg.push({
@@ -398,18 +393,17 @@ export default {
         this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](
           this.referenceNumber
         );
-     
+
         this.agregarbool = false;
         this.cargarImagen = false;
-       
       } else {
-   
-         this.agregarbool = true;
+        this.agregarbool = true;
         this.cargarImagen = true;
+        this.editar_imagen = true
       }
-         this.eliminar_name = [];
-        this.imagenes_enviar = [];
-        this.fileUpload = [];
+      this.eliminar_name = [];
+      this.imagenes_enviar = [];
+      this.fileUpload = [];
     },
     base64ToFile: function (dataurl, fileName) {
       let url = "data:image/jpeg;base64," + dataurl;
