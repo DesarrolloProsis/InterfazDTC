@@ -254,36 +254,35 @@ export default {
       this.editar_imagen = false;
       this.cargarImagen = true;
     },
-    uploadFiles:  function () {
+    uploadFiles: async function () {
       let nombre_plaza =  this.$store.getters["Login/getPlaza"].squareName;
       
-
-      // let eliminar_promise = new Promise((resolve, reject) => {
-      //   console.log("inicie a eliminar");
-      //   if (this.eliminar_name.length > 0) {
-      //     for (let eliminar of this.eliminar_name) {
-      //      Axios.get(
-      //         `https://localhost:44358/api/Image/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`
-      //       )
-      //         .then(() => {})
-      //         .catch((ex) => {
-      //           reject("mal");
-      //           this.$notify.error({
-      //             title: "ups!",
-      //             msg: ex,
-      //             position: "bottom right",
-      //             styles: {
-      //               height: 100,
-      //               width: 500,
-      //             },
-      //           });
-      //         });
-      //     }
-      //     console.log("termine de eliminar");
-      //     resolve("ok");
-      //   }
-      //   resolve('ok')
-      // });
+      let eliminar_promise = new Promise((resolve, reject) => {
+        console.log("inicie a eliminar");
+        if (this.eliminar_name.length > 0) {
+          for (let eliminar of this.eliminar_name) {
+           Axios.get(
+              `https://localhost:44358/api/Image/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`
+            )
+              .then(() => {})
+              .catch((ex) => {
+                reject("mal");
+                this.$notify.error({
+                  title: "ups!",
+                  msg: ex,
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+              });
+          }
+          console.log("termine de eliminar");
+          resolve("ok");
+        }
+        resolve('ok')
+      });
 
       let agregar_promise = new Promise((resolve, reject) => {
         console.log("inicie a insertar");
@@ -296,7 +295,6 @@ export default {
               "image",
               this.base64ToFile(item.imgbase, item.name)
             );
-
            Axios.post(
               `https://localhost:44358/api/Image/InsertImage`,
               formData
@@ -314,7 +312,6 @@ export default {
               })
               .catch((ex) => {
                 reject("mal");
-
                 this.$notify.error({
                   title: "ups!",
                   msg: ex,
@@ -331,71 +328,75 @@ export default {
         }
         resolve('ok')
       });
-      
-      
+                  
+      let actualizar_promise = new Promise((resolve, reject) => {
 
-      
-      // let actualizar_promise = new Promise((resolve, reject) => {
+        console.log('inicie a actualizar')      
+        this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
+        this.imgbase64 = []
 
-      //   console.log('inicie a actualizar')
-      //   this.agregarbool = false;
-      //   this.cargarImagen = false;
-      //   this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
+        let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
+        let isvacio = false;
+        Axios.get(
+          `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
+        )
+          .then((response) => {
+            let arrayimg = [];
+            for (let item2 of response.data) {
+              Axios.get(
+                `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`
+              ).then(() => {
+                arrayimg.push({
+                  fileName: item2,
+                  image: `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
+                });
+              });
+            }
+            let obj = {
+              referenceNumber: this.referenceNumber,
+              array_img: arrayimg,
+            };
+            this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);   
+            
+            this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
+    
+            this.eliminar_name = [];
+            this.imagenes_enviar = [];
 
-      //   let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
-      //   let isvacio = false;
-      //   Axios.get(
-      //     `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
-      //   )
-      //     .then((response) => {
-      //       let arrayimg = [];
-      //       for (let item2 of response.data) {
-      //         Axios.get(
-      //           `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`
-      //         ).then(() => {
-      //           arrayimg.push({
-      //             fileName: item2,
-      //             image: `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
-      //           });
-      //         });
-      //       }
-      //       let obj = {
-      //         referenceNumber: this.referenceNumber,
-      //         array_img: arrayimg,
-      //       };
-      //       this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);
-      //       this.imgbase64 = obj;
+            if (isvacio) {              
+              this.agregarbool = true;
+              this.cargarImagen = true;
+            } else {
+              this.agregarbool = false;
+              this.cargarImagen = false;
+            }
 
-      //       this.eliminar_name = [];
-      //       this.imagenes_enviar = [];
+            this.fileUpload = []
 
-      //       if (isvacio) {              
-      //         this.agregarbool = true;
-      //         this.cargarImagen = true;
-      //       } else {
-      //         this.agregarbool = false;
-      //         this.cargarImagen = false;
-      //       }
+            console.log('termine de actualizar')
+            resolve("ok");
+          })
+          .catch((ex) => {
+            reject("mal");
+            console.log(ex);
+          });
+      });
 
-      //       console.log('termine de actualizar')
-      //       resolve("ok");
-      //     })
-      //     .catch((ex) => {
-      //       reject("mal");
-      //       console.log(ex);
-      //     });
-      // });
+     agregar_promise.then(() =>{
 
-     agregar_promise().then(() =>{
+        eliminar_promise.then(() =>{
 
-        // eliminar_promise().then(() =>{
+            actualizar_promise.then( () => {
 
-        //     actualizar_promise().then(() =>{
+              console.log('termine todas las promesas')   
+              //this.imgbase64 =  this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
 
-              console.log('termine todas las promesas')
-        //     })
-        // })
+            })                       
+        })
      }).catch((err) => console.log(err))
+
+    
+   
 
      
     },
@@ -403,6 +404,7 @@ export default {
       this.agregarbool = false;
       this.cargarImagen = false;
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
+      this.imgbase64 = []      
 
       let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
       let isvacio = false;
@@ -425,9 +427,8 @@ export default {
             referenceNumber: this.referenceNumber,
             array_img: arrayimg,
           };
-          this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);
-          this.imgbase64 = obj;
-
+          this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);          
+          this.imgbase64.push(obj);
           this.eliminar_name = [];
           this.imagenes_enviar = [];
 
@@ -460,5 +461,12 @@ export default {
       return new File([u8arr], fileName, { type: mime });
     },
   },
+  computed: {
+
+    imgPruebas: function(){
+
+      return  this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
+    }
+  }
 };
 </script>
