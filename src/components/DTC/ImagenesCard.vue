@@ -162,24 +162,36 @@ export default {
       fileUpload: [],
       imagenes_enviar: [],
       cargarImagen: true,
-      imgbase64: [],
+      imgbase64: {
+        array_img: [],
+        referenceNumber: "",
+      },
       agregarbool: true,
       index_imagen_actual: 0,
       editar_imagen: true,
       eliminar_name: [],
     };
   },
-  beforeMount: async function () {
-    this.imgbase64 = await this.$store.getters["DTC/getImagenesDTC"](
-      this.referenceNumber
-    );
-
-    if (typeof this.imgbase64.array_img == "object") {
-      this.agregarbool = false;
-      this.cargarImagen = false;
-    } else {
-      this.agregarbool = true;
-      this.cargarImagen = true;
+  mounted: function () {
+    try {
+      let validar = this.$store.getters["DTC/getImagenesDTC"](
+        this.referenceNumber
+      );
+      if (validar != undefined) {
+        this.agregarbool = false;
+        this.cargarImagen = false;
+        this.imgbase64 = validar;
+      } else {
+        this.agregarbool = true;
+        this.cargarImagen = true;
+        this.imgbase64 = {
+          array_img: [],
+          referenceNumber: "",
+        };
+      }
+    } catch (err) {
+      console.log("erro before mount");
+      console.log(err);
     }
   },
   methods: {
@@ -255,17 +267,17 @@ export default {
       this.cargarImagen = true;
     },
     uploadFiles: async function () {
-      let nombre_plaza =  this.$store.getters["Login/getPlaza"].squareName;
-      
-      let eliminar_promise = new Promise((resolve, reject) => {
+      let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
+      let eliminar_promise = new Promise(async (resolve, reject) => {
         console.log("inicie a eliminar");
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-           Axios.get(
-              `https://localhost:44358/api/Image/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`
+            Axios.get(
+              `http://prosisdev.sytes.net:88/api/Image/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`
             )
               .then(() => {})
               .catch((ex) => {
+                console.log("error al eliminar");
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
@@ -279,12 +291,15 @@ export default {
               });
           }
           console.log("termine de eliminar");
+          await this.actualizar_img(nombre_plaza);
+          resolve("ok");
+        } else {
+          console.log("No hay que eliminar");
           resolve("ok");
         }
-        resolve('ok')
       });
 
-      let agregar_promise = new Promise((resolve, reject) => {
+      let agregar_promise = new Promise(async (resolve, reject) => {
         console.log("inicie a insertar");
         if (this.imagenes_enviar.length > 0) {
           for (const item of this.imagenes_enviar) {
@@ -295,11 +310,12 @@ export default {
               "image",
               this.base64ToFile(item.imgbase, item.name)
             );
-           Axios.post(
-              `https://localhost:44358/api/Image/InsertImage`,
+            await Axios.post(
+              `http://prosisdev.sytes.net:88/api/Image/InsertImage`,
               formData
             )
               .then(() => {
+                console.log("inserte algo");
                 this.$notify.success({
                   title: "Ok!",
                   msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
@@ -311,6 +327,7 @@ export default {
                 });
               })
               .catch((ex) => {
+                console.log("error en la insercion");
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
@@ -323,128 +340,76 @@ export default {
                 });
               });
           }
-          console.log("termine de agregar");
+          console.log("termine de insertar");
+          await this.actualizar_img(nombre_plaza);
+          resolve("ok");
+        } else {
+          console.log("no hay que insertar");
           resolve("ok");
         }
-        resolve('ok')
-      });
-                  
-      let actualizar_promise = new Promise((resolve, reject) => {
-
-        console.log('inicie a actualizar')      
-        this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
-        this.imgbase64 = []
-
-        let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
-        let isvacio = false;
-        Axios.get(
-          `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
-        )
-          .then((response) => {
-            let arrayimg = [];
-            for (let item2 of response.data) {
-              Axios.get(
-                `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`
-              ).then(() => {
-                arrayimg.push({
-                  fileName: item2,
-                  image: `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
-                });
-              });
-            }
-            let obj = {
-              referenceNumber: this.referenceNumber,
-              array_img: arrayimg,
-            };
-            this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);   
-            
-            this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
-    
-            this.eliminar_name = [];
-            this.imagenes_enviar = [];
-
-            if (isvacio) {              
-              this.agregarbool = true;
-              this.cargarImagen = true;
-            } else {
-              this.agregarbool = false;
-              this.cargarImagen = false;
-            }
-
-            this.fileUpload = []
-
-            console.log('termine de actualizar')
-            resolve("ok");
-          })
-          .catch((ex) => {
-            reject("mal");
-            console.log(ex);
-          });
       });
 
-     agregar_promise.then(() =>{
+      Promise.all([agregar_promise, eliminar_promise]);
 
-        eliminar_promise.then(() =>{
-
-            actualizar_promise.then( () => {
-
-              console.log('termine todas las promesas')   
-              //this.imgbase64 =  this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
-
-            })                       
-        })
-     }).catch((err) => console.log(err))
-
-    
-   
-
-     
+      // agregar_promise
+      //   .then(() => {
+      //     eliminar_promise.then(() => {
+      //       console.log('termine todas las  funciones')
+      //     });
+      //   })
+      //   .catch((err) => console.log(err));
     },
-    actualizar_store: async function () {
-      this.agregarbool = false;
-      this.cargarImagen = false;
-      this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
-      this.imgbase64 = []      
+    actualizar_img: async function (nombre_plaza) {
+      let array_nombre_imagenes = [];
 
-      let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
-      let isvacio = false;
+      console.log("inicie a actualizar");
+      this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
+      this.imgbase64 = [];
+
       await Axios.get(
-        `https://localhost:44358/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
+        `http://prosisdev.sytes.net:88/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
       )
         .then((response) => {
-          let arrayimg = [];
-          for (let item2 of response.data) {
-            Axios.get(
-              `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`
-            ).then(() => {
-              arrayimg.push({
-                fileName: item2,
-                image: `https://localhost:44358/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
-              });
-            });
-          }
-          let obj = {
-            referenceNumber: this.referenceNumber,
-            array_img: arrayimg,
-          };
-          this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);          
-          this.imgbase64.push(obj);
-          this.eliminar_name = [];
-          this.imagenes_enviar = [];
-
-          if (isvacio) {
-            alert("soy 0");
-            this.agregarbool = true;
-            this.cargarImagen = true;
-          } else {
-            alert("no soy 0");
-            this.agregarbool = false;
-            this.cargarImagen = false;
-          }
+          console.log(response);
+          array_nombre_imagenes = response.data;
         })
-        .catch((ex) => {
-          console.log(ex);
+        .catch(() => {
+          console.log("error en el actuzaliacion");
         });
+
+      let arrayimg = [];
+
+      console.log("antes del push");
+      console.log(array_nombre_imagenes);
+
+      if ((array_nombre_imagenes.length > 0)) {
+        for (let item2 of array_nombre_imagenes) {
+          console.log("push");
+          arrayimg.push({
+            fileName: item2,
+            image: `http://prosisdev.sytes.net:88/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
+          });
+        }
+        let obj = {
+          referenceNumber: this.referenceNumber,
+          array_img: arrayimg,
+        };
+        this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);
+        this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](
+          this.referenceNumber
+        );
+     
+        this.agregarbool = false;
+        this.cargarImagen = false;
+       
+      } else {
+   
+         this.agregarbool = true;
+        this.cargarImagen = true;
+      }
+         this.eliminar_name = [];
+        this.imagenes_enviar = [];
+        this.fileUpload = [];
     },
     base64ToFile: function (dataurl, fileName) {
       let url = "data:image/jpeg;base64," + dataurl;
@@ -457,16 +422,13 @@ export default {
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
       }
-
       return new File([u8arr], fileName, { type: mime });
     },
   },
   computed: {
-
-    imgPruebas: function(){
-
-      return  this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
-    }
-  }
+    imgPruebas: function () {
+      return this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
+    },
+  },
 };
 </script>

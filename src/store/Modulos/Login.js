@@ -9,34 +9,33 @@ const state = {
 
 const getters = {
 
-
-  getUserForDTC: function(){
+  getUserForDTC: function () {
     return {
-      numPlaza: state.listUser[0].plaza.substring(0,3),
+      numPlaza: state.listUser[0].plaza.substring(0, 3),
       idUser: state.listUser[0].userId
     }
   },
-  getUser: function(){ 
-    return state.listUser 
+  getUser: function () {
+    return state.listUser
   },
-  getListaPlazas: function(){
+  getListaPlazas: function () {
     return state.listaPlazas
-  }, 
-  getUserLogeado: function(){
-    
-    if(state.userLogeado.length > 0)
+  },
+  getUserLogeado: function () {
+
+    if (state.userLogeado.length > 0)
       return true
     else
       return false
   },
-  getTypeUser: function(){
+  getTypeUser: function () {
 
-    return state.userLogeado[0].rollId  
+    return state.userLogeado[0].rollId
   },
-  getListaTec: function(){
+  getListaTec: function () {
     return state.listaTec
   },
-  getPlaza: function(){
+  getPlaza: function () {
 
     return state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[0].squareCatalogId)
   }
@@ -63,76 +62,74 @@ const mutations = {
 const actions = {
 
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
-  async buscarHeaderTec({ commit }, value) {    
-    
-   await Axios.get(
-      `http://prosisdev.sytes.net:88/api/login/buscarHeaderTec/${value}`      
+  async buscarHeaderTec({ commit }, value) {
+
+    await Axios.get(
+      `http://prosisdev.sytes.net:88/api/login/buscarHeaderTec/${value}`
     )
-      .then(response => {              
-        commit("listaUser", response.data.result);              
+      .then(response => {
+        commit("listaUser", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
-      });   
+      });
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
-  async buscarTec({ commit }, value) {    
-          
-    console.log('Action Buscar Tecnicos id Plaza')
-          await Axios.get(
-            `http://prosisdev.sytes.net:88/api/login/buscarTec/${value}`            
-          )
-            .then(response => {           
-              console.log(response.data.result)   
-              commit("listaTecMutation", response.data.result);              
-            })
-            .catch(Ex => {
-              console.log(Ex);
-            });   
+  async buscarTec({ commit }, value) {
+
+
+    await Axios.get(
+      `http://prosisdev.sytes.net:88/api/login/buscarTec/${value}`
+    )
+      .then(response => {
+
+        commit("listaTecMutation", response.data.result);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
-  async buscarUsuarioCokie({ commit }, value) {         
-         console.log(`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`)            
-          await Axios.get(
-            `http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`            
-            //`https://localhost:44358/api/login/ValidUser/${value.User}/${value.Password}/${true}`            
-          )
-            .then(response => {    
-              
-              if(response.data.result != null){
-                commit("userLogeadoMutation", response.data.result); 
-                console.log(response.data)     
-              }
-              else{
-                commit("userLogeadoMutation", []); 
-              }        
-            })
-            .catch(Ex => {
-              commit("userLogeadoMutation", []); 
-              console.log(Ex);
-            });   
+  async buscarUsuarioCokie({ commit }, value) {
+
+    await Axios.get(
+      `http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`           
+    )
+      .then(response => {
+
+        if (response.data.result != null) {
+          commit("userLogeadoMutation", response.data.result);
+        }
+        else {
+          commit("userLogeadoMutation", []);
+        }
+      })
+      .catch(Ex => {
+        commit("userLogeadoMutation", []);
+        console.log(Ex);
+      });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async buscarUsuario({ commit }, value) {
 
-          await Axios.get( 
-            `http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`            
-          )
-            .then(response => {
-              console.log(response.data);
-              commit("listaUser", response.data.result);              
-            })
-            .catch(Ex => {
-              console.log(Ex);
-            });     
+    await Axios.get(
+      `http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`
+    )
+      .then(response => {
+
+        commit("listaUser", response.data.result);
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
   },
   //CONULTA PARA LISTAR LAS PLAZAS
-  async buscarPlazas({ commit }) {    
+  async buscarPlazas({ commit }) {
     await Axios.get(
-      `http://prosisdev.sytes.net:88/api/squaresCatalog`)      
+      `http://prosisdev.sytes.net:88/api/squaresCatalog`)
       .then(response => {
         commit("listaPlazasMutation", response.data.result);
-        console.log(response.data)
+
       })
       .catch(Ex => {
         console.log(Ex);

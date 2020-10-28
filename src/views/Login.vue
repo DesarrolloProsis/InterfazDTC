@@ -16,45 +16,62 @@
               class="w-full h-8"
               type="text"
               name="Usuario"
-              :class="{ 'is_valid': !errors.first('Usuario'), 'is_invalid': errors.first('Usuario')}"
+              :class="{
+                is_valid: !errors.first('Usuario'),
+                is_invalid: errors.first('Usuario'),
+              }"
               placeholder="  Usuario"
               v-validate="'required'"
               v-model="datos.User"
             />
-            <span class="text-red-600 text-xs">{{ errors.first('Usuario') }}</span>
+            <span class="text-red-600 text-xs">{{
+              errors.first("Usuario")
+            }}</span>
           </div>
-          
-          
+
           <div class="mb-5">
             <input
               @keyup.enter="ingresarLogin()"
               placeholder=" Contraseña"
               class="w-full h-8"
-              
               v-validate="'required'"
-              :class="{ 'is_valid': !errors.first('Contraseña'), 'is_invalid': errors.first('Contraseña')}"
+              :class="{
+                is_valid: !errors.first('Contraseña'),
+                is_invalid: errors.first('Contraseña'),
+              }"
               type="password"
               name="Contraseña"
               v-model="datos.Password"
             />
-            <span class="text-red-600 text-xs">{{ errors.first('Contraseña') }}</span>
+            <span class="text-red-600 text-xs">{{
+              errors.first("Contraseña")
+            }}</span>
           </div>
         </div>
         <div class="text-center text-gray-900">
-          <input class="mt-10 mb-10 mr-2" type="checkbox" v-model.number="datos.checkLog" />
+          <input
+            class="mt-10 mb-10 mr-2"
+            type="checkbox"
+            v-model.number="datos.checkLog"
+          />
           <span>Generar Por Otra Persona</span>
         </div>
         <div class="container-login100-form-btn">
-          <button            
+          <button
             @click="ingresarLogin()"
             type="button"
             class="login100-form-btn text-blue-600 outline-none"
-          >Login</button>
-
+          >
+            Login
+          </button>
         </div>
         <div class="flex flex-col text-center mt-3 text-blue-700">
-            <a class="hover:text-blue-900 cursor-pointer" @click="register">Registrarse</a>
-            <a class="hover:text-blue-900 cursor-pointer" @click="passPerdido">¿Olvidaste tu constraseña?</a>            
+          <a class="hover:text-blue-900 cursor-pointer" @click="register"
+            >Registrarse</a
+          >
+          <a class="hover:text-blue-900 cursor-pointer" @click="passPerdido"
+            >¿Olvidaste tu constraseña?</a
+          >
         </div>
       </div>
     </div>
@@ -73,7 +90,10 @@
         <select
           @change="buscarTec()"
           v-validate="'required'"
-          :class="{ 'is_valid': !errors.first('Plaza'), 'is_invalid': errors.first('Plaza')}"
+          :class="{
+            is_valid: !errors.first('Plaza'),
+            is_invalid: errors.first('Plaza'),
+          }"
           v-model="plazaSelect"
           class="w-48 h-8"
           type="text"
@@ -84,9 +104,11 @@
             v-for="(item, index) in listaPlazas"
             v-bind:value="item.squareCatalogId"
             :key="index"
-          >{{ item.squareName }}</option>
+          >
+            {{ item.squareName }}
+          </option>
         </select>
-        <p class="text-red-600 text-xs">{{ errors.first('Plaza') }}</p>
+        <p class="text-red-600 text-xs">{{ errors.first("Plaza") }}</p>
       </div>
       <div class="mb-8">
         <p class="text-xs mb-1 text-gray-900">Tecnico</p>
@@ -94,7 +116,10 @@
           v-model="tecSelect"
           v-validate="'required'"
           class="h-8 w-48"
-          :class="{ 'is_valid': !errors.first('Tecnico'), 'is_invalid': errors.first('Tecnico')}"
+          :class="{
+            is_valid: !errors.first('Tecnico'),
+            is_invalid: errors.first('Tecnico'),
+          }"
           type="text"
           name="Tecnico"
         >
@@ -103,15 +128,24 @@
             v-for="(item, index) in listaTec"
             v-bind:value="item.userId"
             :key="index"
-          >{{ item.tecnicosAsignados }}</option>
+          >
+            {{ item.tecnicosAsignados }}
+          </option>
         </select>
-        <p class="text-red-600 text-xs">{{ errors.first('Tecnico') }}</p>
+        <p class="text-red-600 text-xs">{{ errors.first("Tecnico") }}</p>
       </div>
       <button
         @click="loginOther()"
         class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800"
-      >Ingresar</button>
-      <button @click="modal = false" class="text-white px-4 py-2 rounded-full bg-red-800">Cancelar</button>
+      >
+        Ingresar
+      </button>
+      <button
+        @click="modal = false"
+        class="text-white px-4 py-2 rounded-full bg-red-800"
+      >
+        Cancelar
+      </button>
     </div>
   </div>
 </template>
@@ -134,13 +168,10 @@ export default {
     };
   },
   methods: {
-    register: function(){
-
+    register: function () {
       this.$router.push("register");
-
     },
-    passPerdido: function(){
-
+    passPerdido: function () {
       this.$router.push("home");
     },
     loginOther: async function () {

@@ -99,6 +99,9 @@ const mutations = {
             .indexOf(value);
       if(index > -1)
             state.listaImagenesDTC.splice(index, 1)
+  },
+  LIMPIAR_IMAGENES_FULL: (state) => {
+    state.listaImagenesDTC = []
   }
 };
 
