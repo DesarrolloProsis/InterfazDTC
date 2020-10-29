@@ -269,6 +269,7 @@ export default {
       this.cargarImagen = true;
     },
     uploadFiles: async function () {
+      alert('si apretaste el boton')
       let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
       let eliminar_promise = new Promise(async (resolve, reject) => {
         console.log("inicie a eliminar");
