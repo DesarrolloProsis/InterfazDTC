@@ -269,6 +269,7 @@ export default {
       this.cargarImagen = true;
     },
     uploadFiles: async function () {
+      alert('Si apretaste el boton')
       let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
       let eliminar_promise = new Promise(async (resolve, reject) => {
         console.log("inicie a eliminar");
@@ -355,6 +356,7 @@ export default {
 
     },
     actualizar_img: async function (nombre_plaza) {
+
       let array_nombre_imagenes = [];
 
       console.log("inicie a actualizar");
