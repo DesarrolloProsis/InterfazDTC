@@ -34,14 +34,14 @@
               @click="Cancelar"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 mr-3"
             >
-              <img src="../assets/img/bin.png" class="mr-2" width="25" height="25" />
+              <img src="../assets/img/bin.png" class="mr-2 sm:m-0" width="25" height="25" />
               <span class="text-xs">Cancelar</span>
             </button>
             <button
               @click="actualizar"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
             >
-              <img src="../assets/img/save.png" class="mr-2" width="25" height="25" />
+              <img src="../assets/img/save.png" class="mr-2 sm:mr-0" width="25" height="25" />
               <span class="text-xs">Guardar</span>
             </button>
             <span class="ml-5 text-gray-800">{{'Editados: ' + list_Editados.length}}</span>
