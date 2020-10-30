@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <div class="flex justify-center sm:hidden">
       <div class="p-4">        
@@ -617,6 +618,7 @@
     </div>
     <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
   </div>
+  
 </template>
 
 <script>
@@ -1135,4 +1137,4 @@ export default {
   },
 };
 </script>
-<style src="../../assets/css/multiselect.css"></style>
+
