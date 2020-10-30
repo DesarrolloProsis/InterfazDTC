@@ -355,6 +355,7 @@ export default {
 
     },
     actualizar_img: async function (nombre_plaza) {
+
       let array_nombre_imagenes = [];
 
       console.log("inicie a actualizar");
