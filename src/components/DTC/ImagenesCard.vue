@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="border justify-items-center">
+    <div class="border justify-items-center w-66 sm:w-auto">
       <template v-if="cargarImagen">
         <div
           class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed"
@@ -268,8 +268,7 @@ export default {
       this.editar_imagen = false;
       this.cargarImagen = true;
     },
-    uploadFiles: async function () {
-      alert('si apretaste el boton')
+    uploadFiles: async function () {      
       let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
       let eliminar_promise = new Promise(async (resolve, reject) => {
         console.log("inicie a eliminar");

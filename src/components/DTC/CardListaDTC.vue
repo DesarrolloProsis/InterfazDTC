@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="w-66 sm:w-auto">
       <div class="flex flex-row mb-6">
         <div class="flex justify-between">
           <p class="font-black m-3 w-1/2">{{ infoCard.referenceNumber }}</p>
@@ -25,13 +25,15 @@
           </div>
         </div>
         <div
-          class="m-10 flex text-center cursor-pointer border-gray-800 w-64 flex-col"
+          class="flex text-center cursor-pointer border-gray-800  flex-col mt-5  sm:m-3 sm:mt-5"
           v-if="!showmenosMas"
-        >
-          <ImagenesCard :referenceNumber="this.infoCard.referenceNumber"></ImagenesCard>
+        >          
+            <ImagenesCard
+              :referenceNumber="this.infoCard.referenceNumber"
+            ></ImagenesCard>          
         </div>
       </div>
-      <div class="flex justify-between static bg-bottom">
+      <div class="flex justify-between static">
         <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 relative"
           >Status: {{ infoCard.statusDescription }}</a
         >
@@ -124,7 +126,7 @@
 import moment from "moment";
 //import Axios from "axios";
 import saveAs from "file-saver";
-import ImagenesCard from "../DTC/ImagenesCard.vue"
+import ImagenesCard from "../DTC/ImagenesCard.vue";
 
 export default {
   props: {
@@ -134,7 +136,7 @@ export default {
     },
   },
   components: {
-    ImagenesCard
+    ImagenesCard,
   },
   data: function () {
     return {
@@ -150,7 +152,6 @@ export default {
     },
   },
   methods: {
-  
     mas: async function () {
       this.menosMas = false;
       await this.$store.dispatch(
@@ -245,12 +246,9 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
-   
   },
   beforeMount() {
     this.showBotonPDF = this.infoCard.statusId == 2 ? true : false;
-
-  
   },
 };
 </script>
