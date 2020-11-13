@@ -24,72 +24,48 @@ const getters = {
   getcomponentesEdit: () => state.componetesEdit,
   getDmgLibre: () => state.listaDmgLibre,
   getPropuestoLibre: () => state.listaPropuestoLibre,
-  getImagenesDTC: (state) => (reference) => {
-
-    return state.listaImagenesDTC.find(item => item.referenceNumber == reference)
-  }
-
+  getImagenesDTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference)
 };
-const mutations = {
 
-  listaInfoDTCMutation: (state, value) => {
-    state.listaInfoDTC = value
-  },
-  listaDTCTecnicoMutation: (state, value) => {
-    state.listaDTCTecnico = value;
-  },
-  listaDescriptionsMutation: (state, value) => {
-    state.listaDescriptions = value;
-  },
-  newlistaDmgMutationPush: (state, value) => {
-    state.newlistaDmg.push(value);
-  },
-  listaDmgMutationDelete: (state, value) => {
-    state.newlistaDmg.splice(value, 1)
-  },
-  listaDmgMutationUpdate: (state, value) => {
-    state.newlistaDmg.splice(value.index, 1, value.value)
-  },
-  listaDmgClearMutation: (state) => {
-    state.newlistaDmg = []
-  },
+const mutations = {
   listaDmgLibreClearMutation: (state) => {
     state.listaDmgLibre = []
     state.listaPropuestoLibre = []
   },
-  listaDTCMutation: (state, value) => {
-    state.listaDTC = value;
-  },
-  insertDmgCompleteMutation: (state, value) => {
-    state.insertDmgComplete = value
-  },
-  tableFormComponentMutation: (state, value) => {
-    state.tableFormComponent = value
-  },
   cleanOut: (state) => {
-
     state.listaDescriptions = []
     state.listaInfoDTC = []
   },
-  BORRAR_DTC_MUTATION: (state, value) => {
-    state.listaInfoDTC.splice(state.listaInfoDTC.findIndex(a => a.referenceNumber == value), 1);
-  },
-  COMPONENTES_EDIT: (state, value) => {
+  listaDTCMutation: (state, value) => state.listaDTC = value,
 
-    state.componetesEdit = value
-  },
-  LISTA_DMG_LIBRE_MUTATION: (state, value) => {
+  insertDmgCompleteMutation: (state, value) => state.insertDmgComplete = value,
 
-    state.listaDmgLibre = value
-  },
-  LISTA_PROPUESTO_LIBRE_EDIT_MUTATION: (state, value) => {
+  tableFormComponentMutation: (state, value) => state.tableFormComponent = value,
 
-    state.listaPropuestoLibre = value
-  },
-  LISTA_IMAGENES_DTC_MUTATION: (state, value) => {
-  
-    state.listaImagenesDTC.push(value)
-  },
+  BORRAR_DTC_MUTATION: (state, value) => state.listaInfoDTC.splice(state.listaInfoDTC.findIndex(a => a.referenceNumber == value), 1),
+
+  COMPONENTES_EDIT: (state, value) => state.componetesEdit = value,
+
+  LISTA_DMG_LIBRE_MUTATION: (state, value) => state.listaDmgLibre = value,
+
+  LISTA_PROPUESTO_LIBRE_EDIT_MUTATION: (state, value) => state.listaPropuestoLibre = value,
+
+  LISTA_IMAGENES_DTC_MUTATION: (state, value) => state.listaImagenesDTC.push(value),
+
+  listaInfoDTCMutation: (state, value) => state.listaInfoDTC = value,
+
+  listaDTCTecnicoMutation: (state, value) => state.listaDTCTecnico = value,
+
+  listaDescriptionsMutation: (state, value) => state.listaDescriptions = value,
+
+  newlistaDmgMutationPush: (state, value) => state.newlistaDmg.push(value),
+
+  listaDmgMutationDelete: (state, value) => state.newlistaDmg.splice(value, 1),
+
+  listaDmgMutationUpdate: (state, value) => state.newlistaDmg.splice(value.index, 1, value.value),
+
+  listaDmgClearMutation: (state) => state.newlistaDmg = [],
+
   LIMPIAR_IMAGENES_REF: (state, value) => {
 
      let index = state.listaImagenesDTC
@@ -100,17 +76,14 @@ const mutations = {
       if(index > -1)
             state.listaImagenesDTC.splice(index, 1)
   },
-  LIMPIAR_IMAGENES_FULL: (state) => {
-    state.listaImagenesDTC = []
-  }
+  LIMPIAR_IMAGENES_FULL: (state) => state.listaImagenesDTC = []  
 };
 
 const actions = {
 
   async buscarDTC({ commit }) {
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
-      .then(response => {
-        console.log(response.data);
+      .then(response => {        
         commit("listaDescriptionsMutation", response.data.result);
       })
       .catch(Ex => {
@@ -128,12 +101,9 @@ const actions = {
   },
   //Consulta API Crear DTC
   async crearDmg({ state, commit }, value) {
-
     let arrayDmg = []
     for (let i = 0; i < state.newlistaDmg.length; i++) {
-
       for (let g = 0; g < state.newlistaDmg[i].length; g++) {
-
         state.newlistaDmg[i][g]['ReferenceNumber'] = value.refNum
         state.newlistaDmg[i][g]['IntPartida'] = i + 1
         state.newlistaDmg[i][g]['strLifeTimeReal'].toString()
@@ -141,9 +111,8 @@ const actions = {
       }
     }
     await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`, arrayDmg)
-      .then(response => {
-
-        if (response.status == 201) {
+      .then(response => {      
+        if (response.status == 200) {
           commit('insertDmgCompleteMutation', true)
         }
       })
@@ -161,7 +130,6 @@ const actions = {
       });
   },
   async tableFormComponent({ commit }, value) {
-
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/TableForm/${value}`)
       .then(response => {
 
@@ -176,9 +144,7 @@ const actions = {
   },
   async BORRAR_DTC({ commit }, value) {
     await Axios.delete(`http://prosisdev.sytes.net:88/api/dtcData/Delete/${value}`)
-      .then(response => {
-
-        console.log(response)
+      .then(() => {
         commit("BORRAR_DTC_MUTATION", value)
       })
       .catch(Ex => {
@@ -189,7 +155,6 @@ const actions = {
 
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/${value}`)
       .then(response => {
-
         commit("COMPONENTES_EDIT", response.data.result)
       })
       .catch(Ex => {
@@ -200,7 +165,6 @@ const actions = {
 
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/Open/${value}`)
       .then(response => {
-
         commit("COMPONENTES_EDIT", response.data.result)
       })
       .catch(Ex => {
@@ -208,12 +172,9 @@ const actions = {
       });
   },
   async crearDmgLibre({ state, commit }, value) {
-
     let arrayDmg = []
     for (let i = 0; i < state.listaDmgLibre.length; i++) {
-
       let newItem = {
-
         BitFlag: 1,
         StrReferenceNumber: value.refNum,
         StrUnity: state.listaDmgLibre[i].unidad,
@@ -238,12 +199,9 @@ const actions = {
         StrModelProposed: state.listaPropuestoLibre[i].modelo,
       }
       arrayDmg.push(newItem)
-
-    }
-    console.log(arrayDmg)
+    }    
     await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/Open/${value.flagCreate}`, arrayDmg)
       .then(response => {
-
         if (response.status == 201) {
           commit('insertDmgCompleteMutation', true)
         }

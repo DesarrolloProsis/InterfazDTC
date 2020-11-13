@@ -346,13 +346,7 @@
               <p class="text-md mb-1 font-semibold text-gray-900">
                 Precio Total Unitario:
               </p>
-              <p>---------</p>
-              <!-- <input
-                v-validate="'required|numeric'"
-                v-model="precioTotal"
-                class="w-full"
-                type="text"
-              /> -->
+              <p>---------</p>             
             </div>
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">
@@ -464,7 +458,6 @@ export default {
     diagnostico: function (newValue) {
       this.$store.commit("Header/DIAGNOSTICO_MUTATION", newValue);
     },
-
     infoRow: {
       deep: true,
       handler(newValue) {
@@ -621,21 +614,10 @@ export default {
     borrar_componente_bus: function (index) {
       this.infoRow.splice(index, 1);
       this.sumatoria_conteo();
-    },
-    // infoFull: function (value) {
-    //   this.modal = true;
-    //   this.infoRow = Object.assign(this.listaEquipo[value]);
-    // },
+    }
   },
   computed: {
-    // sumatoria: function () {
-    //   let suma = 0;
-    //   for (let item of this.infoRow) {
-    //     console.log(item);
-    //     suma += parseInt(item.precioTotal);
-    //   }
-    //   return "$ " + suma.toLocaleString("en-US");
-    // },
+
     letraMoneda: function () {
       let suma = 0;
       for (let item of this.infoRow) {

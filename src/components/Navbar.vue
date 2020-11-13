@@ -7,7 +7,6 @@
           Inicio
         </router-link>
       </div>
-
       <div class="flex sm:mt-4">
         <p class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{nameUser}}</p>
         <router-link

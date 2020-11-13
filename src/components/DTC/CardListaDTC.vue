@@ -67,7 +67,7 @@
           </div>
         </div>
       </div>
-      <div class="" v-if="showmenosMas">
+      <div v-if="showmenosMas">
         <div class="flex justify-between">
           <div class="">
             <button
@@ -218,7 +218,7 @@ export default {
     pdf: function () {
       var oReq = new XMLHttpRequest();
       // The Endpoint of your server
-      let urlTopdf = this.infoCard.openMode
+      let urlTopdf = this.infoCard.openMode == false
         ? `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}`
         : `http://prosisdev.sytes.net:88/api/pdf/open/${this.infoCard.referenceNumber}`;
 

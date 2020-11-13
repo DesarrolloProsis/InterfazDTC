@@ -1279,8 +1279,6 @@ export default {
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
-
-
 .tooltip {
   display: block !important;
   z-index: 10000;

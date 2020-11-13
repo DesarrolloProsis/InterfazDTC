@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <div class="flex justify-center sm:hidden">
       <div class="p-4">        
@@ -543,7 +542,6 @@
           </tbody>
         </table>
       </div>
-
       <div class="flex flex-col p-5" v-if="modal">
         <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
           <div class="inline-flex m-2">
@@ -618,7 +616,6 @@
     </div>
     <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
   </div>
-  
 </template>
 
 <script>

@@ -1,15 +1,16 @@
 <template>
   <div>
     <div class="border justify-items-center w-66 sm:w-auto">
+      <!-- Si no hay nada en el array de imagenes  -->
       <template v-if="cargarImagen">
         <div
-          class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed"
+          class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full"
           v-if="editar_imagen"
         >
           <div class="inline-flex justify-center">
             <input
               type="file"
-              class="opacity-0 w-64 h-12 absolute"
+              class="opacity-0 w-auto h-12 absolute"
               multiple
               @change="recibirImagenes"
             />
@@ -23,12 +24,12 @@
         </div>
         <div
           v-else
-          class="border-2 border-gray-500 flex-col justify-center border-dashed w-64"
+          class="border-2 border-gray-500 flex-col justify-center border-dashed w-full"
         >
           <div
             v-for="(item, key) in fileUpload"
             :key="key"
-            class="border border-r-0 justify-between inline-flex w-64"
+            class="border border-r-0 justify-between inline-flex w-full"
           >
             <div class="inline-flex">
               <img
@@ -136,7 +137,8 @@
           </div>
         </div>
         <div class="p-1" v-show="!agregarbool">
-          <img
+          <img     
+               
             :src="imgbase64.array_img[this.index_imagen_actual].image"
             style="width: 500px !important; height: 200px !important"
             alt
@@ -172,16 +174,29 @@ export default {
       eliminar_name: [],
     };
   },
-  mounted: function () {
+  beforeMount: function () {
     try {
       let validar = this.$store.getters["DTC/getImagenesDTC"](
         this.referenceNumber
       );
+
+      //SI el array de imagenes tiene algo
       if (validar != undefined) {
-        this.agregarbool = false;
-        this.cargarImagen = false;
-        this.imgbase64 = validar;
-      } else {
+
+        if (validar.array_img.length > 0) {
+          this.agregarbool = false;
+          this.cargarImagen = false;
+          this.imgbase64 = validar;              
+        } else {
+          this.agregarbool = true;
+          this.cargarImagen = true;
+          this.imgbase64 = {
+            array_img: [],
+            referenceNumber: "",
+          };
+        }        
+      } 
+      else {
         this.agregarbool = true;
         this.cargarImagen = true;
         this.imgbase64 = {
@@ -189,6 +204,7 @@ export default {
           referenceNumber: "",
         };
       }
+      
     } catch (err) {
       console.log("erro before mount");
       console.log(err);
@@ -216,8 +232,8 @@ export default {
         this.imagenes_enviar.push(obj);
       };
       reader.readAsDataURL(file);
-      this.cargarImagen = true
-      this.agregarbool = true
+      this.cargarImagen = true;
+      // this.agregarbool = true
       this.editar_imagen = false;
     },
     eliminarImagen: function (item) {
@@ -262,13 +278,12 @@ export default {
           imgbase: imgbase64.image,
           name: imgbase64.fileName,
         };
-
         this.fileUpload.push(obj);
       }
-      this.editar_imagen = false;
+      this.editar_imagen = false;      
       this.cargarImagen = true;
     },
-    uploadFiles: async function () {      
+    uploadFiles: async function () {
       let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
       let eliminar_promise = new Promise(async (resolve, reject) => {
         console.log("inicie a eliminar");
@@ -347,15 +362,14 @@ export default {
           resolve("ok");
         } else {
           console.log("no hay que insertar");
+          this.cargarImagen = false;
           resolve("ok");
         }
       });
 
       Promise.all([agregar_promise, eliminar_promise]);
-
     },
     actualizar_img: async function (nombre_plaza) {
-
       let array_nombre_imagenes = [];
 
       console.log("inicie a actualizar");
@@ -400,7 +414,7 @@ export default {
       } else {
         this.agregarbool = true;
         this.cargarImagen = true;
-        this.editar_imagen = true
+        this.editar_imagen = true;
       }
       this.eliminar_name = [];
       this.imagenes_enviar = [];

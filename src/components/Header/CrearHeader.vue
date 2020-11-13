@@ -250,12 +250,15 @@ export default {
   },
   methods: {
     async crearReferencia() {
-      let diaActual = parseInt(this.datosSinester.SinisterDate.substr(8, 2));
-      let mesActual = parseInt(this.datosSinester.SinisterDate.substr(6, 2));
-      let yearActual = parseInt(this.datosSinester.SinisterDate.substr(0, 4));
+
+      let _datesplit = this.datosSinester.SinisterDate.split('-')
+      let diaActual = parseInt(_datesplit[2])
+      let mesActual = parseInt(_datesplit[1])
+      let yearActual = parseInt(_datesplit[0])
       let diaCorriente = 0;
       let newYear = parseInt(this.datosSinester.SinisterDate.substr(2, 2));
       diaCorriente = diaActual;
+      console.log(yearActual)
       for (let i = 1; i < mesActual; i++) {
         diaCorriente += parseInt(new Date(yearActual, i, 0).getDate());
       }

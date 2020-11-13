@@ -141,10 +141,7 @@ function obj_partida(laneSelect, equipoValid, dateSinester){
     let newObjectPartida = []
     for(const lane of laneSelect){
                         
-        let component = equipoValid.find(item => item.lane == lane)
-
-        
-        
+        let component = equipoValid.find(item => item.lane == lane)                
         let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
         let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
         let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)   

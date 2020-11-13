@@ -76,28 +76,20 @@ const getters = {
 
 };
 const mutations = {
-  listaRefaccionesMutation: (state, value) => {
-    state.listaRefacciones = value;
-  },
-  listaLaneMutation: (state, value) => {
-    state.listaLane = value;
-  },
-  listaRefaccionValidMutation: (state, value) => {
-    state.listaRefaccionesValid = value;
-  },
+  listaRefaccionesMutation: (state, value) => state.listaRefacciones = value,
+
+  listaLaneMutation: (state, value) => state.listaLane = value,
+
+  listaRefaccionValidMutation: (state, value) => state.listaRefaccionesValid = value,
   //Inventario
-  listaRefaccionesInventarioMutation: (state, value) => {
-    state.listaInventario = value
-  },
-  listaLaneInventarioMutation: (state, value) => {
-    state.listaLaneInventario = value
-  },  
-  infoComponenteInventarioMutation: (state, value) => {
-    state.infoComponenteInventario = value
-  },
-  listaUbicacionGeneralInventarioMutation: (state, value) => {
-    state.listaUbicacionGeneralInventario = value
-  },
+  listaRefaccionesInventarioMutation: (state, value) => state.listaInventario = value,
+
+  listaLaneInventarioMutation: (state, value) => state.listaLaneInventario = value,  
+
+  infoComponenteInventarioMutation: (state, value) => state.infoComponenteInventario = value,
+
+  listaUbicacionGeneralInventarioMutation: (state, value) => state.listaUbicacionGeneralInventario = value,
+  
   cleanOut: (state) => {
     state.infoComponenteInventario = []
     state.listaInventario = []
@@ -107,12 +99,7 @@ const mutations = {
     state.listaRefaccionesValid = []
     state.listaUbicacionGeneralInventario = []
   },
-
-  FULL_COMPONENT_MUTATION: (state, value) => {
-
-      state.full_Component = value
-  }
-
+  FULL_COMPONENT_MUTATION: (state, value) => state.full_Component = value
 }
 
 const actions = {
@@ -156,10 +143,6 @@ const actions = {
   async updateComponenteInventary(context,value){
         
     let newObject = {
-      // strFltLane: value.infoComponentes.ubicacion,
-      // strFltComponent: value.infoComponentes.componente,
-      // strFltSerialNumber: value.infoComponentes.oldNumSerie,
-      // strFltSquare: value.infoPlaza.numPlaza,
       TableFolio: value.infoComponentes.idComponent,
       strInventaryNumCapufe: value.infoComponentes.numInventarioCapufe,
       strInventaryNumProsis: value.infoComponentes.numInventarioProsis,
@@ -171,26 +154,18 @@ const actions = {
       intUbicacion: value.infoUbicacionGeneral[0].typeUbicationId,
       strMaintenanceDate: value.infoComponentes.fechaUltimoMantenimiento,
       strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento
-    }    
-    
-    console.log(newObject)
+    }          
     await Axios.put(`http://prosisdev.sytes.net:88/api/component/updateInventory`, newObject)
-    .then(response => {          
-
-        console.log(response)
-      
+    .then(() => {          
     })
     .catch(Ex => {
       console.log(Ex);
     });
   },
-
   async buscarComponentes({ commit }, value) {    
-
-    console.log(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
+    
     await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
-      .then(response => {
-        
+      .then(response => {        
         commit("listaRefaccionesMutation", response.data.result);
       })
       .catch(Ex => {
@@ -203,44 +178,33 @@ const actions = {
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
     )
-      .then(response => {    
-                
+      .then(response => {                    
           commit("listaRefaccionValidMutation", response.data.result.listaFiltro);
           commit("listaLaneMutation", response.data.result.listLane);        
       })
-      .catch(Ex => {
-        console.log('Cath aqui')
+      .catch(Ex => {        
         console.log(Ex);
       })
   },
   async FULL_COMPONETES({commit}, value){
-
-    console.log(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
+    
     await Axios.get(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
-      .then(response => {    
-          
-        console.log(response.data.result)
+      .then(response => {                    
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
-      .catch(Ex => {
-        console.log('Catch aqui')
+      .catch(Ex => {        
         console.log(Ex);
       })
   },
   async EDIT_COMPONETE_QUICK({dispatch}, value){
     
     await Axios.put(`http://prosisdev.sytes.net:88/api/Component/UpdateInventoryList`, value)
-      .then(response => {    
-          
-        console.log(response.data.result)
-        dispatch('FULL_COMPONETES')
-               
+      .then(() => {                      
+        dispatch('FULL_COMPONETES')       
       })
-      .catch(Ex => {
-        console.log('Catch aqui')
+      .catch(Ex => {        
         console.log(Ex);
       })
-
   }
 };
 
