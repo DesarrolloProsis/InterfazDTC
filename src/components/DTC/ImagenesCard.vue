@@ -137,8 +137,7 @@
           </div>
         </div>
         <div class="p-1" v-show="!agregarbool">
-          <img     
-               
+          <img
             :src="imgbase64.array_img[this.index_imagen_actual].image"
             style="width: 500px !important; height: 200px !important"
             alt
@@ -180,23 +179,24 @@ export default {
         this.referenceNumber
       );
 
+      console.log(validar);
+
       //SI el array de imagenes tiene algo
       if (validar != undefined) {
 
-        if (validar.array_img.length > 0) {
-          this.agregarbool = false;
-          this.cargarImagen = false;
-          this.imgbase64 = validar;              
-        } else {
-          this.agregarbool = true;
-          this.cargarImagen = true;
-          this.imgbase64 = {
-            array_img: [],
-            referenceNumber: "",
-          };
-        }        
-      } 
-      else {
+        this.agregarbool = false;
+        this.cargarImagen = false;
+        this.imgbase64 = validar;
+
+        // if(validar.array_img.length <= 0) {
+        //   this.agregarbool = true;
+        //   this.cargarImagen = true;
+        //   this.imgbase64 = {
+        //     array_img: [],
+        //     referenceNumber: "",
+        //   };
+        // }
+      } else {
         this.agregarbool = true;
         this.cargarImagen = true;
         this.imgbase64 = {
@@ -204,7 +204,6 @@ export default {
           referenceNumber: "",
         };
       }
-      
     } catch (err) {
       console.log("erro before mount");
       console.log(err);
@@ -280,7 +279,7 @@ export default {
         };
         this.fileUpload.push(obj);
       }
-      this.editar_imagen = false;      
+      this.editar_imagen = false;
       this.cargarImagen = true;
     },
     uploadFiles: async function () {
