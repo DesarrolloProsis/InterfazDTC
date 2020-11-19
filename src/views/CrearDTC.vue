@@ -6,6 +6,7 @@
       :datosUser="datosUser"
       :headerEdit="headerEdit"
       :observaciones="observaciones"
+      :listaPlazasUser="listaPlazasUser"
     ></Header>
 
     <div
@@ -106,6 +107,7 @@
 <script>
 import Nav from "../components/Navbar";
 import Header from "../components/Header/CrearHeader";
+import EventBus from "../services/EventBus.js";
 import saveAs from "file-saver";
 
 export default {
@@ -127,12 +129,23 @@ export default {
       flagCreate: true,
       listaComponentes: "",
       dateSinester: "",
+      listaPlazasUser: []
     };
+  },
+  created(){
+
+    EventBus.$on("ACTUALIZAR_HEADER", (index) => {
+      console.log(index)
+        this.datosUser = this.$store.getters["Header/getHeaders"];
+        this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
+        this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
+    });
   },
   beforeMount() {
     this.$store.commit("Header/PLAZAELEGIDAMUTATION", 0)
     this.datosUser = this.$store.getters["Header/getHeaders"];
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
+    this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
     this.flagCreate = true;
 
     if (JSON.stringify(this.$route.query) != "{}") {

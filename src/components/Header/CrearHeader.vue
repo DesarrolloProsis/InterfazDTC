@@ -170,13 +170,18 @@
       <div class="text-sm"> 
          <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
         <select
-          v-model="datosSinester.TypeDescriptionId"
-          v-validate="'required'"          
+          v-model="plazaSelect"
+          @change="cambiarPlaza"                   
           class="w-48"
           type="text"
           name="TipoDescripcion"
         >
           <option disabled value>Selecionar...</option>
+           <option
+            v-for="(item, index) in listaPlazasUser"
+            v-bind:value="item.numPlaza"
+            :key="index"
+          >{{ item.plazaName }}</option>
           
         </select>            
          
@@ -218,6 +223,7 @@
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+import EventBus from "../../services/EventBus.js";
 import moment from "moment";
 export default {
   name: "CrearHeader",
@@ -234,6 +240,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    listaPlazasUser:{
+      type: Array,
+      default: () => []
+    }
   },
   components: {
     TablaEquipoMalo,
@@ -258,7 +268,8 @@ export default {
       },
       listaComponentes: [],
       fechaSiniestoEdit: false,
-      sizeSmall: false,
+      sizeSmall: false,  
+      plazaSelect: ''    
     };
   },
   methods: {
@@ -298,6 +309,13 @@ export default {
         "Header/getreferenceNum"
       ];
     },
+    cambiarPlaza(){
+
+        let index = this.listaPlazasUser.findIndex(item => item.numPlaza == this.plazaSelect)        
+        this.$store.commit("Header/PLAZAELEGIDAMUTATION", index)
+        this.$store.commit("Login/PLAZAELEGIDAMUTATION",index)
+        EventBus.$emit("ACTUALIZAR_HEADER", index);
+    }
   },
   watch: {
     //ARREGLAR WATCHER!!!!!
@@ -313,6 +331,8 @@ export default {
     },
   },
   beforeMount: async function () {
+
+    this.plazaSelect = this.listaPlazasUser[0].numPlaza
     let value = await this.$store.getters["Header/getConvenioPlaza"];
     await this.$store.dispatch("Refacciones/buscarComponentes", value);
     this.listaComponentes = await this.$store.getters[

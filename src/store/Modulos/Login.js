@@ -4,16 +4,27 @@ const state = {
   listUser: null,
   listaPlazas: [],
   userLogeado: [],
-  listaTec: []
+  listaTec: [],
+  PLAZAELEGIDA: 0
+
 };
 
 const getters = {
 
   getUserForDTC: () => {
     return {
-      numPlaza: state.listUser[0].plaza.substring(0, 3),
+      numPlaza: state.listUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
       idUser: state.listUser[0].userId
     }
+  },
+  getListaPlazasUser: () => {
+
+    return state.userLogeado.map((item) => {
+      let obj = {}
+      obj["numPlaza"] = item.squareCatalogId
+      obj["plazaName"] = item.squareName
+      return obj
+    })
   },
   getUser: () => state.listUser,
   getListaPlazas: () => state.listaPlazas,
@@ -24,8 +35,11 @@ const getters = {
 };
 const mutations = {
 
-  listaUser: (state, value) => state.listUser = value,
-
+  listaUser: (state, value) => {
+    state.listUser = value,
+    state.PLAZAELEGIDA = 0
+  },
+  PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
   listaPlazasMutation: (state, value) => state.listaPlazas = value,
 
   userLogeadoMutation: (state, value) => state.userLogeado = value,
