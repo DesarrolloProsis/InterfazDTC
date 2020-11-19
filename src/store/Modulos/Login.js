@@ -91,8 +91,8 @@ const actions = {
     console.log('usuario')
     await Axios.get(
       
-      `https://localhost:44358//api/login/${value.User}/${value.Password}/${false}`
-      //`http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`
+      //`https://localhost:44358//api/login/${value.User}/${value.Password}/${false}`
+      `http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`
     )
       .then(response => {
         console.log(response)
