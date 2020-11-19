@@ -14,12 +14,14 @@
             name="nombre"
             v-validate="'required'"
           />
-          <p class="text-red-600 text-xs">{{ errors.first('nombre') }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("nombre") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
-          <p for="nombre" class="text-sm text-gray-800 mb-1">Apellido Materno</p>
+          <p for="nombre" class="text-sm text-gray-800 mb-1">
+            Apellido Materno
+          </p>
           <input
             v-model="dataRegister.apellidoMaterno"
             type="text"
@@ -27,12 +29,16 @@
             name="apellidoPaterno"
             v-validate="'required'"
           />
-          <p class="text-red-600 text-xs">{{ errors.first('apellidoPaterno') }}</p>
+          <p class="text-red-600 text-xs">
+            {{ errors.first("apellidoPaterno") }}
+          </p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
-          <p for="nombre" class="text-sm text-gray-800 mb-1">Apellido Paterno</p>
+          <p for="nombre" class="text-sm text-gray-800 mb-1">
+            Apellido Paterno
+          </p>
           <input
             v-model="dataRegister.apellidoPaterno"
             type="text"
@@ -40,12 +46,16 @@
             name="apellidoMaterno"
             v-validate="'required'"
           />
-          <p class="text-red-600 text-xs">{{ errors.first('apellidoMaterno') }}</p>
+          <p class="text-red-600 text-xs">
+            {{ errors.first("apellidoMaterno") }}
+          </p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
-          <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
+          <p class="text-sm mb-1 font-semibold text-gray-700">
+            Tipo de Usuario
+          </p>
           <select
             v-model="dataRegister.tipoUsuario"
             class="w-64"
@@ -56,7 +66,7 @@
             <option value="1">Tecnico</option>
             <option value="2">Administrador</option>
           </select>
-          <p class="text-red-600 text-xs">{{ errors.first('tipoUsuario') }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("tipoUsuario") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
@@ -69,12 +79,14 @@
             name="password"
             v-validate="'required'"
           />
-          <p class="text-red-600 text-xs">{{ errors.first('password') }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("password") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-5">
-          <p for="nombre" class="text-sm text-gray-800 mb-1">Repite Contraseña</p>
+          <p for="nombre" class="text-sm text-gray-800 mb-1">
+            Repite Contraseña
+          </p>
           <input
             v-model="dataRegister.reContraseña"
             type="password"
@@ -82,12 +94,14 @@
             name="repassword"
             v-validate="'required'"
           />
-          <p class="text-red-600 text-xs">{{ errors.first('repassword') }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("repassword") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center mb-5">
         <div class="m-5">
-          <button @click="crear" class="border-green-600 border w-64 h-12">Registrar</button>
+          <button @click="crear" class="border-green-600 border w-64 h-12">
+            Registrar
+          </button>
         </div>
       </div>
     </div>
@@ -122,38 +136,33 @@ export default {
               Password: this.dataRegister.constraseña,
               Rol: this.dataRegister.tipoUsuario,
             };
-            alert('hola')
-            this.$store.dispatch("Usuarios/NuevoUser", CreateUser)
-              .then(result =>{
-
-                if(JSON.stringify(result) != '{}'){
-                    
-              this.$notify.success({
-                title: "Ok!!",
-                msg: "SE CREO CORRECTAMENTE EL USUARIO.",
-                position: "bottom right",
-                styles: {
-                  height: 100,
-                  width: 500,
-                },                  
-              });
-              this.$router.push("login");
+            this.$store
+              .dispatch("Usuarios/NuevoUser", CreateUser)
+              .then((result) => {
+                if (JSON.stringify(result) != "{}") {
+                  this.$notify.success({
+                    title: "Ok!!",
+                    msg: "SE CREO CORRECTAMENTE EL USUARIO.",
+                    position: "bottom right",
+                    styles: {
+                      height: 100,
+                      width: 500,
+                    },
+                  });
+                  this.$router.push("login");
                 }
               })
-              .catch(error => {
-
-                   this.$notify.error({
-              title: "Ops!!",
-              msg: error,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            });
-
-
-              })
+              .catch((error) => {
+                this.$notify.error({
+                  title: "Ops!!",
+                  msg: error,
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+              });
           } else {
             this.$notify.error({
               title: "Ops!!",
@@ -164,8 +173,8 @@ export default {
                 width: 500,
               },
             });
-            this.dataRegister.constraseña = ''
-            this.dataRegister.reContraseña = ''
+            this.dataRegister.constraseña = "";
+            this.dataRegister.reContraseña = "";
           }
         } else {
           this.$notify.error({

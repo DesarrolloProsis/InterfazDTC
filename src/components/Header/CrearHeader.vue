@@ -167,7 +167,20 @@
         </label>
       </div>
       <!--**************Septima Linea******************************-->
-      <div></div>
+      <div class="text-sm"> 
+         <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
+        <select
+          v-model="datosSinester.TypeDescriptionId"
+          v-validate="'required'"          
+          class="w-48"
+          type="text"
+          name="TipoDescripcion"
+        >
+          <option disabled value>Selecionar...</option>
+          
+        </select>            
+         
+      </div>
       <div></div>
       <div class="pr-2">
         <label>Coordinacion Regional:</label>
