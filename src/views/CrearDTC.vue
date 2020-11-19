@@ -205,10 +205,11 @@ export default {
             },
           });
 
+          
           if (status == 2) {
             var oReq = new XMLHttpRequest();
             // The Endpoint of your server
-            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}`;
+            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}/${this.refNum.slice(0,3)}`;
             let namePdf = `ReportDTC-${this.refNum}.pdf`;
             // Configure XMLHttpRequest
             oReq.open("GET", urlTopdf, true);
