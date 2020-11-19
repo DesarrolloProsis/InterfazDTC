@@ -216,9 +216,7 @@ export default {
       });
     },
     pdf: function () {      
-      var oReq = new XMLHttpRequest();
-
-      console.log(`http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0,3)}`)
+      var oReq = new XMLHttpRequest();      
       // The Endpoint of your server
       let urlTopdf = this.infoCard.openMode == false
         ? `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0,3)}`
