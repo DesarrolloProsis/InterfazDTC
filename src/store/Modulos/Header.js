@@ -8,6 +8,8 @@ const state = {
   diagnostico: '',
   listaUnique: [],
   insertHeaderComplete: false,
+  PLAZAELEGIDA: 0
+
 };
 
 const getters = {
@@ -16,20 +18,20 @@ const getters = {
     return { ...state.datosSinester, 'diagnostico': state.diagnostico, 'observaciones': state.observaciones }
   },
   getHeaders: function () {
-    if (state.listaHeaders.length === 1) {
+    if (state.listaHeaders.length > 0) {
       return {
-        agrement: state.listaHeaders[0]["agrement"],
-        managerName: state.listaHeaders[0]["managerName"],
-        position: state.listaHeaders[0]["position"],
-        mail: state.listaHeaders[0]["mail"],
-        plaza: state.listaHeaders[0]["plaza"],
-        nombre: state.listaHeaders[0]["nombre"],
-        agremmentInfoId: state.listaHeaders[0]["agremmentInfoId"],
-        userId: state.listaHeaders[0]["userId"],
-        regionalCoordination: state.listaHeaders[0]["regionalCoordination"],
-        referenceSquare: state.listaHeaders[0]["referenceSquare"],
-        adminName: state.listaHeaders[0]["adminName"],
-        adminMail: state.listaHeaders[0]["adminMail"]
+        agrement: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
+        managerName: state.listaHeaders[state.PLAZAELEGIDA]["managerName"],
+        position: state.listaHeaders[state.PLAZAELEGIDA]["position"],
+        mail: state.listaHeaders[state.PLAZAELEGIDA]["mail"],
+        plaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"],
+        nombre: state.listaHeaders[state.PLAZAELEGIDA]["nombre"],
+        agremmentInfoId: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"],
+        userId: state.listaHeaders[state.PLAZAELEGIDA]["userId"],
+        regionalCoordination: state.listaHeaders[state.PLAZAELEGIDA]["regionalCoordination"],
+        referenceSquare: state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"],
+        adminName: state.listaHeaders[state.PLAZAELEGIDA]["adminName"],
+        adminMail: state.listaHeaders[state.PLAZAELEGIDA]["adminMail"]
       };
     } else return state.listaHeaders;
   },
@@ -37,8 +39,8 @@ const getters = {
     if (state.listaHeaders.length > 0) {
       return {
         id: null,
-        numConvenio: state.listaHeaders[0]["agrement"],
-        numPlaza: state.listaHeaders[0]["plaza"].substr(0, 3)
+        numConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
+        numPlaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 3)
       };
     } else return state.listaHeaders;
   },
@@ -73,6 +75,8 @@ const mutations = {
     state.referenceNum = ''
   },
   insertHeaderCompleteMutation: (state, value) => state.insertHeaderComplete = value,
+
+  PLAZAELEGIDAMUTATION: (state,value) => state.PLAZAELEGIDA = value,
 
   datosSinesterMutation: (state, value) => state.datosSinester = value,
 
@@ -115,7 +119,10 @@ const actions = {
       });
   },
   //Consulta API Crear Carril
-  async crearHeaders({ state, commit }, value) {
+  async crearHeaders({ state, commit }, value) {  
+
+    console.log(value)
+
 
     let newObject = {
       ReferenceNumber: state.referenceNum,
@@ -133,10 +140,12 @@ const actions = {
       AgremmentInfoId: value.datosUser.agremmentInfoId,
       flag: value.flag,
       DTCStatus: value.status,
-      OpenFlag: value.openFlag
+      OpenFlag: value.openFlag,
+      SquareId: value.datosUser.plaza.slice(0,3)
     }
     console.log(newObject)
-    await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)
+
+    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
       .then(response => {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)

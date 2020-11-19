@@ -68,6 +68,7 @@ const actions = {
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
   async buscarUsuarioCokie({ commit }, value) {
 
+    console.log('cookie')
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`
     )
@@ -86,10 +87,15 @@ const actions = {
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async buscarUsuario({ commit }, value) {
+
+    console.log('usuario')
     await Axios.get(
-      `http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`
+      
+      `https://localhost:44358//api/login/${value.User}/${value.Password}/${false}`
+      //`http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`
     )
       .then(response => {
+        console.log(response)
         commit("listaUser", response.data.result);
       })
       .catch(Ex => {
