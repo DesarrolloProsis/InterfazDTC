@@ -309,12 +309,39 @@ export default {
         "Header/getreferenceNum"
       ];
     },
-    cambiarPlaza(){
+    async cambiarPlaza(){
 
         let index = this.listaPlazasUser.findIndex(item => item.numPlaza == this.plazaSelect)        
         this.$store.commit("Header/PLAZAELEGIDAMUTATION", index)
         this.$store.commit("Login/PLAZAELEGIDAMUTATION",index)
         EventBus.$emit("ACTUALIZAR_HEADER", index);
+          this.plazaSelect = this.listaPlazasUser[0].numPlaza
+    let value = await this.$store.getters["Header/getConvenioPlaza"];
+    await this.$store.dispatch("Refacciones/buscarComponentes", value);
+    this.listaComponentes = await this.$store.getters[
+      "Refacciones/getListaRefacciones"
+    ];
+    await this.$store.dispatch("DTC/buscarDescriptions");
+    this.listaDescripciones = await this.$store.getters[
+      "DTC/getListaDescriptions"
+    ];
+    if (JSON.stringify(this.headerEdit) != "{}") {
+      this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
+      this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
+      this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
+      this.datosSinester.SinisterDate = moment(
+        this.headerEdit.sinisterDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
+      this.datosSinester.FailureDate = moment(
+        this.headerEdit.failureDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.ShippingElaboracionDate = moment(
+        this.headerEdit.shippingDate
+      ).format("YYYY-MM-DD");
+      this.datosSinester.TypeDescriptionId = 2;
+      this.fechaSiniestoEdit = true;
+    }
     }
   },
   watch: {
