@@ -187,7 +187,6 @@ export default {
         this.agregarbool = false;
         this.cargarImagen = false;
         this.imgbase64 = validar;
-
         // if(validar.array_img.length <= 0) {
         //   this.agregarbool = true;
         //   this.cargarImagen = true;
