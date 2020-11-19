@@ -16,7 +16,7 @@ const getters = {
     return { ...state.datosSinester, 'diagnostico': state.diagnostico, 'observaciones': state.observaciones }
   },
   getHeaders: function () {
-    if (state.listaHeaders.length === 1) {
+    if (state.listaHeaders.length > 0) {
       return {
         agrement: state.listaHeaders[0]["agrement"],
         managerName: state.listaHeaders[0]["managerName"],
@@ -115,7 +115,10 @@ const actions = {
       });
   },
   //Consulta API Crear Carril
-  async crearHeaders({ state, commit }, value) {
+  async crearHeaders({ state, commit }, value) {  
+
+    console.log(value)
+
 
     let newObject = {
       ReferenceNumber: state.referenceNum,
@@ -133,10 +136,11 @@ const actions = {
       AgremmentInfoId: value.datosUser.agremmentInfoId,
       flag: value.flag,
       DTCStatus: value.status,
-      OpenFlag: value.openFlag
+      OpenFlag: value.openFlag,
+      SquareId: value.datosUser.plaza.slice(0,3)
     }
     console.log(newObject)
-    await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)
+    await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
       .then(response => {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)

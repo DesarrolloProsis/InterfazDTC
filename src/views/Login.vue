@@ -201,6 +201,7 @@ export default {
         } else {
           await this.$store.dispatch("Login/buscarUsuario", this.datos);
           let dataHeader = await this.$store.getters["Login/getUser"];
+          console.log(dataHeader)
           await this.$store.commit("Header/listaHeadersMutation", dataHeader);
           await this.$store.dispatch("DTC/buscarDescriptions");
           await this.$store.dispatch("Header/buscarListaUnique");
