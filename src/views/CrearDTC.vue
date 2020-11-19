@@ -130,6 +130,7 @@ export default {
     };
   },
   beforeMount() {
+    this.$store.commit("Header/PLAZAELEGIDAMUTATION", 0)
     this.datosUser = this.$store.getters["Header/getHeaders"];
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
     this.flagCreate = true;
