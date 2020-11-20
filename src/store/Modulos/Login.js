@@ -31,15 +31,16 @@ const getters = {
   getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
   getTypeUser: () => state.userLogeado[0].rollId,
   getListaTec: () => state.listaTec,
-  getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[0].squareCatalogId)
+  getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
 };
 const mutations = {
 
   listaUser: (state, value) => {
     state.listUser = value,
     state.PLAZAELEGIDA = 0
-  },
+  },  
   PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
+
   listaPlazasMutation: (state, value) => state.listaPlazas = value,
 
   userLogeadoMutation: (state, value) => state.userLogeado = value,
