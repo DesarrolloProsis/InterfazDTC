@@ -101,6 +101,8 @@ const actions = {
       
       console.log(value)
       await Axios.put(
+        
+         //`https://localhost:44358/api/User/newPassword`,value  
           `http://prosisdev.sytes.net:88/api/User/newPassword`,value      
         )
           .then(response => {

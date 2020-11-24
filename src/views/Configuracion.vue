@@ -306,13 +306,14 @@ export default {
 
           //if (this.enviarPassword) {
           let _UpUser = {
-            IdPassWord: this.User.UserId,
+            IdUser: this.User.UserId,
             Password: this.User.Password,
           };
+          console.log(_UpUser)
           this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
           
           //}
-          this.clearUser();
+          
           this.modal = false;
 
           this.$notify.success({
@@ -325,7 +326,7 @@ export default {
             },
           });
         }
-
+this.clearUser();
         //}
       } else {
         this.$notify.error({
