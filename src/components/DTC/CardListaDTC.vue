@@ -43,6 +43,19 @@
           class="cursor-pointer text-green-700 rel"
           >Ver Mas</a
         >
+          <!-- <button
+              v-if="!showBotonPDF"
+              @click.prevent="pruebas"
+              class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
+            >
+              <img
+                src="../../assets/img/pencil.png"
+                class="mr-2"
+                width="20"
+                height="1"
+              />
+              <span class="text-xs">Editar</span>
+            </button> -->
       </div>
       <!-- VerMar -->
       <div v-if="showmenosMas">
