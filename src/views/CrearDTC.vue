@@ -210,7 +210,8 @@ export default {
             var oReq = new XMLHttpRequest();
             // The Endpoint of your server
             let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}/${this.refNum.slice(0,3)}`;
-            let namePdf = `ReportDTC-${this.refNum}.pdf`;
+            console.log(urlTopdf)
+            let namePdf = `ReportDTC-${this.refNum}.pdf`;            
             // Configure XMLHttpRequest
             oReq.open("GET", urlTopdf, true);
             // Important to use the blob response type
