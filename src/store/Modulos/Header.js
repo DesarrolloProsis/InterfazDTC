@@ -144,7 +144,8 @@ const actions = {
       SquareId: value.datosUser.plaza.slice(0,3)
     }
     console.log(newObject)
-
+    
+    //await Axios.post(`https://localhost:44358/api/dtcData`, newObject)
     await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)
       .then(response => {
         if (response.status === 201) {

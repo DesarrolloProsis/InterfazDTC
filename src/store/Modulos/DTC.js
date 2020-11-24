@@ -110,6 +110,7 @@ const actions = {
         arrayDmg.push(state.newlistaDmg[i][g])
       }
     }
+    //await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`, arrayDmg)
     await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`, arrayDmg)
       .then(response => {      
         if (response.status == 200) {
