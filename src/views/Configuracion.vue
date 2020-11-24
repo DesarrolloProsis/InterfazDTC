@@ -3,23 +3,31 @@
     <Nav></Nav>
     <div class="flex justify-center p-4">
       <div class="mt-5">
-        <h1 class="text-4xl font-medium text-gray-800 text-center">Lista de Usuarios</h1>
+        <h1 class="text-4xl font-medium text-gray-800 text-center">
+          Lista de Usuarios
+        </h1>
         <div class="mt-5 mb-5 flex justify-between">
           <div class="inline-flex mt-2">
-            <button
+            <!-- <button
               @click="modal = true"
-              v-if="typeUser"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
             >
-              <img src="../assets/img/more.png" class="mr-2" width="25" height="25" />
+              <img
+                src="../assets/img/more.png"
+                class="mr-2"
+                width="25"
+                height="25"
+              />
               <span class="text-xs">Agregar Usuario</span>
-            </button>
+            </button> -->
           </div>
           <div></div>
         </div>
         <div class="overflow-x-auto">
           <table class="border-2 border-gray-800">
-            <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
+            <tr
+              class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800"
+            >
               <th class="w-64 border-2 border-gray-800">Nombre</th>
               <th class="w-56 border-2 border-gray-800">Tipo de Usuario</th>
               <th class="w-64 border-2 border-gray-800">Correo</th>
@@ -30,24 +38,39 @@
               v-for="(item, key) in lista_Usuarios"
               :key="key"
             >
-              <td
-                class="text-center border-2 border-gray-800"
-              >{{ item.name + ' ' + item.lastName1 + ' ' + item.lastName2 }}</td>
-              <td class="text-center border-2 border-gray-800">{{ item.roll }}</td>
-              <td class="text-center border-2 border-gray-800 break-all">{{ item.mail }}</td>
+              <td class="text-center border-2 border-gray-800">
+                {{ item.name + " " + item.lastName1 + " " + item.lastName2 }}
+              </td>
+              <td class="text-center border-2 border-gray-800">
+                {{ item.roll }}
+              </td>
+              <td class="text-center border-2 border-gray-800 break-all">
+                {{ item.mail }}
+              </td>
               <td class="text-center border-2 border-gray-800">
                 <button
                   @click="editarUsuario(item)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
                 >
-                  <img src="../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15" />
+                  <img
+                    src="../assets/img/pencil.png"
+                    class="mr-2 sm:m-1"
+                    width="15"
+                    height="15"
+                  />
                   <span class="text-xs sm:hidden">Editar</span>
                 </button>
                 <button
+                  v-if="typeUser"
                   @click="Borrar(item)"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                 >
-                  <img src="../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15" />
+                  <img
+                    src="../assets/img/bin.png"
+                    class="mr-2 sm:m-1"
+                    width="15"
+                    height="15"
+                  />
                   <span class="text-xs sm:hidden">Borrar</span>
                 </button>
               </td>
@@ -56,7 +79,10 @@
         </div>
       </div>
       <div class="flex absolute justify-center inset-x-0 mt-24">
-        <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
+        <div
+          v-if="modal"
+          class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl"
+        >
           <div class="justify-end flex">
             <button @click="clearUser">X</button>
           </div>
@@ -66,11 +92,20 @@
               <input v-model="User.Name" class="w-full" type="text" />
             </div>
             <div class="mt-3">
-              <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Materno</p>
-              <input v-model="User.LastName1" class="w-full" type="text" name="NoReporte" />
+              <p class="text-sm mb-1 font-semibold text-gray-700">
+                Apellido Materno
+              </p>
+              <input
+                v-model="User.LastName1"
+                class="w-full"
+                type="text"
+                name="NoReporte"
+              />
             </div>
             <div class="mt-3">
-              <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Paterno</p>
+              <p class="text-sm mb-1 font-semibold text-gray-700">
+                Apellido Paterno
+              </p>
               <input v-model="User.LastName2" class="w-full" type="text" />
             </div>
 
@@ -79,15 +114,25 @@
                 @click="modal_Part = true"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700 m-1"
               >
-                <img src="../assets/img/rehacer.png" class="mr-2" width="25" height="25" />
+                <img
+                  src="../assets/img/rehacer.png"
+                  class="mr-2"
+                  width="25"
+                  height="25"
+                />
                 <span class="text-xs">Siguiente</span>
               </button>
             </div>
           </div>
           <div class="mt-2" v-else>
             <div class="mt-3">
-              <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
-              <select v-model="User.Roll" class="w-full">
+              <p class="text-sm mb-1 font-semibold text-gray-700">
+                Tipo de Usuario
+              </p>
+              <select v-if="!typeUser" v-model="User.Roll" class="w-full">
+                <option value="1">Tecnico</option>
+              </select>
+              <select v-else v-model="User.Roll" class="w-full">
                 <option disabled value>Selecionar...</option>
                 <option value="1">Tecnico</option>
                 <option value="2">Administrador</option>
@@ -99,7 +144,6 @@
                 v-model="User.Password"
                 class="w-full"
                 :disabled="enviarPassword"
-                type="password"
               />
             </div>
             <div class="mt-3">
@@ -108,7 +152,6 @@
                 v-model="User.RePassword"
                 class="w-full"
                 :disabled="enviarPassword"
-                type="password"
               />
             </div>
 
@@ -117,18 +160,13 @@
                 @click="modal_Part = false"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
               >
-                <img src="../assets/img/deshacer.png" class="mr-4" width="25" height="25" />
+                <img
+                  src="../assets/img/deshacer.png"
+                  class="mr-4"
+                  width="25"
+                  height="25"
+                />
                 <span class="text-xs">Regresar</span>
-              </button>
-            </div>
-            <div class="flex justify-center">
-              <button
-                v-if="disablePass"
-                @click="editPassWord"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
-              >
-                <img src="../assets/img/contraseña.png" class="mr-1" width="25" height="25" />
-                <span class="text-xs">Contraseña</span>
               </button>
             </div>
             <div class="flex justify-center">
@@ -136,8 +174,13 @@
                 @click="confirmar"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-green-700 m-1"
               >
-                <img src="../assets/img/more.png" class="mr-1" width="25" height="25" />
-                <span class="text-xs">Crear Usuario</span>
+                <img
+                  src="../assets/img/more.png"
+                  class="mr-1"
+                  width="25"
+                  height="25"
+                />
+                <span class="text-xs">Guardar</span>
               </button>
             </div>
           </div>
@@ -169,18 +212,20 @@ export default {
       modal_Part: false,
       disablePass: false,
       enviarPassword: false,
-      typeUser: true
+      typeUser: true,
     };
   },
   components: {
     Nav,
   },
   beforeMount: function () {
-    this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];
-    if(this.$store.getters['Login/getTypeUser'] == 1){
-        this.typeUser = false
+    this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];    
+    console.log(this.lista_Usuarios);
+    if (this.$store.getters["Login/getTypeUser"] == 1) {
+      this.typeUser = false;
     }
   },
+  computed: {},
   methods: {
     editPassWord: function () {
       //disbalePass False cuando quieraenviar la contraseña
@@ -201,14 +246,11 @@ export default {
       this.modal = false;
       this.modal_Part = false;
       this.disablePass = false;
-      if(this.enviarPassword){
+      if (this.enviarPassword) {
         this.enviarPassword = false;
         this.User.Password = "***********";
         this.User.RePassword = "***********";
       }
-      
-      
-      
     },
     editarUsuario: function (item) {
       console.log(item);
@@ -226,18 +268,30 @@ export default {
     },
     confirmar: function () {
       if (this.User.Password == this.User.RePassword) {
-        if (!this.disablePass) {
-          alert("Agregar Usuario");
-          let CreateUser = {
-            Name: this.User.Name,
-            LastName1: this.User.LastName1,
-            LastName2: this.User.LastName2,
-            Password: this.User.Password,
-            Rol: this.User.Roll,
-          };
-          this.$store.dispatch("Usuarios/NuevoUser", CreateUser);
-      
-          this.modal = false
+        // if (!this.disablePass) {
+        //   alert("Agregar Usuario");
+        //   let CreateUser = {
+        //     Name: this.User.Name,
+        //     LastName1: this.User.LastName1,
+        //     LastName2: this.User.LastName2,
+        //     Password: this.User.Password,
+        //     Rol: this.User.Roll,
+        //   };
+        //   this.$store.dispatch("Usuarios/NuevoUser", CreateUser);
+
+        //   this.modal = false;
+        // } else {
+
+        if (this.User.Password == "") {
+          this.$notify.error({
+            title: "Ops!!",
+            msg: "LAS CONTRASEÑAS ESTA VACIO",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
         } else {
           let UpUser = {
             UserId: this.User.UserId,
@@ -248,8 +302,18 @@ export default {
             Mail: this.User.Mail,
             Rol: this.User.Roll,
           };
-          this.$store.dispatch("Usuarios/Update_User", UpUser);
-          console.log(UpUser);          
+          this.$store.dispatch("Usuarios/Update_User", UpUser);          
+
+          //if (this.enviarPassword) {
+          let _UpUser = {
+            IdPassWord: this.User.UserId,
+            Password: this.User.Password,
+          };
+          this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
+          
+          //}
+          this.clearUser();
+          this.modal = false;
 
           this.$notify.success({
             title: "Ops!!",
@@ -259,19 +323,10 @@ export default {
               height: 100,
               width: 500,
             },
-          });    
-          if (this.enviarPassword) {
-            
-            let UpUser = {
-              IdPassWord: this.User.UserId,
-              Password: this.User.Password,
-            };
-            this.$store.dispatch('Usuarios/UPDATE_PASSWORD',UpUser)
-            console.log(UpUser);
-          }     
-          this.clearUser();
-          this.modal = false
+          });
         }
+
+        //}
       } else {
         this.$notify.error({
           title: "Ops!!",

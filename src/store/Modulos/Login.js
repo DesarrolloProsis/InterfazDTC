@@ -14,7 +14,7 @@ const getters = {
   getUserForDTC: () => {
     return {
       numPlaza: state.listUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
-      idUser: state.listUser[0].userId
+      idUser: state.listUser[state.PLAZAELEGIDA].userId
     }
   },
   getListaPlazasUser: () => {
@@ -29,7 +29,7 @@ const getters = {
   getUser: () => state.listUser,
   getListaPlazas: () => state.listaPlazas,
   getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
-  getTypeUser: () => state.userLogeado[0].rollId,
+  getTypeUser: () => state.userLogeado[state.PLAZAELEGIDA].rollId,
   getListaTec: () => state.listaTec,
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
 };
