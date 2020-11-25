@@ -51,6 +51,15 @@ const mutations = {
     state.listUser = []
     state.listaPlazas = []
     state.userLogeado = []
+  },
+  PLAZAELEGIDAFINDMUTATION: (state, value) => {
+    console.log('login' + value)
+    let index = state.listUser.findIndex(item => item.referenceSquare == value)
+    console.log(index)
+    if(index != -1){
+
+      state.PLAZAELEGIDA = index
+    }
   }
 };
 const actions = {

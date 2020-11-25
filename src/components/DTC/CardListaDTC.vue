@@ -104,7 +104,7 @@
             </button>
             <button
               v-if="!showBotonPDF"
-              @click.prevent="pruebas"
+              @click.prevent="editar"
               class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
             >
               <img
@@ -165,12 +165,14 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
-    pruebas: async function () {
+    editar: async function () {
       let ruta = this.infoCard.openMode
         ? "COMPONENT_EDIT_OPEN"
         : "COMPONENT_EDIT";
 
       await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);
+      this.$store.commit("Header/PLAZAELEGIDAFINDMUTATION", this.infoCard.referenceNumber.split('-')[0])
+      this.$store.commit("Login/PLAZAELEGIDAFINDMUTATION", this.infoCard.referenceNumber.split('-')[0])
 
       let datosSinester = {
         ReferenceNumber: "",
@@ -206,7 +208,7 @@ export default {
 
       this.$store.commit("Header/datosSinesterMutation", datosSinester);
 
-      let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";
+      let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";     
 
       this.$router.push({
         path: `/${page}`,

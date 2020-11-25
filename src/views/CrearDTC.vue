@@ -141,8 +141,7 @@ export default {
         this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
     });
   },
-  beforeMount() {
-    this.$store.commit("Header/PLAZAELEGIDAMUTATION", 0)
+  beforeMount() {    
     this.datosUser = this.$store.getters["Header/getHeaders"];
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
     this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]

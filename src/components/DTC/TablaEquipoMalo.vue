@@ -14,6 +14,7 @@
               <th class="px-1 border-2 border-gray-800">Partida</th>
               <th class="px-1 border-2 border-gray-800 xl:w-24">Unidad</th>
               <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
+              <th class="px-4 text-red-600 border-2 border-gray-800">Sub-Componente</th>
               <th class="px-4 text-red-600 border-2 border-gray-800">Cantidad</th>
               <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
               <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
@@ -72,6 +73,7 @@
                   </select>
                 </div>
               </td>
+              <td>Sub-Componente</td>
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
                 <div v-else>{{ objectEditar.rowUpd4 }}</div>
@@ -264,6 +266,16 @@
                   >{{ item.description + `(${item.brand})` }}</option>
                 </select>
               </td>
+              <td class="border border-gray-800">
+                       <select @change="UpdateComp()" v-model="updtComp" class="w-40" type="text">
+                  <option disabled value>Selecionar...</option>
+                  <option
+                    v-for="(item, index) in listaComponentes"
+                    v-bind:value="item"
+                    :key="index"
+                  >{{ item.description + `(${item.brand})` }}</option>
+                </select>  
+              </td>              
               <td class="border border-gray-800">{{ datosPrePartida.rowCantidad }}</td>
               <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
               <td class="border border-gray-800">

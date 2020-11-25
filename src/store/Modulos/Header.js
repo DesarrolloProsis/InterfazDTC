@@ -90,7 +90,18 @@ const mutations = {
 
   DIAGNOSTICO_MUTATION: (state, value) => state.diagnostico = value,
 
-  INFO_CARD_DTC: (state, value) => state.infoDTCCard = value
+  INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
+
+  PLAZAELEGIDAFINDMUTATION: (state, value) => {
+
+    console.log('header' + value)        
+    let index = state.listaHeaders.findIndex(item => item.referenceSquare == value)
+    console.log(index)
+    if(index != -1){
+
+      state.PLAZAELEGIDA = index
+    }
+  }
 
 };
 const actions = {

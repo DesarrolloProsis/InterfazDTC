@@ -130,6 +130,7 @@
         <input
           @change="crearReferencia()"
           v-validate="'required'"
+          
           :class="{
             is_valid: !errors.first('FechaSiniestro'),
             is_invalid: errors.first('FechaSiniestro'),
@@ -153,7 +154,7 @@
           }"
           class="w-full"
           type="date"
-          name="FechaEnvio"
+          name="FechaEnvio"          
         />
         <p class="text-red-600 text-xs">{{ errors.first("FechaEnvio") }}</p>
       </div>
@@ -177,7 +178,7 @@
         <p class="text-md mb-1 font-semibold text-gray-900">
           Fecha de Elaboracion:
         </p>
-        <input disabled="true" class="w-full" type="date" />
+        <input disabled="true" class="w-full" type="date" readonly />
       </div>
       <!--*********************Sexta Linea**************************************-->
       <div class="mr-6">
@@ -202,6 +203,7 @@
         <select
           v-model="plazaSelect"
           @change="cambiarPlaza"
+          :disabled="boolCambiarPlaza"
           class="w-48"
           type="text"
           name="TipoDescripcion"
@@ -215,6 +217,7 @@
             {{ item.plazaName }}
           </option>
         </select>
+        <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span>
       </div>
       <div></div>
       <div class="pr-2">
@@ -297,7 +300,8 @@ export default {
       listaComponentes: [],
       fechaSiniestoEdit: false,
       sizeSmall: false,
-      plazaSelect: "",
+      plazaSelect: 0,
+      boolCambiarPlaza: false
     };
   },
   methods: {
@@ -336,7 +340,7 @@ export default {
         "Header/getreferenceNum"
       ];
     },
-    async cambiarPlaza() {
+    async cambiarPlaza() {     
       let index = this.listaPlazasUser.findIndex(
         (item) => item.numPlaza == this.plazaSelect
       );
@@ -352,7 +356,8 @@ export default {
       await this.$store.dispatch("DTC/buscarDescriptions");
       this.listaDescripciones = await this.$store.getters[
         "DTC/getListaDescriptions"
-      ];
+      ];      
+      this.crearReferencia()      
       if (JSON.stringify(this.headerEdit) != "{}") {
         this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
         this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
@@ -388,12 +393,8 @@ export default {
 
   },
   beforeMount: async function () {
-    
-    let index = this.listaPlazasUser.findIndex(
-        (item) => item.numPlaza == this.plazaSelect
-    );
-    
-    this.plazaSelect = this.listaPlazasUser[index === -1 ? 0 : index].numPlaza;
+       
+    this.plazaSelect = this.listaPlazasUser[this.plazaSelect = this.$store.state.Login.PLAZAELEGIDA].numPlaza;
     let value = await this.$store.getters["Header/getConvenioPlaza"];
     await this.$store.dispatch("Refacciones/buscarComponentes", value);
     this.listaComponentes = await this.$store.getters[
@@ -405,6 +406,7 @@ export default {
     ];
     if (JSON.stringify(this.headerEdit) != "{}") {
       console.log(this.headerEdit)
+      this.boolCambiarPlaza = true
       this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
       this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
       this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
