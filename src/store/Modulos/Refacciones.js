@@ -105,6 +105,7 @@ const mutations = {
 const actions = {
 
   async buscarComponentesInventario({commit}, value) {
+    //await Axios.get(`https://localhost:44358/api/component/Inventario/${value.numPlaza}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/component/Inventario/${value.numPlaza}`)
     .then(response => {      
       commit("listaRefaccionesInventarioMutation", response.data.result);
@@ -163,7 +164,7 @@ const actions = {
     });
   },
   async buscarComponentes({ commit }, value) {    
-    
+    //await Axios.get(`https://localhost:44358/api/component/${value.numPlaza}/${value.numConvenio}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
       .then(response => {        
         commit("listaRefaccionesMutation", response.data.result);
@@ -176,6 +177,7 @@ const actions = {
   async buscarComponenteId({ commit }, value) {  
     
     await Axios.get(
+      //`https://localhost:44358/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
       `http://prosisdev.sytes.net:88/api/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
     )
       .then(response => {                    
