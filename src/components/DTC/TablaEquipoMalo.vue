@@ -273,7 +273,7 @@
                     v-for="(item, index) in listaComponentes"
                     v-bind:value="item"
                     :key="index"
-                  >{{ item.description + `(${item.brand})` }}</option>
+                  >{{ item.description }}</option>
                 </select>  
               </td>              
               <td class="border border-gray-800">{{ datosPrePartida.rowCantidad }}</td>

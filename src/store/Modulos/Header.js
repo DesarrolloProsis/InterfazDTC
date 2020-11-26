@@ -41,7 +41,7 @@ const getters = {
         id: null,
         numConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
         numPlaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 3),
-        idConvenio: state.listaHeaders[state.PLAZAELEGIDA]["AgreementInfo"]
+        idConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"]
       };
     } else return state.listaHeaders;
   },
