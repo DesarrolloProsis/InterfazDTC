@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-center sm:hidden">
-      <div class="p-4">        
+      <div class="p-4">
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
@@ -13,17 +13,25 @@
             <tr class="border text-xs md:text-sm bg-blue-800 text-white">
               <th class="px-1 border-2 border-gray-800">Partida</th>
               <th class="px-1 border-2 border-gray-800 xl:w-24">Unidad</th>
-              <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
-              <th class="px-4 text-red-600 border-2 border-gray-800">Sub-Componente</th>
-              <th class="px-4 text-red-600 border-2 border-gray-800">Cantidad</th>
+              <th class="px-4 text-red-600 border-2 border-gray-800">
+                Componente
+              </th>
+            
+              <th class="px-4 text-red-600 border-2 border-gray-800">
+                Cantidad
+              </th>
               <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
               <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
-              <th class="px-4 border-2 border-gray-800 xl:w-32">Numero de Serie</th>
+              <th class="px-4 border-2 border-gray-800 xl:w-32">
+                Numero de Serie
+              </th>
               <th class="px-4 border-2 border-gray-800 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
               </th>
-              <th class="px-4 text-xs border-2 border-gray-800">Fecha de Instalacion</th>
+              <th class="px-4 text-xs border-2 border-gray-800">
+                Fecha de Instalacion
+              </th>
               <th class="px-4 text-xs border-2 border-gray-800">
                 Fecha
                 <br />(Ultimo Mantenimiento)
@@ -55,13 +63,15 @@
                 <div v-else>{{ objectEditar.rowUpd2 }}</div>
               </td>
               <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
+                <div v-if="equipo.rowUp">
+                  {{ equipo.row3.description.toString() }}
+                </div>
                 <div v-else>
                   <select
                     @change="UpdateCompEditado()"
                     v-model="updtCompEditar"
                     class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 10vw;"
+                    style="width: 10vw"
                     type="text"
                   >
                     <option disabled value>Selecionar...</option>
@@ -69,7 +79,9 @@
                       v-for="(item, index) in listaComponentes"
                       v-bind:value="item"
                       :key="index"
-                    >{{ item.description + `(${item.brand})` }}</option>
+                    >
+                      {{ item.description + `(${item.brand})` }}
+                    </option>
                   </select>
                 </div>
               </td>
@@ -81,28 +93,40 @@
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
                 <div v-else>
-                  <p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in objectEditar.rowUpd5" :key="key">
+                    {{ item }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in equipo.row6" :key="key">
+                    {{ item }}
+                  </p>
                 </div>
                 <div v-else>
-                  <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">
+                    {{ item }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in equipo.row7" :key="key">
+                    {{ item }}
+                  </p>
                 </div>
                 <div v-else>
-                  <p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
+                  <p v-for="(item, key) in objectEditar.rowUpd7" :key="key">
+                    {{ item }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p>
+                  <p v-for="(item, key) in equipo.row8" :key="key">
+                    {{ item | formatPlaza }}
+                  </p>
                 </div>
                 <div v-else>
                   <multiselect
@@ -117,7 +141,7 @@
                     <template
                       v-if="
                         updtCompEditar != 'Servidor de Video' &&
-                          updtCompEditar != 'Servidor de Plaza'
+                        updtCompEditar != 'Servidor de Plaza'
                       "
                       slot="selection"
                       slot-scope="{ values, isOpen }"
@@ -125,7 +149,8 @@
                       <span
                         class="multiselect__single"
                         v-if="values.length &amp;&amp; !isOpen"
-                      >{{ values.length }} Carriles</span>
+                        >{{ values.length }} Carriles</span
+                      >
                     </template>
                   </multiselect>
                 </div>
@@ -136,14 +161,18 @@
                     v-for="(item, key) in equipo.row9"
                     :key="key"
                     class="text-sm"
-                  >{{ item | formatDate }}</p>
+                  >
+                    {{ item | formatDate }}
+                  </p>
                 </div>
                 <div v-else>
                   <p
                     v-for="(item, key) in objectEditar.rowUpd9"
                     :key="key"
                     class="text-sm"
-                  >{{ item | formatDate }}</p>
+                  >
+                    {{ item | formatDate }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
@@ -152,51 +181,79 @@
                     v-for="(item, key) in equipo.row10"
                     :key="key"
                     class="text-sm"
-                  >{{ item | formatDate }}</p>
+                  >
+                    {{ item | formatDate }}
+                  </p>
                 </div>
                 <div v-else>
                   <p
                     v-for="(item, key) in objectEditar.rowUpd10"
                     :key="key"
                     class="text-sm"
-                  >{{ item | formatDate }}</p>
+                  >
+                    {{ item | formatDate }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
                   <!-- {{ equipo.row11.toString() }} -->
-                  <p v-for="(item, key) in equipo.row11" :key="key" class="text-sm">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.row11"
+                    :key="key"
+                    class="text-sm"
+                  >
+                    {{ item }}
+                  </p>
                 </div>
                 <div v-else>
                   <p
                     v-for="(item, key) in objectEditar.rowUpd11"
                     :key="key"
                     class="text-sm"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row12" :key="key" class="text-sm">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.row12"
+                    :key="key"
+                    class="text-sm"
+                  >
+                    {{ item }}
+                  </p>
                 </div>
                 <div v-else>
                   <p
                     v-for="(item, key) in objectEditar.rowUpd12"
                     :key="key"
                     class="text-sm"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p>
+                  <p
+                    v-for="(item, key) in equipo.row13"
+                    :key="key"
+                    class="text-sm"
+                  >
+                    {{ item }}
+                  </p>
                 </div>
                 <div v-else>
                   <p
                     v-for="(item, key) in objectEditar.rowUpd13"
                     :key="key"
                     class="text-sm"
-                  >{{ item }}</p>
+                  >
+                    {{ item }}
+                  </p>
                 </div>
               </td>
               <td class="border border-gray-800">
@@ -205,7 +262,12 @@
                     v-on:click.stop.prevent="deleteItem(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
-                    <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15" />
+                    <img
+                      src="../../assets/img/bin.png"
+                      class="mr-2 sm:m-1"
+                      width="15"
+                      height="15"
+                    />
                     <span>Borrar</span>
                   </button>
 
@@ -255,42 +317,69 @@
             ////////////////////////////////////////////////////////////////////-->
             <tr class="text-center">
               <td class="border border-gray-800">{{ "*" }}</td>
-              <td class="border border-gray-800">{{ datosPrePartida.rowUnidad.toString() }}</td>
               <td class="border border-gray-800">
-                <select @change="UpdateComp()" v-model="updtComp" class="w-40" type="text">
+                {{ datosPrePartida.rowUnidad.toString() }}
+              </td>
+              <!-- <td class="border border-gray-800">
+                <select
+                  @change="UpdateComp()"
+                  v-model="updtComp"
+                  class="w-40"
+                  type="text"
+                >
                   <option disabled value>Selecionar...</option>
                   <option
                     v-for="(item, index) in listaComponentes"
                     v-bind:value="item"
                     :key="index"
-                  >{{ item.description + `(${item.brand})` }}</option>
+                  >
+                    {{ item.description + `(${item.brand})` }}
+                  </option>
                 </select>
+              </td> -->
+              <td class="border border-gray-800">                                  
+                  <multiselect                    
+                    v-model="pruebasMultiselect"
+                    :options="options"
+                    :multiple="false"
+                    group-values="secundarios"
+                    group-label="componetePrincipal"
+                    :group-select="false"
+                    placeholder="Buscar componentes"
+                    track-by="name"
+                    class="w-64"
+                    label="name"
+                    ><span slot="noResult"
+                      >Oops! No elements found. Consider changing the search
+                      query.</span
+                    ></multiselect
+                  >
+                  <pre class="language-json"><code>{{ value  }}</code></pre>
+                
               </td>
               <td class="border border-gray-800">
-                       <select @change="UpdateComp()" v-model="updtComp" class="w-40" type="text">
-                  <option disabled value>Selecionar...</option>
-                  <option
-                    v-for="(item, index) in listaComponentes"
-                    v-bind:value="item"
-                    :key="index"
-                  >{{ item.description + `(${item.brand})` }}</option>
-                </select>  
-              </td>              
-              <td class="border border-gray-800">{{ datosPrePartida.rowCantidad }}</td>
-              <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
+                {{ datosPrePartida.rowCantidad }}
+              </td>
+              <td class="border border-gray-800">
+                {{ datosPrePartida.rowMarca.toString() }}
+              </td>
               <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowModelo"
                   :key="key"
                   class="text-sm"
-                >{{ item }}</p>
+                >
+                  {{ item }}
+                </p>
               </td>
               <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowNumSerie"
                   :key="key"
                   class="text-sm"
-                >{{ item }}</p>
+                >
+                  {{ item }}
+                </p>
               </td>
               <td class="border border-gray-800">
                 <multiselect
@@ -305,7 +394,7 @@
                   <template
                     v-if="
                       updtComp != 'Servidor de Video' &&
-                        updtComp != 'Servidor de Plaza'
+                      updtComp != 'Servidor de Plaza'
                     "
                     slot="selection"
                     slot-scope="{ values, isOpen }"
@@ -313,7 +402,8 @@
                     <span
                       class="multiselect__single"
                       v-if="values.length &amp;&amp; !isOpen"
-                    >{{ values.length }} Carriles</span>
+                      >{{ values.length }} Carriles</span
+                    >
                   </template>
                 </multiselect>
               </td>
@@ -322,35 +412,45 @@
                   v-for="(item, key) in datosPrePartida.rowDateInstalacion"
                   :key="key"
                   class="text-sm"
-                >{{ item | formatDate }}</p>
+                >
+                  {{ item | formatDate }}
+                </p>
               </td>
               <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
                   :key="key"
                   class="text-sm"
-                >{{ item | formatDate }}</p>
+                >
+                  {{ item | formatDate }}
+                </p>
               </td>
               <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowFolioMantenimiento"
                   :key="key"
                   class="text-sm"
-                >{{ item }}</p>
+                >
+                  {{ item }}
+                </p>
               </td>
               <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateReal"
                   :key="key"
                   class="text-sm"
-                >{{ item }}</p>
+                >
+                  {{ item }}
+                </p>
               </td>
               <td class="border border-gray-800">
                 <p
                   v-for="(item, key) in datosPrePartida.rowDateFabricante"
                   :key="key"
                   class="text-sm"
-                >{{ item }}</p>
+                >
+                  {{ item }}
+                </p>
               </td>
               <td class="border border-gray-800 p-2">
                 <button
@@ -368,9 +468,9 @@
     </div>
 
     <div class="flex justify-center md:hidden lg:hidden xl:hidden">
-      <div class="p-4" :class="{ 'hidden': modal }">
-          <div class=" text-center mb-5">
-          <h6 class=" font-bold text-xl text-gray-800">Equipo Dañado</h6>
+      <div class="p-4" :class="{ hidden: modal }">
+        <div class="text-center mb-5">
+          <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
@@ -379,7 +479,9 @@
           <thead>
             <tr class="border text-xs bg-blue-800 text-white">
               <th class="w-20 border-2 border-gray-800">Partida</th>
-              <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
+              <th class="w-48 border-2 border-gray-800 text-red-600">
+                Componente
+              </th>
               <th class="w-48 border-2 border-gray-800 text-red-600">
                 Ubicacion
                 <br />(carril/cuerpo)
@@ -402,12 +504,14 @@
               </td>
 
               <td class="border border-gray-800 text-sm">
-                <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
+                <div v-if="equipo.rowUp">
+                  {{ equipo.row3.description.toString() }}
+                </div>
                 <div v-else>
                   <select
                     @change="UpdateCompEditado()"
                     v-model="updtCompEditar"
-                    class=" w-20"
+                    class="w-20"
                     type="text"
                   >
                     <option disabled value>Selecionar...</option>
@@ -415,14 +519,18 @@
                       v-for="(item, index) in listaComponentes"
                       v-bind:value="item"
                       :key="index"
-                    >{{ item.description + `(${item.brand})` }}</option>
+                    >
+                      {{ item.description + `(${item.brand})` }}
+                    </option>
                   </select>
                 </div>
               </td>
 
               <td class="border border-gray-800 text-sm">
                 <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p>
+                  <p v-for="(item, key) in equipo.row8" :key="key">
+                    {{ item | formatPlaza }}
+                  </p>
                 </div>
                 <div v-else>
                   <multiselect
@@ -435,14 +543,18 @@
                     :multiple="true"
                   >
                     <template
-                      v-if="updtCompEditar != 'Servidor de Video' && updtCompEditar != 'Servidor de Plaza'"
+                      v-if="
+                        updtCompEditar != 'Servidor de Video' &&
+                        updtCompEditar != 'Servidor de Plaza'
+                      "
                       slot="selection"
                       slot-scope="{ values, isOpen }"
                     >
                       <span
                         class="multiselect__single"
                         v-if="values.length &amp;&amp; !isOpen"
-                      >{{ values.length }} Carriles</span>
+                        >{{ values.length }} Carriles</span
+                      >
                     </template>
                   </multiselect>
                 </div>
@@ -454,7 +566,11 @@
                     v-on:click.stop.prevent="deleteItem(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
                   >
-                    <img src="../../assets/img/bin.png" width="15" height="15" />
+                    <img
+                      src="../../assets/img/bin.png"
+                      width="15"
+                      height="15"
+                    />
                   </button>
 
                   <button
@@ -462,7 +578,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-1"
                   >
                     <img
-                      src="../../assets/img/pencil.png"                      
+                      src="../../assets/img/pencil.png"
                       width="15"
                       height="15"
                     />
@@ -472,7 +588,11 @@
                     v-on:click.stop.prevent="infoModal(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
                   >
-                    <img src="../../assets/img/mas.png" width="15" height="15" />
+                    <img
+                      src="../../assets/img/mas.png"
+                      width="15"
+                      height="15"
+                    />
                   </button>
                 </div>
                 <div v-else>
@@ -481,7 +601,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
                   >
                     <img
-                      src="../../assets/img/cerrar.png"                      
+                      src="../../assets/img/cerrar.png"
                       width="15"
                       height="15"
                     />
@@ -492,7 +612,7 @@
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-1"
                   >
                     <img
-                      src="../../assets/img/garrapata.png"                      
+                      src="../../assets/img/garrapata.png"
                       width="15"
                       height="15"
                     />
@@ -507,13 +627,20 @@
               <td class="border border-gray-800">{{ "*" }}</td>
 
               <td class="border border-gray-800">
-                <select @change="UpdateComp()" v-model="updtComp" class="w-20" type="text">
+                <select
+                  @change="UpdateComp()"
+                  v-model="updtComp"
+                  class="w-20"
+                  type="text"
+                >
                   <option disabled value>Selecionar...</option>
                   <option
                     v-for="(item, index) in listaComponentes"
                     v-bind:value="item"
                     :key="index"
-                  >{{ item.description + `(${item.brand})` }}</option>
+                  >
+                    {{ item.description + `(${item.brand})` }}
+                  </option>
                 </select>
               </td>
 
@@ -526,17 +653,20 @@
                   placeholder="Selecciona..."
                   :options="listLane"
                   :multiple="true"
-                  
                 >
                   <template
-                    v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'"
+                    v-if="
+                      updtComp != 'Servidor de Video' &&
+                      updtComp != 'Servidor de Plaza'
+                    "
                     slot="selection"
                     slot-scope="{ values, isOpen }"
                   >
                     <span
                       class="multiselect__single"
                       v-if="values.length &amp;&amp; !isOpen"
-                    >{{ values.length }} Carriles</span>
+                      >{{ values.length }} Carriles</span
+                    >
                   </template>
                 </multiselect>
               </td>
@@ -544,10 +674,14 @@
               <td class="border border-gray-800 p-3">
                 <button
                   v-on:click.stop.prevent="agregarPartida()"
-                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs  rounded inline-flex items-center border-2 border-green-700"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs rounded inline-flex items-center border-2 border-green-700"
                 >
-                
-                  <img src="../../assets/img/more.png" class="m-1" width="15" height="15" />
+                  <img
+                    src="../../assets/img/more.png"
+                    class="m-1"
+                    width="15"
+                    height="15"
+                  />
                 </button>
               </td>
             </tr>
@@ -555,71 +689,130 @@
         </table>
       </div>
       <div class="flex flex-col p-5" v-if="modal">
-        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
+        <div
+          class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40"
+        >
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Componete</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Componete
+              </p>
               <p>{{ objectModal.row3.description }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Carriles</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Carriles
+              </p>
               <p
                 class="border-b-2"
                 v-for="(item, id) in objectModal.row8"
                 :key="id"
-              >{{ item | formatPlaza}}</p>
+              >
+                {{ item | formatPlaza }}
+              </p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Marca</p>
-              <p class="border-b-2" v-for="(item, id) in objectModal.row5" :key="id">{{ item }}</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Marca
+              </p>
+              <p
+                class="border-b-2"
+                v-for="(item, id) in objectModal.row5"
+                :key="id"
+              >
+                {{ item }}
+              </p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Numero Serie</p>
-              <p class="border-b-2" v-for="(item, id) in objectModal.row7" :key="id">{{ item }}</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Numero Serie
+              </p>
+              <p
+                class="border-b-2"
+                v-for="(item, id) in objectModal.row7"
+                :key="id"
+              >
+                {{ item }}
+              </p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Modelo</p>
-              <p class="border-b-2" v-for="(item, id) in objectModal.row6" :key="id">{{ item }}</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Modelo
+              </p>
+              <p
+                class="border-b-2"
+                v-for="(item, id) in objectModal.row6"
+                :key="id"
+              >
+                {{ item }}
+              </p>
             </div>
 
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Folio</p>
-              <p class="border-b-2" v-for="(item, id) in objectModal.row11" :key="id">{{ item }}</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Folio
+              </p>
+              <p
+                class="border-b-2"
+                v-for="(item, id) in objectModal.row11"
+                :key="id"
+              >
+                {{ item }}
+              </p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Fecha de Instalacion</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Fecha de Instalacion
+              </p>
               <p
                 class="border-b-2"
                 v-for="(item, id) in objectModal.row9"
                 :key="id"
-              >{{ item | formatDate }}</p>
+              >
+                {{ item | formatDate }}
+              </p>
             </div>
             <div class="w-24 m-1">
-              <p
-                class="mb-3 font-bold text-gray-800 border-2 border-blue-800"
-              >Fecha Ultimo Mantenimiento</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Fecha Ultimo Mantenimiento
+              </p>
               <p
                 class="border-b-2"
                 v-for="(item, id) in objectModal.row10"
                 :key="id"
-              >{{ item | formatDate }}</p>
+              >
+                {{ item | formatDate }}
+              </p>
             </div>
             <div class="w-24 m-1">
               <p></p>
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Tiempo de Vida Real</p>
-              <p class="border-b-2" v-for="(item, id) in objectModal.row12" :key="id">{{ item }}</p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
+                Tiempo de Vida Real
+              </p>
+              <p
+                class="border-b-2"
+                v-for="(item, id) in objectModal.row12"
+                :key="id"
+              >
+                {{ item }}
+              </p>
             </div>
           </div>
           <div class="flex justify-end">
             <button
-              v-on:click.stop.prevent="modal = false, objectModal = {}"
+              v-on:click.stop.prevent="(modal = false), (objectModal = {})"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
             >
-              <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
+              <img
+                src="../../assets/img/cerrar.png"
+                class="mr-2 sm:m-1"
+                width="15"
+                height="15"
+              />
               <span class="text-sm">Cerrar</span>
             </button>
           </div>
@@ -640,7 +833,7 @@ export default {
   name: "TablaEquipoMalo",
   components: {
     Multiselect,
-    TablaEquipoPropuesto
+    TablaEquipoPropuesto,
   },
   data() {
     return {
@@ -676,6 +869,33 @@ export default {
       //Modal atributos
       modal: false,
       objectModal: {},
+      pruebasMultiselect: [],
+      options: [
+        {
+          componetePrincipal: 'ARMARIO TECNICO CARRIL MULTIMODAL',
+          secundarios: [
+            { name: 'Armario Tecnico Carril Multimodal'},
+            { name: 'subcomponente' },
+            { name: 'subcomponente' },
+          ]
+        },
+        {
+          componetePrincipal: 'Pluma',
+          secundarios: [
+            { name: 'Principal'},
+            { name: 'subcomponente' },
+            { name: 'subcomponente' },
+          ]
+        },
+        {
+          componetePrincipal: 'CPU',
+          secundarios: [
+            { name: 'Principal' },
+            { name: 'subcomponente' },
+            { name: 'subcomponente' },
+          ]
+        }
+      ],
     };
   },
   props: {
