@@ -164,8 +164,8 @@ const actions = {
     });
   },
   async buscarComponentes({ commit }, value) {    
-    //await Axios.get(`https://localhost:44358/api/component/${value.numPlaza}/${value.numConvenio}`)
-    await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.numPlaza}/${value.numConvenio}`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.idConvenio}`)    
+    //await Axios.get(`http://prosisdev.sytes.net:88/api/component/versionProduccion/${value.numPlaza}/${value.numConvenio}`)
       .then(response => {        
         commit("listaRefaccionesMutation", response.data.result);
       })

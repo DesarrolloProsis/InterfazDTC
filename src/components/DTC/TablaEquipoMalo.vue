@@ -17,7 +17,7 @@
                 Componente
               </th>
             
-              <th class="px-4 text-red-600 border-2 border-gray-800">
+              <th class="px-4 text-red-600 border-2 border-gray-800 w-1">
                 Cantidad
               </th>
               <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
@@ -340,24 +340,25 @@
               <td class="border border-gray-800">                                  
                   <multiselect                    
                     v-model="pruebasMultiselect"
-                    :options="options"
+                    :options="listaComponentes"
                     :multiple="false"
                     group-values="secundarios"
-                    group-label="componetePrincipal"
+                    group-label="componentePrincipal"
+                    :close-on-select="false"
                     :group-select="false"
                     placeholder="Buscar componentes"
                     track-by="name"
-                    class="w-64"
-                    label="name"
+                    class="w-65"
+                    label="description"
                     ><span slot="noResult"
                       >Oops! No elements found. Consider changing the search
                       query.</span
                     ></multiselect
                   >
-                  <pre class="language-json"><code>{{ value  }}</code></pre>
+                  
                 
               </td>
-              <td class="border border-gray-800">
+              <td class="border border-gray-800 w-1">
                 {{ datosPrePartida.rowCantidad }}
               </td>
               <td class="border border-gray-800">
@@ -869,33 +870,7 @@ export default {
       //Modal atributos
       modal: false,
       objectModal: {},
-      pruebasMultiselect: [],
-      options: [
-        {
-          componetePrincipal: 'ARMARIO TECNICO CARRIL MULTIMODAL',
-          secundarios: [
-            { name: 'Armario Tecnico Carril Multimodal'},
-            { name: 'subcomponente' },
-            { name: 'subcomponente' },
-          ]
-        },
-        {
-          componetePrincipal: 'Pluma',
-          secundarios: [
-            { name: 'Principal'},
-            { name: 'subcomponente' },
-            { name: 'subcomponente' },
-          ]
-        },
-        {
-          componetePrincipal: 'CPU',
-          secundarios: [
-            { name: 'Principal' },
-            { name: 'subcomponente' },
-            { name: 'subcomponente' },
-          ]
-        }
-      ],
+      pruebasMultiselect: [],      
     };
   },
   props: {
