@@ -338,7 +338,8 @@
                 </select>
               </td> -->
               <td class="border border-gray-800">                                  
-                  <multiselect                    
+                  <multiselect        
+                    @select="UpdateComp()"            
                     v-model="pruebasMultiselect"
                     :options="listaComponentes"
                     :multiple="false"
@@ -885,23 +886,27 @@ export default {
     },
   },
   methods: {
-    UpdateComp: async function () {
+    UpdateComp: async function () {      
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
       this.listLane = [];
       this.laneSelect = [];
 
-      let comp_rep = this.arrayPartidas.some((item) => {
-        return (
-          item["row3"].description == this.updtComp.description &&
-          item["row3"].brand == this.updtComp.brand
-        );
-      });
-
-      if (!comp_rep) {
+      // let comp_rep = this.arrayPartidas.some((item) => {
+      //   return (
+      //     item["row3"].description == this.updtComp.description &&
+      //     item["row3"].brand == this.updtComp.brand
+      //   );
+      // });
+      let com_rep = this.pruebasMultiselect != '' ? true : true
+      if (com_rep) {
+        alert()
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-        newObject["id"] = this.updtComp;
+        //newObject["id"] = this.updtComp;
+        newObject["attachedId"] = this.pruebasMultiselect.attachedId
+        newObject["componentsRelationship"] = this.pruebasMultiselect.componentsRelationship
+        newObject["componentsRelationshipId"] = this.pruebasMultiselect.componentsRelationshipId
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.getters["Refacciones/getListaLane"];
       } else {
