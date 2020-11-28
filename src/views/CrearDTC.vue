@@ -134,8 +134,7 @@ export default {
   },
   created(){
 
-    EventBus.$on("ACTUALIZAR_HEADER", (index) => {
-      console.log(index)
+    EventBus.$on("ACTUALIZAR_HEADER", () => {      
         this.datosUser = this.$store.getters["Header/getHeaders"];
         this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
         this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
@@ -208,8 +207,7 @@ export default {
           if (status == 2) {
             var oReq = new XMLHttpRequest();
             // The Endpoint of your server
-            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}/${this.refNum.slice(0,3)}`;
-            console.log(urlTopdf)
+            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}/${this.refNum.slice(0,3)}`;            
             let namePdf = `ReportDTC-${this.refNum}.pdf`;            
             // Configure XMLHttpRequest
             oReq.open("GET", urlTopdf, true);

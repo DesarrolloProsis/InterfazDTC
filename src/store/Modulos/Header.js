@@ -94,10 +94,8 @@ const mutations = {
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
 
   PLAZAELEGIDAFINDMUTATION: (state, value) => {
-
-    console.log('header' + value)        
-    let index = state.listaHeaders.findIndex(item => item.referenceSquare == value)
-    console.log(index)
+         
+    let index = state.listaHeaders.findIndex(item => item.referenceSquare == value)    
     if(index != -1){
 
       state.PLAZAELEGIDA = index

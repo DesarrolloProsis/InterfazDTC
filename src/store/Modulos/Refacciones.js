@@ -176,15 +176,21 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {  
-    console.log('voy a buscar')
+    
     await Axios.get(
-      //`https://localhost:44358/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
-      `http://prosisdev.sytes.net:88/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
+      `https://localhost:44358/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
+      //`http://prosisdev.sytes.net:88/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
       //`/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
     )
-      .then(response => {                    
-          commit("listaRefaccionValidMutation", response.data.result.listaFiltro);
-          commit("listaLaneMutation", response.data.result.listLane);        
+      .then(response => {                            
+          if(response.data.result != null){
+            commit("listaRefaccionValidMutation", response.data.result.listaFiltro);
+            commit("listaLaneMutation", response.data.result.listLane); 
+          }
+          else{
+            commit("listaRefaccionValidMutation", []);
+            commit("listaLaneMutation", []); 
+          }       
       })
       .catch(Ex => {        
         console.log(Ex);

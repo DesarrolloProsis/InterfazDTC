@@ -45,10 +45,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
     
     
     var msg = '';
-    var totoal_dias = cantMonths * 30;
-
-
-
+    var totoal_dias = cantMonths * 30;    
 
     if (cantYears > 0)
         msg = cantYears + ' años ';    
@@ -62,8 +59,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
     }
     if(totoal_dias > 0)
         msg +=  totoal_dias + ' dias'	
-
-        
+ 
 	return msg;
 }
 
@@ -74,7 +70,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
 
 import moment from "moment";
     
-function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester){
+function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal){
 
     let key_Require = []
     let arrayRequire = {}
@@ -121,28 +117,39 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester){
         arrayRequire[key_Require[9]].push(component.maintenanceDate)
         //Folio Mantenimiento        
         arrayRequire[key_Require[10]].push(component.maintenanceFolio)
-        //Fecha Real
-        let fechasplit = component.instalationDate.slice(0,10).split('-')
-        fechasplit = `${fechasplit[2]}/${fechasplit[1]}/${fechasplit[0]}`
-        console.log(fechasplit)
-        let fechaInstalacion = moment(fechasplit).format("DD/MM/YYYY");
+        //Fecha Real   
+        let _fechaNow = new Date();
+        console.log(`${_fechaNow.getDay()}/${_fechaNow.getMonth() + 1}/${_fechaNow.getFullYear()}`)  
+        console.log(component.instalationDate)   
+        let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
         let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
-        let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)        
-        console.log(fechaSinester)
-        console.log(fechaInstalacion)
-        arrayRequire[key_Require[11]].push(fecha_format)
+        if(fechaInstalacion == fechaSinester){
+            arrayRequire[key_Require[11]].push('0 dias')
+        }
+        else{
+            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                        
+            arrayRequire[key_Require[11]].push(fecha_format)
+        }
         //Fecha Fabricante        
         arrayRequire[key_Require[12]].push(component.lifeTime)            
         //Precio
         if(arrayRequire[key_Require[13]].includes(component.unitaryPrice) == false)
-            arrayRequire[key_Require[13]].push(component.unitaryPrice)                
+            arrayRequire[key_Require[13]].push(component.unitaryPrice)     
+        //RelationShip Principal
+        arrayRequire["mainRelationship"] = relationShipPrincipal
+
     }
 
     return arrayRequire    
 }
 
-function obj_partida(laneSelect, equipoValid, dateSinester){
-        
+function obj_partida(laneSelect, equipoValid, dateSinester, _relationShipPrincipal){
+     
+    // console.log('obj_partida')
+    // console.log(dateSinester)
+    // console.log(laneSelect)
+    // console.log(equipoValid)
+    // console.log(_relationShipPrincipal)
     let newObjectPartida = []
     for(const lane of laneSelect){
                         
@@ -165,10 +172,12 @@ function obj_partida(laneSelect, equipoValid, dateSinester){
             MaintenanceFolio: component['maintenanceFolio'],
             IntLifeTimeExpected: component['lifeTime'],
             strLifeTimeReal: fecha_format,
-            IntPartida: ""
+            IntPartida: "",
+            mainRelationship: _relationShipPrincipal
         };
         newObjectPartida.push(obj)        
     }
+    console.log(newObjectPartida)
     
     return newObjectPartida
 }

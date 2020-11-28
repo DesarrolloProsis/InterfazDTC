@@ -110,9 +110,10 @@ const actions = {
         arrayDmg.push(state.newlistaDmg[i][g])
       }
     }
+    console.log(arrayDmg)
   
-    //await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`, arrayDmg)
-    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`, arrayDmg)
+    //await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`, arrayDmg)
       .then(response => {      
         if (response.status == 200) {
           commit('insertDmgCompleteMutation', true)
@@ -132,8 +133,8 @@ const actions = {
       });
   },
   async tableFormComponent({ commit }, value) {
-    //await Axios.get(`https://localhost:44358/api/dtcData/TableForm/${value}`)
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/TableForm/${value}`)
+    await Axios.get(`https://localhost:44358/api/dtcData/TableForm/${value}`)
+    //await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/TableForm/${value}`)
       .then(response => {
 
         if (response.data.result != null)
@@ -155,8 +156,8 @@ const actions = {
       });
   },
   async COMPONENT_EDIT({ commit }, value) {
-    //await Axios.get(`https://localhost:44358/api/dtcData/EditInfo/${value}`)
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/${value}`)
+    await Axios.get(`https://localhost:44358/api/dtcData/EditInfo/${value}`)
+    //await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })

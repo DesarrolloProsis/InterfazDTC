@@ -363,7 +363,7 @@
                     :multiple="false"
                     group-values="secundarios"
                     group-label="componentePrincipal"
-                    :close-on-select="false"
+                    :close-on-select="true"
                     :group-select="false"
                     placeholder="Buscar componentes"
                     track-by="name"
@@ -889,7 +889,9 @@ export default {
       //Modal atributos
       modal: false,
       objectModal: {},
-      pruebasMultiselect: [],      
+      pruebasMultiselect: [],
+      //CAmbios Inserte RelationShip
+      relationShipPrincipal: ''      
     };
   },
   props: {
@@ -927,6 +929,22 @@ export default {
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.getters["Refacciones/getListaLane"];
+        this.relationShipPrincipal = this.updtComp.componentsRelationshipId
+
+        //Validacion para lista lane
+        if(this.listLane.length == 0){
+           this.$notify.warning({
+          title: "Ups!",
+          msg: `El componente no esta en carril.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+
+        }
+
       } else {
         this.updtComp = "";
         this.$notify.warning({
@@ -956,9 +974,22 @@ export default {
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.getters["Refacciones/getListaLane"];
+        this.relationShipPrincipal = this.updtComp.componentsRelationshipId
+        
+           //Validacion para lista lane
+        if(this.listLane.length == 0){
+           this.$notify.warning({
+          title: "Ups!",
+          msg: `El componente no esta en carril.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+
+        }
       } else if (
         this.updtCompEditar.description ==
           this.saveObjectEdiar[2].description &&
@@ -1157,7 +1188,8 @@ export default {
           let objPartida = Service.obj_partida(
             this.laneSelect,
             equipoValid,
-            this.dateSinester
+            this.dateSinester,
+            this.relationShipPrincipal
           );
           this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
 
@@ -1183,12 +1215,15 @@ export default {
             this.laneSelect,
             key_partidas,
             equipoValid,
-            this.dateSinester
+            this.dateSinester,
+            this.relationShipPrincipal
           );
 
           new_partida["row1"] = this.arrayPartidas.length + 1;
           new_partida["row3"] = this.updtComp;
           new_partida["row8"] = this.laneSelect;
+
+          console.log(new_partida)
 
           this.arrayPartidas.push(new_partida);
 
@@ -1202,6 +1237,7 @@ export default {
           this.updtComp = "";
           this.laneSelect = [];
           this.listLane = [];
+          //this.relationShipPrincipal = ''
         } else {
           this.$notify.warning({
             title: "Ups!",
@@ -1244,7 +1280,8 @@ export default {
           newValue,
           this.datosPrePartida,
           equipoValid,
-          this.dateSinester
+          this.dateSinester,
+          this.relationShipPrincipal
         );
       }
     },
@@ -1278,7 +1315,8 @@ export default {
           newValue,
           key_updt,
           equipoValid,
-          this.dateSinester
+          this.dateSinester,
+          this.relationShipPrincipal
         );
         this.listLaneEditar = await this.$store.getters[
           "Refacciones/getListaLane"
@@ -1308,28 +1346,39 @@ export default {
     let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
 
     if (JSON.stringify(componetesEdit) != "{}") {
+      console.log('dtc editar...')
+      console.log(componetesEdit)
       for (const item of componetesEdit.items) {
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-        newObject["id"] = { description: item.name, brand: item.marca };
+        //newObject["id"] = { description: item.name, brand: item.marca };
+        newObject["attachedId"] = item.attachedId
+        newObject["componentsRelationship"] = item.relationship
+        newObject["componentsRelationshipId"] = item.mainRelationship
+        console.log(newObject)
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         let equipoValid = await this.$store.getters[
           "Refacciones/getEquipoMalo"
         ];
-
+        console.log(equipoValid)
         let array_ubicacion = [];
 
         componetesEdit.serialNumbers.map((lane) => {
           if (item.item == lane.item)
-            array_ubicacion.push(lane.lane_SerialNumber.replace(/ /g, ""));
+            //array_ubicacion.push(lane.lane_SerialNumber.replace();
+            array_ubicacion.push(lane.lane_SerialNumber);
         });
 
         let otra_prueba = await this.$store.getters["Header/getFechaSiniestro"];
         //AGREGAMOS PARTIDA AL STORE
+        console.log('obj_partida')
         let objPartida = Service.obj_partida(
           array_ubicacion,
           equipoValid,
-          otra_prueba
+          otra_prueba,
+          item.mainRelationship
+
         );
+        console.log(objPartida)
 
         await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
 
@@ -1351,14 +1400,17 @@ export default {
           "row14",
           "rowUp",
         ];
+        console.log('lane_select')
         let new_partida = Service.lane_select(
           array_ubicacion,
           key_partidas,
           equipoValid,
-          otra_prueba
+          otra_prueba,
+          item.mainRelationship
         );
+        console.log(new_partida)
         new_partida["row1"] = this.arrayPartidas.length + 1;
-        new_partida["row3"] = { description: item.name, brand: item.marca };
+        new_partida["row3"] = { "description": item.name, "attachedId": item.attachedId, "componentsRelationship": item.relationship, "componentsRelationshipId": item.mainRelationship, "vitalComponent": item.vitalComponent }
         new_partida["row8"] = array_ubicacion;
         this.arrayPartidas.push(new_partida);
       }

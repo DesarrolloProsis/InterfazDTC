@@ -313,7 +313,6 @@ export default {
       let diaCorriente = 0;
       let newYear = parseInt(this.datosSinester.SinisterDate.substr(2, 2));
       diaCorriente = diaActual;
-      console.log(yearActual);
       for (let i = 1; i < mesActual; i++) {
         diaCorriente += parseInt(new Date(yearActual, i, 0).getDate());
       }
@@ -404,8 +403,7 @@ export default {
     this.listaDescripciones = await this.$store.getters[
       "DTC/getListaDescriptions"
     ];
-    if (JSON.stringify(this.headerEdit) != "{}") {
-      console.log(this.headerEdit)
+    if (JSON.stringify(this.headerEdit) != "{}") {      
       this.boolCambiarPlaza = true
       this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
       this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
@@ -420,7 +418,7 @@ export default {
       this.datosSinester.ShippingElaboracionDate = moment(
         this.headerEdit.shippingDate
       ).format("YYYY-MM-DD");
-      this.datosSinester.TypeDescriptionId = 2;
+      this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
       this.fechaSiniestoEdit = true;
     }
     //this.$validator.validateAll();
