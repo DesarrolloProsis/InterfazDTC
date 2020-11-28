@@ -492,6 +492,7 @@
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
+        <div class="overflow-x-auto flex sm:m-2 sm:text-xs">
         <table class="border-collapse">
           <!--/////////////////////////////////////////////////////////////////
               ////                 CABECERA DE LA TABLA                       ////
@@ -528,7 +529,25 @@
                   {{ equipo.row3.description.toString() }}
                 </div>
                 <div v-else>
-                  <select
+                  <multiselect        
+                    @select="UpdateCompEditado()"            
+                    v-model="updtCompEditar"
+                    :options="listaComponentes"
+                    :multiple="false"
+                    group-values="secundarios"
+                    group-label="componentePrincipal"
+                    :close-on-select="true"
+                    :group-select="false"
+                    placeholder="Buscar componentes"
+                    track-by="name"
+                    class="w-65"
+                    label="description"
+                    ><span slot="noResult"
+                      >Oops! No elements found. Consider changing the search
+                      query.</span
+                    ></multiselect
+                  >
+                  <!-- <select
                     @change="UpdateCompEditado()"
                     v-model="updtCompEditar"
                     class="w-20"
@@ -542,7 +561,7 @@
                     >
                       {{ item.description + `(${item.brand})` }}
                     </option>
-                  </select>
+                  </select> -->
                 </div>
               </td>
 
@@ -647,7 +666,25 @@
               <td class="border border-gray-800">{{ "*" }}</td>
 
               <td class="border border-gray-800">
-                <select
+                 <multiselect        
+                    @select="UpdateComp()"            
+                    v-model="updtComp"
+                    :options="listaComponentes"
+                    :multiple="false"
+                    group-values="secundarios"
+                    group-label="componentePrincipal"
+                    :close-on-select="true"
+                    :group-select="false"
+                    placeholder="Buscar componentes"
+                    track-by="name"
+                    class="w-32"
+                    label="description"
+                    ><span slot="noResult"
+                      >Oops! No elements found. Consider changing the search
+                      query.</span
+                    ></multiselect
+                  >
+                <!-- <select
                   @change="UpdateComp()"
                   v-model="updtComp"
                   class="w-20"
@@ -661,7 +698,7 @@
                   >
                     {{ item.description + `(${item.brand})` }}
                   </option>
-                </select>
+                </select> -->
               </td>
 
               <td class="border border-gray-800">
@@ -707,6 +744,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
       <div class="flex flex-col p-5" v-if="modal">
         <div
