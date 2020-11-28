@@ -288,7 +288,7 @@
                     />
                     <span>Borrar</span>
                   </button>
-
+<!-- 
                   <button
                     v-on:click.prevent="updateRowTable(index, equipo)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
@@ -300,7 +300,7 @@
                       height="15"
                     />
                     <span>Editar</span>
-                  </button>
+                  </button> -->
                 </div>
                 <div v-else>
                   <button
@@ -1281,7 +1281,8 @@ export default {
           this.datosPrePartida,
           equipoValid,
           this.dateSinester,
-          this.relationShipPrincipal
+          this.relationShipPrincipal,
+          undefined
         );
       }
     },
@@ -1316,7 +1317,8 @@ export default {
           key_updt,
           equipoValid,
           this.dateSinester,
-          this.relationShipPrincipal
+          this.relationShipPrincipal,
+          undefined
         );
         this.listLaneEditar = await this.$store.getters[
           "Refacciones/getListaLane"
@@ -1329,7 +1331,7 @@ export default {
       return moment(value.substring(0, 10)).format("DD/MM/YYYY");
     },
     formatPlaza: function (value) {
-      return value.split("-")[0];
+      return value;
     },
   },
   destroyed: function () {
@@ -1343,42 +1345,49 @@ export default {
     this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
   },
   beforeMount: async function () {
+    try{
     let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
 
     if (JSON.stringify(componetesEdit) != "{}") {
-      console.log('dtc editar...')
-      console.log(componetesEdit)
+      
+      console.log('dtc editar...')      
       for (const item of componetesEdit.items) {
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         //newObject["id"] = { description: item.name, brand: item.marca };
         newObject["attachedId"] = item.attachedId
         newObject["componentsRelationship"] = item.relationship
         newObject["componentsRelationshipId"] = item.mainRelationship
-        console.log(newObject)
+        
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         let equipoValid = await this.$store.getters[
           "Refacciones/getEquipoMalo"
         ];
-        console.log(equipoValid)
+        
         let array_ubicacion = [];
-
+        let array_carril = []
+        
         componetesEdit.serialNumbers.map((lane) => {
-          if (item.item == lane.item)
-            //array_ubicacion.push(lane.lane_SerialNumber.replace();
-            array_ubicacion.push(lane.lane_SerialNumber);
+          if (item.item == lane.item){
+            array_ubicacion.push(lane.tableFolio); 
+            array_carril.push(lane.lane) 
+          }
+            
+                      
         });
 
+        console.log(array_ubicacion)
         let otra_prueba = await this.$store.getters["Header/getFechaSiniestro"];
         //AGREGAMOS PARTIDA AL STORE
-        console.log('obj_partida')
+        
         let objPartida = Service.obj_partida(
           array_ubicacion,
           equipoValid,
           otra_prueba,
-          item.mainRelationship
+          item.mainRelationship,
+          true
 
         );
-        console.log(objPartida)
+        
 
         await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
 
@@ -1406,14 +1415,21 @@ export default {
           key_partidas,
           equipoValid,
           otra_prueba,
-          item.mainRelationship
+          item.mainRelationship,
+          true
         );
         console.log(new_partida)
         new_partida["row1"] = this.arrayPartidas.length + 1;
         new_partida["row3"] = { "description": item.name, "attachedId": item.attachedId, "componentsRelationship": item.relationship, "componentsRelationshipId": item.mainRelationship, "vitalComponent": item.vitalComponent }
-        new_partida["row8"] = array_ubicacion;
+        new_partida["row8"] = array_carril;
         this.arrayPartidas.push(new_partida);
       }
+    }
+    }
+    catch(ex){
+
+        console.log(ex)
+        alert('componete tabla ')
     }
   },
 };

@@ -70,7 +70,9 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
 
 import moment from "moment";
     
-function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal){
+function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal, _editar){
+
+    try{
 
     let key_Require = []
     let arrayRequire = {}
@@ -102,8 +104,15 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
     arrayRequire[key_Require[14]] = true
 
     for(const lane of laneSelect){
-
-        let component = equipoValid.find(comp => comp.lane === lane)    
+        
+        
+        let component = []
+        if(_editar == undefined)
+            component = equipoValid.find(comp => comp.lane === lane)
+        else{
+            component = equipoValid.find(comp => comp.tableFolio == lane)
+        }
+                
         //Marca
         if(arrayRequire[key_Require[4]].includes(component.brand) == false)
             arrayRequire[key_Require[4]].push(component.brand)
@@ -118,9 +127,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         //Folio Mantenimiento        
         arrayRequire[key_Require[10]].push(component.maintenanceFolio)
         //Fecha Real   
-        let _fechaNow = new Date();
-        console.log(`${_fechaNow.getDay()}/${_fechaNow.getMonth() + 1}/${_fechaNow.getFullYear()}`)  
-        console.log(component.instalationDate)   
+        
         let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
         let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
         if(fechaInstalacion == fechaSinester){
@@ -137,23 +144,40 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
             arrayRequire[key_Require[13]].push(component.unitaryPrice)     
         //RelationShip Principal
         arrayRequire["mainRelationship"] = relationShipPrincipal
+        //folioTabla
+        arrayRequire["tableFolio"] = component.tableFolio
 
     }
 
-    return arrayRequire    
+    return arrayRequire  
+}
+catch(ex){
+
+    console.log(ex)
+    alert()
+
+}  
 }
 
-function obj_partida(laneSelect, equipoValid, dateSinester, _relationShipPrincipal){
+function obj_partida(laneSelect, equipoValid, dateSinester, _relationShipPrincipal, _editar){
      
     // console.log('obj_partida')
     // console.log(dateSinester)
     // console.log(laneSelect)
     // console.log(equipoValid)
     // console.log(_relationShipPrincipal)
+    try{
     let newObjectPartida = []
     for(const lane of laneSelect){
-                        
-        let component = equipoValid.find(item => item.lane == lane)                
+
+        let component = []
+        if(_editar == undefined)
+            component = equipoValid.find(comp => comp.lane === lane)
+        else{
+            component = equipoValid.find(comp => comp.tableFolio == lane)
+        }     
+                     
+        //let component = equipoValid.find(item => item.lane == lane)                
         let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
         let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
         let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)   
@@ -173,13 +197,20 @@ function obj_partida(laneSelect, equipoValid, dateSinester, _relationShipPrincip
             IntLifeTimeExpected: component['lifeTime'],
             strLifeTimeReal: fecha_format,
             IntPartida: "",
-            mainRelationship: _relationShipPrincipal
+            //Nuevo
+            mainRelationship: _relationShipPrincipal,
+            tableFolio: component.tableFolio
+
         };
         newObjectPartida.push(obj)        
-    }
-    console.log(newObjectPartida)
+    }    
     
     return newObjectPartida
+}
+catch(ex){
+    console.log(ex)
+    alert()
+}
 }
 
 
