@@ -122,9 +122,14 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester){
         //Folio Mantenimiento        
         arrayRequire[key_Require[10]].push(component.maintenanceFolio)
         //Fecha Real
-        let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
+        let fechasplit = component.instalationDate.slice(0,10).split('-')
+        fechasplit = `${fechasplit[2]}/${fechasplit[1]}/${fechasplit[0]}`
+        console.log(fechasplit)
+        let fechaInstalacion = moment(fechasplit).format("DD/MM/YYYY");
         let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
         let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)        
+        console.log(fechaSinester)
+        console.log(fechaInstalacion)
         arrayRequire[key_Require[11]].push(fecha_format)
         //Fecha Fabricante        
         arrayRequire[key_Require[12]].push(component.lifeTime)            

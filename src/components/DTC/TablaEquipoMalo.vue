@@ -67,7 +67,25 @@
                   {{ equipo.row3.description.toString() }}
                 </div>
                 <div v-else>
-                  <select
+                     <multiselect        
+                    @select="UpdateCompEditado()"            
+                    v-model="updtCompEditar"
+                    :options="listaComponentes"
+                    :multiple="false"
+                    group-values="secundarios"
+                    group-label="componentePrincipal"
+                    :close-on-select="false"
+                    :group-select="false"
+                    placeholder="Buscar componentes"
+                    track-by="name"
+                    class="w-65"
+                    label="description"
+                    ><span slot="noResult"
+                      >Oops! No elements found. Consider changing the search
+                      query.</span
+                    ></multiselect
+                  >
+                  <!-- <select
                     @change="UpdateCompEditado()"
                     v-model="updtCompEditar"
                     class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
@@ -82,10 +100,10 @@
                     >
                       {{ item.description + `(${item.brand})` }}
                     </option>
-                  </select>
+                  </select> -->
                 </div>
               </td>
-              <td>Sub-Componente</td>
+              
               <td class="border border-gray-800">
                 <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
                 <div v-else>{{ objectEditar.rowUpd4 }}</div>
@@ -340,7 +358,7 @@
               <td class="border border-gray-800">                                  
                   <multiselect        
                     @select="UpdateComp()"            
-                    v-model="pruebasMultiselect"
+                    v-model="updtComp"
                     :options="listaComponentes"
                     :multiple="false"
                     group-values="secundarios"
@@ -899,14 +917,14 @@ export default {
       //     item["row3"].brand == this.updtComp.brand
       //   );
       // });
-      let com_rep = this.pruebasMultiselect != '' ? true : true
+      let com_rep = this.updtComp != '' ? true : true
       if (com_rep) {
-        alert()
+        
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         //newObject["id"] = this.updtComp;
-        newObject["attachedId"] = this.pruebasMultiselect.attachedId
-        newObject["componentsRelationship"] = this.pruebasMultiselect.componentsRelationship
-        newObject["componentsRelationshipId"] = this.pruebasMultiselect.componentsRelationshipId
+        newObject["attachedId"] = this.updtComp.attachedId
+        newObject["componentsRelationship"] = this.updtComp.componentsRelationship
+        newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.getters["Refacciones/getListaLane"];
       } else {
@@ -923,12 +941,14 @@ export default {
       }
     },
     UpdateCompEditado: async function () {
-      let comp_rep = this.arrayPartidas.some((item) => {
-        return (
-          item["row3"].description == this.updtCompEditar.description &&
-          item["row3"].brand == this.updtCompEditar.brand
-        );
-      });
+      // let comp_rep = this.arrayPartidas.some((item) => {
+      //   return (
+      //     item["row3"].description == this.updtCompEditar.description &&
+      //     item["row3"].brand == this.updtCompEditar.brand
+      //   );
+      // });
+
+      let comp_rep = this.updtCompEditar != '' ? true : true
 
       if (!comp_rep) {
         this.laneSelectEditar = [];
@@ -1185,7 +1205,7 @@ export default {
         } else {
           this.$notify.warning({
             title: "Ups!",
-            msg: `FALTA AGREGAR UN COMPONENTE.`,
+            msg: `FALTA AGREGAR LA UBICACION.`,
             position: "bottom right",
             styles: {
               height: 100,
@@ -1195,8 +1215,8 @@ export default {
         }
       } else {
         this.$notify.warning({
-          title: "Ups!",
-          msg: `FALTA AGREGAR LA UBICACION.`,
+          title: "Ups!",          
+          msg: `FALTA AGREGAR UN COMPONENTE.`,
           position: "bottom right",
           styles: {
             height: 100,
