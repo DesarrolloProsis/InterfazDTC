@@ -309,10 +309,13 @@ export default {
             IdUser: this.User.UserId,
             Password: this.User.Password,
           };
-          console.log(_UpUser)
-          this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
-          
-          //}
+          console.log(_UpUser.Password != "***********")
+          if(_UpUser.Password != "***********"){
+              alert('cambie la contraseña')
+              this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
+          }
+            
+                    
           
           this.modal = false;
 

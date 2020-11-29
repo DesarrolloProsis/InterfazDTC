@@ -44,9 +44,10 @@
               <td class="border">{{ equipo.row2.toString() }}</td>
               <td class="border">{{ equipo.row3.description }}</td>
               <td class="border">{{ equipo.row4.toString() }}</td>
-              <td class="border">{{ equipo.row5.toString() }}</td>
+              <td class="border">{{ equipo.marcaRequerido.toString() }}</td>
               <td class="border">
-                <p v-for="(item, key) in equipo.row6" :key="key" class="text-sm">{{ item }}</p>
+                <!-- <p v-for="(item, key) in equipo.modeloRequerido" :key="key" class="text-sm">{{ item }}</p> -->
+                {{ equipo.marcaRequerido.toString() }}
               </td>
               <td
                 class="border"
