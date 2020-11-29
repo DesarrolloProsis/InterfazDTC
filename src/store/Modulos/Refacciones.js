@@ -178,8 +178,8 @@ const actions = {
   async buscarComponenteId({ commit }, value) {  
     
     await Axios.get(
-      //`https://localhost:44358/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
-      `http://prosisdev.sytes.net:88/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
+      `https://localhost:44358/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
+      //`http://prosisdev.sytes.net:88/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
       //`/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
     )
       .then(response => {                            
