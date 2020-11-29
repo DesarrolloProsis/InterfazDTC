@@ -105,6 +105,7 @@ const mutations = {
 const actions = {
 
   async buscarComponentesInventario({commit}, value) {
+    commit("listaRefaccionesInventarioMutation", []);
     //await Axios.get(`https://localhost:44358/api/component/Inventario/${value.numPlaza}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/component/Inventario/${value.numPlaza}`)
     .then(response => {      
@@ -133,6 +134,7 @@ const actions = {
     });
   },
   async buscarUbicacionGeneralInventario({commit}){
+    commit("listaUbicacionGeneralInventarioMutation", []);
     await Axios.get(`http://prosisdev.sytes.net:88/api/component/InventarioUbicacion`)
     .then(response => {    
       commit("listaUbicacionGeneralInventarioMutation", response.data.result);

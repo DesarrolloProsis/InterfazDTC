@@ -7,19 +7,21 @@
         <div class="m-10 mt-3 sm:m-1 text-base font-light text-gray-900">
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Componente</p>
-            <select @change="buscarCarriles" v-model="objDatos.componente" class="w-64 sm:w-32">
+            <p class="text-lg font-semibold">{{ objDatos.componente }}</p>
+            <!-- <select @change="buscarCarriles" v-model="objDatos.componente" class="w-64 sm:w-32">
               <option disabled value>Selecionar...</option>
               <option
                 v-for="(item, index) in listaComponentes"
                 v-bind:value="item.componente"
                 :key="index"
               >{{ item.componente }}</option>
-            </select>
+            </select> -->
           </div>
 
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Ubicación</p>
-            <select
+            <p class="text-lg font-semibold">{{ objDatos.ubicacion }}</p>
+            <!-- <select
               @change="buscarInfoComponente"
               v-model="objDatos.ubicacion"
               class="w-64 sm:w-32"
@@ -30,7 +32,7 @@
                 v-bind:value="item.lane"
                 :key="index"
               >{{ item.lane }}</option>
-            </select>
+            </select> -->
           </div>
 
           <div class="m-5 sm:mr-0">
@@ -138,7 +140,7 @@
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-green-700 sm:w-32"
             >
               <img src="../assets/img/more.png" class="mr-2" width="25" height="2" />
-              <span>Editar Componente</span>
+              <span>Guardar Cambios</span>
             </button>
           </div>
         </div>
@@ -191,12 +193,9 @@ export default {
       "Refacciones/getlistaUbicacionGeneralInventario"
     ];
 
-    console.log(this.$route.query.infoComponent);
-
     if (JSON.stringify(this.$route.query) != "{}") {
 
       this.objDatos.idComponent = this.$route.query.infoComponent.idComponent 
-
       this.objDatos.componente = this.$route.query.infoComponent.component;
 
       let newObject = {
@@ -335,6 +334,7 @@ export default {
             width: 500,
           },
         });
+      this.$router.push('/Inventario')
       // this.listaCarriles = [];
 
       // for (const prop in this.objDatos) {

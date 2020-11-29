@@ -146,8 +146,13 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         arrayRequire["mainRelationship"] = relationShipPrincipal
         //folioTabla
         arrayRequire["tableFolio"] = component.tableFolio
+        //Marca Requerido
+        arrayRequire["marcaRequerido"] = component.catalogBrand
+        //Modelo Requerido
+        arrayRequire["modeloRequerido"] = component.catalogBrand    
 
-    }
+    }  
+
 
     return arrayRequire  
 }
