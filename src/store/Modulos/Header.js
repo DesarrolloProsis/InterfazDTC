@@ -67,7 +67,9 @@ const getters = {
     return state.listaUnique.every(item => {
       return item.reportNumber != num
     })
+
   },
+  getUSERSELECT: (state) => state.PLAZAELEGIDA,
   getInsertHeaderComplete: () => state.insertHeaderComplete,
 
   getDiagnostico: () => state.diagnostico,

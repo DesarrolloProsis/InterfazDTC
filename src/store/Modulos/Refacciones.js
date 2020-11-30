@@ -202,7 +202,8 @@ const actions = {
   async FULL_COMPONETES({commit}, value){
     
     await Axios.get(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
-      .then(response => {                    
+      .then(response => {               
+        console.log(response.data.result)     
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
       .catch(Ex => {        
