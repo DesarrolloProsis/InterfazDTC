@@ -232,12 +232,13 @@ export default {
     },
     pdf: function () {      
       var oReq = new XMLHttpRequest();      
+      let _ref = this.infoCard.referenceNumber
       // The Endpoint of your server
       let urlTopdf = this.infoCard.openMode == false
-        ? `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0,3)}`
+        ? `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split('-')[0]}`
         : `http://prosisdev.sytes.net:88/api/pdf/open/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0,3)}`;
 
-      let namePdf = `ReportDTC-${this.refNum}.pdf`;      
+      let namePdf = `ReportDTC-${_ref}.pdf`;      
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);
       // Important to use the blob response type

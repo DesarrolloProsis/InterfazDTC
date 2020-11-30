@@ -356,7 +356,8 @@
                 </select>
               </td> -->
               <td class="border border-gray-800">                                  
-                  <multiselect        
+                  <multiselect     
+                  @open="UnClick"   
                     @select="UpdateComp()"            
                     v-model="updtComp"
                     :options="listaComponentes"
@@ -944,6 +945,7 @@ export default {
     },
   },
   methods: {
+    UnClick: function(){ this.updtComp = '' },
     UpdateComp: async function () {      
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
@@ -1388,19 +1390,23 @@ export default {
 
     if (JSON.stringify(componetesEdit) != "{}") {
       
-      console.log('dtc editar...')      
+      
+      console.log('dtc editar...')    
+      console.log(componetesEdit)  
       for (const item of componetesEdit.items) {
+        console.log(item)
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         //newObject["id"] = { description: item.name, brand: item.marca };
         newObject["attachedId"] = item.attachedId
         newObject["componentsRelationship"] = item.relationship
         newObject["componentsRelationshipId"] = item.mainRelationship
+
         
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         let equipoValid = await this.$store.getters[
           "Refacciones/getEquipoMalo"
         ];
-        
+        console.log(equipoValid)
         let array_ubicacion = [];
         let array_carril = []
         

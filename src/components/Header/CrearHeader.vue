@@ -230,8 +230,8 @@
       <div></div>
       <div></div>
       <div class="pr-2">
-        <label>Centro de Servicio:</label>
-        <label>CDMX</label>
+        <label>Centro de Servicio: Ciudad de México</label>
+        <label></label>
       </div>
       <!--***************novena Linea****************************-->
       <div></div>
@@ -339,7 +339,8 @@ export default {
         "Header/getreferenceNum"
       ];
     },
-    async cambiarPlaza() {     
+    async cambiarPlaza() {   
+      this.listaComponentes = []  
       let index = this.listaPlazasUser.findIndex(
         (item) => item.numPlaza == this.plazaSelect
       );
@@ -348,6 +349,8 @@ export default {
       EventBus.$emit("ACTUALIZAR_HEADER", index);
       this.plazaSelect = this.listaPlazasUser[index].numPlaza;
       let value = await this.$store.getters["Header/getConvenioPlaza"];
+      console.log('bug 3 marias')
+      console.log(value)
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
       this.listaComponentes = await this.$store.getters[
         "Refacciones/getListaRefacciones"

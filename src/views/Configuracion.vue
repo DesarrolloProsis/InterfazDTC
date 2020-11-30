@@ -280,8 +280,7 @@ export default {
         //   this.$store.dispatch("Usuarios/NuevoUser", CreateUser);
 
         //   this.modal = false;
-        // } else {
-
+        // } else {s
         if (this.User.Password == "") {
           this.$notify.error({
             title: "Ops!!",

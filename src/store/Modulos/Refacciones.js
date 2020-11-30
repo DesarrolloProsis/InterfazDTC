@@ -170,6 +170,7 @@ const actions = {
     //await Axios.get(`https://localhost:44358/api/component/${value.idConvenio}`)    
     //await Axios.get(`http://prosisdev.sytes.net:88/api/component/versionProduccion/${value.numPlaza}/${value.numConvenio}`)
       .then(response => {        
+        console.log(response.data.result)
         commit("listaRefaccionesMutation", response.data.result);
       })
       .catch(Ex => {
@@ -180,8 +181,8 @@ const actions = {
   async buscarComponenteId({ commit }, value) {  
     
     await Axios.get(
-      `https://localhost:44358/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
-      //`http://prosisdev.sytes.net:88/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
+      //`https://localhost:44358/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
+      `http://prosisdev.sytes.net:88/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
       //`/component/${value.numConvenio}/${value.numPlaza}/${value.id.description}/${value.id.brand}`
     )
       .then(response => {                            

@@ -37,10 +37,21 @@ const getters = {
   },
   getConvenioPlaza: function () {
     if (state.listaHeaders.length > 0) {
+
+      let numPlaza = ''
+
+      if(state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"] == "TM"){
+
+          numPlaza = state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 4)
+      }
+      else{
+        numPlaza = state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 3)
+      }
+
       return {
         id: null,
         numConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
-        numPlaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 3),
+        numPlaza: numPlaza,
         idConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"]
       };
     } else return state.listaHeaders;
@@ -106,6 +117,7 @@ const mutations = {
 const actions = {
   async buscarReferencia({ commit }, value) {
 
+    //await Axios.get(`https://localhost:44358/api/dtcdata/${value}`)
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/${value}`)
       .then(response => {
         if (response.data.message) {
