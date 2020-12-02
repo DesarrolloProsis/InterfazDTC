@@ -133,8 +133,9 @@
         <div class="p-1" v-show="!agregarbool">         
           <lazy-image 
             :src="imgbase64.array_img[this.index_imagen_actual].image"
-            :placeholder="load"             
-          />                                            
+            placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"             
+          />
+          
         </div>
       </template>
     </div>
