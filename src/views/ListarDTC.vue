@@ -6,6 +6,9 @@
         :class="{ 'pointer-events-none': modal }"
         class="flex justify-center mt-2"
       >
+        <!--/////////////////////////////////////////////////////////////////
+        ////                        FILTROS                              ////
+        ////////////////////////////////////////////////////////////////////-->
         <div class="border-2 px-16 shadow-lg z-10">
           <div class="flex sm:inline-block">
             <div class="m-3">
@@ -57,6 +60,9 @@
           </div>
         </div>
       </div>
+      <!--/////////////////////////////////////////////////////////////////
+      ////                      MODAL ELIMINAR                         ////
+      ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute justify-center inset-x-0">
         <div
           v-if="modal"
@@ -85,6 +91,9 @@
         :class="{ 'pointer-events-none': modal }"
         class="flex justify-center w-full"
       >
+      <!--/////////////////////////////////////////////////////////////////
+      ////                      TARJETAS DE DTC                        ////
+      ////////////////////////////////////////////////////////////////////-->
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div
             class="shadow-2xl inline-block focus m-4 p-3 sm:m-6"
@@ -104,9 +113,8 @@
 
 <script>
 import Nav from "../components/Navbar";
-import CardListDTC from "../components/DTC/CardListaDTC.vue";
 import moment from "moment";
-
+import CardListDTC from "../components/DTC/CardListaDTC.vue";
 export default {
   data() {
     return {
@@ -123,7 +131,6 @@ export default {
     CardListDTC,
   },
   beforeMount: function () {
-
     this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];     
   },
   computed: {
@@ -131,7 +138,6 @@ export default {
       if (this.fechaFiltro != "") return true;
       else return false;
     },
-
     validaReferencia: function () {
       if (this.referenciaFiltro != "") return true;
       else return false;

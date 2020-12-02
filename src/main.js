@@ -15,8 +15,9 @@ Vue.use(VTooltip)
 //Img
 import VueFileAgent from 'vue-file-agent';
 Vue.use(VueFileAgent);
-
-
+//Lazy
+import VueLazyImage from "vue-lazy-images";
+Vue.use(VueLazyImage)
 //Validaciones en formularios
 Vue.use(VeeValidate, { 
     classes: false,

@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <div class="border justify-items-center w-66 sm:w-auto">
+  <div>    
+    <div class="border justify-items-center w-66 sm:w-auto">      
       <!-- Si no hay nada en el array de imagenes  -->
       <template v-if="cargarImagen">
-        <div
-          class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full"
-          v-if="editar_imagen"
-        >
+        <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">
           <div class="inline-flex justify-center">
             <input
               type="file"
@@ -22,10 +19,7 @@
             <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
           </div>
         </div>
-        <div
-          v-else
-          class="border-2 border-gray-500 flex-col justify-center border-dashed w-full"
-        >
+        <div v-else class="border-2 border-gray-500 flex-col justify-center border-dashed w-full">
           <div
             v-for="(item, key) in fileUpload"
             :key="key"
@@ -136,12 +130,11 @@
             </button>
           </div>
         </div>
-        <div class="p-1" v-show="!agregarbool">
-          <img
+        <div class="p-1" v-show="!agregarbool">         
+          <lazy-image 
             :src="imgbase64.array_img[this.index_imagen_actual].image"
-            style="width: 500px !important; height: 200px !important"
-            alt
-          />
+            :placeholder="load"             
+          />                                            
         </div>
       </template>
     </div>
@@ -151,7 +144,12 @@
 <script>
 import Axios from "axios";
 
+
 export default {
+  name: 'ImgenesCard',
+  component:{
+    
+  },
   props: {
     referenceNumber: {
       type: String,
@@ -167,34 +165,42 @@ export default {
         array_img: [],
         referenceNumber: "",
       },
+      load: '../assets/img/loading.gif',
       agregarbool: true,
       index_imagen_actual: 0,
       editar_imagen: true,
-      eliminar_name: [],
+      eliminar_name: [],      
     };
-  },
-  beforeMount: function () {
-    try {
-      let validar = this.$store.getters["DTC/getImagenesDTC"](
-        this.referenceNumber
-      );
-
-      console.log(validar);
-
+  },  
+  beforeMount: async function () {           
       //SI el array de imagenes tiene algo
-      if (validar != undefined) {
-
+    let _ref = this.referenceNumber.split("-")[0]    
+    let nombre_plaza = this.$store.getters["Login/getNombrePlazaParam"](_ref);        
+    await Axios.get(
+      `http://prosisdev.sytes.net:88/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
+    )
+      .then((response) => {    
+            
+          let array = response.data.map(item => {
+            return {
+              "fileName": item, 
+              "image": `http://prosisdev.sytes.net:88/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item}`
+            }
+          })            
+          this.imgbase64 = {
+            array_img: array,
+            referenceNumber: this.referenceNumber,
+          };                  
+      })
+      .catch(() => {
+        console.log("erro");
+      });
+      console.log(this.imgbase64)
+      if (this.imgbase64.array_img.length > 0) {
+        console.log('true')
         this.agregarbool = false;
-        this.cargarImagen = false;
-        this.imgbase64 = validar;
-        // if(validar.array_img.length <= 0) {
-        //   this.agregarbool = true;
-        //   this.cargarImagen = true;
-        //   this.imgbase64 = {
-        //     array_img: [],
-        //     referenceNumber: "",
-        //   };
-        // }
+        this.cargarImagen = false;  
+        console.log(this.imgbase64.array_img[0].image)                
       } else {
         this.agregarbool = true;
         this.cargarImagen = true;
@@ -203,10 +209,6 @@ export default {
           referenceNumber: "",
         };
       }
-    } catch (err) {
-      console.log("erro before mount");
-      console.log(err);
-    }
   },
   methods: {
     recibirImagenes: function (e) {
@@ -439,3 +441,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+.vuetify-lazy-image {
+  filter: blur(10px);
+  transition: filter 0.7s;
+}
+.vuetify-lazy-image-loaded {
+  filter: blur(0);
+}
+</style> 

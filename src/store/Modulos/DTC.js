@@ -50,7 +50,11 @@ const mutations = {
 
   LISTA_PROPUESTO_LIBRE_EDIT_MUTATION: (state, value) => state.listaPropuestoLibre = value,
 
-  LISTA_IMAGENES_DTC_MUTATION: (state, value) => state.listaImagenesDTC.push(value),
+  LISTA_IMAGENES_DTC_MUTATION: (state, value) =>{
+    console.log('mutation imagen') 
+      state.listaImagenesDTC.push(value)
+    
+  },
 
   listaInfoDTCMutation: (state, value) => state.listaInfoDTC = value,
 

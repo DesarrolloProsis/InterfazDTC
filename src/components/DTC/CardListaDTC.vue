@@ -25,12 +25,12 @@
           </div>
         </div>
         <div
-          class="flex text-center cursor-pointer border-gray-800  flex-col mt-5  sm:m-3 sm:mt-5"
+          class="flex text-center cursor-pointer border-gray-800 flex-col mt-5 sm:m-3 sm:mt-5"
           v-if="!showmenosMas"
-        >          
-            <ImagenesCard
-              :referenceNumber="this.infoCard.referenceNumber"
-            ></ImagenesCard>          
+        >
+          <ImagenesCard
+            :referenceNumber="infoCard.referenceNumber"            
+          ></ImagenesCard>
         </div>
       </div>
       <div class="flex justify-between static">
@@ -43,19 +43,6 @@
           class="cursor-pointer text-green-700 rel"
           >Ver Mas</a
         >
-          <!-- <button
-              v-if="!showBotonPDF"
-              @click.prevent="pruebas"
-              class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
-            >
-              <img
-                src="../../assets/img/pencil.png"
-                class="mr-2"
-                width="20"
-                height="1"
-              />
-              <span class="text-xs">Editar</span>
-            </button> -->
       </div>
       <!-- VerMar -->
       <div v-if="showmenosMas">
@@ -149,14 +136,14 @@ export default {
     },
   },
   components: {
-    ImagenesCard,
+    ImagenesCard,    
   },
   data: function () {
     return {
       menosMas: true,
       showmenosMas: false,
       tableFormat: [],
-      showBotonPDF: true,
+      showBotonPDF: true,      
     };
   },
   filters: {
@@ -184,8 +171,14 @@ export default {
         : "COMPONENT_EDIT";
 
       await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);
-      this.$store.commit("Header/PLAZAELEGIDAFINDMUTATION", this.infoCard.referenceNumber.split('-')[0])
-      this.$store.commit("Login/PLAZAELEGIDAFINDMUTATION", this.infoCard.referenceNumber.split('-')[0])
+      this.$store.commit(
+        "Header/PLAZAELEGIDAFINDMUTATION",
+        this.infoCard.referenceNumber.split("-")[0]
+      );
+      this.$store.commit(
+        "Login/PLAZAELEGIDAFINDMUTATION",
+        this.infoCard.referenceNumber.split("-")[0]
+      );
 
       let datosSinester = {
         ReferenceNumber: "",
@@ -221,7 +214,7 @@ export default {
 
       this.$store.commit("Header/datosSinesterMutation", datosSinester);
 
-      let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";     
+      let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";
 
       this.$router.push({
         path: `/${page}`,
@@ -230,15 +223,20 @@ export default {
         },
       });
     },
-    pdf: function () {      
-      var oReq = new XMLHttpRequest();      
-      let _ref = this.infoCard.referenceNumber
+    pdf: function () {
+      var oReq = new XMLHttpRequest();
+      let _ref = this.infoCard.referenceNumber;
       // The Endpoint of your server
-      let urlTopdf = this.infoCard.openMode == false
-        ? `http://prosisdev.sytes.net:88/api/pdf/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split('-')[0]}`
-        : `http://prosisdev.sytes.net:88/api/pdf/open/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0,3)}`;
+      let urlTopdf =
+        this.infoCard.openMode == false
+          ? `http://prosisdev.sytes.net:88/api/pdf/${
+              this.infoCard.referenceNumber
+            }/${this.infoCard.referenceNumber.split("-")[0]}`
+          : `http://prosisdev.sytes.net:88/api/pdf/open/${
+              this.infoCard.referenceNumber
+            }/${this.infoCard.referenceNumber.slice(0, 3)}`;
 
-      let namePdf = `ReportDTC-${_ref}.pdf`;      
+      let namePdf = `ReportDTC-${_ref}.pdf`;
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);
       // Important to use the blob response type
@@ -262,8 +260,8 @@ export default {
       this.showmenosMas = false;
     },
   },
-  beforeMount() {
-    this.showBotonPDF = this.infoCard.statusId == 2 ? true : false;
+  beforeMount: function () {    
+    this.showBotonPDF = this.infoCard.statusId == 2 ? true : false; 
   },
 };
 </script>

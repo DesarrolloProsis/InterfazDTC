@@ -11,6 +11,12 @@ const state = {
 
 const getters = {
 
+  getNombrePlazaParam: (state) => (_ref) => {    
+    let query = state.listUser.find(item => item.referenceSquare == _ref).plaza.split(' ')[0]
+    let res = state.listaPlazas.find(item => item.squareCatalogId ==   query)    
+    return res.squareName    
+  },
+
   getUserForDTC: () => {
     return {
       numPlaza: state.listUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
