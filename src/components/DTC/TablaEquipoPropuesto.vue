@@ -66,7 +66,7 @@
             <td>
               <textarea
                 v-model="diagnostico"
-                v-validate="'max:120'"
+                v-validate="'max:300'"
                 :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
                 class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6"
                 name="Diagnostico"

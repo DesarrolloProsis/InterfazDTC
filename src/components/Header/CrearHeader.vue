@@ -1,34 +1,28 @@
   
 <template>
   <div class="m-0 p-0 bg-white">
-    <div
-      class="mt-8 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 w-full sm:screen  flex-col flex-wrap my-2"
-    >
-      <!-- TituloyReferencia -->
+    <div class="mt-8 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 w-full sm:screen  flex-col flex-wrap my-2">
+    <!-- /////////////////////////////////////////////////////////////////
+    ////                          TITULO                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div class="box-content p-4 border-4 border-gray-400 xl:w-3/4">
         <img src="../../assets/img/prosis-logo.jpg" class="xl:h-12 4k:h-12" />
       </div>
-      <div
-        class="border-2 border-black text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold"
-      >
+      <div class="border-2 border-black text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold">
         Dictamen Tecnico y Cotizacion
       </div>
       <div class="text-left">
         <br />
         <label class="mr-2 ml-5 text-lg">Referencia:</label>
-        <label style="font-weight: bold">
-          {{ datosSinester.ReferenceNumber }}
-        </label>
+        <label style="font-weight: bold">{{ datosSinester.ReferenceNumber }}</label>
       </div>
-      <!-- SubTitulo -->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                       SUB-TITULO                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div>
         <br />
-        <label class for="inline-full-name" style="font-weight: normal"
-          >Contrato / Oferta:</label
-        >
-        <label style="font-weight: bold; padding-left: 0.5vw">
-          {{ datosUser.agrement }}
-        </label>
+        <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
+        <label style="font-weight: bold; padding-left: 0.5vw">{{ datosUser.agrement }}</label>
       </div>
       <div>
         <br />
@@ -38,67 +32,45 @@
       </div>
       <div class="text-left">
         <br />
-        <label class="inline-full-name" style="font-weight: normal"
-          >Tipo de Dictamen:</label
-        >
-        <label class="inline-full-name" style="padding-left: 0.5vw"
-          >CORRECTIVO</label
-        >
+        <label class="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
+        <label class="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
       </div>
-      <!-- ------Tercera Linea-------- -->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                   PRIMERA LINEA                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div class="mr-6">
         <label>Atencion:</label>
-        <label class="ml-2 text-sm" style="font-weight: normal">
-          {{ datosUser.managerName }}
-        </label>
+        <label class="ml-2 text-sm" style="font-weight: normal">{{ datosUser.managerName }}</label>
       </div>
       <div class="sm:flex-col pr-2 inline-block">
-        <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">
-          No. Siniestros
-        </p>
+        <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
         <input
           v-validate="'uniqueSinester'"
-          :class="{
-            is_valid: !errors.first('NoSiniestro'),
-            is_invalid: errors.first('NoSiniestro'),
-          }"
+          :class="{ is_valid: !errors.first('NoSiniestro'),is_invalid: errors.first('NoSiniestro')}"
           v-model="datosSinester.SinisterNumber"
           class="w-full"
           type="text"
           name="NoSiniestro"
           placeholder
         />
-        <p class="w-1/2 text-red-600 text-xs">
-          {{ errors.first("NoSiniestro") }}
-        </p>
-        <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">
-          No. Reporte:
-        </p>
+        <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
+        <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
         <input
           v-validate="'uniqueReport'"
           v-model="datosSinester.ReportNumber"
-          :class="{
-            is_valid: !errors.first('NoReporte'),
-            is_invalid: errors.first('NoReporte'),
-          }"
+          :class="{ is_valid: !errors.first('NoReporte'),is_invalid: errors.first('NoReporte')}"
           class="w-full"
           type="text"
           name="NoReporte"
         />
         <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
-      </div>
-      <!-- <div class="pl-2 pr-2"></div> -->
+      </div>      
       <div class="pr-2">
-        <p class="text-md font-semibold mb-1 text-gray-900">
-          Tipo de Descripcion
-        </p>
+        <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
         <select
           v-model="datosSinester.TypeDescriptionId"
           v-validate="'required'"
-          :class="{
-            is_valid: !errors.first('TipoDescripcion'),
-            is_invalid: errors.first('TipoDescripcion'),
-          }"
+          :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}"
           class="w-full"
           type="text"
           name="TipoDescripcion"
@@ -112,29 +84,21 @@
             {{ desc.description }}
           </option>
         </select>
-        <p class="text-red-600 text-xs">
-          {{ errors.first("TipoDescripcion") }}
-        </p>
+        <p class="text-red-600 text-xs">{{ errors.first("TipoDescripcion") }}</p>
       </div>
-      <!-- ------cuarta Linea-------- -->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                   SEGUNDA LINEA                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div class="mr-6">
         <label class="inline">Cargo:</label>
-        <label class="inline ml-2 text-sm" style="font-weight: normal">
-          {{ datosUser.position }}
-        </label>
+        <label class="inline ml-2 text-sm" style="font-weight: normal">{{ datosUser.position }}</label>
       </div>
       <div class="pr-2">
-        <p class="text-md mb-1 font-semibold text-gray-900">
-          Fecha de Siniestro:
-        </p>
+        <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Siniestro:</p>
         <input
           @change="crearReferencia()"
-          v-validate="'required'"
-          
-          :class="{
-            is_valid: !errors.first('FechaSiniestro'),
-            is_invalid: errors.first('FechaSiniestro'),
-          }"
+          v-validate="`required|before:${fecha_validacion}`"          
+          :class="{ is_valid: !errors.first('FechaSiniestro'),is_invalid: errors.first('FechaSiniestro')}"
           :disabled="fechaSiniestoEdit"
           v-model="datosSinester.SinisterDate"
           class="w-full"
@@ -147,23 +111,20 @@
         <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
         <input
           v-model="datosSinester.ShippingElaboracionDate"
-          v-validate="'required'"
-          :class="{
-            is_valid: !errors.first('FechaEnvio'),
-            is_invalid: errors.first('FechaEnvio'),
-          }"
+          v-validate="`required|before:${fecha_validacion}`"
+          :class="{ is_valid: !errors.first('FechaEnvio'),is_invalid: errors.first('FechaEnvio')}"
           class="w-full"
           type="date"
           name="FechaEnvio"          
         />
         <p class="text-red-600 text-xs">{{ errors.first("FechaEnvio") }}</p>
       </div>
-      <!--*************** Quinta Linea ***********************-->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                   TERCERA LINEA                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div class="mr-6">
         <label class="inline">Correo:</label>
-        <label class="inline ml-2 text-sm" style="color: blue">
-          {{ datosUser.mail }}
-        </label>
+        <label class="inline ml-2 text-sm" style="color: blue">{{ datosUser.mail }}</label>
       </div>
       <div class="pr-2">
         <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
@@ -175,17 +136,15 @@
         />
       </div>
       <div class="pr-2">
-        <p class="text-md mb-1 font-semibold text-gray-900">
-          Fecha de Elaboracion:
-        </p>
+        <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion:</p>
         <input disabled="true" class="w-full" type="date" readonly />
       </div>
-      <!--*********************Sexta Linea**************************************-->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                   CUARTA  LINEA                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div class="mr-6">
         <label>Plaza Cobro:</label>
-        <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">
-          {{ datosUser.plaza }}
-        </label>
+        <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ datosUser.plaza }}</label>
       </div>
       <div class="pr-2">
         <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
@@ -193,11 +152,11 @@
       </div>
       <div class="pr-2">
         <label>Tecnico Responsable:</label>
-        <label class="text-md ml-2" style="font-weight: normal">
-          {{ datosUser.nombre }}
-        </label>
+        <label class="text-md ml-2" style="font-weight: normal">{{ datosUser.nombre }}</label>
       </div>
-      <!--**************Septima Linea******************************-->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                   QUINTA  LINEA                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div class="text-sm">
         <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
         <select
@@ -222,29 +181,32 @@
       <div></div>
       <div class="pr-2">
         <label>Coordinacion Regional:</label>
-        <label class="text-md" style="font-weight: normal">
-          {{ datosUser.regionalCoordination }}
-        </label>
+        <label class="text-md" style="font-weight: normal">{{ datosUser.regionalCoordination }}</label>
       </div>
-      <!--***************Octava linea****************************-->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                   SEXTA LINEA                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div></div>
       <div></div>
       <div class="pr-2">
         <label>Centro de Servicio: Ciudad de México</label>
         <label></label>
       </div>
-      <!--***************novena Linea****************************-->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                   SEPTIMA LINEA                              ////
+    ///////////////////////////////////////////////////////////////////// -->
       <div></div>
       <div></div>
       <div class="pr-2">
         <label>Correo:</label>
         <label>hguzman@grupo-prosis.com</label>
-      </div>
-      <!--***********************************************************-->
+      </div>   
       <br />
       <br />
     </div>
-    <!-- COMPONENTE TABLA EQUIPO DAÑANDA -->
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                    TABLA EQUIPO MALO                         ////
+    ///////////////////////////////////////////////////////////////////// -->
     <TablaEquipoMalo
       :listaComponentes="listaComponentes"
       :dateSinester="datosSinester.SinisterDate"
@@ -258,6 +220,9 @@ import EventBus from "../../services/EventBus.js";
 import moment from "moment";
 export default {
   name: "CrearHeader",
+/////////////////////////////////////////////////////////////////////
+////                          PROPS                              ////
+/////////////////////////////////////////////////////////////////////
   props: {
     descripciones: {
       type: Array,
@@ -279,6 +244,9 @@ export default {
   components: {
     TablaEquipoMalo,
   },
+/////////////////////////////////////////////////////////////////////
+////                          DATA                               ////
+/////////////////////////////////////////////////////////////////////
   data() {
     return {
       datosSinester: {
@@ -288,7 +256,7 @@ export default {
         SinisterDate: "",
         FailureDate: "",
         FailureNumber: "",
-        ShippingElaboracionDate: "",
+        ShippingElaboracionDate: '',  
         Diagnosis: "",
         Observation: "",
         TypeDescriptionId: "",
@@ -301,11 +269,67 @@ export default {
       fechaSiniestoEdit: false,
       sizeSmall: false,
       plazaSelect: 0,
-      boolCambiarPlaza: false
+      boolCambiarPlaza: false,
+      fecha_validacion: ''
     };
   },
-  methods: {
-    async crearReferencia() {
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                         ////
+/////////////////////////////////////////////////////////////////////
+created: function (){
+    EventBus.$on("validar_header", async () => {
+      await this.$validator.validateAll().then((item) => {
+        if(item == false){
+          this.errors.items.map((error) => {            
+            this.$notify.warning({
+              title: "Ups!",
+              msg: `FALTA LLENAR EL CAMPO ${error.field.toUpperCase()}.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          })
+        }
+      })
+    });
+},
+beforeMount: async function () {    
+  let f = new Date()
+  this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
+  this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");
+  this.plazaSelect = this.listaPlazasUser[this.plazaSelect = this.$store.state.Login.PLAZAELEGIDA].numPlaza;
+  let value = await this.$store.getters["Header/getConvenioPlaza"];
+  await this.$store.dispatch("Refacciones/buscarComponentes", value);
+  this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
+  await this.$store.dispatch("DTC/buscarDescriptions");
+  this.listaDescripciones = await this.$store.getters["DTC/getListaDescriptions"];
+  if (JSON.stringify(this.headerEdit) != "{}") {      
+    this.boolCambiarPlaza = true
+    this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
+    this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
+    this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
+    this.datosSinester.SinisterDate = moment(
+      this.headerEdit.sinisterDate
+    ).format("YYYY-MM-DD");
+    this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
+    this.datosSinester.FailureDate = moment(
+      this.headerEdit.failureDate
+    ).format("YYYY-MM-DD");
+    this.datosSinester.ShippingElaboracionDate = moment(
+      this.headerEdit.shippingDate
+    ).format("YYYY-MM-DD");
+    this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
+    this.fechaSiniestoEdit = true;
+  }
+  //this.$validator.validateAll();
+},
+/////////////////////////////////////////////////////////////////////
+////                            METODOS                          ////
+/////////////////////////////////////////////////////////////////////
+methods: {
+  async crearReferencia() {
       let _datesplit = this.datosSinester.SinisterDate.split("-");
       let diaActual = parseInt(_datesplit[2]);
       let mesActual = parseInt(_datesplit[1]);
@@ -338,8 +362,8 @@ export default {
       this.datosSinester.ReferenceNumber = await this.$store.getters[
         "Header/getreferenceNum"
       ];
-    },
-    async cambiarPlaza() {   
+  },
+  async cambiarPlaza() {   
       this.listaComponentes = []  
       let index = this.listaPlazasUser.findIndex(
         (item) => item.numPlaza == this.plazaSelect
@@ -349,8 +373,6 @@ export default {
       EventBus.$emit("ACTUALIZAR_HEADER", index);
       this.plazaSelect = this.listaPlazasUser[index].numPlaza;
       let value = await this.$store.getters["Header/getConvenioPlaza"];
-      console.log('bug 3 marias')
-      console.log(value)
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
       this.listaComponentes = await this.$store.getters[
         "Refacciones/getListaRefacciones"
@@ -377,62 +399,30 @@ export default {
         this.datosSinester.TypeDescriptionId = 2;
         this.fechaSiniestoEdit = true;
       }
-    },
-  },
-  watch: {
-    
-    //ARREGLAR WATCHER!!!!!
-    datosUser: function (newValue) {
+  }
+},
+//////////////////////////////////////////////////////////////////////
+////                          OBSERVADORES                        ////
+/////////////////////////////////////////////////////////////////////
+watch: {    
+  datosUser: function (newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
-    },
-    datosSinester: {
+  },
+  datosSinester: {
       deep: true,
       handler(datosSinester) {
         this.$store.commit("Header/datosSinesterMutation", datosSinester);
       },
-    }
-
-  },
-  beforeMount: async function () {
-       
-    this.plazaSelect = this.listaPlazasUser[this.plazaSelect = this.$store.state.Login.PLAZAELEGIDA].numPlaza;
-    let value = await this.$store.getters["Header/getConvenioPlaza"];
-    await this.$store.dispatch("Refacciones/buscarComponentes", value);
-    this.listaComponentes = await this.$store.getters[
-      "Refacciones/getListaRefacciones"
-    ];
-    await this.$store.dispatch("DTC/buscarDescriptions");
-    this.listaDescripciones = await this.$store.getters[
-      "DTC/getListaDescriptions"
-    ];
-    if (JSON.stringify(this.headerEdit) != "{}") {      
-      this.boolCambiarPlaza = true
-      this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
-      this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
-      this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
-      this.datosSinester.SinisterDate = moment(
-        this.headerEdit.sinisterDate
-      ).format("YYYY-MM-DD");
-      this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
-      this.datosSinester.FailureDate = moment(
-        this.headerEdit.failureDate
-      ).format("YYYY-MM-DD");
-      this.datosSinester.ShippingElaboracionDate = moment(
-        this.headerEdit.shippingDate
-      ).format("YYYY-MM-DD");
-      this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
-      this.fechaSiniestoEdit = true;
-    }
-    //this.$validator.validateAll();
-  },
+  }
+},
 };
 </script>
 
 <style scoped>
-label {
-  font-weight: bold;
-  color: black;
-  font-family: Tahoma, Geneva, Verdana, sans-serif;
-}
+  label {
+    font-weight: bold;
+    color: black;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+  }
 </style>

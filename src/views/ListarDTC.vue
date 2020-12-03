@@ -64,16 +64,13 @@
       ////                      MODAL ELIMINAR                         ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute justify-center inset-x-0">
-        <div
-          v-if="modal"
-          class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl"
-        >
+        <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md">
             Seguro que quiere eliminar este DTC {{ refNum }}
           </p>
           <div class="justify-center flex mt-5">
             <button
-              @click="borrar"
+              @click="borrar(true)"
               class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600"
             >
               Si
@@ -87,13 +84,10 @@
           </div>
         </div>
       </div>
-      <div
-        :class="{ 'pointer-events-none': modal }"
-        class="flex justify-center w-full"
-      >
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
+      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center w-full">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div
             class="shadow-2xl inline-block focus m-4 p-3 sm:m-6"
@@ -130,57 +124,50 @@ export default {
     Nav,
     CardListDTC,
   },
-  beforeMount: function () {
-    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];     
-  },
-  computed: {
-    validaFecha: function () {
-      if (this.fechaFiltro != "") return true;
-      else return false;
-    },
-    validaReferencia: function () {
-      if (this.referenciaFiltro != "") return true;
-      else return false;
-    },
-  },
-  watch: {
-    infoDTC: function (newValue) {
-      this.numCard = newValue.length > 2 ? true : false;
-    },
-  },
-  methods: {
-    borrar: function () {
-      this.modal = false;
-      this.$store.dispatch("DTC/BORRAR_DTC", this.refNum);
-      (this.menosMas = true),
-        (this.showmenosMas = false),
-        this.$notify.default({
-          title: "Ok!",
-          msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-
+/////////////////////////////////////////////////////////////////////
+////                      CICLOS DE VIDA                         ////
+/////////////////////////////////////////////////////////////////////
+beforeMount: function () {
+  this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
+},
+/////////////////////////////////////////////////////////////////////
+////                          METODOS                            ////
+/////////////////////////////////////////////////////////////////////
+methods: {
+  borrar: function (value) {
+      console.log(value)
+      if (value) {
+        this.modal = false;
+        this.$store.dispatch("DTC/BORRAR_DTC", this.refNum);
+        (this.menosMas = true),
+          (this.showmenosMas = false),
+          this.$notify.default({
+            title: "Ok!",
+            msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+      }
       this.refNum = "";
-    },
-    confimaBorrar: function (refNum) {
+  },
+  confimaBorrar: function (refNum) {
       this.refNum = refNum;
       this.modal = true;
-    },
-    sinFiltroFull() {
+  },
+  sinFiltroFull() {
       this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
-      this.fechaFiltro = " "
-      this.referenciaFiltro = " "
-    },
-    sinFiltro: function () {
+      this.fechaFiltro = " ";
+      this.referenciaFiltro = " ";
+  },
+  sinFiltro: function () {
       if (this.fechaFiltro == "" && this.referenciaFiltro == "") {
         this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
       }
-    },
-    filtro_Dtc: function () {
+  },
+  filtro_Dtc: function () {
       if (this.fechaFiltro != "") {
         let dtc = this.$store.getters["DTC/getlistaInfoDTC"];
         let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
@@ -209,8 +196,29 @@ export default {
         let dtc = this.$store.getters["DTC/getlistaInfoDTC"];
         this.infoDTC = dtc;
       }
-    },
   },
+},
+/////////////////////////////////////////////////////////////////////
+////                          COMPUTADOS                         ////
+/////////////////////////////////////////////////////////////////////
+computed: {
+  validaFecha: function () {
+      if (this.fechaFiltro != "") return true;
+      else return false;
+  },
+  validaReferencia: function () {
+      if (this.referenciaFiltro != "") return true;
+      else return false;
+  },
+},
+/////////////////////////////////////////////////////////////////////
+////                      CICLOS DE VIDA                         ////
+/////////////////////////////////////////////////////////////////////
+watch: {
+  infoDTC: function (newValue) {
+      this.numCard = newValue.length > 2 ? true : false;
+  },
+},
 };
 </script>
 

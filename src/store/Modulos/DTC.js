@@ -14,7 +14,6 @@ const state = {
   componetesEdit: {},
   listaImagenesDTC: []
 };
-
 const getters = {
   getListaDTCTecnico: () => state.listaDTCTecnico,
   getListaDescriptions: () => state.listaDescriptions,
@@ -26,7 +25,6 @@ const getters = {
   getPropuestoLibre: () => state.listaPropuestoLibre,
   getImagenesDTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference)
 };
-
 const mutations = {
   listaDmgLibreClearMutation: (state) => {
     state.listaDmgLibre = []
@@ -37,42 +35,22 @@ const mutations = {
     state.listaInfoDTC = []
   },
   listaDTCMutation: (state, value) => state.listaDTC = value,
-
   insertDmgCompleteMutation: (state, value) => state.insertDmgComplete = value,
-
   tableFormComponentMutation: (state, value) => state.tableFormComponent = value,
-
   BORRAR_DTC_MUTATION: (state, value) => state.listaInfoDTC.splice(state.listaInfoDTC.findIndex(a => a.referenceNumber == value), 1),
-
   COMPONENTES_EDIT: (state, value) => state.componetesEdit = value,
-
   LISTA_DMG_LIBRE_MUTATION: (state, value) => state.listaDmgLibre = value,
-
   LISTA_PROPUESTO_LIBRE_EDIT_MUTATION: (state, value) => state.listaPropuestoLibre = value,
-
-  LISTA_IMAGENES_DTC_MUTATION: (state, value) =>{
-    console.log('mutation imagen') 
-      state.listaImagenesDTC.push(value)
-    
-  },
-
+  LISTA_IMAGENES_DTC_MUTATION: (state, value) => state.listaImagenesDTC.push(value),    
   listaInfoDTCMutation: (state, value) => state.listaInfoDTC = value,
-
   listaDTCTecnicoMutation: (state, value) => state.listaDTCTecnico = value,
-
   listaDescriptionsMutation: (state, value) => state.listaDescriptions = value,
-
   newlistaDmgMutationPush: (state, value) => state.newlistaDmg.push(value),
-
   listaDmgMutationDelete: (state, value) => state.newlistaDmg.splice(value, 1),
-
   listaDmgMutationUpdate: (state, value) => state.newlistaDmg.splice(value.index, 1, value.value),
-
   listaDmgClearMutation: (state) => state.newlistaDmg = [],
-
   LIMPIAR_IMAGENES_REF: (state, value) => {
-
-     let index = state.listaImagenesDTC
+    let index = state.listaImagenesDTC
             .map(function (e) {
               return e.referenceNumber;
             })
@@ -82,9 +60,7 @@ const mutations = {
   },
   LIMPIAR_IMAGENES_FULL: (state) => state.listaImagenesDTC = []  
 };
-
 const actions = {
-
   async buscarDTC({ commit }) {
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
       .then(response => {        
@@ -170,7 +146,6 @@ const actions = {
       });
   },
   async COMPONENT_EDIT_OPEN({ commit }, value) {
-
     await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/Open/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
@@ -218,9 +193,7 @@ const actions = {
         console.log('ERROR!!! ' + Ex);
       });
   },
-
 };
-
 export default {
   namespaced: true,
   state,

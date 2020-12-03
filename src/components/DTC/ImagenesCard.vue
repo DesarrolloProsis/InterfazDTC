@@ -195,21 +195,21 @@ export default {
       })
       .catch(() => {
         console.log("erro");
-      });
-      console.log(this.imgbase64)
-      if (this.imgbase64.array_img.length > 0) {
+      });      
+    if (this.imgbase64.array_img.length > 0) {
         console.log('true')
         this.agregarbool = false;
         this.cargarImagen = false;  
         console.log(this.imgbase64.array_img[0].image)                
-      } else {
+    } 
+    else {
         this.agregarbool = true;
         this.cargarImagen = true;
         this.imgbase64 = {
           array_img: [],
           referenceNumber: "",
         };
-      }
+    }
   },
   methods: {
     recibirImagenes: function (e) {
@@ -233,8 +233,7 @@ export default {
         this.imagenes_enviar.push(obj);
       };
       reader.readAsDataURL(file);
-      this.cargarImagen = true;
-      // this.agregarbool = true
+      this.cargarImagen = true;      
       this.editar_imagen = false;
     },
     eliminarImagen: function (item) {
@@ -246,7 +245,6 @@ export default {
               return e.name;
             })
             .indexOf(nombre);
-
           if (eliminado > -1) this.imagenes_enviar.splice(eliminado, 1);
           else this.eliminar_name.push(nombre);
         }
@@ -372,11 +370,9 @@ export default {
     },
     actualizar_img: async function (nombre_plaza) {
       let array_nombre_imagenes = [];
-
       console.log("inicie a actualizar");
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-
       await Axios.get(
         `http://prosisdev.sytes.net:88/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
       )
@@ -387,12 +383,7 @@ export default {
         .catch(() => {
           console.log("error en el actuzaliacion");
         });
-
       let arrayimg = [];
-
-      console.log("antes del push");
-      console.log(array_nombre_imagenes);
-
       if (array_nombre_imagenes.length > 0) {
         for (let item2 of array_nombre_imagenes) {
           console.log("push");
@@ -409,7 +400,6 @@ export default {
         this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](
           this.referenceNumber
         );
-
         this.agregarbool = false;
         this.cargarImagen = false;
       } else {
@@ -428,7 +418,6 @@ export default {
         bstr = atob(arr[1]),
         n = bstr.length,
         u8arr = new Uint8Array(n);
-
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
       }

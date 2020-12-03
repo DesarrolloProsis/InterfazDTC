@@ -9,13 +9,8 @@
       :listaPlazasUser="listaPlazasUser"
     ></Header>
 
-    <div
-      class="md:border border-black"
-      style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw"
-    >
-      <div
-        class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4"
-      >
+    <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
+      <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
         <div class="border border-black">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
@@ -42,7 +37,7 @@
           </p>
           <textarea
             v-model="observaciones"
-            v-validate="'max:120'"
+            v-validate="'max:300'"
             :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
             class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
             placeholder="jane@example.com"
@@ -167,6 +162,7 @@ export default {
   },
   methods: {
     crearDTCTecnico: async function (status) {
+      await EventBus.$emit("validar_header");
       this.refNum = this.$store.getters["Header/getreferenceNum"];
       await this.$store.dispatch("Header/crearHeaders", {
         datosUser: this.datosUser,
@@ -174,7 +170,6 @@ export default {
         flag: this.flagCreate,
         openFlag: false
       });
-
       let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
       if (insertHeader) {
         this.$notify.success({
