@@ -1,73 +1,52 @@
 <template>
   <div>
-    <div class="flex justify-center sm:hidden">
-      <div class="p-4">
+    <div class="flex justify-center w-auto sm:hidden">
+      <div>
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
-        <table class="border-collapse">
-          <!--/////////////////////////////////////////////////////////////////
-            ////                 CABECERA DE LA TABLA                       ////
-          ////////////////////////////////////////////////////////////////////-->
-          <thead>
-            <tr class="border text-xs md:text-sm bg-blue-800 text-white">
-              <th class="px-1 border-2 border-gray-800">Partida</th>
-              <th class="px-1 border-2 border-gray-800 xl:w-24">Unidad</th>
-              <th class="px-4 text-red-600 border-2 border-gray-800">
-                Componente
-              </th>
-
-              <th class="px-4 text-red-600 border-2 border-gray-800 w-1">
-                Cantidad
-              </th>
-              <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
-              <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
-              <th class="px-4 border-2 border-gray-800 xl:w-32">
-                Numero de Serie
-              </th>
-              <th class="px-4 border-2 border-gray-800 text-red-600">
-                Ubicacion
-                <br />(carril/cuerpo)
-              </th>
-              <th class="px-4 text-xs border-2 border-gray-800">
-                Fecha de Instalacion
-              </th>
-              <th class="px-4 text-xs border-2 border-gray-800">
-                Fecha
-                <br />(Ultimo Mantenimiento)
-              </th>
-              <th class="px-4 text-xs border-2 border-gray-800">
-                Folio
-                <br />(Ultimo Mantenimiento)
-              </th>
-              <th class="px-12 border-2 border-gray-800 xl:w-48">Real</th>
-              <th class="px-1 border-2 border-gray-800 xl:w-32">Fabricante</th>
-              <th class="px-4 border-2 border-gray-800"></th>
-            </tr>
-          </thead>
-          <!--/////////////////////////////////////////////////////////////////
-            ////                 CUERPO DE LA TABLA                          ////
-          ////////////////////////////////////////////////////////////////////-->
-          <tbody>
-            <tr
-              class="hover:bg-blue-200 text-center"
-              v-for="(equipo, index) in arrayPartidas"
-              :key="index"
-            >
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd1 }}</div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
-                <div v-else>{{ objectEditar.rowUpd2 }}</div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  {{ equipo.row3.description.toString() }}
-                </div>
-                <div v-else>
-                  <multiselect
+        <div class="flex justify-center p-8">
+          <div class="grid gap-4 grid-cols-1">
+            <div class="sm:m-2 sm:text-xs">
+              <table class="border-collapse table-fixed">
+                <!--/////////////////////////////////////////////////////////////////
+                ////                 CABECERA DE LA TABLA                       ////
+                ////////////////////////////////////////////////////////////////////-->
+                <thead>
+                  <tr class="border text-xs md:text-sm bg-blue-800 text-white">
+                    <th class="px-1 border-2 border-gray-800">Partida</th>
+                    <th class="px-1 border-2 border-gray-800 w-16">Unidad</th>
+                    <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
+                    <th class="px-4 text-red-600 border-2 border-gray-800">Cantidad</th>
+                    <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
+                    <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
+                    <th class="px-4 border-2 border-gray-800 xl:w-32">Numero de Serie</th>
+                    <th class="px-4 border-2 border-gray-800 text-red-600">Ubicacion<br />(carril/cuerpo)</th>
+                    <th class="px-4 border-2 border-gray-800">Fecha de Instalacion</th>
+                    <th class="px-4 border-2 border-gray-800">Fecha<br />(Ultimo Mantenimiento)</th>
+                    <th class="px-4 border-2 border-gray-800">Folio<br />(Ultimo Mantenimiento)</th>
+                    <th class="px-12 border-2 border-gray-800">Real</th>
+                    <th class="px-1 border-2 border-gray-800 w-20">Fabricante</th>
+                    <th class="px-4 border-2 border-gray-800"></th>
+                  </tr>
+                </thead>
+                <!--/////////////////////////////////////////////////////////////////
+                ////                 CUERPO DE LA TABLA                          ////
+                ////////////////////////////////////////////////////////////////////-->
+                <tbody>
+                  <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
+                      <div v-else>{{ objectEditar.rowUpd1 }}</div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
+                      <div v-else>{{ objectEditar.rowUpd2 }}</div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
+                      <div v-else>
+                        <multiselect
                     @select="UpdateCompEditado()"
                     v-model="updtCompEditar"
                     :options="listaComponentes"
@@ -83,71 +62,32 @@
                     ><span slot="noResult"
                       >Oops! No elements found. Consider changing the search
                       query.</span
-                    ></multiselect
-                  >
-                  <!-- <select
-                    @change="UpdateCompEditado()"
-                    v-model="updtCompEditar"
-                    class="appearance-none w-sm bg-grey-lighter text-grey-darker border border-black py-1"
-                    style="width: 10vw"
-                    type="text"
-                  >
-                    <option disabled value>Selecionar...</option>
-                    <option
-                      v-for="(item, index) in listaComponentes"
-                      v-bind:value="item"
-                      :key="index"
                     >
-                      {{ item.description + `(${item.brand})` }}
-                    </option>
-                  </select> -->
-                </div>
-              </td>
-
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
-                <div v-else>{{ objectEditar.rowUpd4 }}</div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
-                <div v-else>
-                  <p v-for="(item, key) in objectEditar.rowUpd5" :key="key">
-                    {{ item }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row6" :key="key">
-                    {{ item }}
-                  </p>
-                </div>
-                <div v-else>
-                  <p v-for="(item, key) in objectEditar.rowUpd6" :key="key">
-                    {{ item }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row7" :key="key">
-                    {{ item }}
-                  </p>
-                </div>
-                <div v-else>
-                  <p v-for="(item, key) in objectEditar.rowUpd7" :key="key">
-                    {{ item }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <p v-for="(item, key) in equipo.row8" :key="key">
-                    {{ item | formatPlaza }}
-                  </p>
-                </div>
-                <div v-else>
-                  <multiselect
+                        </multiselect>
+                      </div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
+                      <div v-else>{{ objectEditar.rowUpd4 }}</div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p></div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
+                      </div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
+                      </div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
+                      <div v-else>
+                        <multiselect
                     v-model="laneSelectEditar"
                     :close-on-select="false"
                     :clear-on-select="true"
@@ -170,113 +110,32 @@
                         >{{ values.length }} Carriles</span
                       >
                     </template>
-                  </multiselect>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <p
-                    v-for="(item, key) in equipo.row9"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item | formatDate }}
-                  </p>
-                </div>
-                <div v-else>
-                  <p
-                    v-for="(item, key) in objectEditar.rowUpd9"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item | formatDate }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <p
-                    v-for="(item, key) in equipo.row10"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item | formatDate }}
-                  </p>
-                </div>
-                <div v-else>
-                  <p
-                    v-for="(item, key) in objectEditar.rowUpd10"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item | formatDate }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <!-- {{ equipo.row11.toString() }} -->
-                  <p
-                    v-for="(item, key) in equipo.row11"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item }}
-                  </p>
-                </div>
-                <div v-else>
-                  <p
-                    v-for="(item, key) in objectEditar.rowUpd11"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <p
-                    v-for="(item, key) in equipo.row12"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item }}
-                  </p>
-                </div>
-                <div v-else>
-                  <p
-                    v-for="(item, key) in objectEditar.rowUpd12"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <p
-                    v-for="(item, key) in equipo.row13"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item }}
-                  </p>
-                </div>
-                <div v-else>
-                  <p
-                    v-for="(item, key) in objectEditar.rowUpd13"
-                    :key="key"
-                    class="text-sm"
-                  >
-                    {{ item }}
-                  </p>
-                </div>
-              </td>
-              <td class="border border-gray-800">
-                <div v-if="equipo.rowUp">
-                  <button
+                        </multiselect>
+                      </div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row9" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd9" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row10" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd10" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row11" :key="key" class="text-sm">{{ item }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd11" :key="key" class="text-sm">{{ item }}</p></div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row12" :key="key" class="text-sm">{{ item }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd12" :key="key" class="text-sm">{{ item }}</p></div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd13" :key="key" class="text-sm">{{ item }}</p></div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp">
+                        <button
                     v-on:click.stop.prevent="deleteItem(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
@@ -287,23 +146,10 @@
                       height="15"
                     />
                     <span>Borrar</span>
-                  </button>
-                  <!-- 
-                  <button
-                    v-on:click.prevent="updateRowTable(index, equipo)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
-                  >
-                    <img
-                      src="../../assets/img/pencil.png"
-                      class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
-                    />
-                    <span>Editar</span>
-                  </button> -->
-                </div>
-                <div v-else>
-                  <button
+                        </button>         
+                      </div>
+                      <div v-else>
+                        <button
                     v-on:click.stop.prevent="abortUpdateRowTable(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
@@ -314,8 +160,8 @@
                       height="15"
                     />
                     <span>Cancelar</span>
-                  </button>
-                  <button
+                        </button>
+                        <button
                     v-on:click.stop.prevent="confirmRowTable(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
                   >
@@ -326,520 +172,322 @@
                       height="15"
                     />
                     <span>Confirmar</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <!--/////////////////////////////////////////////////////////////////
-              ////           FOOTER DE LA TABLA + PARTIDA                      ////
-            ////////////////////////////////////////////////////////////////////-->
-            <tr class="text-center">
-              <td class="border border-gray-800">{{ "*" }}</td>
-              <td class="border border-gray-800">
-                {{ datosPrePartida.rowUnidad.toString() }}
-              </td>
-              <td class="border border-gray-800">
-                <multiselect
-                  @open="UnClick"
-                  @select="UpdateComp"
-                  v-model="updtComp"
-                  :options="listaComponentes"
-                  :multiple="false"
-                  group-values="secundarios"
-                  group-label="componentePrincipal"
-                  :close-on-select="true"
-                  :group-select="false"
-                  placeholder="Buscar componentes"
-                  track-by="name"
-                  class="w-65"
-                  label="description"
-                  ><span slot="noResult"
-                    >Oops! No elements found. Consider changing the search
-                    query.</span
-                  ></multiselect
-                >
-              </td>
-              <td class="border border-gray-800 w-1">
-                {{ datosPrePartida.rowCantidad }}
-              </td>
-              <td class="border border-gray-800">
-                {{ datosPrePartida.rowMarca.toString() }}
-              </td>
-              <td class="border border-gray-800">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowModelo"
-                  :key="key"
-                  class="text-sm"
-                >
-                  {{ item }}
-                </p>
-              </td>
-              <td class="border border-gray-800">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowNumSerie"
-                  :key="key"
-                  class="text-sm"
-                >
-                  {{ item }}
-                </p>
-              </td>
-              <td class="border border-gray-800">
-                <multiselect
-                  v-model="laneSelect"
-                  :close-on-select="false"
-                  :clear-on-select="true"
-                  :hideSelected="false"
-                  placeholder="Selecciona..."
-                  :options="listLane"
-                  :multiple="true"
-                >
-                  <template
-                    v-if="
-                      updtComp != 'Servidor de Video' &&
-                      updtComp != 'Servidor de Plaza'
-                    "
-                    slot="selection"
-                    slot-scope="{ values, isOpen }"
-                  >
-                    <span
-                      class="multiselect__single"
-                      v-if="values.length &amp;&amp; !isOpen"
-                      >{{ values.length }} Carriles</span
-                    >
-                  </template>
-                </multiselect>
-              </td>
-              <td class="border border-gray-800">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateInstalacion"
-                  :key="key"
-                  class="text-sm"
-                >
-                  {{ item | formatDate }}
-                </p>
-              </td>
-              <td class="border border-gray-800">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateMantenimiento"
-                  :key="key"
-                  class="text-sm"
-                >
-                  {{ item | formatDate }}
-                </p>
-              </td>
-              <td class="border border-gray-800">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowFolioMantenimiento"
-                  :key="key"
-                  class="text-sm"
-                >
-                  {{ item }}
-                </p>
-              </td>
-              <td class="border border-gray-800">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateReal"
-                  :key="key"
-                  class="text-sm"
-                >
-                  {{ item }}
-                </p>
-              </td>
-              <td class="border border-gray-800">
-                <p
-                  v-for="(item, key) in datosPrePartida.rowDateFabricante"
-                  :key="key"
-                  class="text-sm"
-                >
-                  {{ item }}
-                </p>
-              </td>
-              <td class="border border-gray-800 p-2">
-                <button
-                  v-on:click.stop.prevent="agregarPartida()"
-                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 mr-3"
-                >
-                  <img src="../../assets/img/more.png" width="20" height="20" />
-                  <span class="text-xs">Agregar Partida</span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!--/////////////////////////////////////////////////////////////////
+                    ////           FOOTER DE LA TABLA + PARTIDA                      ////
+                  ////////////////////////////////////////////////////////////////////-->
+                  <tr class="text-center">
+                    <td class="border border-gray-800">{{ "*" }}</td>
+                    <td class="border border-gray-800">{{ datosPrePartida.rowUnidad.toString() }}</td>
+                    <td class="border border-gray-800">
+                      <multiselect
+                          @open="UnClick"                          
+                          @select="UpdateComp"
+                          v-model="updtComp"
+                          :options="listaComponentes"
+                          :multiple="false"
+                          group-values="secundarios"
+                          group-label="componentePrincipal"
+                          :close-on-select="true"
+                          :group-select="false"
+                          placeholder="Buscar componentes"
+                          track-by="name"
+                          openDirection="below"
+                          class=""
+                          label="description"
+                      ><span slot="noResult"></span>
+                      </multiselect>
+                    </td>
+                    <td class="border border-gray-800 w-1">{{ datosPrePartida.rowCantidad }}</td>
+                    <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
+                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
+                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
+                    <td class="border border-gray-800">
+                      <multiselect
+                          v-model="laneSelect"                                                  
+                          :close-on-select="false"
+                          :clear-on-select="true"
+                          :hideSelected="false"
+                          placeholder="Selecciona..."
+                          :options="listLane"
+                          :multiple="true"
+                        >
+                        <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                          <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                        </template>
+                      </multiselect>
+                    </td>
+                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateInstalacion" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateMantenimiento" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowFolioMantenimiento" :key="key" class="text-sm">{{ item }}</p></td>
+                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
+                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
+                    <td class="border border-gray-800 p-2">
+                      <button
+                        v-on:click.stop.prevent="agregarPartida()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24"
+                      >
+                        <img src="../../assets/img/more.png" width="20" height="20" />
+                        <span class="text-xs">Agregar Partida</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="flex justify-center md:hidden lg:hidden xl:hidden">
+    <div class="flex justify-center sm:show lg:hidden xl:hidden">
       <div class="p-4" :class="{ hidden: modal }">
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
-        <div class="overflow-x-auto flex sm:m-2 sm:text-xs">
-          <table class="border-collapse">
-          <!--/////////////////////////////////////////////////////////////////
-          ////                 CABECERA DE LA TABLA                       ////
-          ////////////////////////////////////////////////////////////////////-->
-            <thead>
-              <tr class="border text-xs bg-blue-800 text-white">
-                <th class="w-20 border-2 border-gray-800">Partida</th>
-                <th class="w-48 border-2 border-gray-800 text-red-600">
-                  Componente
-                </th>
-                <th class="w-48 border-2 border-gray-800 text-red-600">
-                  Ubicacion
-                  <br />(carril/cuerpo)
-                </th>
-                <th class="w-48 border-2 border-gray-800"></th>
-              </tr>
-            </thead>
-            <!--/////////////////////////////////////////////////////////////////
-              ////                 CUERPO DE LA TABLA                          ////
-          ////////////////////////////////////////////////////////////////////-->
-            <tbody>
-              <tr
-                class="hover:bg-blue-200 text-center"
-                v-for="(equipo, index) in arrayPartidas"
-                :key="index"
-              >
-                <td class="border border-gray-800 text-sm">
-                  <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
-                  <div v-else>{{ objectEditar.rowUpd1 }}</div>
-                </td>
-
-                <td class="border border-gray-800 text-sm">
-                  <div v-if="equipo.rowUp">
-                    {{ equipo.row3.description.toString() }}
-                  </div>
-                  <div v-else>
-                    <multiselect
-                      @select="UpdateCompEditado()"
-                      v-model="updtCompEditar"
-                      :options="listaComponentes"
-                      :multiple="false"
-                      group-values="secundarios"
-                      group-label="componentePrincipal"
-                      :close-on-select="true"
-                      :group-select="false"
-                      placeholder="Buscar componentes"
-                      track-by="name"
-                      class="w-65"
-                      label="description"
-                      ><span slot="noResult"
-                        >Oops! No elements found. Consider changing the search
-                        query.</span
-                      ></multiselect
-                    >
-                    <!-- <select
-                    @change="UpdateCompEditado()"
-                    v-model="updtCompEditar"
-                    class="w-20"
-                    type="text"
-                  >
-                    <option disabled value>Selecionar...</option>
-                    <option
-                      v-for="(item, index) in listaComponentes"
-                      v-bind:value="item"
-                      :key="index"
-                    >
-                      {{ item.description + `(${item.brand})` }}
-                    </option>
-                  </select> -->
-                  </div>
-                </td>
-
-                <td class="border border-gray-800 text-sm">
-                  <div v-if="equipo.rowUp">
-                    <p v-for="(item, key) in equipo.row8" :key="key">
-                      {{ item | formatPlaza }}
-                    </p>
-                  </div>
-                  <div v-else>
-                    <multiselect
-                      v-model="laneSelectEditar"
-                      :close-on-select="false"
-                      :clear-on-select="true"
-                      :hideSelected="false"
-                      placeholder="Selecciona..."
-                      :options="listLaneEditar"
-                      :multiple="true"
-                    >
-                      <template
-                        v-if="
-                          updtCompEditar != 'Servidor de Video' &&
-                          updtCompEditar != 'Servidor de Plaza'
-                        "
-                        slot="selection"
-                        slot-scope="{ values, isOpen }"
-                      >
-                        <span
-                          class="multiselect__single"
-                          v-if="values.length &amp;&amp; !isOpen"
-                          >{{ values.length }} Carriles</span
-                        >
-                      </template>
-                    </multiselect>
-                  </div>
-                </td>
-
-                <td class="border border-gray-800">
-                  <div v-if="equipo.rowUp">
-                    <button
-                      v-on:click.stop.prevent="deleteItem(index)"
-                      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
-                    >
-                      <img
-                        src="../../assets/img/bin.png"
-                        width="15"
-                        height="15"
-                      />
-                    </button>
-
-                    <button
-                      v-on:click.prevent="updateRowTable(index, equipo)"
-                      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-1"
-                    >
-                      <img
-                        src="../../assets/img/pencil.png"
-                        width="15"
-                        height="15"
-                      />
-                    </button>
-
-                    <button
-                      v-on:click.stop.prevent="infoModal(index)"
-                      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
-                    >
-                      <img
-                        src="../../assets/img/mas.png"
-                        width="15"
-                        height="15"
-                      />
-                    </button>
-                  </div>
-                  <div v-else>
-                    <button
-                      v-on:click.stop.prevent="abortUpdateRowTable(index)"
-                      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
-                    >
-                      <img
-                        src="../../assets/img/cerrar.png"
-                        width="15"
-                        height="15"
-                      />
-                    </button>
-
-                    <button
-                      v-on:click.stop.prevent="confirmRowTable(index)"
-                      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-1"
-                    >
-                      <img
-                        src="../../assets/img/garrapata.png"
-                        width="15"
-                        height="15"
-                      />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+        <div class="flex justify-center">
+          <div class="grid gap-4 grid-cols-1">
+            <div class="sm:text-xs" :class="{ 'overflow-x-auto': scrollBool}">
+              <table class="border-collapse">
               <!--/////////////////////////////////////////////////////////////////
-                ////           FOOTER DE LA TABLA + PARTIDA                      ////
-            ////////////////////////////////////////////////////////////////////-->
-              <tr class="text-center">
-                <td class="border border-gray-800">{{ "*" }}</td>
-
-                <td class="border border-gray-800">
-                  <multiselect
-                    @select="UpdateComp()"
-                    v-model="updtComp"
-                    :options="listaComponentes"
-                    :multiple="false"
-                    group-values="secundarios"
-                    group-label="componentePrincipal"
-                    :close-on-select="true"
-                    :group-select="false"
-                    placeholder="Buscar componentes"
-                    track-by="name"
-                    class="w-32"
-                    label="description"
-                    ><span slot="noResult"
-                      >Oops! No elements found. Consider changing the search
-                      query.</span
-                    ></multiselect
-                  >
-                  <!-- <select
-                  @change="UpdateComp()"
-                  v-model="updtComp"
-                  class="w-20"
-                  type="text"
-                >
-                  <option disabled value>Selecionar...</option>
-                  <option
-                    v-for="(item, index) in listaComponentes"
-                    v-bind:value="item"
-                    :key="index"
-                  >
-                    {{ item.description + `(${item.brand})` }}
-                  </option>
-                </select> -->
-                </td>
-
-                <td class="border border-gray-800">
-                  <multiselect
-                    v-model="laneSelect"
-                    :close-on-select="false"
-                    :clear-on-select="true"
-                    :hideSelected="false"
-                    placeholder="Selecciona..."
-                    :options="listLane"
-                    :multiple="true"
-                  >
-                    <template
-                      v-if="
-                        updtComp != 'Servidor de Video' &&
-                        updtComp != 'Servidor de Plaza'
-                      "
-                      slot="selection"
-                      slot-scope="{ values, isOpen }"
-                    >
-                      <span
-                        class="multiselect__single"
-                        v-if="values.length &amp;&amp; !isOpen"
-                        >{{ values.length }} Carriles</span
+              ////                 CABECERA DE LA TABLA                       ////
+              ////////////////////////////////////////////////////////////////////-->
+                <thead>
+                  <tr class="border text-xs bg-blue-800 text-white">
+                    <th class="w-20 border-2 border-gray-800">Partida</th>
+                    <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
+                    <th class="w-48 border-2 border-gray-800 text-red-600">Ubicacion<br />(carril/cuerpo)</th>
+                    <th class="w-48 border-2 border-gray-800"></th>
+                  </tr>
+                </thead>
+                <!--/////////////////////////////////////////////////////////////////
+                  ////                 CUERPO DE LA TABLA                          ////
+              ////////////////////////////////////////////////////////////////////-->
+                <tbody>
+                  <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
+                    <td class="border border-gray-800 text-sm">
+                      <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
+                      <div v-else>{{ objectEditar.rowUpd1 }}</div>
+                    </td>
+                    <td class="border border-gray-800 text-sm">
+                      <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
+                      <div v-else>
+                        <multiselect
+                        @select="UpdateCompEditado()"                        
+                        v-model="updtCompEditar"
+                        :options="listaComponentes"
+                        :multiple="false"
+                        group-values="secundarios"
+                        group-label="componentePrincipal"
+                        :close-on-select="true"
+                        :group-select="false"
+                        placeholder="Buscar componentes"
+                        track-by="name"
+                        class="w-65"
+                        label="description"
+                        ><span slot="noResult"
+                          >Oops! No elements found. Consider changing the search
+                          query.</span
                       >
-                    </template>
-                  </multiselect>
-                </td>
-
-                <td class="border border-gray-800 p-3">
-                  <button
-                    v-on:click.stop.prevent="agregarPartida()"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs rounded inline-flex items-center border-2 border-green-700"
-                  >
-                    <img
-                      src="../../assets/img/more.png"
-                      class="m-1"
-                      width="15"
-                      height="15"
-                    />
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                        </multiselect>           
+                      </div>
+                    </td>
+                    <td class="border border-gray-800 text-sm">
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
+                      <div v-else>
+                        <multiselect
+                        v-model="laneSelectEditar"
+                        :close-on-select="false"
+                        :clear-on-select="true"
+                        :hideSelected="false"
+                        placeholder="Selecciona..."
+                        :options="listLaneEditar"
+                        :multiple="true"
+                      >
+                        <template
+                          v-if="updtCompEditar != 'Servidor de Video' && updtCompEditar != 'Servidor de Plaza'"
+                          slot="selection"
+                          slot-scope="{ values, isOpen }"
+                        >
+                          <span
+                            class="multiselect__single"
+                            v-if="values.length &amp;&amp; !isOpen"
+                            >{{ values.length }} Carriles</span
+                          >
+                        </template>
+                        </multiselect>
+                      </div>
+                    </td>
+                    <td class="border border-gray-800">
+                      <div v-if="equipo.rowUp">
+                        <button
+                        v-on:click.stop.prevent="deleteItem(index)"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
+                      >
+                        <img
+                          src="../../assets/img/bin.png"
+                          width="15"
+                          height="15"
+                        />
+                        </button>
+                        <!-- <button
+                          v-on:click.prevent="updateRowTable(index, equipo)"
+                          class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-1"
+                        >
+                          <img
+                            src="../../assets/img/pencil.png"
+                            width="15"
+                            height="15"
+                          />
+                        </button> -->
+                        <button
+                        v-on:click.stop.prevent="infoModal(index)"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
+                      >
+                        <img
+                          src="../../assets/img/mas.png"
+                          width="15"
+                          height="15"
+                        />
+                        </button>
+                      </div>
+                      <div v-else>
+                        <button
+                        v-on:click.stop.prevent="abortUpdateRowTable(index)"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
+                      >
+                        <img
+                          src="../../assets/img/cerrar.png"
+                          width="15"
+                          height="15"
+                        />
+                        </button>
+                        <button
+                        v-on:click.stop.prevent="confirmRowTable(index)"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-1"
+                      >
+                        <img
+                          src="../../assets/img/garrapata.png"
+                          width="15"
+                          height="15"
+                        />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                <!--/////////////////////////////////////////////////////////////////
+                ////           FOOTER DE LA TABLA + PARTIDA                      ////
+                ////////////////////////////////////////////////////////////////////-->
+                  <tr class="text-center">
+                    <td class="border border-gray-800">{{ "*" }}</td>
+                    <td class="border border-gray-800">
+                      <multiselect
+                        @select="UpdateComp()"
+                        @open="UnClick,scrollBool = false"
+                        @close="scrollBool = true"
+                        v-model="updtComp"
+                        :options="listaComponentes"
+                        :multiple="false"
+                        group-values="secundarios"
+                        group-label="componentePrincipal"
+                        :close-on-select="true"
+                        :group-select="false"
+                        placeholder="Buscar componentes"
+                        track-by="name"
+                        class="w-32"
+                        label="description"
+                        ><span slot="noResult"
+                          >Oops! No elements found. Consider changing the search
+                          query.</span
+                        >
+                      </multiselect>                
+                    </td>
+                    <td class="border border-gray-800">
+                      <multiselect
+                        v-model="laneSelect"
+                        @open="scrollBool = false"                        
+                        @close="scrollBool = true"
+                        :close-on-select="false"
+                        :clear-on-select="true"
+                        :hideSelected="false"
+                        placeholder="Selecciona..."
+                        :options="listLane"
+                        :multiple="true"
+                      >
+                        <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                          <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                        </template>
+                      </multiselect>
+                    </td>
+                    <td class="border border-gray-800 p-3">
+                      <button
+                        v-on:click.stop.prevent="agregarPartida()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs rounded inline-flex items-center border-2 border-green-700 w-20"
+                      >
+                        <img
+                          src="../../assets/img/more.png"
+                          class="m-1"
+                          width="15"
+                          height="15"
+                        />
+                        <span class="text-xs">Agregar Partida</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
+      <!--/////////////////////////////////////////////////////////////////
+      ////              MODAL INFORMACION CELULAR                     ////
+      ////////////////////////////////////////////////////////////////////-->
       <div class="flex flex-col p-5" v-if="modal">
-        <div
-          class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40"
-        >
+        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Componete
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Componete</p>
               <p>{{ objectModal.row3.description }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Carriles
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row8"
-                :key="id"
-              >
-                {{ item | formatPlaza }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Carriles</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row8" :key="id">{{ item | formatPlaza }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Marca
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row5"
-                :key="id"
-              >
-                {{ item }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Marca</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row5" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Numero Serie
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row7"
-                :key="id"
-              >
-                {{ item }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Numero Serie</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row7" :key="id">{{ item }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Modelo
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row6"
-                :key="id"
-              >
-                {{ item }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Modelo</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row6" :key="id">{{ item }}</p>
             </div>
-
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Folio
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row11"
-                :key="id"
-              >
-                {{ item }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Folio</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row11" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Fecha de Instalacion
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row9"
-                :key="id"
-              >
-                {{ item | formatDate }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Fecha de Instalacion</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row9" :key="id">{{ item | formatDate }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Fecha Ultimo Mantenimiento
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row10"
-                :key="id"
-              >
-                {{ item | formatDate }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Fecha Ultimo Mantenimiento</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row10" :key="id">{{ item | formatDate }}</p>
             </div>
             <div class="w-24 m-1">
               <p></p>
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">
-                Tiempo de Vida Real
-              </p>
-              <p
-                class="border-b-2"
-                v-for="(item, id) in objectModal.row12"
-                :key="id"
-              >
-                {{ item }}
-              </p>
+              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Tiempo de Vida Real</p>
+              <p class="border-b-2" v-for="(item, id) in objectModal.row12" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="flex justify-end">
@@ -895,8 +543,9 @@ export default {
         rowUp: true,
       },
       arrayPartidas: [],
-      //nombre del Compoente
-      updtComp: "",
+      //nombre del Compoente    
+      updtComp: "",     
+      scrollBool: true, 
       //Multiselect Normal
       listLane: [],
       laneSelect: [],
@@ -910,26 +559,119 @@ export default {
       modal: false,
       objectModal: {},
       pruebasMultiselect: [],
-      //CAmbios Inserte RelationShip
+      //Cambios Inserte RelationShip
       relationShipPrincipal: "",
     };
   },
-  props: {
-    listaComponentes: {
+/////////////////////////////////////////////////////////////////////
+////                          PROPS                            ////
+/////////////////////////////////////////////////////////////////////
+props: {
+  listaComponentes: {
       type: Array,
       default: () => [],
-    },
-    dateSinester: {
+  },
+  dateSinester: {
       type: String,
       required: true,
       default: "",
-    },
   },
-  methods: {
-    UnClick() {
-      this.updtComp = "";
-    },
-    UpdateComp: async function (value) {
+},
+//////////////////////////////////////////////////////////////////////
+////                    CICLOS DE VIDA                            ////
+/////////////////////////////////////////////////////////////////////
+beforeMount: async function () {
+    try {
+      let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
+      if (JSON.stringify(componetesEdit) != "{}") {                
+        for (const item of componetesEdit.items) { 
+
+          let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
+          newObject["attachedId"] = item.attachedId;
+          newObject["componentsRelationship"] = item.relationship;
+          newObject["componentsRelationshipId"] = item.mainRelationship;
+                    
+          await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);
+          let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];          
+          let array_ubicacion = [];
+          let array_carril = [];
+          componetesEdit.serialNumbers.map((lane) => {
+            if (item.item == lane.item) {
+              array_ubicacion.push(lane.tableFolio);
+              array_carril.push(lane.lane);
+            }
+          });          
+          let otra_prueba = await this.$store.getters["Header/getFechaSiniestro"];
+          //AGREGAMOS PARTIDA AL STORE
+          let objPartida = Service.obj_partida(
+            array_ubicacion,
+            equipoValid,
+            otra_prueba,
+            item.mainRelationship,
+            true
+          );
+          await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+          //COMPLETAMOS ATRIBUTOS QUE FALTAN
+          let key_partidas = [
+            "row1",
+            "row2",
+            "row3",
+            "row4",
+            "row5",
+            "row6",
+            "row7",
+            "row8",
+            "row9",
+            "row10",
+            "row11",
+            "row12",
+            "row13",
+            "row14",
+            "rowUp",
+          ];
+          console.log("lane_select");
+          let new_partida = Service.lane_select(
+            array_ubicacion,
+            key_partidas,
+            equipoValid,
+            otra_prueba,
+            item.mainRelationship,
+            true
+          );
+          console.log(new_partida);
+          new_partida["row1"] = this.arrayPartidas.length + 1;
+          new_partida["row3"] = {
+            description: item.name,
+            attachedId: item.attachedId,
+            componentsRelationship: item.relationship,
+            componentsRelationshipId: item.mainRelationship,
+            vitalComponent: item.vitalComponent,
+          };
+          new_partida["row8"] = array_carril;
+          this.arrayPartidas.push(new_partida);
+        }
+      }
+    } catch (ex) {
+      console.log(ex);
+      alert("componete tabla ");
+    }
+},
+destroyed: function () {
+    this.arrayPartidas = [];
+    this.$store.commit("DTC/listaDmgClearMutation");
+    this.$store.commit("DTC/insertDmgCompleteMutation", false);
+    this.$store.commit("Header/insertHeaderCompleteMutation", false);
+    this.$store.dispatch("Header/buscarListaUnique");
+    this.$store.commit("Header/clearDatosSinesterMutation");
+    this.$store.commit("DTC/COMPONENTES_EDIT", {});
+    this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
+},
+/////////////////////////////////////////////////////////////////////
+////                          METODOS                            ////
+/////////////////////////////////////////////////////////////////////
+methods: {
+  UnClick() { this.updtComp = "" },
+  UpdateComp: async function (value) {
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
@@ -979,8 +721,8 @@ export default {
         });
         this.updtComp = "";
       }
-    },
-    UpdateCompEditado: async function () {
+  },
+  UpdateCompEditado: async function () {
       let comp_rep = this.arrayPartidas.some((item) => {
         return (
           item["row3"].description == this.updtCompEditar.description &&
@@ -1047,15 +789,15 @@ export default {
           },
         });
       }
-    },
-    deleteItem: function (index) {
+  },
+  deleteItem: function (index) {
       this.arrayPartidas.splice(index, 1);
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         this.arrayPartidas[i]["row1"] = i + 1;
       }
       this.$store.commit("DTC/listaDmgMutationDelete", index);
-    },
-    updateRowTable: async function (index, datos) {
+  },
+  updateRowTable: async function (index, datos) {
       if (this.saveObjectEdiar.length == 0) {
         this.saveObjectEdiar = Object.values(datos);
         this.updtCompEditar = this.saveObjectEdiar[2];
@@ -1080,8 +822,8 @@ export default {
           },
         });
       }
-    },
-    confirmRowTable: async function (index) {
+  },
+  confirmRowTable: async function (index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
           let equipoValid = await this.$store.getters[
@@ -1159,8 +901,8 @@ export default {
           },
         });
       }
-    },
-    abortUpdateRowTable: function (index) {
+  },
+  abortUpdateRowTable: function (index) {
       let lanes = this.saveObjectEdiar[7];
       let key_abort = [
         "row1",
@@ -1199,8 +941,8 @@ export default {
       this.listLaneEditar = [""];
       this.updtCompEditar = "";
       this.laneSelectEditar = [];
-    },
-    agregarPartida: async function () {
+  },
+  agregarPartida: async function () {
       if (this.updtComp != "") {
         if (this.laneSelect.length > 0) {
           let equipoValid = await this.$store.getters[
@@ -1282,14 +1024,17 @@ export default {
           },
         });
       }
-    },
-    infoModal: function (value) {
+  },
+  infoModal: function (value) {
       this.modal = true;
       this.objectModal = Object.assign(this.arrayPartidas[value]);
-    },
   },
-  watch: {
-    laneSelect: async function (newValue) {
+},
+/////////////////////////////////////////////////////////////////////
+////                     OBSERVADORES                            ////
+/////////////////////////////////////////////////////////////////////
+watch: {
+  laneSelect: async function (newValue) {
       for (const propiedades in this.datosPrePartida) {
         if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
         else this.datosPrePartida[propiedades] = [];
@@ -1307,8 +1052,8 @@ export default {
           undefined
         );
       }
-    },
-    laneSelectEditar: async function (newValue) {
+  },
+  laneSelectEditar: async function (newValue) {
       for (const propiedades in this.objectEditar) {
         if (propiedades == "rowUpd4") this.objectEditar[propiedades] = 0;
         else this.objectEditar[propiedades] = [];
@@ -1346,120 +1091,19 @@ export default {
           "Refacciones/getListaLane"
         ];
       }
-    },
   },
-  filters: {
-    formatDate: function (value) {
+},
+/////////////////////////////////////////////////////////////////////
+////                          FILTROS                            ////
+/////////////////////////////////////////////////////////////////////
+filters: {
+  formatDate: function (value) {
       return moment(value.substring(0, 10)).format("DD/MM/YYYY");
-    },
-    formatPlaza: function (value) {
+  },
+  formatPlaza: function (value) {
       return value;
-    },
   },
-  destroyed: function () {
-    this.arrayPartidas = [];
-    this.$store.commit("DTC/listaDmgClearMutation");
-    this.$store.commit("DTC/insertDmgCompleteMutation", false);
-    this.$store.commit("Header/insertHeaderCompleteMutation", false);
-    this.$store.dispatch("Header/buscarListaUnique");
-    this.$store.commit("Header/clearDatosSinesterMutation");
-    this.$store.commit("DTC/COMPONENTES_EDIT", {});
-    this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
-  },
-  beforeMount: async function () {
-    try {
-      let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
-
-      if (JSON.stringify(componetesEdit) != "{}") {
-        console.log("dtc editar...");
-        console.log(componetesEdit);
-        for (const item of componetesEdit.items) {
-          console.log(item);
-          let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-          //newObject["id"] = { description: item.name, brand: item.marca };
-          newObject["attachedId"] = item.attachedId;
-          newObject["componentsRelationship"] = item.relationship;
-          newObject["componentsRelationshipId"] = item.mainRelationship;
-
-          await this.$store.dispatch(
-            "Refacciones/buscarComponenteId",
-            newObject
-          );
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
-          console.log(equipoValid);
-          let array_ubicacion = [];
-          let array_carril = [];
-
-          componetesEdit.serialNumbers.map((lane) => {
-            if (item.item == lane.item) {
-              array_ubicacion.push(lane.tableFolio);
-              array_carril.push(lane.lane);
-            }
-          });
-
-          console.log(array_ubicacion);
-          let otra_prueba = await this.$store.getters[
-            "Header/getFechaSiniestro"
-          ];
-          //AGREGAMOS PARTIDA AL STORE
-
-          let objPartida = Service.obj_partida(
-            array_ubicacion,
-            equipoValid,
-            otra_prueba,
-            item.mainRelationship,
-            true
-          );
-
-          await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
-
-          //COMPLETAMOS ATRIBUTOS QUE FALTAN
-          let key_partidas = [
-            "row1",
-            "row2",
-            "row3",
-            "row4",
-            "row5",
-            "row6",
-            "row7",
-            "row8",
-            "row9",
-            "row10",
-            "row11",
-            "row12",
-            "row13",
-            "row14",
-            "rowUp",
-          ];
-          console.log("lane_select");
-          let new_partida = Service.lane_select(
-            array_ubicacion,
-            key_partidas,
-            equipoValid,
-            otra_prueba,
-            item.mainRelationship,
-            true
-          );
-          console.log(new_partida);
-          new_partida["row1"] = this.arrayPartidas.length + 1;
-          new_partida["row3"] = {
-            description: item.name,
-            attachedId: item.attachedId,
-            componentsRelationship: item.relationship,
-            componentsRelationshipId: item.mainRelationship,
-            vitalComponent: item.vitalComponent,
-          };
-          new_partida["row8"] = array_carril;
-          this.arrayPartidas.push(new_partida);
-        }
-      }
-    } catch (ex) {
-      console.log(ex);
-      alert("componete tabla ");
-    }
-  },
+},
 };
 </script>
 

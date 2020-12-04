@@ -148,7 +148,8 @@
       </div>
       <div class="pr-2">
         <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
-        <input v-model="datosSinester.FailureDate" class="w-full" type="date" />
+        <input v-model="datosSinester.FailureDate" v-validate="`required|before:${fecha_validacion}`" :class="{ is_valid: !errors.first('FechaFalla'),is_invalid: errors.first('FechaFalla')}" class="w-full" name="FechaFalla" type="date" />
+        <p class="text-red-600 text-xs">{{ errors.first("FechaFalla") }}</p>
       </div>
       <div class="pr-2">
         <label>Tecnico Responsable:</label>
@@ -274,7 +275,7 @@ export default {
     };
   },
 /////////////////////////////////////////////////////////////////////
-////                       CICLOS DE VIDA                         ////
+////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 created: function (){
     EventBus.$on("validar_header", async () => {

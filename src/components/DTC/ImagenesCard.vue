@@ -176,7 +176,8 @@ export default {
   beforeMount: async function () {           
       //SI el array de imagenes tiene algo
     let _ref = this.referenceNumber.split("-")[0]    
-    let nombre_plaza = this.$store.getters["Login/getNombrePlazaParam"](_ref);        
+    let nombre_plaza = this.$store.getters["Login/getNombrePlazaParam"](_ref);  
+    console.log(nombre_plaza)      
     await Axios.get(
       `http://prosisdev.sytes.net:88/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
     )

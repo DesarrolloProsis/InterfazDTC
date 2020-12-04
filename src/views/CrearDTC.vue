@@ -1,6 +1,9 @@
 <template>
   <div>
     <Nav></Nav>
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                    COMPONENTE HEADER                         ////
+    ///////////////////////////////////////////////////////////////////// -->
     <Header
       :descripciones="descripcionHeaders"
       :datosUser="datosUser"
@@ -8,9 +11,11 @@
       :observaciones="observaciones"
       :listaPlazasUser="listaPlazasUser"
     ></Header>
-
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                      FILA NUMERO 1                            ////
+    /////////////////////////////////////////////////////////////////////// -->
         <div class="border border-black">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
@@ -31,6 +36,9 @@
           </p>
         </div>
         <div></div>
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                        OBSERVACIONES                         ////
+    ///////////////////////////////////////////////////////////////////// -->
         <div class="items-center">
           <p class="text-center">
             <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
@@ -45,6 +53,9 @@
           />
           <p class="text-xs">{{ errors.first("Observaciones") }}</p>
         </div>
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                        FILA NUMERO 2                         ////
+    ///////////////////////////////////////////////////////////////////// -->
         <div class="border border-black items-center">
           <p style="text-align: center">
             <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
@@ -74,6 +85,9 @@
             <span>{{ datosUser.adminMail }}</span>
           </p>
         </div>
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                           BOTONES                            ////
+    ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button
@@ -127,15 +141,17 @@ export default {
       listaPlazasUser: []
     };
   },
-  created(){
-
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                        ////
+/////////////////////////////////////////////////////////////////////
+created(){
     EventBus.$on("ACTUALIZAR_HEADER", () => {      
         this.datosUser = this.$store.getters["Header/getHeaders"];
         this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
         this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
     });
-  },
-  beforeMount() {    
+},
+beforeMount() {    
     this.datosUser = this.$store.getters["Header/getHeaders"];
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
     this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
@@ -144,24 +160,16 @@ export default {
     if (JSON.stringify(this.$route.query) != "{}") {
       this.headerEdit = this.$route.query.headerInfo;
       this.observaciones = this.headerEdit.observation;
-      this.$store.commit(
-        "Header/referenceNumMutation",
-        this.headerEdit.referenceNumber
-      );
-      this.$store.commit(
-        "Header/DIAGNOSTICO_MUTATION",
-        this.headerEdit.diagnosis
-      );
+      this.$store.commit("Header/referenceNumMutation",this.headerEdit.referenceNumber);
+      this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;
     }
-  },
-  watch: {
-    observaciones: function (newValue) {
-      this.$store.commit("Header/OBSERVACION_MUTATION", newValue);
-    },
-  },
-  methods: {
-    crearDTCTecnico: async function (status) {
+},
+/////////////////////////////////////////////////////////////////////
+////                          METODOS                            ////
+/////////////////////////////////////////////////////////////////////
+methods: {
+  crearDTCTecnico: async function (status) {
       await EventBus.$emit("validar_header");
       this.refNum = this.$store.getters["Header/getreferenceNum"];
       await this.$store.dispatch("Header/crearHeaders", {
@@ -197,8 +205,6 @@ export default {
               width: 500,
             },
           });
-
-          
           if (status == 2) {
             var oReq = new XMLHttpRequest();
             // The Endpoint of your server
@@ -219,9 +225,7 @@ export default {
               // Generate file download directly in the browser !
               saveAs(file, namePdf);
             };
-
             oReq.send();
-
             this.$notify.success({
               title: "Ok!",
               msg: `CREANDO EL REPORTE ${this.refNum}.`,
@@ -234,16 +238,12 @@ export default {
           }
           await this.$store.commit("DTC/listaDmgClearMutation");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);
-          await this.$store.commit(
-            "Header/insertHeaderCompleteMutation",
-            false
-          );
+          await this.$store.commit("Header/insertHeaderCompleteMutation",false);
           await this.$store.dispatch("Header/buscarListaUnique");
           await this.$store.commit("Header/clearDatosSinesterMutation");
-
           this.$router.push("Home");
         } else {
-          this.$notify.error({
+          this.$notify.warning({
             title: "Ups!",
             msg: `NO SE INSERTARON LOS COMPONENTES.`,
             position: "bottom right",
@@ -254,7 +254,7 @@ export default {
           });
         }
       } else {
-        this.$notify.error({
+        this.$notify.warning({
           title: "Ups!",
           msg: `NO SE INSERTO EL HEDER CON LA REFERENCIA ${this.refNum}.`,
           position: "bottom right",
@@ -264,8 +264,16 @@ export default {
           },
         });
       }
-    },
   },
+},
+/////////////////////////////////////////////////////////////////////
+////                       OBSERVADORES                          ////
+/////////////////////////////////////////////////////////////////////
+watch: {
+  observaciones: function (newValue) {
+      this.$store.commit("Header/OBSERVACION_MUTATION", newValue);
+  },
+},
 };
 </script>
 

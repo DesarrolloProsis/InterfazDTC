@@ -2,13 +2,12 @@
   <div>
     <Nav></Nav>
     <div class="flex justify-center">
-      <div class="grid gap-4 grid-cols-1 pl-3 pr-3">
-        <h1 class="text-black text-center text-4xl mt-3 mb-10 sm:mb-1">
-          Inventario
-        </h1>
-        <div
-          class="mt-1 mb-5 flex justify-between sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md"
-        >
+      <div class="grid gap-4 grid-cols-1 pl-3 pr-3">                
+        <h1 class="text-black text-center text-4xl mt-3 mb-10 sm:mb-1">Inventario</h1>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                     BOTONES NAVEGACION                      ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="mt-1 mb-5 flex justify-between sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
           <div class="inline-flex mt-2 sm:text-xs sm:ml-3 m-6">
             <div class="mr-3 sm:mr-1 mt-5">
               <span class="mr-2">Buscar</span>
@@ -35,9 +34,7 @@
             <div></div>
           </div>
           <div class=" text-sm mt-2">
-            <p class="text-md font-semibold mb-1 text-gray-900 ml-2">
-              Cambiar Plaza
-            </p>
+            <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
             <select
               v-model="plazaSelect"
               @change="cambiarPlaza"                            
@@ -55,10 +52,7 @@
               </option>
             </select>
           </div>
-
-          <div
-            class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex"
-          >
+          <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
             <button
               @click="Cancelar"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 mr-3"
@@ -83,42 +77,32 @@
               />
               <span class="text-xs">Guardar</span>
             </button>
-            <span class="ml-5 text-gray-800">{{
-              "Editados: " + list_Editados.length
-            }}</span>
+            <span class="ml-5 text-gray-800">{{"Editados: " + list_Editados.length}}</span>
           </div>
         </div>
         <div class="overflow-x-auto sm:m-2 sm:text-xs">
           <table class="border-2 border-gray-800 table-fixed">
+            <!--/////////////////////////////////////////////////////////////////
+            ////                           HEADER TABLA                      ////
+            ////////////////////////////////////////////////////////////////////-->
             <thead>
-              <tr class="text-md text-gray-400 font-normal bg-blue-800">
-                <!-- <th class="w-8  border-2 border-gray-800">*</th>       -->
+              <tr class="text-md text-gray-400 font-normal bg-blue-800">                
                 <th class="w-56 border-2 border-gray-800">Componete</th>
                 <th class="w-24 border-2 border-gray-800">Ubicación</th>
                 <th class="w-56 border-2 border-gray-800">Numero Serie</th>
                 <th class="w-40 border-2 border-gray-800">Fecha Instalacion</th>
-                <th class="w-40 border-2 border-gray-800">
-                  Fecha Mantenimiento
-                </th>
-                <th class="w-32 border-2 border-gray-800">
-                  Folio Mantenimiento
-                </th>
+                <th class="w-40 border-2 border-gray-800">Fecha Mantenimiento</th>
+                <th class="w-32 border-2 border-gray-800">Folio Mantenimiento</th>
                 <th class="w-32 border-2 border-gray-800">Acciones</th>
               </tr>
             </thead>
+            <!--/////////////////////////////////////////////////////////////////
+            ////                          BODY TABLA                          ////
+            ////////////////////////////////////////////////////////////////////-->
             <tbody>
-              <tr
-                class="h-12 text-gray-900 text-sm"
-                v-for="(item, key) in list_Component"
-                :key="key"
-              >
-                <!-- <td class="text-center border-2 border-gray-800">{{ key + 1 }}</td>                             -->
-                <td class="text-center border-2 border-gray-800">
-                  {{ item.component }}
-                </td>
-                <td class="text-center border-2 border-gray-800">
-                  {{ item.lane }}
-                </td>
+              <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in list_Component" :key="key">                
+                <td class="text-center border-2 border-gray-800">{{ item.component }}</td>
+                <td class="text-center border-2 border-gray-800">{{ item.lane }}</td>
                 <td class="text-center border-2 border-gray-800">
                   <input
                     @change="guardar_editado(item)"
@@ -165,6 +149,9 @@
             </tbody>
           </table>
         </div>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                 PAGINACION DE LA TABLA                      ////
+        ////////////////////////////////////////////////////////////////////-->
         <div class="flex justify-center mt-2 mb-2 sm:mb-5">
           <button
             @click="cambiar_Pagina(item)"
@@ -201,6 +188,24 @@ export default {
       plazaSelect: ''
     };
   },
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                        ////
+/////////////////////////////////////////////////////////////////////
+  beforeMount: function () {
+    let index = this.$store.getters['Header/getUSERSELECT']    
+    this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
+    this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
+    this.crear_array_paginacion("inicio");
+    this.plazaSelect = this.listaPlazasUser[index].numPlaza;
+    this.full_Component.sort((a, b) => {
+      if (a.lane < b.lane) return -1;
+      if (a.lane > b.lane) return 1;
+      return 0;
+    });
+  },
+/////////////////////////////////////////////////////////////////////
+////                           METODOS                           ////
+/////////////////////////////////////////////////////////////////////
   methods: {
     cambiar_Pagina: function (value) {
       if (value == "Anterior") {
@@ -380,10 +385,7 @@ export default {
       this.list_Editados = [];
     },
     cambiarPlaza: function(){
-
-      let index = this.listaPlazasUser.findIndex(
-        (item) => item.numPlaza == this.plazaSelect
-      );
+      let index = this.listaPlazasUser.findIndex((item) => item.numPlaza == this.plazaSelect);
       this.plazaSelect = this.listaPlazasUser[index].numPlaza;
       this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
       this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
@@ -391,6 +393,9 @@ export default {
       this.$store.dispatch('Refacciones/FULL_COMPONETES', plaza)
     }
   },
+/////////////////////////////////////////////////////////////////////
+////                         OBSERVADORES                        ////
+/////////////////////////////////////////////////////////////////////
   watch: {
     buscar_palabra: function (newValue, oldValue) {
       this.buscar_palabra.toUpperCase();
@@ -420,24 +425,11 @@ export default {
       }
     },
   },
+/////////////////////////////////////////////////////////////////////
+////                          COMPUTADOS                         ////
+/////////////////////////////////////////////////////////////////////
   computed: {
     ...mapState("Refacciones", ["full_Component"]),
-  },
-  beforeMount: function () {
-    let index = this.$store.getters['Header/getUSERSELECT']    
-    this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
-    this.list_Component = this.$store.getters[
-      "Refacciones/getPaginationComponent"
-    ](1);
-    this.crear_array_paginacion("inicio");
-    this.plazaSelect = this.listaPlazasUser[index].numPlaza;
-
-    this.full_Component.sort((a, b) => {
-      if (a.lane < b.lane) return -1;
-      if (a.lane > b.lane) return 1;
-
-      return 0;
-    });
   },
 };
 </script>

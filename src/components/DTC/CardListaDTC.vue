@@ -255,6 +255,7 @@ export default {
       oReq.send();
     },
     borrar: function () {
+      window.scroll(0, 0);
       this.$emit("borrar-card", this.infoCard.referenceNumber);
       this.menosMas = true;
       this.showmenosMas = false;
