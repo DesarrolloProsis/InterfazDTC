@@ -7,55 +7,27 @@
       <div class="inline-flex justify-center mt-6">
         <div class="m-3 flex-col">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Nombre</p>
-          <input
-            v-model="dataRegister.nombre"
-            type="text"
-            class="w-64"
-            name="nombre"
-            v-validate="'required'"
-          />
+          <input v-model="dataRegister.nombre" type="text" class="w-64" name="nombre" v-validate="'required'"/>
           <p class="text-red-600 text-xs">{{ errors.first("nombre") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
-          <p for="nombre" class="text-sm text-gray-800 mb-1">
-            Apellido Materno
-          </p>
-          <input
-            v-model="dataRegister.apellidoMaterno"
-            type="text"
-            class="w-64"
-            name="apellidoPaterno"
-            v-validate="'required'"
-          />
-          <p class="text-red-600 text-xs">
-            {{ errors.first("apellidoPaterno") }}
-          </p>
+          <p for="nombre" class="text-sm text-gray-800 mb-1">Apellido Materno</p>
+          <inputv-model="dataRegister.apellidoMaterno" type="text" class="w-64" name="apellidoPaterno" v-validate="'required'"/>
+          <p class="text-red-600 text-xs">{{ errors.first("apellidoPaterno") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
-          <p for="nombre" class="text-sm text-gray-800 mb-1">
-            Apellido Paterno
-          </p>
-          <input
-            v-model="dataRegister.apellidoPaterno"
-            type="text"
-            class="w-64"
-            name="apellidoMaterno"
-            v-validate="'required'"
-          />
-          <p class="text-red-600 text-xs">
-            {{ errors.first("apellidoMaterno") }}
-          </p>
+          <p for="nombre" class="text-sm text-gray-800 mb-1">Apellido Paterno</p>
+          <input v-model="dataRegister.apellidoPaterno" type="text" class="w-64" name="apellidoMaterno" v-validate="'required'"/>
+          <p class="text-red-600 text-xs">{{ errors.first("apellidoMaterno") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-3">
-          <p class="text-sm mb-1 font-semibold text-gray-700">
-            Tipo de Usuario
-          </p>
+          <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
           <select
             v-model="dataRegister.tipoUsuario"
             class="w-64"
@@ -72,36 +44,20 @@
       <div class="inline-flex justify-center">
         <div class="m-3">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Contraseña</p>
-          <input
-            v-model="dataRegister.constraseña"
-            type="password"
-            class="w-64"
-            name="password"
-            v-validate="'required'"
-          />
+          <input v-model="dataRegister.constraseña" v-validate="'required'" type="password" class="w-64" name="password"/>
           <p class="text-red-600 text-xs">{{ errors.first("password") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center">
         <div class="m-5">
-          <p for="nombre" class="text-sm text-gray-800 mb-1">
-            Repite Contraseña
-          </p>
-          <input
-            v-model="dataRegister.reContraseña"
-            type="password"
-            class="w-64"
-            name="repassword"
-            v-validate="'required'"
-          />
+          <p for="nombre" class="text-sm text-gray-800 mb-1">Repite Contraseña</p>
+          <input v-model="dataRegister.reContraseña" v-validate="'required'" type="password" class="w-64" name="repassword"/>
           <p class="text-red-600 text-xs">{{ errors.first("repassword") }}</p>
         </div>
       </div>
       <div class="inline-flex justify-center mb-5">
         <div class="m-5">
-          <button @click="crear" class="border-green-600 border w-64 h-12">
-            Registrar
-          </button>
+          <button @click="crear" class="border-green-600 border w-64 h-12">Registrar</button>
         </div>
       </div>
     </div>

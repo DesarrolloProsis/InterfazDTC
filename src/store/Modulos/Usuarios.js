@@ -1,127 +1,59 @@
 import Axios from 'axios'
 
-
 const state =  {
-
     listaUsuarios: []
-
 }
-
 const getters = {
-    
-    getUsers: function(){
-
-        return state.listaUsuarios        
-    }
-
+  getUsers: () => state.listaUsuarios        
 }
-
 const mutations = {
-
-
-    USUARIOS_MUTATION(state, value){
-
-        state.listaUsuarios =  value
-    }
-
+    USUARIOS_MUTATION: (state, value) => state.listaUsuarios =  value
 }
 const actions = {
-
-
-    async Consulta_Users({commit}, value){
-
-
-        console.log(value)
-        await Axios.post(
-            `http://prosisdev.sytes.net:88/api/User/consulta`,value      
-          )
-            .then(response => {
-                
-            console.log(response.data)
+    async Consulta_Users({commit}, value){      
+        await Axios.post(`http://prosisdev.sytes.net:88/api/User/consulta`,value)
+            .then(response => {                              
               commit("USUARIOS_MUTATION", response.data.result);              
             })
             .catch(Ex => {
               console.log(Ex);
             }); 
-
     },
     async Update_User({commit}, value){
-
-        commit
-        console.log(value)
-        await Axios.put(
-            `http://prosisdev.sytes.net:88/api/User/update`,value      
-          )
-            .then(response => {
-                
-            console.log(response.data)
-                           
-            })
+        commit        
+        await Axios.put(`http://prosisdev.sytes.net:88/api/User/update`,value)
+            .then(() => {})
             .catch(Ex => {
               console.log(Ex);
         }); 
-
     },
     async BorrarUser({commit}, value){
-
-        commit
-        alert(JSON.stringify(value))
+        commit        
         console.log(value)
-        await Axios.put(
-            `http://prosisdev.sytes.net:88/api/User/delete`,value      
-          )
-            .then(response => {
-                
-            console.log(response.data)
-                           
+        await Axios.put(`http://prosisdev.sytes.net:88/api/User/delete`,value)
+            .then(() => {                                          
             })
             .catch(Ex => {
               console.log(Ex);
         }); 
     },
     async NuevoUser({commit}, value){
-
-        commit
-        console.log(JSON.stringify(value))
-        await Axios.post(
-            `http://prosisdev.sytes.net:88/api/user/nuevo`,value      
-          )
-            .then(response => {
-                
-              return response.data
-                           
-            })
+        commit        
+        await Axios.post(`http://prosisdev.sytes.net:88/api/user/nuevo`,value)
+            .then(() => {})
             .catch(Ex => {
               console.log(Ex);
         }); 
     },
     async UPDATE_PASSWORD({commit}, value){
-
-      commit
-      
-      console.log(value)
-      await Axios.put(
-        
-         //`https://localhost:44358/api/User/newPassword`,value  
-          `http://prosisdev.sytes.net:88/api/User/newPassword`,value      
-        )
-          .then(response => {
-              
-          console.log(response.data)
-                         
-          })
+      commit            
+      await Axios.put(`http://prosisdev.sytes.net:88/api/User/newPassword`,value)
+          .then(() => {})
           .catch(Ex => {
             console.log(Ex);
       }); 
   },
-  
-    
-    
-    
-
-
 }
-
 
 export default {
     namespaced: true,

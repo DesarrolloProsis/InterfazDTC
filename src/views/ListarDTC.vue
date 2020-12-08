@@ -2,10 +2,7 @@
   <div>
     <Nav></Nav>
     <div class="relative">
-      <div
-        :class="{ 'pointer-events-none': modal }"
-        class="flex justify-center mt-2"
-      >
+      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center mt-2">
         <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
@@ -89,11 +86,7 @@
       ////////////////////////////////////////////////////////////////////-->
       <div :class="{ 'pointer-events-none': modal }" class="flex justify-center w-full">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-          <div
-            class="shadow-2xl inline-block focus m-4 p-3 sm:m-6"
-            v-for="(dtc, index) in infoDTC"
-            :key="index"
-          >
+          <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc, index) in infoDTC" :key="index">
             <CardListDTC
               @borrar-card="confimaBorrar"
               :infoCard="dtc"

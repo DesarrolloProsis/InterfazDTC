@@ -5,93 +5,38 @@
       <template v-if="cargarImagen">
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">
           <div class="inline-flex justify-center">
-            <input
-              type="file"
-              class="opacity-0 w-auto h-12 absolute"
-              multiple
-              @change="recibirImagenes"
-            />
-            <img
-              src="../../assets/img/image-mini.png"
-              class="w-6 mr-3 mt-3 border opacity-75"
-              alt
-            />
+            <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
+            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
             <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
           </div>
         </div>
         <div v-else class="border-2 border-gray-500 flex-col justify-center border-dashed w-full">
-          <div
-            v-for="(item, key) in fileUpload"
-            :key="key"
-            class="border border-r-0 justify-between inline-flex w-full"
-          >
+          <div v-for="(item, key) in fileUpload" :key="key" class="border border-r-0 justify-between inline-flex w-full">
             <div class="inline-flex">
-              <img
-                :src="`${item.imgbase}`"
-                class="w-10 h-10"
-                alt=""
-                v-if="item.imgbase.length < 100"
-              />
-              <img
-                :src="`data:image/jpeg;base64,${item.imgbase}`"
-                class="w-10 h-10"
-                alt=""
-                v-else
-              />
-              <p class="ml-3 mt-2">
-                {{ item.name }}
-              </p>
+              <lazy-image :src="`${item.imgbase}`" class="w-10 h-10" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-if="item.imgbase.length < 100"/>
+              <lazy-image :src="`data:image/jpeg;base64,${item.imgbase}`" class="w-10 h-10" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-else/>
+              <p class="ml-3 mt-2">{{ item.name }}</p>
             </div>
             <div class="mr-2">
-              <button @click="eliminarImagen(key)" class="w-3 h-46 p-0 bord">
-                x
-              </button>
+              <button @click="eliminarImagen(key)" class="w-3 h-46 p-0 bord">x</button>
             </div>
           </div>
           <div class="inline-flex justify-center" v-show="true">
-            <input
-              type="file"
-              class="opacity-0 w-64 h-12 absolute"
-              multiple
-              @change="recibirImagenes"
-            />
-            <img
-              src="../../assets/img/image-mini.png"
-              class="w-6 mr-3 mt-3 border opacity-75"
-              alt
-            />
+            <input type="file" class="opacity-0 w-64 h-12 absolute" multiple @change="recibirImagenes"/>
+            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
             <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
           </div>
           <div v-if="agregarbool" class="inline-flex w-full border-t-2">
-            <button
-              @click="uploadFiles"
-              class="w-1/2 h-8 text-gray-900 text-xs border-2 border-green-500 rounded-lg m-2"
-            >
-              Agregar
-            </button>
-            <button
-              @click="cancelar_edicion"
-              class="w-1/2 h-8 text-gray-900 text-xs border-red-500 border-2 rounded-lg m-2"
-            >
-              Cancelar
-            </button>
+            <button @click="uploadFiles" class="w-1/2 h-8 text-gray-900 text-xs border-2 border-green-500 rounded-lg m-2">Agregar</button>
+            <button @click="cancelar_edicion" class="w-1/2 h-8 text-gray-900 text-xs border-red-500 border-2 rounded-lg m-2">Cancelar</button>
           </div>
           <div v-else class="inline-flex w-full border-t-2">
-            <button
-              @click="uploadFiles"
-              class="w-1/2 h-8 text-gray-900 text-xs border-2 border-yellow-500 rounded-lg m-2"
-            >
-              Guardar Cambios
-            </button>
-            <button
-              @click="cancelar_edicion"
-              class="w-1/2 h-8 text-gray-900 text-xs border-red-500 border-2 rounded-lg m-2"
-            >
-              Cancelar
-            </button>
+            <button @click="uploadFiles" class="w-1/2 h-8 text-gray-900 text-xs border-2 border-yellow-500 rounded-lg m-2">Guardar Cambios</button>
+            <button @click="cancelar_edicion" class="w-1/2 h-8 text-gray-900 text-xs border-red-500 border-2 rounded-lg m-2">Cancelar</button>
           </div>
         </div>
       </template>
+
       <template v-else>
         <div class="flex justify-between">
           <div class="justify-start">
@@ -131,11 +76,12 @@
           </div>
         </div>
         <div class="p-1" v-show="!agregarbool">         
-          <lazy-image 
-            :src="imgbase64.array_img[this.index_imagen_actual].image"
+          <lazy-image         
+            v-if="cambiarImagenBool"    
+            :src="imgbase64.array_img[index_imagen_actual].image"
+            :img-class="['h-66']"
             placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"             
-          />
-          
+          />          
         </div>
       </template>
     </div>
@@ -170,7 +116,8 @@ export default {
       agregarbool: true,
       index_imagen_actual: 0,
       editar_imagen: true,
-      eliminar_name: [],      
+      eliminar_name: [], 
+      cambiarImagenBool: true     
     };
   },  
   beforeMount: async function () {           
@@ -261,16 +208,26 @@ export default {
     },
     cambiar_imagen: function (value) {
       console.log(value);
+      this.cambiarImagenBool = false;
       if (value == "anterior") {
-        if (this.index_imagen_actual == 0)
+        if (this.index_imagen_actual == 0){
           this.index_imagen_actual = this.imgbase64.array_img.length - 1;
-        else this.index_imagen_actual = this.index_imagen_actual - 1;
+        }
+        else{
+          this.index_imagen_actual = this.index_imagen_actual - 1;
+        }
       }
       if (value == "siguiente") {
-        if (this.index_imagen_actual == this.imgbase64.array_img.length - 1)
+        if (this.index_imagen_actual == this.imgbase64.array_img.length - 1){
           this.index_imagen_actual = 0;
-        else this.index_imagen_actual = this.index_imagen_actual + 1;
-      }
+        }
+        else {
+          this.index_imagen_actual = this.index_imagen_actual + 1;  
+        }  
+      }      
+      this.$nextTick().then(() =>{
+        this.cambiarImagenBool = true;
+      })
     },
     editar_img: function () {
       for (let imgbase64 of this.imgbase64.array_img) {
@@ -423,11 +380,6 @@ export default {
         u8arr[n] = bstr.charCodeAt(n);
       }
       return new File([u8arr], fileName, { type: mime });
-    },
-  },
-  computed: {
-    imgPruebas: function () {
-      return this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
     },
   },
 };

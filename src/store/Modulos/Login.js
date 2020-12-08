@@ -6,17 +6,13 @@ const state = {
   userLogeado: [],
   listaTec: [],
   PLAZAELEGIDA: 0
-
 };
-
 const getters = {
-
   getNombrePlazaParam: (state) => (_ref) => {    
     let query = state.listUser.find(item => item.referenceSquare == _ref).plaza.split(' ')[0]
     let res = state.listaPlazas.find(item => item.squareCatalogId ==   query)    
     return res.squareName    
   },
-
   getUserForDTC: () => {
     return {
       numPlaza: state.listUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
@@ -24,7 +20,6 @@ const getters = {
     }
   },
   getListaPlazasUser: () => {
-
     return state.userLogeado.map((item) => {
       let obj = {}
       obj["numPlaza"] = item.squareCatalogId
@@ -40,28 +35,22 @@ const getters = {
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
 };
 const mutations = {
-
-  listaUser: (state, value) => {
-    state.listUser = value,
-    state.PLAZAELEGIDA = 0
-  },  
   PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
-
   listaPlazasMutation: (state, value) => state.listaPlazas = value,
-
   userLogeadoMutation: (state, value) => state.userLogeado = value,
-
   listaTecMutation: (state, value) => state.listaTec = value,
-
   cleanOut: (state) => {
     state.listUser = []
     state.listaPlazas = []
     state.userLogeado = []
   },
+  listaUser: (state, value) => {
+    state.listUser = value,
+    state.PLAZAELEGIDA = 0
+  },  
   PLAZAELEGIDAFINDMUTATION: (state, value) => {    
     let index = state.listUser.findIndex(item => item.referenceSquare == value)    
     if(index != -1){
-
       state.PLAZAELEGIDA = index
     }
   }
@@ -69,10 +58,7 @@ const mutations = {
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async buscarHeaderTec({ commit }, value) {
-
-    await Axios.get(
-      `http://prosisdev.sytes.net:88/api/login/buscarHeaderTec/${value}`
-    )
+    await Axios.get(`http://prosisdev.sytes.net:88/api/login/buscarHeaderTec/${value}`)
       .then(response => {
         commit("listaUser", response.data.result);
       })
@@ -82,10 +68,7 @@ const actions = {
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
   async buscarTec({ commit }, value) {
-
-    await Axios.get(
-      `http://prosisdev.sytes.net:88/api/login/buscarTec/${value}`
-    )
+    await Axios.get(`http://prosisdev.sytes.net:88/api/login/buscarTec/${value}`)
       .then(response => {
         commit("listaTecMutation", response.data.result);
       })
@@ -94,12 +77,8 @@ const actions = {
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
-  async buscarUsuarioCokie({ commit }, value) {
-
-    console.log('cookie')
-    await Axios.get(
-      `http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`
-    )
+  async buscarUsuarioCokie({ commit }, value) {    
+    await Axios.get(`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`)
       .then(response => {
         if (response.data.result != null) {
           commit("userLogeadoMutation", response.data.result);
@@ -114,16 +93,9 @@ const actions = {
       });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
-  async buscarUsuario({ commit }, value) {
-
-    console.log('usuario')
-    await Axios.get(
-      
-      //`https://localhost:44358//api/login/${value.User}/${value.Password}/${false}`
-      `http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`
-    )
-      .then(response => {
-        console.log(response)
+  async buscarUsuario({ commit }, value) {    
+    await Axios.get(`http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`)
+      .then(response => {        
         commit("listaUser", response.data.result);
       })
       .catch(Ex => {
@@ -132,8 +104,7 @@ const actions = {
   },
   //CONULTA PARA LISTAR LAS PLAZAS
   async buscarPlazas({ commit }) {
-    await Axios.get(
-      `http://prosisdev.sytes.net:88/api/squaresCatalog`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/squaresCatalog`)
       .then(response => {
         commit("listaPlazasMutation", response.data.result);
       })
@@ -142,7 +113,6 @@ const actions = {
       });
   },
 };
-
 export default {
   namespaced: true,
   state,

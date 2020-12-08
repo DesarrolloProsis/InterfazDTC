@@ -2,7 +2,6 @@ import Axios from "axios";
 import moment from 'moment'
 
 const state = {
-
   listaRefacciones: [],  
   listaRefaccionesValid: [],
   listaLane: [],
@@ -12,33 +11,19 @@ const state = {
   infoComponenteInventario: [],
   listaUbicacionGeneralInventario: [],
   full_Component: [],
-
 };
-
 const getters = {
-
-
-  getPaginationComponent: (state) => (index) => {
-
-      let fin = index * 10
-      let inicio = fin - 10
-      return state.full_Component.slice(inicio ,fin)
-
-  },
-
-  getListaRefaccionesValid: function(){
-    return state.listaRefaccionesValid
-  },
-  getListaRefacciones: function(){ 
-    return state.listaRefacciones 
-  },
-  getListaLane: function(){
-    return state.listaLane
-  },
-  getComponentDisable: function(){
-
+  //Inventario
+  getlistaRefaccionesInventario: () => state.listaInventario,
+  getlistaLaneInventario: () => state.listaLaneInventario,
+  getinfoComponenteInventario: () => state.infoComponenteInventario,
+  getlistaUbicacionGeneralInventario: () => state.listaUbicacionGeneralInventario,  
+  getEquipoMalo: () => state.listaRefaccionesValid.length > 0 ? state.listaRefaccionesValid : [],
+  getListaRefaccionesValid: () => state.listaRefaccionesValid,
+  getListaRefacciones: () => state.listaRefacciones ,
+  getListaLane: () => state.listaLane,
+  getComponentDisable () {
     if(state.listaRefaccionesValid.length > 0){
-
         return {
           unity: state.listaRefaccionesValid[0]['unity'],
           brand: state.listaRefaccionesValid[0]['brand'],
@@ -50,46 +35,26 @@ const getters = {
           componentsStockId: state.listaRefaccionesValid[0]['componentsStockId'],
           maintenanceDate: moment(state.listaRefaccionesValid[0]['maintenanceDate']).format('YYYY-MM-DD'),              
         }
-    }
-    else
-      return []
-  },  
-  getEquipoMalo: function(){
-    if(state.listaRefaccionesValid.length > 0)
-      return state.listaRefaccionesValid
-    else
-      return []
+      }
+      else
+        return []
   },
-  //Inventario
-  getlistaRefaccionesInventario: function(){
-    return  state.listaInventario
-  },
-  getlistaLaneInventario: function(){
-    return state.listaLaneInventario
-  },
-  getinfoComponenteInventario: function(){
-    return state.infoComponenteInventario
-  },
-  getlistaUbicacionGeneralInventario: function(){
-    return state.listaUbicacionGeneralInventario
-  }
-
+  getPaginationComponent: (state) => (index) => {
+    let fin = index * 10
+    let inicio = fin - 10
+    return state.full_Component.slice(inicio ,fin)
+},    
 };
 const mutations = {
+  FULL_COMPONENT_MUTATION: (state, value) => state.full_Component = value,
   listaRefaccionesMutation: (state, value) => state.listaRefacciones = value,
-
   listaLaneMutation: (state, value) => state.listaLane = value,
-
   listaRefaccionValidMutation: (state, value) => state.listaRefaccionesValid = value,
   //Inventario
   listaRefaccionesInventarioMutation: (state, value) => state.listaInventario = value,
-
   listaLaneInventarioMutation: (state, value) => state.listaLaneInventario = value,  
-
   infoComponenteInventarioMutation: (state, value) => state.infoComponenteInventario = value,
-
   listaUbicacionGeneralInventarioMutation: (state, value) => state.listaUbicacionGeneralInventario = value,
-  
   cleanOut: (state) => {
     state.infoComponenteInventario = []
     state.listaInventario = []
@@ -98,12 +63,9 @@ const mutations = {
     state.listaRefacciones = []
     state.listaRefaccionesValid = []
     state.listaUbicacionGeneralInventario = []
-  },
-  FULL_COMPONENT_MUTATION: (state, value) => state.full_Component = value
+  },  
 }
-
 const actions = {
-
   async buscarComponentesInventario({commit}, value) {
     commit("listaRefaccionesInventarioMutation", []);
     //await Axios.get(`https://localhost:44358/api/component/Inventario/${value.numPlaza}`)
@@ -144,7 +106,6 @@ const actions = {
     });
   },
   async updateComponenteInventary(context,value){
-        
     let newObject = {
       TableFolio: value.infoComponentes.idComponent,
       strInventaryNumCapufe: value.infoComponentes.numInventarioCapufe,
@@ -169,8 +130,7 @@ const actions = {
     await Axios.get(`http://prosisdev.sytes.net:88/api/component/${value.idConvenio}`)    
     //await Axios.get(`https://localhost:44358/api/component/${value.idConvenio}`)    
     //await Axios.get(`http://prosisdev.sytes.net:88/api/component/versionProduccion/${value.numPlaza}/${value.numConvenio}`)
-      .then(response => {        
-        console.log(response.data.result)
+      .then(response => {                
         commit("listaRefaccionesMutation", response.data.result);
       })
       .catch(Ex => {
@@ -179,7 +139,6 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit }, value) {  
-    
     await Axios.get(
       //`https://localhost:44358/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
       `http://prosisdev.sytes.net:88/api/component/GetComponetV2/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`
@@ -200,10 +159,8 @@ const actions = {
       })
   },
   async FULL_COMPONETES({commit}, value){
-    
     await Axios.get(`http://prosisdev.sytes.net:88/api/DtcData/InventoryComponentsList/${value.numPlaza}`)
-      .then(response => {               
-        console.log(response.data.result)     
+      .then(response => {                       
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
       .catch(Ex => {        
@@ -211,7 +168,6 @@ const actions = {
       })
   },
   async EDIT_COMPONETE_QUICK({dispatch}, value){
-    
     await Axios.put(`http://prosisdev.sytes.net:88/api/Component/UpdateInventoryList`, value)
       .then(() => {                      
         dispatch('FULL_COMPONETES')       
@@ -221,7 +177,6 @@ const actions = {
       })
   }
 };
-
 export default {
   namespaced: true,
   state,

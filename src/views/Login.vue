@@ -1,6 +1,9 @@
 <template>
   <div class="container-login100">
     <div class="wrap-login100">
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                 FORMULARIO PRINCIPAL                         ////
+        ///////////////////////////////////////////////////////////////////// -->
       <div :class="{ 'blur-content': modal }">
         <p class="text-center text-black font-sans text-4xl">Bienvenido</p>
         <div>
@@ -9,51 +12,35 @@
           </div>
         </div>
         <br />
-
         <div class="mt-10">
           <div class="mb-5">
-            <input
-              class="w-full h-8"
-              type="text"
-              name="Usuario"
-              :class="{
-                is_valid: !errors.first('Usuario'),
-                is_invalid: errors.first('Usuario'),
-              }"
-              placeholder="  Usuario"
-              v-validate="'required'"
+            <input 
+              v-validate="'required'" 
               v-model="datos.User"
+              class="w-full h-8" 
+              type="text" 
+              name="Usuario" 
+              :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" 
+              placeholder="  Usuario" 
             />
-            <span class="text-red-600 text-xs">{{
-              errors.first("Usuario")
-            }}</span>
+            <span class="text-red-600 text-xs">{{ errors.first("Usuario") }}</span>
           </div>
-
           <div class="mb-5">
             <input
               @keyup.enter="ingresarLogin()"
               placeholder=" Contraseña"
               class="w-full h-8"
               v-validate="'required'"
-              :class="{
-                is_valid: !errors.first('Contraseña'),
-                is_invalid: errors.first('Contraseña'),
-              }"
+              :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}"
               type="password"
               name="Contraseña"
               v-model="datos.Password"
             />
-            <span class="text-red-600 text-xs">{{
-              errors.first("Contraseña")
-            }}</span>
+            <span class="text-red-600 text-xs">{{ errors.first("Contraseña") }}</span>
           </div>
         </div>
         <div class="text-center text-gray-900">
-          <input
-            class="mt-10 mb-10 mr-2"
-            type="checkbox"
-            v-model.number="datos.checkLog"
-          />
+          <input v-model.number="datos.checkLog" class="mt-10 mb-10 mr-2" type="checkbox"/>
           <span>Generar Por Otra Persona</span>
         </div>
         <div class="container-login100-form-btn">
@@ -66,20 +53,15 @@
           </button>
         </div>
         <div class="flex flex-col text-center mt-3 text-blue-700">
-          <a class="hover:text-blue-900 cursor-pointer" @click="register"
-            >Registrarse</a
-          >
-          <a class="hover:text-blue-900 cursor-pointer" @click="passPerdido"
-            >¿Olvidaste tu constraseña?</a
-          >
+          <a class="hover:text-blue-900 cursor-pointer" @click="register">Registrarse</a>
+          <a class="hover:text-blue-900 cursor-pointer" @click="passPerdido">¿Olvidaste tu constraseña?</a>
         </div>
       </div>
     </div>
-    <div
-      v-if="modal"
-      class="rounded-lg absolute border border-gray-700 bg-white px-24 py-20 flex flex-col"
-      @close="modal = false"
-    >
+    <!-- //////////////////////////////////////////////////////////////////
+    ////                  MODAL INGRESAR POR OTRO                     ////
+    ///////////////////////////////////////////////////////////////////// -->
+    <div v-if="modal" class="rounded-lg absolute border border-gray-700 bg-white px-24 py-20 flex flex-col" @close="modal = false">
       <div>
         <div class="flex mb-8">
           <img src="../assets/img/change.png" class="w-24 mx-auto" />
@@ -90,10 +72,7 @@
         <select
           @change="buscarTec()"
           v-validate="'required'"
-          :class="{
-            is_valid: !errors.first('Plaza'),
-            is_invalid: errors.first('Plaza'),
-          }"
+          :class="{ is_valid: !errors.first('Plaza'),is_invalid: errors.first('Plaza')}"
           v-model="plazaSelect"
           class="w-48 h-8"
           type="text"
@@ -116,10 +95,7 @@
           v-model="tecSelect"
           v-validate="'required'"
           class="h-8 w-48"
-          :class="{
-            is_valid: !errors.first('Tecnico'),
-            is_invalid: errors.first('Tecnico'),
-          }"
+          :class="{ is_valid: !errors.first('Tecnico'), is_invalid: errors.first('Tecnico') }"
           type="text"
           name="Tecnico"
         >
@@ -167,6 +143,16 @@ export default {
       tecSelect: "",
     };
   },
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                        ////
+/////////////////////////////////////////////////////////////////////
+  async beforeMount() {
+    await this.$store.dispatch("Login/buscarPlazas");
+    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];
+  },
+/////////////////////////////////////////////////////////////////////
+////                          METODOS                            ////
+/////////////////////////////////////////////////////////////////////
   methods: {
     register: function () {
       this.$router.push("register");
@@ -188,7 +174,8 @@ export default {
       if (this.plazaSelect != "") {
         await this.$store.dispatch("Login/buscarTec", this.plazaSelect);
         this.listaTec = this.$store.getters["Login/getListaTec"];
-      } else {
+      } 
+      else {
         this.listaTec = [];
         this.tecSelect = "";
       }
@@ -198,7 +185,8 @@ export default {
       if (this.$store.getters["Login/getUserLogeado"]) {
         if (this.datos.checkLog === true) {
           this.modal = true;
-        } else {
+        } 
+        else {
           await this.$store.dispatch("Login/buscarUsuario", this.datos);
           let dataHeader = await this.$store.getters["Login/getUser"];
           console.log(dataHeader)
@@ -207,7 +195,8 @@ export default {
           await this.$store.dispatch("Header/buscarListaUnique");
           this.$router.push("home");
         }
-      } else {
+      } 
+      else {
         this.$notify.error({
           title: "Ops!!",
           msg: "EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.",
@@ -220,10 +209,6 @@ export default {
       }
     },
   },
-  async beforeMount() {
-    await this.$store.dispatch("Login/buscarPlazas");
-    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];
-  },
 };
 </script>
 
@@ -233,7 +218,6 @@ export default {
   padding: 0px;
   box-sizing: border-box;
 }
-
 .blur-content {
   filter: blur(2px);
 }
@@ -251,16 +235,13 @@ export default {
   padding: 15px;
   background: #fff;
 }
-
 .wrap-login100 {
   width: 390px;
   background: #fff;
 }
-
 .login100-form {
   width: 100%;
 }
-
 .container-login100-form-btn {
   width: 100%;
   display: -webkit-box;
@@ -271,14 +252,12 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
 }
-
 .login100-form-btn {
   font-family: Poppins-Medium;
   font-size: 16px;
   color: #fff;
   line-height: 1.2;
   text-transform: uppercase;
-
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -291,13 +270,11 @@ export default {
   height: 50px;
   background-color: #1c3b7e;
   border-radius: 25px;
-
   box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
   -moz-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
   -webkit-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
   -o-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
   -ms-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
-
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
