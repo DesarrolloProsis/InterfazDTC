@@ -1,7 +1,6 @@
 /*///////////////////////////////////////////////////////////////////*/
 /*//              FUNCIONES PARA LA FECHA EN LETRAS                //*/
 /*///////////////////////////////////////////////////////////////////*/
-
 function numDayInDates(dateStart, dateEnd){
     var arrayDateStart = dateStart.split('/'); 
     var arrayDateEnd = dateEnd.split('/');        
@@ -21,32 +20,28 @@ function sumDaysToDate(numDays, date){
     return newDate.getDate() + '/' + (newDate.getMonth()+1) + '/'+ newDate.getFullYear();
 }
 function daysMonthsYearsInDates(dateStart, dateEnd){
-
     var daysTotals = numDayInDates(dateStart, dateEnd);
     var daysCal = 0;
     var cantDays = 0;
     var cantMonths = 0;
     var cantYears = 0;
     while(daysCal < daysTotals){
-         var arrayDateStart = dateStart.split('/');
-         var daysOfMonth = daysInMonth(arrayDateStart[1], arrayDateStart[2]);
-         daysCal = daysCal + daysOfMonth;
-         if(daysCal <= daysTotals){
+        var arrayDateStart = dateStart.split('/');
+        var daysOfMonth = daysInMonth(arrayDateStart[1], arrayDateStart[2]);
+        daysCal = daysCal + daysOfMonth;
+        if(daysCal <= daysTotals){
         cantMonths ++;
         if(cantMonths == 12){
-           cantYears++;
-           cantMonths = cantMonths - 12;
+            cantYears++;
+            cantMonths = cantMonths - 12;
         }
         }else{
-           cantDays = Math.abs(numDayInDates(dateStart, dateEnd));
+            cantDays = Math.abs(numDayInDates(dateStart, dateEnd));
         }
         dateStart = sumDaysToDate(daysOfMonth, dateStart);
     } 
-    
-    
     var msg = '';
     var totoal_dias = cantMonths * 30;    
-
     if (cantYears > 0)
         msg = cantYears + ' años ';    
     if (cantDays > 0)
@@ -59,169 +54,132 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
     }
     if(totoal_dias > 0)
         msg +=  totoal_dias + ' dias'	
- 
 	return msg;
 }
-
-
 /*///////////////////////////////////////////////////////////////////////////////*/
 /*//  FUNCIONES PARA COMPONENTE PRE-PARTIDA && EDITAR &&  PARTIDA $STORE       //*/
 /*///////////////////////////////////////////////////////////////////////////////*/
-
-import moment from "moment";
-    
+import moment from "moment";   
 function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal, _editar){
-
     try{
-
-    let key_Require = []
-    let arrayRequire = {}
-
-    if(Array.isArray(keyObjectRequire)){
-        
-        let newObj = new Object();
-        for(const key of keyObjectRequire){
-            newObj[key] = []
-        }
-        arrayRequire = newObj
-        key_Require = Object.keys(arrayRequire)        
-    }    
-    else{
-        arrayRequire = keyObjectRequire
-        key_Require = Object.keys(arrayRequire)        
-    }        
-    //Patida
-    arrayRequire[key_Require[0]] = []
-    //Unidad
-    arrayRequire[key_Require[1]] = equipoValid[0].unity
-    //Nombre Componente
-    arrayRequire[key_Require[2]] = ""
-    //Cantidad
-    arrayRequire[key_Require[3]] = laneSelect.length
-    //Ubicacion
-    arrayRequire[key_Require[7]] = []
-    //UpRow
-    arrayRequire[key_Require[14]] = true
-
-    for(const lane of laneSelect){
-        
-        
-        let component = []
-        if(_editar == undefined)
-            component = equipoValid.find(comp => comp.lane === lane)
+        let key_Require = []
+        let arrayRequire = {}
+        if(Array.isArray(keyObjectRequire)){
+            let newObj = new Object();
+            for(const key of keyObjectRequire){
+                newObj[key] = []
+            }
+            arrayRequire = newObj
+            key_Require = Object.keys(arrayRequire)        
+        }    
         else{
-            component = equipoValid.find(comp => comp.tableFolio == lane)
-        }
-                
-        //Marca
-        if(arrayRequire[key_Require[4]].includes(component.brand) == false)
-            arrayRequire[key_Require[4]].push(component.brand)
-        //Modelo        
-        arrayRequire[key_Require[5]].push(component.model)
-        //Numero Serie        
-        arrayRequire[key_Require[6]].push(component.serialNumber)
-        //Fecha Instalacion
-        arrayRequire[key_Require[8]].push(component.instalationDate)
-        //Fecha Mantenimiento                
-        arrayRequire[key_Require[9]].push(component.maintenanceDate)
-        //Folio Mantenimiento        
-        arrayRequire[key_Require[10]].push(component.maintenanceFolio)
-        //Fecha Real   
-        
-        let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
-        let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
-        if(fechaInstalacion == fechaSinester){
-            arrayRequire[key_Require[11]].push('0 dias')
-        }
-        else{
-            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                        
-            arrayRequire[key_Require[11]].push(fecha_format)
-        }
-        //Fecha Fabricante        
-        arrayRequire[key_Require[12]].push(component.lifeTime)            
-        //Precio
-        if(arrayRequire[key_Require[13]].includes(component.unitaryPrice) == false)
-            arrayRequire[key_Require[13]].push(component.unitaryPrice)     
-        //RelationShip Principal
-        arrayRequire["mainRelationship"] = relationShipPrincipal
-        //folioTabla
-        arrayRequire["tableFolio"] = component.tableFolio
-        //Marca Requerido
-        arrayRequire["marcaRequerido"] = component.catalogBrand
-        //Modelo Requerido
-        arrayRequire["modeloRequerido"] = component.catalogBrand    
-
+            arrayRequire = keyObjectRequire
+            key_Require = Object.keys(arrayRequire)        
+        }        
+        //Patida
+        arrayRequire[key_Require[0]] = []
+        //Unidad
+        arrayRequire[key_Require[1]] = equipoValid[0].unity
+        //Nombre Componente
+        arrayRequire[key_Require[2]] = ""
+        //Cantidad
+        arrayRequire[key_Require[3]] = laneSelect.length
+        //Ubicacion
+        arrayRequire[key_Require[7]] = []
+        //UpRow
+        arrayRequire[key_Require[14]] = true
+        for(const lane of laneSelect){
+            let component = []
+            if(_editar == undefined)
+                component = equipoValid.find(comp => comp.lane === lane)
+            else{
+                component = equipoValid.find(comp => comp.tableFolio == lane)
+            }
+            //Marca
+            if(arrayRequire[key_Require[4]].includes(component.brand) == false)
+                arrayRequire[key_Require[4]].push(component.brand)
+            //Modelo        
+            arrayRequire[key_Require[5]].push(component.model)
+            //Numero Serie        
+            arrayRequire[key_Require[6]].push(component.serialNumber)
+            //Fecha Instalacion
+            arrayRequire[key_Require[8]].push(component.instalationDate)
+            //Fecha Mantenimiento                
+            arrayRequire[key_Require[9]].push(component.maintenanceDate)
+            //Folio Mantenimiento        
+            arrayRequire[key_Require[10]].push(component.maintenanceFolio)
+            //Fecha Real   
+            let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
+            let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
+            if(fechaInstalacion == fechaSinester){
+                arrayRequire[key_Require[11]].push('0 dias')
+            }
+            else{
+                let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                        
+                arrayRequire[key_Require[11]].push(fecha_format)
+            }
+            //Fecha Fabricante        
+            arrayRequire[key_Require[12]].push(component.lifeTime)            
+            //Precio
+            if(arrayRequire[key_Require[13]].includes(component.unitaryPrice) == false)
+                arrayRequire[key_Require[13]].push(component.unitaryPrice)     
+            //RelationShip Principal
+            arrayRequire["mainRelationship"] = relationShipPrincipal
+            //folioTabla
+            arrayRequire["tableFolio"] = component.tableFolio
+            //Marca Requerido
+            arrayRequire["marcaRequerido"] = component.catalogBrand
+            //Modelo Requerido
+            arrayRequire["modeloRequerido"] = component.catalogBrand    
+        }  
+        return arrayRequire  
+    }
+    catch(ex){
+        console.log(ex)        
     }  
-
-
-    return arrayRequire  
 }
-catch(ex){
-
-    console.log(ex)
-    alert()
-
-}  
-}
-
 function obj_partida(laneSelect, equipoValid, dateSinester, _relationShipPrincipal, _editar){
-     
-    // console.log('obj_partida')
-    // console.log(dateSinester)
-    // console.log(laneSelect)
-    // console.log(equipoValid)
-    // console.log(_relationShipPrincipal)
     try{
-    let newObjectPartida = []
-    for(const lane of laneSelect){
-
-        let component = []
-        if(_editar == undefined)
-            component = equipoValid.find(comp => comp.lane === lane)
-        else{
-            component = equipoValid.find(comp => comp.tableFolio == lane)
-        }     
-                     
-        //let component = equipoValid.find(item => item.lane == lane)                
-        let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
-        let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
-        let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)   
-        
-        let obj = {
-            ComponentsStockId: component['componentsStockId'],
-            ReferenceNumber: "",
-            CapufeLaneNum: component['capufeLaneNum'],
-            IdGare: component['idGare'],
-            Marca: component['brand'],
-            Modelo: component['model'],
-            NumSerie: component['serialNumber'],
-            Unity: component['unity'],
-            DateInstallationDate: component['instalationDate'],
-            DateMaintenanceDate: component['maintenanceDate'],
-            MaintenanceFolio: component['maintenanceFolio'],
-            IntLifeTimeExpected: component['lifeTime'],
-            strLifeTimeReal: fecha_format,
-            IntPartida: "",
-            //Nuevo
-            mainRelationship: _relationShipPrincipal,
-            tableFolio: component.tableFolio
-
-        };
-        newObjectPartida.push(obj)        
-    }    
-    
-    return newObjectPartida
+        let newObjectPartida = []
+        for(const lane of laneSelect){
+            let component = []
+            if(_editar == undefined)
+                component = equipoValid.find(comp => comp.lane === lane)
+            else{
+                component = equipoValid.find(comp => comp.tableFolio == lane)
+            }                          
+            //let component = equipoValid.find(item => item.lane == lane)                
+            let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
+            let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
+            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)   
+            let obj = {
+                ComponentsStockId: component['componentsStockId'],
+                ReferenceNumber: "",
+                CapufeLaneNum: component['capufeLaneNum'],
+                IdGare: component['idGare'],
+                Marca: component['brand'],
+                Modelo: component['model'],
+                NumSerie: component['serialNumber'],
+                Unity: component['unity'],
+                DateInstallationDate: component['instalationDate'],
+                DateMaintenanceDate: component['maintenanceDate'],
+                MaintenanceFolio: component['maintenanceFolio'],
+                IntLifeTimeExpected: component['lifeTime'],
+                strLifeTimeReal: fecha_format,
+                IntPartida: "",
+                //Nuevo
+                mainRelationship: _relationShipPrincipal,
+                tableFolio: component.tableFolio
+            };
+            newObjectPartida.push(obj)        
+        }    
+        return newObjectPartida
+    }
+    catch(ex){
+        console.log(ex)        
+    }
 }
-catch(ex){
-    console.log(ex)
-    alert()
-}
-}
-
-
 export default{
-    
     lane_select,
     obj_partida
-    
 }

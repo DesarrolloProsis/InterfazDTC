@@ -3,13 +3,14 @@
     <Nav></Nav>
     <div class="relative">
       <div :class="{ 'pointer-events-none': modal }" class="flex justify-center mt-2">
+      
         <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="border-2 px-16 shadow-lg z-10">
+        <div class="border-2 px-16 shadow-lg z-10 sm:w-66">
           <div class="flex sm:inline-block">
             <div class="m-3">
-              <p class="font-bold mb-3 sm:text-sm">Seleccione una fecha</p>
+              <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
               <input
                 @change="sinFiltro"
                 :disabled="validaReferencia"
@@ -19,7 +20,7 @@
               />
             </div>
             <div class="m-3">
-              <p class="font-bold mb-3 sm:text-sm">Escriba la Referencia</p>
+              <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
               <input
                 @change="sinFiltro"
                 v-model="referenciaFiltro"
@@ -28,10 +29,23 @@
                 placeholder="PM-000000"
               />
             </div>
+            <div class="m-3">
+              <p class="font-bold mb-3 sm:text-sm">Status DTC</p>
+              <div class="sm:inline-flex">
+                <div class="flex">
+                  <input v-model="tipoStatusConcluido" id="concluido" name="concluido" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                  <label for="concluido" class="ml-2 block text-sm text-gray-900">Concluidos</label>
+                </div>   
+                <div class="flex sm:ml-5">
+                  <input v-model="tipoStatusInconcluso" id="inconcluso" name="inconcluso" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                  <label for="inconcluso" class="ml-2 block text-sm text-gray-900">Inconcluso</label>
+                </div>   
+              </div>                          
+            </div>
           </div>
           <div class="m-3 text-center">
             <button
-              @click.prevent="sinFiltroFull"
+              @click.prevent="limpiar_filtros"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1"
             >
               <img
@@ -111,6 +125,8 @@ export default {
       numCard: true,
       modal: false,
       refNum: "",
+      tipoStatusConcluido: false,
+      tipoStatusInconcluso: false,
     };
   },
   components: {
@@ -150,10 +166,12 @@ methods: {
       this.refNum = refNum;
       this.modal = true;
   },
-  sinFiltroFull() {
+  limpiar_filtros() {
       this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
       this.fechaFiltro = " ";
       this.referenciaFiltro = " ";
+      this.tipoStatusConcluido = false;
+      this.tipoStatusInconcluso = false
   },
   sinFiltro: function () {
       if (this.fechaFiltro == "" && this.referenciaFiltro == "") {
@@ -177,7 +195,6 @@ methods: {
         this.infoDTC = newArray;
       } else if (this.referenciaFiltro != "") {
         let dtc = this.$store.getters["DTC/getlistaInfoDTC"];
-
         let newArray = [];
         for (let item of dtc) {
           if (this.referenciaFiltro == item.referenceNumber) {
@@ -185,11 +202,30 @@ methods: {
           }
         }
         this.infoDTC = newArray;
-      } else {
-        let dtc = this.$store.getters["DTC/getlistaInfoDTC"];
-        this.infoDTC = dtc;
+      } 
+      else {
+        if(this.tipoStatusConcluido){
+            let _lista_completa = this.$store.getters["DTC/getlistaInfoDTC"];   
+            if(this.tipoStatusInconcluso){
+              this.infoDTC = _lista_completa
+            }
+            else{
+              alert()
+              let algo = _lista_completa.filter(item => item.statusId == 2)
+              console.log(algo)
+            }
+        } else {
+          let _lista_completa = this.$store.getters["DTC/getlistaInfoDTC"];
+          if(this.tipoStatusInconcluso == false){
+            this.infoDTC = _lista_completa
+          }
+          else{
+            this.infoDTC = _lista_completa.filter(item => item.statusId == 1)
+          }
+        }
       }
   },
+
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADOS                         ////

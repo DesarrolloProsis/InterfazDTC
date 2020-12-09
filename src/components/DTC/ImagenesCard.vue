@@ -36,7 +36,6 @@
           </div>
         </div>
       </template>
-
       <template v-else>
         <div class="flex justify-between">
           <div class="justify-start">
@@ -87,15 +86,11 @@
     </div>
   </div>
 </template>
-
 <script>
 import Axios from "axios";
-
-
 export default {
   name: 'ImgenesCard',
   component:{
-    
   },
   props: {
     referenceNumber: {
