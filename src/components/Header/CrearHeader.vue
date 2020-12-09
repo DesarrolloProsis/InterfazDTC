@@ -223,26 +223,23 @@
             <div class="justify-center mt-10 inline-block">
               <div>
                 <select
-                    v-model="datosSinester.TypeDescriptionId"
-                    v-validate="'required'"
-                    :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}"
+                    v-model="referenceSelected"                                        
                     class="w-full"
-                    type="text"
-                    name="TipoDescripcion"
+                    type="text"                    
                 >
-                  <option disabled value>Selecionar...</option>
+                  <option disabled value="">Selecionar...</option>
                   <option
-                    v-for="(desc, index) in descripciones"
-                    v-bind:value="desc.typeDescriptionId"
+                    v-for="(item, index) in arrayReference"
+                    v-bind:value="item.referenceNumber"
                     :key="index"
                   >
-                    {{ desc.description }}
+                    {{ item.referenceNumber }}
                   </option>
                 </select>
                 </div>
                 <div class="mt-10">                  
-                    <button @click="(modalReferencia = false)" class="text-white  px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
-                    <button class="text-white  px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
+                    <button @click="confirmar_referencia(false)" class="text-white  px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+                    <button @click="confirmar_referencia(true)" class="text-white  px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
                 </div>
             </div>
           </div>
@@ -307,7 +304,9 @@ export default {
       plazaSelect: 0,
       boolCambiarPlaza: false,
       fecha_validacion: '',
-      modalReferencia: false
+      modalReferencia: false,
+      arrayReference: [],
+      referenceSelected: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -359,6 +358,20 @@ beforeMount: async function () {
 ////                            METODOS                          ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  confirmar_referencia(value){
+    if(value){
+    this.$store.commit("Header/referenceNumMutation", this.referenceSelected)
+    this.datosSinester.ReferenceNumber = this.referenceSelected
+    this.modalReferencia = false
+    }
+    else{
+      this.datosSinester.SinisterDate = ''
+      this.datosSinester.ReferenceNumber = ''
+      this.referenceSelected = ''
+      this.$store.commit("Header/referenceNumMutation", this.referenceSelected)
+      this.modalReferencia = false
+    }
+  },
   async crearReferencia() {
       let _datesplit = this.datosSinester.SinisterDate.split("-");
       let _diaActual = parseInt(_datesplit[2]);
@@ -382,8 +395,15 @@ methods: {
       this.datosSinester.ReferenceNumber = _nomPlaza + "-" + _newYear + _autoCompleteDias;
       await this.$store.commit("Header/referenceNumMutation",this.datosSinester.ReferenceNumber);
       await this.$store.dispatch("Header/buscarReferencia",this.datosSinester.ReferenceNumber);
-      this.datosSinester.ReferenceNumber = await this.$store.getters["Header/getreferenceNum"];
-      this.modalReferencia = true
+      let _arrayReference  = await this.$store.getters["Header/getreferenceNum"];
+      if(typeof(_arrayReference) == 'object'){
+          this.arrayReference = _arrayReference
+          this.modalReferencia = true
+      }
+      else{
+        this.datosSinester.ReferenceNumber = await this.$store.getters["Header/getreferenceNum"];
+      }      
+      
   },
   async cambiarPlaza() {   
       this.listaComponentes = []  

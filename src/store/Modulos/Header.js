@@ -94,9 +94,12 @@ const mutations = {
 };
 const actions = {
   async buscarReferencia({ commit }, value) {    
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/${value}`)
+    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/${value}`)    
       .then(response => {
-        if (response.data.message) {
+        if (response.data.result.length == 1) {          
+          commit("referenceNumMutation", response.data.result[0].referenceNumber);
+        }
+        if(response.data.result.length > 1){
           commit("referenceNumMutation", response.data.result);
         }
       })

@@ -209,10 +209,8 @@ methods: {
             if(this.tipoStatusInconcluso){
               this.infoDTC = _lista_completa
             }
-            else{
-              alert()
-              let algo = _lista_completa.filter(item => item.statusId == 2)
-              console.log(algo)
+            else{              
+              this.infoDTC = _lista_completa.filter(item => item.statusId == 2)              
             }
         } else {
           let _lista_completa = this.$store.getters["DTC/getlistaInfoDTC"];
