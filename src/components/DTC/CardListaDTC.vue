@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="w-66 sm:w-auto">
+      <!-- /////////////////////////////////////////////////////////////////////
+          ////                      REFERENCIA                              ////
+          ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6">
         <div class="flex justify-between">
           <p class="font-black m-3 w-1/2">{{ infoCard.referenceNumber }}</p>
@@ -8,43 +11,47 @@
         </div>
         <hr />
       </div>
-      <div class="flex-col md:flex-row flex mb-6">
+      <!-- /////////////////////////////////////////////////////////////////////
+          ////                 INFORMACION DTC                              ////
+          ///////////////////////////////////////////////////////////////////// -->
+      <div class="flex-col md:flex-row flex mb-4">
         <div class="md:w-2/3">
-          <p class="text-left font-bold text-sm">
-            N° Siniestro: {{ infoCard.sinisterNumber }}
-          </p>
-          <p class="text-left font-bold text-sm">
-            N° Reporte: {{ infoCard.reportNumber }}
-          </p>
-          <p class="text-left font-bold text-sm mb-6">
-            Folio: {{ infoCard.failureNumber }}
-          </p>
+          <p class="text-left font-bold text-sm">M° Siniestro: {{ infoCard.sinisterNumber }}</p>
+          <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
+          <p class="text-left font-bold text-sm mb-6 break-words">Folio: {{ infoCard.failureNumber }}</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal">
-            <p class="text-sm text-black w-40 font-bold">Observaciones:</p>
-            {{ infoCard.observation }}
+            <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
-        <div
-          class="flex text-center cursor-pointer border-gray-800 flex-col mt-5 sm:m-3 sm:mt-5"
-          v-if="!showmenosMas"
-        >
+        <!-- /////////////////////////////////////////////////////////////////////
+            ////                       SUBIR PDF SELLADO                      ////
+            ///////////////////////////////////////////////////////////////////// -->
+        <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="inconcluso == 2">
+          <div class="flex justify-center" >
+            <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
+            <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
+            <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
+          </div>
+        </div>
+          <!-- /////////////////////////////////////////////////////////////////////
+              ////                         IMAGENES                             ////
+              ///////////////////////////////////////////////////////////////////// -->
+        <div class="flex text-center cursor-pointer border-gray-800 flex-col mt-2 sm:m-3 sm:mt-5" v-if="!showmenosMas">
           <ImagenesCard
             :referenceNumber="infoCard.referenceNumber"            
           ></ImagenesCard>
         </div>
       </div>
+      <!-- /////////////////////////////////////////////////////////////////////
+          ////                 STATUS / VER MAS                             ////
+          ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between static">
-        <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 relative"
-          >Status: {{ infoCard.statusDescription }}</a
-        >
-        <a
-          @click="mas"
-          v-show="menosMas"
-          class="cursor-pointer text-green-700 rel"
-          >Ver Mas</a
-        >
+        <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 relative">Status: {{ infoCard.statusDescription }}</a>
+        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 rel">Ver Mas</a>
       </div>
-      <!-- VerMar -->
+      <!-- /////////////////////////////////////////////////////////////////////
+          ////                 MINI TABLA CARD                              ////
+          ///////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex flex-col md:flex-row mb-6 mt-8">
           <div class="text-xs font-sans text-center">
@@ -58,52 +65,27 @@
                 <td class="border border-gray-800">{{ item.componente }}</td>
                 <td class="border border-gray-800">{{ item.cantidad }}</td>
                 <td class="text-xs border border-gray-800">
-                  <p v-for="(value, key2) in item.lane.split(',')" :key="key2">
-                    {{ value }}
-                  </p>
+                  <p v-for="(value, key2) in item.lane.split(',')" :key="key2">{{ value }}</p>
                 </td>
               </tr>
             </table>
           </div>
         </div>
       </div>
+      <!-- /////////////////////////////////////////////////////////////////////
+          ////                           BOTONES                            ////
+          ///////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
-        <div class="flex justify-between">
+        <div class="flex justify-between" v-if="tipoUsuario != 2">
           <div class="">
-            <button
-              @click.prevent="borrar"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1"
-            >
-              <img
-                src="../../assets/img/bin.png"
-                class="mr-2"
-                width="20"
-                height="1"
-              />
+            <button @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
+              <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1"/>
               <span>Borrar</span>
             </button>
           </div>
           <div>
-            <a
-              @click="menos"
-              class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2"
-              >Menos ↑</a
-            >
-            <button
-              v-if="showBotonPDF"
-              @click.prevent="pdf"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
-            >
-              <img
-                src="../../assets/img/pdf.png"
-                class="mr-2"
-                width="20"
-                height="1"
-              />
-              <span>PDF</span>
-            </button>
-            <button
-              v-if="!showBotonPDF"
+            <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>
+            <button v-if="inconcluso == 1"
               @click.prevent="editar"
               class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
             >
@@ -115,6 +97,23 @@
               />
               <span class="text-xs">Editar</span>
             </button>
+            <button v-else
+              @click.prevent="pdf"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
+            >
+              <img
+                src="../../assets/img/pdf.png"
+                class="mr-2"
+                width="20"
+                height="1"
+              />
+              <span>PDF</span>
+            </button>      
+          </div>
+        </div>
+        <div class="flex justify-end" v-else>        
+          <div>
+            <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>          
           </div>
         </div>
       </div>
@@ -124,7 +123,6 @@
 
 <script>
 import moment from "moment";
-//import Axios from "axios";
 import saveAs from "file-saver";
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 
@@ -143,14 +141,22 @@ export default {
       menosMas: true,
       showmenosMas: false,
       tableFormat: [],
-      showBotonPDF: true,      
+      inconcluso: 1,  
+      tipoUsuario: '', 
+      pdfSellado: ''   
     };
   },
-  filters: {
-    formatDate: function (value) {
-      return moment(value.substring(0, 10)).format("DD/MM/YYYY");
-    },
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                        ////
+////////////////////////////////////////////////////////////////////
+  beforeMount: function () { 
+    //incloncluso 1 = inconcluso 2 = concluido       
+    this.inconcluso = this.infoCard.statusId 
+    this.tipoUsuario = this.$store.getters['Login/getTypeUser'];    
   },
+/////////////////////////////////////////////////////////////////////
+////                          METODOS                            ////
+/////////////////////////////////////////////////////////////////////
   methods: {
     mas: async function () {
       this.menosMas = false;
@@ -260,9 +266,42 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
+    recibirImagenes: function (e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      else {
+        for (let item of files) {        
+          this.crearImage(item);
+        }
+      }
+    },
+    crearImage(file) {
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        this.pdfSellado = e.target.result
+      };
+      reader.readAsDataURL(file);               
+    },
+    base64ToFile: function (dataurl, fileName) {      
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], fileName, { type: mime });
+    },
+    
   },
-  beforeMount: function () {    
-    this.showBotonPDF = this.infoCard.statusId == 2 ? true : false; 
+/////////////////////////////////////////////////////////////////////
+////                           FILTROS                           ////
+/////////////////////////////////////////////////////////////////////
+  filters: {
+    formatDate: function (value) {
+      return moment(value.substring(0, 10)).format("DD/MM/YYYY");
+    },
   },
 };
 </script>

@@ -1,4 +1,5 @@
 import Axios from "axios";
+const API = `http://prosisdev.sytes.net:88`
 
 const state = {
   listaDTCTecnico: [],
@@ -62,7 +63,7 @@ const mutations = {
 };
 const actions = {
   async buscarDTC({ commit }) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata`)
+    await Axios.get(`${API}/api/dtcdata`)
       .then(response => {        
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -71,7 +72,7 @@ const actions = {
       });
   },
   async buscarDescriptions({ commit }) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/typedescriptions`)
+    await Axios.get(`${API}/api/typedescriptions`)
       .then(response => {
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -91,7 +92,7 @@ const actions = {
       }
     }      
     //await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`, arrayDmg)
-    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`${API}/api/requestedComponent/${value.flagCreate}`, arrayDmg)
       .then(response => {      
         if (response.status == 200) {
           commit('insertDmgCompleteMutation', true)
@@ -102,8 +103,8 @@ const actions = {
       });
   },
   async buscarListaDTC({ commit }, value) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/${value.idUser}/${value.numPlaza}`)
-      .then(response => {
+    await Axios.get(`${API}/api/dtcData/${value.idUser}/${value.numPlaza}`)
+      .then(response => {      
         commit("listaInfoDTCMutation", response.data.result);
       })
       .catch(Ex => {
@@ -112,7 +113,7 @@ const actions = {
   },
   async tableFormComponent({ commit }, value) {
     //await Axios.get(`https://localhost:44358/api/dtcData/TableForm/${value}`)
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/TableForm/${value}`)
+    await Axios.get(`${API}/api/dtcData/TableForm/${value}`)
       .then(response => {
         if (response.data.result != null)
           commit("tableFormComponentMutation", response.data.result);
@@ -124,7 +125,7 @@ const actions = {
       });
   },
   async BORRAR_DTC({ commit }, value) {
-    await Axios.delete(`http://prosisdev.sytes.net:88/api/dtcData/Delete/${value}`)
+    await Axios.delete(`${API}/api/dtcData/Delete/${value}`)
       .then(() => {
         commit("BORRAR_DTC_MUTATION", value)
       })
@@ -134,7 +135,7 @@ const actions = {
   },
   async COMPONENT_EDIT({ commit }, value) {
     //await Axios.get(`https://localhost:44358/api/dtcData/EditInfo/${value}`)
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/${value}`)
+    await Axios.get(`${API}/api/dtcData/EditInfo/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -143,7 +144,7 @@ const actions = {
       });
   },
   async COMPONENT_EDIT_OPEN({ commit }, value) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcData/EditInfo/Open/${value}`)
+    await Axios.get(`${API}/api/dtcData/EditInfo/Open/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -180,7 +181,7 @@ const actions = {
       }
       arrayDmg.push(newItem)
     }    
-    await Axios.post(`http://prosisdev.sytes.net:88/api/requestedComponent/Open/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`${API}/api/requestedComponent/Open/${value.flagCreate}`, arrayDmg)
       .then(response => {
         if (response.status == 201) {
           commit('insertDmgCompleteMutation', true)

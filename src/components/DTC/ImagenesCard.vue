@@ -1,20 +1,27 @@
 <template>
   <div>    
     <div class="border justify-items-center w-66 sm:w-auto">      
-      <!-- Si no hay nada en el array de imagenes  -->
+      <!-- /////////////////////////////////////////////////////////////////////
+          ////                 SECCION DE AGREGAR IMAGEN                    ////
+          ///////////////////////////////////////////////////////////////////// -->
       <template v-if="cargarImagen">
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">
-          <div class="inline-flex justify-center">
+          <div class="inline-flex justify-center" v-if="tipoUsuario == 2">
+            <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
+            <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
+            <p class="text-base text-gray-900 mt-3">Subir PDF</p>
+          </div>
+          <div class="inline-flex justify-center" v-else>
             <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
             <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
-            <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
+            <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
           </div>
         </div>
         <div v-else class="border-2 border-gray-500 flex-col justify-center border-dashed w-full">
           <div v-for="(item, key) in fileUpload" :key="key" class="border border-r-0 justify-between inline-flex w-full">
             <div class="inline-flex">
-              <lazy-image :src="`${item.imgbase}`" class="w-10 h-10" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-if="item.imgbase.length < 100"/>
-              <lazy-image :src="`data:image/jpeg;base64,${item.imgbase}`" class="w-10 h-10" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-else/>
+              <lazy-image :src="`${item.imgbase}`" :img-class="['w-10', 'h-10']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-if="item.imgbase.length < 100"/>
+              <lazy-image :src="`data:image/jpeg;base64,${item.imgbase}`" :img-class="['w-10', 'h-10']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-else/>
               <p class="ml-3 mt-2">{{ item.name }}</p>
             </div>
             <div class="mr-2">
@@ -36,10 +43,14 @@
           </div>
         </div>
       </template>
+      <!-- /////////////////////////////////////////////////////////////////////
+          ////              SECCION DE VISUALIZAR IMAGEN                    ////
+          ///////////////////////////////////////////////////////////////////// -->
       <template v-else>
         <div class="flex justify-between">
           <div class="justify-start">
             <button
+              v-if="tipoUsuario != 2"
               @click="editar_img"
               class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700"
             >
@@ -106,52 +117,50 @@ export default {
       imgbase64: {
         array_img: [],
         referenceNumber: "",
-      },
-      load: '../assets/img/loading.gif',
+      },      
       agregarbool: true,
       index_imagen_actual: 0,
       editar_imagen: true,
       eliminar_name: [], 
-      cambiarImagenBool: true     
+      cambiarImagenBool: true    ,
+      tipoUsuario: '' 
     };
   },  
-  beforeMount: async function () {           
-      //SI el array de imagenes tiene algo
+  beforeMount: async function () {    
+    this.tipoUsuario = this.$store.getters['Login/getTypeUser'];              
     let _ref = this.referenceNumber.split("-")[0]    
-    let nombre_plaza = this.$store.getters["Login/getNombrePlazaParam"](_ref);  
-    console.log(nombre_plaza)      
-    await Axios.get(
-      `http://prosisdev.sytes.net:88/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
-    )
-      .then((response) => {    
-            
-          let array = response.data.map(item => {
-            return {
-              "fileName": item, 
-              "image": `http://prosisdev.sytes.net:88/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item}`
-            }
-          })            
+    let nombre_plaza = this.$store.getters["Login/getNombrePlazaParam"](_ref);          
+    if(nombre_plaza != undefined){       
+      await Axios.get(`http://prosisdev.sytes.net:88/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`)
+        .then((response) => {              
+            if(response.status != 404){
+              let array = response.data.map(item => {
+                return {
+                  "fileName": item, 
+                  "image": `http://prosisdev.sytes.net:88/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item}`
+                }
+              })            
+              this.imgbase64 = {
+                array_img: array,
+                referenceNumber: this.referenceNumber,
+              };   
+            }               
+        })
+        .catch(() => {
+          //console.log("error imagenes");
+        });      
+      if (this.imgbase64.array_img.length > 0) {        
+          this.agregarbool = false;
+          this.cargarImagen = false;                   
+      } 
+      else {
+          this.agregarbool = true;
+          this.cargarImagen = true;
           this.imgbase64 = {
-            array_img: array,
-            referenceNumber: this.referenceNumber,
-          };                  
-      })
-      .catch(() => {
-        console.log("erro");
-      });      
-    if (this.imgbase64.array_img.length > 0) {
-        console.log('true')
-        this.agregarbool = false;
-        this.cargarImagen = false;  
-        console.log(this.imgbase64.array_img[0].image)                
-    } 
-    else {
-        this.agregarbool = true;
-        this.cargarImagen = true;
-        this.imgbase64 = {
-          array_img: [],
-          referenceNumber: "",
-        };
+            array_img: [],
+            referenceNumber: "",
+          };
+      }
     }
   },
   methods: {
@@ -159,8 +168,7 @@ export default {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       else {
-        for (let item of files) {
-          console.log(files);
+        for (let item of files) {        
           this.crearImage(item);
         }
       }
@@ -195,14 +203,15 @@ export default {
       }
     },
     cancelar_edicion: function () {
-      this.fileUpload = [];
-      this.eliminar_name = [];
-      this.imagenes_enviar = [];
-      this.editar_imagen = true;
-      this.cargarImagen = this.imgbase64 == undefined ? true : false;
+      this.$nextTick().then(() =>{
+        this.fileUpload = [];
+        this.eliminar_name = [];
+        this.imagenes_enviar = [];
+        this.editar_imagen = true;
+        this.cargarImagen = this.imgbase64.array_img.length == 0 ? true : false;
+      })
     },
-    cambiar_imagen: function (value) {
-      console.log(value);
+    cambiar_imagen: function (value) {      
       this.cambiarImagenBool = false;
       if (value == "anterior") {
         if (this.index_imagen_actual == 0){
@@ -258,12 +267,10 @@ export default {
                   },
                 });
               });
-          }
-          console.log("termine de eliminar");
+          }          
           await this.actualizar_img(nombre_plaza);
           resolve("ok");
-        } else {
-          console.log("No hay que eliminar");
+        } else {          
           resolve("ok");
         }
       });
@@ -322,15 +329,13 @@ export default {
       Promise.all([agregar_promise, eliminar_promise]);
     },
     actualizar_img: async function (nombre_plaza) {
-      let array_nombre_imagenes = [];
-      console.log("inicie a actualizar");
+      let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
       await Axios.get(
         `http://prosisdev.sytes.net:88/api/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`
       )
-        .then((response) => {
-          console.log(response);
+        .then((response) => {          
           array_nombre_imagenes = response.data;
         })
         .catch(() => {
@@ -338,8 +343,7 @@ export default {
         });
       let arrayimg = [];
       if (array_nombre_imagenes.length > 0) {
-        for (let item2 of array_nombre_imagenes) {
-          console.log("push");
+        for (let item2 of array_nombre_imagenes) {          
           arrayimg.push({
             fileName: item2,
             image: `http://prosisdev.sytes.net:88/api/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,

@@ -19,15 +19,11 @@ export default {
     BotonesTec
   },
   data: function(){
-
     return {
-
         typeUser: true
-      
       }
   },
   beforeMount: function(){
-
     if(this.$store.getters['Login/getTypeUser'] == 1){
         this.typeUser = false
     }

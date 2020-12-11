@@ -2,33 +2,42 @@
   <div>
     <Nav></Nav>
     <div class="relative">
-      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center mt-2">
-      
-        <!--/////////////////////////////////////////////////////////////////
+    <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="border-2 px-16 shadow-lg z-10 sm:w-66">
+      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center mt-2">      
+        <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
+            <div class="m-3" v-if="tipoUsuario == 2">
+              <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
+                <select class="w-full" type="text"                    >
+                  <option disabled value="">Selecionar...</option>                  
+                </select>
+            </div>
+            <div class="m-3">
+              <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
+                <select class="w-full" type="text"                    >
+                  <option disabled value="">Selecionar...</option>                  
+                </select>
+            </div>          
             <div class="m-3">
               <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
-              <input
-                @change="sinFiltro"
+              <input                
                 :disabled="validaReferencia"
                 v-model="fechaFiltro"
-                class="border w-48"
+                class="border w-40"
                 type="date"
               />
             </div>
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
-              <input
-                @change="sinFiltro"
+              <input                
                 v-model="referenciaFiltro"
                 :disabled="validaFecha"
-                class="border w-48"
+                class="border w-40"
                 placeholder="PM-000000"
               />
-            </div>
+            </div>            
             <div class="m-3">
               <p class="font-bold mb-3 sm:text-sm">Status DTC</p>
               <div class="sm:inline-flex">
@@ -76,22 +85,10 @@
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute justify-center inset-x-0">
         <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
-          <p class="text-gray-900 font-thin text-md">
-            Seguro que quiere eliminar este DTC {{ refNum }}
-          </p>
+          <p class="text-gray-900 font-thin text-md">Seguro que quiere eliminar este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
-            <button
-              @click="borrar(true)"
-              class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600"
-            >
-              Si
-            </button>
-            <button
-              @click="(modal = false), (refNum = '')"
-              class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700"
-            >
-              No
-            </button>
+            <button @click="borrar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+            <button @click="(modal = false), (refNum = '')" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
           </div>
         </div>
       </div>
@@ -100,10 +97,10 @@
       ////////////////////////////////////////////////////////////////////-->
       <div :class="{ 'pointer-events-none': modal }" class="flex justify-center w-full">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-          <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc, index) in infoDTC" :key="index">
+          <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
               @borrar-card="confimaBorrar"
-              :infoCard="dtc"
+              :infoCard="dtc"              
             ></CardListDTC>
           </div>
         </div>
@@ -122,11 +119,11 @@ export default {
       infoDTC: [],
       fechaFiltro: "",
       referenciaFiltro: "",
-      numCard: true,
       modal: false,
       refNum: "",
       tipoStatusConcluido: false,
       tipoStatusInconcluso: false,
+      tipoUsuario: ''
     };
   },
   components: {
@@ -137,7 +134,8 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
-  this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
+  this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
+  this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -179,51 +177,56 @@ methods: {
       }
   },
   filtro_Dtc: function () {
-      if (this.fechaFiltro != "") {
-        let dtc = this.$store.getters["DTC/getlistaInfoDTC"];
-        let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
-
-        let newArray = [];
-        for (let item of dtc) {
-          if (
-            moment(item.elaborationDate).format("DD/MM/YYYY") == formatFecha
-          ) {
-            newArray.push(item);
-          }
+    this.infoDTC  = []
+    let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
+    if (this.fechaFiltro != "") {        
+      let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
+      let newArray = [];
+      for (let item of _lista_completa) {
+        if (moment(item.elaborationDate).format("DD/MM/YYYY") == formatFecha) {
+          newArray.push(item);
         }
-        this.numCard = newArray.length > 2 ? true : false;
-        this.infoDTC = newArray;
-      } else if (this.referenciaFiltro != "") {
-        let dtc = this.$store.getters["DTC/getlistaInfoDTC"];
-        let newArray = [];
-        for (let item of dtc) {
-          if (this.referenciaFiltro == item.referenceNumber) {
-            newArray.push(item);
-          }
-        }
-        this.infoDTC = newArray;
-      } 
-      else {
-        if(this.tipoStatusConcluido){
-            let _lista_completa = this.$store.getters["DTC/getlistaInfoDTC"];   
-            if(this.tipoStatusInconcluso){
-              this.infoDTC = _lista_completa
-            }
-            else{              
-              this.infoDTC = _lista_completa.filter(item => item.statusId == 2)              
-            }
-        } else {
-          let _lista_completa = this.$store.getters["DTC/getlistaInfoDTC"];
-          if(this.tipoStatusInconcluso == false){
-            this.infoDTC = _lista_completa
-          }
-          else{
-            this.infoDTC = _lista_completa.filter(item => item.statusId == 1)
-          }
+      }        
+      this.filtro_status(newArray)        
+    } else if (this.referenciaFiltro != "") {        
+      let newArray = [];
+      for (let item of _lista_completa) {          
+        if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
+          newArray.push(item);
         }
       }
+      this.filtro_status(newArray)        
+    } 
+    else {          
+        this.filtro_status(_lista_completa) 
+    }
   },
-
+  filtro_status(lista){
+    if(this.tipoStatusConcluido){            
+        if(this.tipoStatusInconcluso){        
+          this.$nextTick().then(() => {      
+            this.infoDTC = lista            
+          })  
+        }
+        else{    
+          this.$nextTick().then(() => {             
+            this.infoDTC = lista.filter(item => item.statusId == 2)    
+          })                                                   
+        }
+    } 
+    else {          
+        if(this.tipoStatusInconcluso == false){  
+          this.$nextTick().then(() => {             
+            this.infoDTC = lista        
+          })    
+        }
+        else{         
+          this.$nextTick().then(() => {      
+            this.infoDTC = lista.filter(item => item.statusId == 1)  
+          })                        
+        }
+    }
+  }
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADOS                         ////
@@ -237,15 +240,11 @@ computed: {
       if (this.referenciaFiltro != "") return true;
       else return false;
   },
+  lista_dtc(){
+    return this.infoDTC
+  }
 },
-/////////////////////////////////////////////////////////////////////
-////                      CICLOS DE VIDA                         ////
-/////////////////////////////////////////////////////////////////////
-watch: {
-  infoDTC: function (newValue) {
-      this.numCard = newValue.length > 2 ? true : false;
-  },
-},
+
 };
 </script>
 
