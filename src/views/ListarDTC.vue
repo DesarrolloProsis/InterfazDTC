@@ -32,8 +32,7 @@
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
               <input                
-                v-model="referenciaFiltro"
-                :disabled="validaFecha"
+                v-model="referenciaFiltro"                
                 class="border w-40"
                 placeholder="PM-000000"
               />
