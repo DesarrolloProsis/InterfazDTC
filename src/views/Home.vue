@@ -20,7 +20,7 @@ export default {
   },
   data: function(){
     return {
-        typeUser: true
+        typeUser: true,        
       }
   },
   beforeMount: function(){

@@ -1,5 +1,7 @@
 import Axios from "axios";
 
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+
 const state = {
   listUser: null,
   listaPlazas: [],
@@ -10,9 +12,9 @@ const state = {
 const getters = {
   getNombrePlazaParam: (state) => (_ref) => {  
     try {     
-    let query = state.listUser.find(item => item.referenceSquare == _ref).plaza.split(' ')[0]
-    let res = state.listaPlazas.find(item => item.squareCatalogId ==   query)    
-    return res.squareName  
+      let query = state.listUser.find(item => item.referenceSquare == _ref).plaza.split(' ')[0]
+      let res = state.listaPlazas.find(item => item.squareCatalogId ==   query)    
+      return res.squareName  
     }
     catch(err) {
       console.log('getter error');
@@ -83,6 +85,7 @@ const actions = {
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
   async buscarUsuarioCokie({ commit }, value) {    
+    console.log(API)
     await Axios.get(`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`)
       .then(response => {
         if (response.data.result != null) {

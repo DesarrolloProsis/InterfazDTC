@@ -1,11 +1,11 @@
   <template>
   <div>
     <Nav></Nav>
-    <div class="relative">
+    <div class="">
     <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center mt-2">      
+      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center mt-2">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
             <div class="m-3" v-if="tipoUsuario == 2">
@@ -84,7 +84,7 @@
       ////                      MODAL ELIMINAR                         ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute justify-center inset-x-0">
-        <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
+        <div v-if="modal" class="rounded-lg border border-gray-700 px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md">Seguro que quiere eliminar este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
             <button @click="borrar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
@@ -93,13 +93,101 @@
         </div>
       </div>
       <!--/////////////////////////////////////////////////////////////////
+      ////                      MODAL EDITAR DTC                       ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="flex absolute sm:relative justify-center inset-x-0">     
+        <div v-if="modalEdit" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
+          <p class="text-gray-900 font-bold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
+        <!--/////////////////////////////////////////////////////////////////
+            ////                   FILA NUMERO 1                         ////
+            ////////////////////////////////////////////////////////////////-->
+          <div class="justify-center flex mt-5">       
+            <div class="mr-6">        
+              <p class="text-sm mb-1 font-semibold text-gray-900">N° Siniestro:</p>
+              <input v-model="dtcEdit.sinisterNumber" class="w-full" type="text" placeholder="S/M"/>
+            </div>
+            <div class="ml-6">       
+              <p class="text-sm mb-1 font-semibold text-gray-900">N° Reporte:</p>
+              <input v-model="dtcEdit.reportNumber" class="w-full" type="text" placeholder="S/M"/>
+            </div>
+          </div>
+        <!--/////////////////////////////////////////////////////////////////////
+            ////                      FILA NUMERO 2                         ////
+            ////////////////////////////////////////////////////////////////////-->
+          <div class="justify-center flex mt-5">       
+            <div class="mr-6">     
+              <p class="text-sm mb-1 font-semibold text-gray-900">Folio de Falla:</p>
+              <input v-model="dtcEdit.failureNumber" class="w-full" type="text" placeholder="S/M"/>
+            </div>
+            <div class="ml-6">    
+              <p class="text-sm mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
+              <select   
+                v-model="dtcEdit.typeDescriptionId"             
+                v-validate="'required'"
+                :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}"
+                class="sm:w-full w-48"
+                type="text"
+                name="TipoDescripcion"
+              >
+                <option disabled value>Selecionar...</option>
+                <option v-for="(desc, index) in descripciones" v-bind:value="desc.typeDescriptionId" :key="index">
+                  {{ desc.description }}
+                </option>
+              </select>
+            </div>
+          </div>
+        <!--/////////////////////////////////////////////////////////////////////
+            ////                      FILA NUMERO 3                         ////
+            ////////////////////////////////////////////////////////////////////-->
+          <div class="justify-center flex mt-5">       
+            <div class="m-1">     
+              <p class="text-sm mb-1 font-semibold text-gray-900">Observaciones:</p>
+              <textarea   
+                v-model="dtcEdit.observation"             
+                v-validate="'max:300'"
+                :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
+                placeholder="jane@example.com"
+                name="Observaciones"
+              />              
+            </div>
+            <div class="m-1 ">     
+              <p class="text-sm mb-1 font-semibold text-gray-900">Diagnostico:</p>
+              <textarea     
+                v-model="dtcEdit.diagnosis"           
+                v-validate="'max:300'"
+                :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
+                placeholder="jane@example.com"
+                name="Diagnostico"
+              />              
+            </div>            
+          </div>
+          <p class="text-xs">{{ errors.first("Observaciones") }}</p>
+          <p class="text-xs">{{ errors.first("Diagnostico") }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("TipoDescripcion") }}</p>
+        <!--/////////////////////////////////////////////////////////////////////
+            ////                        BOTONES MODAL EDIT                         ////
+            ////////////////////////////////////////////////////////////////////-->
+          <div class="justify-end flex mt-10">       
+            <div>                    
+              <button @click="(modalEdit = false), (refNum = '')" class="text-white px-4 py-3 rounded-lg bg-red-700">Cancelar</button>              
+            </div>
+            <div>       
+              <button @click="borrar(true)" class="text-white ml-2 px-5 py-3 rounded-lg bg-green-600">Actualizar</button>          
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal }" class="flex justify-center w-full">
+      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center w-full">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
               @borrar-card="confimaBorrar"
+              @editar-card="editar_header_dtc"
               :infoCard="dtc"              
             ></CardListDTC>
           </div>
@@ -120,10 +208,13 @@ export default {
       fechaFiltro: "",
       referenciaFiltro: "",
       modal: false,
+      modalEdit: false,
       refNum: "",
       tipoStatusConcluido: false,
       tipoStatusInconcluso: false,
-      tipoUsuario: ''
+      tipoUsuario: '',
+      dtcEdit: {},
+      descripciones: []
     };
   },
   components: {
@@ -134,6 +225,7 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
+  this.descripciones = this.$store.getters["DTC/getListaDescriptions"];
   this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
 },
@@ -163,6 +255,10 @@ methods: {
   confimaBorrar: function (refNum) {
       this.refNum = refNum;
       this.modal = true;
+  },
+  editar_header_dtc(refNum){
+    this.dtcEdit = this.infoDTC.find(item => item.referenceNumber == refNum)        
+    this.modalEdit = true
   },
   limpiar_filtros() {
       this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
