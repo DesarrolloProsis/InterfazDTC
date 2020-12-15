@@ -118,7 +118,7 @@ import Nav from "../components/Navbar";
 import Header from "../components/Header/CrearHeader";
 import EventBus from "../services/EventBus.js";
 import saveAs from "file-saver";
-
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "CrearDTC",
   props: {
@@ -208,7 +208,7 @@ methods: {
           if (status == 2) {
             var oReq = new XMLHttpRequest();
             // The Endpoint of your server
-            let urlTopdf = `http://prosisdev.sytes.net:88/api/pdf/${this.refNum}/${this.refNum.slice(0,3)}`;            
+            let urlTopdf = `${API}/${this.$store.getters["Login/getReferenceSquareActual"]}/pdf/${this.refNum}/${this.refNum.slice(0,3)}`;            
             let namePdf = `ReportDTC-${this.refNum}.pdf`;            
             // Configure XMLHttpRequest
             oReq.open("GET", urlTopdf, true);

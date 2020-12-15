@@ -143,7 +143,7 @@
 import moment from "moment";
 import saveAs from "file-saver";
 import ImagenesCard from "../DTC/ImagenesCard.vue";
-
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   props: {
     infoCard: {
@@ -191,20 +191,10 @@ export default {
       this.showmenosMas = false;
     },
     editar: async function () {
-      let ruta = this.infoCard.openMode
-        ? "COMPONENT_EDIT_OPEN"
-        : "COMPONENT_EDIT";
-
+      let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
       await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);
-      this.$store.commit(
-        "Header/PLAZAELEGIDAFINDMUTATION",
-        this.infoCard.referenceNumber.split("-")[0]
-      );
-      this.$store.commit(
-        "Login/PLAZAELEGIDAFINDMUTATION",
-        this.infoCard.referenceNumber.split("-")[0]
-      );
-
+      this.$store.commit("Header/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
+      this.$store.commit("Login/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
       let datosSinester = {
         ReferenceNumber: "",
         SinisterNumber: "",
@@ -221,26 +211,16 @@ export default {
         Descripcion: null,
         Observaciones: null,
       };
-
       datosSinester.ReferenceNumber = this.infoCard.referenceNumber;
       datosSinester.SinisterNumber = this.infoCard.sinisterNumber;
       datosSinester.ReportNumber = this.infoCard.reportNumber;
-      datosSinester.SinisterDate = moment(this.infoCard.sinisterDate).format(
-        "YYYY-MM-DD"
-      );
+      datosSinester.SinisterDate = moment(this.infoCard.sinisterDate).format("YYYY-MM-DD");
       datosSinester.FailureNumber = this.infoCard.failureNumber;
-      datosSinester.FailureDate = moment(this.infoCard.failureDate).format(
-        "YYYY-MM-DD"
-      );
-      datosSinester.ShippingElaboracionDate = moment(
-        this.infoCard.shippingDate
-      ).format("YYYY-MM-DD");
+      datosSinester.FailureDate = moment(this.infoCard.failureDate).format("YYYY-MM-DD");
+      datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format("YYYY-MM-DD");
       datosSinester.TypeDescriptionId = 2;
-
       this.$store.commit("Header/datosSinesterMutation", datosSinester);
-
       let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";
-
       this.$router.push({
         path: `/${page}`,
         query: {
@@ -261,13 +241,8 @@ export default {
       // The Endpoint of your server
       let urlTopdf =
         this.infoCard.openMode == false
-          ? `http://prosisdev.sytes.net:88/api/pdf/${
-              this.infoCard.referenceNumber
-            }/${this.infoCard.referenceNumber.split("-")[0]}`
-          : `http://prosisdev.sytes.net:88/api/pdf/open/${
-              this.infoCard.referenceNumber
-            }/${this.infoCard.referenceNumber.slice(0, 3)}`;
-
+          ? `${API}/${this.$store.getters["Login/getReferenceSquareActual"]}/pdf/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
+          : `${API}/${this.$store.getters["Login/getReferenceSquareActual"]}/pdf/open/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0, 3)}`;
       let namePdf = `ReportDTC-${_ref}.pdf`;
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);
