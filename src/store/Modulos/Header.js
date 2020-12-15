@@ -109,7 +109,7 @@ const actions = {
       });
   },
   async buscarListaUnique({ commit, rootGetters }) {
-    await Axios.get(`${API}/dtcdata/${rootGetters['Login/getReferenceSquareActual']}/InvalidReferenceNumbers`)
+    await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/getReferenceSquareActual']}`)
       .then(response => {
         if (response.data.message) {
           commit("listaUniqueMutation", response.data.result);

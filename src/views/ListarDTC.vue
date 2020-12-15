@@ -217,7 +217,11 @@ methods: {
       console.log(value)
       if (value) {
         this.modal = false;
-        let userId = this.$store.getters['Login/getUserForDTC'] 
+        let userId = this.$store.getters['Login/getUserForDTC']         
+        this.$store.dispatch('DTC/buscarListaDTC', userId)
+        this.$nextTick().then(() => {
+          this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"]
+        })        
         let obj = {
           "refNum": this.refNum,
           "userId": userId.idUser

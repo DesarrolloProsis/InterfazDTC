@@ -102,7 +102,7 @@ const actions = {
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async buscarUsuario({ commit }, value) {    
-    await Axios.get(`${API}/api/login/${value.User}/${value.Password}/${false}`)
+    await Axios.get(`${API}/login/${value.User}/${value.Password}/${false}`)
       .then(response => {        
         commit("listaUser", response.data.result);
       })

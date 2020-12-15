@@ -113,7 +113,7 @@ const actions = {
   },
   async tableFormComponent({ commit, rootGetters }, value) {        
     //await Axios.get(`https://localhost:44358/api/dtcData/TableForm/${value}`)
-    await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/TableForm/${value}`)
+    await Axios.get(`${API}/dtcData/TableForm/${rootGetters['Login/getReferenceSquareActual']}/${value}`)
       .then(response => {
         if (response.data.result != null)
           commit("tableFormComponentMutation", response.data.result);
@@ -126,7 +126,7 @@ const actions = {
   },
   async BORRAR_DTC({ commit, rootGetters }, value) {
     
-    await Axios.delete(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/Delete/${value.refNum}/${value.userId}`)
+    await Axios.delete(`${API}/dtcData/Delete/${rootGetters['Login/getReferenceSquareActual']}/${value.refNum}/${value.userId}`)
       .then(() => {
         commit("BORRAR_DTC_MUTATION", value)
       })
@@ -135,7 +135,7 @@ const actions = {
       });
   },
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/EditInfo/${value}`)
+    await Axios.get(`${API}/dtcData/EditInfo/${rootGetters['Login/getReferenceSquareActual']}/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -144,7 +144,7 @@ const actions = {
       });
   },
   async COMPONENT_EDIT_OPEN({ commit, rootGetters }, value) {
-    await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/EditInfo/Open/${value}`)
+    await Axios.get(`${API}/dtcData/EditInfo/Open/${rootGetters['Login/getReferenceSquareActual']}/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -181,7 +181,7 @@ const actions = {
       }
       arrayDmg.push(newItem)
     }    
-    await Axios.post(`${API}/requestedComponent/${rootGetters['Login/getReferenceSquareActual']}/Open/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`${API}/requestedComponent/Open/${rootGetters['Login/getReferenceSquareActual']}/${value.flagCreate}`, arrayDmg)
       .then(response => {
         if (response.status == 201) {
           commit('insertDmgCompleteMutation', true)
