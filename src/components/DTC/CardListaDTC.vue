@@ -241,8 +241,8 @@ export default {
       // The Endpoint of your server
       let urlTopdf =
         this.infoCard.openMode == false
-          ? `${API}/${this.$store.getters["Login/getReferenceSquareActual"]}/pdf/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
-          : `${API}/${this.$store.getters["Login/getReferenceSquareActual"]}/pdf/open/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0, 3)}`;
+          ? `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
+          : `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/open/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0, 3)}`;
       let namePdf = `ReportDTC-${_ref}.pdf`;
       // Configure XMLHttpRequest
       oReq.open("GET", urlTopdf, true);

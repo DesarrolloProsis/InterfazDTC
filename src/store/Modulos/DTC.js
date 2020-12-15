@@ -63,7 +63,7 @@ const mutations = {
 };
 const actions = {
   async buscarDTC({ commit, rootGetters }) {      
-    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcdata`)
+    await Axios.get(`${API}/dtcdata/${rootGetters['Login/getReferenceSquareActual']}`)
       .then(response => {        
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -72,7 +72,7 @@ const actions = {
       });
   },
   async buscarDescriptions({ commit, rootGetters }) {
-    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/typedescriptions`)
+    await Axios.get(`${API}/typedescriptions/${rootGetters['Login/getReferenceSquareActual']}`)
       .then(response => {
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -92,7 +92,7 @@ const actions = {
       }
     }      
     //await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`, arrayDmg)
-    await Axios.post(`${API}/${rootGetters['Login/getReferenceSquareActual']}/requestedComponent/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`${API}/requestedComponent/${rootGetters['Login/getReferenceSquareActual']}/${value.flagCreate}`, arrayDmg)
       .then(response => {      
         if (response.status == 200) {
           commit('insertDmgCompleteMutation', true)
@@ -103,7 +103,7 @@ const actions = {
       });
   },
   async buscarListaDTC({ commit, rootGetters }, value) {
-    await Axios.get(`${API}${rootGetters['Login/getReferenceSquareActual']}/dtcData/${value.idUser}/${value.numPlaza}`)
+    await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/${value.idUser}/${value.numPlaza}`)
       .then(response => {      
         commit("listaInfoDTCMutation", response.data.result);
       })
@@ -113,7 +113,7 @@ const actions = {
   },
   async tableFormComponent({ commit, rootGetters }, value) {        
     //await Axios.get(`https://localhost:44358/api/dtcData/TableForm/${value}`)
-    await Axios.get(`${API}${rootGetters['Login/getReferenceSquareActual']}/dtcData/TableForm/${value}`)
+    await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/TableForm/${value}`)
       .then(response => {
         if (response.data.result != null)
           commit("tableFormComponentMutation", response.data.result);
@@ -126,7 +126,7 @@ const actions = {
   },
   async BORRAR_DTC({ commit, rootGetters }, value) {
     
-    await Axios.delete(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcData/Delete/${value.refNum}/${value.userId}`)
+    await Axios.delete(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/Delete/${value.refNum}/${value.userId}`)
       .then(() => {
         commit("BORRAR_DTC_MUTATION", value)
       })
@@ -135,7 +135,7 @@ const actions = {
       });
   },
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcData/EditInfo/${value}`)
+    await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/EditInfo/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -144,7 +144,7 @@ const actions = {
       });
   },
   async COMPONENT_EDIT_OPEN({ commit, rootGetters }, value) {
-    await Axios.get(`${API}${rootGetters['Login/getReferenceSquareActual']}/dtcData/EditInfo/Open/${value}`)
+    await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/EditInfo/Open/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -181,7 +181,7 @@ const actions = {
       }
       arrayDmg.push(newItem)
     }    
-    await Axios.post(`${API}/${rootGetters['Login/getReferenceSquareActual']}/requestedComponent/Open/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`${API}/requestedComponent/${rootGetters['Login/getReferenceSquareActual']}/Open/${value.flagCreate}`, arrayDmg)
       .then(response => {
         if (response.status == 201) {
           commit('insertDmgCompleteMutation', true)

@@ -131,13 +131,13 @@ export default {
     let _ref = this.referenceNumber.split("-")[0]    
     let nombre_plaza = this.$store.getters["Login/getNombrePlazaParam"](_ref);          
     if(nombre_plaza != undefined){       
-      await Axios.get(`${API}/${this.getReferenceSquareActual()}/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`)
+      await Axios.get(`${API}/Image/${this.getReferenceSquareActual()}/GetImages/${nombre_plaza}/${this.referenceNumber}`)
         .then((response) => {              
             if(response.status != 404){
               let array = response.data.map(item => {
                 return {
                   "fileName": item, 
-                  "image": `${API}/${this.getReferenceSquareActual()}/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item}`
+                  "image": `${API}/Image/${this.getReferenceSquareActual()}/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item}`
                 }
               })            
               this.imgbase64 = {
@@ -258,7 +258,7 @@ export default {
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-            Axios.get(`${API}/${this.getReferenceSquareActual()}/Image/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`)
+            Axios.get(`${API}/Image/${this.getReferenceSquareActual()}/Delete/${nombre_plaza}/${this.referenceNumber}/${eliminar}`)
               .then(() => {})
               .catch((ex) => {
                 console.log("error al eliminar");
@@ -288,7 +288,7 @@ export default {
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",this.base64ToFile(item.imgbase, item.name));
-            await Axios.post(`${API}/${this.getReferenceSquareActual()}/Image/InsertImage`,formData)
+            await Axios.post(`${API}/Image/${this.getReferenceSquareActual()}/InsertImage`,formData)
               .then(() => {                
                 this.$notify.success({
                   title: "Ok!",
@@ -327,7 +327,7 @@ export default {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-      await Axios.get(`${API}/${this.getReferenceSquareActual()}/Image/GetImages/${nombre_plaza}/${this.referenceNumber}`)
+      await Axios.get(`${API}/Image/${this.getReferenceSquareActual()}/GetImages/${nombre_plaza}/${this.referenceNumber}`)
         .then((response) => {          
           array_nombre_imagenes = response.data;
         })
@@ -339,7 +339,7 @@ export default {
         for (let item2 of array_nombre_imagenes) {          
           arrayimg.push({
             fileName: item2,
-            image: `${API}/${this.getReferenceSquareActual()}/Image/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
+            image: `${API}/Image/${this.getReferenceSquareActual()}/DownloadFile/${nombre_plaza}/${this.referenceNumber}/${item2}`,
           });
         }
         let obj = {

@@ -95,7 +95,7 @@ const mutations = {
 };
 const actions = {
   async buscarReferencia({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcdata/${value}`)    
+    await Axios.get(`${API}/dtcdata/${rootGetters['Login/getReferenceSquareActual']}/${value}`)    
       .then(response => {
         if (response.data.result.length == 1) {          
           commit("referenceNumMutation", response.data.result[0].referenceNumber);
@@ -109,7 +109,7 @@ const actions = {
       });
   },
   async buscarListaUnique({ commit, rootGetters }) {
-    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcdata/InvalidReferenceNumbers`)
+    await Axios.get(`${API}/dtcdata/${rootGetters['Login/getReferenceSquareActual']}/InvalidReferenceNumbers`)
       .then(response => {
         if (response.data.message) {
           commit("listaUniqueMutation", response.data.result);
@@ -140,7 +140,7 @@ const actions = {
       OpenFlag: value.openFlag,
       SquareId: value.datosUser.plaza.slice(0,3)
     }            
-    await Axios.post(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcData`, newObject)
+    await Axios.post(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}`, newObject)
       .then(response => {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)
