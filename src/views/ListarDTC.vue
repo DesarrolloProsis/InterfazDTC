@@ -8,13 +8,14 @@
       <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center mt-2">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
-            <div class="m-3" v-if="tipoUsuario == 2">
+            <!-- <div class="m-3" v-if="tipoUsuario == 2"> -->
+            <div class="m-3" v-if="false">
               <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
                 <select class="w-full" type="text"                    >
                   <option disabled value="">Selecionar...</option>                  
                 </select>
             </div>
-            <div class="m-3">
+            <div class="m-3" v-if="false">
               <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
                 <select class="w-full" type="text"                    >
                   <option disabled value="">Selecionar...</option>                  
@@ -236,7 +237,12 @@ methods: {
       console.log(value)
       if (value) {
         this.modal = false;
-        this.$store.dispatch("DTC/BORRAR_DTC", this.refNum);
+        let userId = this.$store.getters['Login/getUserForDTC'] 
+        let obj = {
+          "refNum": this.refNum,
+          "userId": userId.idUser
+        }
+        this.$store.dispatch("DTC/BORRAR_DTC",obj);
         (this.menosMas = true),
           (this.showmenosMas = false),
           this.$notify.default({

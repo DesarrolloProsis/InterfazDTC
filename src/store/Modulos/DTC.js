@@ -125,7 +125,8 @@ const actions = {
       });
   },
   async BORRAR_DTC({ commit }, value) {
-    await Axios.delete(`${API}/api/dtcData/Delete/${value}`)
+    console.log(`https://localhost:44358/api/dtcData/Delete/${value.refNum}/${value.userId}`)
+    await Axios.delete(`https://localhost:44358/api/dtcData/Delete/${value.refNum}/${value.userId}`)
       .then(() => {
         commit("BORRAR_DTC_MUTATION", value)
       })
