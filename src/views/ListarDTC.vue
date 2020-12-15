@@ -8,13 +8,13 @@
       <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center mt-2">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
-            <div class="m-3" v-if="tipoUsuario == 2">
+            <div class="m-3" v-if="false">
               <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
                 <select class="w-full" type="text"                    >
                   <option disabled value="">Selecionar...</option>                  
                 </select>
             </div>
-            <div class="m-3">
+            <div class="m-3" v-if="false">
               <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
                 <select class="w-full" type="text"                    >
                   <option disabled value="">Selecionar...</option>                  
@@ -31,11 +31,7 @@
             </div>
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
-              <input                
-                v-model="referenciaFiltro"                
-                class="border w-40"
-                placeholder="PM-000000"
-              />
+              <input v-model="referenciaFiltro" class="border w-40" placeholder="PM-000000"/>
             </div>            
             <div class="m-3">
               <p class="font-bold mb-3 sm:text-sm">Status DTC</p>
@@ -52,28 +48,12 @@
             </div>
           </div>
           <div class="m-3 text-center">
-            <button
-              @click.prevent="limpiar_filtros"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1"
-            >
-              <img
-                src="../assets/img/bin.png"
-                class="mr-2"
-                width="25"
-                height="2"
-              />
+            <button @click.prevent="limpiar_filtros" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1">
+              <img src="../assets/img/bin.png" class="mr-2" width="25" height="2"/>
               <span>Limpiar</span>
             </button>
-            <button
-              @click.prevent="filtro_Dtc"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700 m-1"
-            >
-              <img
-                src="../assets/img/lupa.png"
-                class="mr-2"
-                width="25"
-                height="2"
-              />
+            <button @click.prevent="filtro_Dtc" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700 m-1">
+              <img src="../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
               <span>Buscar</span>
             </button>
           </div>

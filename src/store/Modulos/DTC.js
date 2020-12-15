@@ -1,5 +1,5 @@
 import Axios from "axios";
-const API = `http://prosisdev.sytes.net:88`
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
   listaDTCTecnico: [],
@@ -62,8 +62,8 @@ const mutations = {
   LIMPIAR_IMAGENES_FULL: (state) => state.listaImagenesDTC = []  
 };
 const actions = {
-  async buscarDTC({ commit }) {
-    await Axios.get(`${API}/api/dtcdata`)
+  async buscarDTC({ commit, rootGetters }) {      
+    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcdata`)
       .then(response => {        
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -71,8 +71,8 @@ const actions = {
         console.log(Ex);
       });
   },
-  async buscarDescriptions({ commit }) {
-    await Axios.get(`${API}/api/typedescriptions`)
+  async buscarDescriptions({ commit, rootGetters }) {
+    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/typedescriptions`)
       .then(response => {
         commit("listaDescriptionsMutation", response.data.result);
       })
@@ -81,7 +81,7 @@ const actions = {
       });
   },
   //Consulta API Crear DTC
-  async crearDmg({ state, commit }, value) {
+  async crearDmg({ state, commit, rootGetters }, value) {
     let arrayDmg = []
     for (let i = 0; i < state.newlistaDmg.length; i++) {
       for (let g = 0; g < state.newlistaDmg[i].length; g++) {
@@ -92,7 +92,7 @@ const actions = {
       }
     }      
     //await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`, arrayDmg)
-    await Axios.post(`${API}/api/requestedComponent/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`${API}/${rootGetters['Login/getReferenceSquareActual']}/requestedComponent/${value.flagCreate}`, arrayDmg)
       .then(response => {      
         if (response.status == 200) {
           commit('insertDmgCompleteMutation', true)
@@ -102,8 +102,8 @@ const actions = {
         console.log('ERROR!!! ' + Ex);
       });
   },
-  async buscarListaDTC({ commit }, value) {
-    await Axios.get(`${API}/api/dtcData/${value.idUser}/${value.numPlaza}`)
+  async buscarListaDTC({ commit, rootGetters }, value) {
+    await Axios.get(`${API}${rootGetters['Login/getReferenceSquareActual']}/dtcData/${value.idUser}/${value.numPlaza}`)
       .then(response => {      
         commit("listaInfoDTCMutation", response.data.result);
       })
@@ -111,9 +111,9 @@ const actions = {
         console.log(Ex);
       });
   },
-  async tableFormComponent({ commit }, value) {
+  async tableFormComponent({ commit, rootGetters }, value) {        
     //await Axios.get(`https://localhost:44358/api/dtcData/TableForm/${value}`)
-    await Axios.get(`${API}/api/dtcData/TableForm/${value}`)
+    await Axios.get(`${API}${rootGetters['Login/getReferenceSquareActual']}/dtcData/TableForm/${value}`)
       .then(response => {
         if (response.data.result != null)
           commit("tableFormComponentMutation", response.data.result);
@@ -124,8 +124,8 @@ const actions = {
         console.log(Ex);
       });
   },
-  async BORRAR_DTC({ commit }, value) {
-    await Axios.delete(`${API}/api/dtcData/Delete/${value}`)
+  async BORRAR_DTC({ commit, rootGetters }, value) {
+    await Axios.delete(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcData/Delete/${value}`)
       .then(() => {
         commit("BORRAR_DTC_MUTATION", value)
       })
@@ -133,9 +133,8 @@ const actions = {
         console.log(Ex);
       });
   },
-  async COMPONENT_EDIT({ commit }, value) {
-    //await Axios.get(`https://localhost:44358/api/dtcData/EditInfo/${value}`)
-    await Axios.get(`${API}/api/dtcData/EditInfo/${value}`)
+  async COMPONENT_EDIT({ commit, rootGetters }, value) {    
+    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcData/EditInfo/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -143,8 +142,8 @@ const actions = {
         console.log(Ex);
       });
   },
-  async COMPONENT_EDIT_OPEN({ commit }, value) {
-    await Axios.get(`${API}/api/dtcData/EditInfo/Open/${value}`)
+  async COMPONENT_EDIT_OPEN({ commit, rootGetters }, value) {
+    await Axios.get(`${API}${rootGetters['Login/getReferenceSquareActual']}/dtcData/EditInfo/Open/${value}`)
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
@@ -152,7 +151,7 @@ const actions = {
         console.log(Ex);
       });
   },
-  async crearDmgLibre({ state, commit }, value) {
+  async crearDmgLibre({ state, commit, rootGetters }, value) {
     let arrayDmg = []
     for (let i = 0; i < state.listaDmgLibre.length; i++) {
       let newItem = {
@@ -181,7 +180,7 @@ const actions = {
       }
       arrayDmg.push(newItem)
     }    
-    await Axios.post(`${API}/api/requestedComponent/Open/${value.flagCreate}`, arrayDmg)
+    await Axios.post(`${API}/${rootGetters['Login/getReferenceSquareActual']}/requestedComponent/Open/${value.flagCreate}`, arrayDmg)
       .then(response => {
         if (response.status == 201) {
           commit('insertDmgCompleteMutation', true)

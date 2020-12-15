@@ -37,6 +37,7 @@ const getters = {
   getUser: () => state.listUser,
   getListaPlazas: () => state.listaPlazas,
   getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
+  getReferenceSquareActual: () => state.userLogeado[state.PLAZAELEGIDA].referenceSquare,
   getTypeUser: () => state.userLogeado[state.PLAZAELEGIDA].rollId,
   getListaTec: () => state.listaTec,
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
@@ -65,7 +66,7 @@ const mutations = {
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async buscarHeaderTec({ commit }, value) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/login/buscarHeaderTec/${value}`)
+    await Axios.get(`${API}/login/buscarHeaderTec/${value}`)
       .then(response => {
         commit("listaUser", response.data.result);
       })
@@ -75,7 +76,7 @@ const actions = {
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
   async buscarTec({ commit }, value) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/login/buscarTec/${value}`)
+    await Axios.get(`${API}/login/buscarTec/${value}`)
       .then(response => {
         commit("listaTecMutation", response.data.result);
       })
@@ -84,9 +85,8 @@ const actions = {
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
-  async buscarUsuarioCokie({ commit }, value) {    
-    console.log(API)
-    await Axios.get(`http://prosisdev.sytes.net:88/api/login/ValidUser/${value.User}/${value.Password}/${true}`)
+  async buscarUsuarioCokie({ commit }, value) {        
+    await Axios.get(`${API}/login/ValidUser/${value.User}/${value.Password}/${true}`)
       .then(response => {
         if (response.data.result != null) {
           commit("userLogeadoMutation", response.data.result);
@@ -102,7 +102,7 @@ const actions = {
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async buscarUsuario({ commit }, value) {    
-    await Axios.get(`http://prosisdev.sytes.net:88/api/login/${value.User}/${value.Password}/${false}`)
+    await Axios.get(`${API}/api/login/${value.User}/${value.Password}/${false}`)
       .then(response => {        
         commit("listaUser", response.data.result);
       })
@@ -112,7 +112,7 @@ const actions = {
   },
   //CONULTA PARA LISTAR LAS PLAZAS
   async buscarPlazas({ commit }) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/squaresCatalog`)
+    await Axios.get(`${API}/squaresCatalog`)
       .then(response => {
         commit("listaPlazasMutation", response.data.result);
       })

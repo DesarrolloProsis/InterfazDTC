@@ -1,4 +1,5 @@
 import Axios from "axios"
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
   listaHeaders: [],
@@ -93,8 +94,8 @@ const mutations = {
   }
 };
 const actions = {
-  async buscarReferencia({ commit }, value) {    
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/${value}`)    
+  async buscarReferencia({ commit, rootGetters }, value) {    
+    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcdata/${value}`)    
       .then(response => {
         if (response.data.result.length == 1) {          
           commit("referenceNumMutation", response.data.result[0].referenceNumber);
@@ -107,8 +108,8 @@ const actions = {
         console.log(Ex);
       });
   },
-  async buscarListaUnique({ commit }) {
-    await Axios.get(`http://prosisdev.sytes.net:88/api/dtcdata/InvalidReferenceNumbers`)
+  async buscarListaUnique({ commit, rootGetters }) {
+    await Axios.get(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcdata/InvalidReferenceNumbers`)
       .then(response => {
         if (response.data.message) {
           commit("listaUniqueMutation", response.data.result);
@@ -119,7 +120,7 @@ const actions = {
       });
   },
   //Consulta API Crear Carril
-  async crearHeaders({ state, commit }, value) {  
+  async crearHeaders({ state, commit, rootGetters }, value) {  
     let newObject = {
       ReferenceNumber: state.referenceNum,
       SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
@@ -139,7 +140,7 @@ const actions = {
       OpenFlag: value.openFlag,
       SquareId: value.datosUser.plaza.slice(0,3)
     }            
-    await Axios.post(`http://prosisdev.sytes.net:88/api/dtcData`, newObject)
+    await Axios.post(`${API}/${rootGetters['Login/getReferenceSquareActual']}/dtcData`, newObject)
       .then(response => {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)

@@ -10,7 +10,7 @@
 import Nav from "../components/Navbar";
 import BotonesAdm from "../components/BotonesAdm";
 import BotonesTec from "../components/BotonesTec";
-
+import { mapGetters } from 'vuex'
 export default {
   name: "home",
   components: {
@@ -27,6 +27,9 @@ export default {
     if(this.$store.getters['Login/getTypeUser'] == 1){
         this.typeUser = false
     }
+  },
+  computed: {
+    ...mapGetters({getReferenceSquareActual: 'Login/getReferenceSquareActual'})
   }
 };
 </script>

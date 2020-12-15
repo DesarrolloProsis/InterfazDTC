@@ -1,17 +1,18 @@
 import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
-    listaUsuarios: []
+  listaUsuarios: []
 }
 const getters = {
   getUsers: () => state.listaUsuarios        
 }
 const mutations = {
-    USUARIOS_MUTATION: (state, value) => state.listaUsuarios =  value
+  USUARIOS_MUTATION: (state, value) => state.listaUsuarios =  value
 }
 const actions = {
     async Consulta_Users({commit}, value){      
-        await Axios.post(`http://prosisdev.sytes.net:88/api/User/consulta`,value)
+        await Axios.post(`${API}/User/consulta`,value)
             .then(response => {                              
               commit("USUARIOS_MUTATION", response.data.result);              
             })
@@ -21,7 +22,7 @@ const actions = {
     },
     async Update_User({commit}, value){
         commit        
-        await Axios.put(`http://prosisdev.sytes.net:88/api/User/update`,value)
+        await Axios.put(`${API}/User/update`,value)
             .then(() => {})
             .catch(Ex => {
               console.log(Ex);
@@ -30,7 +31,7 @@ const actions = {
     async BorrarUser({commit}, value){
         commit        
         console.log(value)
-        await Axios.put(`http://prosisdev.sytes.net:88/api/User/delete`,value)
+        await Axios.put(`${API}/User/delete`,value)
             .then(() => {                                          
             })
             .catch(Ex => {
@@ -39,7 +40,7 @@ const actions = {
     },
     async NuevoUser({commit}, value){
         commit        
-        await Axios.post(`http://prosisdev.sytes.net:88/api/user/nuevo`,value)
+        await Axios.post(`${API}/user/nuevo`,value)
             .then(() => {})
             .catch(Ex => {
               console.log(Ex);
@@ -47,7 +48,7 @@ const actions = {
     },
     async UPDATE_PASSWORD({commit}, value){
       commit            
-      await Axios.put(`http://prosisdev.sytes.net:88/api/User/newPassword`,value)
+      await Axios.put(`${API}/User/newPassword`,value)
           .then(() => {})
           .catch(Ex => {
             console.log(Ex);
