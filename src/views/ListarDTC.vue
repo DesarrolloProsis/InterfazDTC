@@ -1,7 +1,7 @@
   <template>
   <div>
     <Nav></Nav>
-    <div class="">
+    <div class="relative">
     <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
@@ -23,12 +23,8 @@
             </div>          
             <div class="m-3">
               <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
-              <input                
-                :disabled="validaReferencia"
-                v-model="fechaFiltro"
-                class="border w-40"
-                type="date"
-              />
+              <input :disabled="validaReferencia" v-model="fechaFiltro" class="border w-40" type="date"/>
+              <span class="block text-xs text-gray-600">*Fecha de Siniestro</span>
             </div>
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
@@ -64,7 +60,7 @@
       ////                      MODAL ELIMINAR                         ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute justify-center inset-x-0">
-        <div v-if="modal" class="rounded-lg border border-gray-700 px-12 py-10 shadow-2xl">
+        <div v-if="modal" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md">Seguro que quiere eliminar este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
             <button @click="borrar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
@@ -126,7 +122,7 @@
                 v-model="dtcEdit.observation"             
                 v-validate="'max:300'"
                 :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-                class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
+                class="bg-whiteappearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
                 placeholder="jane@example.com"
                 name="Observaciones"
               />              
@@ -137,7 +133,7 @@
                 v-model="dtcEdit.diagnosis"           
                 v-validate="'max:300'"
                 :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-                class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
+                class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
                 placeholder="jane@example.com"
                 name="Diagnostico"
               />              
@@ -271,7 +267,7 @@ methods: {
       let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
       let newArray = [];
       for (let item of _lista_completa) {
-        if (moment(item.elaborationDate).format("DD/MM/YYYY") == formatFecha) {
+        if (moment(item.sinisterDate).format("DD/MM/YYYY") == formatFecha) {
           newArray.push(item);
         }
       }        
