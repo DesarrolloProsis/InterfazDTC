@@ -249,12 +249,14 @@ methods: {
     this.dtcEdit = this.infoDTC.find(item => item.referenceNumber == refNum)        
     this.modalEdit = true
   },
-  limpiar_filtros() {
-      this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
-      this.fechaFiltro = " ";
-      this.referenciaFiltro = " ";
-      this.tipoStatusConcluido = false;
-      this.tipoStatusInconcluso = false
+  limpiar_filtros() {      
+      this.$nextTick().then(() => {             
+            this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
+            this.fechaFiltro = "";
+            this.referenciaFiltro = "";
+            this.tipoStatusConcluido = false;
+            this.tipoStatusInconcluso = false     
+      })         
   },
   sinFiltro: function () {
       if (this.fechaFiltro == "" && this.referenciaFiltro == "") {
@@ -262,6 +264,7 @@ methods: {
       }
   },
   filtro_Dtc: function () {
+    alert(this.referenciaFiltro)
     this.infoDTC  = []
     let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
     if (this.fechaFiltro != "") {        
@@ -277,12 +280,14 @@ methods: {
       let newArray = [];
       for (let item of _lista_completa) {          
         if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
+          console.log(this.referenciaFiltro)
           newArray.push(item);
         }
       }
       this.filtro_status(newArray)        
     } 
-    else {          
+    else {     
+        console.log('no estoy buscando donde deberia')
         this.filtro_status(_lista_completa) 
     }
   },

@@ -310,16 +310,10 @@ export default {
       this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
       this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
       this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
-      this.datosSinester.SinisterDate = moment(
-        this.headerEdit.sinisterDate
-      ).format("YYYY-MM-DD");
+      this.datosSinester.SinisterDate = moment(this.headerEdit.sinisterDate).format("YYYY-MM-DD");
       this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
-      this.datosSinester.FailureDate = moment(
-        this.headerEdit.failureDate
-      ).format("YYYY-MM-DD");
-      this.datosSinester.ShippingElaboracionDate = moment(
-        this.headerEdit.shippingDate
-      ).format("YYYY-MM-DD");
+      this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format("YYYY-MM-DD");
+      this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format("YYYY-MM-DD");
       this.datosSinester.TypeDescriptionId = 2;
       this.fechaSiniestoEdit = true;
     }
