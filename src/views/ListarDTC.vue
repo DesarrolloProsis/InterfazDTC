@@ -212,6 +212,7 @@ methods: {
   borrar: function (value) {
       console.log(value)
       if (value) {
+        this.infoDTC = []
         this.modal = false;
         let userId = this.$store.getters['Login/getUserForDTC']         
         this.$store.dispatch('DTC/buscarListaDTC', userId)
