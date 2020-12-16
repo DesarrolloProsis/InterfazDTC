@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav></Nav>
-    <BotonesAdm v-if="typeUser"></BotonesAdm>
+    <BotonesAdm v-if="typeUser == 4" :typeUser="typeUser"></BotonesAdm>
     <BotonesTec v-else></BotonesTec>
   </div>
 </template>
@@ -20,13 +20,12 @@ export default {
   },
   data: function(){
     return {
-        typeUser: true,        
+        typeUser: '',        
       }
   },
   beforeMount: function(){
-    if(this.$store.getters['Login/getTypeUser'] == 1){
-        this.typeUser = false
-    }
+    this.typeUser = this.$store.getters['Login/getTypeUser']        
+    
   },
   computed: {
     ...mapGetters({getReferenceSquareActual: 'Login/getReferenceSquareActual'})
