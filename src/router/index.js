@@ -10,6 +10,7 @@ import InventarioDetalle from '../views/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/CrearDTCLibre.vue'
+
 //import Axios from "axios";
 Vue.use(VueRouter)
 const routes = [
@@ -90,7 +91,7 @@ const routes = [
       await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')
       next()
     }
-  }
+  },  
 ]
 const router = new VueRouter({
   routes

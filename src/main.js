@@ -9,7 +9,6 @@ import { Validator } from 'vee-validate';
 import es from "vee-validate/dist/locale/es";
 import './registerServiceWorker'
 import moment from "moment";
-//ToolTip
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
 //Img

@@ -5,9 +5,9 @@
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio
-        </router-link>
+        </router-link>     
       </div>
-      <div class="flex sm:mt-4">
+      <div class="flex sm:mt-4">        
         <p class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{nameUser}}</p>
         <router-link
           to="/"
@@ -33,3 +33,6 @@ export default {
   },
 };
 </script>
+<style >
+@import '~fullcalendar/dist/fullcalendar.css';
+</style>
