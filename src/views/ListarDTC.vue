@@ -209,34 +209,33 @@ beforeMount: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  borrar: function (value) {
-      console.log(value)
-      if (value) {
-        this.infoDTC = []
-        this.modal = false;
-        let userId = this.$store.getters['Login/getUserForDTC']         
-        this.$store.dispatch('DTC/buscarListaDTC', userId)
-        this.$nextTick().then(() => {
-          this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"]
-        })        
+  borrar: async  function (value) {  
+      let userId = this.$store.getters['Login/getUserForDTC']         
         let obj = {
           "refNum": this.refNum,
           "userId": userId.idUser
-        }
-        this.$store.dispatch("DTC/BORRAR_DTC",obj);
-        (this.menosMas = true),
-          (this.showmenosMas = false),
-          this.$notify.default({
-            title: "Ok!",
-            msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
+        }    
+      if (value) {
+        this.infoDTC = []        
+        this.modal = false;        
+        await this.$store.dispatch("DTC/BORRAR_DTC",obj);                                                                                
+        this.menosMas = true
+        this.showmenosMas = false,
+        this.$notify.default({
+          title: "Ok!",
+          msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
       }
+      await this.$store.dispatch("Header/buscarListaUnique");
+      await this.$store.dispatch('DTC/buscarListaDTC', userId)            
+      this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"] 
       this.refNum = "";
+      
   },
   confimaBorrar: function (refNum) {
       this.refNum = refNum;
@@ -277,7 +276,6 @@ methods: {
       let newArray = [];
       for (let item of _lista_completa) {          
         if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
-          console.log(this.referenciaFiltro)
           newArray.push(item);
         }
       }

@@ -103,11 +103,14 @@ const actions = {
       });
   },
   async buscarListaDTC({ commit, rootGetters }, value) {
+
+    console.log(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/${value.idUser}/${value.numPlaza}`)    
     await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/${value.idUser}/${value.numPlaza}`)
       .then(response => {      
         commit("listaInfoDTCMutation", response.data.result);
       })
       .catch(Ex => {
+        commit("listaInfoDTCMutation", []);
         console.log(Ex);
       });
   },
@@ -129,6 +132,7 @@ const actions = {
     await Axios.delete(`${API}/dtcData/Delete/${rootGetters['Login/getReferenceSquareActual']}/${value.refNum}/${value.userId}`)
       .then(() => {
         commit("BORRAR_DTC_MUTATION", value)
+        commit
       })
       .catch(Ex => {
         console.log(Ex);
