@@ -95,7 +95,7 @@ const mutations = {
 };
 const actions = {
   async buscarReferencia({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/dtcdata/${rootGetters['Login/getReferenceSquareActual']}/${value}`)    
+    await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/getReferenceSquareActual']}/${value}`)    
       .then(response => {
         if (response.data.result.length == 1) {          
           commit("referenceNumMutation", response.data.result[0].referenceNumber);
