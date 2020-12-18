@@ -225,7 +225,7 @@ export default {
         AgremmentInfoId: null,
         Descripcion: null,
         Observaciones: null,
-      };
+      };      
       datosSinester.ReferenceNumber = this.infoCard.referenceNumber;
       datosSinester.SinisterNumber = this.infoCard.sinisterNumber;
       datosSinester.ReportNumber = this.infoCard.reportNumber;
@@ -322,7 +322,7 @@ export default {
       reader.onload = (e) => {
         this.$nextTick().then(() => {
           this.pdfSellado = {
-            imgbasePDF: e.target.result,
+            imgbasePDF: e.target.result.split(',')[0],
             nombre: this.infoCard.referenceNumber + '-99',
           };
         })        
@@ -330,7 +330,8 @@ export default {
       reader.readAsDataURL(file);            
     },
     base64ToFile: function (dataurl, fileName) {      
-      var arr = dataurl.split(","),
+        let url = "data:image/jpeg;base64," + dataurl;
+        var arr = url.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
         n = bstr.length,

@@ -118,6 +118,7 @@ import Nav from "../components/Navbar";
 import Header from "../components/Header/CrearHeader";
 import EventBus from "../services/EventBus.js";
 import saveAs from "file-saver";
+import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "CrearDTC",
@@ -157,12 +158,22 @@ beforeMount() {
     this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
     this.flagCreate = true;
 
-    if (JSON.stringify(this.$route.query) != "{}") {
+    if (JSON.stringify(this.$route.query) != "{}") {             
       this.headerEdit = this.$route.query.headerInfo;
       this.observaciones = this.headerEdit.observation;
       this.$store.commit("Header/referenceNumMutation",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;
+      if(this.$store.getters['Login/getTypeUser'] != 1){        
+        Axios.get(`${API}/dtcData/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.headerEdit.referenceNumber}`)
+          .then(response => {
+            console.log(response.data)
+            this.datosUser = response.data.result[0]
+          })
+          .catch(Ex => {
+            console.log(Ex);
+          });
+      }         
     }
 },
 /////////////////////////////////////////////////////////////////////

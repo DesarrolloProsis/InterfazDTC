@@ -46,9 +46,7 @@ const FechaValidaList = {
           return false
         }
       }
-      return true
-   
-
+      return true   
   }
 }
 Validator.extend('uniqueSinester', NoSiniestro)

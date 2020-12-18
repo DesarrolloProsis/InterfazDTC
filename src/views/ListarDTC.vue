@@ -26,7 +26,7 @@
             </div>          
             <div class="m-3">
               <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
-              <input :disabled="validaReferencia" v-model="fechaFiltro" class="border w-40" type="date"/>
+              <input v-model="fechaFiltro" class="border w-40" type="date"/>
               <span class="block text-xs text-gray-600">*Fecha de Siniestro</span>
             </div>
             <div class="m-3">
@@ -266,15 +266,9 @@ methods: {
             this.statusFiltro = ""            
       })         
   },
-  sinFiltro: function () {
-      if (this.fechaFiltro == "" && this.referenciaFiltro == "") {
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
-      }
-  },
   filtro_Dtc: function () {    
     this.infoDTC  = []
     let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
-
     let listaFiltrada = _lista_completa
     alert(this.plazaFiltro)
     if(this.plazaFiltro != ""){      
