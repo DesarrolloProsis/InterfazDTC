@@ -9,7 +9,7 @@
           <div class="font-black m-3">{{ infoCard.referenceNumber }}</div>
           <div class=" inline-flex sm:ml-10 ml-20">
             <div class="m-3">{{ infoCard.sinisterDate | formatDate }}</div>
-            <div class="mt-2" v-if="fasle">
+            <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1" />              
               </button>
@@ -34,7 +34,7 @@
             ////                       SUBIR PDF SELLADO                      ////
             ///////////////////////////////////////////////////////////////////// -->
         <!-- <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="inconcluso == 2 && tipoUsuario != 2"> -->
-          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="false">
+          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario">
           <div class="flex justify-center" v-if="pdfSelladoBool == false">
             <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
             <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
@@ -56,7 +56,8 @@
               ///////////////////////////////////////////////////////////////////// -->
         <div class="flex text-center cursor-pointer border-gray-800 flex-col mt-2 sm:m-3 sm:mt-5" v-if="!showmenosMas">
           <ImagenesCard
-            :referenceNumber="infoCard.referenceNumber"            
+            :referenceNumber="infoCard.referenceNumber"        
+            :plazasValidas="plazasValidas"    
           ></ImagenesCard>
         </div>
       </div>
@@ -143,12 +144,18 @@
 import moment from "moment";
 import saveAs from "file-saver";
 import ImagenesCard from "../DTC/ImagenesCard.vue";
+import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+
 export default {
   props: {
     infoCard: {
       type: Object,
       default: () => {},
+    },
+    plazasValidas: {
+      type: Array,
+      default: () => [],
     },
   },
   components: {
@@ -162,7 +169,8 @@ export default {
       inconcluso: 1,  
       tipoUsuario: '', 
       pdfSellado: '',
-      pdfSelladoBool: false   
+      pdfSelladoBool: false,
+      TIPO_USUARIO: 0   
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -171,7 +179,14 @@ export default {
   beforeMount: function () { 
     //incloncluso 1 = inconcluso 2 = concluido       
     this.inconcluso = this.infoCard.statusId 
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser'];    
+    this.tipoUsuario = this.$store.getters['Login/getTypeUser']; 
+    this.TIPO_USUARIO = Object.freeze({
+        Tecnico: 1,
+        Supervisor_Tecnico: 2,
+        Sistemas: 3,
+        Administracion: 4,
+        Supervisor_Sitemas: 5
+    })   
   },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -234,6 +249,31 @@ export default {
     },
     enviar_pdf(){
       alert('En construccion')
+      let formData = new FormData();
+      formData.append("file",this.pdfSellado);
+      Axios.post(`${API}/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`, formData)
+        .then(() => {                
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE INSERTO CORRECTAMENTE EL REPORTE SELLADO.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        })
+        .catch((ex) => {                          
+          this.$notify.error({
+            title: "ups!",
+            msg: ex,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        });
     },
     pdf: function () {
       var oReq = new XMLHttpRequest();
@@ -282,7 +322,7 @@ export default {
       reader.onload = (e) => {
         this.$nextTick().then(() => {
           this.pdfSellado = {
-            imgbasePDF: e.target.result.split(",")[1],
+            imgbasePDF: e.target.result,
             nombre: this.infoCard.referenceNumber + '-99',
           };
         })        

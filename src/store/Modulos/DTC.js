@@ -106,7 +106,7 @@ const actions = {
 
     console.log(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/${value.idUser}/${value.numPlaza}`)    
     await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/${value.idUser}/${value.numPlaza}`)
-      .then(response => {      
+      .then(response => {                      
         commit("listaInfoDTCMutation", response.data.result);
       })
       .catch(Ex => {

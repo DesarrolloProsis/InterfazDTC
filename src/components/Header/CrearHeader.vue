@@ -416,9 +416,7 @@ methods: {
       this.plazaSelect = this.listaPlazasUser[index].numPlaza;
       let value = await this.$store.getters["Header/getConvenioPlaza"];
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
-      this.listaComponentes = await this.$store.getters[
-        "Refacciones/getListaRefacciones"
-      ];
+      this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
       await this.$store.dispatch("DTC/buscarDescriptions");
       this.listaDescripciones = await this.$store.getters[
         "DTC/getListaDescriptions"
@@ -454,7 +452,6 @@ watch: {
 },
 };
 </script>
-
 <style scoped>
   label {
     font-weight: bold;

@@ -105,6 +105,10 @@ export default {
       type: String,
       default: () => "",
     },
+    plazasValidas: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: function () {
     return {
@@ -128,8 +132,8 @@ export default {
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {    
     this.tipoUsuario = this.$store.getters['Login/getTypeUser'];              
-    let _ref = this.referenceNumber.split("-")[0]    
-    let nombre_plaza = this.$store.getters["Login/getNombrePlazaParam"](_ref);          
+    let _ref = this.referenceNumber.split("-")[0]          
+    let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == _ref).squareName          
     if(nombre_plaza != undefined){       
       await Axios.get(`${API}/Image/GetImages/${this.$store.getters["Login/getReferenceSquareActual"]}/${nombre_plaza}/${this.referenceNumber}`)
         .then((response) => {              

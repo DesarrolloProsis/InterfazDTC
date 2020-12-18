@@ -282,7 +282,6 @@ export default {
       for (let i = 0; i < this.listaEquipo.length; i++) {
         multi += this.listaEquipo[i]["row14"] * this.listaEquipo[i]["row4"];
       }
-
       if (multi > 0) {
         let MonedaLetra = NumeroALetras(multi, {
           plural: "PESOS",
@@ -297,7 +296,6 @@ export default {
   },
 };
 
-// Código basado en https://gist.github.com/alfchee/e563340276f89b22042a
 function Unidades(num) {
   switch (num) {
     case 1:

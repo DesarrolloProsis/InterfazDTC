@@ -10,16 +10,16 @@ const state = {
   PLAZAELEGIDA: 0
 };
 const getters = {
-  getNombrePlazaParam: (state) => (_ref) => {  
-    try {     
-      let query = state.listUser.find(item => item.referenceSquare == _ref).plaza.split(' ')[0]
-      let res = state.listaPlazas.find(item => item.squareCatalogId ==   query)    
-      return res.squareName  
-    }
-    catch(err) {
-      console.log('getter error');
-    }
-  },
+  // getNombrePlazaParam: (state) => (_ref) => {  
+  //   try {     
+  //     let query = state.listUser.find(item => item.referenceSquare == _ref).plaza.split(' ')[0]
+  //     let res = state.listaPlazas.find(item => item.squareCatalogId ==   query)    
+  //     return res.squareName  
+  //   }
+  //   catch(err) {
+  //     console.log('getter error');
+  //   }
+  // },
   getUserForDTC: () => {
     return {
       numPlaza: state.listUser[state.PLAZAELEGIDA].plaza.substring(0, 3),

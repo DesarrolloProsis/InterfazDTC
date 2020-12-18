@@ -164,6 +164,7 @@
             <CardListDTC
               @borrar-card="confimaBorrar"
               @editar-card="editar_header_dtc"
+              :plazasValidas="plazasValidas"
               :infoCard="dtc"              
             ></CardListDTC>
           </div>
@@ -177,6 +178,7 @@
 import Nav from "../components/Navbar";
 import moment from "moment";
 import CardListDTC from "../components/DTC/CardListaDTC.vue";
+
 export default {
   data() {
     return {
@@ -190,7 +192,8 @@ export default {
       tipoStatusInconcluso: false,
       tipoUsuario: '',
       dtcEdit: {},
-      descripciones: []
+      descripciones: [],
+      plazasValidas: []
     };
   },
   components: {
@@ -204,6 +207,16 @@ beforeMount: function () {
   this.descripciones = this.$store.getters["DTC/getListaDescriptions"];
   this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
+  let listaPlazasValias = []
+  let todasPlazas = this.$store.getters['Login/getListaPlazas']  
+  for(let plaza of todasPlazas){      
+      if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
+        plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
+        listaPlazasValias.push(plaza)        
+      }
+  }
+  this.plazasValidas = listaPlazasValias
+  console.log(listaPlazasValias)
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
