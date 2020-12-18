@@ -11,14 +11,17 @@
             <!-- <div class="m-3" v-if="tipoUsuario == 2"> -->
             <div class="m-3" v-if="false">
               <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
-                <select class="w-full" type="text"                    >
-                  <option disabled value="">Selecionar...</option>                  
+                <select class="w-full" type="text">
+                  <option disabled value="">Selecionar...</option>                                               
                 </select>
             </div>
-            <div class="m-3" v-if="false">
+            <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
-                <select class="w-full" type="text"                    >
-                  <option disabled value="">Selecionar...</option>                  
+                <select v-model="plazaFiltro" class="w-full" type="text">
+                  <option disabled value="">Selecionar...</option>     
+                  <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">
+                      {{ item.squareName }}
+                  </option>                
                 </select>
             </div>          
             <div class="m-3">
@@ -31,17 +34,13 @@
               <input v-model="referenciaFiltro" class="border w-40" placeholder="PM-000000"/>
             </div>            
             <div class="m-3">
-              <p class="font-bold mb-3 sm:text-sm">Status DTC</p>
-              <div class="sm:inline-flex">
-                <div class="flex">
-                  <input v-model="tipoStatusConcluido" id="concluido" name="concluido" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                  <label for="concluido" class="ml-2 block text-sm text-gray-900">Concluidos</label>
-                </div>   
-                <div class="flex sm:ml-5">
-                  <input v-model="tipoStatusInconcluso" id="inconcluso" name="inconcluso" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                  <label for="inconcluso" class="ml-2 block text-sm text-gray-900">Inconcluso</label>
-                </div>   
-              </div>                          
+              <p class="font-bold mb-5 sm:text-sm">Status DTC</p>
+              <select v-model="statusFiltro" class="w-full" type="text">
+                  <option value="">Selecionar...</option>     
+                  <option value="1">Inconcluso</option>                                               
+                  <option value="2">Concluido</option>    
+                  <option value="3">Validado</option>                                                                                         
+              </select>                  
             </div>
           </div>
           <div class="m-3 text-center">
@@ -187,13 +186,13 @@ export default {
       referenciaFiltro: "",
       modal: false,
       modalEdit: false,
-      refNum: "",
-      tipoStatusConcluido: false,
-      tipoStatusInconcluso: false,
+      refNum: "",    
       tipoUsuario: '',
       dtcEdit: {},
       descripciones: [],
-      plazasValidas: []
+      plazasValidas: [],
+      plazaFiltro: '',
+      statusFiltro: ''
     };
   },
   components: {
@@ -262,9 +261,9 @@ methods: {
       this.$nextTick().then(() => {             
             this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
             this.fechaFiltro = "";
-            this.referenciaFiltro = "";
-            this.tipoStatusConcluido = false;
-            this.tipoStatusInconcluso = false     
+            this.referenciaFiltro = "";            
+            this.plazaFiltro = ""
+            this.statusFiltro = ""            
       })         
   },
   sinFiltro: function () {
@@ -272,59 +271,42 @@ methods: {
         this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];
       }
   },
-  filtro_Dtc: function () {
-    alert(this.referenciaFiltro)
+  filtro_Dtc: function () {    
     this.infoDTC  = []
     let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
-    if (this.fechaFiltro != "") {        
+
+    let listaFiltrada = _lista_completa
+    alert(this.plazaFiltro)
+    if(this.plazaFiltro != ""){      
+      listaFiltrada = _lista_completa.filter(dtc => dtc.squareCatalogId == this.plazaFiltro)
+    } 
+    else if (this.fechaFiltro != "") {    
       let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
       let newArray = [];
       for (let item of _lista_completa) {
         if (moment(item.sinisterDate).format("DD/MM/YYYY") == formatFecha) {
           newArray.push(item);
         }
-      }        
-      this.filtro_status(newArray)        
-    } else if (this.referenciaFiltro != "") {        
+      }
+      listaFiltrada = newArray   
+    } 
+    else if (this.referenciaFiltro != "") {     
       let newArray = [];
       for (let item of _lista_completa) {          
         if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
           newArray.push(item);
         }
       }
-      this.filtro_status(newArray)        
-    } 
-    else {     
-        console.log('no estoy buscando donde deberia')
-        this.filtro_status(_lista_completa) 
+      listaFiltrada = newArray
     }
+    if(this.statusFiltro != ""){   
+      console.log(this.statusFiltro)  
+      listaFiltrada = listaFiltrada.filter(item => item.statusId == this.statusFiltro)
+    }
+    this.$nextTick().then(() => {      
+        this.infoDTC = listaFiltrada            
+    })  
   },
-  filtro_status(lista){
-    if(this.tipoStatusConcluido){            
-        if(this.tipoStatusInconcluso){        
-          this.$nextTick().then(() => {      
-            this.infoDTC = lista            
-          })  
-        }
-        else{    
-          this.$nextTick().then(() => {             
-            this.infoDTC = lista.filter(item => item.statusId == 2)    
-          })                                                   
-        }
-    } 
-    else {          
-        if(this.tipoStatusInconcluso == false){  
-          this.$nextTick().then(() => {             
-            this.infoDTC = lista        
-          })    
-        }
-        else{         
-          this.$nextTick().then(() => {      
-            this.infoDTC = lista.filter(item => item.statusId == 1)  
-          })                        
-        }
-    }
-  }
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADOS                         ////
@@ -342,6 +324,7 @@ computed: {
     return this.infoDTC
   }
 },
+
 
 };
 </script>
