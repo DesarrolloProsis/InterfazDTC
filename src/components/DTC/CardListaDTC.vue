@@ -25,8 +25,9 @@
         <div class="md:w-2/3">
           <p class="text-left font-bold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
-          <p class="text-left font-bold text-sm mb-6 break-words">Folio: {{ infoCard.failureNumber }}</p>
-          <div class="w-64 break-words text-left text-gray-800 font-normal">
+          <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p>
+          <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">PDF Sellado: Entregado</p>
+          <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
             <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
@@ -34,21 +35,23 @@
             ////                       SUBIR PDF SELLADO                      ////
             ///////////////////////////////////////////////////////////////////// -->
         <!-- <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="inconcluso == 2 && tipoUsuario != 2"> -->
+        <div v-if="infoCard.statusId == 3 && !showmenosMas == true">
           <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario">
-          <div class="flex justify-center" v-if="pdfSelladoBool == false">
-            <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
-            <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
-            <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
-          </div>
-          <div class="flex" v-else>
-            <div class="inline-flex">
-              <img src="../../assets/img/pdf.png" class="w-6 m-2 border opacity-75" alt/>    
-              <p class="ml-2 mt-3 text-sm">{{ pdfSellado.nombre }}</p>
+            <div class="flex justify-center" v-if="pdfSelladoBool == false">
+              <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
+              <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
+              <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
             </div>
-            <div class="mt-2 justify-between">
-              <button @click="pdfSelladoBool = false, pdfSellado = ''" class="rounded-md border ml-4 h-7 p-1 bg-red-600 text-sm">Cancelar</button>
-              <button @click="enviar_pdf" class="rounded-md border ml-2 h-7 p-1 bg-green-600 text-sm">Enviar PDF</button>
-            </div>            
+            <div class="flex" v-else>
+              <div class="inline-flex">
+                <img src="../../assets/img/pdf.png" class="w-6 m-2 border opacity-75" alt/>    
+                <p class="ml-2 mt-3 text-sm">{{ pdfSellado.nombre }}</p>
+              </div>
+              <div class="mt-2 justify-between">
+                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="rounded-md border ml-4 h-7 p-1 bg-red-600 text-sm">Cancelar</button>
+                <button @click="enviar_pdf" class="rounded-md border ml-2 h-7 p-1 bg-green-600 text-sm">Enviar PDF</button>
+              </div>            
+            </div>
           </div>
         </div>
           <!-- /////////////////////////////////////////////////////////////////////
@@ -65,8 +68,12 @@
           ////                 STATUS / VER MAS                             ////
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between static">
-        <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 relative">Status: {{ infoCard.statusDescription }}</a>
-        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 rel">Ver Mas</a>
+        <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 relative">Status: {{ infoCard.statusDescription }}</a>        
+        <div class="relative pb-2" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId < 3" v-show="menosMas">
+          <span class="text-sm font-bold text-orange-500">Agregar Firma</span>
+          <input @change="status_agregar_firma()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
+        </div>
+        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 relative">Ver Mas</a>
       </div>
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 MINI TABLA CARD                              ////
@@ -126,7 +133,8 @@
                 width="20"
                 height="1"
               />
-              <span>PDF</span>
+              <span v-if="infoCard.statusId < 3">PDF</span>
+              <span v-if="infoCard.statusId == 3">PDF Firmado</span>
             </button>      
           </div>
         </div>
@@ -170,6 +178,7 @@ export default {
       tipoUsuario: '', 
       pdfSellado: '',
       pdfSelladoBool: false,
+      statusAgregarFimar: '',
       TIPO_USUARIO: 0   
     };
   },
@@ -250,37 +259,47 @@ export default {
     enviar_pdf(){
       alert('En construccion')
       let formData = new FormData();
-      formData.append("file",this.pdfSellado);
-      Axios.post(`${API}/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`, formData)
-        .then(() => {                
-          this.$notify.success({
-            title: "Ok!",
-            msg: `SE INSERTO CORRECTAMENTE EL REPORTE SELLADO.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        })
-        .catch((ex) => {                          
-          this.$notify.error({
-            title: "ups!",
-            msg: ex,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        });
+      let file = this.base64ToFile(this.pdfSellado.imgbasePDF, this.pdfSellado.nombre)
+      formData.append("file", file);
+      console.log(file)
+      Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`, formData)
+        .then(() => {   
+            Axios.put(`${API}/dtcData/UpdateStatus/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`)
+              .then((response) => {         
+                console.log(response)          
+                let info = this.$store.getters['Login/getUserForDTC']  
+                this.$store.dispatch('DTC/buscarListaDTC', info) 
+                this.pdfSelladoBool = false 
+                this.$emit('limpiar_filtros')                                              
+                this.$notify.success({
+                  title: "Ok!",
+                  msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+              })
+            })
+            .catch((ex) => {                          
+              this.$notify.error({
+                title: "ups!",
+                msg: ex,
+                position: "bottom right",
+                styles: {
+                  height: 100,
+                  width: 500,
+                },
+              });
+            });
     },
     pdf: function () {
       var oReq = new XMLHttpRequest();
       let _ref = this.infoCard.referenceNumber;
       // The Endpoint of your server
       let urlTopdf =
-        this.infoCard.openMode == false
+        this.infoCard.statusId < 3
           ? `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
           : `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/open/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0, 3)}`;
       let namePdf = `ReportDTC-${_ref}.pdf`;
@@ -322,7 +341,7 @@ export default {
       reader.onload = (e) => {
         this.$nextTick().then(() => {
           this.pdfSellado = {
-            imgbasePDF: e.target.result.split(',')[0],
+            imgbasePDF: e.target.result.split(',')[1],
             nombre: this.infoCard.referenceNumber + '-99',
           };
         })        
@@ -341,6 +360,17 @@ export default {
       }
       return new File([u8arr], fileName, { type: mime });
     },
+    status_agregar_firma(){
+      if(this.statusAgregarFimar){
+        alert()
+          window.scroll(0, 0);
+          this.$emit("agregar_firma", this.infoCard.referenceNumber);
+          this.statusAgregarFimar = false
+      }
+      else{
+        this.statusAgregarFimar = false
+      }
+    }
     
   },
 /////////////////////////////////////////////////////////////////////

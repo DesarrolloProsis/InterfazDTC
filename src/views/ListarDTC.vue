@@ -56,6 +56,18 @@
         </div>
       </div>
       <!--/////////////////////////////////////////////////////////////////
+      ////                      MODAL CONFIRMAR FIRMA                 ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="flex absolute justify-center inset-x-0">
+        <div v-if="modalFirma" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+          <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar firma a este DTC {{ refNum }}</p>
+          <div class="justify-center flex mt-5">
+            <button @click="agregar_fimar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+            <button @click="agregar_fimar(false)" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////
       ////                      MODAL ELIMINAR                         ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute justify-center inset-x-0">
@@ -163,6 +175,8 @@
             <CardListDTC
               @borrar-card="confimaBorrar"
               @editar-card="editar_header_dtc"
+              @agregar_firma="agregar_fimar"
+              @limpiar_filtros="limpiar_filtros"
               :plazasValidas="plazasValidas"
               :infoCard="dtc"              
             ></CardListDTC>
@@ -177,6 +191,8 @@
 import Nav from "../components/Navbar";
 import moment from "moment";
 import CardListDTC from "../components/DTC/CardListaDTC.vue";
+import Axios from 'axios';
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   data() {
@@ -192,7 +208,8 @@ export default {
       descripciones: [],
       plazasValidas: [],
       plazaFiltro: '',
-      statusFiltro: ''
+      statusFiltro: '',
+      modalFirma: false
     };
   },
   components: {
@@ -269,8 +286,7 @@ methods: {
   filtro_Dtc: function () {    
     this.infoDTC  = []
     let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
-    let listaFiltrada = _lista_completa
-    alert(this.plazaFiltro)
+    let listaFiltrada = _lista_completa    
     if(this.plazaFiltro != ""){      
       listaFiltrada = _lista_completa.filter(dtc => dtc.squareCatalogId == this.plazaFiltro)
     } 
@@ -301,6 +317,53 @@ methods: {
         this.infoDTC = listaFiltrada            
     })  
   },
+  agregar_fimar(value){
+    if(value === true){      
+      
+      Axios.put(`${API}/dtcData/UpdateStatus/${this.$store.getters['Login/getReferenceSquareActual']}/${this.refNum}`)
+      .then((response) => {   
+        console.log(response) 
+        let info = this.$store.getters['Login/getUserForDTC']  
+        this.$store.dispatch('DTC/buscarListaDTC', info)
+        this.limpiar_filtros()  
+        this.modalFirma = false     
+        this.refNum = ''   
+        this.$notify.success({
+          title: "Ok!",
+          msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      })
+      .catch((ex) => {   
+        this.modalFirma = false                       
+        this.$notify.error({
+          title: "ups!",
+          msg: ex,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      });
+      this.modalFirma = false
+      this.refNum = ''
+    }
+    else if(value === false){
+        this.referenciaFiltro = this.refNum
+        this.filtro_Dtc()
+        this.modalFirma = false
+        this.refNum = ''
+    }
+    else{
+      this.refNum = value
+      this.modalFirma = true
+    }
+  }
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADOS                         ////
