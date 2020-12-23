@@ -10,6 +10,7 @@ import InventarioDetalle from '../views/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/CrearDTCLibre.vue'
+
 //import Axios from "axios";
 Vue.use(VueRouter)
 const routes = [
@@ -28,7 +29,7 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: Home
+    component: Home, 
   },
   {
     path: '/register',
