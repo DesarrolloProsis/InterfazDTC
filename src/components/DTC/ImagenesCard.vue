@@ -8,7 +8,7 @@
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">         
           <div class="inline-flex justify-center">
             <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
-            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
+            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
           </div>
         </div>
@@ -24,8 +24,8 @@
             </div>
           </div>
           <div class="inline-flex justify-center" v-show="true">
-            <input type="file" class="opacity-0 w-64 h-12 absolute" multiple @change="recibirImagenes"/>
-            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border opacity-75" alt/>
+            <input type="file" class="opacity-0 w-64 h-12 " multiple @change="recibirImagenes"/>
+            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
           </div>
           <div v-if="agregarbool" class="inline-flex w-full border-t-2">

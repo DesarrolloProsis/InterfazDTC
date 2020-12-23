@@ -82,7 +82,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      MODAL EDITAR DTC                       ////
       ////////////////////////////////////////////////////////////////////-->
-      <div class="flex absolute sm:relative justify-center inset-x-0">     
+      <div class="flex absolute w-73 sm:w-64 bg-opacity-100 mx-auto sm:relative justify-center inset-x-0">     
         <div v-if="modalEdit" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-bold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
         <!--/////////////////////////////////////////////////////////////////
@@ -169,9 +169,9 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center w-full">
+      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center w-full ">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-          <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc, index) in lista_dtc" :key="index">
+          <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
               @borrar-card="confimaBorrar"
               @editar-card="editar_header_dtc"
