@@ -49,7 +49,7 @@
               </div>
               <div class="mt-2 justify-between">
                 <button @click="pdfSelladoBool = false, pdfSellado = ''" class="rounded-md border ml-4 h-7 p-1 bg-red-600 text-sm">Cancelar</button>
-                <button @click="enviar_pdf" class="rounded-md border ml-2 h-7 p-1 bg-green-600 text-sm">Enviar PDF</button>
+                <button @click="status_dtc_firmado" class="rounded-md border ml-2 h-7 p-1 bg-green-600 text-sm">Enviar PDF</button>
               </div>            
             </div>
           </div>
@@ -137,7 +137,6 @@
 import moment from "moment";
 import saveAs from "file-saver";
 import ImagenesCard from "../DTC/ImagenesCard.vue";
-import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -241,54 +240,6 @@ export default {
       window.scroll(0, 0);
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
-    enviar_pdf(){      
-      let formData = new FormData();
-      let file = this.base64ToFile(this.pdfSellado.imgbasePDF, this.pdfSellado.nombre)
-      formData.append("file", file);
-      console.log(file)
-      Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`, formData)                   
-        .then(() => {         
-          //imprimir reporte Sellaldo
-          let _ref = this.infoCard.referenceNumber;
-          var oReq = new XMLHttpRequest();
-          let urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`
-          let namePdf = `ReportDTC-${_ref}-Sellado.pdf`
-          oReq.open("GET", urlTopdf, true);      
-          oReq.responseType = "blob";            
-          oReq.onload = function () {                
-            var file = new Blob([oReq.response], {
-              type: "application/pdf",
-            });        
-            saveAs(file, namePdf);
-          };
-          oReq.send();
-          //Limpiar Pantalla cards
-          let info = this.$store.getters['Login/getUserForDTC']  
-          this.$store.dispatch('DTC/buscarListaDTC', info) 
-          this.pdfSelladoBool = false 
-          this.$emit('limpiar_filtros')                                              
-          this.$notify.success({
-            title: "Ok!",
-            msg: `SE INSERTO LA FIRMA AL REPORTE.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });              
-        })
-        .catch((ex) => {                          
-          this.$notify.error({
-            title: "ups!",
-            msg: ex,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        });
-    },
     pdf() {
       var oReq = new XMLHttpRequest();
       let _ref = this.infoCard.referenceNumber;
@@ -301,7 +252,7 @@ export default {
       }
       else if(this.infoCard.statusId == 3){
         urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split('-')[0]}`;
-        namePdf `ReportDTC-${_ref}-Firmado.pdf` 
+        namePdf = `ReportDTC-${_ref}-Firmado.pdf` 
       }
       else{
         urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`;
@@ -339,7 +290,7 @@ export default {
         this.$nextTick().then(() => {
           this.pdfSellado = {
             imgbasePDF: e.target.result.split(',')[1],
-            nombre: this.infoCard.referenceNumber + '-99',
+            nombre: this.infoCard.referenceNumber,
           };
         })        
       };
@@ -366,6 +317,17 @@ export default {
       else{
         this.statusAgregarFimar = false
       }
+    },
+    status_dtc_firmado(){                      
+      let formData = new FormData();
+      let file = this.base64ToFile(this.pdfSellado.imgbasePDF, this.pdfSellado.nombre)
+      formData.append("file", file);
+      let obj = {
+        referenceNumber: this.infoCard.referenceNumber,
+        file: formData
+      }
+      this.pdfSelladoBool = false
+      this.$emit("enviar_pdf_sellado", obj);      
     }
     
   },

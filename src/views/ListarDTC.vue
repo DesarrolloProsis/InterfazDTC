@@ -177,7 +177,7 @@
               @borrar-card="confimaBorrar"
               @editar-card="editar_header_dtc"
               @agregar_firma="agregar_fimar"
-              @limpiar_filtros="limpiar_filtros"
+              @enviar_pdf_sellado="enviar_pdf_sellado"
               :plazasValidas="plazasValidas"
               :infoCard="dtc"              
             ></CardListDTC>
@@ -191,6 +191,7 @@
 <script>
 import Nav from "../components/Navbar";
 import moment from "moment";
+//import saveAs from "file-saver";
 import CardListDTC from "../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -272,15 +273,49 @@ methods: {
     this.dtcEdit = this.infoDTC.find(item => item.referenceNumber == refNum)        
     this.modalEdit = true
   },
-  limpiar_filtros() { 
-      this.infoDTC = []     
-      this.$nextTick().then(() => {             
+  limpiar_filtros: async function() { 
+      let info = this.$store.getters['Login/getUserForDTC']  
+      this.$store.dispatch('DTC/buscarListaDTC', info)            
+      this.infoDTC = []          
+      await this.$nextTick().then(() => {             
             this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
             this.fechaFiltro = "";
             this.referenciaFiltro = "";            
             this.plazaFiltro = ""
             this.statusFiltro = ""            
-      })         
+      })          
+  },
+  enviar_pdf_sellado: async function(value){                           
+    await Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${value.referenceNumber}`, value.file)                   
+      .then(() => {
+        Axios.get(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${value.referenceNumber}`)
+        .then(() => {            
+            this.infoDTC = []                                                  
+            this.limpiar_filtros()                                
+            this.$notify.success({
+              title: "Ok!",
+              msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });  
+        })        
+        this.limpiar_filtros()                       
+      })
+      .catch((ex) => {                          
+        this.$notify.error({
+          title: "ups!",
+          msg: ex,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });        
+      });        
+      this.limpiar_filtros()                                                                                 
   },
   filtro_Dtc: function () {    
     this.infoDTC  = []
@@ -320,8 +355,7 @@ methods: {
     if(value === true){      
       
       Axios.get(`${API}/pdf/FirmarReporte/${this.$store.getters['Login/getReferenceSquareActual']}/${this.refNum}/${this.refNum.split('-')[0]}`)
-      .then((response) => {   
-        console.log(response) 
+      .then(() => {           
         let info = this.$store.getters['Login/getUserForDTC']  
         this.$store.dispatch('DTC/buscarListaDTC', info)
         this.limpiar_filtros()  
