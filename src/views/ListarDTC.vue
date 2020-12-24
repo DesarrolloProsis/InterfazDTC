@@ -39,7 +39,8 @@
                   <option value="">Selecionar...</option>     
                   <option value="1">Inconcluso</option>                                               
                   <option value="2">Concluido</option>    
-                  <option value="3">Validado</option>                                                                                         
+                  <option value="3">Firmado</option>                                                                                         
+                  <option value="4">Sellado</option>                                    
               </select>                  
             </div>
           </div>
@@ -240,10 +241,7 @@ beforeMount: function () {
 methods: {
   borrar: async  function (value) {  
       let userId = this.$store.getters['Login/getUserForDTC']         
-        let obj = {
-          "refNum": this.refNum,
-          "userId": userId.idUser
-        }    
+      let obj = { "refNum": this.refNum, "userId": userId.idUser }    
       if (value) {
         this.infoDTC = []        
         this.modal = false;        
@@ -274,7 +272,8 @@ methods: {
     this.dtcEdit = this.infoDTC.find(item => item.referenceNumber == refNum)        
     this.modalEdit = true
   },
-  limpiar_filtros() {      
+  limpiar_filtros() { 
+      this.infoDTC = []     
       this.$nextTick().then(() => {             
             this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
             this.fechaFiltro = "";
@@ -320,7 +319,7 @@ methods: {
   agregar_fimar(value){
     if(value === true){      
       
-      Axios.put(`${API}/dtcData/UpdateStatus/${this.$store.getters['Login/getReferenceSquareActual']}/${this.refNum}`)
+      Axios.get(`${API}/pdf/FirmarReporte/${this.$store.getters['Login/getReferenceSquareActual']}/${this.refNum}/${this.refNum.split('-')[0]}`)
       .then((response) => {   
         console.log(response) 
         let info = this.$store.getters['Login/getUserForDTC']  

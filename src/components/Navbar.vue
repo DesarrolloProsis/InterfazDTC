@@ -34,5 +34,5 @@ export default {
 };
 </script>
 <style >
-@import '~fullcalendar/dist/fullcalendar.css';
+
 </style>

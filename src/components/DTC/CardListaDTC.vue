@@ -111,30 +111,15 @@
           </div>
           <div>
             <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>
-            <button v-if="inconcluso == 1"
-              @click.prevent="editar"
-              class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600"
-            >
-              <img
-                src="../../assets/img/pencil.png"
-                class="mr-2"
-                width="20"
-                height="1"
-              />
+            <button v-if="inconcluso == 1" @click.prevent="editar" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
+              <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1"/>
               <span class="text-xs">Editar</span>
             </button>
-            <button v-else
-              @click.prevent="pdf"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700"
-            >
-              <img
-                src="../../assets/img/pdf.png"
-                class="mr-2"
-                width="20"
-                height="1"
-              />
-              <span v-if="infoCard.statusId < 3">PDF</span>
+            <button v-else @click.prevent="pdf" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700">
+              <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1"/>
+              <span v-if="infoCard.statusId == 2 ">PDF</span>
               <span v-if="infoCard.statusId == 3">PDF Firmado</span>
+              <span v-if="infoCard.statusId == 4">PDF Sellado</span>
             </button>      
           </div>
         </div>
@@ -256,77 +241,89 @@ export default {
       window.scroll(0, 0);
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
-    enviar_pdf(){
-      alert('En construccion')
+    enviar_pdf(){      
       let formData = new FormData();
       let file = this.base64ToFile(this.pdfSellado.imgbasePDF, this.pdfSellado.nombre)
       formData.append("file", file);
       console.log(file)
-      Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`, formData)
-        .then(() => {   
-            Axios.put(`${API}/dtcData/UpdateStatus/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`)
-              .then((response) => {         
-                console.log(response)          
-                let info = this.$store.getters['Login/getUserForDTC']  
-                this.$store.dispatch('DTC/buscarListaDTC', info) 
-                this.pdfSelladoBool = false 
-                this.$emit('limpiar_filtros')                                              
-                this.$notify.success({
-                  title: "Ok!",
-                  msg: `SE INSERTO LA FIRMA AL REPORTE.`,
-                  position: "bottom right",
-                  styles: {
-                    height: 100,
-                    width: 500,
-                  },
-                });
-              })
-            })
-            .catch((ex) => {                          
-              this.$notify.error({
-                title: "ups!",
-                msg: ex,
-                position: "bottom right",
-                styles: {
-                  height: 100,
-                  width: 500,
-                },
-              });
-            });
+      Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${this.infoCard.referenceNumber}`, formData)                   
+        .then(() => {         
+          //imprimir reporte Sellaldo
+          let _ref = this.infoCard.referenceNumber;
+          var oReq = new XMLHttpRequest();
+          let urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`
+          let namePdf = `ReportDTC-${_ref}-Sellado.pdf`
+          oReq.open("GET", urlTopdf, true);      
+          oReq.responseType = "blob";            
+          oReq.onload = function () {                
+            var file = new Blob([oReq.response], {
+              type: "application/pdf",
+            });        
+            saveAs(file, namePdf);
+          };
+          oReq.send();
+          //Limpiar Pantalla cards
+          let info = this.$store.getters['Login/getUserForDTC']  
+          this.$store.dispatch('DTC/buscarListaDTC', info) 
+          this.pdfSelladoBool = false 
+          this.$emit('limpiar_filtros')                                              
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });              
+        })
+        .catch((ex) => {                          
+          this.$notify.error({
+            title: "ups!",
+            msg: ex,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        });
     },
-    pdf: function () {
+    pdf() {
       var oReq = new XMLHttpRequest();
       let _ref = this.infoCard.referenceNumber;
       // The Endpoint of your server
-      let urlTopdf =
-        this.infoCard.statusId < 3
-          ? `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
-          : `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/open/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.slice(0, 3)}`;
-      let namePdf = `ReportDTC-${_ref}.pdf`;
-      // Configure XMLHttpRequest
-      oReq.open("GET", urlTopdf, true);
-      // Important to use the blob response type
-      oReq.responseType = "blob";
-      // When the file request finishes
-      // Is up to you, the configuration for error events etc.
-      oReq.onload = function () {
-        // Once the file is downloaded, open a new window with the PDF
-        // Remember to allow the POP-UPS in your browser
+      let urlTopdf = ''
+      let namePdf = ''
+      if(this.infoCard.statusId == 2){
+        urlTopdf = `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
+        namePdf = `ReportDTC-${_ref}.pdf`
+      }
+      else if(this.infoCard.statusId == 3){
+        urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split('-')[0]}`;
+        namePdf `ReportDTC-${_ref}-Firmado.pdf` 
+      }
+      else{
+        urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`;
+        namePdf = `ReportDTC-${_ref}-Sellado.pdf` 
+      }                                   
+      oReq.open("GET", urlTopdf, true);      
+      oReq.responseType = "blob";            
+      oReq.onload = function () {                
         var file = new Blob([oReq.response], {
           type: "application/pdf",
-        });
-        // Generate file download directly in the browser !
+        });        
         saveAs(file, namePdf);
       };
       oReq.send();
     },
-    borrar: function () {
+    borrar() {
       window.scroll(0, 0);
       this.$emit("borrar-card", this.infoCard.referenceNumber);
       this.menosMas = true;
       this.showmenosMas = false;
     },
-    recibirImagenes: function (e) {
+    recibirImagenes(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       else {
@@ -348,7 +345,7 @@ export default {
       };
       reader.readAsDataURL(file);            
     },
-    base64ToFile: function (dataurl, fileName) {      
+    base64ToFile(dataurl, fileName) {      
         let url = "data:image/jpeg;base64," + dataurl;
         var arr = url.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
