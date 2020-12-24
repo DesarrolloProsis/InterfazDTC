@@ -92,11 +92,11 @@
           <div class="justify-center flex mt-5">       
             <div class="mr-6">        
               <p class="text-sm mb-1 font-semibold text-gray-900">N° Siniestro:</p>
-              <input v-model="dtcEdit.sinisterNumber" class="w-full" type="text" placeholder="S/M"/>
+              <input v-validate="'uniqueSinester'" :class="{ is_valid: !errors.first('NoSiniestro'),is_invalid: errors.first('NoSiniestro')}" v-model="dtcEdit.sinisterNumber" class="w-full" type="text" name="NoSiniestro" placeholder="S/M"/>
             </div>
             <div class="ml-6">       
               <p class="text-sm mb-1 font-semibold text-gray-900">N° Reporte:</p>
-              <input v-model="dtcEdit.reportNumber" class="w-full" type="text" placeholder="S/M"/>
+              <input v-validate="'uniqueReport'" :class="{ is_valid: !errors.first('NoReporte'),is_invalid: errors.first('NoReporte')}" v-model="dtcEdit.reportNumber" class="w-full" type="text" name="NoReporte" placeholder="S/M"/>
             </div>
           </div>
         <!--/////////////////////////////////////////////////////////////////////
@@ -151,8 +151,10 @@
               />              
             </div>            
           </div>
-          <p class="text-xs">{{ errors.first("Observaciones") }}</p>
-          <p class="text-xs">{{ errors.first("Diagnostico") }}</p>
+          <p class="text-xs text-red-600">{{ errors.first("Observaciones") }}</p>
+          <p class="text-xs text-red-600">{{ errors.first("Diagnostico") }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
           <p class="text-red-600 text-xs">{{ errors.first("TipoDescripcion") }}</p>
         <!--/////////////////////////////////////////////////////////////////////
             ////                        BOTONES MODAL EDIT                         ////
@@ -162,7 +164,7 @@
               <button @click="(modalEdit = false), (refNum = '')" class="text-white px-4 py-3 rounded-lg bg-red-700">Cancelar</button>              
             </div>
             <div>       
-              <button @click="borrar(true)" class="text-white ml-2 px-5 py-3 rounded-lg bg-green-600">Actualizar</button>          
+              <button @click="editar_header_dtc(true)" class="text-white ml-2 px-5 py-3 rounded-lg bg-green-600">Actualizar</button>          
             </div>
           </div>
         </div>
@@ -269,20 +271,73 @@ methods: {
       this.refNum = refNum;
       this.modal = true;
   },
-  editar_header_dtc(refNum){
-    this.dtcEdit = this.infoDTC.find(item => item.referenceNumber == refNum)        
-    this.modalEdit = true
+  editar_header_dtc: async function(refNum){
+    if(refNum === true){
+      let objEdit = {
+        referenceNumber: this.dtcEdit.referenceNumber,
+        numSiniestro: this.dtcEdit.sinisterNumber,
+        numReporte: this.dtcEdit.reportNumber,
+        folioFalla: this.dtcEdit.failureNumber,
+        tipoDescripcion: this.dtcEdit.typeDescriptionId,
+        observaciones: this.dtcEdit.observation,
+        diagnostico: this.dtcEdit.diagnosis,
+      }          
+      console.log('crea la promesa')
+      let editarPromise = new Promise((resolve , reject) => {
+        Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
+        .then(() =>{  
+          console.log('then dentro de promesa')                                            
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+          this.$store.dispatch("Header/buscarListaUnique");
+          let info = this.$store.getters['Login/getUserForDTC']  
+          this.$store.dispatch('DTC/buscarListaDTC', info) 
+          resolve('ok')                     
+        })
+        .catch((ex) => {
+          reject(ex)
+          this.$notify.error({
+          title: "ups!",
+          msg: ex,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      })  
+      })
+      setTimeout(() => {
+        editarPromise.then(() => {
+          console.log('termine la promesa')
+          this.modalEdit = false                          
+          this.limpiar_filtros()
+        })
+        .catch((err) =>  console.log(err))    
+      }, 1000);       
+    }
+    else{
+      this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
+      this.modalEdit = true
+    }    
   },
   limpiar_filtros: async function() { 
       let info = this.$store.getters['Login/getUserForDTC']  
       this.$store.dispatch('DTC/buscarListaDTC', info)            
       this.infoDTC = []          
       await this.$nextTick().then(() => {             
-            this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
-            this.fechaFiltro = "";
-            this.referenciaFiltro = "";            
-            this.plazaFiltro = ""
-            this.statusFiltro = ""            
+        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
+        this.fechaFiltro = "";
+        this.referenciaFiltro = "";            
+        this.plazaFiltro = ""
+        this.statusFiltro = ""            
       })          
   },
   enviar_pdf_sellado: async function(value){                           

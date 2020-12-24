@@ -102,9 +102,7 @@ const actions = {
         console.log('ERROR!!! ' + Ex);
       });
   },
-  async buscarListaDTC({ commit, rootGetters }, value) {
-
-    console.log(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/${value.idUser}/${value.numPlaza}`)    
+  async buscarListaDTC({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}/${value.idUser}/${value.numPlaza}`)
       .then(response => {                      
         commit("listaInfoDTCMutation", response.data.result);
