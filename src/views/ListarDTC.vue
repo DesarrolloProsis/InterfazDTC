@@ -1,11 +1,11 @@
   <template>
   <div>
     <Nav></Nav>
-    <div class="relative">
+    <div class="relative" >
     <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center mt-2">      
+      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }" class="flex justify-center mt-2">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
             <!-- <div class="m-3" v-if="tipoUsuario == 2"> -->
@@ -57,9 +57,20 @@
         </div>
       </div>
       <!--/////////////////////////////////////////////////////////////////
-      ////                      MODAL CONFIRMAR FIRMA                 ////
+      ////                         MODAL LOADER                        ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute justify-center inset-x-0">
+        <div v-if="modalLoading" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">          
+          <div class="justify-center text-center block">            
+              <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
+              <p class="text-gray-900 font-thin text-md">Espere ... </p>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////
+      ////                      MODAL CONFIRMAR FIRMA                 ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="flex absolute  justify-center inset-x-0">
         <div v-if="modalFirma" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar firma a este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
@@ -172,7 +183,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit }" class="flex justify-center w-full ">
+      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }" class="flex justify-center w-full ">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -197,7 +208,6 @@ import moment from "moment";
 import CardListDTC from "../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
 export default {
   data() {
     return {
@@ -213,7 +223,8 @@ export default {
       plazasValidas: [],
       plazaFiltro: '',
       statusFiltro: '',
-      modalFirma: false
+      modalFirma: false,
+      modalLoading: false
     };
   },
   components: {
@@ -273,6 +284,8 @@ methods: {
   },
   editar_header_dtc: async function(refNum){
     if(refNum === true){
+      this.modalEdit = false
+      this.modalLoading = true
       let objEdit = {
         referenceNumber: this.dtcEdit.referenceNumber,
         numSiniestro: this.dtcEdit.sinisterNumber,
@@ -281,21 +294,10 @@ methods: {
         tipoDescripcion: this.dtcEdit.typeDescriptionId,
         observaciones: this.dtcEdit.observation,
         diagnostico: this.dtcEdit.diagnosis,
-      }          
-      console.log('crea la promesa')
-      let editarPromise = new Promise((resolve , reject) => {
+      }                
+      let editar_dtc_promise = new Promise((resolve , reject) => {
         Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
-        .then(() =>{  
-          console.log('then dentro de promesa')                                            
-          this.$notify.success({
-            title: "Ok!",
-            msg: `SE INSERTO LA FIRMA AL REPORTE.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
+        .then(() =>{                                                             
           this.$store.dispatch("Header/buscarListaUnique");
           let info = this.$store.getters['Login/getUserForDTC']  
           this.$store.dispatch('DTC/buscarListaDTC', info) 
@@ -315,13 +317,21 @@ methods: {
       })  
       })
       setTimeout(() => {
-        editarPromise.then(() => {
-          console.log('termine la promesa')
-          this.modalEdit = false                          
+        editar_dtc_promise.then(() => {                                     
           this.limpiar_filtros()
+          this.modalLoading = false
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE ACTUALIZO EL DTC ${objEdit.referenceNumber}.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
         })
         .catch((err) =>  console.log(err))    
-      }, 1000);       
+      }, 3000);       
     }
     else{
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
@@ -340,37 +350,48 @@ methods: {
         this.statusFiltro = ""            
       })          
   },
-  enviar_pdf_sellado: async function(value){                           
-    await Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${value.referenceNumber}`, value.file)                   
-      .then(() => {
-        Axios.get(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${value.referenceNumber}`)
-        .then(() => {            
-            this.infoDTC = []                                                  
-            this.limpiar_filtros()                                
-            this.$notify.success({
-              title: "Ok!",
-              msg: `SE INSERTO LA FIRMA AL REPORTE.`,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            });  
-        })        
-        this.limpiar_filtros()                       
-      })
-      .catch((ex) => {                          
-        this.$notify.error({
-          title: "ups!",
-          msg: ex,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });        
-      });        
-      this.limpiar_filtros()                                                                                 
+  enviar_pdf_sellado: async function(value){   
+    this.modalLoading = true
+    let pdf_sellado_promise = new Promise((resolve, reject) => {
+      Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${value.referenceNumber}`, value.file)                   
+        .then(() => {
+          Axios.get(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${value.referenceNumber}`)
+          .then(() => { 
+              resolve('ok')    
+              let info = this.$store.getters['Login/getUserForDTC']  
+              this.$store.dispatch('DTC/buscarListaDTC', info)   
+              this.limpiar_filtros()                                                                             
+          })                                  
+        })
+        .catch((ex) => {
+          reject(ex)                          
+          this.$notify.error({
+            title: "ups!",
+            msg: ex,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });        
+        });              
+    })
+    setTimeout(() => {
+        pdf_sellado_promise.then(() => {  
+          this.modalLoading = false                  
+          this.limpiar_filtros()
+          this.$notify.success({
+                title: "Ok!",
+                msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+                position: "bottom right",
+                styles: {
+                  height: 100,
+                  width: 500,
+                },
+          });  
+        })
+        .catch((err) =>  console.log(err))    
+      }, 3000);                                                                                   
   },
   filtro_Dtc: function () {    
     this.infoDTC  = []
@@ -408,38 +429,44 @@ methods: {
   },
   agregar_fimar(value){
     if(value === true){      
-      
-      Axios.get(`${API}/pdf/FirmarReporte/${this.$store.getters['Login/getReferenceSquareActual']}/${this.refNum}/${this.refNum.split('-')[0]}`)
-      .then(() => {           
-        let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)
-        this.limpiar_filtros()  
-        this.modalFirma = false     
-        this.refNum = ''   
-        this.$notify.success({
-          title: "Ok!",
-          msg: `SE INSERTO LA FIRMA AL REPORTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
+      this.modalLoading = true
+      this.modalFirma = false    
+      let agregar_firma_promise = new Promise((resolve, reject) => {              
+        Axios.get(`${API}/pdf/FirmarReporte/${this.$store.getters['Login/getReferenceSquareActual']}/${this.refNum}/${this.refNum.split('-')[0]}`)
+        .then(() => {           
+          let info = this.$store.getters['Login/getUserForDTC']  
+          this.$store.dispatch('DTC/buscarListaDTC', info)                 
+          this.refNum = ''     
+          resolve('ok')         
+        })
+        .catch((ex) => {   
+          reject(ex)                     
+          this.$notify.error({
+            title: "ups!",
+            msg: ex,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        });            
       })
-      .catch((ex) => {   
-        this.modalFirma = false                       
-        this.$notify.error({
-          title: "ups!",
-          msg: ex,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      });
-      this.modalFirma = false
-      this.refNum = ''
+      setTimeout(() => {
+        agregar_firma_promise.then(() =>{
+          this.limpiar_filtros()
+          this.modalLoading = false 
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });         
+        }).catch((err) => console.log(err))
+      }, 3000)
     }
     else if(value === false){
         this.referenciaFiltro = this.refNum
