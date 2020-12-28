@@ -1,11 +1,11 @@
   <template>
   <div>
     <Nav></Nav>
-    <div class="relative" >
+    <div class="relative"  :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }">
     <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }" class="flex justify-center mt-2">      
+      <div class="flex justify-center mt-2">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
             <!-- <div class="m-3" v-if="tipoUsuario == 2"> -->
@@ -94,7 +94,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      MODAL EDITAR DTC                       ////
       ////////////////////////////////////////////////////////////////////-->
-      <div class="flex absolute w-73 sm:w-64 bg-opacity-100 mx-auto sm:relative justify-center inset-x-0">     
+      <div class="flex absolute w-73 sm:w-64 bg-opacity-100 mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">     
         <div v-if="modalEdit" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-bold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
         <!--/////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@
                 v-model="dtcEdit.observation"             
                 v-validate="'max:300'"
                 :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-                class="bg-whiteappearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
+                class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
                 placeholder="jane@example.com"
                 name="Observaciones"
               />              
@@ -155,7 +155,7 @@
               <textarea     
                 v-model="dtcEdit.diagnosis"           
                 v-validate="'max:300'"
-                :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
                 class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
                 placeholder="jane@example.com"
                 name="Diagnostico"
@@ -282,56 +282,80 @@ methods: {
       this.refNum = refNum;
       this.modal = true;
   },
-  editar_header_dtc: async function(refNum){
-    if(refNum === true){
-      this.modalEdit = false
-      this.modalLoading = true
-      let objEdit = {
-        referenceNumber: this.dtcEdit.referenceNumber,
-        numSiniestro: this.dtcEdit.sinisterNumber,
-        numReporte: this.dtcEdit.reportNumber,
-        folioFalla: this.dtcEdit.failureNumber,
-        tipoDescripcion: this.dtcEdit.typeDescriptionId,
-        observaciones: this.dtcEdit.observation,
-        diagnostico: this.dtcEdit.diagnosis,
-      }                
-      let editar_dtc_promise = new Promise((resolve , reject) => {
-        Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
-        .then(() =>{                                                             
-          this.$store.dispatch("Header/buscarListaUnique");
-          let info = this.$store.getters['Login/getUserForDTC']  
-          this.$store.dispatch('DTC/buscarListaDTC', info) 
-          resolve('ok')                     
-        })
-        .catch((ex) => {
-          reject(ex)
-          this.$notify.error({
-          title: "ups!",
-          msg: ex,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      })  
-      })
-      setTimeout(() => {
-        editar_dtc_promise.then(() => {                                     
-          this.limpiar_filtros()
-          this.modalLoading = false
-          this.$notify.success({
-            title: "Ok!",
-            msg: `SE ACTUALIZO EL DTC ${objEdit.referenceNumber}.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        })
-        .catch((err) =>  console.log(err))    
-      }, 3000);       
+  editar_header_dtc: async function(refNum){ 
+    let validador = false    
+    if(refNum === true){                
+      this.$validator.validateAll().then((item) => {        
+        if(item == false){  
+          console.log('hay errore en la validar....')    
+          validador = false      
+          this.errors.items.map((error) => {            
+            this.$notify.warning({
+              title: "Ups!",
+              msg: `FALTA LLENAR EL CAMPO ${error.field.toUpperCase()}.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          })
+        }
+        else{
+          validador = true  
+        }                      
+      }).then(() => {        
+        if(validador){          
+          this.modalEdit = false
+          this.modalLoading = true
+          let objEdit = {
+            referenceNumber: this.dtcEdit.referenceNumber,
+            numSiniestro: this.dtcEdit.sinisterNumber,
+            numReporte: this.dtcEdit.reportNumber,
+            folioFalla: this.dtcEdit.failureNumber,
+            tipoDescripcion: this.dtcEdit.typeDescriptionId,
+            observaciones: this.dtcEdit.observation,
+            diagnostico: this.dtcEdit.diagnosis,
+          }                
+          let editar_dtc_promise = new Promise((resolve , reject) => {
+            Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
+            .then(() =>{                                                             
+              this.$store.dispatch("Header/buscarListaUnique");
+              let info = this.$store.getters['Login/getUserForDTC']  
+              this.$store.dispatch('DTC/buscarListaDTC', info) 
+              resolve('ok')                     
+            })
+            .catch((ex) => {
+              reject(ex)
+              this.$notify.error({
+              title: "ups!",
+              msg: ex,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          })  
+          })
+          setTimeout(() => {
+            editar_dtc_promise.then(() => {                                     
+              this.limpiar_filtros()
+              this.modalLoading = false
+              this.$notify.success({
+                title: "Ok!",
+                msg: `SE ACTUALIZO EL DTC ${objEdit.referenceNumber}.`,
+                position: "bottom right",
+                styles: {
+                  height: 100,
+                  width: 500,
+                },
+              });
+            })
+            .catch((err) =>  console.log(err))    
+          }, 3000);    
+        } 
+      })       
     }
     else{
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       

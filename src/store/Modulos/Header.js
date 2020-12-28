@@ -86,6 +86,19 @@ const mutations = {
   OBSERVACION_MUTATION: (state, value) => state.observaciones = value,
   DIAGNOSTICO_MUTATION: (state, value) => state.diagnostico = value,
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
+  LIBERAR_VALIDACION_NUMS: (state, value) => {
+    console.log(state.listaUnique.length)
+    let index_sinistro = state.listaUnique.findIndex(item => item.sinisterNumber == value.numSiniestro)
+    let index_reporte = state.listaUnique.findIndex(item => item.reportNumber == value.numReporte)
+
+    if(index_sinistro != -1){
+      state.listaUnique.splice(index_sinistro, 1)
+    }
+    if(index_reporte != -1){
+      state.listaUnique.splice(index_reporte, 1)
+    }
+    console.log(state.listaUnique.length)
+  },
   PLAZAELEGIDAFINDMUTATION: (state, value) => {         
     let index = state.listaHeaders.findIndex(item => item.referenceSquare == value)    
     if(index != -1){

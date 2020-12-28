@@ -9,7 +9,8 @@
           <div class="font-black m-3">{{ infoCard.referenceNumber }}</div>
           <div class=" inline-flex sm:ml-10 ml-20">
             <div class="m-3">{{ infoCard.sinisterDate | formatDate }}</div>
-            <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1">
+            <!-- <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1"> -->
+              <div class="mt-2" v-if="false">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1" />              
               </button>
@@ -238,6 +239,12 @@ export default {
     },
     editar_header(){
       window.scroll(0, 0);
+      this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
+        { 
+          numSiniestro: this.infoCard.sinisterNumber,  
+          numReporte: this.infoCard.reportNumber 
+        }
+      )
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
     pdf() {
