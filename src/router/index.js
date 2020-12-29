@@ -29,7 +29,17 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: Home
+    component: Home,  
+  },
+  {
+    path: '/home/:tipoUsuario/preventivo',
+    name: 'Preventivo',
+    component: () => import('../views/MantenimientoPreventivo.vue') 
+  },
+  {
+    path: '/home/:tipoUsuario/correctivo',
+    name: 'Correctivo',
+    component: () => import('../views/MantenimientoCorrectivo.vue')
   },
   {
     path: '/register',
