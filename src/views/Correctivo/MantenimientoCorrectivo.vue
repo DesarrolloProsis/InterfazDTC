@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import Nav from "../components/Navbar";
-import BotonesAdmin from "../components/Botones/BotonesAdm"
-import BotonesTecnico from "../components/Botones/BotonesTec"
+import Nav from "../../components/Navbar";
+import BotonesAdmin from "../../components/Botones/BotonesAdm"
+import BotonesTecnico from "../../components/Botones/BotonesTec"
 export default {
-    name: 'Prevntivo',
+    name: 'Preventivo',
     components:{
         Nav,
         BotonesAdmin,

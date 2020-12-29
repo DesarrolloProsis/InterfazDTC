@@ -46,11 +46,11 @@
           </div>
           <div class="m-3 text-center">
             <button @click.prevent="limpiar_filtros" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1">
-              <img src="../assets/img/bin.png" class="mr-2" width="25" height="2"/>
+              <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
               <span>Limpiar</span>
             </button>
             <button @click.prevent="filtro_Dtc" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700 m-1">
-              <img src="../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
+              <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
               <span>Buscar</span>
             </button>
           </div>
@@ -202,10 +202,10 @@
 </template>
 
 <script>
-import Nav from "../components/Navbar";
+import Nav from "../../components/Navbar";
 import moment from "moment";
 //import saveAs from "file-saver";
-import CardListDTC from "../components/DTC/CardListaDTC.vue";
+import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {

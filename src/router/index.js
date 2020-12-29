@@ -2,14 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index'
 import Home from '../views/Home.vue'
-import CrearDTC from '../views/CrearDTC.vue'
-import ListarDTC from '../views/ListarDTC.vue'
+import CrearDTC from '../views/Correctivo/CrearDTC.vue'
+import ListarDTC from '../views/Correctivo/ListarDTC.vue'
 import Login from '../views/Login.vue'
-import Inventario from '../views/Inventario.vue'
-import InventarioDetalle from '../views/InventarioDetalle.vue'
+import Inventario from '../views/Correctivo/Inventario.vue'
+import InventarioDetalle from '../views/Correctivo/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
-import CrearDtcLibre from '../views/CrearDTCLibre.vue'
+import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 
 //import Axios from "axios";
 Vue.use(VueRouter)
@@ -34,12 +34,12 @@ const routes = [
   {
     path: '/home/:tipoUsuario/preventivo',
     name: 'Preventivo',
-    component: () => import('../views/MantenimientoPreventivo.vue') 
+    component: () => import('../views/Preventivo/MantenimientoPreventivo.vue') 
   },
   {
     path: '/home/:tipoUsuario/correctivo',
     name: 'Correctivo',
-    component: () => import('../views/MantenimientoCorrectivo.vue')
+    component: () => import('../views/Correctivo/MantenimientoCorrectivo.vue')
   },
   {
     path: '/register',
