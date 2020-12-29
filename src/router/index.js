@@ -10,6 +10,7 @@ import InventarioDetalle from '../views/Correctivo/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
+import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
 
 //import Axios from "axios";
 Vue.use(VueRouter)
@@ -102,6 +103,11 @@ const routes = [
       next()
     }
   },  
+  {
+    path: '/ReportesMantenimiento',
+    name: 'ReportesMantenimiento',
+    component: ReportesMantenimiento
+  },
 ]
 const router = new VueRouter({
   routes

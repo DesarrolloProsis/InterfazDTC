@@ -43,7 +43,7 @@
             </router-link>
           </div>
           <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl">
-            <router-link to="/Configuracion" class="text-center">
+            <router-link to="/ReportesMantenimiento" class="text-center">
               <img src="../../assets/img/reporteMante.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Reportes</h1>
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Mantenimiento</h1>
