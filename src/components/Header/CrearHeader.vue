@@ -19,104 +19,104 @@
       ////                       SUB-TITULO                              ////
       ///////////////////////////////////////////////////////////////////// -->
         <div>
-        <br />
-        <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
-        <label style="font-weight: bold; padding-left: 0.5vw">{{ datosUser.agrement }}</label>
+          <br />
+          <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
+          <label style="font-weight: bold; padding-left: 0.5vw">{{ datosUser.agrement }}</label>
         </div>
         <div>
-        <br />
-        <div class="border-black border-2 text-lg text-center font-bold">
-          <h6>En caso de Siniestro</h6>
-        </div>
+          <br />
+          <div class="border-black border-2 text-lg text-center font-bold">
+            <h6>En caso de Siniestro</h6>
+          </div>
         </div>
         <div class="text-left">
-        <br />
-        <label class="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
-        <label class="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
+          <br />
+          <label class="inline-full-name" style="font-weight: normal">Tipo de Dictamen:</label>
+          <label class="inline-full-name" style="padding-left: 0.5vw">CORRECTIVO</label>
         </div>
       <!-- //////////////////////////////////////////////////////////////////
       ////                   PRIMERA LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
-        <div class="mr-6">
-        <label>Atencion:</label>
-        <label class="ml-2 text-sm" style="font-weight: normal">{{ datosUser.managerName }}</label>
-        </div>
-        <div class="sm:flex-col pr-2 inline-block">
-        <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
-        <input
-          v-validate="'uniqueSinester'"
-          :class="{ is_valid: !errors.first('NoSiniestro'),is_invalid: errors.first('NoSiniestro')}"
-          v-model="datosSinester.SinisterNumber"
-          class="w-full"
-          type="text"
-          name="NoSiniestro"
-          placeholder
-        />
-        <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
-        <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
-        <input
-          v-validate="'uniqueReport'"
-          v-model="datosSinester.ReportNumber"
-          :class="{ is_valid: !errors.first('NoReporte'),is_invalid: errors.first('NoReporte')}"
-          class="w-full"
-          type="text"
-          name="NoReporte"
-        />
-        <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
+      <div class="mr-6">
+          <label>Atencion:</label>
+          <label class="ml-2 text-sm" style="font-weight: normal">{{ datosUser.managerName }}</label>
+      </div>
+      <div class="sm:flex-col pr-2 inline-block">
+          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
+          <input
+            v-validate="'uniqueSinester'"
+            :class="{ is_valid: !errors.first('NoSiniestro'),is_invalid: errors.first('NoSiniestro')}"
+            v-model="datosSinester.SinisterNumber"
+            class="w-full"
+            type="text"
+            name="NoSiniestro"
+            placeholder
+          />
+          <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
+          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
+          <input
+            v-validate="'uniqueReport'"
+            v-model="datosSinester.ReportNumber"
+            :class="{ is_valid: !errors.first('NoReporte'),is_invalid: errors.first('NoReporte')}"
+            class="w-full"
+            type="text"
+            name="NoReporte"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
         </div>      
         <div class="pr-2">
-        <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
-        <select
-          v-model="datosSinester.TypeDescriptionId"
-          v-validate="'required'"
-          :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}"
-          class="w-full"
-          type="text"
-          name="TipoDescripcion"
-        >
-          <option disabled value>Selecionar...</option>
-          <option
-            v-for="(desc, index) in descripciones"
-            v-bind:value="desc.typeDescriptionId"
-            :key="index"
+          <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
+          <select
+            v-model="datosSinester.TypeDescriptionId"
+            v-validate="'required'"
+            :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}"
+            class="w-full"
+            type="text"
+            name="TipoDescripcion"
           >
-            {{ desc.description }}
-          </option>
-        </select>
-        <p class="text-red-600 text-xs">{{ errors.first("TipoDescripcion") }}</p>
-        </div>
+            <option disabled value>Selecionar...</option>
+            <option
+              v-for="(desc, index) in descripciones"
+              v-bind:value="desc.typeDescriptionId"
+              :key="index"
+            >
+              {{ desc.description }}
+            </option>
+          </select>
+          <p class="text-red-600 text-xs">{{ errors.first("TipoDescripcion") }}</p>
+      </div>
       <!-- //////////////////////////////////////////////////////////////////
       ////                   SEGUNDA LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
         <div class="mr-6">
-        <label class="inline">Cargo:</label>
-        <label class="inline ml-2 text-sm" style="font-weight: normal">{{ datosUser.position }}</label>
+          <label class="inline">Cargo:</label>
+          <label class="inline ml-2 text-sm" style="font-weight: normal">{{ datosUser.position }}</label>
         </div>
         <div class="pr-2">
-        <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Siniestro:</p>
-        <input
-          @change="crearReferencia()"
-          v-validate="`required|before:${fecha_validacion}`"          
-          :class="{ is_valid: !errors.first('FechaSiniestro'),is_invalid: errors.first('FechaSiniestro')}"
-          :disabled="fechaSiniestoEdit"
-          v-model="datosSinester.SinisterDate"
-          class="w-full"
-          name="FechaSiniestro"
-          type="date"
-        />
-        <p class="text-red-600 text-xs">{{ errors.first("FechaSiniestro") }}</p>
+          <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Siniestro:</p>
+          <input
+            @change="crearReferencia()"
+            v-validate="`required|before:${fecha_validacion}`"          
+            :class="{ is_valid: !errors.first('FechaSiniestro'),is_invalid: errors.first('FechaSiniestro')}"
+            :disabled="fechaSiniestoEdit"
+            v-model="datosSinester.SinisterDate"
+            class="w-full"
+            name="FechaSiniestro"
+            type="date"
+          />
+          <p class="text-red-600 text-xs">{{ errors.first("FechaSiniestro") }}</p>
         </div>
         <div class="pr-2">
-        <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
-        <input
-          v-model="datosSinester.ShippingElaboracionDate"
-          v-validate="`required|before:${fecha_validacion}`"
-          :class="{ is_valid: !errors.first('FechaEnvio'),is_invalid: errors.first('FechaEnvio')}"
-          class="w-full"
-          type="date"
-          name="FechaEnvio"          
-        />
-        <p class="text-red-600 text-xs">{{ errors.first("FechaEnvio") }}</p>
+          <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
+          <input
+            v-model="datosSinester.ShippingElaboracionDate"
+            v-validate="`required|before:${fecha_validacion}`"
+            :class="{ is_valid: !errors.first('FechaEnvio'),is_invalid: errors.first('FechaEnvio')}"
+            class="w-full"
+            type="date"
+            name="FechaEnvio"          
+          />
+          <p class="text-red-600 text-xs">{{ errors.first("FechaEnvio") }}</p>
         </div>
       <!-- //////////////////////////////////////////////////////////////////
       ////                   TERCERA LINEA                              ////

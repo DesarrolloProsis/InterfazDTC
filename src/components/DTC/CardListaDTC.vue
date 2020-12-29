@@ -188,10 +188,7 @@ export default {
   methods: {
     mas: async function () {
       this.menosMas = false;
-      await this.$store.dispatch(
-        "DTC/tableFormComponent",
-        this.infoCard.referenceNumber
-      );
+      await this.$store.dispatch("DTC/tableFormComponent",this.infoCard.referenceNumber);
       this.tableFormat = await this.$store.getters["DTC/gettableFormComp"];
       this.showmenosMas = true;
     },
