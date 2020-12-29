@@ -6,10 +6,10 @@
       <!-- /////////////////////////////////////////////////////////////////
       ////                          TITULO                              ////
       ///////////////////////////////////////////////////////////////////// -->
-        <div class="box-content p-4 border-4 border-gray-400 xl:w-3/4">
+        <div class="box-content p-4 border-2 border-gray-800 xl:w-3/4">
           <img src="../../assets/img/prosis-logo.jpg" class="xl:h-12 4k:h-12" />
         </div>
-        <div class="border-2 border-black text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold">Dictamen Tecnico y Cotizacion</div>
+        <div class="border-2 border-gray-800 text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold">Dictamen Tecnico y Cotizacion</div>
         <div class="text-left">
           <br />
           <label class="mr-2 ml-5 text-lg">Referencia:</label>
