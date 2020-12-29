@@ -1,11 +1,11 @@
   <template>
   <div>
     <Nav></Nav>
-    <div class="relative"  :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }">
+    <div class="relative" >
     <!--/////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div class="flex justify-center mt-2">      
+      <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
             <!-- <div class="m-3" v-if="tipoUsuario == 2"> -->
