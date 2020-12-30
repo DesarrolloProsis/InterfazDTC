@@ -20,7 +20,7 @@
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA IZQUIERDA                        ////
               ////////////////////////////////////////////////////////////////////-->
-            <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-sm">
+            <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-starts m-5">
                         <p class=" font-bold">Numero de Reporte:</p>

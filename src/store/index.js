@@ -5,6 +5,7 @@ import DTC from './Modulos/DTC'
 import Header from './Modulos/Header'
 import Login from './Modulos/Login'
 import Usuarios from './Modulos/Usuarios'
+import Actividades from './Modulos/Actividades'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     Refacciones,        
     Header,
     Login,
-    Usuarios        
+    Usuarios,
+    Actividades     
   }
 })

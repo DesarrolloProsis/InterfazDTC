@@ -109,7 +109,7 @@ const routes = [
     component: ReportesMantenimiento,
     children: [
       {
-        path: 'TablaActiidades',
+        path: 'TablaActividades',
         component: () => import('../views/Preventivo/TablaActividades.vue')
       },      
       {
