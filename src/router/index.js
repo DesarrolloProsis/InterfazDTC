@@ -106,7 +106,17 @@ const routes = [
   {
     path: '/ReportesMantenimiento',
     name: 'ReportesMantenimiento',
-    component: ReportesMantenimiento
+    component: ReportesMantenimiento,
+    children: [
+      {
+        path: 'TablaActiidades',
+        component: () => import('../views/Preventivo/TablaActividades.vue')
+      },      
+      {
+        path: 'FormularioReporte',
+        component: () => import('../views/Preventivo/FormularioReporte.vue')
+      }
+    ]
   },
 ]
 const router = new VueRouter({
