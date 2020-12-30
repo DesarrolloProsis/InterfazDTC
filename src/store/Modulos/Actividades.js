@@ -11,8 +11,8 @@ const mutations = {
     ACTIVIDADES_MENSUALES_MUTATION: (state, value) => state.actividadesMensuales =  value
 }
 const actions = {
-    async UPDATE_PASSWORD({commit, rootGetters}, value){                
-        await Axios.put(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`,value)
+    async OBTENER_ACTIVIDADES_MESNUALES({commit, rootGetters}, value){                
+        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`,value)
             .then((response) => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)
             })
