@@ -9,7 +9,8 @@ const state =  {
         { value: 3, text: "Trimestral" },
         { value: 4, text: "Semestral" },
         { value: 5, text: "Anual" },
-    ],    
+    ],
+    comentarioMensual: ''
 }
 const getters = {
     GET_ACTIVIDADES_MENSUALES: (state) => (obj) => {
@@ -22,17 +23,30 @@ const getters = {
     }      
 }
 const mutations = {
-    ACTIVIDADES_MENSUALES_MUTATION: (state, value) => state.actividadesMensuales =  value
+    ACTIVIDADES_MENSUALES_MUTATION: (state, value) => state.actividadesMensuales =  value,
+    COMENTARIO_MENSUAL_MUTATION: (state, value) => state.comentarioMensual = value
 }
 const actions = {
-    async OBTENER_ACTIVIDADES_MESNUALES({commit, rootGetters}, value){                
+    async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {                
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`,value)
             .then((response) => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)
+                dispatch('OBTENER_COMENTARIO_MENSUAL', value)
             })
             .catch(Ex => {
             console.log(Ex);
         }); 
+    },
+    async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
+        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/getReferenceSquareActual']}`,value)
+            .then((response) => {
+                console.log('dispatch comentario')
+                console.log(response)                
+                commit("COMENTARIO_MENSUAL_MUTATION", response.data.result.table[0].comment)
+            })
+            .catch(Ex => {
+            console.log(Ex);
+            });
     }
 
 }  

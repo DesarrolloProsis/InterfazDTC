@@ -59,7 +59,7 @@
                                 ////////////////////////////////////////////////////////////////////-->
                                 <div class=" sm:justify-center sm:flex">
                                     <button class="bg-gray-300 hover:bg-gray-400 xl:w-58 text-gray-800 font-bold py-2 px-10 ml-4 mt-5 rounded inline-flex items-center border border-blue-700">
-                                        <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2" width="25" height="2"/>
+                                        <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                         <span>Buscar</span>
                                     </button>
                                 </div>
@@ -69,9 +69,9 @@
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                       COMENTARIO                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 mt-10 inline-block sm:p-3">
+                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-20 mt-10 inline-block sm:p-3">
                         <p class=" uppercase sm:text-base text-lg">Comentario:</p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem enim soluta temporibus accusantium tenetur quam, nisi qui odio magnam? Inventore deserunt nemo molestias praesentium aliquid saepe libero magnam ipsum impedit.
+                        <p>{{ comentario }}</p>
                     </div>                                 
                 </div>            
             </div>
@@ -129,7 +129,8 @@ export default {
             plazaSelect: '',
             plazaNombre: '',
             año: '',
-            mes: ''
+            mes: '',
+            comentario: ''
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -149,7 +150,8 @@ beforeMount: async function(){
     this.listaActividadesMensuales = this.$store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
     this.listaPlazas = await this.$store.getters["Login/getListaPlazasUser"]       
     this.plazaNombre = this.listaPlazas[await this.$store.state.Login.PLAZAELEGIDA].plazaName;
-    this.plazaSelect = user.numPlaza 
+    this.plazaSelect = user.numPlaza
+    this.comentario = await this.$store.state.Actividades.comentarioMensual 
 }
 
 
