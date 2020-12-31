@@ -19,9 +19,7 @@
               <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
                 <select v-model="plazaFiltro" class="w-full" type="text">
                   <option disabled value="">Selecionar...</option>     
-                  <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">
-                      {{ item.squareName }}
-                  </option>                
+                  <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
                 </select>
             </div>          
             <div class="m-3">

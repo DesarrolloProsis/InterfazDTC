@@ -35,21 +35,9 @@
           </div>
           <div class=" text-sm mt-2">
             <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
-            <select
-              v-model="plazaSelect"
-              @change="cambiarPlaza"                            
-              class="w-48"
-              type="text"
-              name="TipoDescripcion"
-            >
+            <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
               <option disabled value>Selecionar...</option>
-              <option
-                v-for="(item, index) in listaPlazasUser"
-                v-bind:value="item.numPlaza"
-                :key="index"
-              >
-                {{ item.plazaName }}
-              </option>
+              <option v-for="(item, index) in listaPlazasUser" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>
             </select>
           </div>
           <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
@@ -122,10 +110,7 @@
                   />
                 </td>
                 <td class="text-center border-2 border-gray-800">
-                  <button
-                    @click="Mostrar_Mas(item)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700"
-                  >
+                  <button @click="Mostrar_Mas(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700">
                     <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
                     <span class="text-xs sm:hidden">Mas</span>
                   </button>
