@@ -157,32 +157,19 @@
       <!-- //////////////////////////////////////////////////////////////////
       ////                   QUINTA  LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
-        <div class="text-sm">
+      <div class="text-sm">
         <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
-        <select
-          v-model="plazaSelect"
-          @change="cambiarPlaza"
-          :disabled="boolCambiarPlaza"
-          class="w-48"
-          type="text"
-          name="TipoDescripcion"
-        >
+        <select v-model="plazaSelect" @change="cambiarPlaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
           <option disabled value>Selecionar...</option>
-          <option
-            v-for="(item, index) in listaPlazasUser"
-            v-bind:value="item.numPlaza"
-            :key="index"
-          >
-            {{ item.plazaName }}
-          </option>
+          <option v-for="(item, index) in listaPlazasUser" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>
         </select>
         <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span>
-        </div>
-        <div></div>
-        <div class="pr-2">
+      </div>
+      <div></div>
+      <div class="pr-2">
         <label>Coordinacion Regional:</label>
         <label class="text-md" style="font-weight: normal">{{ datosUser.regionalCoordination }}</label>
-        </div>
+      </div>
       <!-- //////////////////////////////////////////////////////////////////
       ////                   SEXTA LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
@@ -220,19 +207,9 @@
             <p class="text-gray-900  text-center text-xl">Seleccione una Referencia</p>
             <div class="justify-center mt-10 inline-block">
               <div>
-                <select
-                    v-model="referenceSelected"                                        
-                    class="w-full"
-                    type="text"                    
-                >
+                <select v-model="referenceSelected" class="w-full" type="text">
                   <option disabled value="">Selecionar...</option>
-                  <option
-                    v-for="(item, index) in arrayReference"
-                    v-bind:value="item.referenceNumber"
-                    :key="index"
-                  >
-                    {{ item.referenceNumber }}
-                  </option>
+                  <option v-for="(item, index) in arrayReference" :value="item.referenceNumber" :key="index">{{ item.referenceNumber }}</option>
                 </select>
                 </div>
                 <div class="mt-10">                  

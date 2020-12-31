@@ -2,10 +2,24 @@ import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
-    actividadesMensuales: []
+    actividadesMensuales: [],
+    catalogoActividades: [        
+        { value: 1, text: "Semanal" },
+        { value: 2, text: "Mensual" },
+        { value: 3, text: "Trimestral" },
+        { value: 4, text: "Semestral" },
+        { value: 5, text: "Anual" },
+    ],    
 }
 const getters = {
-    GET_ACTIVIDADES_MENSUALES: () => state.actividadesMensuales        
+    GET_ACTIVIDADES_MENSUALES: (state) => (obj) => {
+        console.log(obj)
+        return state.actividadesMensuales.map(actividad => {
+            actividad["day"] = `${actividad.day}/${obj.month}/${obj.year}` 
+            actividad["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
+            return { ...actividad }
+        })  
+    }      
 }
 const mutations = {
     ACTIVIDADES_MENSUALES_MUTATION: (state, value) => state.actividadesMensuales =  value
