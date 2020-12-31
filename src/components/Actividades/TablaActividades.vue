@@ -4,25 +4,25 @@
             <div class="flex justify-center mt-10">
                 <h1 class=" text-3xl sm:text-2xl">TABLA DE ACTIVIDADES</h1>
             </div>
-            <div class="inline-flex h-40 ml-40 mr-40 sm:m-0 sm:ml-2 sm:mr-2 border shadow-lg rounded-md border-gray-800">
+            <div class="inline-flex h-40 sm:h-auto ml-40 mr-40 sm:m-0 sm:ml-2 sm:mr-2 border shadow-lg rounded-md border-gray-800">
                 <div class=" inline-flex sm:inline-block mt-3">
                     <div class="w-1/2 sm:w-full">
-                        <p class=" uppercase text-lg text-center">Actividades del mes Abril 2000</p> 
-                        <div class="pl-10 mt-4 inline-flex">
-                            <div>
-                                <p>Plaza Seleccionada: Tlalpan</p>
-                                <p class="text-sm font-semibold mb-1 text-gray-900 ml-2 mt-2">Cambiar Plaza</p>
-                                <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48" type="text" name="TipoDescripcion" >
+                        <p class=" uppercase sm:text-xs sm:w-66 text-lg text-center">Actividades del mes Abril 2000</p> 
+                        <div class="pl-10 sm:pl-3 mt-4 inline-flex">
+                            <div class=" sm:w-1/2">
+                                <p class="sm:text-xs">Plaza Seleccionada: Tlalpan</p>
+                                <p class="text-sm sm:text-xs font-semibold mb-1 text-gray-900 ml-2 mt-2">Cambiar Plaza</p>
+                                <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48 sm:w-24" type="text" name="TipoDescripcion" >
                                     <option disabled value>Selecionar...</option>
                                     <option v-for="(item, index) in listaPlazasUser" v-bind:value="item.numPlaza" :key="index">
                                         {{ item.plazaName }}
                                     </option>
                                 </select>
                             </div>
-                            <div class="pl-5">
+                            <div class="pl-5 sm:pl-0 sm:w-1/2">
                                 <div class=" inline-flex mb-6">
-                                <p class="text-sm  text-gray-900 ml-3 mr-2">Mes</p>                                
-                                <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48" type="text" name="TipoDescripcion" >
+                                <p class="text-sm sm:text-xs text-gray-900 ml-3 mr-2">Mes</p>                                
+                                <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48 sm:w-24" type="text" name="TipoDescripcion" >
                                     <option disabled value>Selecionar...</option>
                                     <option disabled value>Enero</option>
                                     <option disabled value>Febrero</option>
@@ -39,8 +39,8 @@
                                 </select>
                                 </div>
                                 <div class=" inline-flex">
-                                <p class="text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año</p>
-                                <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48" type="text" name="TipoDescripcion" >
+                                <p class="text-sm sm:text-xs font-semiboldtext-gray-900 ml-3 mr-2">Año</p>
+                                <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48 sm:w-24" type="text" name="TipoDescripcion" >
                                     <option disabled value>Selecionar...</option>
                                     <option disabled value>2020</option>
                                     <option disabled value>2021</option>                                        
@@ -49,7 +49,7 @@
                             </div>                            
                         </div>                          
                     </div>
-                    <div class="w-1/2 sm:w-full justify-start inline-block">
+                    <div class="w-1/2 sm:w-full justify-start inline-block sm:p-3">
                         <p class=" uppercase text-lg">Comentario:</p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem enim soluta temporibus accusantium tenetur quam, nisi qui odio magnam? Inventore deserunt nemo molestias praesentium aliquid saepe libero magnam ipsum impedit.
                     </div>                                 
@@ -105,15 +105,15 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
-beforeMount(){
-    let user = this.$store.getters['Login/getUserForDTC']
+beforeMount: async function(){
+    let user = await this.$store.getters['Login/getUserForDTC']
     let objApi = {
         "userId": user.idUser,
         "squareId": user.numPlaza,
         "month": 12,
         "year": 2020
     } 
-    this.$store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)
+    await this.$store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)
     this.listaActividadesMensuales = this.$store.getters['Actividades/GET_ACTIVIDADES_MENSUALES']
     
 

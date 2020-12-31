@@ -12,6 +12,7 @@ import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
 
+
 //import Axios from "axios";
 Vue.use(VueRouter)
 const routes = [
@@ -110,7 +111,7 @@ const routes = [
     children: [
       {
         path: 'TablaActividades',
-        component: () => import('../views/Preventivo/TablaActividades.vue')
+        component: () => import('../views/Preventivo/TablaActividades.vue')      
       },      
       {
         path: 'FormularioReporte',
