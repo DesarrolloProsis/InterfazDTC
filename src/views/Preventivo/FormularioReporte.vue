@@ -1,10 +1,8 @@
 <template>
     <div>
         <HeaderPreventivo></HeaderPreventivo>
-
     </div>
 </template>
-
 <script>
 import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 export default {
@@ -15,10 +13,5 @@ export default {
         return{
         }
     }
-
 }
 </script>
-
-<style>
-
-</style>

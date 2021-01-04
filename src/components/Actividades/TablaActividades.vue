@@ -105,7 +105,7 @@
                                 <td class="w-64 text-center border-2 border-gray-800">{{ item.day }}</td>
                                 <td class="w-64 text-center border-2 border-gray-800">{{ item.frequencyName }}</td>
                                 <td class="w-64 text-center border-2 border-gray-800">
-                                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-red-700">
+                                    <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-red-700">
                                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                                         <span class="text-xs sm:hidden">Reporte</span>
                                     </button>
@@ -118,7 +118,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import servicioActividades from '../../services/ActividadesService.js'
 export default {
@@ -146,7 +145,6 @@ beforeMount: async function(){
     this.mes = cargaInicial.mes
     this.año = cargaInicial.año               
 },
-
 /////////////////////////////////////////////////////////////////////
 ////                            METODOS                          ////
 /////////////////////////////////////////////////////////////////////
@@ -166,9 +164,15 @@ methods: {
         );
         this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
         this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
+    },
+    vista_reporte_carril(item){        
+        this.$router.push({ 
+            path: 'FormularioReporte',
+            query: {
+                'header': item
+            }
+        })
     }
 }
-
-
 }
 </script>

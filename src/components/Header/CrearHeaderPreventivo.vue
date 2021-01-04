@@ -27,22 +27,15 @@
                         <h2 class="ml-5">TLA-201234</h2>
                     </div>
                     <div class="flex justify-start m-5">
-                        <p class="font-bold">Plaza de Cobro:</p>
-                        <select class="ml-5 w-40 sm:w-32">
-                            <option value="">Selecciones la Plaza</option>
-                        </select>
+                        <p class="font-bold">Plaza de Cobro:</p>                               
                     </div>
                     <div class="flex justify-start m-5">
-                        <p class="font-bold">Ubicacion:</p>
-                        <select class="ml-5 w-40">
-                            <option value="">Seleccione el Carril</option>
-                        </select>
+                        <p class="font-bold">Ubicacion:</p>                      
                     </div>
                 </div>
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-start m-5">
-                        <p class=" font-bold">Fecha:</p>
-                        <input class="ml-5 w-40" type="date">
+                        <p class=" font-bold">Fecha:</p>                        
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Inicio:</p>
@@ -88,12 +81,15 @@ export default {
 /////////////////////////////////////////////////////////////////////
 data() {
     return {
-    
+        header: {},
     };
 },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
+beforeMount(){
+    console.log(this.$route.query)
+}
 
 
 };
