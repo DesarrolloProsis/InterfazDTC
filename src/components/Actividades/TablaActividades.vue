@@ -16,7 +16,7 @@
                                 <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
                                 <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center">
                                 <p class="text-sm sm:text-sm text-red-600  mt-3 mr-2 sm:mr-6">Cambiar Plaza</p>                                   
-                                <select v-model="plazaSelect" class="w-40 mt-2 sm:w-40" type="text" name="TipoDescripcion" >
+                                <select v-model="plazaSelect" @change="cambiar_plaza" class="w-40 mt-2 sm:w-40" type="text" name="TipoDescripcion" >
                                     <option disabled value>Selecionar...</option>
                                     <option v-for="(item, index) in listaPlazas" v-bind:value="item.numPlaza" :key="index">
                                         {{ item.plazaName }}
@@ -50,17 +50,17 @@
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año</p>
                                     <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
-                                        <option disabled value="2020">2020</option>
-                                        <option disabled value="2021">2021</option>                                        
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>                                        
                                     </select>
                                 </div>
                             <!--//////////////////////////////////////////////////////////////////////
                                 ////                           BOTON  BUSCAR                      ////
                                 ////////////////////////////////////////////////////////////////////-->
                                 <div class=" sm:justify-center sm:flex">
-                                    <button class="bg-gray-300 hover:bg-gray-400 xl:w-58 text-gray-800 font-bold py-2 px-10 ml-4 mt-5 rounded inline-flex items-center border border-blue-700">
+                                    <button @click="filtrar_actividades_mensuales" class="bg-gray-300 hover:bg-gray-400 xl:w-58 text-gray-800 font-bold py-2 px-5 ml-5 mt-2 rounded inline-flex items-center border border-blue-700">
                                         <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
-                                        <span>Buscar</span>
+                                        <span class="text-xs">Buscar Actividades</span>
                                     </button>
                                 </div>
                             </div>                            
@@ -120,7 +120,7 @@
 </template>
 
 <script>
-
+import servicioActividades from '../../services/ActividadesService.js'
 export default {
     data(){
         return{
@@ -136,22 +136,40 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function(){
-    
-    let fechaActual = new Date()
-    let user = await this.$store.getters['Login/getUserForDTC']    
-    let objApi = {
-        "userId": user.idUser,
-        "squareId": user.numPlaza,
-        "month": this.mes = fechaActual.getUTCMonth() + 1,
-        "year": this.año = fechaActual.getFullYear()
-    } 
-    await this.$store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)
-    this.listaActividadesMensuales = this.$store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-    this.listaPlazas = await this.$store.getters["Login/getListaPlazasUser"]       
-    this.plazaNombre = this.listaPlazas[await this.$store.state.Login.PLAZAELEGIDA].plazaName;
-    this.plazaSelect = user.numPlaza
-    this.comentario = await this.$store.state.Actividades.comentarioMensual 
+beforeMount: async function(){           
+    this.listaPlazas = await this.$store.getters["Login/getListaPlazasUser"] 
+    let cargaInicial = this.$route.params.cargaInicial
+    this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales
+    this.plazaSelect = cargaInicial.plazaSelect
+    this.plazaNombre = cargaInicial.plazaNombre
+    this.comentario = cargaInicial.comentario     
+    this.mes = cargaInicial.mes
+    this.año = cargaInicial.año               
+},
+
+/////////////////////////////////////////////////////////////////////
+////                            METODOS                          ////
+/////////////////////////////////////////////////////////////////////
+methods: {
+    filtrar_actividades_mensuales: async function(){
+        console.log(this.mes)
+        console.log(this.año)
+        let actualizar = await servicioActividades.filtrar_actividades_mensuales(this.mes, this.año)
+        console.log(actualizar)
+        this.$nextTick().then(() => {
+            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+            this.plazaNombre = actualizar.plazaNombre,
+            this.comentario = actualizar.comentario,
+            this.plazaSelect = actualizar.plazaSelect
+        })
+    },  
+    cambiar_plaza(){
+        let index = this.listaPlazas.findIndex(
+            (item) => item.numPlaza == this.plazaSelect
+        );
+        this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
+        this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
+    }
 }
 
 

@@ -11,7 +11,7 @@ import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
-
+import servicioActividades from '../services/ActividadesService.js'
 
 //import Axios from "axios";
 Vue.use(VueRouter)
@@ -111,7 +111,12 @@ const routes = [
     children: [
       {
         path: 'TablaActividades',
-        component: () => import('../views/Preventivo/TablaActividades.vue')      
+        component: () => import('../views/Preventivo/TablaActividades.vue'),
+        beforeEnter: async function(to,from,next){
+          let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined)                    
+          to.params.cargaInicial = result                             
+          next()
+        }      
       },      
       {
         path: 'FormularioReporte',

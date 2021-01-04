@@ -216,7 +216,7 @@ export default {
       }
     },
     cancelar_edicion: function () {
-      this.$nextTick().then(() =>{
+      this.$nextTick().then(() => {
         this.fileUpload = [];
         this.eliminar_name = [];
         this.imagenes_enviar = [];

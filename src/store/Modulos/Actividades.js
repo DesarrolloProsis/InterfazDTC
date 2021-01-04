@@ -13,8 +13,7 @@ const state =  {
     comentarioMensual: ''
 }
 const getters = {
-    GET_ACTIVIDADES_MENSUALES: (state) => (obj) => {
-        console.log(obj)
+    GET_ACTIVIDADES_MENSUALES: (state) => (obj) => {        
         return state.actividadesMensuales.map(actividad => {
             actividad["day"] = `${actividad.day}/${obj.month}/${obj.year}` 
             actividad["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
@@ -27,11 +26,11 @@ const mutations = {
     COMENTARIO_MENSUAL_MUTATION: (state, value) => state.comentarioMensual = value
 }
 const actions = {
-    async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {                
+    async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
+        dispatch('OBTENER_COMENTARIO_MENSUAL', value)         
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`,value)
-            .then((response) => {
-                commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)
-                dispatch('OBTENER_COMENTARIO_MENSUAL', value)
+            .then((response) => {                
+                commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
             .catch(Ex => {
             console.log(Ex);
@@ -39,10 +38,9 @@ const actions = {
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
         await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/getReferenceSquareActual']}`,value)
-            .then((response) => {
-                console.log('dispatch comentario')
-                console.log(response)                
-                commit("COMENTARIO_MENSUAL_MUTATION", response.data.result.table[0].comment)
+            .then((response) => {                                  
+                let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
+                commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
             })
             .catch(Ex => {
             console.log(Ex);
