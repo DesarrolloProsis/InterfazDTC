@@ -262,12 +262,13 @@ export default {
         urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`;
         namePdf = `ReportDTC-${_ref}-Sellado.pdf` 
       }                                   
-      oReq.open("GET", urlTopdf, true);      
-      oReq.responseType = "blob";            
+      oReq.open("GET", urlTopdf, true);            
+      oReq.responseType = "blob";              
       oReq.onload = function () {                
         var file = new Blob([oReq.response], {
           type: "application/pdf",
-        });        
+        });  
+        console.log(file)      
         saveAs(file, namePdf);
       };
       oReq.send();
