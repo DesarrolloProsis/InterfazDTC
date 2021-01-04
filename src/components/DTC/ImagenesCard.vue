@@ -262,7 +262,7 @@ export default {
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-            Axios.get(`${API}/Image/Delete/${this.getReferenceSquareActual()}/${nombre_plaza}/${this.referenceNumber}/${eliminar}`)
+            Axios.get(`${API}/Image/Delete/${this.getReferenceSquareActual}/${nombre_plaza}/${this.referenceNumber}/${eliminar}`)
               .then(() => {})
               .catch((ex) => {
                 console.log("error al eliminar");
@@ -283,8 +283,7 @@ export default {
         } else {          
           resolve("ok");
         }
-      });
-
+      });      
       let agregar_promise = new Promise(async (resolve, reject) => {        
         if (this.imagenes_enviar.length > 0) {
           for (const item of this.imagenes_enviar) {
@@ -292,7 +291,7 @@ export default {
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",this.base64ToFile(item.imgbase, item.name));
-            await Axios.post(`${API}/Image/InsertImage/${this.getReferenceSquareActual()}`,formData)
+            await Axios.post(`${API}/Image/InsertImage/${this.getReferenceSquareActual}`,formData)
               .then(() => {                
                 this.$notify.success({
                   title: "Ok!",
@@ -331,7 +330,7 @@ export default {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-      await Axios.get(`${API}/Image/GetImages/${this.getReferenceSquareActual()}/${nombre_plaza}/${this.referenceNumber}`)
+      await Axios.get(`${API}/Image/GetImages/${this.getReferenceSquareActual}/${nombre_plaza}/${this.referenceNumber}`)
         .then((response) => {          
           array_nombre_imagenes = response.data;
         })
@@ -343,7 +342,7 @@ export default {
         for (let item2 of array_nombre_imagenes) {          
           arrayimg.push({
             fileName: item2,
-            image: `${API}/Image/DownloadFile/${this.getReferenceSquareActual()}/${nombre_plaza}/${this.referenceNumber}/${item2}`,
+            image: `${API}/Image/DownloadFile/${this.getReferenceSquareActual}/${nombre_plaza}/${this.referenceNumber}/${item2}`,
           });
         }
         let obj = {
