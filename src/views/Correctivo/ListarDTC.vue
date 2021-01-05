@@ -70,7 +70,7 @@
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute  justify-center inset-x-0">
         <div v-if="modalFirma" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
-          <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar firma a este DTC {{ refNum }}</p>
+          <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
             <button @click="agregar_fimar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
             <button @click="agregar_fimar(false)" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
@@ -378,10 +378,10 @@ methods: {
         .then(() => {
           Axios.get(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${value.referenceNumber}`)
           .then(() => { 
-              resolve('ok')    
+              resolve('ok')                
               let info = this.$store.getters['Login/getUserForDTC']  
               this.$store.dispatch('DTC/buscarListaDTC', info)   
-              this.limpiar_filtros()                                                                             
+              this.limpiar_filtros()                                                                                         
           })                                  
         })
         .catch((ex) => {
@@ -448,12 +448,13 @@ methods: {
         this.infoDTC = listaFiltrada            
     })  
   },
+  //Cambiar Por Statu GMM
   agregar_fimar(value){
     if(value === true){      
       this.modalLoading = true
       this.modalFirma = false    
       let agregar_firma_promise = new Promise((resolve, reject) => {              
-        Axios.get(`${API}/pdf/FirmarReporte/${this.$store.getters['Login/getReferenceSquareActual']}/${this.refNum}/${this.refNum.split('-')[0]}`)
+        Axios.post(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
         .then(() => {           
           let info = this.$store.getters['Login/getUserForDTC']  
           this.$store.dispatch('DTC/buscarListaDTC', info)                 

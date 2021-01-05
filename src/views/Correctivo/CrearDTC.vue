@@ -218,7 +218,7 @@ methods: {
           if (status == 2) {
             var oReq = new XMLHttpRequest();
             // The Endpoint of your server
-            let urlTopdf = `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.refNum}/${this.refNum.slice(0,3)}`;            
+            let urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.refNum}/${this.refNum.slice(0,3)}`;            
             let namePdf = `ReportDTC-${this.refNum}.pdf`;            
             // Configure XMLHttpRequest
             oReq.open("GET", urlTopdf, true);

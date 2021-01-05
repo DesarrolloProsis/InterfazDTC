@@ -27,7 +27,7 @@
           <p class="text-left font-bold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p>
-          <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">PDF Sellado: Entregado</p>
+          <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">PDF Autorizado GMMEP</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
             <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
           </div>
@@ -36,7 +36,7 @@
             ////                       SUBIR PDF SELLADO                      ////
             ///////////////////////////////////////////////////////////////////// -->        
         <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
-          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico">
+          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico ==tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
               <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
               <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border" alt/>
@@ -69,8 +69,8 @@
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between">
         <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 ">Status: {{ infoCard.statusDescription }}</a>        
-        <div class="pb-2" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId < 3" v-show="menosMas">
-          <span class="text-sm font-bold text-orange-500">Agregar Firma</span>
+        <div class="pb-2" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3" v-show="menosMas">
+          <span class="text-sm font-bold text-orange-500">Autorizacón GMMEP</span>
           <input @change="status_agregar_firma()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
         <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 ">Ver Mas</a>
@@ -104,7 +104,7 @@
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
           <div class="">
-            <button @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
+            <button v-if="infoCard.statusId < 4" @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
               <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1"/>
               <span>Borrar</span>
             </button>
@@ -118,7 +118,7 @@
             <button v-else @click.prevent="pdf" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700">
               <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1"/>              
               <span v-if="infoCard.statusId == 2">PDF Firmado</span>
-              <span v-if="infoCard.statusId == 3">PDF Sellado</span>
+              <span v-if="infoCard.statusId >= 3">PDF Sellado</span>
             </button>      
           </div>
         </div>
@@ -257,6 +257,7 @@ export default {
         namePdf = `ReportDTC-${_ref}-Firmado.pdf` 
       }
       else{
+        console.log(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`)
         urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`;
         namePdf = `ReportDTC-${_ref}-Sellado.pdf` 
       }                                   
