@@ -27,15 +27,18 @@
                         <h2 class="ml-5">TLA-201234</h2>
                     </div>
                     <div class="flex justify-start m-5">
-                        <p class="font-bold">Plaza de Cobro:</p>                               
+                        <p class="font-bold">Plaza de Cobro:</p>
+                        <p class="ml-5">{{ header.plazaNombre }}</p>                                   
                     </div>
                     <div class="flex justify-start m-5">
-                        <p class="font-bold">Ubicacion:</p>                      
+                        <p class="font-bold">Ubicacion:</p>       
+                        <p class="ml-5">{{ header.lane }}</p>               
                     </div>
                 </div>
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-start m-5">
                         <p class=" font-bold">Fecha:</p>                        
+                        <p class="ml-5">{{ header.day }}</p>                        
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Inicio:</p>
@@ -81,14 +84,19 @@ export default {
 /////////////////////////////////////////////////////////////////////
 data() {
     return {
-        header: {},
+        
     };
+},
+props: {
+    header:{
+        type: Object,
+        default: () => {},
+    }
 },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount(){
-    console.log(this.$route.query)
+beforeMount(){    
 }
 
 

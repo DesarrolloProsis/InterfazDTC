@@ -291,6 +291,7 @@ export default {
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",this.base64ToFile(item.imgbase, item.name));
+            console.log(formData)
             await Axios.post(`${API}/Image/InsertImage/${this.getReferenceSquareActual}`,formData)
               .then(() => {                
                 this.$notify.success({

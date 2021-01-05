@@ -9,10 +9,10 @@
           <div class="font-black m-3">{{ infoCard.referenceNumber }}</div>
           <div class=" inline-flex sm:ml-10 ml-20">
             <div class="m-3">{{ infoCard.sinisterDate | formatDate }}</div>
-            <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1">
+            <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId <= 3">
               <!-- <div class="mt-2" v-if="false"> -->
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
-                <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1" />              
+                <img src="../../assets/img/pencil.png" class="" width="10" height="10" />              
               </button>
             </div>
           </div>
@@ -35,7 +35,7 @@
         <!-- /////////////////////////////////////////////////////////////////////
             ////                       SUBIR PDF SELLADO                      ////
             ///////////////////////////////////////////////////////////////////// -->        
-        <div v-if="infoCard.statusId == 3 && !showmenosMas == true">
+        <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
           <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico">
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
               <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
@@ -111,15 +111,14 @@
           </div>
           <div>
             <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>
-            <button v-if="inconcluso == 1" @click.prevent="editar" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
+            <button v-if="infoCard.statusId == 1" @click.prevent="editar" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
               <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1"/>
               <span class="text-xs">Editar</span>
             </button>
             <button v-else @click.prevent="pdf" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700">
-              <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1"/>
-              <span v-if="infoCard.statusId == 2 ">PDF</span>
-              <span v-if="infoCard.statusId == 3">PDF Firmado</span>
-              <span v-if="infoCard.statusId == 4">PDF Sellado</span>
+              <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1"/>              
+              <span v-if="infoCard.statusId == 2">PDF Firmado</span>
+              <span v-if="infoCard.statusId == 3">PDF Sellado</span>
             </button>      
           </div>
         </div>
@@ -171,7 +170,7 @@ export default {
 ////////////////////////////////////////////////////////////////////
   beforeMount: function () { 
     //incloncluso 1 = inconcluso 2 = concluido       
-    this.inconcluso = this.infoCard.statusId 
+     
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']; 
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
@@ -249,11 +248,11 @@ export default {
       // The Endpoint of your server
       let urlTopdf = ''
       let namePdf = ''
+      // if(this.infoCard.statusId == 2){
+      //   urlTopdf = `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
+      //   namePdf = `ReportDTC-${_ref}.pdf`
+      // }
       if(this.infoCard.statusId == 2){
-        urlTopdf = `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
-        namePdf = `ReportDTC-${_ref}.pdf`
-      }
-      else if(this.infoCard.statusId == 3){
         urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split('-')[0]}`;
         namePdf = `ReportDTC-${_ref}-Firmado.pdf` 
       }

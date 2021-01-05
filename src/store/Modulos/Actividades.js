@@ -10,7 +10,8 @@ const state =  {
         { value: 4, text: "Semestral" },
         { value: 5, text: "Anual" },
     ],
-    comentarioMensual: ''
+    comentarioMensual: '',
+    listaActividadesCheck: []
 }
 const getters = {
     GET_ACTIVIDADES_MENSUALES: (state) => (obj) => {        
@@ -23,7 +24,8 @@ const getters = {
 }
 const mutations = {
     ACTIVIDADES_MENSUALES_MUTATION: (state, value) => state.actividadesMensuales =  value,
-    COMENTARIO_MENSUAL_MUTATION: (state, value) => state.comentarioMensual = value
+    COMENTARIO_MENSUAL_MUTATION: (state, value) => state.comentarioMensual = value,
+    LISTA_ACTIVIDADES_CHECK_MUTATION: (state, value) => state.listaActividadesCheck = value
 }
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
@@ -45,6 +47,16 @@ const actions = {
             .catch(Ex => {
             console.log(Ex);
             });
+    },
+    async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
+        let rolUser = rootGetters['Login/getTypeUser']
+        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`,value)
+        .then((response) => {                                              
+            commit("LISTA_ACTIVIDADES_CHECK_MUTATION", response.data.result)               
+        })
+        .catch(Ex => {
+        console.log(Ex);
+        });
     }
 
 }  

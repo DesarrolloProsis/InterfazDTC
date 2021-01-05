@@ -35,10 +35,10 @@
               <p class="font-bold mb-5 sm:text-sm">Status DTC</p>
               <select v-model="statusFiltro" class="w-full" type="text">
                   <option value="">Selecionar...</option>     
-                  <option value="1">Inconcluso</option>                                               
-                  <option value="2">Concluido</option>    
-                  <option value="3">Firmado</option>                                                                                         
-                  <option value="4">Sellado</option>                                    
+                  <option value="1">Inconcluso</option>                                                                  
+                  <option value="2">Firmado</option>                                                                                         
+                  <option value="3">Sellado</option>    
+                  <option value="4"></option>                                    
               </select>                  
             </div>
           </div>
@@ -244,8 +244,7 @@ beforeMount: function () {
         listaPlazasValias.push(plaza)        
       }
   }
-  this.plazasValidas = listaPlazasValias
-  console.log(listaPlazasValias)
+  this.plazasValidas = listaPlazasValias  
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
