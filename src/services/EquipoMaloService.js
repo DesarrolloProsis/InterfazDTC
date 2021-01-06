@@ -140,6 +140,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
 }
 function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
     try{
+        console.log(cantidad)
         let newObjectPartida = []
         for(const lane of laneSelect){
             console.log(lane)
@@ -172,7 +173,7 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
                 //Nuevo
                 mainRelationship: relationShipPrincipal,
                 tableFolio: component.tableFolio,  
-                cantidad: cantidad
+                //cantidad: cantidad
             };
             newObjectPartida.push(obj)        
         }    

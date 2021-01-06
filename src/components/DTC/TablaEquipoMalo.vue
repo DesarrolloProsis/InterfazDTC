@@ -514,7 +514,6 @@
     <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
   </div>
 </template>
-
 <script>
 import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
@@ -591,7 +590,6 @@ beforeMount: async function () {
       let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
       if (JSON.stringify(componetesEdit) != "{}") {                
         for (const item of componetesEdit.items) { 
-
           let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
           newObject["attachedId"] = item.attachedId;
           newObject["componentsRelationship"] = item.relationship;
@@ -801,14 +799,12 @@ methods: {
       if (this.saveObjectEdiar.length == 0) {
         this.saveObjectEdiar = Object.values(datos);
         this.updtCompEditar = this.saveObjectEdiar[2];
-
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.getters[
           "Refacciones/getListaLane"
         ];
-
         this.laneSelectEditar = this.saveObjectEdiar[7];
         this.arrayPartidas[index]["rowUp"] = false;
       } else {
@@ -835,13 +831,11 @@ methods: {
             equipoValid,
             this.dateSinester
           );
-
           let objMutation = {
             index: index,
             value: objPartida,
           };
           this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);
-
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -866,14 +860,11 @@ methods: {
             equipoValid,
             this.dateSinester
           );
-
           new_partida["row1"] = index + 1;
           new_partida["row2"] = this.objectEditar.rowUpd2;
           new_partida["row3"] = this.updtCompEditar;
           new_partida["row8"] = this.laneSelectEditar;
-
           this.arrayPartidas.splice(index, 1, new_partida);
-
           this.objectEditar = {};
           this.saveObjectEdiar = [];
           this.laneSelectEditar = [];
@@ -931,11 +922,9 @@ methods: {
         equipoValid,
         this.dateSinester
       );
-
       obj_abort["row3"] = this.saveObjectEdiar[2];
       obj_abort["row8"] = this.saveObjectEdiar[7];
       this.arrayPartidas[index] = obj_abort;
-
       this.saveObjectEdiar = [];
       this.objectEditar = {};
       this.listLaneEditar = [""];

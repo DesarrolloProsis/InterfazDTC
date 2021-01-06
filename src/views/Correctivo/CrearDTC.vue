@@ -117,8 +117,9 @@
 import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
-import saveAs from "file-saver";
+//import saveAs from "file-saver";
 import Axios from 'axios'
+import ServiceReporte from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "CrearDTC",
@@ -216,26 +217,27 @@ methods: {
             },
           });
           if (status == 2) {
-            var oReq = new XMLHttpRequest();
-            // The Endpoint of your server
-            let urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.refNum}/${this.refNum.slice(0,3)}`;            
-            let namePdf = `ReportDTC-${this.refNum}.pdf`;            
-            // Configure XMLHttpRequest
-            oReq.open("GET", urlTopdf, true);
-            // Important to use the blob response type
-            oReq.responseType = "blob";
-            // When the file request finishes
-            // Is up to you, the configuration for error events etc.
-            oReq.onload = function () {
-              // Once the file is downloaded, open a new window with the PDF
-              // Remember to allow the POP-UPS in your browser
-              var file = new Blob([oReq.response], {
-                type: "application/pdf",
-              });
-              // Generate file download directly in the browser !
-              saveAs(file, namePdf);
-            };
-            oReq.send();
+            ServiceReporte.generar_pdf_correctivo(this.refNum, status)
+            // var oReq = new XMLHttpRequest();
+            // // The Endpoint of your server
+            // let urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.refNum}/${this.refNum.slice(0,3)}`;            
+            // let namePdf = `ReportDTC-${this.refNum}.pdf`;            
+            // // Configure XMLHttpRequest
+            // oReq.open("GET", urlTopdf, true);
+            // // Important to use the blob response type
+            // oReq.responseType = "blob";
+            // // When the file request finishes
+            // // Is up to you, the configuration for error events etc.
+            // oReq.onload = function () {
+            //   // Once the file is downloaded, open a new window with the PDF
+            //   // Remember to allow the POP-UPS in your browser
+            //   var file = new Blob([oReq.response], {
+            //     type: "application/pdf",
+            //   });
+            //   // Generate file download directly in the browser !
+            //   saveAs(file, namePdf);
+            // };
+            // oReq.send();
             this.$notify.success({
               title: "Ok!",
               msg: `CREANDO EL REPORTE ${this.refNum}.`,

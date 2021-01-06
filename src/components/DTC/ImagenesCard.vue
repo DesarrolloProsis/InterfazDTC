@@ -290,8 +290,7 @@ export default {
             let formData = new FormData();
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
-            formData.append("image",this.base64ToFile(item.imgbase, item.name));
-            console.log(formData)
+            formData.append("image",this.base64ToFile(item.imgbase, item.name));            
             await Axios.post(`${API}/Image/InsertImage/${this.getReferenceSquareActual}`,formData)
               .then(() => {                
                 this.$notify.success({

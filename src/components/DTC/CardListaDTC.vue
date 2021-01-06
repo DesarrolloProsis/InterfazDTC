@@ -134,9 +134,10 @@
 
 <script>
 import moment from "moment";
-import saveAs from "file-saver";
+// import saveAs from "file-saver";
+import ServicoReporte from '../../services/ReportesPDFService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
-const API = process.env.VUE_APP_URL_API_PRODUCCION
+//const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   props: {
@@ -170,7 +171,6 @@ export default {
 ////////////////////////////////////////////////////////////////////
   beforeMount: function () { 
     //incloncluso 1 = inconcluso 2 = concluido       
-     
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']; 
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
@@ -243,34 +243,34 @@ export default {
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
     pdf() {
-      var oReq = new XMLHttpRequest();
-      let _ref = this.infoCard.referenceNumber;
-      // The Endpoint of your server
-      let urlTopdf = ''
-      let namePdf = ''
+      ServicoReporte.generar_pdf_correctivo(
+        this.infoCard.referenceNumber, 
+        this.infoCard.statusId
+      )
+      // var oReq = new XMLHttpRequest();
+      // let _ref = this.infoCard.referenceNumber;
+      // // The Endpoint of your server
+      // let urlTopdf = ''
+      // let namePdf = ''
       // if(this.infoCard.statusId == 2){
-      //   urlTopdf = `${API}/pdf/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split("-")[0]}`
-      //   namePdf = `ReportDTC-${_ref}.pdf`
+      //   urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split('-')[0]}`;
+      //   namePdf = `ReportDTC-${_ref}-Firmado.pdf` 
       // }
-      if(this.infoCard.statusId == 2){
-        urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}/${this.infoCard.referenceNumber.split('-')[0]}`;
-        namePdf = `ReportDTC-${_ref}-Firmado.pdf` 
-      }
-      else{
-        console.log(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`)
-        urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`;
-        namePdf = `ReportDTC-${_ref}-Sellado.pdf` 
-      }                                   
-      oReq.open("GET", urlTopdf, true);            
-      oReq.responseType = "blob";              
-      oReq.onload = function () {                
-        var file = new Blob([oReq.response], {
-          type: "application/pdf",
-        });  
-        console.log(file)      
-        saveAs(file, namePdf);
-      };
-      oReq.send();
+      // else{
+      //   console.log(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`)
+      //   urlTopdf = `${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.infoCard.referenceNumber}`;
+      //   namePdf = `ReportDTC-${_ref}-Sellado.pdf` 
+      // }                                   
+      // oReq.open("GET", urlTopdf, true);            
+      // oReq.responseType = "blob";              
+      // oReq.onload = function () {                
+      //   var file = new Blob([oReq.response], {
+      //     type: "application/pdf",
+      //   });  
+      //   console.log(file)      
+      //   saveAs(file, namePdf);
+      // };
+      // oReq.send();
     },
     borrar() {
       window.scroll(0, 0);
