@@ -104,7 +104,7 @@
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
           <div class="">
-            <button v-if="infoCard.statusId < 4" @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
+            <button v-if="!(infoCard.statusId > 2)" @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
               <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1"/>
               <span>Borrar</span>
             </button>
