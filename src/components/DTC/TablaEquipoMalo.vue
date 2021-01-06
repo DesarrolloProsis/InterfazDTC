@@ -1041,7 +1041,7 @@ watch: {
           newValue.length         
         );
         if(this.datosPrePartida.rowUnidad == 'Metro'){
-          this.statusMetro = true
+          this.statusMetro = false
         }
       }
   },
