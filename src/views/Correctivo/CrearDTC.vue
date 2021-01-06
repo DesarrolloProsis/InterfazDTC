@@ -217,7 +217,7 @@ methods: {
             },
           });
           if (status == 2) {
-            ServiceReporte.generar_pdf_correctivo(this.refNum, status)
+            ServiceReporte.generar_pdf_correctivo(this.refNum, status, true)
             // var oReq = new XMLHttpRequest();
             // // The Endpoint of your server
             // let urlTopdf = `${API}/pdf/FirmarReporte/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.refNum}/${this.refNum.slice(0,3)}`;            

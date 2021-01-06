@@ -252,7 +252,8 @@ export default {
     pdf(status) {
       ServiceReporte.generar_pdf_correctivo(
         this.infoCard.referenceNumber, 
-        status
+        status,
+        false
       )
       // var oReq = new XMLHttpRequest();
       // let _ref = this.infoCard.referenceNumber;

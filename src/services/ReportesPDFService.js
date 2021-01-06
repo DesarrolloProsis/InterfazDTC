@@ -7,13 +7,16 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     completado: 2,
     sellado: 3
 })
-function generar_pdf_correctivo(numeroReferencia, statusId){
+function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     let clavePlaza = numeroReferencia.split('-')[0]
     var oReq = new XMLHttpRequest();    
     let urlTopdf = ''
     let namePdf = ''
     if(STATUS_REPORTE_CORRECTIVO.completado === statusId){
-        urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${clavePlaza}`; 
+        if(crearDTC == true)
+            urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${clavePlaza}`; 
+        else    
+            urlTopdf = `${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`; 
         namePdf = `DTC-${numeroReferencia}-Finalizado.pdf`;        
     } 
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){
