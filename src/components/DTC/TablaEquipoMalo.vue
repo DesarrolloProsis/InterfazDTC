@@ -185,7 +185,7 @@
                     <td class="border border-gray-800">
                       <multiselect
                           @open="UnClick"                          
-                          @select="UpdateComp"
+                          @select="update_componente"
                           v-model="updtComp"
                           :options="listaComponentes"
                           :multiple="false"
@@ -201,7 +201,14 @@
                       ><span slot="noResult"></span>
                       </multiselect>
                     </td>
-                    <td class="border border-gray-800 w-1">{{ datosPrePartida.rowCantidad }}</td>
+                    <td class="border border-gray-800 w-1">
+                      <template v-if="statusMetro">
+                        <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
+                      </template>
+                      <template v-else>
+                        {{ datosPrePartida.rowCantidad }}
+                      </template>                      
+                    </td>
                     <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
                     <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
                     <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
@@ -226,10 +233,7 @@
                     <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
                     <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
                     <td class="border border-gray-800 p-2">
-                      <button
-                        v-on:click.stop.prevent="agregarPartida()"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24"
-                      >
+                      <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24">
                         <img src="../../assets/img/more.png" width="20" height="20" />
                         <span class="text-xs">Agregar Partida</span>
                       </button>
@@ -384,7 +388,7 @@
                     <td class="border border-gray-800">{{ "*" }}</td>
                     <td class="border border-gray-800">
                       <multiselect
-                        @select="UpdateComp()"
+                        @select="update_componente"
                         @open="UnClick,scrollBool = false"
                         @close="scrollBool = true"
                         v-model="updtComp"
@@ -545,7 +549,9 @@ export default {
       arrayPartidas: [],
       //nombre del Compoente    
       updtComp: "",     
-      scrollBool: true, 
+      scrollBool: true,
+      statusMetro: false,
+      cantidadMetro: 0,
       //Multiselect Normal
       listLane: [],
       laneSelect: [],
@@ -671,7 +677,8 @@ destroyed: function () {
 /////////////////////////////////////////////////////////////////////
 methods: {
   UnClick() { this.updtComp = "" },
-  UpdateComp: async function (value) {
+  //updateComp: async function (value) {
+    update_componente: async function (value) {
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
@@ -687,16 +694,11 @@ methods: {
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         //newObject["id"] = this.updtComp;
         newObject["attachedId"] = this.updtComp.attachedId;
-        newObject[
-          "componentsRelationship"
-        ] = this.updtComp.componentsRelationship;
-        newObject[
-          "componentsRelationshipId"
-        ] = this.updtComp.componentsRelationshipId;
+        newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
+        newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.getters["Refacciones/getListaLane"];
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
-
         //Validacion para lista lane
         if (this.listLane.length == 0) {
           this.$notify.warning({
@@ -730,7 +732,6 @@ methods: {
             this.updtCompEditar.componentsRelationship
         );
       });
-
       if (!comp_rep) {
         this.laneSelectEditar = [];
         this.listLaneEditar = [];
@@ -741,7 +742,6 @@ methods: {
           "Refacciones/getListaLane"
         ];
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
-
         //Validacion para lista lane
         if (this.listLane.length == 0) {
           this.$notify.warning({
@@ -953,10 +953,11 @@ methods: {
             this.laneSelect,
             equipoValid,
             this.dateSinester,
-            this.relationShipPrincipal
+            this.relationShipPrincipal,
+            null,
+            this.statusMetro == true ? this.cantidadMetro : 0
           );
           this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
-
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -980,17 +981,14 @@ methods: {
             key_partidas,
             equipoValid,
             this.dateSinester,
-            this.relationShipPrincipal
+            this.relationShipPrincipal,
+            null,
+            this.statusMetro == true ? this.cantidadMetro : this.laneSelect.length
           );
-
           new_partida["row1"] = this.arrayPartidas.length + 1;
           new_partida["row3"] = this.updtComp;
-          new_partida["row8"] = this.laneSelect;
-
-          console.log(new_partida);
-
+          new_partida["row8"] = this.laneSelect;          
           this.arrayPartidas.push(new_partida);
-
           //LIMPIA LA LISTA PRE_PARTIDA
           for (const propiedades in this.datosPrePartida) {
             if (propiedades == "rowCantidad")
@@ -1000,8 +998,8 @@ methods: {
           //LIMPIAMOS COMPONENTE Y LANE
           this.updtComp = "";
           this.laneSelect = [];
-          this.listLane = [];
-          //this.relationShipPrincipal = ''
+          this.listLane = [];  
+          this.statusMetro = false        
         } else {
           this.$notify.warning({
             title: "Ups!",
@@ -1035,6 +1033,7 @@ methods: {
 /////////////////////////////////////////////////////////////////////
 watch: {
   laneSelect: async function (newValue) {
+      //Limpiar los datos pre partida
       for (const propiedades in this.datosPrePartida) {
         if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
         else this.datosPrePartida[propiedades] = [];
@@ -1049,8 +1048,12 @@ watch: {
           equipoValid,
           this.dateSinester,
           this.relationShipPrincipal,
-          undefined
+          undefined, 
+          newValue.length         
         );
+        if(this.datosPrePartida.rowUnidad == 'Metro'){
+          this.statusMetro = true
+        }
       }
   },
   laneSelectEditar: async function (newValue) {

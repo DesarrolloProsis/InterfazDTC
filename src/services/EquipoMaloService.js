@@ -60,7 +60,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
 /*//  FUNCIONES PARA COMPONENTE PRE-PARTIDA && EDITAR &&  PARTIDA $STORE       //*/
 /*///////////////////////////////////////////////////////////////////////////////*/
 import moment from "moment";   
-function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal, _editar){
+function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal, _editar, cantidad){
     try{
         let key_Require = []
         let arrayRequire = {}
@@ -83,7 +83,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         //Nombre Componente
         arrayRequire[key_Require[2]] = ""
         //Cantidad
-        arrayRequire[key_Require[3]] = laneSelect.length
+        arrayRequire[key_Require[3]] = cantidad
         //Ubicacion
         arrayRequire[key_Require[7]] = []
         //UpRow
@@ -138,16 +138,18 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         console.log(ex)        
     }  
 }
-function obj_partida(laneSelect, equipoValid, dateSinester, _relationShipPrincipal, _editar){
+function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
     try{
         let newObjectPartida = []
         for(const lane of laneSelect){
+            console.log(lane)
             let component = []
-            if(_editar == undefined)
+            if(editar == undefined)
                 component = equipoValid.find(comp => comp.lane === lane)
             else{
                 component = equipoValid.find(comp => comp.tableFolio == lane)
-            }                          
+            }       
+            console.log(component)                   
             //let component = equipoValid.find(item => item.lane == lane)                
             let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
             let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
@@ -168,8 +170,9 @@ function obj_partida(laneSelect, equipoValid, dateSinester, _relationShipPrincip
                 strLifeTimeReal: fecha_format,
                 IntPartida: "",
                 //Nuevo
-                mainRelationship: _relationShipPrincipal,
-                tableFolio: component.tableFolio
+                mainRelationship: relationShipPrincipal,
+                tableFolio: component.tableFolio,  
+                cantidad: cantidad
             };
             newObjectPartida.push(obj)        
         }    
