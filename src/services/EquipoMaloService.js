@@ -149,8 +149,7 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
                 component = equipoValid.find(comp => comp.lane === lane)
             else{
                 component = equipoValid.find(comp => comp.tableFolio == lane)
-            }       
-            console.log(component)                   
+            }                   
             //let component = equipoValid.find(item => item.lane == lane)                
             let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
             let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
