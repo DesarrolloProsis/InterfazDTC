@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav></Nav>
-    <div class="flex justify-center mt-10 sm:mt-14" v-if="acultarPrimerosBotones">
+    <div class="flex justify-center mt-10 mb-10 sm:mt-14" v-if="acultarPrimerosBotones">
       <div class>
         <div class="flex">
           <!-- <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl h-73 sm:h-66">

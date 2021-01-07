@@ -1,20 +1,18 @@
 <template>
 
-  <div id="app">    
-      
+  <div id="app">          
     <router-view/>
-    <Fotter></Fotter>
-
+    <Footer></Footer>
   </div>
 </template>
 
 
 <script>
-import Fotter from '../src/components/footer'
+import Footer from '../src/components/Footer'
 
   export default {
     components: {
-      Fotter
+      Footer
     },
     created() {
       if (this.$workbox) {
