@@ -1,6 +1,6 @@
 <template>
     <footer class="relative">        
-            <div class="absolute w-full px-6 bg-blue-900">                
+            <div class=" w-full px-6 bg-blue-900">                
                     <div class="sticky inset-x-0 bottom-0 inline-flex justify-between  py-3 w-full">
                         <div class="w-full ml-16 sm:ml-0 text-center">
                             <p class="text-sm text-white">

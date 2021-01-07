@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav></Nav>
-    <div class="flex justify-center p-4">
+    <div :class="{'mb-69': typeUser != 1}" class="flex justify-center p-4">
       <div class="mt-5">
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
