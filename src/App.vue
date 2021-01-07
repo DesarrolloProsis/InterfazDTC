@@ -30,3 +30,10 @@ import Footer from '../src/components/Footer'
     },  
   }
 </script>
+
+
+<style scoped>
+  body {
+    margin: 0%;
+  }
+</style>

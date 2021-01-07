@@ -374,9 +374,9 @@ methods: {
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
     let pdf_sellado_promise = new Promise((resolve, reject) => {
-      Axios.post(`${API}/pdf/PdfSellado/${this.$store.getters['Login/getReferenceSquareActual']}/${value.referenceNumber}`, value.file)                   
+      Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file)                   
         .then(() => {
-          Axios.get(`${API}/pdf/GetPdfSellado/${this.$store.getters["Login/getReferenceSquareActual"]}/${value.referenceNumber}`)
+          Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
           .then(() => { 
               resolve('ok')                
               let info = this.$store.getters['Login/getUserForDTC']  
@@ -454,7 +454,7 @@ methods: {
       this.modalLoading = true
       this.modalFirma = false    
       let agregar_firma_promise = new Promise((resolve, reject) => {              
-        Axios.post(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
+        Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
         .then(() => {           
           let info = this.$store.getters['Login/getUserForDTC']  
           this.$store.dispatch('DTC/buscarListaDTC', info)                 

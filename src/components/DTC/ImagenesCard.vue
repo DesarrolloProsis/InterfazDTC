@@ -12,6 +12,9 @@
             <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
           </div>
         </div>
+        <!-- /////////////////////////////////////////////////////////////////////
+            ////                 lISTAR IMAGENES EDICION                      ////
+            ///////////////////////////////////////////////////////////////////// -->
         <div v-else class="border-2 border-gray-500 flex-col justify-center border-dashed w-full">
           <div v-for="(item, key) in fileUpload" :key="key" class="border border-r-0 justify-between inline-flex w-full">
             <div class="inline-flex">
@@ -44,49 +47,22 @@
       <template v-else>
         <div class="flex justify-between">
           <div class="justify-start">
-            <button
-              v-if="tipoUsuario != 2"
-              @click="editar_img"
-              class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700"
-            >
-              Agregar
-              <img
-                src="../../assets/img/image-mini.png"
-                class="w-6 border opacity-75"
-                alt
-              />
+            <button v-if="tipoUsuario != 2" @click="editar_img" class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700">
+              Agregar 
+              <img src="../../assets/img/image-mini.png" class="w-6 border opacity-75" alt/>
             </button>
           </div>
           <div class="justify-end">
-            <button
-              @click="cambiar_imagen('anterior')"
-              class="m-1 border hover:border-blue-500 rounded-md"
-            >
-              <img
-                src="../../assets/img/flecha-izquierda.png"
-                class="w-6 border opacity-75"
-                alt
-              />
+            <button @click="cambiar_imagen('anterior')" class="m-1 border hover:border-blue-500 rounded-md">
+              <img src="../../assets/img/flecha-izquierda.png" class="w-6 border opacity-75" alt />
             </button>
-            <button
-              @click="cambiar_imagen('siguiente')"
-              class="m-1 border hover:border-blue-500 rounded-md"
-            >
-              <img
-                src="../../assets/img/flecha-derecha.png"
-                class="w-6 border opacity-75"
-                alt
-              />
+            <button @click="cambiar_imagen('siguiente')" class="m-1 border hover:border-blue-500 rounded-md">
+              <img src="../../assets/img/flecha-derecha.png" class="w-6 border opacity-75" alt />
             </button>
           </div>
         </div>
         <div class="p-1" v-show="!agregarbool">         
-          <lazy-image         
-            v-if="cambiarImagenBool"    
-            :src="imgbase64.array_img[index_imagen_actual].image"
-            :img-class="['h-66']"
-            placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"             
-          />          
+          <lazy-image v-if="cambiarImagenBool" :src="imgbase64.array_img[index_imagen_actual].image" :img-class="['h-66']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"/>          
         </div>
       </template>
     </div>
@@ -150,8 +126,7 @@ export default {
               };   
             }               
         })
-        .catch(() => {
-          //console.log("error imagenes");
+        .catch(() => {          
         });      
       if (this.imgbase64.array_img.length > 0) {        
           this.agregarbool = false;
