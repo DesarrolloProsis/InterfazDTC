@@ -112,13 +112,13 @@ export default {
     let _ref = this.referenceNumber.split("-")[0]          
     let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == _ref).squareName          
     if(nombre_plaza != undefined){       
-      await Axios.get(`${API}/Image/GetImages/${this.$store.getters["Login/getReferenceSquareActual"]}/${nombre_plaza}/${this.referenceNumber}`)
+      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetImages/${this.referenceNumber.split('-')[0]}/${nombre_plaza}/${this.referenceNumber}`)
         .then((response) => {              
             if(response.status != 404){
               let array = response.data.map(item => {
                 return {
                   "fileName": item, 
-                  "image": `${API}/Image/DownloadFile/${this.$store.getters["Login/getReferenceSquareActual"]}/${nombre_plaza}/${this.referenceNumber}/${item}`
+                  "image": `${API}/dtcData/EquipoDañado/Images/DownloadFile/${this.referenceNumber.split('-')[0]}/${nombre_plaza}/${this.referenceNumber}/${item}`
                 }
               })            
               this.imgbase64 = {
@@ -216,7 +216,7 @@ export default {
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-            Axios.get(`${API}/Image/Delete/${this.getReferenceSquareActual}/${nombre_plaza}/${this.referenceNumber}/${eliminar}`)
+            Axios.get(`${API}/dtcData/EquipoDañado/Images/Delete/${this.referenceNumber.split('-')[0]}/${nombre_plaza}/${this.referenceNumber}/${eliminar}`)
               .then(() => {})
               .catch((ex) => {
                 console.log("error al eliminar");
@@ -241,12 +241,14 @@ export default {
       let agregar_promise = new Promise(async (resolve, reject) => {        
         if (this.imagenes_enviar.length > 0) {
           for (const item of this.imagenes_enviar) {
+            if(item.name.split('_')[0] != this.referenceNumber)      {      
             let formData = new FormData();
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
-            await Axios.post(`${API}/Image/InsertImage/${this.getReferenceSquareActual}`,formData)
-              .then(() => {                
+            await Axios.post(`${API}/dtcData/EquipoDañado/Images/InsertImage/${this.referenceNumber.split('-')[0]}`,formData)
+              .then((response) => {    
+                console.log(response)            
                 this.$notify.success({
                   title: "Ok!",
                   msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
@@ -269,6 +271,7 @@ export default {
                   },
                 });
               });
+            }
           }          
           await this.actualizar_img(nombre_plaza);
           resolve("ok");
@@ -283,7 +286,7 @@ export default {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-      await Axios.get(`${API}/Image/GetImages/${this.getReferenceSquareActual}/${nombre_plaza}/${this.referenceNumber}`)
+      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetImages/${this.referenceNumber.split('-')[0]}/${nombre_plaza}/${this.referenceNumber}`)
         .then((response) => {          
           array_nombre_imagenes = response.data;
         })
@@ -295,7 +298,7 @@ export default {
         for (let item2 of array_nombre_imagenes) {          
           arrayimg.push({
             fileName: item2,
-            image: `${API}/Image/DownloadFile/${this.getReferenceSquareActual}/${nombre_plaza}/${this.referenceNumber}/${item2}`,
+            image: `${API}/dtcData/EquipoDañado/Images/DownloadFile/${this.referenceNumber.split('-')[0]}/${nombre_plaza}/${this.referenceNumber}/${item2}`,
           });
         }
         let obj = {

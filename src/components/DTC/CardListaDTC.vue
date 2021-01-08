@@ -26,7 +26,8 @@
         <div class="md:w-2/3">
           <p class="text-left font-bold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
-          <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p>
+          <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
+          <p class="text-left text-sm break-words text-red-600">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">PDF Autorizado GMMEP</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
             <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
@@ -49,7 +50,7 @@
               </div>
               <div class="mt-2 justify-between">
                 <button @click="pdfSelladoBool = false, pdfSellado = ''" class="rounded-md border ml-4 h-7 p-1 bg-red-600 text-sm">Cancelar</button>
-                <button @click="status_dtc_firmado" class="rounded-md border ml-2 h-7 p-1 bg-green-600 text-sm">Enviar PDF</button>
+                <button @click="status_dtc_sellado" class="rounded-md border ml-2 h-7 p-1 bg-green-600 text-sm">Enviar PDF</button>
               </div>            
             </div>
           </div>
@@ -104,7 +105,7 @@
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
           <div class="">
-            <button v-if="!(infoCard.statusId > 2)" @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
+            <button v-if="!(infoCard.statusId > 2) || TIPO_USUARIO.Administracion == tipoUsuario" @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
               <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1"/>
               <span>Borrar</span>
             </button>
@@ -304,7 +305,7 @@ export default {
         this.statusAgregarFimar = false
       }
     },
-    status_dtc_firmado(){                      
+    status_dtc_sellado(){                      
       let formData = new FormData();
       let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
       formData.append("file", file);

@@ -22,6 +22,7 @@ function obtener_array_imagenes(e, arrayComponete) {
 }
 function base64_to_file(dataurl, fileName) {
     let url = "data:image/jpeg;base64," + dataurl;
+    console.log(url)
     var arr = url.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),

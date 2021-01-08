@@ -14,7 +14,7 @@
       <div class="inline-flex justify-center">
         <div class="m-3">
           <p for="nombre" class="text-sm text-gray-800 mb-1">Apellido Materno</p>
-          <inputv-model="dataRegister.apellidoMaterno" type="text" class="w-64" name="apellidoPaterno" v-validate="'required'"/>
+          <input v-model="dataRegister.apellidoMaterno" type="text" class="w-64" name="apellidoPaterno" v-validate="'required'"/>
           <p class="text-red-600 text-xs">{{ errors.first("apellidoPaterno") }}</p>
         </div>
       </div>

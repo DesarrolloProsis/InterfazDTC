@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-center mt-2 sm:mt-14">
-      <div class>
+      <div class="mb-66">
         <div class="flex">
           <!-- <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl">
             <router-link to="/NuevoDtc" class="text-center cursor-pointer">

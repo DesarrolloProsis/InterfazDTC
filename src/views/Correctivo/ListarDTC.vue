@@ -375,9 +375,11 @@ methods: {
     this.modalLoading = true
     let pdf_sellado_promise = new Promise((resolve, reject) => {
       Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file)                   
-        .then(() => {
+        .then((response) => {
+          console.log(response)
           Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-          .then(() => { 
+          .then((response) => { 
+              console.log(response)
               resolve('ok')                
               let info = this.$store.getters['Login/getUserForDTC']  
               this.$store.dispatch('DTC/buscarListaDTC', info)   
@@ -480,7 +482,7 @@ methods: {
           this.modalLoading = false 
           this.$notify.success({
             title: "Ok!",
-            msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+            msg: `SE AUTORIZADO CORRECTAMENTE GMMEP.`,
             position: "bottom right",
             styles: {
               height: 100,
