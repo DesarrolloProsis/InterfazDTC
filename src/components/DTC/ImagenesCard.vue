@@ -17,8 +17,8 @@
             ///////////////////////////////////////////////////////////////////// -->
         <div v-else class="border-2 border-gray-500 flex-col justify-center border-dashed w-full">
           <div v-for="(item, key) in fileUpload" :key="key" class="border border-r-0 justify-between inline-flex w-full">
-            <div class="inline-flex">
-              <lazy-image :src="`${item.imgbase}`" :img-class="['w-10', 'h-10']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-if="item.imgbase.length < 100"/>
+            <div class="inline-flex">              
+              <lazy-image :src="`${item.imgbase}`" :img-class="['w-10', 'h-10']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-if="item.name.split('_')[0] == referenceNumber"/>
               <lazy-image :src="`data:image/jpeg;base64,${item.imgbase}`" :img-class="['w-10', 'h-10']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" v-else/>
               <p class="ml-3 mt-2">{{ item.name }}</p>
             </div>
@@ -246,7 +246,7 @@ export default {
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
-            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}`,formData)
+            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
               .then((response) => {    
                 console.log(response)            
                 this.$notify.success({
@@ -299,7 +299,7 @@ export default {
         for (let item2 of array_nombre_imagenes) {          
           arrayimg.push({
             fileName: item2,
-            image: `${API}/dtcData/EquipoDañado/Images/DownloadFile/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item2}`,
+            image: `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item2}`,
           });
         }
         let obj = {
