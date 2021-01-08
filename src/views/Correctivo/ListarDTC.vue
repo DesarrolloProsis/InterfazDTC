@@ -66,14 +66,14 @@
         </div>
       </div>
       <!--/////////////////////////////////////////////////////////////////
-      ////                      MODAL CONFIRMAR FIRMA                 ////
+      ////                      MODAL CONFIRMAR GMMEP                 ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex absolute  justify-center inset-x-0">
         <div v-if="modalFirma" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
-            <button @click="agregar_fimar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-            <button @click="agregar_fimar(false)" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+            <button @click="agregar_autorizacion_gmmep(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+            <button @click="agregar_autorizacion_gmmep(false)" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
           </div>
         </div>
       </div>
@@ -118,14 +118,7 @@
             </div>
             <div class="ml-6">    
               <p class="text-sm mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
-              <select   
-                v-model="dtcEdit.typeDescriptionId"             
-                v-validate="'required'"
-                :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}"
-                class="sm:w-full w-48"
-                type="text"
-                name="TipoDescripcion"
-              >
+              <select v-model="dtcEdit.typeDescriptionId" v-validate="'required'" :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}" class="sm:w-full w-48" type="text" name="TipoDescripcion">
                 <option disabled value>Selecionar...</option>
                 <option v-for="(desc, index) in descripciones" v-bind:value="desc.typeDescriptionId" :key="index">
                   {{ desc.description }}
@@ -139,25 +132,11 @@
           <div class="justify-center flex mt-5">       
             <div class="m-1">     
               <p class="text-sm mb-1 font-semibold text-gray-900">Observaciones:</p>
-              <textarea   
-                v-model="dtcEdit.observation"             
-                v-validate="'max:300'"
-                :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-                class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
-                placeholder="jane@example.com"
-                name="Observaciones"
-              />              
+              <textarea v-model="dtcEdit.observation" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
             </div>
             <div class="m-1 ">     
               <p class="text-sm mb-1 font-semibold text-gray-900">Diagnostico:</p>
-              <textarea     
-                v-model="dtcEdit.diagnosis"           
-                v-validate="'max:300'"
-                :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
-                class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border"
-                placeholder="jane@example.com"
-                name="Diagnostico"
-              />              
+              <textarea v-model="dtcEdit.diagnosis" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
             </div>            
           </div>
           <p class="text-xs text-red-600">{{ errors.first("Observaciones") }}</p>
@@ -187,7 +166,7 @@
             <CardListDTC
               @borrar-card="confimaBorrar"
               @editar-card="editar_header_dtc"
-              @agregar_firma="agregar_fimar"
+              @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
               @enviar_pdf_sellado="enviar_pdf_sellado"
               :plazasValidas="plazasValidas"
               :infoCard="dtc"              
@@ -451,7 +430,7 @@ methods: {
     })  
   },
   //Cambiar Por Statu GMM
-  agregar_fimar(value){
+  agregar_autorizacion_gmmep(value){
     if(value === true){      
       this.modalLoading = true
       this.modalFirma = false    

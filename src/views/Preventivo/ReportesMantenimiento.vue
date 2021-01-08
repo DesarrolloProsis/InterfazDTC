@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-10">
+    <div class="mb-64">
         <Nav></Nav> 
         <router-view></router-view>       
     </div>    

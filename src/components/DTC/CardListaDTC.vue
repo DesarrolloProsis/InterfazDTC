@@ -72,7 +72,7 @@
         <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 ">Status: {{ infoCard.statusDescription }}</a>        
         <div class="pb-2" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3" v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorizacón GMMEP</span>
-          <input @change="status_agregar_firma()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
+          <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
         <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 ">Ver Mas</a>
       </div>
@@ -295,10 +295,10 @@ export default {
       return new File([u8arr], fileName, { type: mime });
     },
     //autorizacion GMMEP
-    status_agregar_firma(){
+    status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        
           window.scroll(0, 0);
-          this.$emit("agregar_firma", this.infoCard.referenceNumber);
+          this.$emit("agregar_autorizacion_gmmep", this.infoCard.referenceNumber);
           this.statusAgregarFimar = false
       }
       else{
