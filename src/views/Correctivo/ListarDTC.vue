@@ -403,7 +403,7 @@ methods: {
           this.limpiar_filtros()
           this.$notify.success({
                 title: "Ok!",
-                msg: `SE INSERTO LA FIRMA AL REPORTE.`,
+                msg: `Se subio el archivo correctamente.`,
                 position: "bottom right",
                 styles: {
                   height: 100,
