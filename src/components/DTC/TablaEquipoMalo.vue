@@ -632,8 +632,7 @@ beforeMount: async function () {
             "row13",
             "row14",
             "rowUp",
-          ];
-          console.log("lane_select");
+          ];          
           let new_partida = Service.lane_select(
             array_ubicacion,
             key_partidas,

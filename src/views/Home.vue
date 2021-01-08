@@ -40,8 +40,7 @@ export default {
       }
   },
   beforeMount: function(){
-    this.typeUser = this.$store.getters['Login/getTypeUser']        
-    
+    this.typeUser = this.$store.getters['Login/getTypeUser']
   },
   methods: {
     rutas(){

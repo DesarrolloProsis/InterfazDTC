@@ -45,7 +45,7 @@
             <div class="flex" v-else>
               <div class="inline-flex">
                 <img src="../../assets/img/pdf.png" class="w-6 m-2 border opacity-75" alt/>    
-                <p class="ml-2 mt-3 text-sm">{{ pdfSellado.nombre }}</p>
+                <p class="ml-2 mt-3 text-sm">{{ pdfSellado.name }}</p>
               </div>
               <div class="mt-2 justify-between">
                 <button @click="pdfSelladoBool = false, pdfSellado = ''" class="rounded-md border ml-4 h-7 p-1 bg-red-600 text-sm">Cancelar</button>
@@ -142,6 +142,7 @@
 <script>
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
+//import ServiceImagenes from '../../services/ImagenesService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 export default {
   props: {
@@ -258,7 +259,7 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
-    recibirImagenes(e) {
+    recibirImagenes(e) {                  
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       else {
@@ -273,8 +274,8 @@ export default {
       reader.onload = (e) => {
         this.$nextTick().then(() => {
           this.pdfSellado = {
-            imgbasePDF: e.target.result.split(',')[1],
-            nombre: this.infoCard.referenceNumber,
+            imgbase: e.target.result.split(',')[1],
+            name: this.infoCard.referenceNumber,
           };
         })        
       };
@@ -305,7 +306,7 @@ export default {
     },
     status_dtc_firmado(){                      
       let formData = new FormData();
-      let file = this.base64ToFile(this.pdfSellado.imgbasePDF, this.pdfSellado.nombre)
+      let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
       formData.append("file", file);
       let obj = {
         referenceNumber: this.infoCard.referenceNumber,

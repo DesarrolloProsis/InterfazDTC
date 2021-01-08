@@ -71,6 +71,7 @@
 <script>
 import Axios from "axios";
 import { mapGetters } from 'vuex'
+import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: 'ImgenesCard',
@@ -153,25 +154,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
   methods: {
     recibirImagenes: function (e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      else {
-        for (let item of files) {        
-          this.crearImage(item);
-        }
-      }
-    },
-    crearImage(file) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        let obj = {
-          imgbase: e.target.result.split(",")[1],
-          name: file.name,
-        };
-        this.fileUpload.push(obj);
-        this.imagenes_enviar.push(obj);
-      };
-      reader.readAsDataURL(file);
+      this.imagenes_enviar = this.fileUpload =ServiceImagenes.obtener_array_imagenes(e, this.fileUpload)        
       this.cargarImagen = true;      
       this.editar_imagen = false;
     },
@@ -202,20 +185,16 @@ export default {
     cambiar_imagen: function (value) {      
       this.cambiarImagenBool = false;
       if (value == "anterior") {
-        if (this.index_imagen_actual == 0){
-          this.index_imagen_actual = this.imgbase64.array_img.length - 1;
-        }
-        else{
-          this.index_imagen_actual = this.index_imagen_actual - 1;
-        }
+        if (this.index_imagen_actual == 0)
+          this.index_imagen_actual = this.imgbase64.array_img.length - 1;        
+        else
+          this.index_imagen_actual = this.index_imagen_actual - 1;        
       }
       if (value == "siguiente") {
-        if (this.index_imagen_actual == this.imgbase64.array_img.length - 1){
-          this.index_imagen_actual = 0;
-        }
-        else {
-          this.index_imagen_actual = this.index_imagen_actual + 1;  
-        }  
+        if (this.index_imagen_actual == this.imgbase64.array_img.length - 1)
+          this.index_imagen_actual = 0;        
+        else 
+          this.index_imagen_actual = this.index_imagen_actual + 1;          
       }      
       this.$nextTick().then(() =>{
         this.cambiarImagenBool = true;
@@ -265,7 +244,7 @@ export default {
             let formData = new FormData();
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
-            formData.append("image",this.base64ToFile(item.imgbase, item.name));            
+            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
             await Axios.post(`${API}/Image/InsertImage/${this.getReferenceSquareActual}`,formData)
               .then(() => {                
                 this.$notify.success({
@@ -298,7 +277,6 @@ export default {
           resolve("ok");
         }
       });
-
       Promise.all([agregar_promise, eliminar_promise]);
     },
     actualizar_img: async function (nombre_plaza) {
@@ -336,18 +314,6 @@ export default {
       this.eliminar_name = [];
       this.imagenes_enviar = [];
       this.fileUpload = [];
-    },
-    base64ToFile: function (dataurl, fileName) {
-      let url = "data:image/jpeg;base64," + dataurl;
-      var arr = url.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], fileName, { type: mime });
     },
   },
 };
