@@ -4,7 +4,7 @@
                     <div class="sticky inset-x-0 bottom-0 inline-flex justify-between  py-3 w-full">
                         <div class="w-full ml-16 sm:ml-0 text-center">
                             <p class="text-sm text-white">
-                                © 2021 Soporte y Servicios Informaticos.
+                                © 2021 Proyectos y Sistemas Informaticos.
                             </p>
                         </div>
                         <div>

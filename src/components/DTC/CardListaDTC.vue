@@ -173,8 +173,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 ////////////////////////////////////////////////////////////////////
-  beforeMount: function () { 
-    //incloncluso 1 = inconcluso 2 = concluido       
+  beforeMount: function () {          
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']; 
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
@@ -293,6 +292,7 @@ export default {
       }
       return new File([u8arr], fileName, { type: mime });
     },
+    //autorizacion GMMEP
     status_agregar_firma(){
       if(this.statusAgregarFimar){        
           window.scroll(0, 0);

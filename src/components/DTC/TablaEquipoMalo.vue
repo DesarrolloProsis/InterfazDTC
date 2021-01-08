@@ -674,9 +674,8 @@ destroyed: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  UnClick() { this.updtComp = "" },
-  //updateComp: async function (value) {
-    update_componente: async function (value) {
+  UnClick() { this.updtComp = "" },  
+  update_componente: async function (value) {
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
       }
@@ -1041,7 +1040,7 @@ watch: {
           newValue.length         
         );
         if(this.datosPrePartida.rowUnidad == 'Metro'){
-          this.statusMetro = false
+          this.statusMetro = true
         }
       }
   },

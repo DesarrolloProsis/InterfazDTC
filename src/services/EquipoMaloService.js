@@ -172,7 +172,7 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
                 //Nuevo
                 mainRelationship: relationShipPrincipal,
                 tableFolio: component.tableFolio,  
-                //cantidad: cantidad
+                amount: parseInt(cantidad)
             };
             newObjectPartida.push(obj)        
         }    
