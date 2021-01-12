@@ -10,7 +10,7 @@
           <div class=" inline-flex sm:ml-10 ml-20">
             <div class="m-3 p-0 inline-block">
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
-              <span class="text-xsMini text-gray-800">*Fecha Siniestro</span>
+              <span class="text-xs text-gray-800">*Fecha Siniestro</span>
             </div>
             <!-- <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1"> -->
             <div class="mt-2" v-if="false">
@@ -40,7 +40,7 @@
             ////                       SUBIR PDF SELLADO                      ////
             ///////////////////////////////////////////////////////////////////// -->        
         <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
-          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico ==tipoUsuario" >
+          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
               <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
               <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border" alt/>
