@@ -138,6 +138,7 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit, rootGetters }, value) {  
+    console.log(`${API}/component/GetComponetV2/${rootGetters['Login/getReferenceSquareActual']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
     await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/getReferenceSquareActual']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
       .then(response => {                            
           if(response.data.result != null){

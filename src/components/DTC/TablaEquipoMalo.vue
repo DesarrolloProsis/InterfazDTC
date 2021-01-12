@@ -7,7 +7,7 @@
         </div>
         <div class="flex justify-center p-8">
           <div class="grid gap-4 grid-cols-1">
-            <div class="sm:m-2 sm:text-xs">
+            <div class="sm:m-2 sm:text-xs overflow-x-auto flex">
               <table class="border-collapse table-fixed">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
@@ -58,6 +58,7 @@
                     placeholder="Buscar componentes"
                     track-by="name"
                     class="w-65"
+                    optionHeight="20"
                     label="description"
                     ><span slot="noResult"
                       >Oops! No elements found. Consider changing the search
@@ -194,9 +195,9 @@
                           :close-on-select="true"
                           :group-select="false"
                           placeholder="Buscar componentes"
-                          track-by="name"
-                          openDirection="below"
-                          class=""
+                          track-by="name"                          
+                          openDirection="top"
+                          class="w-64"
                           label="description"
                       ><span slot="noResult"></span>
                       </multiselect>
