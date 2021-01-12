@@ -7,13 +7,13 @@
         </div>
         <div class="flex justify-center p-8">
           <div class="grid gap-4 grid-cols-1">
-            <div class="sm:m-2 sm:text-xs overflow-x-auto flex">
+            <div class="sm:m-2 sm:text-xs ">
               <table class="border-collapse table-fixed">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="border text-xs md:text-sm bg-blue-800 text-white">
+                  <tr class="border bg-blue-800 text-white">
                     <th class="px-1 border-2 border-gray-800">Partida</th>
                     <th class="px-1 border-2 border-gray-800 w-16">Unidad</th>
                     <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
@@ -196,8 +196,7 @@
                           :group-select="false"
                           placeholder="Buscar componentes"
                           track-by="name"                          
-                          openDirection="top"
-                          class="w-64"
+                          openDirection="top"                          
                           label="description"
                       ><span slot="noResult"></span>
                       </multiselect>
@@ -1039,7 +1038,7 @@ watch: {
           undefined, 
           newValue.length         
         );
-        if(this.datosPrePartida.rowUnidad == 'Metro'){
+        if(this.datosPrePartida.rowUnidad == 'METRO'){
           this.statusMetro = true
         }
       }
