@@ -28,9 +28,16 @@
                                 <td class="w-64 text-center border-2 border-gray-800">{{ item.equipo }}</td>
                                 <td class="w-64 text-center border-2 border-gray-800">{{ item.frecuencia }}</td>
                                 <td class="w-64 text-center border-2 border-gray-800">{{ item.ubicacion }}</td>                                
-                                <td class="w-64 text-center border-2 border-gray-800">
-                                    <span class="text-sm text-blue-700">Finalizada</span>
-                                    <input v-model="actividadFinalizada" class="ml-1 h-2w-2 rounded-lg" type="checkbox" />        
+                                <td class="w-64 text-center border-2 border-gray-800" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
+                                    <!-- <span class="text-sm text-blue-700">Finalizada</span>
+                                    <input v-model="actividadFinalizada" class="ml-1 h-2w-2 rounded-lg" type="checkbox" />         -->
+                                    <select v-model="item.jobStatus" class="w-32 text-md text-gray-800 border-gray-900" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
+                                        <option value="0">Seleccione...</option>
+                                        <option class="bg-green-500" value="1">Ok</option>
+                                        <option class="bg-yellow-500" value="2">Dañado</option>
+                                        <option class="bg-orange-500" value="3">No Aplica</option>
+                                        <option class="bg-red-500" value="4">No Existe</option>
+                                    </select>
                                 </td>
                             </tr>                    
                         </tbody>
@@ -40,7 +47,6 @@
     </div>
 </div>
 </template>
-
 <script>
 export default {
     name: 'TablaActividadesCarril',
@@ -56,7 +62,6 @@ export default {
             actividadFinalizada: ''
         }
     }
-
 }
 </script>
 
