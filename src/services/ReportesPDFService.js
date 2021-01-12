@@ -60,12 +60,8 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
     await store.commit("Header/referenceNumMutation", ReferenceNumber);
     await store.dispatch("Header/buscarReferencia", ReferenceNumber);
-    let arrayReference  = await store.getters["Header/getreferenceNum"];
-    if(typeof(arrayReference) == 'object')
-        return arrayReference            
-    else
-        return await store.getters["Header/getreferenceNum"];       
     
+    return await store.getters["Header/getreferenceNum"];        
 }
 export default {
     generar_pdf_correctivo,

@@ -95,7 +95,7 @@
         <div class="pr-2">
           <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Siniestro:</p>
           <input
-            @change="crearReferencia()"
+            @change="crear_referencia_dtc()"
             v-validate="`required|before:${fecha_validacion}`"          
             :class="{ is_valid: !errors.first('FechaSiniestro'),is_invalid: errors.first('FechaSiniestro')}"
             :disabled="fechaSiniestoEdit"
@@ -224,6 +224,7 @@
 
 <script>
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
+import ServiceReportePDF from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import moment from "moment";
 export default {
@@ -347,40 +348,18 @@ methods: {
       this.modalReferencia = false
     }
   },
-  crearReferencia: async function () {
-      console.log(this.datosSinester.SinisterDate)
-      console.log(this.datosUser.referenceSquare)
-      let _datesplit = this.datosSinester.SinisterDate.split("-");
-      let _diaActual = parseInt(_datesplit[2]);
-      let _mesActual = parseInt(_datesplit[1]);
-      let _yearActual = parseInt(_datesplit[0]);
-      let _diaCorriente = 0;
-      let _newYear = parseInt(this.datosSinester.SinisterDate.substr(2, 2));
-      _diaCorriente = _diaActual;
-      for (let i = 1; i < _mesActual; i++) {
-        _diaCorriente += parseInt(new Date(_yearActual, i, 0).getDate());
-      }
-      let _nomPlaza = this.datosUser.referenceSquare;
-      let _autoCompleteDias;
-      if (_diaCorriente < 10) {
-        _autoCompleteDias = "00" + _diaCorriente.toString();
-      } else if (_diaCorriente < 100) {
-        _autoCompleteDias = "0" + _diaCorriente.toString();
-      } else {
-        _autoCompleteDias = _diaCorriente.toString();
-      }
-      this.datosSinester.ReferenceNumber = _nomPlaza + "-" + _newYear + _autoCompleteDias;
-      await this.$store.commit("Header/referenceNumMutation",this.datosSinester.ReferenceNumber);
-      await this.$store.dispatch("Header/buscarReferencia",this.datosSinester.ReferenceNumber);
-      let _arrayReference  = await this.$store.getters["Header/getreferenceNum"];
+  crear_referencia_dtc: async function () {      
+      let _arrayReference  = await ServiceReportePDF.crear_referencia(
+        moment(this.datosSinester.SinisterDate,"YYYY-MM-DD").format("DD-MM-YYYY"), 
+        this.datosUser.referenceSquare
+      )
       if(typeof(_arrayReference) == 'object'){
           this.arrayReference = _arrayReference
           this.modalReferencia = true
       }
       else{
-        this.datosSinester.ReferenceNumber = await this.$store.getters["Header/getreferenceNum"];
-      }      
-      
+        this.datosSinester.ReferenceNumber = _arrayReference
+      }          
   },
   async cambiarPlaza() {   
       this.listaComponentes = []  
@@ -395,10 +374,8 @@ methods: {
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
       this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
       await this.$store.dispatch("DTC/buscarDescriptions");
-      this.listaDescripciones = await this.$store.getters[
-        "DTC/getListaDescriptions"
-      ];      
-      this.crearReferencia()      
+      this.listaDescripciones = await this.$store.getters["DTC/getListaDescriptions"];      
+      this.crear_referencia_dtc()      
       if (JSON.stringify(this.headerEdit) != "{}") {
         this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
         this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
