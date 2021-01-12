@@ -8,7 +8,10 @@
         <div class="flex justify-between">
           <div class="font-black m-3">{{ infoCard.referenceNumber }}</div>
           <div class=" inline-flex sm:ml-10 ml-20">
-            <div class="m-3">{{ infoCard.sinisterDate | formatDate }}</div>
+            <div class="m-3 p-0 inline-block">
+              <p>{{ infoCard.sinisterDate | formatDate }}</p>
+              <span class="text-xsMini text-gray-800">*Fecha Siniestro</span>
+            </div>
             <!-- <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1"> -->
             <div class="mt-2" v-if="false">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
@@ -27,8 +30,8 @@
           <p class="text-left font-bold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
-          <p class="text-left text-sm break-words text-red-600">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
-          <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">PDF Autorizado GMMEP</p>
+          <p class="text-left text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
+          <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
             <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
           </div>
