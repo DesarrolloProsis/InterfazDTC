@@ -347,7 +347,9 @@ methods: {
       this.modalReferencia = false
     }
   },
-  async crearReferencia() {
+  crearReferencia: async function () {
+      console.log(this.datosSinester.SinisterDate)
+      console.log(this.datosUser.referenceSquare)
       let _datesplit = this.datosSinester.SinisterDate.split("-");
       let _diaActual = parseInt(_datesplit[2]);
       let _mesActual = parseInt(_datesplit[1]);

@@ -24,7 +24,7 @@
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-starts m-5">
                         <p class=" font-bold">Numero de Reporte:</p>
-                        <h2 class="ml-5">TLA-201234</h2>
+                        <h2 class="ml-5">{{ referenceNumber }}</h2>
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Plaza de Cobro:</p>
@@ -77,14 +77,14 @@
 </template>
 
 <script>
-
+import ServiceReportePDF from '../../services/ReportesPDFService'
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
 /////////////////////////////////////////////////////////////////////
 data() {
     return {
-        
+        referenceNumber: ''
     };
 },
 props: {
@@ -96,7 +96,9 @@ props: {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount(){    
+beforeMount: async function() {    
+    let refPlaza = await this.$store.state.Login.userLogeado.find(plaza => plaza.squareName == this.header.plazaNombre).referenceSquare    
+    this.referenceNumber = await ServiceReportePDF.crear_referencia(this.header.day, refPlaza)    
 }
 
 

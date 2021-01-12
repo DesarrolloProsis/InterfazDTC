@@ -164,9 +164,11 @@ methods: {
         );
         this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
         this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
+        this.listaActividadesMensuales = []
     },
     vista_reporte_carril(item){      
-        item["plazaNombre"] = this.plazaNombre  
+        item["plazaNombre"] = this.plazaNombre        
+        console.log(item)
         this.$router.push({ 
             path: 'FormularioReporte',
             query: {

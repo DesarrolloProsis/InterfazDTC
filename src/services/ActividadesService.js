@@ -21,7 +21,7 @@ async function filtrar_actividades_mensuales(mes, año){
         comentario: store.state.Actividades.comentarioMensual, 
         plazaSelect: user.numPlaza,
         mes: mes,
-        año: año,
+        año: año,        
     }    
     return obj
 }
