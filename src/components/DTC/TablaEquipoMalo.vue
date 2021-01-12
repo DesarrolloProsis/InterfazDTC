@@ -7,13 +7,13 @@
         </div>
         <div class="flex justify-center p-8">
           <div class="grid gap-4 grid-cols-1">
-            <div class="sm:m-2 sm:text-xs ">
+            <div class="sm:m-2 sm:text-xs">
               <table class="border-collapse table-fixed">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="border bg-blue-800 text-white">
+                  <tr class="border text-xs md:text-sm bg-blue-800 text-white">
                     <th class="px-1 border-2 border-gray-800">Partida</th>
                     <th class="px-1 border-2 border-gray-800 w-16">Unidad</th>
                     <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
@@ -58,7 +58,6 @@
                     placeholder="Buscar componentes"
                     track-by="name"
                     class="w-65"
-                    optionHeight="20"
                     label="description"
                     ><span slot="noResult"
                       >Oops! No elements found. Consider changing the search
@@ -195,8 +194,9 @@
                           :close-on-select="true"
                           :group-select="false"
                           placeholder="Buscar componentes"
-                          track-by="name"                          
-                          openDirection="top"                          
+                          track-by="name"
+                          openDirection="below"
+                          class=""
                           label="description"
                       ><span slot="noResult"></span>
                       </multiselect>
@@ -235,7 +235,7 @@
                     <td class="border border-gray-800 p-2">
                       <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24">
                         <img src="../../assets/img/more.png" width="20" height="20" />
-                        <span class="text-xs">Agregar Partida</span>
+                        <span class="text-xsMini">Agregar Partida</span>
                       </button>
                     </td>
                   </tr>
@@ -686,6 +686,7 @@ methods: {
           item["row3"].componentsRelationship == value.componentsRelationship
         );
       });
+      console.log(comp_rep)
       if (!comp_rep) {
         let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         //newObject["id"] = this.updtComp;
@@ -717,7 +718,7 @@ methods: {
             width: 500,
           },
         });
-        this.updtComp = "";
+        this.updtComp = '';
       }
   },
   UpdateCompEditado: async function () {

@@ -25,10 +25,7 @@ module.exports = {
         '80': '95rem',
         
       }
-    },
-    fontSize:{
-      'xsMini': '.60rem'
-    }  
+    }
   },
   variants: {
 

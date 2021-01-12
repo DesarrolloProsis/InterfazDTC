@@ -11,7 +11,7 @@
         <!-- ************************************************************** -->
         <div class="inline-flex">
           <table>
-            <tr class="border text-sm bg-blue-800 text-white">
+            <tr class="border text-xs bg-blue-800 text-white">
               <th class="w-20 border-2 border-gray-800">Partida</th>
               <th class="w-24 border-2 border-gray-800">Unidad</th>
               <th class="w-32 xl:w-48 border-2 border-gray-800">Componente</th>
