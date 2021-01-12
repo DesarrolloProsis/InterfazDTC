@@ -293,8 +293,7 @@ export default {
         u8arr[n] = bstr.charCodeAt(n);
       }
       return new File([u8arr], fileName, { type: mime });
-    },
-    //autorizacion GMMEP
+    },    
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        
           window.scroll(0, 0);

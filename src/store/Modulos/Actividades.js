@@ -49,13 +49,14 @@ const actions = {
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
-        let rolUser = rootGetters['Login/getTypeUser']
+        let rolUser = rootGetters['Login/getTypeUser']        
         await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`,value)
         .then((response) => {                                              
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", response.data.result)               
         })
         .catch(Ex => {
-        console.log(Ex);
+            commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
+            console.log(Ex);
         });
     }
 

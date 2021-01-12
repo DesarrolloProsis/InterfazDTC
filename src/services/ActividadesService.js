@@ -22,8 +22,7 @@ async function filtrar_actividades_mensuales(mes, año){
         plazaSelect: user.numPlaza,
         mes: mes,
         año: año,
-    }
-    console.log(obj)
+    }    
     return obj
 }
 
