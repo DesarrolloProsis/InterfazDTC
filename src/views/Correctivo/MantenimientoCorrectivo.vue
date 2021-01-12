@@ -7,7 +7,7 @@
         <div v-else-if="$route.params.tipoUsuario == 7">            
             <BotonesCapufe></BotonesCapufe>
         </div>  
-        <div>
+        <div v-else>
             <BotonesTecnico></BotonesTecnico>
         </div>      
     </div>
