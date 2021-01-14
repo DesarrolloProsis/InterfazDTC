@@ -1,36 +1,50 @@
   <template>
-  <div>
+  <div >
     <Nav></Nav>
-    <div class="relative mb-16" >
-    <!--/////////////////////////////////////////////////////////////////
+    <div class="relative mb-16 " >
+    <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }">      
+      <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': modal}">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
-            <!-- <div class="m-3" v-if="tipoUsuario == 2"> -->
+            <!--/////////////////////////////////////////////////////////////////////
+                ////                         FILTRO TRAMO                        ////
+                ////////////////////////////////////////////////////////////////////-->
             <div class="m-3" v-if="false">
               <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
                 <select class="w-full" type="text">
                   <option disabled value="">Selecionar...</option>                                               
                 </select>
             </div>
+          <!--/////////////////////////////////////////////////////////////////
+              ////                         FILTRO PLAZA                       ////
+              ////////////////////////////////////////////////////////////////////-->
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
                 <select v-model="plazaFiltro" class="w-full" type="text">
                   <option disabled value="">Selecionar...</option>     
                   <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
                 </select>
-            </div>          
+            </div>  
+            <!--/////////////////////////////////////////////////////////////////
+                ////                         FILTRO FECHA                        ////
+                ////////////////////////////////////////////////////////////////////-->        
             <div class="m-3">
               <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
               <input v-model="fechaFiltro" class="border w-40" type="date"/>
               <span class="block text-xs text-gray-600">*Fecha de Siniestro</span>
             </div>
+            <!--/////////////////////////////////////////////////////////////////////
+                ////                         FILTRO REFERENCIA                   ////
+                ////////////////////////////////////////////////////////////////////-->
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
               <input v-model="referenciaFiltro" class="border w-40" placeholder="PM-000000"/>
-            </div>            
+            </div>  
+              <!--////////////////////////////////////////////////////////////////////
+                  ////                         FILTRO ESTATUS                     ////
+                  ////////////////////////////////////////////////////////////////////-->          
             <div class="m-3">
               <p class="font-bold mb-5 sm:text-sm">Status DTC</p>
               <select v-model="statusFiltro" class="w-full" type="text">
@@ -42,6 +56,9 @@
               </select>                  
             </div>
           </div>
+          <!--/////////////////////////////////////////////////////////////////
+              ////                  BOTONES FILTROS                        ////
+              /////////////////////////////////////////////////////////////////-->
           <div class="m-3 text-center">
             <button @click.prevent="limpiar_filtros" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1">
               <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
@@ -54,46 +71,50 @@
           </div>
         </div>
       </div>
-      <!--/////////////////////////////////////////////////////////////////
-      ////                         MODAL LOADER                        ////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="flex absolute justify-center inset-x-0">
-        <div v-if="modalLoading" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">          
-          <div class="justify-center text-center block">            
-              <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
-              <p class="text-gray-900 font-thin text-md">Espere ... </p>
+      <!-- <div class=""> -->
+        <!--/////////////////////////////////////////////////////////////////
+        ////                         MODAL LOADER                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="flex absolute justify-center inset-x-0">
+          <div v-if="modalLoading" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">          
+            <div class="justify-center text-center block">            
+                <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
+                <p class="text-gray-900 font-thin text-md">Espere ... </p>
+            </div>
           </div>
         </div>
-      </div>
-      <!--/////////////////////////////////////////////////////////////////
-      ////                      MODAL CONFIRMAR GMMEP                 ////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="flex absolute  justify-center inset-x-0">
-        <div v-if="modalFirma" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
-          <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
-          <div class="justify-center flex mt-5">
-            <button @click="agregar_autorizacion_gmmep(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-            <button @click="agregar_autorizacion_gmmep(false)" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                      MODAL CONFIRMAR GMMEP                 ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+        <div v-if="modalFirma" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl">
+          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+            <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
+            <div class="justify-center flex mt-5">
+              <button @click="agregar_autorizacion_gmmep(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+              <button @click="agregar_autorizacion_gmmep(false)" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+            </div>
           </div>
         </div>
-      </div>
-      <!--/////////////////////////////////////////////////////////////////
-      ////                      MODAL ELIMINAR                         ////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="flex absolute justify-center inset-x-0">
-        <div v-if="modal" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+        </div>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                      MODAL ELIMINAR                         ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+        <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md">Seguro que quiere eliminar este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
             <button @click="borrar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-            <button @click="(modal = false), (refNum = '')" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+            <button @click="(modal = modalEliminar = false), (refNum = '')" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
           </div>
         </div>
-      </div>
-      <!--/////////////////////////////////////////////////////////////////
-      ////                      MODAL EDITAR DTC                       ////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="flex absolute w-73 sm:w-64 bg-opacity-100 mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">     
-        <div v-if="modalEdit" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
+        </div>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                      MODAL EDITAR DTC                       ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+        <div v-if="modalEdit" class="flex absolute w-73 sm:w-64 bg-opacity-100 mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">     
+        <div class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-bold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
         <!--/////////////////////////////////////////////////////////////////
             ////                   FILA NUMERO 1                         ////
@@ -136,7 +157,7 @@
             </div>
             <div class="m-1 ">     
               <p class="text-sm mb-1 font-semibold text-gray-900">Diagnostico:</p>
-              <textarea v-model="dtcEdit.diagnosis" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
+              <textarea v-model="dtcEdit.diagnosis" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" class="bg-white appearance-none block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
             </div>            
           </div>
           <p class="text-xs text-red-600">{{ errors.first("Observaciones") }}</p>
@@ -149,18 +170,19 @@
             ////////////////////////////////////////////////////////////////////-->
           <div class="justify-end flex mt-10">       
             <div>                    
-              <button @click="(modalEdit = false), (refNum = '')" class="text-white px-4 py-3 rounded-lg bg-red-700">Cancelar</button>              
+              <button @click="(modalEdit = modal = false), (refNum = '')" class="text-white px-4 py-3 rounded-lg bg-red-700">Cancelar</button>              
             </div>
             <div>       
               <button @click="editar_header_dtc(true)" class="text-white ml-2 px-5 py-3 rounded-lg bg-green-600">Actualizar</button>          
             </div>
           </div>
         </div>
-      </div>
+        </div>
+        </div>      
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal, 'pointer-events-none': modalEdit, 'pointer-events-none': modalLoading, 'pointer-events-none': modalFirma }" class="flex justify-center w-full ">
+      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -192,6 +214,7 @@ export default {
       fechaFiltro: "",
       referenciaFiltro: "",
       modal: false,
+      modalEliminar: false,
       modalEdit: false,
       refNum: "",    
       tipoUsuario: '',
@@ -234,10 +257,11 @@ methods: {
       let obj = { "refNum": this.refNum, "userId": userId.idUser }    
       if (value) {
         this.infoDTC = []        
-        this.modal = false;        
+        this.modalEliminar = false;   
+        this.modal = false     
         await this.$store.dispatch("DTC/BORRAR_DTC",obj);                                                                                
         this.menosMas = true
-        this.showmenosMas = false,
+        this.showmenosMas = false,        
         this.$notify.default({
           title: "Ok!",
           msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
@@ -256,7 +280,8 @@ methods: {
   },
   confimaBorrar: function (refNum) {
       this.refNum = refNum;
-      this.modal = true;
+      this.modalEliminar = true;
+      this.modal = true
   },
   editar_header_dtc: async function(refNum){ 
     let validador = false    
@@ -336,9 +361,10 @@ methods: {
     else{
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
       this.modalEdit = true
+      this.modal = true
     }    
   },
-  limpiar_filtros: async function() { 
+  limpiar_filtros: async function() {     
       let info = this.$store.getters['Login/getUserForDTC']  
       this.$store.dispatch('DTC/buscarListaDTC', info)            
       this.infoDTC = []          

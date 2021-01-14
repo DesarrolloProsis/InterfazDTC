@@ -6,18 +6,17 @@
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6">
         <div class="flex justify-between">
-          <div class="font-black m-3">{{ infoCard.referenceNumber }}</div>
-          <div class=" inline-flex sm:ml-10 ml-20">
-            <div class="m-3 p-0 inline-block">
+          <div class="font-black m-3">{{ infoCard.referenceNumber }}</div>           
+          <div class=" inline-flex sm:ml-10 ml-16">
+            <div class="m-3 p-0 inline-block text-sm">
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800">*Fecha Siniestro</span>
-            </div>
-            <!-- <div class="mt-2" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1"> -->
-            <div class="mt-2" v-if="false">
-              <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
-                <img src="../../assets/img/pencil.png" class="" width="10" height="10" />              
+            </div>    
+            <div class="mt-2 w-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1">
+              <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border border-yellow-600">
+                <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
-            </div>
+            </div>      
           </div>
         </div>
         <hr />
@@ -64,7 +63,7 @@
         <div class="flex text-center cursor-pointer border-gray-800 flex-col mt-2 sm:m-3 sm:mt-5" v-if="!showmenosMas">
           <ImagenesCard
             :referenceNumber="infoCard.referenceNumber"        
-            :plazasValidas="plazasValidas"    
+            :plazasValidas="plazasValidas"                
           ></ImagenesCard>
         </div>
       </div>
@@ -109,25 +108,25 @@
         <div class="flex justify-between" v-if="true">
           <div class="">
             <button v-if="!(infoCard.statusId > 2) || TIPO_USUARIO.Administracion == tipoUsuario" @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
-              <img src="../../assets/img/bin.png" class="mr-2" width="20" height="1"/>
+              <img src="../../assets/img/bin.png" class="mr-2" width="12" height="1"/>
               <span>Borrar</span>
             </button>
           </div>
-          <div>
-            <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>
+          <div class=" inline-flex">
+            <a @click="menos" class="text-gray-700 md:mr-4 mt-4 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
                 <button @click.prevent="editar" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
-                  <img src="../../assets/img/pencil.png" class="mr-2" width="20" height="1"/>
-              <span class="text-xs">Editar</span>
-            </button>
+                  <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
+                  <span class="text-xs">Editar</span>
+                </button>
             </div>
             <div v-else class="text-xs inline-flex">
               <button v-if="infoCard.statusId > 1" @click.prevent="pdf(2)" class="bg-gray-300 hover:bg-gray-400 mr-2 text-gray-800 text-xs font-bold py-2 px-2 rounded inline-flex items-center border border-red-700">
-                <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1"/>              
+                <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                 <span>Firmado</span>                
               </button>   
               <button v-if="infoCard.statusId > 2" @click.prevent="pdf(3)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
-                <img src="../../assets/img/pdf.png" class="mr-2" width="20" height="1"/>                              
+                <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
                 <span>Sellado</span>
               </button>                   
             </div>          
@@ -172,7 +171,7 @@ export default {
       pdfSellado: '',
       pdfSelladoBool: false,
       statusAgregarFimar: '',
-      TIPO_USUARIO: 0   
+      TIPO_USUARIO: 0 ,      
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -260,8 +259,9 @@ export default {
     borrar() {
       window.scroll(0, 0);
       this.$emit("borrar-card", this.infoCard.referenceNumber);
-      this.menosMas = true;
+      this.menosMas = true;      
       this.showmenosMas = false;
+      
     },
     recibirImagenes(e) {                  
       var files = e.target.files || e.dataTransfer.files;

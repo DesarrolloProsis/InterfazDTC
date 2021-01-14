@@ -49,15 +49,15 @@
           <div class="justify-start">
             <button v-if="tipoUsuario != 2" @click="editar_img" class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700">
               Agregar 
-              <img src="../../assets/img/image-mini.png" class="w-6 border opacity-75" alt/>
+              <img src="../../assets/img/image-mini.png" class="w-6 border" alt/>
             </button>
           </div>
           <div class="justify-end">
             <button @click="cambiar_imagen('anterior')" class="m-1 border hover:border-blue-500 rounded-md">
-              <img src="../../assets/img/flecha-izquierda.png" class="w-6 border opacity-75" alt />
+              <img src="../../assets/img/flecha-izquierda.png" class="w-6 border" alt />
             </button>
             <button @click="cambiar_imagen('siguiente')" class="m-1 border hover:border-blue-500 rounded-md">
-              <img src="../../assets/img/flecha-derecha.png" class="w-6 border opacity-75" alt />
+              <img src="../../assets/img/flecha-derecha.png" class="w-6 border" alt />
             </button>
           </div>
         </div>
