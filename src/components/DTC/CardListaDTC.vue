@@ -12,7 +12,7 @@
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800">*Fecha Siniestro</span>
             </div>    
-            <div class="mt-2 w-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 1">
+            <div class="mt-2 w-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 2">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
