@@ -23,8 +23,7 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){
         urlTopdf = `${API}/pdf/GetPdfSellado/${clavePlaza}/${numeroReferencia}`;
         namePdf = `DTC-${numeroReferencia}-Sellado.pdf`;  
-    }    
-    console.log(urlTopdf)                       
+    }                          
     oReq.open("GET", urlTopdf, true);    
     oReq.responseType = "blob";         
     oReq.onload = function () {         

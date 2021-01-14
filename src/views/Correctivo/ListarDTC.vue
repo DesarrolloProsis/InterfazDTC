@@ -202,6 +202,7 @@
 <script>
 import Nav from "../../components/Navbar";
 import moment from "moment";
+import ServicePDfReporte from '../../services/ReportesPDFService'
 //import saveAs from "file-saver";
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
@@ -286,8 +287,7 @@ methods: {
     let validador = false    
     if(refNum === true){                
       this.$validator.validateAll().then((item) => {        
-        if(item == false){  
-          console.log('hay errore en la validar....')    
+        if(item == false){            
           validador = false      
           this.errors.items.map((error) => {            
             this.$notify.warning({
@@ -307,7 +307,7 @@ methods: {
       }).then(() => {        
         if(validador){          
           this.modalEdit = false
-          this.modalLoading = true
+          this.modalLoading = true          
           let objEdit = {
             referenceNumber: this.dtcEdit.referenceNumber,
             numSiniestro: this.dtcEdit.sinisterNumber,
@@ -316,14 +316,21 @@ methods: {
             tipoDescripcion: this.dtcEdit.typeDescriptionId,
             observaciones: this.dtcEdit.observation,
             diagnostico: this.dtcEdit.diagnosis,
-          } 
-          console.log(objEdit)               
+          }   
+          let values = Object.values(objEdit)
+          console.log(values)
+          for(let item of values){
+            if(item == null){
+              item = ''
+            }
+          }                    
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
             .then(() =>{                                                             
               this.$store.dispatch("Header/buscarListaUnique");
-              let info = this.$store.getters['Login/getUserForDTC']  
-              this.$store.dispatch('DTC/buscarListaDTC', info) 
+              let info = this.$store.getters['Login/getUserForDTC']
+              this.modal = false  
+              this.$store.dispatch('DTC/buscarListaDTC', info)               
               resolve('ok')                     
             })
             .catch((ex) => {
@@ -352,6 +359,7 @@ methods: {
                   width: 500,
                 },
               });
+              ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, true)
             })
             .catch((err) =>  console.log(err))    
           }, 3000);    
@@ -454,8 +462,7 @@ methods: {
     this.$nextTick().then(() => {      
         this.infoDTC = listaFiltrada            
     })  
-  },
-  //Cambiar Por Statu GMM
+  },  
   agregar_autorizacion_gmmep(value){
     if(value === true){      
       this.modalLoading = true
