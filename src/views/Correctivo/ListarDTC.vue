@@ -101,8 +101,8 @@
         ////                      MODAL ELIMINAR                         ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl">
-          <p class="text-gray-900 font-thin text-md">Seguro que quiere eliminar este DTC {{ refNum }}</p>
+        <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+          <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
             <button @click="borrar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
             <button @click="(modal = modalEliminar = false), (refNum = '')" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
@@ -113,7 +113,7 @@
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalEdit" class="flex absolute w-73 sm:w-64 bg-opacity-100 mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">     
+        <div v-if="modalEdit" class="absolute w-73 sm:w-66  mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">     
         <div class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-bold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
         <!--/////////////////////////////////////////////////////////////////

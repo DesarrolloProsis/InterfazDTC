@@ -240,7 +240,7 @@ export default {
       });
     },
     editar_header(){
-      window.scroll(0, 0);
+      // window.scroll(0, 0);
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
         { 
           numSiniestro: this.infoCard.sinisterNumber,  
@@ -257,7 +257,7 @@ export default {
       )
     },
     borrar() {
-      window.scroll(0, 0);
+      // window.scroll(0, 0);
       this.$emit("borrar-card", this.infoCard.referenceNumber);
       this.menosMas = true;      
       this.showmenosMas = false;
