@@ -47,22 +47,20 @@
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                       <div v-else>
                         <multiselect
-                    @select="UpdateCompEditado()"
-                    v-model="updtCompEditar"
-                    :options="listaComponentes"
-                    :multiple="false"
-                    group-values="secundarios"
-                    group-label="componentePrincipal"
-                    :close-on-select="false"
-                    :group-select="false"
-                    placeholder="Buscar componentes"
-                    track-by="name"
-                    class="w-65"
-                    label="description"
-                    ><span slot="noResult"
-                      >Oops! No elements found. Consider changing the search
-                      query.</span
-                    >
+                          @select="UpdateCompEditado()"
+                          v-model="updtCompEditar"
+                          :options="listaComponentes"
+                          :multiple="false"
+                          group-values="secundarios"
+                          group-label="componentePrincipal"
+                          :close-on-select="false"
+                          :group-select="false"
+                          placeholder="Buscar componentes"
+                          track-by="name"
+                          class="w-65"
+                          label="description"
+                          >
+                          <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
                         </multiselect>
                       </div>
                     </td>
@@ -88,29 +86,18 @@
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
                       <div v-else>
                         <multiselect
-                    v-model="laneSelectEditar"
-                    :close-on-select="false"
-                    :clear-on-select="true"
-                    :hideSelected="false"
-                    placeholder="Selecciona..."
-                    :options="listLaneEditar"
-                    :multiple="true"
-                  >
-                    <template
-                      v-if="
-                        updtCompEditar != 'Servidor de Video' &&
-                        updtCompEditar != 'Servidor de Plaza'
-                      "
-                      slot="selection"
-                      slot-scope="{ values, isOpen }"
-                    >
-                      <span
-                        class="multiselect__single"
-                        v-if="values.length &amp;&amp; !isOpen"
-                        >{{ values.length }} Carriles</span
-                      >
-                    </template>
-                        </multiselect>
+                          v-model="laneSelectEditar"
+                          :close-on-select="false"
+                          :clear-on-select="true"
+                          :hideSelected="false"
+                          placeholder="Selecciona..."
+                          :options="listLaneEditar"
+                          :multiple="true"
+                        >
+                          <template v-if=" updtCompEditar != 'Servidor de Video' && updtCompEditar != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                          </template>
+                          </multiselect>
                       </div>
                     </td>
                     <td class="border border-gray-800">
@@ -655,8 +642,7 @@ beforeMount: async function () {
         }
       }
     } catch (ex) {
-      console.log(ex);
-      alert("componete tabla ");
+      console.log(ex);      
     }
 },
 destroyed: function () {
@@ -680,18 +666,31 @@ methods: {
       }
       this.listLane = [];
       this.laneSelect = [];
-      let comp_rep = this.arrayPartidas.some((item) => {
-        return (
-          item["row3"].description == value.description &&
-          item["row3"].componentsRelationship == value.componentsRelationship
-        );
-      });
+      let comp = {}
+      let componenteValido = false
+      for(let componente of this.arrayPartidas){
+        if(componente["row3"].description == value.description && componente["row3"].componentsRelationship == value.componentsRelationship){
+          comp = componente
+        }
+      }      
+      // let comp_rep = this.arrayPartidas.some((item) => {
+      //   return (
+      //     item["row3"].description == value.description &&
+      //     item["row3"].componentsRelationship == value.componentsRelationship
+      //   );
+      // });
+      if(JSON.stringify(comp) == '{}')
+        componenteValido = true
+      else{
+        if(comp["row2"] == 'METRO')
+          componenteValido = true
+        else
+          componenteValido = false
+      }        
       this.statusMetro = false
-      this.cantidadMetro = 0
-      console.log(comp_rep)
-      if (!comp_rep) {
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
-        //newObject["id"] = this.updtComp;
+      this.cantidadMetro = 0      
+      if (componenteValido) {
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];        
         newObject["attachedId"] = this.updtComp.attachedId;
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
@@ -710,7 +709,7 @@ methods: {
             },
           });
         }
-      } else {
+      } else {        
         this.$notify.warning({
           title: "Ups!",
           msg: `EL COMPONENTE ESTA REPETIDO.`,
