@@ -113,7 +113,7 @@
             </button>
           </div>
           <div class=" inline-flex">
-            <a @click="menos" class="text-gray-700 md:mr-4 mt-4 cursor-pointer mr-2">Menos ↑</a>
+            <a @click="menos" class="text-gray-700 md:mr-4 mt-3 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
                 <button @click.prevent="editar" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
@@ -121,14 +121,22 @@
                 </button>
             </div>
             <div v-else class="text-xs inline-flex">
-              <button v-if="infoCard.statusId > 1" @click.prevent="pdf(2)" class="bg-gray-300 hover:bg-gray-400 mr-2 text-gray-800 text-xs font-bold py-2 px-2 rounded inline-flex items-center border border-red-700">
-                <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
-                <span>Firmado</span>                
-              </button>   
-              <button v-if="infoCard.statusId > 2" @click.prevent="pdf(3)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
-                <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
-                <span>Sellado</span>
-              </button>                   
+              <div v-if="tipoUsuario != 8">
+                <button v-if="infoCard.statusId > 1" @click.prevent="pdf(2)" class="bg-gray-300 hover:bg-gray-400 mr-2 text-gray-800 text-xs font-bold py-2 px-2 rounded inline-flex items-center border border-red-700">
+                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
+                  <span>Firmado</span>                
+                </button>   
+                <button v-if="infoCard.statusId > 2" @click.prevent="pdf(3)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
+                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
+                  <span>Sellado</span>
+                </button>  
+              </div> 
+              <div v-else>
+                <button  @click.prevent="pdf(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
+                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
+                  <span>Sin Firma</span>
+                </button>  
+              </div>                
             </div>          
           </div>
         </div>

@@ -2,7 +2,7 @@
   <div>
     <Nav></Nav>
     <h1 class="text-black text-center text-4xl mt-3 sm:mb-1">Inventario</h1>
-    <div class="flex justify-center">
+    <div class="flex justify-center" :class="{'pointer-events-none': tipoUsuario == 7}">
       <!--/////////////////////////////////////////////////////////////////
       ////                    COLUMNA IZQUIERDA                        ////
       ////////////////////////////////////////////////////////////////////-->
@@ -41,7 +41,7 @@
         <!--///////////////////////////////////////////////////////////////////
           ////                     COLUMNA DERECHA                        ////
           ////////////////////////////////////////////////////////////////////-->
-        <div class="m-10 mt-3 sm:m-1 sm:text-sm text-base font-light text-gray-900 sm:mb-6">
+        <div class="m-10 mt-3 sm:m-1 sm:text-sm text-base font-light text-gray-900 sm:mb-6" >
           <div class="m-5 sm:ml-10">
             <p class="mb-1">Fecha de Instalacion</p>
             <input v-model="objDatos.fechaInstalacion" class="w-64 sm:w-32" type="date" />
@@ -116,6 +116,7 @@ export default {
         observaciones: "",
         oldNumSerie: "",
       },
+      tipoUsuario: 0
     };
   },
   components: {
@@ -127,6 +128,7 @@ export default {
   beforeMount: async function () {
     this.listaComponentes = this.$store.getters["Refacciones/getlistaRefaccionesInventario"];
     this.infoPlaza = this.$store.getters["Header/getConvenioPlaza"];
+    this.tipoUsuario = this.$store.getters['Login/getTypeUser']
     this.listaUbicacionGeneral = this.$store.getters["Refacciones/getlistaUbicacionGeneralInventario"];
     if (JSON.stringify(this.$route.query) != "{}") {
       this.objDatos.idComponent = this.$route.query.infoComponent.idComponent 

@@ -193,7 +193,8 @@ export default {
           await this.$store.commit("Header/listaHeadersMutation", dataHeader);
           await this.$store.dispatch("DTC/buscarDescriptions");
           await this.$store.dispatch("Header/buscarListaUnique");
-          if(await this.$store.getters['Login/getTypeUser'] == 7)
+          let userTipo = await this.$store.getters['Login/getTypeUser']
+          if(userTipo == 7 || userTipo == 8)
             this.$router.push("ListarDtc");
           else
             this.$router.push("home");

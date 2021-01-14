@@ -33,14 +33,14 @@
             </div>
             <div></div>
           </div>
-          <div class=" text-sm mt-2">
+          <div class=" text-sm mt-2 mx-auto">
             <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
             <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
               <option disabled value>Selecionar...</option>
               <option v-for="(item, index) in listaPlazasUser" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>
             </select>
           </div>
-          <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
+          <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" v-if="!(tipoUsuario == 7)">
             <button
               @click="Cancelar"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 mr-3"
@@ -82,32 +82,16 @@
                 <td class="text-center border-2 border-gray-800">{{ item.component }}</td>
                 <td class="text-center border-2 border-gray-800">{{ item.lane }}</td>
                 <td class="text-center border-2 border-gray-800">
-                  <input
-                    @change="guardar_editado(item)"
-                    v-model="item.serialNumber"
-                    type="text"
-                  />
+                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
                 </td>
                 <td class="text-center border-2 border-gray-800">
-                  <input
-                    @change="guardar_editado(item)"
-                    v-model="item.installationDate"
-                    type="date"
-                  />
+                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date"/>
                 </td>
                 <td class="text-center border-2 border-gray-800">
-                  <input
-                    @change="guardar_editado(item)"
-                    v-model="item.maintenanceDate"
-                    type="date"
-                  />
+                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date"/>
                 </td>
                 <td class="text-center border-2 border-gray-800">
-                  <input
-                    @change="guardar_editado(item)"
-                    v-model="item.maintenanceFolio"
-                    type="text"
-                  />
+                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
                 </td>
                 <td class="text-center border-2 border-gray-800">
                   <button @click="Mostrar_Mas(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700">
@@ -122,7 +106,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                 PAGINACION DE LA TABLA                      ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="flex justify-center mt-2 mb-2 sm:mb-5">
+        <div class="flex justify-center mt-2 mb-32 sm:mb-5">
           <button
             @click="cambiar_Pagina(item)"
             class="py-1 px-3 bg-gray-400 m-1 border-black border rounded-lg focus:shadow-outline"
@@ -155,7 +139,9 @@ export default {
       boolUbicacion: true,
       boolComponente: false,
       listaPlazasUser: [],
-      plazaSelect: ''
+      plazaSelect: '',
+      tipoUsuario: 0,
+      disableInputs: false
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -164,6 +150,8 @@ export default {
   beforeMount: function () {
     let index = this.$store.getters['Header/getUSERSELECT']    
     this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
+    this.tipoUsuario = this.$store.getters['Login/getTypeUser']
+    this.disableInputs = this.tipoUsuario == 7 ? true : false
     this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
     this.crear_array_paginacion("inicio");
     this.plazaSelect = this.listaPlazasUser[index].numPlaza;
@@ -171,7 +159,7 @@ export default {
       if (a.lane < b.lane) return -1;
       if (a.lane > b.lane) return 1;
       return 0;
-    });
+    });    
   },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////

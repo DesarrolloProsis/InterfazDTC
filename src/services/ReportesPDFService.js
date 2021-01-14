@@ -5,7 +5,8 @@ import moment from "moment";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const STATUS_REPORTE_CORRECTIVO = Object.freeze({
-    completado: 2,
+    sinfirma: 1,
+    firmado: 2,
     sellado: 3
 })
 function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
@@ -13,7 +14,11 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     var oReq = new XMLHttpRequest();    
     let urlTopdf = ''
     let namePdf = ''
-    if(STATUS_REPORTE_CORRECTIVO.completado === statusId){
+    if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
+        urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${clavePlaza}`;
+        namePdf = `DTC-${numeroReferencia}.pdf`; 
+    }
+    else if(STATUS_REPORTE_CORRECTIVO.firmado === statusId){
         if(crearDTC == true)
             urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${clavePlaza}`; 
         else    
