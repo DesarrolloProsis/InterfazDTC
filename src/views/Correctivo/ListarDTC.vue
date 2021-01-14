@@ -70,8 +70,7 @@
             </button>
           </div>
         </div>
-      </div>
-      <!-- <div class=""> -->
+      </div>      
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -317,7 +316,8 @@ methods: {
             tipoDescripcion: this.dtcEdit.typeDescriptionId,
             observaciones: this.dtcEdit.observation,
             diagnostico: this.dtcEdit.diagnosis,
-          }                
+          } 
+          console.log(objEdit)               
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
             .then(() =>{                                                             
