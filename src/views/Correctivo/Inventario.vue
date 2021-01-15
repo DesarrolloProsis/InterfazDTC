@@ -349,6 +349,7 @@ export default {
       this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
       let plaza = this.$store.getters['Header/getConvenioPlaza']
       this.$store.dispatch('Refacciones/FULL_COMPONETES', plaza)
+      this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
     }
   },
 /////////////////////////////////////////////////////////////////////

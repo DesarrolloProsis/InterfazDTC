@@ -74,8 +74,8 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="flex absolute justify-center inset-x-0">
-          <div v-if="modalLoading" class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">          
+        <div class="sticky inset-0">
+          <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
             <div class="justify-center text-center block">            
                 <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
