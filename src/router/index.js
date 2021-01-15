@@ -11,9 +11,8 @@ import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
+import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
-
-//import Axios from "axios";
 Vue.use(VueRouter)
 const routes = [
   {
@@ -129,6 +128,11 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/CalendarioActividades',
+    name: 'CalendarioActividades',
+    component: CalendarioActividades
+  }
 ]
 const router = new VueRouter({
   routes
