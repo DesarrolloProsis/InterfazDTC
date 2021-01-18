@@ -16,7 +16,10 @@
                                 <th class="w-64 border-2 border-gray-800">Equipo</th>
                                 <th class="w-64 border-2 border-gray-800">Frecuencia</th>                                
                                 <th class="w-64 border-2 border-gray-800">Ubicacion</th>
-                                <th class="w-64 border-2 border-gray-800">Acciones</th>                
+                                <th class="w-64 border-2 border-gray-800">
+                                    <p>Acciones</p>
+                                    
+                                </th>                
                             </tr>
                         </thead>
                     <!--/////////////////////////////////////////////////////////////////
