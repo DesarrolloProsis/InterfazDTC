@@ -24,7 +24,7 @@
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-starts m-5">
                         <p class=" font-bold">Numero de Reporte:</p>
-                        <h2 class="ml-5">{{ header.referenceNumber }}</h2>
+                        <h2 class="ml-5">{{ referenceNumber }}</h2>
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Plaza de Cobro:</p>

@@ -16,7 +16,7 @@
                 <p class="text-xs">{{ errors.first("Observaciones") }}</p>
             </div>
             <div class="w-1/2 justify-end flex">
-                <button class="mt-32 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32">
+                <button @click="crear_header_reporte" class="mt-32 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32">
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>
@@ -29,6 +29,8 @@ import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 import TablaActividadesCarril from '../../components/Actividades/TablaActividadesCarril'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
+import Axios from 'axios';
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
         HeaderPreventivo,
@@ -59,14 +61,14 @@ export default {
     },
     beforeMount: async function(){
         this.header = this.$route.query.header 
-        let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.$route.query.header.plazaNombre)
+        let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.$route.query.header.plazaNombre)        
         this.referenceNumber = await ServiceReporte.crear_referencia_calendario(
-            refPlaza,
+            refPlaza.referenceSquare,
             this.header.frequencyName,
             this.header.day,
             this.header.lane
         )        
-        this.referenceNumber
+        console.log(this.referenceNumber)
         this.listaActividades = await this.$store.state.Actividades.listaActividadesCheck                               
         if(this.listaActividades.length == 0){
             this.$notify.warning({
@@ -87,8 +89,29 @@ export default {
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    crear_header_reporte(){
-        
+    async crear_header_reporte(){
+        let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)   
+        let user = await this.$store.getters['Login/getUserForDTC']     
+        let headerReporte = {
+            ReferenceNumber: this.referenceNumber,
+            SquareId: refPlaza.squareCatalogId,
+            CapufeLaneNum: this.header.capufeLaneNum,
+            IdGare: this.header.idGare,
+            UserId: user.idUser,
+            AdminSquare: refPlaza.adminSquareId,
+            ReportDate: this.header.day,
+            Start: this.horaInicio,
+            End: this.horaFin,
+            Observations: this.observaciones        
+        }
+        console.log(headerReporte)
+        await Axios.get(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
+        .then((response) => {     
+            console.log(response)
+        })
+        .catch(Ex => {             
+            console.log(Ex);
+        });
     }
 }
 
