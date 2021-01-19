@@ -44,6 +44,9 @@ export default {
             horaInicio: ''
         }
     },
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                        ////
+/////////////////////////////////////////////////////////////////////
     created() {        
         EventBus.$on("actualizar_hora_inicio", (newHora) => {                              
             console.log(newHora)
@@ -79,6 +82,15 @@ export default {
                 this.$router.push({ path:'/ReportesMantenimiento/TablaActividades' })
             }, 300);  
         }
+    },
+//////////////////////////////////////////////////////////////////////
+////                            METODOS                           ////
+/////////////////////////////////////////////////////////////////////
+methods:{
+    crear_header_reporte(){
+        
     }
+}
+
 }
 </script>

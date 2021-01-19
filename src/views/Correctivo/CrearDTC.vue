@@ -153,13 +153,13 @@ created(){
         this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
     });
 },
-beforeMount() {    
-    this.datosUser = this.$store.getters["Header/getHeaders"];
-    this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
-    this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
+beforeMount: async function() {    
+    this.datosUser =  this.$store.getters["Header/getHeaders"];
+    this.descripcionHeaders =  this.$store.getters["DTC/getListaDescriptions"];
+    this.listaPlazasUser =  this.$store.getters["Login/getListaPlazasUser"]
     this.flagCreate = true;
-    if (JSON.stringify(this.$route.query) != "{}") {             
-      this.headerEdit = this.$route.query.headerInfo;
+    if (JSON.stringify(this.$route.query) != "{}") {                
+      this.headerEdit = this.$route.query.headerInfo;                 
       this.observaciones = this.headerEdit.observation;
       this.$store.commit("Header/referenceNumMutation",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
