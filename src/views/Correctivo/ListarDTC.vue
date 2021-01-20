@@ -374,6 +374,8 @@ methods: {
   },
   limpiar_filtros: async function() {     
       let info = this.$store.getters['Login/getUserForDTC']  
+      this.modalLoading = true
+      this.modal = true
       this.$store.dispatch('DTC/buscarListaDTC', info)            
       this.infoDTC = []          
       await this.$nextTick().then(() => {             
@@ -381,7 +383,12 @@ methods: {
         this.fechaFiltro = "";
         this.referenciaFiltro = "";            
         this.plazaFiltro = ""
-        this.statusFiltro = ""            
+        this.statusFiltro = ""   
+        setTimeout(() => {
+          this.modalLoading = false
+          this.modal = false
+        .catch((err) =>  console.log(err))    
+      },2500);          
       })          
   },
   enviar_pdf_sellado: async function(value){   
