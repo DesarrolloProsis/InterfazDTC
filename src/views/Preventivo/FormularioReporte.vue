@@ -91,7 +91,8 @@ export default {
 methods:{
     async crear_header_reporte(){
         let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)   
-        let user = await this.$store.getters['Login/getUserForDTC']     
+        let user = await this.$store.getters['Login/getUserForDTC'] 
+        let fechasplit = this.header.day.split('/')    
         let headerReporte = {
             ReferenceNumber: this.referenceNumber,
             SquareId: refPlaza.squareCatalogId,
@@ -99,13 +100,13 @@ methods:{
             IdGare: this.header.idGare,
             UserId: user.idUser,
             AdminSquare: refPlaza.adminSquareId,
-            ReportDate: this.header.day,
+            ReportDate: new Date(fechasplit[2], fechasplit[1], fechasplit[0]).toJSON(),
             Start: this.horaInicio,
             End: this.horaFin,
             Observations: this.observaciones        
         }
         console.log(headerReporte)
-        await Axios.get(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
+        await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
         .then((response) => {     
             console.log(response)
         })
