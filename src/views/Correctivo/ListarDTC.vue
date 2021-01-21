@@ -384,12 +384,15 @@ methods: {
         this.referenciaFiltro = "";            
         this.plazaFiltro = ""
         this.statusFiltro = ""   
+        
         setTimeout(() => {
           this.modalLoading = false
           this.modal = false
-        .catch((err) =>  console.log(err))    
-      },2500);          
-      })          
+        },2000)
+           
+             
+      })    
+   
   },
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
