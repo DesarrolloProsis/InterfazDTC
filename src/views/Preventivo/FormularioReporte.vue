@@ -89,30 +89,53 @@ export default {
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    async crear_header_reporte(){
-        let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)   
-        let user = await this.$store.getters['Login/getUserForDTC'] 
-        let fechasplit = this.header.day.split('/')    
-        let headerReporte = {
-            ReferenceNumber: this.referenceNumber,
-            SquareId: refPlaza.squareCatalogId,
-            CapufeLaneNum: this.header.capufeLaneNum,
-            IdGare: this.header.idGare,
-            UserId: user.idUser,
-            AdminSquare: refPlaza.adminSquareId,
-            ReportDate: new Date(fechasplit[2], fechasplit[1], fechasplit[0]).toJSON(),
-            Start: this.horaInicio,
-            End: this.horaFin,
-            Observations: this.observaciones        
-        }
-        console.log(headerReporte)
-        await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
-        .then((response) => {     
-            console.log(response)
-        })
-        .catch(Ex => {             
-            console.log(Ex);
-        });
+    async crear_header_reporte(){        
+        let validarActividades = this.listaActividades
+            .every((actividad) => {                
+                return parseInt(actividad.jobStatus) != 0
+            })
+        if(validarActividades){
+            let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)   
+            let user = await this.$store.getters['Login/getUserForDTC'] 
+            let fechasplit = this.header.day.split('/')    
+            let headerReporte = {
+                ReferenceNumber: this.referenceNumber,
+                SquareId: refPlaza.squareCatalogId,
+                CapufeLaneNum: this.header.capufeLaneNum,
+                IdGare: this.header.idGare,
+                UserId: user.idUser,
+                AdminSquare: refPlaza.adminSquareId,
+                ReportDate: new Date(fechasplit[2], fechasplit[1], fechasplit[0]).toJSON(),
+                Start: this.horaInicio,
+                End: this.horaFin,
+                Observations: this.observaciones        
+            }
+            console.log(headerReporte)
+            await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
+            .then((response) => {     
+                console.log(response)
+            })
+            .catch(Ex => {             
+                console.log(Ex);
+            });
+            this.listaActividades.forEach(async (item) => {    
+                console.log({
+                        ReferenceNumber: this.referenceNumber,
+                        ComponentJob: parseInt(item.idJob),
+                        JobStatus: parseInt(item.jobStatus)
+                })                      
+                await Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.referenceSquare}`, {
+                        ReferenceNumber: this.referenceNumber,
+                        ComponentJob: parseInt(item.idJob),
+                        JobStatus: parseInt(item.jobStatus)
+                    }
+                ).then((response) => {     
+                    console.log(response)
+                }).catch(Ex => {             
+                    console.log(Ex);
+                });
+            })
+        }              
     }
 }
 
