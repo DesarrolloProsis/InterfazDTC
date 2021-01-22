@@ -11,10 +11,36 @@
     @apply border;
     @apply border-red-500;
 }
-/* .is_invalid {
-
-    background-color: coral;
-} */
+.vuecal__event.ActividadSemanal {
+    @apply bg-green-600;
+    @apply text-xl;
+    @apply text-white;
+    @apply rounded-md;
+}
+.vuecal__event.ActividadMensual {
+    @apply bg-red-600;
+    @apply text-xl;
+    @apply text-white;
+    @apply rounded-md;
+}
+.vuecal__event.ActividadTrimestral {
+    @apply bg-blue-600;
+    @apply text-xl;
+    @apply text-white;
+    @apply rounded-md;
+}
+.vuecal__event.ActividadSemestral {
+    @apply bg-pink-600;
+    @apply text-xl;
+    @apply text-white;
+    @apply rounded-md;
+}
+.vuecal__event.ActividadAnual {
+    @apply bg-orange-600;
+    @apply text-xl;
+    @apply text-white;
+    @apply rounded-md;
+}
 
 input {
     @apply bg-gray-200;        
@@ -25,8 +51,7 @@ input {
     @apply border; 
     @apply shadow;
 }
-input:hover {
-       
+input:hover {      
     @apply bg-white;   
     @apply border-gray-300;
     @apply border-gray-700;

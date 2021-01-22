@@ -1,6 +1,7 @@
 import store from '../store/index'
+import moment from "moment";
 
-async function filtrar_actividades_mensuales(mes, año){
+async function filtrar_actividades_mensuales(mes, año, tipoCalendario){
     let listaPlazas = await store.getters["Login/getListaPlazasUser"]   
     let user = await store.getters['Login/getUserForDTC']
     if(mes == undefined && año == undefined){
@@ -14,9 +15,12 @@ async function filtrar_actividades_mensuales(mes, año){
         "month": mes,
         "year": año,
     }
-    await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)        
+    await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)   
+    let listaActidadesTipo = tipoCalendario === false 
+        ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
+        : eventos_calendario_formato(objApi)        
     let obj = {
-        listaActividadesMensuales: store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi),
+        listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: listaPlazas[await store.state.Login.PLAZAELEGIDA].plazaName,
         comentario: store.state.Actividades.comentarioMensual, 
         plazaSelect: user.numPlaza,
@@ -25,7 +29,62 @@ async function filtrar_actividades_mensuales(mes, año){
     }    
     return obj
 }
-
+function eventos_calendario_formato(objApi){
+    let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
+    let catalogoActividades = store.state.Actividades.catalogoActividades
+    let eventsReturn = []
+    var i = 1;
+    let eventoReducidoDay = [];    
+    while (i < 31) {
+        let query = eventoSinFormato.filter(
+            (item) => item.day.split('/')[0] == i
+        );                
+        for (let actividad of catalogoActividades) {                         
+            let _itemFilter = query.filter(itemfilter => {
+                return parseInt(itemfilter.frequencyId) == actividad.value
+            })                               
+            if(_itemFilter.length > 0) {                            
+                eventoReducidoDay.push(_itemFilter);
+            }
+        }
+        i++;
+    }    
+    for (let item of eventoReducidoDay) {
+        console.log(item)
+        let carriles = [];
+        for (let item2 of item) {
+            carriles.push({
+                lane: item2.lane,
+                capufeLaneNum: item2.capufeLaneNum,
+                idGare: item2.idGare,
+            });
+        }            
+        eventsReturn.push({                        
+            start: moment(item[0].day, "DD/MM/YYYY").format("YYYY-MM-DD"), 
+            title: 'Actividad' + ' ' + item[0].frequencyName,                   
+            carriles: carriles,            
+            end: moment(item[0].day, "DD/MM/YYYY").format("YYYY-MM-DD"),   
+            class: codigo_colores_actividad(item[0].frequencyId)
+        });
+    }
+    return eventsReturn
+}
+function codigo_colores_actividad(frequencyId){
+    switch(parseInt(frequencyId)) {
+        case 1:
+            return 'ActividadSemanal'            
+        case 2:
+            return 'ActividadMensual'
+        case 3:
+            return 'ActividadTrimestral'           
+        case 4:
+            return 'ActividadSemestral'    
+        case 5:
+            return 'ActividadAnual'                 
+        default:
+            break;
+    }
+}
 export default{
     filtrar_actividades_mensuales,
 }

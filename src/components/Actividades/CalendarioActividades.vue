@@ -49,8 +49,8 @@ export default {
     return{
       events: [
     {
-      start: '2021-01-20',
-      end: '2021-01-20',
+      start: '20-01-2021',
+      end: '20-01-2021',
       title: 'Actividad Mensual',
       content: '<i class="v-icon material-icons">shopping_cart</i>',
       class: 'leisure',
@@ -75,6 +75,11 @@ export default {
     
   ]
     }
+  },
+  beforeMount(){
+    let cargaInicial = this.$route.params.cargaInicial
+    this.events = cargaInicial.listaActividadesMensuales
+    console.log(cargaInicial)
   },
   methods: {
     onEventClick(){

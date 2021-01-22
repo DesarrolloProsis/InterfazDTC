@@ -113,7 +113,7 @@ const routes = [
         path: 'TablaActividades',
         component: () => import('../views/Preventivo/TablaActividades.vue'),
         beforeEnter: async function(to,from,next){
-          let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined)                    
+          let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined, false)                    
           to.params.cargaInicial = result                             
           next()
         }      
@@ -131,7 +131,12 @@ const routes = [
   {
     path: '/CalendarioActividades',
     name: 'CalendarioActividades',
-    component: CalendarioActividades
+    component: CalendarioActividades,
+    beforeEnter: async function(to,from,next){
+      let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined, true)                    
+      to.params.cargaInicial = result                             
+      next()
+    } 
   }
 ]
 const router = new VueRouter({

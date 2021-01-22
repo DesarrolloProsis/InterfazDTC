@@ -21,6 +21,14 @@ const getters = {
             return { ...actividad }
         })  
     },
+    GET_ACTIVIDADES_MENSUALES_CALENDARIO: (state) => (obj) => {
+        return state.actividadesMensuales.map(actividad => {
+            let newEvent = {}
+            newEvent["day"] = `${actividad.day}/${obj.month}/${obj.year}` 
+            newEvent["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
+            return { ...newEvent }
+        })  
+    },  
     GET_ACTIVIDADES_CARRIL: (state) => {
         return state.listaActividadesCheck.map(item => {
             item["addImg"] = true
