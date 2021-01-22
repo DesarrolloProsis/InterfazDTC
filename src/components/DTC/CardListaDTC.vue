@@ -253,9 +253,9 @@ export default {
         },
       });
     },
-    editar_header(){
+    editar_header: async function(){
       // window.scroll(0, 0);
-      this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
+      await this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
         { 
           numSiniestro: this.infoCard.sinisterNumber,  
           numReporte: this.infoCard.reportNumber 

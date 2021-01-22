@@ -64,7 +64,8 @@ function eventos_calendario_formato(objApi){
             title: 'Actividad' + ' ' + item[0].frequencyName,                   
             carriles: carriles,            
             end: moment(item[0].day, "DD/MM/YYYY").format("YYYY-MM-DD"),   
-            class: codigo_colores_actividad(item[0].frequencyId)
+            class: codigo_colores_actividad(item[0].frequencyId),
+            content: '<i class="v-icon material-icons">local_hospital</i>',
         });
     }
     return eventsReturn
