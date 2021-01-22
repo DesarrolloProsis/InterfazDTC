@@ -88,15 +88,17 @@ const mutations = {
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
   LIBERAR_VALIDACION_NUMS: (state, value) => {
     console.log(state.listaUnique.length)
-    let index_sinistro = state.listaUnique.findIndex(item => item.sinisterNumber == value.numSiniestro)
-    let index_reporte = state.listaUnique.findIndex(item => item.reportNumber == value.numReporte)
-
-    if(index_sinistro != -1){
-      state.listaUnique.splice(index_sinistro, 1)
+    let index = state.listaUnique.findIndex(item => item.sinisterNumber === value.numSiniestro && item.reportNumber === value.numReporte)
+    //let index_reporte = state.listaUnique.findIndex(item => item.reportNumber === value.numReporte)
+    console.log(index)
+    
+    if(index != -1 ){
+      console.log(state.listaUnique[index])
+      state.listaUnique.splice(index, 1)
     }
-    if(index_reporte != -1){
-      state.listaUnique.splice(index_reporte, 1)
-    }
+    // if(index_reporte != -1){
+    //   state.listaUnique.splice(index_reporte, 1)
+    // }
     console.log(state.listaUnique.length)
   },
   PLAZAELEGIDAFINDMUTATION: (state, value) => {         
