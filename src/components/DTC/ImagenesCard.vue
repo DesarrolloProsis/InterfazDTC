@@ -154,7 +154,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
   methods: {
     recibirImagenes: function (e) {
-      this.imagenes_enviar = this.fileUpload =ServiceImagenes.obtener_array_imagenes(e, this.fileUpload)        
+      this.imagenes_enviar = this.fileUpload = ServiceImagenes.obtener_array_imagenes(e, this.fileUpload)        
       this.cargarImagen = true;      
       this.editar_imagen = false;
     },

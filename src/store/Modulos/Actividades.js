@@ -20,6 +20,13 @@ const getters = {
             actividad["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
             return { ...actividad }
         })  
+    },
+    GET_ACTIVIDADES_CARRIL: (state) => {
+        return state.listaActividadesCheck.map(item => {
+            item["addImg"] = true
+            item["img"] = {}
+            return { ...item }
+        })        
     }      
 }
 const mutations = {

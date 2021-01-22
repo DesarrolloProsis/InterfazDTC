@@ -575,6 +575,7 @@ props: {
 beforeMount: async function () {
     try {
       let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
+      console.log(componetesEdit)
       if (JSON.stringify(componetesEdit) != "{}") {                
         for (const item of componetesEdit.items) { 
           let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
@@ -592,14 +593,15 @@ beforeMount: async function () {
               array_carril.push(lane.lane);
             }
           });          
-          let otra_prueba = await this.$store.getters["Header/getFechaSiniestro"];
+          let fechaDinisetrp = await this.$store.getters["Header/getFechaSiniestro"];
           //AGREGAMOS PARTIDA AL STORE
           let objPartida = Service.obj_partida(
             array_ubicacion,
             equipoValid,
-            otra_prueba,
+            fechaDinisetrp,
             item.mainRelationship,
-            true
+            true,
+            0
           );
           await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
@@ -624,9 +626,11 @@ beforeMount: async function () {
             array_ubicacion,
             key_partidas,
             equipoValid,
-            otra_prueba,
+            fechaDinisetrp,
             item.mainRelationship,
-            true
+            true,
+            array_ubicacion.length
+            
           );
           console.log(new_partida);
           new_partida["row1"] = this.arrayPartidas.length + 1;

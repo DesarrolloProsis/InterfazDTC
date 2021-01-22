@@ -55,19 +55,25 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     }
     let nomPlaza = referenceSquare;
     let autoCompleteDias;
-    if(diaCorriente < 10)
-        autoCompleteDias = "00" +  diaCorriente.toString();
-    else if (diaCorriente < 100)
-        autoCompleteDias = "0" + diaCorriente.toString();
-    else 
-        autoCompleteDias = diaCorriente.toString();
+    if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+    else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+    else autoCompleteDias = diaCorriente.toString();
     let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
     await store.commit("Header/referenceNumMutation", ReferenceNumber);
-    await store.dispatch("Header/buscarReferencia", ReferenceNumber);
-    
+    await store.dispatch("Header/buscarReferencia", ReferenceNumber);    
     return await store.getters["Header/getreferenceNum"];        
+}
+async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){   
+    fechaActividad = moment(fechaActividad,"DD-MM-YYYY").format("YYYY-MM-DD").split('-') 
+    let referenciaNueva = 
+        numeroReferencia + '-' + 'MP' + 
+        tipoReferencia.slice(0,1) + 
+        fechaActividad[2] + '-' + 
+        carril.slice(0,3)
+    return referenciaNueva.toUpperCase()
 }
 export default {
     generar_pdf_correctivo,
-    crear_referencia
+    crear_referencia,
+    crear_referencia_calendario
 }

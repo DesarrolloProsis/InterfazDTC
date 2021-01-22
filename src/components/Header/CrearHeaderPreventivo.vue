@@ -1,6 +1,6 @@
 
 <template>
-    <div>
+    <div class="p-10">
         <!--///////////////////////////////////////////////////////////////////
           ////                             HEADER                          ////
           ////////////////////////////////////////////////////////////////////-->
@@ -12,7 +12,7 @@
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
                 <div class="border-gray-800 border-2 p-5 pt-0">
-                    <h1 class="mt-5 border-purple-800">Mantenimiento Preventivo Trimestal Nivel Carril</h1>            
+                    <h1 class="mt-5 border-purple-800">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel Carril` }}</h1>            
                 </div>
             </div>
         </div>
@@ -42,11 +42,11 @@
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Inicio:</p>
-                        <input class="ml-5 w-40" type="time">
+                        <input v-model="horaInicio" class="ml-5 w-40" type="time">
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Fin:</p>
-                        <input class="ml-5 w-40" type="time">
+                        <input v-model="horaFin" class="ml-5 w-40" type="time">
                     </div>
                 </div>
             </div>
@@ -77,28 +77,43 @@
 </template>
 
 <script>
-import ServiceReportePDF from '../../services/ReportesPDFService'
+import EventBus from "../../services/EventBus.js";
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
 /////////////////////////////////////////////////////////////////////
 data() {
     return {
-        referenceNumber: ''
+        horaInicio: '',
+        horaFin: ''
     };
 },
 props: {
     header:{
         type: Object,
         default: () => {},
+    },
+    referenceNumber: {
+        type: String,
+        default: () => ''
     }
 },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function() {    
-    let refPlaza = await this.$store.state.Login.userLogeado.find(plaza => plaza.squareName == this.header.plazaNombre).referenceSquare    
-    this.referenceNumber = await ServiceReportePDF.crear_referencia(this.header.day, refPlaza)    
+    
+},
+/////////////////////////////////////////////////////////////////////
+////                       Watcher                               ////
+/////////////////////////////////////////////////////////////////////
+watch:{
+    horaInicio: function(newHora){
+        EventBus.$emit("actualizar_hora_inicio", newHora);
+    },
+    horaFin: function(newHora){
+        EventBus.$emit("actualizar_hora_fin", newHora);
+    }
 }
 
 
