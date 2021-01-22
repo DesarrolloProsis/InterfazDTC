@@ -1,138 +1,95 @@
 <template>
-  <div>
+  <div class="">
     <Nav></Nav>
-    <div class="text-center mt-5">
-      <h2 class=" text-2xl">Calendario de Actividades</h2>
-      <p class="text-lg font-medium text-gray-600 mb-6">
-        Roll your own calendars using scoped slots
-      </p>
-    </div>
-    <div class="pl-10 pr-10">
-      <v-calendar
-        @dayclick="onDayClick"
-        class="max-w-full"
-        :masks="masks"
-        :attributes="attributes"                   
-        is-expanded
-      >
-        <template :dayEvents='onDayClick' v-slot:day-content="{ day, attributes }">
-          <div class="flex flex-col h-full z-10 overflow-hidden">
-            <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
-            <div class="flex-grow overflow-y-auto overflow-x-auto">
-              <p v-for="(attr, key) in attributes" :key="key" class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1" :class="attr.customData.class">
-                {{ attr.customData.title }}
-              </p>
-            </div>
-          </div>
-        </template>
-      </v-calendar>
+    <div class="pl-10 pr-10 mt-10">
+        <vue-cal selected-date="2021-01-19"         
+        :disable-views="['years', 'year','week', 'day']"
+        active-view="month"
+        locale="es"         
+        :eventsCountOnYearView="true"
+        
+        @cell-click="cellclick"
+        events-on-month-view="short"
+        :events="events"
+        :on-event-click="onEventClick">
+        
+
+</vue-cal>
     </div>
   </div>
 </template>
 
 <script>
 import Nav from "../../components/Navbar";
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
+import 'vue-cal/dist/i18n/es.js'
+
 export default {
   components:{
+    VueCal,
     Nav
   },
   data() {
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
-    return {
-      masks: {
-        weekdays: 'WWW',
-      },
-      attributes: [
-        {
-          key: 1,
-          customData: {
-            title: 'Lunch with mom.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 1),
-        },
-        {
-          key: 8,
-          customData: {
-            title: 'Lunch with mom.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 1),
-        },
-        {
-          key: 2,
-          customData: {
-            title: 'Take Noah to basketball practice',
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 2),
-        },
-        {
-          key: 3,
-          customData: {
-            title: "Noah's basketball game.",
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 4,
-          customData: {
-            title: 'Take car to the shop',
-            class: 'bg-indigo-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 4,
-          customData: {
-            title: 'Meeting with new client.',
-            class: 'bg-teal-500 text-white',
-          },
-          dates: new Date(year, month, 7),
-        },
-        {
-          key: 5,
-          customData: {
-            title: "Mia's gymnastics practice.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 11),
-        },
-        {
-          key: 6,
-          customData: {
-            title: 'Cookout with friends.',
-            class: 'bg-orange-500 text-white',
-          },
-          dates: { months: 5, ordinalWeekdays: { 2: 1 } },
-        },
-        {
-          key: 7,
-          customData: {
-            title: "Mia's gymnastics recital.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 22),
-        },
-        {
-          key: 8,
-          customData: {
-            title: 'Visit great grandma.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 25),
-        },
-      ],
-    };
+    return{
+      events: [
+    {
+      start: '2021-01-20',
+      end: '2021-01-20',
+      title: 'Need to go shopping',
+      content: '<i class="v-icon material-icons">shopping_cart</i>',
+      class: 'leisure',
+      deletable: true,
+      allDay: true
+    },
+    {
+      start: '2021-01-19',
+      end: '2021-01-19',
+      title: 'Golf with John',
+      content: '<i class="v-icon material-icons">golf_course</i>',
+      class: 'sport'
+    },
+    {
+      start: '2021-01-21',
+      end: '2021-01-21',
+      title: 'Dad\'s birthday!',
+      content: '<div class="text-2xl bg-red-600"><p>Ayuda</p></div>',
+      class: 'sport'
+    },
+    {
+      start: '2021-01-21',
+      end: '2021-01-21',
+      title: 'Dad\'s birthday!',
+      content: '<div class="text-2xl bg-red-600"><p>Ayuda</p></div>',
+      class: 'sport'
+    }
+    
+  ]
+    }
   },
-  methods:{
-    onDayClick(day){
-      alert('hola mundo!')
-      console.log(day)
+  methods: {
+    onEventClick(){
+      alert('hola mundo!!')
+    },
+    cellclick(item){
+      alert('hola mundo!!')
+      console.log(item)
     }
   }
-};
+}
 </script>
 
+<style >
+.vuecal__event.leisure {background-color: rgba(253, 156, 66, 0.9);border: 1px solid rgb(233, 136, 46);color: #fff;}
+.vuecal__event.sport {background-color: rgba(255, 102, 102, 0.9);border: 1px solid rgb(235, 82, 82);color: #fff;}
+.vuecal--month-view .vuecal__cell {height: 80px;}
+
+.vuecal--month-view .vuecal__cell-content {
+  justify-content: flex-start;
+  height: 100%;
+  align-items: flex-end;
+}
+.vuecal__menu, .vuecal__cell-events-count { background-color :  # 42b983 ;} 
+.vuecal--month-view .vuecal__cell-date {padding: 4px;}
+
+</style>
