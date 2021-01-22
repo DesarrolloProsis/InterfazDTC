@@ -67,9 +67,8 @@ export default {
             this.header.frequencyName,
             this.header.day,
             this.header.lane
-        )        
-        console.log(this.referenceNumber)
-        this.listaActividades = await this.$store.state.Actividades.listaActividadesCheck                               
+        )                
+        this.listaActividades = await this.$store.getters['Actividades/GET_ACTIVIDADES_CARRIL']
         if(this.listaActividades.length == 0){
             this.$notify.warning({
                 title: "Ups!",
@@ -114,6 +113,15 @@ methods:{
             await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
             .then((response) => {     
                 console.log(response)
+                this.$notify.success({
+                title: "Ok!",
+                msg: `SE INSERTO EL HEADER.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
             })
             .catch(Ex => {             
                 console.log(Ex);
@@ -135,7 +143,27 @@ methods:{
                     console.log(Ex);
                 });
             })
-        }              
+            this.$notify.success({
+                title: "Ok!",
+                msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
+        } 
+        else{
+            this.$notify.warning({
+                title: "Ups!",
+                msg: `FALTAN ESTATUS EN ACTIVIDADES.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
+        }            
     }
 }
 
