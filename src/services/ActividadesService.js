@@ -61,10 +61,11 @@ function eventos_calendario_formato(objApi){
         }            
         eventsReturn.push({                        
             start: moment(item[0].day, "DD/MM/YYYY").format("YYYY-MM-DD"), 
+            tipoActividad: codigo_colores_actividad(item[0].frequencyId).nombre,
             title: 'Actividad' + ' ' + item[0].frequencyName,                   
             carriles: carriles,            
             end: moment(item[0].day, "DD/MM/YYYY").format("YYYY-MM-DD"),   
-            class: codigo_colores_actividad(item[0].frequencyId),
+            class: codigo_colores_actividad(item[0].frequencyId).css,
             content: '<i class="v-icon material-icons">local_hospital</i>',
         });
     }
@@ -73,15 +74,15 @@ function eventos_calendario_formato(objApi){
 function codigo_colores_actividad(frequencyId){
     switch(parseInt(frequencyId)) {
         case 1:
-            return 'ActividadSemanal'            
+            return { css: 'ActividadSemanal', nombre: 'Semanal' }
         case 2:
-            return 'ActividadMensual'
+            return { css: 'ActividadMensual', nombre: 'Mensual' }                    
         case 3:
-            return 'ActividadTrimestral'           
+            return { css: 'ActividadTrimestral', nombre: 'Trimestral' }                                
         case 4:
-            return 'ActividadSemestral'    
+            return { css: 'ActividadSemestral', nombre: 'Semestral' }                                           
         case 5:
-            return 'ActividadAnual'                 
+            return { css: 'ActividadAnual', nombre: 'Anual' }                                                       
         default:
             break;
     }

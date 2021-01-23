@@ -10,7 +10,25 @@
         <p class="text-gray-900 font-thin text-md sm:text-sm text-center">Agregar Actividad</p>
         <div>
           <div>
-              
+            <div class="mt-5">
+              <select v-model="actividadSelect" class="w-full text-gray-600 h-10 border-gray-300" type="text">
+                  <option disabled value="">Selecionar...</option>
+                  <option v-for="(item, index) in listaActividades" :value="item.value" :key="index">{{ item.text }}</option>
+                </select>
+            </div>
+            <div class="mt-5">
+              <multiselect
+                        v-model="laneSelect"                                                                       
+                        :close-on-select="false"
+                        :clear-on-select="true"
+                        :hideSelected="false"
+                        placeholder="Selecciona..."
+                        :options="listaCarriles"
+                        class=" shadow-md hover:border-gray-700"
+                        :multiple="true"
+                      >                       
+                      </multiselect>
+              </div>
           </div>
           <div>
 
@@ -58,10 +76,10 @@
           :disable-views="['years', 'year','week', 'day']"
           active-view="month"
           locale="es"                                   
-          @cell-click="cellclick"
+          @cell-click="agregar_evento_dia"
           events-on-month-view="short"
           :events="events"
-          :on-event-click="onEventClick">
+          :on-event-click="modal_actividades_dia">
         
           <template v-slot:title="{ title, view }">
             🎉
@@ -81,12 +99,15 @@
 <script>
 import Nav from "../../components/Navbar";
 import VueCal from 'vue-cal'
+import Multiselect from "vue-multiselect";
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
+import { mapState } from 'vuex';
 
 export default {
   components:{
     VueCal,
+    Multiselect,
     Nav
   },
   data() {
@@ -95,25 +116,91 @@ export default {
       modal: false,
       modalActividades: false,
       modalAgreagrActividad: false,
-      carrilesModal: []      
+      carrilesModal: [],
+      laneSelect: [] ,
+      listLane: [],
+      actividadSelect: '',
+      listaActividades: [],
+      carrilesDisable: false,
+      listaCarriles: []      
+      
     }
   },
   beforeMount(){
     let cargaInicial = this.$route.params.cargaInicial
     this.events = cargaInicial.listaActividadesMensuales
+    this.listaActividades = this.$store.state.Actividades.catalogoActividades
+    
     console.log(cargaInicial)
   },
+  computed:{     
+    ...mapState("Refacciones", ["carriles"]),
+  },
   methods: {
-    onEventClick(e){
+    modal_actividades_dia(e){
       console.log(e)
       this.modal = true
       this.modalActividades = true
       this.carrilesModal = e.carriles
     },
-    cellclick(item){
+    agregar_evento_dia(item){
       this.modalAgreagrActividad = true
       console.log(item)
-    }
+    },
+    carriles_filtrados() {
+      if (this.actividadSelect == "") {
+        this.carrilesDisable = true;
+      } else if (this.actividadSelect == 1) {
+        this.carrilesDisable = false;
+        return this.carriles.map((item) => ({
+          value: {
+            capufeLaneNum: item.capufeLaneNum,
+            idGare: item.idGare,
+            lane: item.lane,
+          },
+          text: item.lane,
+        }));
+      } else if (this.actividadSelect > 1) {
+        let rolUser = this.$store.getters['Login/getTypeUser']
+        console.log(rolUser)
+        let carriles_prohibidos = [];
+        for (let evento of this.events) {
+          if (evento.tipoActividad != "Semanal") {
+            for (let carril of evento.carriles) {                                                     
+                if(rolUser == 1){
+                  carriles_prohibidos.push(carril);
+                }
+                else{
+                  if(carril.lane != 'Plaza' && carril.lane != "Plaza-M"){
+                    carriles_prohibidos.push(carril);
+                  }                                  
+                }                                
+            }
+          }
+        }
+        let carrilesReturn = [];
+        for (let carrilesFull of this.carriles) {
+          let map = carriles_prohibidos.findIndex(
+            (item) =>
+              item.capufeLaneNum == carrilesFull.capufeLaneNum &&
+              item.idGare == carrilesFull.idGare
+          );
+          if (map == -1) {
+            carrilesReturn.push({
+              value: {
+                capufeLaneNum: carrilesFull.capufeLaneNum,
+                idGare: carrilesFull.idGare,
+                lane: carrilesFull.lane,
+              },
+              text: carrilesFull.lane,
+            });
+          }
+        }
+        this.carrilesDisable = false;
+        this.listaCarriles = carrilesReturn;
+        //return carrilesReturn
+      }
+    },
   }
 }
 </script>
