@@ -76,6 +76,7 @@
         </div>
       </div>
     </div>
+    <HeaderCalendario></HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32 " :class="{' pointer-events-none': modal}">
         <vue-cal 
           :time="false"
@@ -98,7 +99,8 @@
           </template>
           <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
-    </div>
+        <span class=" text-gray-700">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>
+    </div>    
   </div>
 </div>
 </template>
@@ -107,6 +109,7 @@
 import Nav from "../../components/Navbar";
 import VueCal from 'vue-cal'
 import Multiselect from "vue-multiselect";
+import HeaderCalendario from '../Header/CrearHeaderCalendario'
 import ServiceActividades from '../../services/ActividadesService'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
@@ -116,7 +119,8 @@ export default {
   components:{
     VueCal,
     Multiselect,
-    Nav
+    HeaderCalendario,
+    Nav,    
   },
   data() {
     return{
@@ -192,8 +196,7 @@ export default {
               text: carrilesFull.lane,
             });
           }
-        } 
-        console.log(carrilesReturn)               
+        }                 
         return carrilesReturn
       }
       return ['no entre en ninguno']
@@ -216,10 +219,7 @@ export default {
       
       let algo = await ServiceActividades.construir_objeto_actividad(
           listaCarril,
-          {           
-            day: this.fechaModal.toLocaleDateString(),
-            frequencyId: this.actividadSelect
-          } 
+          { day: this.fechaModal.toLocaleDateString(), frequencyId: this.actividadSelect } 
         )
       for(let item of algo){
         this.events.push(item)
@@ -245,7 +245,7 @@ export default {
   align-items: flex-end;
   
 }
-.vuecal__menu, .vuecal__cell-events-count { background-color :  #42b983 ;} 
+/* .vuecal__menu, .vuecal__cell-events-count { background-color :  #42b983 ;}  */
 
 
 </style>

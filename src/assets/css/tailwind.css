@@ -11,6 +11,9 @@
     @apply border;
     @apply border-red-500;
 }
+.vuecal__menu{
+    @apply bg-blue-900
+}
 .vuecal__event.ActividadSemanal {
     @apply bg-green-600;
     @apply text-xl;
@@ -24,7 +27,7 @@
     @apply rounded-md;
 }
 .vuecal__event.ActividadTrimestral {
-    @apply bg-blue-600;
+    @apply bg-blue-800;
     @apply text-xl;
     @apply text-white;
     @apply rounded-md;
