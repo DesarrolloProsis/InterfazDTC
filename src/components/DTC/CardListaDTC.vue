@@ -275,23 +275,40 @@ export default {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       else {
-        for (let item of files) {        
-          this.crearImage(item);
-        }
         this.pdfSelladoBool = true
+        for (let item of files) {        
+          if(this.crearImage(item) == false)
+            this.pdfSelladoBool = false
+        }        
       }
     },
     crearImage(file) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.$nextTick().then(() => {
-          this.pdfSellado = {
-            imgbase: e.target.result.split(',')[1],
-            name: this.infoCard.referenceNumber,
-          };
-        })        
-      };
-      reader.readAsDataURL(file);            
+      if(file.type.split('/')[1] == 'pdf'){
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          this.$nextTick().then(() => {
+            this.pdfSellado = {
+              imgbase: e.target.result.split(',')[1],
+              name: this.infoCard.referenceNumber,
+            };
+          })        
+        };
+        reader.readAsDataURL(file);   
+        return true
+      }
+      else{
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },          
+        });
+        this.pdfSellado = {}
+        return false
+      }         
     },
     base64ToFile(dataurl, fileName) {      
         let url = "data:image/jpeg;base64," + dataurl;
