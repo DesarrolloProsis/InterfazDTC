@@ -42,8 +42,8 @@
           </div>
         </div>
         <div class="justify-end flex mt-5">
-          <button @click="modalAgreagrActividad = false" class="text-white px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-          <button @click="modalAgreagrActividad = false" class="text-white px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+          <button @click="agregar_actividad_dia" class="text-white px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="text-white px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@
           :disable-views="['years', 'year','week', 'day']"
           active-view="month"
           locale="es"                                   
-          @cell-click="agregar_evento_dia"
+          @cell-click="modal_agregar_actividad"
           events-on-month-view="short"
           :events="events"
           :on-event-click="modal_actividades_dia">
@@ -107,6 +107,7 @@
 import Nav from "../../components/Navbar";
 import VueCal from 'vue-cal'
 import Multiselect from "vue-multiselect";
+import ServiceActividades from '../../services/ActividadesService'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
@@ -126,10 +127,10 @@ export default {
       carrilesModal: [],
       laneSelect: [] ,
       listLane: [],
-      actividadSelect: '1',
+      actividadSelect: '',
       listaActividades: [],
       carrilesDisable: false,          
-      
+      fechaModal: ''
     }
   },
   beforeMount(){
@@ -199,16 +200,34 @@ export default {
     },
   },
   methods: {
-    modal_actividades_dia(e){
-      console.log(e)
+    modal_actividades_dia(e){      
       this.modal = true
       this.modalActividades = true
       this.carrilesModal = e.carriles
     },
-    agregar_evento_dia(item){
+    modal_agregar_actividad(item){
       this.modalAgreagrActividad = true
-      console.log(item)
-    },    
+      this.fechaModal = item      
+    },   
+    agregar_actividad_dia: async function() {      
+      let listaCarril = this.laneSelect.map((item) => {
+        return { ...item.value }
+      })
+      
+      let algo = await ServiceActividades.construir_objeto_actividad(
+          listaCarril,
+          {           
+            day: this.fechaModal.toLocaleDateString(),
+            frequencyId: this.actividadSelect
+          } 
+        )
+      for(let item of algo){
+        this.events.push(item)
+      }
+      this.modalAgreagrActividad = false
+      this.laneSelect = []
+      this.actividadSelect = ''
+    },
     customLabel(value){
       return value.value.lane
     }

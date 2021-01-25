@@ -50,26 +50,29 @@ function eventos_calendario_formato(objApi){
         }
         i++;
     }    
-    for (let item of eventoReducidoDay) {
-        console.log(item)
-        let carriles = [];
-        for (let item2 of item) {
-            carriles.push({
-                lane: item2.lane,
-                capufeLaneNum: item2.capufeLaneNum,
-                idGare: item2.idGare,
-            });
-        }            
-        eventsReturn.push({                        
-            start: moment(item[0].day, "DD/MM/YYYY").format("YYYY-MM-DD"), 
-            tipoActividad: codigo_colores_actividad(item[0].frequencyId).nombre,
-            title: 'Actividad' + ' ' + item[0].frequencyName,                   
-            carriles: carriles,            
-            end: moment(item[0].day, "DD/MM/YYYY").format("YYYY-MM-DD"),   
-            class: codigo_colores_actividad(item[0].frequencyId).css,
-            content: '<i class="v-icon material-icons">local_hospital</i>',
-        });
+    for (let item of eventoReducidoDay) {  
+        eventsReturn.push(construir_objeto_actividad(item, item[0]))
     }
+    return eventsReturn.flat()
+}
+function construir_objeto_actividad(listaCarriles, info){
+    let carriles = []
+    let eventsReturn = []
+    for (let carril of listaCarriles) {
+        carriles.push({
+            lane: carril.lane,
+            capufeLaneNum: carril.capufeLaneNum,
+            idGare: carril.idGare,
+        });
+    }            
+    eventsReturn.push({                        
+        start: moment(info.day, "DD/MM/YYYY").format("YYYY-MM-DD"), 
+        tipoActividad: codigo_colores_actividad(info.frequencyId).nombre,
+        title: 'Actividad' + ' ' + codigo_colores_actividad(info.frequencyId).nombre,                   
+        carriles: carriles,            
+        end: moment(info.day, "DD/MM/YYYY").format("YYYY-MM-DD"),   
+        class: codigo_colores_actividad(info.frequencyId).css,            
+    });
     return eventsReturn
 }
 function codigo_colores_actividad(frequencyId){
@@ -89,5 +92,6 @@ function codigo_colores_actividad(frequencyId){
     }
 }
 export default{
-    filtrar_actividades_mensuales,
+    filtrar_actividades_mensuales, 
+    construir_objeto_actividad   
 }
