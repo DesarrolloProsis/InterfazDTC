@@ -23,11 +23,14 @@
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-starts m-5">
                         <p class=" font-bold">Correspondiente al mes de:</p>
-                        <h2 class="ml-5">{{  }}</h2>
+                        <h2 class="ml-5">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Plaza de Cobro:</p>
-                        <p class="ml-5">{{  }}</p>                                   
+                        <select v-model="plazaSelect" @change="cambiar_plaza" class="w-56 h-6 ml-5" type="text">
+                            <option disabled value="">Selecionar...</option>     
+                            <option v-for="(item, index) in plazasValidas" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>                
+                        </select>                             
                     </div>  
                     <div class="flex justify-start m-5">
                         <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-12 w-32">
@@ -39,7 +42,7 @@
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
                     <span class="text-center font-bold text-sm text-gray-800">Observaciones</span>          
                     <textarea
-                        v-model="observaciones"
+                        v-model="comentario"
                         v-validate="'max:300'"
                         :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
                         class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border"
@@ -80,7 +83,47 @@
 </template>
 
 <script>
+import ServiceActividades from '../../services/ActividadesService'
 export default {
+    props:{
+        comentario:{
+            type: String,
+            default: () => ''
+        },
+        mes: {
+            type: Number,
+            default: () => 0
+        },
+        año: {
+            type: Number,
+            default: () => 0
+        },
+        plazaSelect: {
+            type: String,
+            default: () => 0
+        }
+    },
+    data(){
+        return {
+            mesNombre: '',
+            plazasValidas: ''
+        }
+    },
+    beforeMount(){
+        this.mesNombre = ServiceActividades.numero_to_nombre(this.mes)
+        this.plazasValidas = this.$store.getters['Login/getListaPlazasUser']
+    },
+    methods: {
+        cambiar_plaza(){
+            let index = this.plazasValidas.findIndex(
+                (item) => item.numPlaza == this.plazaSelect
+            );
+            this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
+            this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);             
+            this.$emit("actualizar-actividad", this.plazasValidas[index]);            
+        },
+        
+    }
 
 }
 </script>

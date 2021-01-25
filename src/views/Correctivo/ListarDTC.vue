@@ -339,7 +339,6 @@ methods: {
               this.$notify.error({
               title: "ups!",
               msg: console.log(ex),
-
               position: "bottom right",
               styles: {
                 height: 100,

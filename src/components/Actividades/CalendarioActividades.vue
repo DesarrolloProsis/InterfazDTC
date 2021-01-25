@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-    <HeaderCalendario></HeaderCalendario>  
+    <HeaderCalendario @actualizar-actividad="actualizar_actividades" :comentario="comentario" :mes="mes" :año="año" :plazaSelect="plazaSelect"></HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32 " :class="{' pointer-events-none': modal}">
         <vue-cal 
           :time="false"
@@ -91,15 +91,14 @@
         
           <template v-slot:title="{ title, view }">
             🎉
-            <span v-if="view.id === 'years'">Years</span>
-            <!-- Using Vue Cal injected Date prototypes -->    
+            <span v-if="view.id === 'years'">Years</span>            
             <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>    
             <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
             🎉
           </template>
           <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
-        <span class=" text-gray-700">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>
+        <span class="text-gray-700">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>
     </div>    
   </div>
 </div>
@@ -134,12 +133,22 @@ export default {
       actividadSelect: '',
       listaActividades: [],
       carrilesDisable: false,          
-      fechaModal: ''
+      fechaModal: '',
+      comentario: '',
+      plazaSelect: '',
+      nombrePlaza: '',
+      año: '',
+      mes: '',      
     }
   },
   beforeMount(){
-    let cargaInicial = this.$route.params.cargaInicial
+    let cargaInicial = this.$route.params.cargaInicial    
     this.events = cargaInicial.listaActividadesMensuales
+    this.comentario = cargaInicial.comentario
+    this.año = cargaInicial.año    
+    this.plazaSelect = cargaInicial.plazaSelect
+    this.mes = cargaInicial.mes
+    this.nombrePlaza = cargaInicial.plazaNombre
     this.listaActividades = this.$store.state.Actividades.catalogoActividades
     
     console.log(cargaInicial)
@@ -200,8 +209,8 @@ export default {
         return carrilesReturn
       }
       return ['no entre en ninguno']
-    },
-  },
+    },     
+  },  
   methods: {
     modal_actividades_dia(e){      
       this.modal = true
@@ -230,7 +239,15 @@ export default {
     },
     customLabel(value){
       return value.value.lane
-    }
+    },
+    actualizar_actividades: async function(plaza){      
+      console.log(plaza)        
+      this.plazaSelect = plaza.numPlaza
+      let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
+      this.events = result.listaActividadesMensuales
+      this.comentario = result.comentario
+      console.log(result)     
+    }    
   }
 }
 </script>
