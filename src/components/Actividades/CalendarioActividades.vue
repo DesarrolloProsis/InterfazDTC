@@ -18,20 +18,27 @@
             </div>
             <div class="mt-5">
               <multiselect
-                        v-model="laneSelect"                                                                       
-                        :close-on-select="false"
-                        :clear-on-select="true"
-                        :hideSelected="false"
-                        placeholder="Selecciona..."
-                        :options="listaCarriles"
-                        class=" shadow-md hover:border-gray-700"
-                        :multiple="true"
-                      >                       
-                      </multiselect>
-              </div>
+                v-model="laneSelect"   
+                :custom-label="customLabel"                                                                     
+                :close-on-select="false"
+                :clear-on-select="true"
+                :hideSelected="false"
+                placeholder="Selecciona..."
+                :options="carriles_filtrados"
+                track-by="text"
+                class=" shadow-md hover:border-gray-700"
+                :multiple="true"
+              >   
+                <template slot="selection" slot-scope="{ values, search, isOpen }">
+                  <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                </template>   
+                <!-- <template slot="option" slot-scope="props">                          
+                  <div class="option__desc"><span class="option__title">{{ 'Lane   ' + props.option.text + '    ' + 'CapufeLane:' + props.option.value.capufeLaneNum }}</span><span class="option__small">{{ props.option.desc }}</span></div>
+                </template>                  -->
+              </multiselect>
+            </div>
           </div>
           <div>
-
           </div>
         </div>
         <div class="justify-end flex mt-5">
@@ -119,10 +126,9 @@ export default {
       carrilesModal: [],
       laneSelect: [] ,
       listLane: [],
-      actividadSelect: '',
+      actividadSelect: '1',
       listaActividades: [],
-      carrilesDisable: false,
-      listaCarriles: []      
+      carrilesDisable: false,          
       
     }
   },
@@ -135,24 +141,12 @@ export default {
   },
   computed:{     
     ...mapState("Refacciones", ["carriles"]),
-  },
-  methods: {
-    modal_actividades_dia(e){
-      console.log(e)
-      this.modal = true
-      this.modalActividades = true
-      this.carrilesModal = e.carriles
-    },
-    agregar_evento_dia(item){
-      this.modalAgreagrActividad = true
-      console.log(item)
-    },
     carriles_filtrados() {
-      if (this.actividadSelect == "") {
-        this.carrilesDisable = true;
+      if (this.actividadSelect == "") {                
+        return ['Sin Actividad']
       } else if (this.actividadSelect == 1) {
-        this.carrilesDisable = false;
-        return this.carriles.map((item) => ({
+        
+        let carrilesReturn = this.carriles.map((item) => ({
           value: {
             capufeLaneNum: item.capufeLaneNum,
             idGare: item.idGare,
@@ -160,6 +154,8 @@ export default {
           },
           text: item.lane,
         }));
+        console.log(carrilesReturn)
+        return carrilesReturn
       } else if (this.actividadSelect > 1) {
         let rolUser = this.$store.getters['Login/getTypeUser']
         console.log(rolUser)
@@ -195,12 +191,27 @@ export default {
               text: carrilesFull.lane,
             });
           }
-        }
-        this.carrilesDisable = false;
-        this.listaCarriles = carrilesReturn;
-        //return carrilesReturn
+        } 
+        console.log(carrilesReturn)               
+        return carrilesReturn
       }
+      return ['no entre en ninguno']
     },
+  },
+  methods: {
+    modal_actividades_dia(e){
+      console.log(e)
+      this.modal = true
+      this.modalActividades = true
+      this.carrilesModal = e.carriles
+    },
+    agregar_evento_dia(item){
+      this.modalAgreagrActividad = true
+      console.log(item)
+    },    
+    customLabel(value){
+      return value.value.lane
+    }
   }
 }
 </script>

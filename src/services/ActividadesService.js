@@ -1,9 +1,10 @@
 import store from '../store/index'
 import moment from "moment";
 
-async function filtrar_actividades_mensuales(mes, año, tipoCalendario){
+async function filtrar_actividades_mensuales(mes, año, tipoCalendario){    
     let listaPlazas = await store.getters["Login/getListaPlazasUser"]   
     let user = await store.getters['Login/getUserForDTC']
+    store.dispatch('Refacciones/GET_CARRILES',user.numPlaza)
     if(mes == undefined && año == undefined){
         //let fecha_comodin = new Date()
         mes = 12//fecha_comodin.getMonth() + 1,

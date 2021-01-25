@@ -182,6 +182,7 @@ const actions = {
       .then(response => {   
           console.log(response)             
           if(response.status === 200){
+            console.log(response.data)
               commit("CARRILES_MUTATION", response.data.result);                         
           }                    
       })
