@@ -577,7 +577,7 @@ methods: {
         Comment: this.motivoCambioStatus,
       }
       console.log(objeActualizado)
-      await Axios.get(`${API}/Pdf/ActualizarDtcAdministradores/${this.refNum.split('-')[0]}`,objeActualizado)    
+      await Axios.get(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`,objeActualizado)    
       .then(response => {
         console.log(response)
         this.refNum = ''
