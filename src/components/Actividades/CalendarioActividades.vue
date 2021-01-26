@@ -87,7 +87,7 @@
           :disable-views="['years', 'year','week', 'day']"
           active-view="month"
           locale="es"   
-          @view-change="next"                                
+          @view-change="cambiar_mes"                                
           @cell-click="modal_agregar_actividad"          
           events-on-month-view="short"
           :events="events"
@@ -175,12 +175,10 @@ export default {
             lane: item.lane,
           },
           text: item.lane,
-        }));
-        console.log(carrilesReturn)
+        }));        
         return carrilesReturn
       } else if (this.actividadSelect > 1) {
-        let rolUser = this.$store.getters['Login/getTypeUser']
-        console.log(rolUser)
+        let rolUser = this.$store.getters['Login/getTypeUser']        
         let carriles_prohibidos = [];
         for (let evento of this.events) {
           if (evento.tipoActividad != "Semanal") {
@@ -257,11 +255,13 @@ export default {
     fecha_actual(){
         return moment(new Date().toLocaleDateString(), 'DD/MM/YYYY').format('YYYY-MM-YY') 
     },
-    next: async function(item){
+    cambiar_mes: async function(item){
       let fecha = item.startDate.toLocaleDateString().split('/')
       let result = await ServiceActividades.filtrar_actividades_mensuales(fecha[1], fecha[2], true) 
       this.events = result.listaActividadesMensuales
-      this.comentario = result.comentario      
+      this.comentario = result.comentario   
+      this.mes = parseInt(fecha[1]) 
+      this.año = parseInt(fecha[2])      
     }
 
   }

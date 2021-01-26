@@ -104,13 +104,11 @@ export default {
         }
     },
     data(){
-        return {
-            mesNombre: '',
+        return {            
             plazasValidas: ''
         }
     },
-    beforeMount(){
-        this.mesNombre = ServiceActividades.numero_to_nombre(this.mes)
+    beforeMount(){        
         this.plazasValidas = this.$store.getters['Login/getListaPlazasUser']
     },
     methods: {
@@ -121,8 +119,12 @@ export default {
             this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
             this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);             
             this.$emit("actualizar-actividad", this.plazasValidas[index]);            
-        },
-        
+        }        
+    },
+    computed:{
+        mesNombre(){
+            return ServiceActividades.numero_to_nombre(this.mes)
+        }
     }
 
 }
