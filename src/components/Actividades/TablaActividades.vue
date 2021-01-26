@@ -160,7 +160,7 @@ beforeMount: async function(){
 /////////////////////////////////////////////////////////////////////
 methods: {
     filtrar_actividades_mensuales: async function(){                
-        let actualizar = await servicioActividades.filtrar_actividades_mensuales(this.mes, this.año)        
+        let actualizar = await servicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,

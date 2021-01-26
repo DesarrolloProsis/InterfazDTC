@@ -146,7 +146,7 @@ export default {
       nombrePlaza: '',
       año: '',
       mes: '',   
-      fechaActual: null
+      fechaActual: '2020-12-01'
     }
   },
   beforeMount(){
@@ -257,10 +257,11 @@ export default {
     fecha_actual(){
         return moment(new Date().toLocaleDateString(), 'DD/MM/YYYY').format('YYYY-MM-YY') 
     },
-    next(item){
-      console.log(item)
-      alert()
-      console.log(this.$refs.vuecal)
+    next: async function(item){
+      let fecha = item.startDate.toLocaleDateString().split('/')
+      let result = await ServiceActividades.filtrar_actividades_mensuales(fecha[1], fecha[2], true) 
+      this.events = result.listaActividadesMensuales
+      this.comentario = result.comentario      
     }
 
   }
