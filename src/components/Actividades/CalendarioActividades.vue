@@ -78,17 +78,23 @@
     </div>
     <HeaderCalendario @actualizar-actividad="actualizar_actividades" :comentario="comentario" :mes="mes" :año="año" :plazaSelect="plazaSelect"></HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32 " :class="{' pointer-events-none': modal}">
+      <!-- <button @click="next($event)">Previous</button>
+      <button @click="next($event)">Next</button> -->
         <vue-cal 
+          ref="vuecal"
           :time="false"
-          selected-date="2020-12-19"         
+          :selected-date="fechaActual"         
           :disable-views="['years', 'year','week', 'day']"
           active-view="month"
-          locale="es"                                   
-          @cell-click="modal_agregar_actividad"
+          locale="es"   
+          @view-change="next"                                
+          @cell-click="modal_agregar_actividad"          
           events-on-month-view="short"
           :events="events"
-          :on-event-click="modal_actividades_dia">
-        
+          :on-event-click="modal_actividades_dia"
+          >
+            <!-- <template v-slot:arrow-prev @next="next($event)" aria-hidden="true" class="v-icon material-icons">arrow_back</template>
+            <template v-slot:arrow-next aria-hidden="true" class="v-icon material-icons">arrow_forward</template> -->
           <template v-slot:title="{ title, view }">
             🎉
             <span v-if="view.id === 'years'">Years</span>            
@@ -113,6 +119,7 @@ import ServiceActividades from '../../services/ActividadesService'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
+import moment from "moment";
 
 export default {
   components:{
@@ -138,7 +145,8 @@ export default {
       plazaSelect: '',
       nombrePlaza: '',
       año: '',
-      mes: '',      
+      mes: '',   
+      fechaActual: null
     }
   },
   beforeMount(){
@@ -240,14 +248,21 @@ export default {
     customLabel(value){
       return value.value.lane
     },
-    actualizar_actividades: async function(plaza){      
-      console.log(plaza)        
+    actualizar_actividades: async function(plaza){                
       this.plazaSelect = plaza.numPlaza
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
-      this.comentario = result.comentario
-      console.log(result)     
-    }    
+      this.comentario = result.comentario      
+    },
+    fecha_actual(){
+        return moment(new Date().toLocaleDateString(), 'DD/MM/YYYY').format('YYYY-MM-YY') 
+    },
+    next(item){
+      console.log(item)
+      alert()
+      console.log(this.$refs.vuecal)
+    }
+
   }
 }
 </script>
