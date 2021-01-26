@@ -11,9 +11,9 @@
                     ////                           HEADER TABLA                      ////
                     ////////////////////////////////////////////////////////////////////-->
                     <thead>
-                        <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800">                
-                            <th class="w-64 border-2 border-gray-800">Componente</th>
-                            <th class="w-64 border-2 border-gray-800">Equipo</th>
+                        <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800"> 
+                            <th class="w-64 border-2 border-gray-800">Equipo</th>               
+                            <th class="w-64 border-2 border-gray-800">Componente</th>                            
                             <th class="w-64 border-2 border-gray-800">Ubicacion</th>                                
                             <th class="w-64 border-2 border-gray-800">Imagenes</th>
                             <th class="w-64 border-2 border-gray-800">
@@ -26,8 +26,8 @@
                     /////////////////////////////////////////////////////////////////-->
                     <tbody>
                         <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividades" :key="key"> 
-                            <td class="w-64 text-center border-2 border-gray-800">{{ item.componente }}</td>
-                            <td class="w-64 text-center border-2 border-gray-800">{{ item.equipo }}</td>                                
+                            <td class="w-64 text-center border-2 border-gray-800">{{ item.equipo }}</td>   
+                            <td class="w-64 text-center border-2 border-gray-800">{{ item.componente }}</td>                                                         
                             <td class="w-64 text-center border-2 border-gray-800">{{ item.ubicacion }}</td>                                
                             <td class="w-64 text-center border-2 border-gray-800 pr-2">
                                 <div class="border-2  border-gray-500 flex-col justify-center h-12 border-dashed w-full m-1" >
