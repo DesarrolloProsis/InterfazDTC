@@ -31,6 +31,7 @@
           <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
           <p class="text-left text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
+          <p @click="editar_status_dtc()" class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
             <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
           </div>
@@ -179,6 +180,7 @@ export default {
       pdfSellado: '',
       pdfSelladoBool: false,
       statusAgregarFimar: '',
+      cambiarStatus: 0,
       TIPO_USUARIO: 0 ,      
     };
   },
@@ -342,6 +344,9 @@ export default {
       }
       this.pdfSelladoBool = false
       this.$emit("enviar_pdf_sellado", obj);      
+    },
+    editar_status_dtc(){
+      this.$emit("editar-status", this.infoCard.referenceNumber);
     }
     
   },

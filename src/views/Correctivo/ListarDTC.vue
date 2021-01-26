@@ -83,6 +83,42 @@
           </div>
         </div>
         <!--/////////////////////////////////////////////////////////////////
+        ////                      MODAL CAMBIAR STATUS                   ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+        <div v-if="modalCambiarStatus" class="rounded-lg  justify-center border absolute inset-x-0 w-69 mx-auto px-12 py-10">
+          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+            <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ refNum }}</p>
+            <div>
+              <div class="mt-5">
+              <p class="mb-1 sm:text-sm">Status DTC</p>
+              <select v-model="statusEdit" class="w-full" type="text">
+                  <option value="">Selecionar...</option>     
+                  <option value="1">Inconcluso</option>  
+                  <option value="2">Concluido</option>                                                                  
+                  <option value="3">Sellado</option>                                                                                                                               
+              </select> 
+              </div>
+              <div class="mt-5">
+                <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
+                <textarea
+                  v-model="motivoCambioStatus"
+                  v-validate="'max:300'"
+                  :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                  class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
+                  placeholder="jane@example.com"
+                  name="Observaciones"
+                />
+              </div>
+            </div>
+            <div class="justify-end flex mt-5">
+              <button @click="actualizar_dtc_status" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+              <button  @click="modalCambiarStatus = false, modal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL CONFIRMAR GMMEP                 ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
@@ -187,6 +223,7 @@
             <CardListDTC
               @borrar-card="confimaBorrar"
               @editar-card="editar_header_dtc"
+              @editar-status="editar_status_dtc"
               @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
               @enviar_pdf_sellado="enviar_pdf_sellado"
               :plazasValidas="plazasValidas"
@@ -223,8 +260,11 @@ export default {
       plazasValidas: [],
       plazaFiltro: '',
       statusFiltro: '',
+      statusEdit: '',
+      motivoCambioStatus: '',
       modalFirma: false,
-      modalLoading: false
+      modalLoading: false,
+      modalCambiarStatus: false
     };
   },
   components: {
@@ -388,11 +428,8 @@ methods: {
         setTimeout(() => {
           this.modalLoading = false
           this.modal = false
-        },2000)
-           
-             
-      })    
-   
+        },2000)                        
+      })       
   },
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
@@ -524,6 +561,33 @@ methods: {
       this.refNum = value
       this.modalFirma = true
     }
+  },
+  editar_status_dtc(info){
+    this.modalCambiarStatus = true
+    this.refNum = info
+    this.modal = true
+    console.log(info)
+  },
+  actualizar_dtc_status: async function(){
+      let user = await this.$store.getters['Login/getUserForDTC']
+      let objeActualizado = {
+        ReferenceNumber: this.refNum,
+        StatusId: parseInt(this.statusEdit),
+        UserId: user.idUser,
+        Comment: this.motivoCambioStatus,
+      }
+      console.log(objeActualizado)
+      await Axios.get(`${API}/Pdf/ActualizarDtcAdministradores/${this.refNum.split('-')[0]}`,objeActualizado)    
+      .then(response => {
+        console.log(response)
+        this.refNum = ''
+        this.statusEdit = ''
+        this.motivoCambioStatus = ''
+        this.limpiar_filtros()
+      })
+      .catch(Ex => {
+        console.log(Ex);
+      });
   }
 },
 /////////////////////////////////////////////////////////////////////
