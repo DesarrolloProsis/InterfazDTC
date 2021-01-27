@@ -571,13 +571,13 @@ methods: {
   actualizar_dtc_status: async function(){
       let user = await this.$store.getters['Login/getUserForDTC']
       let objeActualizado = {
-        ReferenceNumber: this.refNum,
-        StatusId: parseInt(this.statusEdit),
-        UserId: user.idUser,
-        Comment: this.motivoCambioStatus,
+        "ReferenceNumber": this.refNum,
+        "StatusId": parseInt(this.statusEdit),
+        "UserId": user.idUser,
+        "Comment": this.motivoCambioStatus,
       }
       console.log(objeActualizado)
-      await Axios.get(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`,objeActualizado)    
+      await Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)    
       .then(response => {
         console.log(response)
         this.refNum = ''
@@ -586,6 +586,7 @@ methods: {
         this.limpiar_filtros()
       })
       .catch(Ex => {
+        console.log('soy el error :(')
         console.log(Ex);
       });
   }
