@@ -568,8 +568,10 @@ methods: {
     this.modal = true
     console.log(info)
   },
-  actualizar_dtc_status: async function(){
-      let user = await this.$store.getters['Login/getUserForDTC']
+  actualizar_dtc_status: function(){
+    let actualizar_status = new Promise((resolve, reject) => {
+      let user = this.$store.getters['Login/getUserForDTC']
+      this.modalCambiarStatus = false
       let objeActualizado = {
         "ReferenceNumber": this.refNum,
         "StatusId": parseInt(this.statusEdit),
@@ -577,19 +579,37 @@ methods: {
         "Comment": this.motivoCambioStatus,
       }
       console.log(objeActualizado)
-      await Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)    
+      Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)    
       .then(response => {
         console.log(response)
         this.refNum = ''
         this.statusEdit = ''
-        this.motivoCambioStatus = ''
-        this.modalCambiarStatus = false
-        this.limpiar_filtros()
+        this.motivoCambioStatus = ''   
+        let info = this.$store.getters['Login/getUserForDTC']  
+        this.$store.dispatch('DTC/buscarListaDTC', info)   
+        //this.limpiar_filtros()    
+        resolve('ok')                     
       })
       .catch(Ex => {
-        console.log('soy el error :(')
+        reject('mal')
         console.log(Ex);
       });
+    })
+    setTimeout(() => {
+        actualizar_status.then(() => {                       
+         this.limpiar_filtros()
+         this.$notify.success({
+               title: "Ok!",
+               msg: `Se actualizó el estatus.`,
+               position: "bottom right",
+               styles: {
+                 height: 100,
+                 width: 500,
+               },
+         });  
+       })
+       .catch((err) =>  console.log(err))    
+     }, 1000); 
   }
 },
 /////////////////////////////////////////////////////////////////////
