@@ -583,6 +583,7 @@ methods: {
         this.refNum = ''
         this.statusEdit = ''
         this.motivoCambioStatus = ''
+        this.modalCambiarStatus = false
         this.limpiar_filtros()
       })
       .catch(Ex => {
