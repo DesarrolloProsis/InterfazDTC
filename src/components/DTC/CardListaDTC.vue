@@ -12,7 +12,7 @@
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800">*Fecha Siniestro</span>
             </div>    
-            <div class="mt-2 w-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario && infoCard.statusId == 2">
+            <div class="mt-2 w-5" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
@@ -31,6 +31,7 @@
           <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
           <p class="text-left text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
+          <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
             <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
           </div>
@@ -179,6 +180,7 @@ export default {
       pdfSellado: '',
       pdfSelladoBool: false,
       statusAgregarFimar: '',
+      cambiarStatus: 0,
       TIPO_USUARIO: 0 ,      
     };
   },
@@ -275,23 +277,40 @@ export default {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       else {
-        for (let item of files) {        
-          this.crearImage(item);
-        }
         this.pdfSelladoBool = true
+        for (let item of files) {        
+          if(this.crearImage(item) == false)
+            this.pdfSelladoBool = false
+        }        
       }
     },
     crearImage(file) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.$nextTick().then(() => {
-          this.pdfSellado = {
-            imgbase: e.target.result.split(',')[1],
-            name: this.infoCard.referenceNumber,
-          };
-        })        
-      };
-      reader.readAsDataURL(file);            
+      if(file.type.split('/')[1] == 'pdf'){
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          this.$nextTick().then(() => {
+            this.pdfSellado = {
+              imgbase: e.target.result.split(',')[1],
+              name: this.infoCard.referenceNumber,
+            };
+          })        
+        };
+        reader.readAsDataURL(file);   
+        return true
+      }
+      else{
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },          
+        });
+        this.pdfSellado = {}
+        return false
+      }         
     },
     base64ToFile(dataurl, fileName) {      
         let url = "data:image/jpeg;base64," + dataurl;
@@ -325,6 +344,9 @@ export default {
       }
       this.pdfSelladoBool = false
       this.$emit("enviar_pdf_sellado", obj);      
+    },
+    editar_status_dtc(){
+      this.$emit("editar-status", this.infoCard.referenceNumber);
     }
     
   },
