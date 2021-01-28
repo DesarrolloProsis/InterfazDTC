@@ -19,7 +19,7 @@
             <div class="mt-5">
               <multiselect
                 v-model="laneSelect"   
-                :custom-label="customLabel"                                                                     
+                :custom-label="label_multi_select"                                                                     
                 :close-on-select="false"
                 :clear-on-select="true"
                 :hideSelected="false"
@@ -219,21 +219,23 @@ export default {
     agregar_actividad_dia: async function() {      
       let listaCarril = this.laneSelect.map((item) => {
         return { ...item.value }
-      })
-      
-      let algo = await ServiceActividades.construir_objeto_actividad(
+      })      
+      let objActividad = await ServiceActividades.construir_objeto_actividad(
           listaCarril,
           { day: this.fechaModal.toLocaleDateString(), frequencyId: this.actividadSelect } 
         )
-      for(let item of algo){
+      for(let item of objActividad){
         this.events.push(item)
       }
       this.modalAgreagrActividad = false
       this.laneSelect = []
       this.actividadSelect = ''
     },
-    customLabel(value){
-      return value.value.lane
+    label_multi_select(value){            
+      if(value != 'Sin Actividad')
+        return value.value.lane
+      else 
+        return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
     },
     actualizar_actividades: async function(plaza){                
       this.plazaSelect = plaza.numPlaza
