@@ -140,6 +140,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
 }
 function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
     try{
+        console.log(laneSelect)
         console.log(cantidad)
         let newObjectPartida = []
         for(const lane of laneSelect){
@@ -153,13 +154,16 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
             //let component = equipoValid.find(item => item.lane == lane)                
             let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
             let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
-            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)   
+            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)               
+            console.log(component)
             let obj = {
                 ComponentsStockId: component['componentsStockId'],
                 ReferenceNumber: "",
                 CapufeLaneNum: component['capufeLaneNum'],
                 IdGare: component['idGare'],
                 Marca: component['brand'],
+                ModeloPropuesto: component['catalogModel'],
+                MarcaPropuesto: component['catalogBrand'],
                 Modelo: component['model'],
                 NumSerie: component['serialNumber'],
                 Unity: component['unity'],

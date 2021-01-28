@@ -91,6 +91,7 @@ const actions = {
         arrayDmg.push(state.newlistaDmg[i][g])
       }
     }      
+    console.log(arrayDmg)
     //await Axios.post(`https://localhost:44358/api/requestedComponent/${value.flagCreate}`, arrayDmg)
     await Axios.post(`${API}/requestedComponent/${rootGetters['Login/getReferenceSquareActual']}/${value.flagCreate}`, arrayDmg)
       .then(response => {      
@@ -139,6 +140,7 @@ const actions = {
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/EditInfo/${rootGetters['Login/getReferenceSquareActual']}/${value}`)
       .then(response => {
+        console.log(response)
         commit("COMPONENTES_EDIT", response.data.result)
       })
       .catch(Ex => {

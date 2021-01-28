@@ -214,6 +214,12 @@ export default {
     editar: async function () {
       let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
       await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);
+      this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
+        { 
+          numSiniestro: this.infoCard.sinisterNumber,  
+          numReporte: this.infoCard.reportNumber 
+        }
+      )
       this.$store.commit("Header/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
       this.$store.commit("Login/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
       let datosSinester = {

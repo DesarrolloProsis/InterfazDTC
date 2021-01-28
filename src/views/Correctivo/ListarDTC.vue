@@ -172,7 +172,7 @@
                   <p class="text-sm mb-1 font-semibold text-gray-900">Folio de Falla:</p>
                   <input v-model="dtcEdit.failureNumber" class="w-full" type="text" placeholder="S/M"/>
                 </div>
-                <div class="mt-2">    
+                <div class="mt-2">   
                   <p class="text-sm mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
                   <select v-model="dtcEdit.typeDescriptionId" v-validate="'required'" :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}" class="sm:w-full w-48" type="text" name="TipoDescripcion">
                     <option disabled value>Selecionar...</option>

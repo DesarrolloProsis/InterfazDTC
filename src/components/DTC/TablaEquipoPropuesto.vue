@@ -47,7 +47,7 @@
               <td class="border">{{ equipo.marcaRequerido.toString() }}</td>
               <td class="border">
                 <!-- <p v-for="(item, key) in equipo.modeloRequerido" :key="key" class="text-sm">{{ item }}</p> -->
-                {{ equipo.marcaRequerido.toString() }}
+                {{ equipo.modeloRequerido.toString() }}
               </td>
               <td
                 class="border"

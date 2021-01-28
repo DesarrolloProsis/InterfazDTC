@@ -599,7 +599,8 @@ beforeMount: async function () {
             equipoValid,
             otra_prueba,
             item.mainRelationship,
-            true
+            true,
+            0
           );
           await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
@@ -626,9 +627,10 @@ beforeMount: async function () {
             equipoValid,
             otra_prueba,
             item.mainRelationship,
-            true
+            true            
           );
           console.log(new_partida);
+          new_partida["row4"] = array_ubicacion.length
           new_partida["row1"] = this.arrayPartidas.length + 1;
           new_partida["row3"] = {
             description: item.name,
