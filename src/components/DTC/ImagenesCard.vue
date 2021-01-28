@@ -7,7 +7,7 @@
       <template v-if="cargarImagen">
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">         
           <div class="inline-flex justify-center">
-            <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
+            <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibir_imagenes"/>
             <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
           </div>
@@ -23,20 +23,20 @@
               <p class="ml-3 mt-2">{{ item.name }}</p>
             </div>
             <div class="mr-2">
-              <button @click="eliminarImagen(key)" class="w-3 h-46 p-0 bord">x</button>
+              <button @click="eliminar_imagen(key)" class="w-3 h-46 p-0 bord">x</button>
             </div>
           </div>
           <div class="inline-flex justify-center" v-show="true">
-            <input type="file" class="opacity-0 w-64 h-12 absolute" multiple @change="recibirImagenes"/>
+            <input type="file" class="opacity-0 w-64 h-12 absolute" multiple @change="recibir_imagenes"/>
             <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
           </div>
           <div v-if="agregarbool" class="inline-flex w-full border-t-2">
-            <button @click="uploadFiles" class="w-1/2 h-8 text-gray-900 text-xs border-2 border-green-500 rounded-lg m-2">Agregar</button>
+            <button @click="guardar_cambios_img" class="w-1/2 h-8 text-gray-900 text-xs border-2 border-green-500 rounded-lg m-2">Agregar</button>
             <button @click="cancelar_edicion" class="w-1/2 h-8 text-gray-900 text-xs border-red-500 border-2 rounded-lg m-2">Cancelar</button>
           </div>
           <div v-else class="inline-flex w-full border-t-2">
-            <button @click="uploadFiles" class="w-1/2 h-8 text-gray-900 text-xs border-2 border-yellow-500 rounded-lg m-2">Guardar Cambios</button>
+            <button @click="guardar_cambios_img" class="w-1/2 h-8 text-gray-900 text-xs border-2 border-yellow-500 rounded-lg m-2">Guardar Cambios</button>
             <button @click="cancelar_edicion" class="w-1/2 h-8 text-gray-900 text-xs border-red-500 border-2 rounded-lg m-2">Cancelar</button>
           </div>
         </div>
@@ -109,8 +109,8 @@ export default {
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {    
     this.tipoUsuario = this.$store.getters['Login/getTypeUser'];              
-    let _ref = this.referenceNumber.split("-")[0]          
-    let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == _ref).squareName          
+    let ref = this.referenceNumber.split("-")[0]          
+    let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == ref).squareName          
     if(nombre_plaza != undefined){       
       await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
         .then((response) => {              
@@ -127,7 +127,8 @@ export default {
               };   
             }               
         })
-        .catch(() => {          
+        .catch((err) => {      
+          console.log(err)    
         });      
       if (this.imgbase64.array_img.length > 0) {        
           this.agregarbool = false;
@@ -153,12 +154,12 @@ export default {
 ////                          METODOS                              ////
 /////////////////////////////////////////////////////////////////////
   methods: {
-    recibirImagenes: function (e) {
+    recibir_imagenes: function (e) {
       this.imagenes_enviar = this.fileUpload = ServiceImagenes.obtener_array_imagenes(e, this.fileUpload)        
       this.cargarImagen = true;      
       this.editar_imagen = false;
     },
-    eliminarImagen: function (item) {
+    eliminar_imagen: function (item) {
       if (confirm("¿Seguro que quiere eliminar esta imagen?")) {
         if (!this.agregarbool) {
           let nombre = this.fileUpload[item].name;
@@ -211,7 +212,7 @@ export default {
       this.editar_imagen = false;
       this.cargarImagen = true;
     },
-    uploadFiles: async function () {
+    guardar_cambios_img: async function () {
       let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
@@ -241,36 +242,36 @@ export default {
       let agregar_promise = new Promise(async (resolve, reject) => {        
         if (this.imagenes_enviar.length > 0) {
           for (const item of this.imagenes_enviar) {
-            if(item.name.split('_')[0] != this.referenceNumber)      {      
-            let formData = new FormData();
-            formData.append("id", this.referenceNumber);
-            formData.append("plaza", nombre_plaza);
-            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
-            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
-              .then((response) => {    
-                console.log(response)            
-                this.$notify.success({
-                  title: "Ok!",
-                  msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
-                  position: "bottom right",
-                  styles: {
-                    height: 100,
-                    width: 500,
-                  },
+            if(item.name.split('_')[0] != this.referenceNumber) {      
+              let formData = new FormData();
+              formData.append("id", this.referenceNumber);
+              formData.append("plaza", nombre_plaza);
+              formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
+              await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
+                .then((response) => {    
+                  console.log(response)            
+                  this.$notify.success({
+                    title: "Ok!",
+                    msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
+                    position: "bottom right",
+                    styles: {
+                      height: 100,
+                      width: 500,
+                    },
+                  });
+                })
+                .catch((ex) => {                
+                  reject("mal");
+                  this.$notify.error({
+                    title: "ups!",
+                    msg: ex,
+                    position: "bottom right",
+                    styles: {
+                      height: 100,
+                      width: 500,
+                    },
+                  });
                 });
-              })
-              .catch((ex) => {                
-                reject("mal");
-                this.$notify.error({
-                  title: "ups!",
-                  msg: ex,
-                  position: "bottom right",
-                  styles: {
-                    height: 100,
-                    width: 500,
-                  },
-                });
-              });
             }
           }          
           await this.actualizar_img(nombre_plaza);
