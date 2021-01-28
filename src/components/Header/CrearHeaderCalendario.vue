@@ -126,7 +126,6 @@ export default {
             return ServiceActividades.numero_to_nombre(this.mes)
         }
     }
-
 }
 </script>
 

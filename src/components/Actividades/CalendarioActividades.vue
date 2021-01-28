@@ -32,9 +32,6 @@
                 <template slot="selection" slot-scope="{ values, search, isOpen }">
                   <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                 </template>   
-                <!-- <template slot="option" slot-scope="props">                          
-                  <div class="option__desc"><span class="option__title">{{ 'Lane   ' + props.option.text + '    ' + 'CapufeLane:' + props.option.value.capufeLaneNum }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                </template>                  -->
               </multiselect>
             </div>
           </div>
@@ -55,11 +52,7 @@
         <div class="text-center">          
           
         <div class="mb-4">
-            <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>
-            <!-- <div class="flex mt-4">
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker" placeholder="Add Todo">
-                <button class="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add</button>
-            </div> -->
+            <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>       
         </div>
         <div>
             <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border" v-for="(item, key) in this.carrilesModal" :key="key" >
@@ -78,8 +71,6 @@
     </div>
     <HeaderCalendario @actualizar-actividad="actualizar_actividades" :comentario="comentario" :mes="mes" :año="año" :plazaSelect="plazaSelect"></HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32 " :class="{' pointer-events-none': modal}">
-      <!-- <button @click="next($event)">Previous</button>
-      <button @click="next($event)">Next</button> -->
         <vue-cal 
           ref="vuecal"
           :time="false"
@@ -93,16 +84,14 @@
           :events="events"
           :on-event-click="modal_actividades_dia"
           >
-            <!-- <template v-slot:arrow-prev @next="next($event)" aria-hidden="true" class="v-icon material-icons">arrow_back</template>
-            <template v-slot:arrow-next aria-hidden="true" class="v-icon material-icons">arrow_forward</template> -->
-          <template v-slot:title="{ title, view }">
-            🎉
-            <span v-if="view.id === 'years'">Years</span>            
-            <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>    
-            <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
-            🎉
-          </template>
-          <template v-slot:day>Nothing here 👌</template>                         
+            <template v-slot:title="{ title, view }">
+              🎉
+              <span v-if="view.id === 'years'">Years</span>            
+              <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>    
+              <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
+              🎉
+            </template>
+            <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
         <span class="text-gray-700">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>
     </div>    
