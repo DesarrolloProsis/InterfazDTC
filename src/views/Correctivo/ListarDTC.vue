@@ -112,8 +112,8 @@
               </div>
             </div>
             <div class="justify-end flex mt-5">
-              <button @click="actualizar_dtc_status" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-              <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = ''" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+              <button @click="actualizar_dtc_status" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
+              <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = ''" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
             </div>
           </div>
         </div>
