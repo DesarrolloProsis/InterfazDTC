@@ -56,8 +56,7 @@ function eventos_calendario_formato(objApi){
     return eventsReturn.flat()
 }
 function construir_objeto_actividad(listaCarriles, info){
-    let carriles = []
-    let eventsReturn = []
+    let carriles = []    
     for (let carril of listaCarriles) {
         carriles.push({
             lane: carril.lane,
@@ -65,15 +64,37 @@ function construir_objeto_actividad(listaCarriles, info){
             idGare: carril.idGare,
         });
     }            
-    eventsReturn.push({                        
+    return {                        
         start: moment(info.day, "DD/MM/YYYY").format("YYYY-MM-DD"), 
         tipoActividad: codigo_colores_actividad(info.frequencyId).nombre,
         title: 'Actividad' + ' ' + codigo_colores_actividad(info.frequencyId).nombre,                   
         carriles: carriles,            
         end: moment(info.day, "DD/MM/YYYY").format("YYYY-MM-DD"),   
         class: codigo_colores_actividad(info.frequencyId).css,            
-    });
-    return eventsReturn
+    }    
+}
+function objeto_actividad_insertar(listaCarriles, info){
+    let idGares = []
+    let capufeLaneNum = []
+    let daySplit = info.day.split('/')
+    let user = store.getters['Login/getUserForDTC']
+    for (let carril of listaCarriles) {
+        idGares.push(carril.idGare);
+        capufeLaneNum.push(carril.capufeLaneNum);
+    }    
+    let obj = {};       
+    obj["FrequencyId"] = info.frequencyId,
+    obj["capufeLaneNums"] = capufeLaneNum,
+    obj["idGares"] = idGares,
+    obj["squareId"] = user.numPlaza,
+    obj["userId"] = user.idUser,
+    obj["day"] = parseInt(daySplit[0]),
+    obj["month"] = parseInt(daySplit[1]),
+    obj["year"] = parseInt(daySplit[2]),
+    obj["finalFlag"] = false,
+    obj["comment"] = "";
+    console.log(obj)
+    return obj
 }
 const MESES = [{"nombre": "ENERO", "numero": 1},
                 {"nombre": "FEBRERO", "numero": 2},
@@ -113,6 +134,7 @@ function codigo_colores_actividad(frequencyId){
 export default{
     filtrar_actividades_mensuales, 
     construir_objeto_actividad,
+    objeto_actividad_insertar,
     nombre_to_numero,
     numero_to_nombre      
 }

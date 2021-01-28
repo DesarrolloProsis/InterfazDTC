@@ -39,18 +39,17 @@
           </div>
         </div>
         <div class="justify-end flex mt-5">
-          <button @click="agregar_actividad_dia" class="text-white px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="text-white px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+          <button @click="agregar_actividad_dia" class="text-white px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="text-white px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
         </div>
       </div>
     </div>
     <!--/////////////////////////////////////////////////////////////////
-        ////                      MODAL ELIMINAR                         ////
+        ////            MODAL LISTA DE CARRILES                         ////
         ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
       <div v-if="modalActividades" class="rounded-lg justify-center border absolute inset-x-0 mt-40 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">        
-        <div class="text-center">          
-          
+        <div class="text-center">                    
         <div class="mb-4">
             <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>       
         </div>
@@ -109,6 +108,8 @@ import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import moment from "moment";
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   components:{
@@ -147,8 +148,6 @@ export default {
     this.mes = cargaInicial.mes
     this.nombrePlaza = cargaInicial.plazaNombre
     this.listaActividades = this.$store.state.Actividades.catalogoActividades
-    
-    console.log(cargaInicial)
   },
   computed:{     
     ...mapState("Refacciones", ["carriles"]),
@@ -221,15 +220,29 @@ export default {
         return { ...item.value }
       })      
       let objActividad = await ServiceActividades.construir_objeto_actividad(
-          listaCarril,
-          { day: this.fechaModal.toLocaleDateString(), frequencyId: this.actividadSelect } 
-        )
-      for(let item of objActividad){
-        this.events.push(item)
-      }
+        listaCarril,
+        { day: this.fechaModal.toLocaleDateString(), frequencyId: this.actividadSelect } 
+      )      
+      this.events.push(objActividad)           
       this.modalAgreagrActividad = false
-      this.laneSelect = []
+      this.laneSelect = []      
+      console.log(objActividad)
+      //Mandar a la DB 
+      console.log(this.fecha_actual())
+      let actividadInsert = ServiceActividades.objeto_actividad_insertar(
+        listaCarril,
+        { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect } 
+      )
+      console.log(actividadInsert)
+      await Axios.post(`${API}/Calendario/Actividad/CALENDARIO`,actividadInsert)
+        .then((response) => {     
+            console.log(response)                                                    
+        })
+        .catch(Ex => {            
+            console.log(Ex);
+        });
       this.actividadSelect = ''
+      
     },
     label_multi_select(value){            
       if(value != 'Sin Actividad')
@@ -254,7 +267,6 @@ export default {
       this.mes = parseInt(fecha[1]) 
       this.año = parseInt(fecha[2])      
     }
-
   }
 }
 </script>
