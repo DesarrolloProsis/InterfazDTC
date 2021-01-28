@@ -143,7 +143,7 @@ const actions = {
       ReportNumber: state.datosSinester.ReportNumber,
       SinisterDate: state.datosSinester.SinisterDate,
       FailureDate: state.datosSinester.FailureDate == '' ? null : state.datosSinester.FailureDate,
-      FailureNumber: state.datosSinester.FailureNumber,
+      FailureNumber: state.datosSinester.FailureNumber == null ? '' : state.datosSinester.FailureNumber,
       ShippingDate: state.datosSinester.ShippingElaboracionDate,
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,

@@ -30,12 +30,12 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
         var daysOfMonth = daysInMonth(arrayDateStart[1], arrayDateStart[2]);
         daysCal = daysCal + daysOfMonth;
         if(daysCal <= daysTotals){
-        cantMonths ++;
-        if(cantMonths == 12){
-            cantYears++;
-            cantMonths = cantMonths - 12;
-        }
-        }else{
+            cantMonths ++;
+            if(cantMonths == 12){
+                cantYears++;
+                cantMonths = cantMonths - 12;
+            }
+        } else{
             cantDays = Math.abs(numDayInDates(dateStart, dateEnd));
         }
         dateStart = sumDaysToDate(daysOfMonth, dateStart);
@@ -128,9 +128,9 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
             //folioTabla
             arrayRequire["tableFolio"] = component.tableFolio
             //Marca Requerido
-            arrayRequire["marcaRequerido"] = component.catalogBrand
+            arrayRequire["marcaPropuesta"] = component.catalogBrand
             //Modelo Requerido
-            arrayRequire["modeloRequerido"] = component.catalogBrand    
+            arrayRequire["modeloPropuesto"] = component.catalogBrand    
         }  
         return arrayRequire  
     }
@@ -140,22 +140,17 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
 }
 function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
     try{
-        console.log(laneSelect)
-        console.log(cantidad)
         let newObjectPartida = []
-        for(const lane of laneSelect){
-            console.log(lane)
+        for(const lane of laneSelect){            
             let component = []
             if(editar == undefined)
                 component = equipoValid.find(comp => comp.lane === lane)
-            else{
-                component = equipoValid.find(comp => comp.tableFolio == lane)
-            }                   
+            else
+                component = equipoValid.find(comp => comp.tableFolio == lane)                           
             //let component = equipoValid.find(item => item.lane == lane)                
             let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
             let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
-            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)               
-            console.log(component)
+            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                           
             let obj = {
                 ComponentsStockId: component['componentsStockId'],
                 ReferenceNumber: "",
@@ -163,7 +158,7 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
                 IdGare: component['idGare'],
                 Marca: component['brand'],
                 ModeloPropuesto: component['catalogModel'],
-                MarcaPropuesto: component['catalogBrand'],
+                MarcaPropuesta: component['catalogBrand'],
                 Modelo: component['model'],
                 NumSerie: component['serialNumber'],
                 Unity: component['unity'],

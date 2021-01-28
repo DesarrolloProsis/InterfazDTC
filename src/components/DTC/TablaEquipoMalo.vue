@@ -586,21 +586,28 @@ beforeMount: async function () {
           let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];          
           let array_ubicacion = [];
           let array_carril = [];
+          let array_cantidad = [];
           componetesEdit.serialNumbers.map((lane) => {
             if (item.item == lane.item) {
               array_ubicacion.push(lane.tableFolio);
               array_carril.push(lane.lane);
+              array_cantidad.push(lane.amount)
             }
-          });          
-          let otra_prueba = await this.$store.getters["Header/getFechaSiniestro"];
+          });    
+          let cantidad = array_cantidad.every(ammont => ammont == 0) == true
+          ? array_cantidad.length
+          : parseInt(array_cantidad[0])
+          let fechaSiniesto = await this.$store.getters["Header/getFechaSiniestro"];
           //AGREGAMOS PARTIDA AL STORE
+          console.log(array_ubicacion)
+          console.log(array_carril)
           let objPartida = Service.obj_partida(
             array_ubicacion,
             equipoValid,
-            otra_prueba,
+            fechaSiniesto,
             item.mainRelationship,
             true,
-            0
+            cantidad
           );
           await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
@@ -625,12 +632,12 @@ beforeMount: async function () {
             array_ubicacion,
             key_partidas,
             equipoValid,
-            otra_prueba,
+            fechaSiniesto,
             item.mainRelationship,
-            true            
+            true,
+            cantidad            
           );
-          console.log(new_partida);
-          new_partida["row4"] = array_ubicacion.length
+          console.log(new_partida);          
           new_partida["row1"] = this.arrayPartidas.length + 1;
           new_partida["row3"] = {
             description: item.name,
