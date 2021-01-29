@@ -56,7 +56,7 @@
         <div>
             <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border" v-for="(item, key) in this.carrilesModal" :key="key" >
                 <p class="w-full text-grey-darkest">{{`Lane: ${item.lane} IdGare: ${item.idGare} CapufeNum: ${item.capufeLaneNum}`}}</p>                
-                <button class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-medium bg-red-500 text-gray-800  hover:bg-red-400">
+                <button @click="borrar_carril_evento(item)" class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-medium bg-red-500 text-gray-800  hover:bg-red-400">
                   <img src="../../assets/img/bin.png" class="mr-2" width="12" height="1"/>
                 </button>
             </div>          
@@ -177,14 +177,14 @@ export default {
         for (let evento of this.events) {
           if (evento.tipoActividad != "Semanal") {
             for (let carril of evento.carriles) {                                                     
-                if(rolUser == 1){
+              if(rolUser == 1){
+                carriles_prohibidos.push(carril);
+              }
+              else{
+                if(carril.lane != 'Plaza' && carril.lane != "Plaza-M"){
                   carriles_prohibidos.push(carril);
-                }
-                else{
-                  if(carril.lane != 'Plaza' && carril.lane != "Plaza-M"){
-                    carriles_prohibidos.push(carril);
-                  }                                  
-                }                                
+                }                                  
+              }                                
             }
           }
         }
@@ -212,7 +212,7 @@ export default {
     },     
   },  
   methods: {
-    modal_actividades_dia(e){      
+    modal_actividades_dia(e){         
       this.modal = true
       this.modalActividades = true
       this.carrilesModal = e.carriles
@@ -268,29 +268,38 @@ export default {
       this.mes = parseInt(fecha[1]) 
       this.año = parseInt(fecha[2])      
     },    
-    generar_pdf_calendario(comentario){
-        let actividadInsert = ServiceActividades.objeto_actividad_insertar(
-          [],
-          { day: new Date(this.año, this.mes, 1).toLocaleDateString(),  frequencyId: 1 }, 
-          comentario
-        )
-        console.log(actividadInsert)
-        Axios.post(`${API}/Calendario/ObservacionesInsert/CALENDARIO`,actividadInsert)
-        .then(() => {                    
-          alert('SE INSERTARON LAS ACTIVIDADES Y EL CALENDARIO')
+    generar_pdf_calendario(comentario){      
+        let user = this.$store.getters['Login/getUserForDTC']
+        let objComentario = {
+          UserId: user.idUser,
+          Month: this.mes,
+          Comment: comentario,
+          SquareId: user.numPlaza,
+          Year: this.año
+        }        
+        Axios.post(`${API}/Calendario/ObservacionesInsert/CALENDARIO`,objComentario)
+        .then((response) => {                    
+          console.log(response)
         })
         .catch((ex) => {          
           console.log(ex);
         });  
+    },
+    borrar_carril_evento(item){
+      console.log(item)
+      Axios.delete(`${API}/Calendario/DeleteCalendar/CALENDARIO/${item.calendarId}`)
+        .then((response) => {     
+            console.log(response)                                                    
+        })
+        .catch(Ex => {            
+            console.log(Ex);
+        });
     }
   }
 }
 </script>
-
 <style >
-
 .vuecal--month-view .vuecal__cell {height: 100px;}
-
 .vuecal--month-view .vuecal__cell-content {
   justify-content: flex-start;  
   height: 100%;

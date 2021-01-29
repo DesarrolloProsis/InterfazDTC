@@ -36,6 +36,7 @@ function eventos_calendario_formato(objApi){
     let eventsReturn = []
     var i = 1;
     let eventoReducidoDay = [];    
+    console.log(eventoSinFormato)
     while (i < 31) {
         let query = eventoSinFormato.filter(
             (item) => item.day.split('/')[0] == i
@@ -50,6 +51,7 @@ function eventos_calendario_formato(objApi){
         }
         i++;
     }    
+    console.log(eventoReducidoDay)
     for (let item of eventoReducidoDay) {  
         eventsReturn.push(construir_objeto_actividad(item, item[0]))
     }
@@ -57,11 +59,13 @@ function eventos_calendario_formato(objApi){
 }
 function construir_objeto_actividad(listaCarriles, info){
     let carriles = []    
+    console.log(listaCarriles)
     for (let carril of listaCarriles) {
         carriles.push({
             lane: carril.lane,
             capufeLaneNum: carril.capufeLaneNum,
             idGare: carril.idGare,
+            calendarId: parseInt(carril.calendarId)
         });
     }            
     return {                        
@@ -70,10 +74,10 @@ function construir_objeto_actividad(listaCarriles, info){
         title: 'Actividad' + ' ' + codigo_colores_actividad(info.frequencyId).nombre,                   
         carriles: carriles,            
         end: moment(info.day, "DD/MM/YYYY").format("YYYY-MM-DD"),   
-        class: codigo_colores_actividad(info.frequencyId).css,            
+        class: codigo_colores_actividad(info.frequencyId).css,                            
     }    
 }
-function objeto_actividad_insertar(listaCarriles, info, comentario){
+function objeto_actividad_insertar(listaCarriles, info){
     let idGares = []
     let capufeLaneNum = []
     let daySplit = info.day.split('/')
@@ -83,17 +87,14 @@ function objeto_actividad_insertar(listaCarriles, info, comentario){
         capufeLaneNum.push(carril.capufeLaneNum);
     }    
     let obj = {};       
-    obj["FrequencyId"] = info.frequencyId,
+    obj["frequencyId"] = info.frequencyId,
     obj["capufeLaneNums"] = capufeLaneNum,
     obj["idGares"] = idGares,
     obj["squareId"] = user.numPlaza,
     obj["userId"] = user.idUser,
     obj["day"] = parseInt(daySplit[0]),
     obj["month"] = parseInt(daySplit[1]),
-    obj["year"] = parseInt(daySplit[2]),
-    obj["finalFlag"] = false,
-    obj["comment"] = comentario;
-    console.log(obj)
+    obj["year"] = parseInt(daySplit[2])    
     return obj
 }
 const MESES = [{"nombre": "ENERO", "numero": 1},
