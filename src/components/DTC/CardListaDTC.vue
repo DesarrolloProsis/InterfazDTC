@@ -318,8 +318,8 @@ export default {
         return false
       }         
     },
-    base64ToFile(dataurl, fileName) {      
-        let url = "data:image/jpeg;base64," + dataurl;
+    base64ToFile(dataurl, fileName) {                    
+        let url = "data:text/pdf;base64," + dataurl;  
         var arr = url.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
@@ -328,7 +328,7 @@ export default {
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
       }
-      return new File([u8arr], fileName, { type: mime });
+      return new File([u8arr], fileName + '.pdf', { type: mime });
     },    
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        
@@ -342,8 +342,9 @@ export default {
     },
     status_dtc_sellado(){                      
       let formData = new FormData();
-      let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
+      let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name, true)
       formData.append("file", file);
+      console.log(file)
       let obj = {
         referenceNumber: this.infoCard.referenceNumber,
         file: formData

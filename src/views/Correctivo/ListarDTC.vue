@@ -434,6 +434,7 @@ methods: {
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
     let pdf_sellado_promise = new Promise((resolve, reject) => {
+      console.log(value.file)
       Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file)                   
         .then((response) => {
           console.log(response)

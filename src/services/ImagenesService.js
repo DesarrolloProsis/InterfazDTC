@@ -20,17 +20,24 @@ function obtener_array_imagenes(e, arrayComponete) {
         return array_imagenes
     }
 }
-function base64_to_file(dataurl, fileName) {
-    let url = "data:image/jpeg;base64," + dataurl;
-    console.log(url)
+function base64_to_file(dataurl, fileName, pdf) {
+    
+    let url = ''
+    if(pdf)
+        url = "data:text/pdf;base64," + dataurl;
+    else
+        url = "data:image/jpeg;base64," + dataurl;  
+
     var arr = url.split(","),
-    mime = arr[0].match(/:(.*?);/)[1],
+    mime = arr[0].match(/:(.*?);/)[1],    
     bstr = atob(arr[1]),
     n = bstr.length,
     u8arr = new Uint8Array(n);
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
     }
+    console.log(mime)
+    console.log('dfdsafsd')
     return new File([u8arr], fileName, { type: mime });
 }
 export default {

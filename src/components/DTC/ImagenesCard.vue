@@ -245,7 +245,7 @@ export default {
             let formData = new FormData();
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
-            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
+            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name, false));            
             await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
               .then((response) => {    
                 console.log(response)            
