@@ -68,7 +68,14 @@
         </div>
       </div>
     </div>
-    <HeaderCalendario @actualizar-actividad="actualizar_actividades" :comentario="comentario" :mes="mes" :año="año" :plazaSelect="plazaSelect"></HeaderCalendario>  
+    <HeaderCalendario 
+      @actualizar-actividad="actualizar_actividades" 
+      @generar-pdf="generar_pdf_calendario" 
+      :comentario="comentario" 
+      :mes="mes" 
+      :año="año" 
+      :plazaSelect="plazaSelect">
+    </HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32 " :class="{' pointer-events-none': modal}">
         <vue-cal 
           ref="vuecal"
@@ -107,7 +114,6 @@ import ServiceActividades from '../../services/ActividadesService'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
-import moment from "moment";
 import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -136,7 +142,7 @@ export default {
       nombrePlaza: '',
       año: '',
       mes: '',   
-      fechaActual: '2020-12-01'
+      fechaActual: ''
     }
   },
   beforeMount(){
@@ -225,15 +231,13 @@ export default {
       )      
       this.events.push(objActividad)           
       this.modalAgreagrActividad = false
-      this.laneSelect = []      
-      console.log(objActividad)
-      //Mandar a la DB 
-      console.log(this.fecha_actual())
+      this.laneSelect = []            
+      //Mandar a la DB       
       let actividadInsert = ServiceActividades.objeto_actividad_insertar(
         listaCarril,
-        { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect } 
-      )
-      console.log(actividadInsert)
+        { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
+        this.comentario
+      )      
       await Axios.post(`${API}/Calendario/Actividad/CALENDARIO`,actividadInsert)
         .then((response) => {     
             console.log(response)                                                    
@@ -255,17 +259,29 @@ export default {
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
       this.comentario = result.comentario      
-    },
-    fecha_actual(){
-        return moment(new Date().toLocaleDateString(), 'DD/MM/YYYY').format('YYYY-MM-YY') 
-    },
+    }, 
     cambiar_mes: async function(item){
       let fecha = item.startDate.toLocaleDateString().split('/')
       let result = await ServiceActividades.filtrar_actividades_mensuales(fecha[1], fecha[2], true) 
       this.events = result.listaActividadesMensuales
-      this.comentario = result.comentario   
+      this.comentario = result.comentario         
       this.mes = parseInt(fecha[1]) 
       this.año = parseInt(fecha[2])      
+    },    
+    generar_pdf_calendario(comentario){
+        let actividadInsert = ServiceActividades.objeto_actividad_insertar(
+          [],
+          { day: new Date(this.año, this.mes, 1).toLocaleDateString(),  frequencyId: 1 }, 
+          comentario
+        )
+        console.log(actividadInsert)
+        Axios.post(`${API}/Calendario/ObservacionesInsert/CALENDARIO`,actividadInsert)
+        .then(() => {                    
+          alert('SE INSERTARON LAS ACTIVIDADES Y EL CALENDARIO')
+        })
+        .catch((ex) => {          
+          console.log(ex);
+        });  
     }
   }
 }

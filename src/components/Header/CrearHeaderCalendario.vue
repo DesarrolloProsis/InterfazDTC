@@ -33,7 +33,7 @@
                         </select>                             
                     </div>  
                     <div class="flex justify-start m-5">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-12 w-32">
+                        <button @click="generar_pdf" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-12 w-32">
                             <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
                             <span>Crear</span>
                         </button>
@@ -119,6 +119,9 @@ export default {
             this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
             this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);             
             this.$emit("actualizar-actividad", this.plazasValidas[index]);            
+        },
+        generar_pdf(){
+            this.$emit('generar-pdf', this.comentario)
         }        
     },
     computed:{

@@ -6,9 +6,9 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario){
     let user = await store.getters['Login/getUserForDTC']
     store.dispatch('Refacciones/GET_CARRILES',user.numPlaza)
     if(mes == undefined && año == undefined){
-        //let fecha_comodin = new Date()
-        mes = 12//fecha_comodin.getMonth() + 1,
-        año = 2020//fecha_comodin.getFullYear()
+        let fecha_comodin = new Date()
+        mes = fecha_comodin.getMonth() + 1,
+        año = fecha_comodin.getFullYear()
     }        
     let objApi = {
         "userId": user.idUser,
@@ -73,7 +73,7 @@ function construir_objeto_actividad(listaCarriles, info){
         class: codigo_colores_actividad(info.frequencyId).css,            
     }    
 }
-function objeto_actividad_insertar(listaCarriles, info){
+function objeto_actividad_insertar(listaCarriles, info, comentario){
     let idGares = []
     let capufeLaneNum = []
     let daySplit = info.day.split('/')
@@ -92,7 +92,7 @@ function objeto_actividad_insertar(listaCarriles, info){
     obj["month"] = parseInt(daySplit[1]),
     obj["year"] = parseInt(daySplit[2]),
     obj["finalFlag"] = false,
-    obj["comment"] = "";
+    obj["comment"] = comentario;
     console.log(obj)
     return obj
 }
