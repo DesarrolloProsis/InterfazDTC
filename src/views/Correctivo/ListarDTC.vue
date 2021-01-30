@@ -461,21 +461,21 @@ methods: {
         });              
     })
     setTimeout(() => {
-        pdf_sellado_promise.then(() => {  
-          this.modalLoading = false                  
-          this.limpiar_filtros()
-          this.$notify.success({
-                title: "Ok!",
-                msg: `Se subio el archivo correctamente.`,
-                position: "bottom right",
-                styles: {
-                  height: 100,
-                  width: 500,
-                },
-          });  
-        })
-        .catch((err) =>  console.log(err))    
-      }, 3000);                                                                                   
+      pdf_sellado_promise.then(() => {  
+        this.modalLoading = false                  
+        this.limpiar_filtros()
+        this.$notify.success({
+            title: "Ok!",
+            msg: `Se subio el archivo correctamente.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+        });  
+      })
+      .catch((err) =>  console.log(err))    
+    }, 3000);                                                                                   
   },
   filtro_Dtc: function () {    
     this.infoDTC  = []

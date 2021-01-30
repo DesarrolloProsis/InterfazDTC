@@ -87,8 +87,7 @@ const routes = [
     name: 'ListarDtc',
     component: ListarDTC,
     beforeEnter: async function (to, from, next) {
-      let info = store.getters['Login/getUserForDTC']
-      console.log(info)
+      let info = store.getters['Login/getUserForDTC']      
       await store.dispatch('DTC/buscarListaDTC', info)
       store.commit("DTC/LIMPIAR_IMAGENES_FULL");
       next()

@@ -140,7 +140,6 @@ const actions = {
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/EditInfo/${rootGetters['Login/getReferenceSquareActual']}/${value}`)
       .then(response => {
-        console.log(response)
         commit("COMPONENTES_EDIT", response.data.result)
       })
       .catch(Ex => {

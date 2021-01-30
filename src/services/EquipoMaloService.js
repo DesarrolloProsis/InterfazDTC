@@ -5,7 +5,7 @@ function numDayInDates(dateStart, dateEnd){
     var arrayDateStart = dateStart.split('/'); 
     var arrayDateEnd = dateEnd.split('/');        
     var msegDateStart = Date.UTC(arrayDateStart[2], arrayDateStart[1]-1, arrayDateStart[0]); 
-    var msegDateEnd = Date.UTC(arrayDateEnd[2], arrayDateEnd[1]-1, arrayDateEnd[0]); 
+    var msegDateEnd = Date.UTC(arrayDateEnd[2], arrayDateEnd[1]-1, arrayDateEnd[0]);         
     var diff = msegDateEnd - msegDateStart;    
     var days = Math.floor(diff / (1000 * 60 * 60 * 24)); 
     return days;  
@@ -25,7 +25,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
     var cantDays = 0;
     var cantMonths = 0;
     var cantYears = 0;
-    while(daysCal < daysTotals){
+    while(daysCal < daysTotals){        
         var arrayDateStart = dateStart.split('/');
         var daysOfMonth = daysInMonth(arrayDateStart[1], arrayDateStart[2]);
         daysCal = daysCal + daysOfMonth;
@@ -41,7 +41,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
         dateStart = sumDaysToDate(daysOfMonth, dateStart);
     } 
     var msg = '';
-    var totoal_dias = cantMonths * 30;    
+    var totoal_dias = cantMonths * 30;        
     if (cantYears > 0)
         msg = cantYears + ' años ';    
     if (cantDays > 0)
@@ -61,7 +61,7 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
 /*///////////////////////////////////////////////////////////////////////////////*/
 import moment from "moment";   
 function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal, _editar, cantidad){
-    try{
+    try{        
         let key_Require = []
         let arrayRequire = {}
         if(Array.isArray(keyObjectRequire)){
@@ -130,7 +130,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
             //Marca Requerido
             arrayRequire["marcaPropuesta"] = component.catalogBrand
             //Modelo Requerido
-            arrayRequire["modeloPropuesto"] = component.catalogBrand    
+            arrayRequire["modeloPropuesto"] = component.catalogModel   
         }  
         return arrayRequire  
     }
@@ -140,6 +140,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
 }
 function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
     try{
+        console.log(dateSinester)
         let newObjectPartida = []
         for(const lane of laneSelect){            
             let component = []
@@ -150,7 +151,10 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
             //let component = equipoValid.find(item => item.lane == lane)                
             let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
             let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");
-            let fecha_format = daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                           
+            console.log(fechaSinester)
+            console.log(fechaInstalacion)
+            let fecha_format =  daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                                       
+            console.log(fecha_format)
             let obj = {
                 ComponentsStockId: component['componentsStockId'],
                 ReferenceNumber: "",
@@ -174,14 +178,14 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
                 amount: parseInt(cantidad)
             };
             newObjectPartida.push(obj)        
-        }    
+        }            
         return newObjectPartida
     }
     catch(ex){
         console.log(ex)        
     }
 }
-export default{
+export default {
     lane_select,
     obj_partida
 }

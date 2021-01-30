@@ -123,7 +123,7 @@
             </div>
             <div v-else class="text-xs inline-flex">
               <div v-if="tipoUsuario != 8">
-                <button v-if="infoCard.statusId > 1" @click.prevent="pdf(2)" class="bg-gray-300 hover:bg-gray-400 mr-2 text-gray-800 text-xs font-bold py-2 px-2 rounded inline-flex items-center border border-red-700">
+                <button  @click.prevent="pdf(2)" class="bg-gray-300 hover:bg-gray-400 mr-2 text-gray-800 text-xs font-bold py-2 px-2 rounded inline-flex items-center border border-red-700">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                   <span>Firmado</span>                
                 </button>   

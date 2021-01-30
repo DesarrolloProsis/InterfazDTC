@@ -86,20 +86,11 @@ const mutations = {
   OBSERVACION_MUTATION: (state, value) => state.observaciones = value,
   DIAGNOSTICO_MUTATION: (state, value) => state.diagnostico = value,
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
-  LIBERAR_VALIDACION_NUMS: (state, value) => {
-    console.log(state.listaUnique.length)
-    let index = state.listaUnique.findIndex(item => item.sinisterNumber === value.numSiniestro && item.reportNumber === value.numReporte)
-    //let index_reporte = state.listaUnique.findIndex(item => item.reportNumber === value.numReporte)
-    console.log(index)
-    
-    if(index != -1 ){
-      console.log(state.listaUnique[index])
+  LIBERAR_VALIDACION_NUMS: (state, value) => {    
+    let index = state.listaUnique.findIndex(item => item.sinisterNumber === value.numSiniestro && item.reportNumber === value.numReporte)            
+    if(index != -1 ){      
       state.listaUnique.splice(index, 1)
-    }
-    // if(index_reporte != -1){
-    //   state.listaUnique.splice(index_reporte, 1)
-    // }
-    console.log(state.listaUnique.length)
+    }    
   },
   PLAZAELEGIDAFINDMUTATION: (state, value) => {         
     let index = state.listaHeaders.findIndex(item => item.referenceSquare == value)    
@@ -136,7 +127,8 @@ const actions = {
       });
   },
   //Consulta API Crear Carril
-  async crearHeaders({ state, commit, rootGetters }, value) {  
+  async crearHeaders({ state, commit, rootGetters }, value) {      
+
     let newObject = {
       ReferenceNumber: state.referenceNum,
       SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,

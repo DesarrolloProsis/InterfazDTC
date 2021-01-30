@@ -575,7 +575,8 @@ props: {
 beforeMount: async function () {
     try {
       let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
-      if (JSON.stringify(componetesEdit) != "{}") {                
+      if (JSON.stringify(componetesEdit) != "{}") {  
+        console.log(componetesEdit)              
         for (const item of componetesEdit.items) { 
           let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
           newObject["attachedId"] = item.attachedId;
@@ -593,18 +594,17 @@ beforeMount: async function () {
               array_carril.push(lane.lane);
               array_cantidad.push(lane.amount)
             }
-          });    
+          });              
           let cantidad = array_cantidad.every(ammont => ammont == 0) == true
           ? array_cantidad.length
           : parseInt(array_cantidad[0])
-          let fechaSiniesto = await this.$store.getters["Header/getFechaSiniestro"];
-          //AGREGAMOS PARTIDA AL STORE
-          console.log(array_ubicacion)
-          console.log(array_carril)
+          // let fechaSiniesto = await this.$store.getters["Header/getFechaSiniestro"];
+          setTimeout(async () => {          
+          //AGREGAMOS PARTIDA AL STORE                    
           let objPartida = Service.obj_partida(
             array_ubicacion,
             equipoValid,
-            fechaSiniesto,
+            this.dateSinester,
             item.mainRelationship,
             true,
             cantidad
@@ -632,12 +632,12 @@ beforeMount: async function () {
             array_ubicacion,
             key_partidas,
             equipoValid,
-            fechaSiniesto,
+            this.dateSinester,
             item.mainRelationship,
             true,
             cantidad            
           );
-          console.log(new_partida);          
+                   
           new_partida["row1"] = this.arrayPartidas.length + 1;
           new_partida["row3"] = {
             description: item.name,
@@ -648,6 +648,7 @@ beforeMount: async function () {
           };
           new_partida["row8"] = array_carril;
           this.arrayPartidas.push(new_partida);
+          }, 2000)
         }
       }
     } catch (ex) {
@@ -1035,7 +1036,7 @@ watch: {
       for (const propiedades in this.datosPrePartida) {
         if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
         else this.datosPrePartida[propiedades] = [];
-      }
+      }      
       if (newValue.length > 0) {
         let equipoValid = await this.$store.getters[
           "Refacciones/getEquipoMalo"

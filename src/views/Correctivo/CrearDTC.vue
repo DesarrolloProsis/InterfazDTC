@@ -163,17 +163,14 @@ beforeMount() {
       this.observaciones = this.headerEdit.observation;
       this.$store.commit("Header/referenceNumMutation",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
-      this.flagCreate = false;
-      if(this.$store.getters['Login/getTypeUser'] != 1){        
-        Axios.get(`${API}/dtcData/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.headerEdit.referenceNumber}`)
-          .then(response => {
-            console.log(response.data)
-            this.datosUser = response.data.result[0]
-          })
-          .catch(Ex => {
-            console.log(Ex);
-          });
-      }         
+      this.flagCreate = false;         
+      Axios.get(`${API}/dtcData/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.headerEdit.referenceNumber}`)
+        .then(response => {          
+          this.datosUser = response.data.result[0]
+        })
+        .catch(Ex => {
+          console.log(Ex);
+        });             
     }
 },
 /////////////////////////////////////////////////////////////////////
@@ -183,6 +180,7 @@ methods: {
   crearDTCTecnico: async function (status) {
       await EventBus.$emit("validar_header");
       this.refNum = this.$store.getters["Header/getreferenceNum"];
+      console.log(this.datosUser)
       await this.$store.dispatch("Header/crearHeaders", {
         datosUser: this.datosUser,
         status: status,
