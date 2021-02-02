@@ -682,12 +682,6 @@ methods: {
           comp = componente
         }
       }      
-      // let comp_rep = this.arrayPartidas.some((item) => {
-      //   return (
-      //     item["row3"].description == value.description &&
-      //     item["row3"].componentsRelationship == value.componentsRelationship
-      //   );
-      // });
       if(JSON.stringify(comp) == '{}')
         componenteValido = true
       else{

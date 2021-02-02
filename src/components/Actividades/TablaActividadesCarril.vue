@@ -14,8 +14,7 @@
                         <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800"> 
                             <th class="w-64 border-2 border-gray-800">Equipo</th>               
                             <th class="w-64 border-2 border-gray-800">Componente</th>                            
-                            <th class="w-64 border-2 border-gray-800">Ubicacion</th>                                
-                            <th class="w-64 border-2 border-gray-800">Imagenes</th>
+                            <th class="w-64 border-2 border-gray-800">Ubicacion</th>                                                            
                             <th class="w-64 border-2 border-gray-800">
                                 <p>Acciones</p>                                    
                             </th>                
@@ -26,10 +25,10 @@
                     /////////////////////////////////////////////////////////////////-->
                     <tbody>
                         <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividades" :key="key"> 
-                            <td class="w-64 text-center border-2 border-gray-800">{{ item.equipo }}</td>   
-                            <td class="w-64 text-center border-2 border-gray-800">{{ item.componente }}</td>                                                         
-                            <td class="w-64 text-center border-2 border-gray-800">{{ item.ubicacion }}</td>                                
-                            <td class="w-64 text-center border-2 border-gray-800 pr-2">
+                            <td class="w-66 text-center border-2 border-gray-800">{{ item.equipo }}</td>   
+                            <td class="w-66 text-center border-2 border-gray-800">{{ item.componente }}</td>                                                         
+                            <td class="w-66 text-center border-2 border-gray-800">{{ item.ubicacion }}</td>                                
+                            <!-- <td class="w-64 text-center border-2 border-gray-800 pr-2">
                                 <div class="border-2  border-gray-500 flex-col justify-center h-12 border-dashed w-full m-1" >
                                     <div class="flex justify-center" v-if="item.addImg">
                                         <input @change="recibir_imagenes($event,key)" type="file" multiple class="opacity-0 w-auto h-12 absolute" />
@@ -39,7 +38,7 @@
                                     <div class="flex" v-else>
                                         <div class="inline-flex">
                                             <img src="../../assets/img/image-mini.png" class="w-5 m-2 mt-3 border" alt/>    
-                                            <p class="ml-1 mr-2 mt-3 text-sm">{{  item.img.length +'Imagenes' }}</p>
+                                            <p class="ml-1 mr-2 mt-3 text-sm">{{  item.img.length + 'Imagenes' }}</p>
                                         </div>
                                         <div class="mt-2 justify-between">
                                             <button @click="item.addImg = true" class="rounded-md border h-7 p-1 mr-2 bg-red-600 text-sm">Cancelar</button>
@@ -47,8 +46,8 @@
                                         </div>            
                                     </div>
                                 </div>
-                            </td>                                
-                            <td class="w-64 text-center border-2 border-gray-800" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
+                            </td>                                 -->
+                            <td class="w-66 text-center border-2 border-gray-800" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
                                 <!-- <span class="text-sm text-blue-700">Finalizada</span>
                                 <input v-model="actividadFinalizada" class="ml-1 h-2w-2 rounded-lg" type="checkbox" />         -->
                                 <select v-model="item.jobStatus" class="w-32 text-md text-gray-800 border-gray-900" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
@@ -105,12 +104,11 @@ export default {
             formData.append("image", imgagen);
             await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/TLA/${this.referenceNumber}`,formData)
                 .then((response) => {     
-                    console.log(response)
-                    this.listaActividades[index].addImg = false     
+                    console.log(response)                    
+                    this.listaActividades[index].addImg = true                       
                 })
                 .catch(Ex => {                    
-                    console.log(Ex);
-                    
+                    console.log(Ex);                    
             });            
         }
     }
