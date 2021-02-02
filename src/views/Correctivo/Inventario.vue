@@ -31,12 +31,10 @@
                 type="checkbox"
               />
             </div>
-
             <div id="app">
                 <transition name="fade">
                   <div class="modal-overlay" v-if="showModal"></div>
                 </transition>
-
                 <transition name="fade">
                   <div class="modal" v-if="ShowModal">
                       <h1>Title</h1>
@@ -46,7 +44,6 @@
                     </button> 
                   </div> 
                 </transition> 
-
             <div class="mt-5">
                <button
                   @click="showModal = true"
@@ -55,8 +52,7 @@
                   <span class="mr-2">Registrar</span>
                 </button> 
             </div>
-             </div>
-
+            </div>
           </div>
           <div class=" text-sm mt-2 mx-auto">
             <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
