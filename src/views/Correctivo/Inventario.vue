@@ -31,7 +31,53 @@
                 type="checkbox"
               />
             </div>
-            <div></div>
+
+            <div class="mr-5 mt-5">
+  
+              <button @click="showModal = true"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700">
+                Rgistrar
+              </button> 
+
+             </div>
+
+              <div id="md">
+                <transition name="fade">
+                  <div class="modal-overlay" v-if="showModal"></div>
+                </transition>
+
+                <transition name="fade">
+                  <div class="modal" v-if="ShowModal">
+                    <div class="form-group">
+                    <label class="col-sm-8">Carril</label>
+                    <input class="col-6" type="text">
+           
+                    <label class="col-sm-8">Fecha</label>
+                    <input type="date">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Hora Inicio</label>
+                    <input type="time">
+              
+                    <label>Hora Final</label>
+                    <input type="time">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Folio</label>
+                    <input type="text">
+                </div>
+                  <button @click="showModal = false"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700">
+                Cerrar
+              </button> 
+                  </div>
+                </transition>
+              </div>
+           
+        
+
           </div>
           <div class=" text-sm mt-2 mx-auto">
             <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
@@ -56,6 +102,7 @@
               <span class="text-xs">Guardar</span>
             </button>
             <span class="ml-5 text-gray-800">{{"Editados: " + list_Editados.length}}</span>
+
           </div>
         </div>
         <div class="overflow-x-auto sm:m-2 sm:text-xs">
@@ -132,6 +179,7 @@ export default {
   },
   data: function () {
     return {
+      showModal: false,
       buscar_palabra: "",
       array_paginacion: [],
       list_Component: [],
