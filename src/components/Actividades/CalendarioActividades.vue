@@ -56,15 +56,15 @@
         <div>
             <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border" v-for="(item, key) in this.carrilesModal" :key="key" >
                 <p class="w-full text-grey-darkest">{{`Lane: ${item.lane} IdGare: ${item.idGare} CapufeNum: ${item.capufeLaneNum}`}}</p>                
-                <button @click="borrar_carril_evento(item)" class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-medium bg-red-500 text-gray-800  hover:bg-red-400">
+                <button @click="borrar_carril_evento(item, key)" class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-medium bg-red-500 text-gray-800  hover:bg-red-400">
                   <img src="../../assets/img/bin.png" class="mr-2" width="12" height="1"/>
                 </button>
             </div>          
         </div>    
         </div>
         <div class="justify-end flex mt-5">
-          <button @click="(modal = false, modalActividades = false)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-          <button @click="modal = false, modalActividades = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+          <!-- <button @click="(modal = false, modalActividades = false)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button> -->
+          <button @click="modal = false, modalActividades = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
         </div>
       </div>
     </div>
@@ -285,11 +285,12 @@ export default {
           console.log(ex);
         });  
     },
-    borrar_carril_evento(item){
+    borrar_carril_evento(item, index){
       console.log(item)
       Axios.delete(`${API}/Calendario/DeleteCalendar/CALENDARIO/${item.calendarId}`)
         .then((response) => {     
-            console.log(response)                                                    
+            console.log(response)    
+            this.carrilesModal = this.carrilesModal.slice(index,1)                                                
         })
         .catch(Ex => {            
             console.log(Ex);
