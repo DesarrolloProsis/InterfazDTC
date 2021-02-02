@@ -23,7 +23,7 @@
               />
             </div>
             <div class="mt-5">
-              <span class="mr-2">Componente</span>
+              <span class="mr-4">Componente</span>
               <input
                 v-model="boolComponente"
                 @change="change_orden('componente')"
@@ -31,7 +31,32 @@
                 type="checkbox"
               />
             </div>
-            <div></div>
+
+            <div id="app">
+                <transition name="fade">
+                  <div class="modal-overlay" v-if="showModal"></div>
+                </transition>
+
+                <transition name="fade">
+                  <div class="modal" v-if="ShowModal">
+                      <h1>Title</h1>
+                      <p>Contenido</p>
+                    <button @click="showModal = false">
+                      Cerrar
+                    </button> 
+                  </div> 
+                </transition> 
+
+            <div class="mt-5">
+               <button
+                  @click="showModal = true"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
+                >
+                  <span class="mr-2">Registrar</span>
+                </button> 
+            </div>
+             </div>
+
           </div>
           <div class=" text-sm mt-2 mx-auto">
             <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
@@ -56,6 +81,7 @@
               <span class="text-xs">Guardar</span>
             </button>
             <span class="ml-5 text-gray-800">{{"Editados: " + list_Editados.length}}</span>
+
           </div>
         </div>
         <div class="overflow-x-auto sm:m-2 sm:text-xs">
@@ -132,6 +158,7 @@ export default {
   },
   data: function () {
     return {
+      showModal: false,
       buscar_palabra: "",
       array_paginacion: [],
       list_Component: [],
@@ -392,4 +419,5 @@ export default {
   },
 };
 </script>
+
 
