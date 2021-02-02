@@ -11,9 +11,8 @@ import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
+import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
-
-//import Axios from "axios";
 Vue.use(VueRouter)
 const routes = [
   {
@@ -113,7 +112,7 @@ const routes = [
         path: 'TablaActividades',
         component: () => import('../views/Preventivo/TablaActividades.vue'),
         beforeEnter: async function(to,from,next){
-          let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined)                    
+          let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined, false)                    
           to.params.cargaInicial = result                             
           next()
         }      
@@ -128,6 +127,16 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/CalendarioActividades',
+    name: 'CalendarioActividades',
+    component: CalendarioActividades,
+    beforeEnter: async function(to,from,next){
+      let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined, true)                    
+      to.params.cargaInicial = result                             
+      next()
+    } 
+  }
 ]
 const router = new VueRouter({
   routes

@@ -359,10 +359,12 @@ methods: {
           }   
           let values = Object.values(objEdit)          
           for(let item of values){
-            if(item == null){
+            if(item === null){
               item = ''
             }
-          }                        
+          } 
+          console.log('datos que envia')
+          console.log(objEdit)                       
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
             .then(() =>{                                                             
@@ -377,7 +379,6 @@ methods: {
               this.$notify.error({
               title: "ups!",
               msg: console.log(ex),
-
               position: "bottom right",
               styles: {
                 height: 100,

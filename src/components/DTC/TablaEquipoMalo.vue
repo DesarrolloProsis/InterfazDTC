@@ -636,8 +636,7 @@ beforeMount: async function () {
             item.mainRelationship,
             true,
             cantidad            
-          );
-                   
+          );                   
           new_partida["row1"] = this.arrayPartidas.length + 1;
           new_partida["row3"] = {
             description: item.name,

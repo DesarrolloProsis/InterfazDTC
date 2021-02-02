@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="flex justify-center sm:hidden">
-      <div
-        class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full flex flex-col"
-      >
+      <div class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full flex flex-col">
         <!-- ************************************************************** -->
         <div class="text-center mb-2">
           <h6 class=" font-bold text-xl text-gray-800">Equipo Propuesto</h6>

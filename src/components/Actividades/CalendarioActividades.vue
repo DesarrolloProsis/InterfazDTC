@@ -18,45 +18,45 @@
             </div>
             <div class="mt-5">
               <multiselect
-                        v-model="laneSelect"                                                                       
-                        :close-on-select="false"
-                        :clear-on-select="true"
-                        :hideSelected="false"
-                        placeholder="Selecciona..."
-                        :options="listaCarriles"
-                        class=" shadow-md hover:border-gray-700"
-                        :multiple="true"
-                      >                       
-                      </multiselect>
-              </div>
+                v-model="laneSelect"   
+                :custom-label="label_multi_select"                                                                     
+                :close-on-select="false"
+                :clear-on-select="true"
+                :hideSelected="false"
+                placeholder="Selecciona..."
+                :options="carriles_filtrados"
+                track-by="text"
+                class=" shadow-md hover:border-gray-700"
+                :multiple="true"
+              >   
+                <template slot="selection" slot-scope="{ values, search, isOpen }">
+                  <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                </template>   
+              </multiselect>
+            </div>
           </div>
           <div>
           </div>
         </div>
         <div class="justify-end flex mt-5">
-          <button @click="modalAgreagrActividad = false" class="text-white px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-          <button @click="modalAgreagrActividad = false" class="text-white px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+          <button @click="agregar_actividad_dia" class="text-white px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="text-white px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
         </div>
       </div>
     </div>
     <!--/////////////////////////////////////////////////////////////////
-        ////                      MODAL ELIMINAR                         ////
+        ////            MODAL LISTA DE CARRILES                         ////
         ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
       <div v-if="modalActividades" class="rounded-lg justify-center border absolute inset-x-0 mt-40 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">        
-        <div class="text-center">          
-          
+        <div class="text-center">                    
         <div class="mb-4">
-            <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>
-            <!-- <div class="flex mt-4">
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker" placeholder="Add Todo">
-                <button class="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add</button>
-            </div> -->
+            <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>       
         </div>
         <div>
             <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border" v-for="(item, key) in this.carrilesModal" :key="key" >
                 <p class="w-full text-grey-darkest">{{`Lane: ${item.lane} IdGare: ${item.idGare} CapufeNum: ${item.capufeLaneNum}`}}</p>                
-                <button class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-medium bg-red-500 text-gray-800  hover:bg-red-400">
+                <button @click="borrar_carril_evento(item)" class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-medium bg-red-500 text-gray-800  hover:bg-red-400">
                   <img src="../../assets/img/bin.png" class="mr-2" width="12" height="1"/>
                 </button>
             </div>          
@@ -68,29 +68,39 @@
         </div>
       </div>
     </div>
+    <HeaderCalendario 
+      @actualizar-actividad="actualizar_actividades" 
+      @generar-pdf="generar_pdf_calendario" 
+      :comentario="comentario" 
+      :mes="mes" 
+      :año="año" 
+      :plazaSelect="plazaSelect">
+    </HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32 " :class="{' pointer-events-none': modal}">
         <vue-cal 
+          ref="vuecal"
           :time="false"
-          selected-date="2020-12-19"         
+          :selected-date="fechaActual"         
           :disable-views="['years', 'year','week', 'day']"
           active-view="month"
-          locale="es"                                   
-          @cell-click="agregar_evento_dia"
+          locale="es"   
+          @view-change="cambiar_mes"                                
+          @cell-click="modal_agregar_actividad"          
           events-on-month-view="short"
           :events="events"
-          :on-event-click="modal_actividades_dia">
-        
-          <template v-slot:title="{ title, view }">
-            🎉
-            <span v-if="view.id === 'years'">Years</span>
-            <!-- Using Vue Cal injected Date prototypes -->    
-            <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>    
-            <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
-            🎉
-          </template>
-          <template v-slot:day>Nothing here 👌</template>                         
+          :on-event-click="modal_actividades_dia"
+          >
+            <template v-slot:title="{ title, view }">
+              🎉
+              <span v-if="view.id === 'years'">Years</span>            
+              <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>    
+              <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
+              🎉
+            </template>
+            <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
-    </div>
+        <span class="text-gray-700">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>
+    </div>    
   </div>
 </div>
 </template>
@@ -99,15 +109,20 @@
 import Nav from "../../components/Navbar";
 import VueCal from 'vue-cal'
 import Multiselect from "vue-multiselect";
+import HeaderCalendario from '../Header/CrearHeaderCalendario'
+import ServiceActividades from '../../services/ActividadesService'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   components:{
     VueCal,
     Multiselect,
-    Nav
+    HeaderCalendario,
+    Nav,    
   },
   data() {
     return{
@@ -120,60 +135,56 @@ export default {
       listLane: [],
       actividadSelect: '',
       listaActividades: [],
-      carrilesDisable: false,
-      listaCarriles: []      
-      
+      carrilesDisable: false,          
+      fechaModal: '',
+      comentario: '',
+      plazaSelect: '',
+      nombrePlaza: '',
+      año: '',
+      mes: '',   
+      fechaActual: ''
     }
   },
   beforeMount(){
-    let cargaInicial = this.$route.params.cargaInicial
+    let cargaInicial = this.$route.params.cargaInicial    
     this.events = cargaInicial.listaActividadesMensuales
+    this.comentario = cargaInicial.comentario
+    this.año = cargaInicial.año    
+    this.plazaSelect = cargaInicial.plazaSelect
+    this.mes = cargaInicial.mes
+    this.nombrePlaza = cargaInicial.plazaNombre
     this.listaActividades = this.$store.state.Actividades.catalogoActividades
-    
-    console.log(cargaInicial)
   },
   computed:{     
     ...mapState("Refacciones", ["carriles"]),
-  },
-  methods: {
-    modal_actividades_dia(e){
-      console.log(e)
-      this.modal = true
-      this.modalActividades = true
-      this.carrilesModal = e.carriles
-    },
-    agregar_evento_dia(item){
-      this.modalAgreagrActividad = true
-      console.log(item)
-    },
     carriles_filtrados() {
-      if (this.actividadSelect == "") {
-        this.carrilesDisable = true;
+      if (this.actividadSelect == "") {                
+        return ['Sin Actividad']
       } else if (this.actividadSelect == 1) {
-        this.carrilesDisable = false;
-        return this.carriles.map((item) => ({
+        
+        let carrilesReturn = this.carriles.map((item) => ({
           value: {
             capufeLaneNum: item.capufeLaneNum,
             idGare: item.idGare,
             lane: item.lane,
           },
           text: item.lane,
-        }));
+        }));        
+        return carrilesReturn
       } else if (this.actividadSelect > 1) {
-        let rolUser = this.$store.getters['Login/getTypeUser']
-        console.log(rolUser)
+        let rolUser = this.$store.getters['Login/getTypeUser']        
         let carriles_prohibidos = [];
         for (let evento of this.events) {
           if (evento.tipoActividad != "Semanal") {
             for (let carril of evento.carriles) {                                                     
-                if(rolUser == 1){
+              if(rolUser == 1){
+                carriles_prohibidos.push(carril);
+              }
+              else{
+                if(carril.lane != 'Plaza' && carril.lane != "Plaza-M"){
                   carriles_prohibidos.push(carril);
-                }
-                else{
-                  if(carril.lane != 'Plaza' && carril.lane != "Plaza-M"){
-                    carriles_prohibidos.push(carril);
-                  }                                  
-                }                                
+                }                                  
+              }                                
             }
           }
         }
@@ -194,27 +205,108 @@ export default {
               text: carrilesFull.lane,
             });
           }
-        }
-        this.carrilesDisable = false;
-        this.listaCarriles = carrilesReturn;
-        //return carrilesReturn
+        }                 
+        return carrilesReturn
       }
+      return ['no entre en ninguno']
+    },     
+  },  
+  methods: {
+    modal_actividades_dia(e){         
+      this.modal = true
+      this.modalActividades = true
+      this.carrilesModal = e.carriles
     },
+    modal_agregar_actividad(item){
+      this.modalAgreagrActividad = true
+      this.fechaModal = item      
+    },   
+    agregar_actividad_dia: async function() {      
+      let listaCarril = this.laneSelect.map((item) => {
+        return { ...item.value }
+      })      
+      let objActividad = await ServiceActividades.construir_objeto_actividad(
+        listaCarril,
+        { day: this.fechaModal.toLocaleDateString(), frequencyId: this.actividadSelect } 
+      )      
+      this.events.push(objActividad)           
+      this.modalAgreagrActividad = false
+      this.laneSelect = []            
+      //Mandar a la DB       
+      let actividadInsert = ServiceActividades.objeto_actividad_insertar(
+        listaCarril,
+        { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
+        this.comentario
+      )      
+      await Axios.post(`${API}/Calendario/Actividad/CALENDARIO`,actividadInsert)
+        .then((response) => {     
+            console.log(response)                                                    
+        })
+        .catch(Ex => {            
+            console.log(Ex);
+        });
+      this.actividadSelect = ''
+      
+    },
+    label_multi_select(value){            
+      if(value != 'Sin Actividad')
+        return value.value.lane
+      else 
+        return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
+    },
+    actualizar_actividades: async function(plaza){                
+      this.plazaSelect = plaza.numPlaza
+      let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
+      this.events = result.listaActividadesMensuales
+      this.comentario = result.comentario      
+    }, 
+    cambiar_mes: async function(item){
+      let fecha = item.startDate.toLocaleDateString().split('/')
+      let result = await ServiceActividades.filtrar_actividades_mensuales(fecha[1], fecha[2], true) 
+      this.events = result.listaActividadesMensuales
+      this.comentario = result.comentario         
+      this.mes = parseInt(fecha[1]) 
+      this.año = parseInt(fecha[2])      
+    },    
+    generar_pdf_calendario(comentario){      
+        let user = this.$store.getters['Login/getUserForDTC']
+        let objComentario = {
+          UserId: user.idUser,
+          Month: this.mes,
+          Comment: comentario,
+          SquareId: user.numPlaza,
+          Year: this.año
+        }        
+        Axios.post(`${API}/Calendario/ObservacionesInsert/CALENDARIO`,objComentario)
+        .then((response) => {                    
+          console.log(response)
+        })
+        .catch((ex) => {          
+          console.log(ex);
+        });  
+    },
+    borrar_carril_evento(item){
+      console.log(item)
+      Axios.delete(`${API}/Calendario/DeleteCalendar/CALENDARIO/${item.calendarId}`)
+        .then((response) => {     
+            console.log(response)                                                    
+        })
+        .catch(Ex => {            
+            console.log(Ex);
+        });
+    }
   }
 }
 </script>
-
 <style >
-
 .vuecal--month-view .vuecal__cell {height: 100px;}
-
 .vuecal--month-view .vuecal__cell-content {
   justify-content: flex-start;  
   height: 100%;
   align-items: flex-end;
   
 }
-.vuecal__menu, .vuecal__cell-events-count { background-color :  #42b983 ;} 
+/* .vuecal__menu, .vuecal__cell-events-count { background-color :  #42b983 ;}  */
 
 
 </style>
