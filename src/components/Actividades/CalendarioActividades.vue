@@ -288,9 +288,17 @@ export default {
     borrar_carril_evento(item, index){
       console.log(item)
       Axios.delete(`${API}/Calendario/DeleteCalendar/CALENDARIO/${item.calendarId}`)
-        .then((response) => {     
-            console.log(response)    
-            this.carrilesModal = this.carrilesModal.slice(index,1)                                                
+        .then(async (response) => {     
+            console.log(response) 
+            if(this.carrilesModal.length == 1){ 
+              this.modal = false             
+              this.modalActividades = false
+              this.carrilesModal = []
+              await this.actualizar_actividades(this.plazaSelect.toString())
+            }
+            else{ 
+              this.carrilesModal.splice(index,1) 
+            }                                                           
         })
         .catch(Ex => {            
             console.log(Ex);
