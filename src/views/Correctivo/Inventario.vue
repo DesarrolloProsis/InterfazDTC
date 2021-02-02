@@ -23,7 +23,7 @@
               />
             </div>
             <div class="mt-5">
-              <span class="mr-2">Componente</span>
+              <span class="mr-4">Componente</span>
               <input
                 v-model="boolComponente"
                 @change="change_orden('componente')"
@@ -32,51 +32,30 @@
               />
             </div>
 
-            <div class="mr-5 mt-5">
-  
-              <button @click="showModal = true"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700">
-                Rgistrar
-              </button> 
-
-             </div>
-
-              <div id="md">
+            <div id="app">
                 <transition name="fade">
                   <div class="modal-overlay" v-if="showModal"></div>
                 </transition>
 
                 <transition name="fade">
                   <div class="modal" v-if="ShowModal">
-                    <div class="form-group">
-                    <label class="col-sm-8">Carril</label>
-                    <input class="col-6" type="text">
-           
-                    <label class="col-sm-8">Fecha</label>
-                    <input type="date">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label>Hora Inicio</label>
-                    <input type="time">
-              
-                    <label>Hora Final</label>
-                    <input type="time">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label>Folio</label>
-                    <input type="text">
-                </div>
-                  <button @click="showModal = false"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700">
-                Cerrar
-              </button> 
-                  </div>
-                </transition>
-              </div>
-           
-        
+                      <h1>Title</h1>
+                      <p>Contenido</p>
+                    <button @click="showModal = false">
+                      Cerrar
+                    </button> 
+                  </div> 
+                </transition> 
+
+            <div class="mt-5">
+               <button
+                  @click="showModal = true"
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
+                >
+                  <span class="mr-2">Registrar</span>
+                </button> 
+            </div>
+             </div>
 
           </div>
           <div class=" text-sm mt-2 mx-auto">
@@ -440,4 +419,5 @@ export default {
   },
 };
 </script>
+
 
