@@ -64,7 +64,7 @@
         </div>
         <div class="justify-end flex mt-5">
           <!-- <button @click="(modal = false, modalActividades = false)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button> -->
-          <button @click="modal = false, modalActividades = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
         </div>
       </div>
     </div>
@@ -173,9 +173,10 @@ export default {
         return carrilesReturn
       } else if (this.actividadSelect > 1) {
         let rolUser = this.$store.getters['Login/getTypeUser']        
+        let actividadNombre = this.listaActividades.find(item => item.value == this.actividadSelect).text
         let carriles_prohibidos = [];
         for (let evento of this.events) {
-          if (evento.tipoActividad != "Semanal") {
+          if (evento.tipoActividad == actividadNombre) {
             for (let carril of evento.carriles) {                                                     
               if(rolUser == 1){
                 carriles_prohibidos.push(carril);
@@ -319,3 +320,5 @@ export default {
 
 
 </style>
+
+
