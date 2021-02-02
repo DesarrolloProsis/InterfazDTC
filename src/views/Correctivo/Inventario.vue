@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <Nav></Nav>
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 pl-3 pr-3">                
@@ -31,21 +31,9 @@
                 type="checkbox"
               />
             </div>
-            <div id="app">
-                <transition name="fade">
-                  <div class="modal-overlay" v-if="showModal"></div>
-                </transition>
-                <transition name="fade">
-                  <div class="modal" v-if="ShowModal">
-                      <h1>Title</h1>
-                      <p>Contenido</p>
-                    <button @click="showModal = false">
-                      Cerrar
-                    </button> 
-                  </div> 
-                </transition> 
+            <div>           
             <div class="mt-5">
-               <button
+              <button
                   @click="showModal = true"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
                 >
@@ -77,9 +65,23 @@
               <span class="text-xs">Guardar</span>
             </button>
             <span class="ml-5 text-gray-800">{{"Editados: " + list_Editados.length}}</span>
-
           </div>
         </div>
+          <!--/////////////////////////////////////////////////////////////////
+            ////                           MODAL INVENTARIO                  ////
+            ////////////////////////////////////////////////////////////////////-->
+          <div class="sticky inset-0">
+            <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC</p>
+              <div>
+                Maquetarias lo que falta
+              </div>
+              <div class="justify-center flex mt-5">
+                <button class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+                <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+              </div>
+            </div>
+        </div>  
         <div class="overflow-x-auto sm:m-2 sm:text-xs">
           <table class="border-2 border-gray-800 table-fixed">
             <!--/////////////////////////////////////////////////////////////////
@@ -137,9 +139,9 @@
           >
             {{ item }}
           </button>
-        </div>
+        </div>                        
       </div>
-    </div>
+      </div>  
   </div>
 </template>
 
