@@ -1,4 +1,4 @@
-async function obtener_array_imagenes(e, arrayComponete) {
+function obtener_array_imagenes(e, arrayComponete) {
     let array_imagenes = arrayComponete
     const crear_imagen = function(file){        
         var reader = new FileReader();
@@ -6,8 +6,7 @@ async function obtener_array_imagenes(e, arrayComponete) {
             let obj = {
                 imgbase: e.target.result.split(",")[1],
                 name: file.name,
-            };  
-            console.log(obj)          
+            };            
             array_imagenes.push(obj);            
         };
         reader.readAsDataURL(file);
