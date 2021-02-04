@@ -1,6 +1,7 @@
 
 import saveAs from "file-saver";
 import store from '../store/index'
+import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -37,8 +38,22 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     });    
     saveAs(file, namePdf);
     };
-    oReq.send();
-    console.log(oReq)        
+    oReq.send();         
+}
+function generar_pdf_calendario(referenceSquare, fecha){
+    let user = store.getters['Login/getUserForDTC']
+    var oReq = new XMLHttpRequest(); 
+    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.idPlaza}`;      
+    let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
+    oReq.open("GET", urlTopdf, true);    
+    oReq.responseType = "blob";         
+    oReq.onload = function () {         
+    var file = new Blob([oReq.response], {
+        type: "application/pdf",
+    });    
+    saveAs(file, namePdf);
+    };
+    oReq.send();         
 }
 async function crear_referencia(sinisterDate, referenceSquare) {
     sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
@@ -75,5 +90,6 @@ async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fec
 export default {
     generar_pdf_correctivo,
     crear_referencia,
-    crear_referencia_calendario
+    crear_referencia_calendario,
+    generar_pdf_calendario
 }
