@@ -4,7 +4,7 @@
         <TablaActividadesCarril :listaActividades="listaActividades" :referenceNumber="referenceNumber"></TablaActividadesCarril>
         <div class=" inline-flex mx-auto w-full pl-20 pr-20">
             <div class="w-1/2">                
-                <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>          
+                <p class="text-center font-bold text-xl text-gray-800 mb-5">Observaciones</p>          
                 <textarea
                     v-model="observaciones"
                     v-validate="'max:300'"
@@ -15,7 +15,10 @@
                 />
                 <p class="text-xs">{{ errors.first("Observaciones") }}</p>
             </div>
-            <div class="w-1/2 justify-end flex">
+            <div class=" w-1/2 ml-20">
+                <ImagenesActividadCarril></ImagenesActividadCarril>
+            </div>
+            <div class="w-1/4 justify-end flex">
                 <button @click="crear_header_reporte" class="mt-32 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32">
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
@@ -27,6 +30,7 @@
 <script>
 import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 import TablaActividadesCarril from '../../components/Actividades/TablaActividadesCarril'
+import ImagenesActividadCarril from '../../components/Actividades/ImagenesActividadCarril'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
@@ -34,7 +38,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
         HeaderPreventivo,
-        TablaActividadesCarril
+        TablaActividadesCarril,
+        ImagenesActividadCarril
     },
     data(){
         return{
@@ -105,7 +110,8 @@ methods:{
                 ReportDate: new Date(fechasplit[2], fechasplit[1], fechasplit[0]).toJSON(),
                 Start: this.horaInicio,
                 End: this.horaFin,
-                Observations: this.observaciones        
+                Observations: this.observaciones,   
+                CalendarId: parseInt(this.header.calendarId)     
             }
             console.log(headerReporte)
             await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
