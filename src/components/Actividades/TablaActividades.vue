@@ -180,8 +180,7 @@ methods: {
         this.listaActividadesMensuales = []
     },
     vista_reporte_carril(item){      
-        item["plazaNombre"] = this.plazaNombre        
-        console.log(item)
+        item["plazaNombre"] = this.plazaNombre                
         this.$router.push({ 
             path: 'FormularioReporte',
             query: {

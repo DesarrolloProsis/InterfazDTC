@@ -220,6 +220,7 @@ export default {
     },
     modal_agregar_actividad(item){
       this.modalAgreagrActividad = true
+      console.log(item)      
       this.fechaModal = item      
     },   
     agregar_actividad_dia: async function() {      

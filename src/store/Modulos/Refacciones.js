@@ -177,19 +177,14 @@ const actions = {
         console.log(Ex);
       })
   },
-  async GET_CARRILES({ commit }, plaza) {
-      
-    console.log(`${API}/squaresCatalog/lanes/${plaza}`)
+  async GET_CARRILES({ commit }, plaza) {          
     Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
-      .then(response => {   
-          console.log(response)             
-          if(response.status === 200){
-            console.log(response.data)
+      .then(response => {                      
+          if(response.status === 200){            
               commit("CARRILES_MUTATION", response.data.result);                         
           }                    
       })
-      .catch((ex) => {
-          console.log('cath')
+      .catch((ex) => {          
           console.log(ex)
       });  
     }

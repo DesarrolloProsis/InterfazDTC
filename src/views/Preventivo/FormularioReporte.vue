@@ -50,12 +50,10 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
     created() {        
-        EventBus.$on("actualizar_hora_inicio", (newHora) => {                              
-            console.log(newHora)
+        EventBus.$on("actualizar_hora_inicio", (newHora) => {                                          
             this.horaInicio = newHora
         });
-        EventBus.$on("actualizar_hora_fin", (newHora) => {                              
-            console.log(newHora)
+        EventBus.$on("actualizar_hora_fin", (newHora) => {                                          
             this.horaFin = newHora           
         });
     },

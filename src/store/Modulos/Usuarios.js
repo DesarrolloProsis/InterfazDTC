@@ -29,8 +29,7 @@ const actions = {
         }); 
     },
     async BorrarUser({commit}, value){
-        commit        
-        console.log(value)
+        commit                
         await Axios.put(`${API}/User/delete`,value)
             .then(() => {                                          
             })
