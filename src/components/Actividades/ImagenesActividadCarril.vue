@@ -7,7 +7,7 @@
             </div>
             <div class="w-1/3 border-red-400 border">
                 <input type="file" class=" h-40 w-32 opacity-0 absolute">
-                <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
+                <img src="../../assets/img/image-mini.png" class="w-32 mr-3 mt-3 border" alt/>
             </div>
         </div>
     </div>
