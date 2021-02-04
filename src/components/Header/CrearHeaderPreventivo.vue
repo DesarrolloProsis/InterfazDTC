@@ -97,11 +97,12 @@
                 <textarea
                   v-model="motivoCambioFecha"
                   v-validate="'max:300'"
-                  :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                  :class="{ 'is_valid': !errors.first('Motivo'), 'is_invalid': errors.first('Motivo')}"
                   class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
                   placeholder="Motivo del cambio"
-                  name="Observaciones"
+                  name="Motivo"
                 />
+                 <p class="text-xs text-red-600">{{ errors.first("Motivo") }}</p>
               </div>
             </div>
         <!--/////////////////////////////////////////////////////////////////
@@ -119,7 +120,7 @@
 
 <script>
 import EventBus from "../../services/EventBus.js";
-//import ServicesPDF from "../../services/ReportesPDFService.";
+import ServicesPDF from "../../services/ReportesPDFService.js";
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
@@ -157,12 +158,19 @@ modalCambiarFecha: function (){
         this.showModal = true
             
 },
-botoncambiar_modal: function (){
+botoncambiar_modal: async function (){
     if(this.fechaCambio !='' && this.motivoCambioFecha != '')
         {
-            console.log(this.fechaCambio)
-            let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
-            this.referenceNumber = this.ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frecuencyName ,this.fechaCambio ,this.header.lane)
+            //console.log(this.fechaCambio)
+            //console.log(this.header.frecuencyName)
+            let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']
+            this.referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName,this.fechaCambio ,this.header.lane)
+            this.header.day = this.fechaCambio
+            this.showModal = false
+            this.fechaCambio = ''
+            this.motivoCambioFecha = ''
+
+
         }
         else{
           this.$notify.warning({
