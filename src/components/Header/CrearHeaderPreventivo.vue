@@ -93,7 +93,7 @@
                
               </div>
               <div class="mt-5">
-                <p class="mb-1 sm:text-sm">Motivo del Cambio *: </p>
+                <p class="mb-1 sm:text-sm">Motivo del Cambio *:</p>
                 <textarea
                   v-model="motivoCambioFecha"
                   v-validate="'max:300'"
@@ -161,15 +161,14 @@ modalCambiarFecha: function (){
 botoncambiar_modal: async function (){
     if(this.fechaCambio !='' && this.motivoCambioFecha != '')
     {
-        //console.log(this.fechaCambio)
-        //console.log(this.header.frecuencyName)
+
         let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']
         this.referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName,this.fechaCambio ,this.header.lane)
-        this.header.day = this.fechaCambio
         let toDay = new Date()
         let fecha = new Date(this.fechaCambio)
         
-        fecha.setDate(fecha.getDate()+1)
+        fecha.setDate(fecha.getDate())
+        //fecha.setDate(fecha.getDate()+1)
         
         console.log(fecha <= toDay)
         
@@ -190,7 +189,8 @@ botoncambiar_modal: async function (){
             this.fechaCambio = ''    
         }
         else
-        {    
+        {
+            this.header.day = this.fechaCambio    
             this.showModal = false
             this.fechaCambio = ''
             this.motivoCambioFecha = ''
