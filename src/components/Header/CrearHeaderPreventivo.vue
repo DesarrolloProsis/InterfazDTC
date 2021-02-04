@@ -79,10 +79,10 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
         <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 w-69 mx-auto px-12 py-10">
-          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+            <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
             <div>
-              <div class="mt-5">
+                <div class="mt-5">
                 <div class="flex justify-start">
                     <p class=" font-bold">Fecha Original:</p>                        
                     <p class="ml-5">{{ header.day }}</p> 
@@ -152,18 +152,17 @@ beforeMount: async function() {
 /////////////////////////////////////////////////////////////////////
 ////                       METODOS                               ////
 /////////////////////////////////////////////////////////////////////
-methods:
-{
-   modalCambiarFecha: function (){
+methods:{
+modalCambiarFecha: function (){
         this.showModal = true
-        
-        
-   },
-   botoncambiar_modal: function (){
-       if(this.fechaCambio !='' && this.motivoCambioFecha != '')
+            
+},
+botoncambiar_modal: function (){
+    if(this.fechaCambio !='' && this.motivoCambioFecha != '')
         {
-          console.log(this.fechaCambio)
-          //ServicesPDF.crear_referencia_calendario
+            console.log(this.fechaCambio)
+            let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
+            this.referenceNumber = this.ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frecuencyName ,this.fechaCambio ,this.header.lane)
         }
         else{
           this.$notify.warning({
