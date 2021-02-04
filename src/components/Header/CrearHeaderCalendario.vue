@@ -121,6 +121,7 @@ export default {
             this.$emit("actualizar-actividad", this.plazasValidas[index]);            
         },
         generar_pdf(){
+            this.cambiar_plaza()
             this.$emit('generar-pdf', this.comentario)
         }        
     },

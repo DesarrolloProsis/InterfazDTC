@@ -43,7 +43,7 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
 function generar_pdf_calendario(referenceSquare, fecha){
     let user = store.getters['Login/getUserForDTC']
     var oReq = new XMLHttpRequest(); 
-    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.idPlaza}`;      
+    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;      
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     oReq.open("GET", urlTopdf, true);    
     oReq.responseType = "blob";         

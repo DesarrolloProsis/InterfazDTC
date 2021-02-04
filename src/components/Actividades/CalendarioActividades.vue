@@ -111,6 +111,7 @@ import VueCal from 'vue-cal'
 import Multiselect from "vue-multiselect";
 import HeaderCalendario from '../Header/CrearHeaderCalendario'
 import ServiceActividades from '../../services/ActividadesService'
+import ServicePDF from '../../services/ReportesPDFService'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
@@ -233,13 +234,14 @@ export default {
       this.events.push(objActividad)           
       this.modalAgreagrActividad = false
       this.laneSelect = []            
-      //Mandar a la DB       
+      //Mandar a la DB     
+      let refPlaza = this.$store.getters['Login/getReferenceSquareActual']  
       let actividadInsert = ServiceActividades.objeto_actividad_insertar(
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
       )      
-      await Axios.post(`${API}/Calendario/Actividad/CALENDARIO`,actividadInsert)
+      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then((response) => {     
             console.log(response)                                                    
         })
@@ -271,6 +273,7 @@ export default {
     },    
     generar_pdf_calendario(comentario){      
         let user = this.$store.getters['Login/getUserForDTC']
+        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
         let objComentario = {
           UserId: user.idUser,
           Month: this.mes,
@@ -278,9 +281,14 @@ export default {
           SquareId: user.numPlaza,
           Year: this.año
         }        
-        Axios.post(`${API}/Calendario/ObservacionesInsert/CALENDARIO`,objComentario)
+        console.log(objComentario)
+        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
         .then((response) => {                    
           console.log(response)
+          ServicePDF.generar_pdf_calendario(refPlaza, {
+              mes: this.mes,
+              año: this.año
+          })          
         })
         .catch((ex) => {          
           console.log(ex);
