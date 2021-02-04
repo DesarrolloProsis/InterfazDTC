@@ -79,10 +79,10 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
         <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 w-69 mx-auto px-12 py-10">
-          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+            <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
             <div>
-              <div class="mt-5">
+                <div class="mt-5">
                 <div class="flex justify-start">
                     <p class=" font-bold">Fecha Original:</p>                        
                     <p class="ml-5">{{ header.day }}</p> 
@@ -97,11 +97,12 @@
                 <textarea
                   v-model="motivoCambioFecha"
                   v-validate="'max:300'"
-                  :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                  :class="{ 'is_valid': !errors.first('Motivo'), 'is_invalid': errors.first('Motivo')}"
                   class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
                   placeholder="Motivo del cambio"
-                  name="Observaciones"
+                  name="Motivo"
                 />
+                 <p class="text-xs text-red-600">{{ errors.first("Motivo") }}</p>
               </div>
             </div>
         <!--/////////////////////////////////////////////////////////////////
@@ -109,7 +110,7 @@
         ////////////////////////////////////////////////////////////////////-->
             <div class="justify-end flex mt-5">
               <button  @click="botoncambiar_modal" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Cambiar</button>
-              <button  @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+              <button  @click="botoncancelar_modal" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
             </div>
           </div>
         </div>
@@ -119,6 +120,7 @@
 
 <script>
 import EventBus from "../../services/EventBus.js";
+import ServicesPDF from "../../services/ReportesPDFService.js";
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
@@ -151,31 +153,67 @@ beforeMount: async function() {
 /////////////////////////////////////////////////////////////////////
 ////                       METODOS                               ////
 /////////////////////////////////////////////////////////////////////
-methods:
-{
-   modalCambiarFecha: function (){
+methods:{
+modalCambiarFecha: function (){
         this.showModal = true
+            
+},
+botoncambiar_modal: async function (){
+    if(this.fechaCambio !='' && this.motivoCambioFecha != '')
+    {
+        //console.log(this.fechaCambio)
+        //console.log(this.header.frecuencyName)
+        let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']
+        this.referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName,this.fechaCambio ,this.header.lane)
+        this.header.day = this.fechaCambio
+        let toDay = new Date()
+        let fecha = new Date(this.fechaCambio)
         
+        fecha.setDate(fecha.getDate()+1)
         
-   },
-   botoncambiar_modal: function (){
-       if(this.fechaCambio !='' && this.motivoCambioFecha != '')
+        console.log(fecha <= toDay)
+        
+        console.log(toDay)
+        console.log(fecha)
+
+        if( fecha > toDay)
         {
-          console.log(this.fechaCambio)
-          //ServicesPDF.crear_referencia_calendario
+            this.$notify.warning({
+            title: "Ops!! ",
+            msg: "FECHA INVALIDA",
+            position: "bottom right",
+            styles: {
+                    height: 100,
+                    width: 500,
+                    },
+                });
+            this.fechaCambio = ''    
         }
-        else{
-          this.$notify.warning({
-          title: "* Son datos obligatorios",
-          msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
+        else
+        {    
+            this.showModal = false
+            this.fechaCambio = ''
+            this.motivoCambioFecha = ''
+        }
+    }
+   else
+   {
+        this.$notify.warning({
+        title: "* Son datos obligatorios",
+        msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
+        position: "bottom right",
+        styles: {
+             height: 100,
+             width: 500,
           },
         });
         }
-   }
+   },
+botoncancelar_modal: function (){
+    this.showModal = false
+    this.fechaCambio = ''
+    this.motivoCambioFecha = ''
+}
 },
 /////////////////////////////////////////////////////////////////////
 ////                       Watcher                               ////
