@@ -95,13 +95,16 @@
               <div class="mt-5">
                 <p class="mb-1 sm:text-sm">Motivo del Cambio *:</p>
                 <textarea
+                  id="mensaje"
                   v-model="motivoCambioFecha"
                   v-validate="'max:300'"
                   :class="{ 'is_valid': !errors.first('Motivo'), 'is_invalid': errors.first('Motivo')}"
                   class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
                   placeholder="Motivo del cambio"
                   name="Motivo"
+                  v-bind:maxlength="limite"
                 />
+                 <span>{{ restante }}/300</span>
                  <p class="text-xs text-red-600">{{ errors.first("Motivo") }}</p>
               </div>
             </div>
@@ -131,7 +134,9 @@ data() {
         horaInicio: '',
         horaFin: '',
         fechaCambio: '',
-        motivoCambioFecha: ''
+        motivoCambioFecha: '',
+        limite: 300,
+        aviso: 50
     };
 },
 props: {
@@ -151,11 +156,21 @@ beforeMount: async function() {
     
 },
 /////////////////////////////////////////////////////////////////////
+////                       COMPUTADOS                            ////
+/////////////////////////////////////////////////////////////////////
+computed:{
+    restante(){
+        //return this.limite - this.motivoCambioFecha.length
+        return  this.motivoCambioFecha.length
+    }
+},
+/////////////////////////////////////////////////////////////////////
 ////                       METODOS                               ////
 /////////////////////////////////////////////////////////////////////
 methods:{
 modalCambiarFecha: function (){
         this.showModal = true
+        
             
 },
 botoncambiar_modal: async function (){
@@ -170,10 +185,10 @@ botoncambiar_modal: async function (){
         fecha.setDate(fecha.getDate())
         //fecha.setDate(fecha.getDate()+1)
         
-        console.log(fecha <= toDay)
+        //console.log(fecha <= toDay)
         
-        console.log(toDay)
-        console.log(fecha)
+        //console.log(toDay)
+        //console.log(fecha)
 
         if( fecha > toDay)
         {
