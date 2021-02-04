@@ -110,7 +110,7 @@
         ////////////////////////////////////////////////////////////////////-->
             <div class="justify-end flex mt-5">
               <button  @click="botoncambiar_modal" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Cambiar</button>
-              <button  @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+              <button  @click="botoncancelar_modal" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
             </div>
           </div>
         </div>
@@ -160,30 +160,60 @@ modalCambiarFecha: function (){
 },
 botoncambiar_modal: async function (){
     if(this.fechaCambio !='' && this.motivoCambioFecha != '')
+    {
+        //console.log(this.fechaCambio)
+        //console.log(this.header.frecuencyName)
+        let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']
+        this.referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName,this.fechaCambio ,this.header.lane)
+        this.header.day = this.fechaCambio
+        let toDay = new Date()
+        let fecha = new Date(this.fechaCambio)
+        
+        fecha.setDate(fecha.getDate()+1)
+        
+        console.log(fecha <= toDay)
+        
+        console.log(toDay)
+        console.log(fecha)
+
+        if( fecha > toDay)
         {
-            //console.log(this.fechaCambio)
-            //console.log(this.header.frecuencyName)
-            let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']
-            this.referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName,this.fechaCambio ,this.header.lane)
-            this.header.day = this.fechaCambio
+            this.$notify.warning({
+            title: "Ops!! ",
+            msg: "FECHA INVALIDA",
+            position: "bottom right",
+            styles: {
+                    height: 100,
+                    width: 500,
+                    },
+                });
+            this.fechaCambio = ''    
+        }
+        else
+        {    
             this.showModal = false
             this.fechaCambio = ''
             this.motivoCambioFecha = ''
-
-
         }
-        else{
-          this.$notify.warning({
-          title: "* Son datos obligatorios",
-          msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
+    }
+   else
+   {
+        this.$notify.warning({
+        title: "* Son datos obligatorios",
+        msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
+        position: "bottom right",
+        styles: {
+             height: 100,
+             width: 500,
           },
         });
         }
-   }
+   },
+botoncancelar_modal: function (){
+    this.showModal = false
+    this.fechaCambio = ''
+    this.motivoCambioFecha = ''
+}
 },
 /////////////////////////////////////////////////////////////////////
 ////                       Watcher                               ////
