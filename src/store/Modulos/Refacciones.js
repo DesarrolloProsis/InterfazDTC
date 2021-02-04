@@ -17,6 +17,10 @@ const state = {
 };
 const getters = {
   //Inventario
+  GET_CARRILES_STATE: () => state.carriles,
+  GET_CARRILES_LANE: (state) => (lanefind) => {
+   return state.full_Component.filter(item => item.lane == lanefind) 
+  },
   getlistaRefaccionesInventario: () => state.listaInventario,
   getlistaLaneInventario: () => state.listaLaneInventario,
   getinfoComponenteInventario: () => state.infoComponenteInventario,
@@ -174,8 +178,7 @@ const actions = {
       })
   },
   async GET_CARRILES({ commit }, plaza) {
-        
-    console.log(plaza)
+      
     console.log(`${API}/squaresCatalog/lanes/${plaza}`)
     Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
       .then(response => {   

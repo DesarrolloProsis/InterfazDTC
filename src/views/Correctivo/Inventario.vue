@@ -22,7 +22,7 @@
                 type="checkbox"
               />
             </div>
-            <div class="mt-5">
+            <div class="mr-4 mt-5">
               <span class="mr-4">Componente</span>
               <input
                 v-model="boolComponente"
@@ -32,9 +32,9 @@
               />
             </div>
             <div>           
-            <div class="mt-5">
+            <div class="mt-4">
               <button
-                  @click="showModal = true"
+                  @click="modal_inventario"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
                 >
                   <span class="mr-2">Registrar</span>
@@ -72,16 +72,36 @@
             ////////////////////////////////////////////////////////////////////-->
           <div class="sticky inset-0">
             <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC</p>
+              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Registrar Mantenimiento</p>
               <div>
-                Maquetarias lo que falta
+                <div class="m-3 text-center">
+                  <p class="font-bold mb-5 sm:text-sm">Carril</p>
+                  <select v-model="carrilSelect" class="w-48" type="text" name="TipoDescripcion">
+                    <option disabled value>Selecionar...</option>
+                    <option v-for="(item, index) in listaCarriles" :value="item" :key="index">{{ item.lane }}</option>
+                  </select>
+
+                  <p class="font-bold mb-5 sm:text-sm">Fecha Mantenimiento</p>
+                  <input v-model="fehcaMantenimientoEdit" class="border w-40" type="date"/>
+
+                  <p class="font-bold mb-5 sm:text-sm">Hora Inicio</p>
+                  <input v-model="Horainicio" class="border w-40" type="time"/>
+
+                  <p class="font-bold mb-5 sm:text-sm">Hora Fin</p>
+                  <input v-model="Horafin" class="border w-40" type="time"/>
+
+                  <p class="font-bold mb-5 sm:text-sm">Folio</p>
+                  <input v-model="folioMantenimiento" class="border w-40" type="text"/>
+
+                </div>
               </div>
               <div class="justify-center flex mt-5">
-                <button class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-                <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+                <button @click="guardar_modal" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
+                <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
               </div>
             </div>
         </div>  
+
         <div class="overflow-x-auto sm:m-2 sm:text-xs">
           <table class="border-2 border-gray-800 table-fixed">
             <!--/////////////////////////////////////////////////////////////////
@@ -166,25 +186,33 @@ export default {
       listaPlazasUser: [],
       plazaSelect: '',
       tipoUsuario: 0,
-      disableInputs: false
+      disableInputs: false,
+      carrilSelect: '',
+      list_Carriles:[],
+      fehcaMantenimientoEdit: '',
+      folioMantenimiento: '',
+      Horainicio: '',
+      Horafin: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-  beforeMount: function () {
-    let index = this.$store.getters['Header/getUSERSELECT']    
-    this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser']
-    this.disableInputs = this.tipoUsuario == 7 ? true : false
-    this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
-    this.crear_array_paginacion("inicio");
+  beforeMount: async function () {
+    let index = await this.$store.getters['Header/getUSERSELECT']    
+    this.listaPlazasUser = await this.$store.getters["Login/getListaPlazasUser"]
     this.plazaSelect = this.listaPlazasUser[index].numPlaza;
+    this.tipoUsuario = await this.$store.getters['Login/getTypeUser']
+    this.disableInputs = await this.tipoUsuario == 7 ? true : false
+    this.list_Component = await this.$store.getters["Refacciones/getPaginationComponent"](1);
+    this.crear_array_paginacion("inicio");
+    //this.plazaSelect = this.listaPlazasUser[index].numPlaza;
+    this.listaCarriles = await this.$store.getters['Refacciones/GET_CARRILES_STATE']
     this.full_Component.sort((a, b) => {
       if (a.lane < b.lane) return -1;
       if (a.lane > b.lane) return 1;
       return 0;
-    });    
+    }); 
   },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
@@ -266,6 +294,10 @@ export default {
         this.array_paginacion = new_array;
       }
     },
+    //this.$store.getter['Modulo/']()
+    //this.$store.state.DTC.
+    //this.dispatch('Modulo/')
+    //this.commit(Modulo/)
     change_orden: function (orden) {
       if (orden == "ubicacion") {
         this.boolUbicacion == true
@@ -375,6 +407,55 @@ export default {
       let plaza = this.$store.getters['Header/getConvenioPlaza']
       this.$store.dispatch('Refacciones/FULL_COMPONETES', plaza)
       this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
+    },
+    //Funcion para mostrar el modal y para enlistar los carriles 
+    modal_inventario: async function(){
+      
+      this.showModal = true //se muestra el modal, se cambia su valor a tru
+      await this.$store.dispatch('Refacciones/GET_CARRILES', this.plazaSelect);//Manda una peticion al store, cindicando la ruta, y el parametro
+      this.listaCarriles = await this.$store.getters['Refacciones/GET_CARRILES_STATE']//Se guarda en una variable los resultados
+      //Ordenamiento de la lista de Carriles
+      this.listaCarriles.sort(function (a, b) {
+        if (a.lane > b.lane) {
+          return 1;
+        }
+        if (a.lane < b.lane) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+    },
+    guardar_modal: async function()
+    {
+        if(this.carrilSelect && this.fehcaMantenimientoEdit && this.folioMantenimiento && this.Horainicio && this.Horafin != ''){
+        let carrilesFind = await this.$store.getters['Refacciones/GET_CARRILES_LANE'](this.carrilSelect.lane)//Se guarda en una variable local la peticion al store para obtener el lane, se indica el parametro
+        //let array = []                                                                                     Muestra todas las coincidencias con el numero de carril seleccionado
+        console.log(carrilesFind)//Mostramos el resultado de la coincidencia
+        for(let item of carrilesFind){//Se recorre el arrat del resultado anterior
+          item.maintenanceDate = this.fehcaMantenimientoEdit//Se cambia el valor del array por el valor indicado en el modal
+          item.maintenanceFolio = this.folioMantenimiento//Se cambia el valor del array por el valor indicado en el modal
+          item.serialNumber = this.Horainicio  
+        // let obj = {
+        //   "Nombre": this.fehcaMantenimientoEdit,
+        //   "Lane": item
+        // }
+        // array.push(obj)
+        }
+        }
+        else{
+          this.$notify.warning({
+          title: "Ops!!",
+          msg: "NO SE SELECCIONO ALGUNO DE LOS DATOS NECESARIOS",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+        }
+      
+      //console.log(array)
     }
   },
 /////////////////////////////////////////////////////////////////////
