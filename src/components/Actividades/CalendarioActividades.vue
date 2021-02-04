@@ -62,8 +62,7 @@
             </div>          
         </div>    
         </div>
-        <div class="justify-end flex mt-5">
-          <!-- <button @click="(modal = false, modalActividades = false)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button> -->
+        <div class="justify-end flex mt-5">          
           <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
         </div>
       </div>

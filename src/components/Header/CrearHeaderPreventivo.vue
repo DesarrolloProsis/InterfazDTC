@@ -119,7 +119,6 @@
 
 <script>
 import EventBus from "../../services/EventBus.js";
-//import ServicesPDF from "../../services/ReportesPDFService.";
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
