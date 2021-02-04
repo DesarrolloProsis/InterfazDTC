@@ -31,7 +31,7 @@
                 type="checkbox"
               />
             </div>
-            <div>           
+            <!--<div>           
             <div class="mt-4">
               <button
                   @click="modal_inventario"
@@ -40,7 +40,7 @@
                   <span class="mr-2">Registrar</span>
                 </button> 
             </div>
-            </div>
+            </div>-->
           </div>
           <div class=" text-sm mt-2 mx-auto">
             <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
