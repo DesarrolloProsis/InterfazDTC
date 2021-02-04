@@ -93,7 +93,7 @@
                
               </div>
               <div class="mt-5">
-                <p class="mb-1 sm:text-sm">Motivo del Cambio *:</p>
+                <p class="mb-1 sm:text-sm">Motivo del Cambio *: </p>
                 <textarea
                   v-model="motivoCambioFecha"
                   v-validate="'max:300'"
