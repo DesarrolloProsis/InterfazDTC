@@ -38,7 +38,8 @@
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-start m-5">
                         <p class=" font-bold">Fecha:</p>                        
-                        <p class="ml-5">{{ header.day }}</p>                        
+                        <p class="ml-5">{{ header.day }}</p> 
+                        <p @click="modalCambiarFecha" class="ml-5 text-sm cursor-pointer text-blue-700 font-mono">Cambiar Fecha</p>    
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Inicio:</p>
@@ -73,19 +74,63 @@
                 </div>
             </div>
         </div>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                      MODAL CAMBIAR FECHA                    ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+        <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 w-69 mx-auto px-12 py-10">
+          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+            <p class="text-gray-900 font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
+            <div>
+              <div class="mt-5">
+                <div class="flex justify-start">
+                    <p class=" font-bold">Fecha Original:</p>                        
+                    <p class="ml-5">{{ header.day }}</p> 
+                </div> 
+                 <br> 
+                <p class="font-bold mb-5 sm:text-sm">Nueva Fecha *:</p>
+                <input v-model="fechaCambio" class="border w-40" type="date"/>
+               
+              </div>
+              <div class="mt-5">
+                <p class="mb-1 sm:text-sm">Motivo del Cambio *:</p>
+                <textarea
+                  v-model="motivoCambioFecha"
+                  v-validate="'max:300'"
+                  :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                  class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
+                  placeholder="Motivo del cambio"
+                  name="Observaciones"
+                />
+              </div>
+            </div>
+        <!--/////////////////////////////////////////////////////////////////
+          ////                     BOTONES MODAL CAMBIAR FECHA          ////
+        ////////////////////////////////////////////////////////////////////-->
+            <div class="justify-end flex mt-5">
+              <button  @click="botoncambiar_modal" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Cambiar</button>
+              <button  @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+            </div>
+          </div>
+        </div>
+        </div>
     </div>
 </template>
 
 <script>
 import EventBus from "../../services/EventBus.js";
+//import ServicesPDF from "../../services/ReportesPDFService.";
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
 /////////////////////////////////////////////////////////////////////
 data() {
     return {
+        showModal: false,
         horaInicio: '',
-        horaFin: ''
+        horaFin: '',
+        fechaCambio: '',
+        motivoCambioFecha: ''
     };
 },
 props: {
@@ -103,6 +148,35 @@ props: {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function() {    
     
+},
+/////////////////////////////////////////////////////////////////////
+////                       METODOS                               ////
+/////////////////////////////////////////////////////////////////////
+methods:
+{
+   modalCambiarFecha: function (){
+        this.showModal = true
+        
+        
+   },
+   botoncambiar_modal: function (){
+       if(this.fechaCambio !='' && this.motivoCambioFecha != '')
+        {
+          console.log(this.fechaCambio)
+          //ServicesPDF.crear_referencia_calendario
+        }
+        else{
+          this.$notify.warning({
+          title: "* Son datos obligatorios",
+          msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+        }
+   }
 },
 /////////////////////////////////////////////////////////////////////
 ////                       Watcher                               ////

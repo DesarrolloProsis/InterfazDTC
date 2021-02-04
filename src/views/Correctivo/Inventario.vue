@@ -31,8 +31,8 @@
                 type="checkbox"
               />
             </div>
-            <div>           
-            <div class="mt-5">
+            <!--<div>           
+            <div class="mt-4">
               <button
                   @click="showModal = true"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
@@ -40,7 +40,7 @@
                   <span class="mr-2">Registrar</span>
                 </button> 
             </div>
-            </div>
+            </div>-->
           </div>
           <div class=" text-sm mt-2 mx-auto">
             <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
