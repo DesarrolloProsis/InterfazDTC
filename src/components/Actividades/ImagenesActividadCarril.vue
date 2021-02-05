@@ -12,10 +12,12 @@
                     </div>
                 </div>
             </div>
-            <div class="w-1/3 border-2 border-gray-600 border-dashed text-center">
-                <input @change="recibir_imagenes" type="file" multiple class=" h-40 w-32 opacity-0 absolute">
-                <img src="../../assets/img/more.png" class="w-full h-32 p-5 m t-3" alt/>
-                <span class=" text-gray-500 text-sm">Agregar imagenes</span>
+            <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center">
+                <div class="">
+                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 ">
+                    <img src="../../assets/img/more.png" class="w-auto h-32" alt/>
+                    <span class=" text-gray-500 text-sm">Agregar imagenes</span>
+                </div>
             </div>
         </div>
     </div>
