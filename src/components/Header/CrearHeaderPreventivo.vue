@@ -78,19 +78,20 @@
         ////                      MODAL CAMBIAR FECHA                    ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 w-69 mx-auto px-12 py-10">
+        <div v-if="showModal" class="rounded-lg  justify-center absolute inset-x-0 w-69 mx-auto px-12 py-10">
             <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
             <div>
                 <div class="mt-5">
-                <div class="flex justify-start">
+                <div class="flex justify-start grid grid-cols-2">
                     <p class=" font-bold">Fecha Original:</p>                        
-                    <p class="ml-5">{{ header.day }}</p> 
+                    <p class="ml-5 text-center">{{ header.day }}</p> 
                 </div> 
                  <br> 
-                <p class="font-bold mb-5 sm:text-sm">Nueva Fecha *:</p>
+                <div class="grid grid-cols-2">  
+                <p class="font-bold my-1 sm:text-sm">Nueva Fecha *:</p>
                 <input v-model="fechaCambio" class="border w-40" type="date"/>
-               
+                </div>
               </div>
               <div class="mt-5">
                 <p class="mb-1 sm:text-sm">Motivo del Cambio *:</p>
@@ -104,7 +105,7 @@
                   name="Motivo"
                   v-bind:maxlength="limite"
                 />
-                 <span>{{ restante }}/300</span>
+                 <span class="text-xs text-gray-500">{{ restante }}/300</span>
                  <p class="text-xs text-red-600">{{ errors.first("Motivo") }}</p>
               </div>
             </div>
