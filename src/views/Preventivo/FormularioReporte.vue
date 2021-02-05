@@ -127,7 +127,7 @@ methods:{
                 Start: this.horaInicio,
                 End: this.horaFin,
                 Observations: this.observaciones,   
-                CalendarId: parseInt(this.header.calendarId)     
+                //CalendarId: parseInt(this.header.calendarId)     
             }
             console.log(headerReporte)
             await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)

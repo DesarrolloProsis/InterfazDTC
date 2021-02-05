@@ -31,8 +31,6 @@ const getters = {
     },  
     GET_ACTIVIDADES_CARRIL: (state) => {
         return state.listaActividadesCheck.map(item => {
-            item["addImg"] = true
-            item["img"] = {}
             return { ...item }
         })        
     }      

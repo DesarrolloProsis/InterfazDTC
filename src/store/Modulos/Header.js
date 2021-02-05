@@ -147,7 +147,8 @@ const actions = {
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
       SquareId: value.datosUser.plaza.slice(0,3)
-    }               
+    }      
+    console.log(newObject)         
     await Axios.post(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}`, newObject)
       .then(response => {
         if (response.status === 201) {

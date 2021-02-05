@@ -162,12 +162,19 @@ export default {
       if (confirm("¿Seguro que quiere eliminar esta imagen?")) {
         if (!this.agregarbool) {
           let nombre = this.fileUpload[item].name;
-          let eliminado = this.imagenes_enviar
-            .map(function (e) {
-              return e.name;
-            })
-            .indexOf(nombre);
-          if (eliminado > -1) this.imagenes_enviar.splice(eliminado, 1);
+          // let eliminado = this.imagenes_enviar
+          //   .map(function (e) {
+          //     return e.name;
+          //   })
+          //   .indexOf(nombre);          
+          let index = this.fileUpload.indexOf(item => item.name == nombre) 
+          if (index > -1){ 
+            if(this.imagenes_enviar.length == 1){
+              this.imagenes_enviar = []
+            }
+            else
+              this.imagenes_enviar.splice(index, 1);
+          }
           else this.eliminar_name.push(nombre);
         }
         this.fileUpload.splice(item, 1);
@@ -245,7 +252,7 @@ export default {
             let formData = new FormData();
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
-            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name, false));            
+            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
             await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
               .then((response) => {    
                 console.log(response)            
@@ -311,6 +318,14 @@ export default {
         this.agregarbool = false;
         this.cargarImagen = false;
       } else {
+        this.imgbase64 = {
+          array_img: [{
+            imgbase: '',
+            name: ''
+          }],
+          referenceNumber: this.referenceNumber
+        
+        }
         this.agregarbool = true;
         this.cargarImagen = true;
         this.editar_imagen = true;

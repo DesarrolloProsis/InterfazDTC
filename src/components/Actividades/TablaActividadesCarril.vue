@@ -48,9 +48,6 @@
 </div>
 </template>
 <script>
-import ServiceImagenes from '../../services/ImagenesService'
-import Axios from 'axios'
-const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: 'TablaActividadesCarril',
     props: {
@@ -69,30 +66,7 @@ export default {
             actividadFinalizada: ''
         }
     },
-    methods:{
-        recibir_imagenes: async function (e, index){                        
-            let result =  await ServiceImagenes.obtener_array_imagenes(e, [])
-            this.listaActividades[index].img = result
-            this.listaActividades[index].addImg = false     
-        },
-        enviar_imagen: async function(index){                        
-            let imgagen = ServiceImagenes.base64_to_file(
-                this.listaActividades[index].img[0].imgbase, 
-                this.listaActividades[index].img[0].name,
-                false
-            )
-            let formData = new FormData();
-            formData.append("image", imgagen);
-            await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/TLA/${this.referenceNumber}`,formData)
-                .then((response) => {     
-                    console.log(response)                    
-                    this.listaActividades[index].addImg = true                       
-                })
-                .catch(Ex => {                    
-                    console.log(Ex);                    
-            });            
-        }
-    }
+
 }
 </script>
 

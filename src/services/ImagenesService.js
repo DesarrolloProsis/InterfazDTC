@@ -20,14 +20,9 @@ function obtener_array_imagenes(e, arrayComponete) {
         return array_imagenes
     }
 }
-function base64_to_file(dataurl, fileName, pdf) {
-    
-    let url = ''
-    if(pdf)
-        url = "data:text/pdf;base64," + dataurl;
-    else
-        url = "data:image/jpeg;base64," + dataurl;  
-
+function base64_to_file(dataurl, fileName) {
+                    
+    let url = "data:image/jpeg;base64," + dataurl;  
     var arr = url.split(","),
     mime = arr[0].match(/:(.*?);/)[1],    
     bstr = atob(arr[1]),
