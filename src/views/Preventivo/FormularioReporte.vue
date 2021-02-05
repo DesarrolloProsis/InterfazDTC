@@ -1,7 +1,16 @@
 <template>
     <div>
+         <!--/////////////////////////////////////////////////////////////////
+        ////                HEADER REPORTE NIVEL CARRIL                   ////
+        ////////////////////////////////////////////////////////////////////-->
         <HeaderPreventivo :header="header" :referenceNumber="referenceNumber"></HeaderPreventivo>
+         <!--/////////////////////////////////////////////////////////////////
+        ////                    TABLA DE ACTIVIDADES JOB                   ////
+        ////////////////////////////////////////////////////////////////////-->
         <TablaActividadesCarril :listaActividades="listaActividades" :referenceNumber="referenceNumber"></TablaActividadesCarril>
+         <!--/////////////////////////////////////////////////////////////////
+        ////          TEXT AREA PARA OBSERVACIONES                         ////
+        ////////////////////////////////////////////////////////////////////-->
         <div class=" inline-flex mx-auto w-full pl-20 pr-20">
             <div class="w-1/2">                
                 <p class="text-center font-bold text-xl text-gray-800 mb-5">Observaciones</p>          
@@ -15,9 +24,15 @@
                 />
                 <p class="text-xs">{{ errors.first("Observaciones") }}</p>
             </div>
+        <!--/////////////////////////////////////////////////////////////////
+        ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
+        ////////////////////////////////////////////////////////////////////-->
             <div class=" w-1/2 ml-20">
                 <ImagenesActividadCarril></ImagenesActividadCarril>
             </div>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                         BOTON CREAR REPORTE                 ////
+        ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/4 justify-end flex">
                 <button @click="crear_header_reporte" class="mt-32 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32">
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
