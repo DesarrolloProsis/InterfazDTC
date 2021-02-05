@@ -50,7 +50,9 @@
             class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
             placeholder="jane@example.com"
             name="Observaciones"
+            v-bind:maxlength="limite"
           />
+          <span class="text-gray-500">{{ restante }}/300</span>
           <p class="text-xs">{{ errors.first("Observaciones") }}</p>
         </div>
     <!-- //////////////////////////////////////////////////////////////////
@@ -140,7 +142,8 @@ export default {
       flagCreate: true,
       listaComponentes: "",
       dateSinester: "",
-      listaPlazasUser: []
+      listaPlazasUser: [],
+      limite: 300
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -172,6 +175,14 @@ beforeMount() {
           console.log(Ex);
         });             
     }
+},
+/////////////////////////////////////////////////////////////////////
+////                          COMPUTADAS                          ////
+/////////////////////////////////////////////////////////////////////
+computed:{
+  restante(){
+    return this.observaciones.length
+  }
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
