@@ -137,5 +137,5 @@ export default{
     construir_objeto_actividad,
     objeto_actividad_insertar,
     nombre_to_numero,
-    numero_to_nombre      
+    numero_to_nombre,    
 }

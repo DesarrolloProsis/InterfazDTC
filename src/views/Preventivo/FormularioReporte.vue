@@ -107,7 +107,7 @@ export default {
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    async crear_header_reporte(){        
+    async crear_header_reporte(){           
         let validarActividades = this.listaActividades
             .every((actividad) => {                
                 return parseInt(actividad.jobStatus) != 0
@@ -127,12 +127,12 @@ methods:{
                 Start: this.horaInicio,
                 End: this.horaFin,
                 Observations: this.observaciones,   
-                //CalendarId: parseInt(this.header.calendarId)     
+                CalendarId: parseInt(this.header.calendarId)     
             }
             console.log(headerReporte)
             await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
             .then((response) => {     
-                console.log(response)
+                console.log(response)                
                 this.$notify.success({
                 title: "Ok!",
                 msg: `SE INSERTO EL HEADER.`,
@@ -159,6 +159,21 @@ methods:{
                     }
                 ).then((response) => {     
                     console.log(response)
+                    EventBus.$emit("guardar_imagenes");
+                    let tipoEncabezado = ServiceReporte.frecuencia_id_to_encabezado_id(this.header.frequencyId)
+                    Axios.get(`${API}/MantenimientoPdf/${refPlaza.referenceSquare.split('-')[0]}/${tipoEncabezado}/${this.referenceNumber}`)
+                    .then(() => {
+                        this.$notify.success({
+                        title: "Ok!",
+                        msg: `GENERANDO REPORTE.`,
+                        position: "bottom right",
+                        styles: {
+                            height: 100,
+                            width: 500,
+                            },
+                        });
+                        this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})         
+                    })                    
                 }).catch(Ex => {             
                     console.log(Ex);
                 });

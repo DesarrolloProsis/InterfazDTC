@@ -87,9 +87,20 @@ async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fec
         carril.slice(0,3)
     return referenciaNueva.toUpperCase()
 }
+const TIPOSENCABEZADOREPORTECARRIL = [
+    { frecuencia: 1, encabezado:  6 },
+    { frecuencia: 2, encabezado:  7 },
+    { frecuencia: 3, encabezado:  8 },
+    { frecuencia: 4, encabezado:  9 },
+    { frecuencia: 5, encabezado:  10 },    
+]
+function frecuencia_id_to_encabezado_id(fecuenciaId){
+    return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId)).encabezado
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
     crear_referencia_calendario,
-    generar_pdf_calendario
+    generar_pdf_calendario,
+    frecuencia_id_to_encabezado_id
 }
