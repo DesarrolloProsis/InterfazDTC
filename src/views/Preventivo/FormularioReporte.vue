@@ -28,7 +28,7 @@
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
             <div class=" w-1/2 ml-20">
-                <ImagenesActividadCarril></ImagenesActividadCarril>
+                <ImagenesActividadCarril :referenceNumber="referenceNumber"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
@@ -107,7 +107,8 @@ export default {
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    async crear_header_reporte(){           
+    async crear_header_reporte(){   
+        await EventBus.$emit("guardar_imagenes", this.referenceNumber);        
         let validarActividades = this.listaActividades
             .every((actividad) => {                
                 return parseInt(actividad.jobStatus) != 0

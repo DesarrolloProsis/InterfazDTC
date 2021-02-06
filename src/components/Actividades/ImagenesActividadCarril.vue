@@ -29,27 +29,44 @@ import ServiceImagenes from '../../services/ImagenesService'
 import EventBus from "../../services/EventBus.js";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
+    props:{
+        referenceNumber: {
+            type: String,
+            default: () => ''
+        }
+    },
     data(){
         return{
             arrayImagenes: []
         }
     },
     created(){
-         EventBus.$on("guardar_imagenes", () => {                                          
-            this.enviar_imagen()
+         EventBus.$on("guardar_imagenes", referenceNumber => {                                          
+            this.enviar_imagen(referenceNumber)
         });
     },
+    beforeMount() {        
+        setTimeout(() => {
+             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+                 .then((response) => {     
+                     console.log(response)      
+
+                 })
+                 .catch(Ex => {                    
+                     console.log(Ex);                    
+            });
+        }, 1000)
+    },
     methods: {
-        recibir_imagenes: async function (e){                        
-            alert()
+        recibir_imagenes: async function (e){                                    
             this.listaActividadesarrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
         },
-        enviar_imagen: async function(){
+        enviar_imagen: async function(referenceNumber){
             for(let imagenes of this.arrayImagenes){
                 let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)
                 let formData = new FormData();
                 formData.append("image", imgagen);
-                await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/TLA/${this.referenceNumber}`,formData)
+                await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/TLA/${referenceNumber}`,formData)
                     .then((response) => {     
                         console.log(response)                                                               
                     })
