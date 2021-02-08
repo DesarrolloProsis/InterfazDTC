@@ -104,7 +104,7 @@
                                 <td class="w-64 text-center border-2 border-gray-800">{{ item.day }}</td>
                                 <td class="w-64 text-center border-2 border-gray-800">{{ item.frequencyName }}</td>
                                 <td v-if="item.statusMaintenance == 'False'" class="w-64 text-center border-2 border-gray-800" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
-                                <td v-else class="w-64 text-center border-2 border-gray-800" :class="{'bg-green-200': true}">{{ 'Inconcluso' }}</td>
+                                <td v-else class="w-64 text-center border-2 border-gray-800" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                 <td class="w-64 text-center border-2 border-gray-800">
                                     <div v-if="item.statusMaintenance == 'False'">                               
                                         <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-blue-700">
@@ -113,7 +113,7 @@
                                         </button>
                                     </div>
                                     <div v-else>
-                                        <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-red-700">
+                                        <button @click="reporte_pdf(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-red-700">
                                             <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Descargar</span>
                                         </button>
@@ -132,7 +132,8 @@
     </div>
 </template>
 <script>
-import servicioActividades from '../../services/ActividadesService.js'
+import ServicioActividades from '../../services/ActividadesService.js'
+//import ServiceReportePDF from '../../services/ReportesPDFService'
 export default {
     data(){
         return{
@@ -163,7 +164,7 @@ beforeMount: async function(){
 /////////////////////////////////////////////////////////////////////
 methods: {
     filtrar_actividades_mensuales: async function(){                
-        let actualizar = await servicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
+        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,
@@ -178,6 +179,11 @@ methods: {
         this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
         this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
         this.listaActividadesMensuales = []
+    },
+    reporte_pdf(item){
+        console.log(item)
+        //console.log(ServicioActividades)
+        //ServiceReportePDF.generar_pdf_actividades_preventivo()
     },
     vista_reporte_carril(item){      
         item["plazaNombre"] = this.plazaNombre                

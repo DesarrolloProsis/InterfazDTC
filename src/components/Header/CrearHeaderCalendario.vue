@@ -118,7 +118,7 @@ export default {
             );
             this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
             this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);             
-            this.$emit("actualizar-actividad", this.plazasValidas[index]);            
+            this.$emit("actualizar-actividad", this.plazasValidas[index].numPlaza);            
         },
         generar_pdf(){
             this.cambiar_plaza()

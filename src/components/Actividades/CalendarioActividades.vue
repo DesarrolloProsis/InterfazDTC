@@ -240,10 +240,11 @@ export default {
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )      
+      )           
       await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
-        .then((response) => {     
-            console.log(response)                                                    
+        .then(async (response) => {     
+            console.log(response)
+            await this.actualizar_actividades(this.plazaSelect)                                                    
         })
         .catch(Ex => {            
             console.log(Ex);
@@ -258,7 +259,7 @@ export default {
         return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
     },
     actualizar_actividades: async function(plaza){                
-      this.plazaSelect = plaza.numPlaza
+      this.plazaSelect = plaza
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
       this.comentario = result.comentario      
@@ -294,23 +295,32 @@ export default {
           console.log(ex);
         });  
     },
-    borrar_carril_evento(item, index){
-      console.log(item)
-      Axios.delete(`${API}/Calendario/DeleteCalendar/CALENDARIO/${item.calendarId}`)
+    borrar_carril_evento(item, index){      
+      let refPlaza = this.$store.getters['Login/getReferenceSquareActual']  
+      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
         .then(async (response) => {     
             console.log(response) 
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
               this.modalActividades = false
-              this.carrilesModal = []
-              await this.actualizar_actividades(this.plazaSelect.toString())
+              this.carrilesModal = []              
+              await this.actualizar_actividades(this.plazaSelect)
             }
             else{ 
-              this.carrilesModal.splice(index,1) 
+              this.carrilesModal.splice(index,1)               
             }                                                           
         })
-        .catch(Ex => {            
-            console.log(Ex);
+        .catch(Ex => {  
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `NO PUEDES BORRAR ESTA ACTIVIDAD YA HAY UN REPORTE GENERADO`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },          
+          });          
+          console.log(Ex);
         });
     }
   }

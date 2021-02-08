@@ -7,8 +7,9 @@
                     <span @click="eliminar_imagen(key)" class="absolute border rounded-full top-0 right-0">
                         <img  src="../../assets/img/closeCircle.png" class="w-4 cursor-pointer " />
                     </span>   
-                    <div class="p-2">           
-                        <lazy-image :src="`data:image/jpeg;base64,${item.imgbase}`" :img-class="['w-32', 'h-32']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"/>
+                    <div class="p-2">      
+                        <lazy-image v-if="item.imgbase.length < 200" :src="`${item.imgbase}`" :img-class="['w-32', 'h-32']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"/>     
+                        <lazy-image v-else :src="`data:image/jpeg;base64,${item.imgbase}`" :img-class="['w-32', 'h-32']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"/>
                     </div>
                 </div>
             </div>
@@ -49,8 +50,15 @@ export default {
         setTimeout(() => {
              Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
                  .then((response) => {     
-                     console.log(response)      
-
+                    console.log(response)      
+                    if(response.status != 404){
+                         response.data.forEach(item => {
+                           this.arrayImagenes.push({
+                             "name": item, 
+                             "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+                           })
+                         })                                       
+                     }    
                  })
                  .catch(Ex => {                    
                      console.log(Ex);                    
@@ -68,7 +76,7 @@ export default {
                 formData.append("image", imgagen);
                 await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/TLA/${referenceNumber}`,formData)
                     .then((response) => {     
-                        console.log(response)                                                               
+                        console.log(response)                                                                                      
                     })
                     .catch(Ex => {                    
                         console.log(Ex);                    
