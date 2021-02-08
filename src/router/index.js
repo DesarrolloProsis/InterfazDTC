@@ -82,6 +82,17 @@ const routes = [
     }
   },
   {
+    path: '/ConcentradoDTC',
+    name: 'ConcentradoDTC',
+    component: () => import('../views/Correctivo/ConcentradoDTC')
+  },
+  {
+    path: '/ConcentradoDetallesDTC',
+    name:'ConcentradoDetallesDTC',
+    component: () => import('../views/Correctivo/ConcentradoDetallesDTC')
+  },
+
+  {
     path: '/ListarDtc',
     name: 'ListarDtc',
     component: ListarDTC,
