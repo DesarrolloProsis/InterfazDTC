@@ -78,28 +78,34 @@ export default {
         });
     },
     beforeMount: async function(){
-        this.header = this.$route.query.header 
-        let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.$route.query.header.plazaNombre)        
-        this.referenceNumber = await ServiceReporte.crear_referencia_calendario(
-            refPlaza.referenceSquare,
-            this.header.frequencyName,
-            this.header.day,
-            this.header.lane
-        )                
-        this.listaActividades = await this.$store.getters['Actividades/GET_ACTIVIDADES_CARRIL']
-        if(this.listaActividades.length == 0){
-            this.$notify.warning({
-                title: "Ups!",
-                msg: `NO TIENE ACTIVIDADES.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                },
-            });
-            setTimeout(() => {
-                this.$router.push({ path:'/ReportesMantenimiento/TablaActividades' })
-            }, 300);  
+        console.log(JSON.parse(this.$route.query.header))
+        if(JSON.parse(this.$route.query.header) != '{}'){
+            this.header = this.$route.query.header 
+            let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.$route.query.header.plazaNombre)        
+            this.referenceNumber = await ServiceReporte.crear_referencia_calendario(
+                refPlaza.referenceSquare,
+                this.header.frequencyName,
+                this.header.day,
+                this.header.lane
+            )                
+            this.listaActividades = await this.$store.getters['Actividades/GET_ACTIVIDADES_CARRIL']
+            if(this.listaActividades.length == 0){
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NO TIENE ACTIVIDADES.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
+                setTimeout(() => {
+                    this.$router.push({ path:'/ReportesMantenimiento/TablaActividades' })
+                }, 300);  
+            }
+            else{
+                console.log(this.$route.query.headerCompuesto)
+            }
         }
     },
 

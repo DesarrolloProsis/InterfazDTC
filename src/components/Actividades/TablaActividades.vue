@@ -107,7 +107,7 @@
                                 <td v-else class="w-64 text-center border-2 border-gray-800" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                 <td class="w-64 text-center border-2 border-gray-800">
                                     <div v-if="item.statusMaintenance == 'False'">                               
-                                        <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-blue-700">
+                                        <button @click="crear_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-blue-700">
                                             <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Crear</span>
                                         </button>
@@ -117,7 +117,7 @@
                                             <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Descargar</span>
                                         </button>
-                                        <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-yellow-700">
+                                        <button @click="editar_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-yellow-700">
                                             <img src="../../assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Actualizar</span>
                                         </button>                                   
@@ -133,7 +133,9 @@
 </template>
 <script>
 import ServicioActividades from '../../services/ActividadesService.js'
-//import ServiceReportePDF from '../../services/ReportesPDFService'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+import Axios from 'axios'
+import ServiceReportePDF from '../../services/ReportesPDFService'
 export default {
     data(){
         return{
@@ -180,12 +182,40 @@ methods: {
         this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
         this.listaActividadesMensuales = []
     },
-    reporte_pdf(item){
+    reporte_pdf: async function(item){
         console.log(item)
-        //console.log(ServicioActividades)
-        //ServiceReportePDF.generar_pdf_actividades_preventivo()
+        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        .then((response) => {                  
+            let referenceNumber = response.data.result.table[0].referenceNumber
+            ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId)                                                                                    
+            ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
+        })
+        .catch(Ex => {                    
+            console.log(Ex);                    
+        });                 
     },
-    vista_reporte_carril(item){      
+    editar_reporte_carril: async function(item){
+        console.log(item)
+        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        .then((response) => {                  
+            let header = response.data.result.table[0]                        
+            let actividades = response.data.result.table1                             
+            this.$router.push({
+                path: `FormularioReporte`,
+                query: {
+                  headerCompuesto: { ...header, ...item},
+                  actividades: actividades,
+                  edicion: true
+                },
+            });
+        })
+        .catch(Ex => {                    
+            console.log(Ex);                    
+        });
+    },
+    crear_reporte_carril(item){      
         item["plazaNombre"] = this.plazaNombre                
         this.$router.push({ 
             path: 'FormularioReporte',

@@ -115,9 +115,9 @@ function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     };
     oReq.send();  
 }
-function generar_pdf_fotografico_preventivo(referenceNumber){
+function generar_pdf_fotografico_preventivo(referenceNumber, lane){
     let clavePlaza = referenceNumber.split('-')[0]
-    let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}`       
+    let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
     let namePdf = referenceNumber + ' ' + 'Preventivo' 
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
