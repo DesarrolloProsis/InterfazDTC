@@ -79,10 +79,13 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     return await store.getters["Header/getreferenceNum"];        
 }
 async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){   
-    fechaActividad = moment(fechaActividad,"DD-MM-YYYY").format("YYYY-MM-DD").split('-') 
+    fechaActividad = moment(fechaActividad,"DD-MM-YYYY").format("YYYY-MM-DD").split('-')
+    let tiporeferencia = tipoReferencia != 'Semanal' 
+        ? tipoReferencia.slice(0,2)
+        : tipoReferencia.slice(0,1)
     let referenciaNueva = 
         numeroReferencia + '-' + 'MP' + 
-        tipoReferencia.slice(0,1) + 
+        tiporeferencia + 
         fechaActividad[2] + '-' + 
         carril.slice(0,3)
     return referenciaNueva.toUpperCase()
@@ -112,10 +115,26 @@ function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     };
     oReq.send();  
 }
+function generar_pdf_fotografico_preventivo(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}`       
+    let namePdf = referenceNumber + ' ' + 'Preventivo' 
+    var oReq = new XMLHttpRequest();  
+    oReq.open("GET", urlTopdf, true);    
+    oReq.responseType = "blob";         
+    oReq.onload = function () {         
+    var file = new Blob([oReq.response], {
+        type: "application/pdf",
+    });    
+    saveAs(file, namePdf);
+    };
+    oReq.send();  
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
     crear_referencia_calendario,
     generar_pdf_calendario,
-    generar_pdf_actividades_preventivo    
+    generar_pdf_actividades_preventivo,
+    generar_pdf_fotografico_preventivo    
 }

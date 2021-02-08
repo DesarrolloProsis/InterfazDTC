@@ -13,8 +13,9 @@
                     <thead>
                         <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800"> 
                             <th class="w-64 border-2 border-gray-800">Equipo</th>               
-                            <th class="w-64 border-2 border-gray-800">Componente</th>                            
-                            <th class="w-64 border-2 border-gray-800">Ubicacion</th>                                                            
+                            <th class="w-64 border-2 border-gray-800">Componente</th> 
+                            <th class="w-64 border-2 border-gray-800">Actividad</th>                             
+                            <th class="w-64 border-2 border-gray-800">Ubicacion</th>                                                                                          
                             <th class="w-64 border-2 border-gray-800">
                                 <p>Acciones</p>                                    
                             </th>                
@@ -27,6 +28,7 @@
                         <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividades" :key="key"> 
                             <td class="w-66 text-center border-2 border-gray-800">{{ item.equipo }}</td>   
                             <td class="w-66 text-center border-2 border-gray-800">{{ item.componente }}</td>                                                         
+                            <td class="w-66 text-center border-2 border-gray-800">{{ item.actividades }}</td>   
                             <td class="w-66 text-center border-2 border-gray-800">{{ item.ubicacion }}</td>                                                                                
                             <td class="w-66 text-center border-2 border-gray-800" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
                                 <!-- <span class="text-sm text-blue-700">Finalizada</span>

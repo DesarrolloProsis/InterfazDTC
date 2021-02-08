@@ -63,8 +63,10 @@ const actions = {
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/getTypeUser']        
+        console.log(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`)
         await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`,value)
-        .then((response) => {     
+        .then((response) => {   
+            console.log(response.data.result)  
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 0
                 return actividad

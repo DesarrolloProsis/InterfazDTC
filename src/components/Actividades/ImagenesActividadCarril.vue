@@ -81,7 +81,7 @@ export default {
                     .catch(Ex => {                    
                         console.log(Ex);                    
                 });   
-            }         
+            }                     
         },
         eliminar_imagen(index){
             if(this.arrayImagenes.length > 1){

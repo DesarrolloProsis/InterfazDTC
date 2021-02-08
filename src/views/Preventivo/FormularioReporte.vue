@@ -178,6 +178,7 @@ methods:{
             insercionActividadesPromise.then(() => {
                 EventBus.$emit("guardar_imagenes", this.referenceNumber);                 
                 ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
+                ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber)
                 this.$notify.success({
                 title: "Ok!",
                 msg: `GENERANDO REPORTE.`,
