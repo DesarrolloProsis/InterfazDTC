@@ -43,13 +43,17 @@
                     <span class="text-center font-bold text-sm text-gray-800">Observaciones</span>          
                     <textarea
                         v-model="comentario"
-                        v-validate="'max:300'"
+                        v-validate="'max:500'"
                         :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
                         class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border"
                         placeholder="jane@example.com"
                         name="Observaciones"
+                        v-bind:maxlength="limite"
+
                     />
+                    <span class="text-xs text-gray-500">{{ restante }}/500</span>
                     <p class="text-xs">{{ errors.first("Observaciones") }}</p>
+
                 </div>              
             </div>
             <!--///////////////////////////////////////////////////////////////////
@@ -105,7 +109,8 @@ export default {
     },
     data(){
         return {            
-            plazasValidas: ''
+            plazasValidas: '',
+            limite:500
         }
     },
     beforeMount(){        
@@ -126,6 +131,9 @@ export default {
         }        
     },
     computed:{
+            restante(){
+        return  this.comentario.length
+    },
         mesNombre(){
             return ServiceActividades.numero_to_nombre(this.mes)
         }

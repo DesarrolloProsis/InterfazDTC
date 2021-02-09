@@ -21,8 +21,10 @@
                     class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                     placeholder="jane@example.com"
                     name="Observaciones"
+                    v-bind:maxlength="limite"
                 />
                 <p class="text-xs">{{ errors.first("Observaciones") }}</p>
+                <span class="text-xs text-gray-500">{{ restante }}/300</span>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
@@ -49,6 +51,8 @@ import ImagenesActividadCarril from '../../components/Actividades/ImagenesActivi
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
+//import moment from "moment"; 
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -63,7 +67,8 @@ export default {
             listaActividades: [],
             observaciones: '',
             horaFin: '',
-            horaInicio: ''
+            horaInicio: '',
+            limite: 300
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -108,17 +113,67 @@ export default {
             }
         }
     },
+/////////////////////////////////////////////////////////////////////
+////                       COMPUTADOS                            ////
+/////////////////////////////////////////////////////////////////////
+    computed:{
+    restante(){
+        //return this.limite - this.motivoCambioFecha.length
+        return  this.observaciones.length
+    }
+},
 
 //////////////////////////////////////////////////////////////////////
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+    validar_horas(){
+        if(this.horaInicio != '' && this.horaFin != ''){
+            let horaISplite = this.horaInicio.split(':')
+            console.log(horaISplite)
+            let horaFSplite = this.horaFin.split(':')
+            console.log(horaFSplite)
+            let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+            let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+            if(dateInicio < dateFin){
+                console.log('hola')
+                return true
+            }
+            else{
+                    this.$notify.warning({
+                    title: "Ups!",
+                    msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
+                return false
+            }
+        }
+        else{
+                    console.log('No hay dos horas')
+                    this.$notify.warning({
+                    title: "Ups!",
+                    msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
+                return false
+            }
+    },
     async crear_header_reporte(){                 
         let validarActividades = this.listaActividades
             .every((actividad) => {                
                 return parseInt(actividad.jobStatus) != 0
             })
         if(validarActividades){
+            if(this.validar_horas())
+            { 
                 let insercionActividadesPromise = new Promise(async (resolve, reject) => {
                 let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)   
                 let user = await this.$store.getters['Login/getUserForDTC'] 
@@ -198,8 +253,9 @@ methods:{
             })
             .catch((Ex) => {
                 console.log(Ex)
-            })           
-        } 
+            })        
+            } 
+        }
         else{
             this.$notify.warning({
                 title: "Ups!",
