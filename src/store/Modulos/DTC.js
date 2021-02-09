@@ -16,7 +16,11 @@ const state = {
   listaImagenesDTC: []
 };
 const getters = {
-  getListaDTCTecnico: () => state.listaDTCTecnico,
+  getListaDTCTecnico: () => {
+    console.log('hoa')
+    console.log(state.listaDTC)
+    state.listaDTCTecnico
+  },
   getListaDescriptions: () => state.listaDescriptions,
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => state.listaInfoDTC,
@@ -24,7 +28,7 @@ const getters = {
   getcomponentesEdit: () => state.componetesEdit,
   getDmgLibre: () => state.listaDmgLibre,
   getPropuestoLibre: () => state.listaPropuestoLibre,
-  getImagenesDTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference)
+  getImagenesDTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference),
 };
 const mutations = {
   listaDmgLibreClearMutation: (state) => {

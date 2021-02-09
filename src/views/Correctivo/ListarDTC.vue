@@ -217,7 +217,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full">
+      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full mb-32">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -264,7 +264,8 @@ export default {
       motivoCambioStatus: '',
       modalFirma: false,
       modalLoading: false,
-      modalCambiarStatus: false
+      modalCambiarStatus: false,
+      lista_dtc: []
     };
   },
   components: {
@@ -274,19 +275,25 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: function () {
-  this.descripciones = this.$store.getters["DTC/getListaDescriptions"];
-  this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
-  this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
+beforeMount: async function () {
+  this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
+  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"];  
+  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
-  let todasPlazas = this.$store.getters['Login/getListaPlazas']  
+  let todasPlazas = await  this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
         listaPlazasValias.push(plaza)        
       }
   }
-  this.plazasValidas = listaPlazasValias  
+  this.plazasValidas = listaPlazasValias    
+  this.infoDTC.forEach((element, index) => {
+      if(index < 3)
+        this.lista_dtc.push(element) 
+  });
+  console.log(this.lista_dtc)
+  this.scroll_infinito()
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -297,6 +304,7 @@ methods: {
       let obj = { "refNum": this.refNum, "userId": userId.idUser }    
       if (value) {
         this.infoDTC = []        
+        this.lista_dtc = []
         this.modalEliminar = false;   
         this.modal = false     
         await this.$store.dispatch("DTC/BORRAR_DTC",obj);                                                                                
@@ -315,6 +323,10 @@ methods: {
       await this.$store.dispatch("Header/buscarListaUnique");
       await this.$store.dispatch('DTC/buscarListaDTC', userId)            
       this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"] 
+      this.infoDTC.forEach((element, index) => {
+        if(index < 3)
+          this.lista_dtc.push(element) 
+      });
       this.refNum = "";
       
   },
@@ -362,8 +374,7 @@ methods: {
             if(item === null){
               item = ''
             }
-          } 
-          console.log('datos que envia')
+          }           
           console.log(objEdit)                       
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
@@ -418,14 +429,18 @@ methods: {
       this.modalLoading = true
       this.modal = true
       this.$store.dispatch('DTC/buscarListaDTC', info)            
-      this.infoDTC = []          
+      this.infoDTC = []    
+      this.lista_dtc = []      
       await this.$nextTick().then(() => {             
         this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
         this.fechaFiltro = "";
         this.referenciaFiltro = "";            
         this.plazaFiltro = ""
         this.statusFiltro = ""   
-        
+        this.infoDTC.forEach((element, index) => {
+          if(index < 3)
+            this.lista_dtc.push(element) 
+        });        
         setTimeout(() => {
           this.modalLoading = false
           this.modal = false
@@ -480,6 +495,7 @@ methods: {
   },
   filtro_Dtc: function () {    
     this.infoDTC  = []
+    this.lista_dtc = []
     let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
     let listaFiltrada = _lista_completa    
     if(this.plazaFiltro != ""){      
@@ -508,8 +524,12 @@ methods: {
       console.log(this.statusFiltro)  
       listaFiltrada = listaFiltrada.filter(item => item.statusId == this.statusFiltro)
     }
-    this.$nextTick().then(() => {      
-        this.infoDTC = listaFiltrada            
+    this.$nextTick().then(() => {            
+        this.infoDTC = listaFiltrada  
+        this.infoDTC.forEach((element, index) => {
+          if(index < 3)
+            this.lista_dtc.push(element) 
+        });        
     })  
   },  
   agregar_autorizacion_gmmep(value){
@@ -588,8 +608,7 @@ methods: {
         this.statusEdit = ''
         this.motivoCambioStatus = ''   
         let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)   
-        //this.limpiar_filtros()    
+        this.$store.dispatch('DTC/buscarListaDTC', info)           
         resolve('ok')                     
       })
       .catch(Ex => {
@@ -599,19 +618,34 @@ methods: {
     })
     setTimeout(() => {
         actualizar_status.then(() => {                       
-         this.limpiar_filtros()
-         this.$notify.success({
-               title: "Ok!",
-               msg: `Se actualizó el estatus.`,
-               position: "bottom right",
-               styles: {
-                 height: 100,
-                 width: 500,
-               },
-         });  
+        this.limpiar_filtros()
+        this.$notify.success({
+              title: "Ok!",
+              msg: `Se actualizó el estatus.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+        });  
        })
        .catch((err) =>  console.log(err))    
      }, 1000); 
+  },
+  scroll_infinito(){
+    window.onscroll = () => {
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
+        if (bottomOfWindow) {
+          // Do something, anything!
+          let index = this.lista_dtc.length
+          for(let i = index; i < index + 3; i++){
+            if(i < this.infoDTC.length)
+              this.lista_dtc.push(this.infoDTC[i])
+            else 
+              break
+          } 
+        }
+    };
   }
 },
 /////////////////////////////////////////////////////////////////////
@@ -626,9 +660,9 @@ computed: {
       if (this.referenciaFiltro != "") return true;
       else return false;
   },
-  lista_dtc(){
-    return this.infoDTC
-  }
+  // lista_dtc(){
+  //   return this.infoDTC
+  // }
 },
 
 
