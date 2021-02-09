@@ -70,7 +70,17 @@
             </button>
           </div>
         </div>
-      </div>      
+      </div>   
+        <!--/////////////////////////////////////////////////////////////////
+        ////                         MODAL CARRUSEL                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+          <div v-if="carruselModal" class="rounded-lg border max-w-3xl mt-10 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 py-10 px-10 shadow-2xl">          
+            <div class="justify-center text-center block">            
+                <Carrusel :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
+            </div>
+          </div>
+        </div>   
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -245,10 +255,11 @@
 import Nav from "../../components/Navbar";
 import moment from "moment";
 import ServicePDfReporte from '../../services/ReportesPDFService'
-//import saveAs from "file-saver";
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import EventBus from "../../services/EventBus.js";
+import Carrusel from "../../components/Carrusel";
 export default {
   data() {
     return {
@@ -271,16 +282,26 @@ export default {
       modalLoading: false,
       modalCambiarStatus: false,
       lista_dtc: [],
-      moreCard: true
+      moreCard: true,
+      carruselModal: false,
+      arrayImagenesCarrusel: []
     };
   },
   components: {
     Nav,
     CardListDTC,
+    Carrusel
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
+created(){
+    EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
+      this.arrayImagenesCarrusel = arrayImagenes
+      this.carruselModal = true
+      console.log(this.arrayImagenesCarrusel)
+    });
+},
 beforeMount: async function () {
   this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
   this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"];  
@@ -532,7 +553,7 @@ methods: {
       listaFiltrada = listaFiltrada.filter(item => item.statusId == this.statusFiltro)
     }
     this.$nextTick().then(() => {
-      this.moreCard = true            
+        this.moreCard = true            
         this.infoDTC = listaFiltrada  
         this.infoDTC.forEach((element, index) => {
           if(index < 3)
@@ -652,8 +673,7 @@ methods: {
                 this.lista_dtc.push(this.infoDTC[i])
               else 
                 this.moreCard = false                
-            }               
-              console.log('hola')
+            }                             
             },1000)        
         }    
     };
