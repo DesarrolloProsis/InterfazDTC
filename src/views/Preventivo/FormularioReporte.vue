@@ -82,9 +82,8 @@ export default {
             this.horaFin = newHora           
         });
     },
-    beforeMount: async function(){
-        console.log(JSON.parse(this.$route.query.header))
-        if(JSON.parse(this.$route.query.header) != '{}'){
+    beforeMount: async function(){        
+        if(!this.$route.query.edicion == true){            
             this.header = this.$route.query.header 
             let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.$route.query.header.plazaNombre)        
             this.referenceNumber = await ServiceReporte.crear_referencia_calendario(
@@ -111,6 +110,39 @@ export default {
             else{
                 console.log(this.$route.query.headerCompuesto)
             }
+        }
+        else{
+            let headerCompuesto = this.$route.query.headerCompuesto
+            this.header = {
+                calendarId: headerCompuesto.calendarId,
+                capufeLaneNum: headerCompuesto.capufeLaneNum,
+                dateStamp: headerCompuesto.dateStamp,
+                day: headerCompuesto.day,
+                frequencyId: headerCompuesto.frequencyId,
+                frequencyName: headerCompuesto.frequencyName,
+                idGare: headerCompuesto.idGare,
+                lane: headerCompuesto.lane,
+                plazaNombre: headerCompuesto.plazaCobro,
+                statusMaintenance: headerCompuesto.statusMaintenance
+            }
+            this.observaciones = headerCompuesto.comentarios
+            this.horaInicio = headerCompuesto.horaInicio
+            this.horaFin = headerCompuesto.horaFin
+            let tablaActividades = this.$route.query.actividades
+            let array_actividades = []
+            tablaActividades.forEach(item => {
+                array_actividades.push({
+                    actividades:item.jobDescription,
+                    componente: item.componentDescription,
+                    equipo: item.activityDescription,
+                    frecuencia: headerCompuesto.frequencyName,
+                    idJob: item.componentsJobId,
+                    jobStatus: item.jobStatusId,
+                    ubicacion: item.name
+                })
+            })
+            this.listaActividades = array_actividades
+            this.referenceNumber = headerCompuesto.referenceNumber
         }
     },
 /////////////////////////////////////////////////////////////////////
