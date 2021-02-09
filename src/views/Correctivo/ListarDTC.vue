@@ -217,7 +217,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full mb-32">
+      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full mb-48">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -229,8 +229,13 @@
               :plazasValidas="plazasValidas"
               :infoCard="dtc"              
             ></CardListDTC>
-          </div>
+          </div>                 
         </div>
+      </div>
+      <div v-if="moreCard" class="relative  mb-64">          
+        <div class="flex absolute inset-x-0 bottom-0 justify-center">            
+            <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
+        </div>          
       </div>
     </div>
   </div>
@@ -265,7 +270,8 @@ export default {
       modalFirma: false,
       modalLoading: false,
       modalCambiarStatus: false,
-      lista_dtc: []
+      lista_dtc: [],
+      moreCard: true
     };
   },
   components: {
@@ -636,15 +642,18 @@ methods: {
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
         if (bottomOfWindow) {
-          // Do something, anything!
-          let index = this.lista_dtc.length
-          for(let i = index; i < index + 3; i++){
-            if(i < this.infoDTC.length)
-              this.lista_dtc.push(this.infoDTC[i])
-            else 
-              break
-          } 
-        }
+          // Do something, anything!     
+          setTimeout(() => {     
+            let index = this.lista_dtc.length
+            for(let i = index; i < index + 3; i++){
+              if(i < this.infoDTC.length)
+                this.lista_dtc.push(this.infoDTC[i])
+              else 
+                this.moreCard = false                
+            }               
+              console.log('hola')
+            },1000)        
+        }    
     };
   }
 },
