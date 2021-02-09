@@ -433,6 +433,7 @@ methods: {
   limpiar_filtros: async function() {     
       let info = this.$store.getters['Login/getUserForDTC']  
       this.modalLoading = true
+      this.moreCard = true     
       this.modal = true
       this.$store.dispatch('DTC/buscarListaDTC', info)            
       this.infoDTC = []    
@@ -530,7 +531,8 @@ methods: {
       console.log(this.statusFiltro)  
       listaFiltrada = listaFiltrada.filter(item => item.statusId == this.statusFiltro)
     }
-    this.$nextTick().then(() => {            
+    this.$nextTick().then(() => {
+      this.moreCard = true            
         this.infoDTC = listaFiltrada  
         this.infoDTC.forEach((element, index) => {
           if(index < 3)
