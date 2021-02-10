@@ -70,7 +70,9 @@
                 :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
                 class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6"
                 name="Diagnostico"
+                v-bind:maxlength="limite"
               />
+              <span class="text-gray-500">{{ restante }}/300</span>
               <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
             </td>
           </div>
@@ -150,14 +152,16 @@
           <div>
             <textarea
               v-model="diagnostico"
-              v-validate="'max:120'"
+              v-validate="'max:300'"
               :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
               placeholder="Dignostico"
               class="appearance-none block bg-grey-lighter container mx-auto text-grey-darkerr border-black rounded-lg mb-0 h-40 placeholder-gray-500 border"
               name="Diagnostico"
+              v-bind:maxlength="limite"
             />
           </div>
           <div class="text-center">
+            <span class="text-gray-500">{{ restante }}/300</span>
             <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
           </div>
         </div>
@@ -240,6 +244,7 @@ export default {
       diagnostico: "",
       modal: false,
       infoRow: {},
+      limite:300
     };
   },
   filters: {
@@ -262,6 +267,9 @@ export default {
     },
   },
   computed: {
+    restante(){
+      return this.diagnostico.length
+    },
     multiplicacion: function () {
       let multi = 0;
       for (let i = 0; i < this.listaEquipo.length; i++) {
