@@ -49,10 +49,7 @@
               <p class="font-bold mb-5 sm:text-sm">Status DTC</p>
               <select v-model="statusFiltro" class="w-full" type="text">
                   <option value="">Selecionar...</option>     
-                  <option value="1">Inconcluso</option>  
-                  <option value="2">Concluido</option>                                                                  
-                  <option value="3">Sellado</option>                                                                                         
-                  <option value="4">GMMEP</option>                      
+                  <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
               </select>                  
             </div>
           </div>
@@ -97,6 +94,7 @@
                   <option value="1">Inconcluso</option>  
                   <option value="2">Concluido</option>                                                                  
                   <option value="3">Sellado</option>                                                                                                                               
+                  <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
               </select> 
               </div>
               <div class="mt-5">
@@ -264,7 +262,8 @@ export default {
       motivoCambioStatus: '',
       modalFirma: false,
       modalLoading: false,
-      modalCambiarStatus: false
+      modalCambiarStatus: false,
+      listaStatus: []
     };
   },
   components: {
@@ -287,6 +286,12 @@ beforeMount: function () {
       }
   }
   this.plazasValidas = listaPlazasValias  
+  let statusLista = this.$store.state.DTC.dtcStatus
+  for(let i of [1,2,3,4]){
+    if(this.infoDTC.some(item => item.statusId == i)){
+        this.listaStatus.push(statusLista.find(status => status.id == i))
+    }
+  }  
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////

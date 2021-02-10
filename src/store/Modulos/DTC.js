@@ -13,7 +13,13 @@ const state = {
   listaInfoDTC: [],
   tableFormComponent: [],
   componetesEdit: {},
-  listaImagenesDTC: []
+  listaImagenesDTC: [],
+  dtcStatus: [
+    { id: 1, nombre: 'Inconcluso'},
+    { id: 2, nombre: 'Concluido'},
+    { id: 3, nombre: 'Sellado'},
+    { id: 4, nombre: 'GMMEP'}
+  ]
 };
 const getters = {
   getListaDTCTecnico: () => state.listaDTCTecnico,
@@ -23,8 +29,8 @@ const getters = {
   gettableFormComp: () => state.tableFormComponent,
   getcomponentesEdit: () => state.componetesEdit,
   getDmgLibre: () => state.listaDmgLibre,
-  getPropuestoLibre: () => state.listaPropuestoLibre,
-  getImagenesDTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference)
+  getPropuestoLibre: () => state.listaPropuestoLibre,  
+  getImagenesDTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference)  
 };
 const mutations = {
   listaDmgLibreClearMutation: (state) => {
