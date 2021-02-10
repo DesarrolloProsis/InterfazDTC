@@ -16,7 +16,7 @@
                 <p class="text-xs">{{ errors.first("Observaciones") }}</p>
             </div>
             <div class="w-1/2 justify-end flex">
-                <button @click="crear_header_reporte" class="mt-32 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32">
+                <button @click="crear_header_reporte" class="mt-32 botonIconCrear h-16 w-32">
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>

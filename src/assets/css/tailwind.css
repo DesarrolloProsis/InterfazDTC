@@ -74,8 +74,7 @@ textarea {
     @apply border; 
     @apply shadow;
 }
-textarea:hover {
-       
+textarea:hover {   
     @apply bg-white;   
     @apply border-gray-300;
     @apply border-gray-700;
@@ -96,20 +95,82 @@ select {
     @apply shadow;   
 }
 select:hover {
-       
     @apply bg-white;   
     @apply border-gray-300;
     @apply border-gray-700;
 }
 select:focus {
-
     @apply border-gray-300; 
     @apply shadow-none;
     @apply bg-white;
 }
+.botonIconLimpiar{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonIconLimpiar:hover{
+    @apply border-red-600 bg-red-500 text-white;
+}
+.botonIconLimpiar:focus{
+    @apply outline-none;
+}
 
+.botonIconBuscar{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
+}
+.botonIconBuscar:hover{
+    @apply border-blue-600 bg-blue-500 text-white;
+}
+.botonIconBuscar:focus{
+    @apply outline-none;
+}
 
+.cabeceraTable{
+    @apply py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800;
+}
 
+.cuerpoTable{
+    @apply border-dashed border-t border-gray-200 px-3;
+}
+
+.botonIconCrear{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
+}
+.botonIconCrear:hover{
+    @apply border-green-500 bg-green-500 text-white;
+}
+.botonIconCrear:focus{
+    @apply outline-none;
+}
+
+.botonIconCancelar{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonIconCancelar:hover{
+    @apply border-red-600 bg-red-500 text-white;
+}
+.botonIconCancelar:focus{
+    @apply outline-none;
+}
+
+.botonIconActualizar{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-yellow-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonIconActualizar:hover{
+    @apply border-orange-500 bg-yellow-400 text-white;
+}
+.botonIconActualizar:focus{
+    @apply outline-none;
+}
+
+.botonIconDescargar{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonIconDescargar:hover{
+    @apply border-red-600 bg-red-300 text-white;
+}
+.botonIconDescargar:focus{
+    @apply outline-none;
+}
 
 @tailwind components;
 

@@ -30,12 +30,12 @@
          ////                    BOTONES DE NAVEGACION                   ////
         ////////////////////////////////////////////////////////////////////-->
             <div class="mt-10 text-center">
-              <button id="Limpiar" @click="limpiar_filtros" class="w-32 bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4">
+              <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
                 <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
                 <span>Limpiar</span>
               </button>
             
-              <button id="Buscar" @click="filtro_Dtc" class="w-32 bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-blue-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+              <button id="Buscar" @click="filtro_Dtc" class="w-32 botonIconBuscar">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
                 <span>Buscar</span>
               </button>
@@ -49,15 +49,15 @@
             ////////////////////////////////////////////////////////////////////-->
             <thead>
                 <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">Referencia</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">Fecha de Elaboracion</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">Fecha de Siniestro</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">Registro en Sistema</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">Folio</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">N° de Reporte</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">N° de Siniestro</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">Fecha de Falla</th>
-                    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800">Acciones</th>
+                    <th class="cabeceraTable">Referencia</th>
+                    <th class="cabeceraTable">Fecha de Elaboracion</th>
+                    <th class="cabeceraTable">Fecha de Siniestro</th>
+                    <th class="cabeceraTable">Registro en Sistema</th>
+                    <th class="cabeceraTable">Folio</th>
+                    <th class="cabeceraTable">N° de Reporte</th>
+                    <th class="cabeceraTable">N° de Siniestro</th>
+                    <th class="cabeceraTable">Fecha de Falla</th>
+                    <th class="cabeceraTable">Acciones</th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -65,21 +65,21 @@
             ////////////////////////////////////////////////////////////////////-->
             <tbody>
                 <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in infoDTC" :key="key">                
-                  <td class="border-dashed border-t border-gray-200 px-3">{{ item.referenceNumber }}</td>
-                  <td class="border-dashed border-t border-gray-200 px-3">{{ item.elaborationDate | formatDate }}</td>
-                  <td class="border-dashed border-t border-gray-200 px-3">{{ item.sinisterDate | formatDate}}</td>
-                  <td class="border-dashed border-t border-gray-200 px-3">{{ item.dateStamp | formatDate}}</td>
-                  <td class="border-dashed border-t border-gray-200 px-3">
+                  <td class="cuerpoTable">{{ item.referenceNumber }}</td>
+                  <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
+                  <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
+                  <td class="cuerpoTable">{{ item.dateStamp | formatDate}}</td>
+                  <td class="cuerpoTable">
                     <input class="text-center border-0 shadow-none" v-model="item.failureNumber" type="text" placeholder="Sin Información" readonly/>
                   </td>
-                  <td class="border-dashed border-t border-gray-200 px-3">
+                  <td class="cuerpoTable">
                     <input class="text-center border-0 shadow-none" v-model="item.reportNumber" type="text" placeholder="Sin Información" readonly/>
                   </td>
-                  <td class="border-dashed border-t border-gray-200 px-3">
+                  <td class="cuerpoTable">
                     <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
                   </td>
-                  <td class="border-dashed border-t border-gray-200 px-3">{{ item.failureDate | formatDate }}</td>
-                  <td class="border-dashed border-t border-gray-200 px-3">
+                  <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
+                  <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
                   <button
                       @click="Mostrar_Mas()"
@@ -101,6 +101,7 @@
 <script>
 import Nav from "../../components/Navbar";
 import moment from "moment";
+import FiltrosDTCServices from "../../services/FiltrosDTCServices"
 
 export default {
   name: "EditarComponente",
@@ -144,80 +145,11 @@ Mostrar_Mas: function (){
         path: "/ConcentradoDetallesDTC"
         });
     },
-filtro_Dtc: function () {  
+filtro_Dtc: async function () {  
       if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
       {
-        this.infoDTC  = []
-        let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
-        let listaFiltrada = _lista_completa  
-        //Si filtra por plaza y fecha
-        if (this.plazaFiltro != "" && this.fechaFiltro != "" && this.referenciaFiltro != "")
-        {
-          listaFiltrada = _lista_completa.filter(dtc => dtc.squareCatalogId == this.plazaFiltro)
-          let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
-          let newArray = [];
-          for (let item of listaFiltrada) {
-            if (moment(item.elaborationDate).format("DD/MM/YYYY") == formatFecha) {
-              newArray.push(item);
-            }
-          }
-          listaFiltrada = newArray
-          newArray = [];
-          for (let item of _lista_completa) {          
-            if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
-              newArray.push(item);
-            }
-          }
-          listaFiltrada = newArray
-        }
-        else if (this.plazaFiltro != "" && this.fechaFiltro != "")
-        {
-          listaFiltrada = _lista_completa.filter(dtc => dtc.squareCatalogId == this.plazaFiltro)
-          let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
-          let newArray = [];
-          for (let item of listaFiltrada) {
-            if (moment(item.elaborationDate).format("DD/MM/YYYY") == formatFecha) {
-              newArray.push(item);
-            }
-          }
-          listaFiltrada = newArray
-        }
-        //Si filtra por  plaza y referencia
-        else if (this.referenciaFiltro != "" && this.plazaFiltro != "") {     
-          listaFiltrada = _lista_completa.filter(dtc => dtc.squareCatalogId == this.plazaFiltro)
-          let newArray = [];
-          for (let item of _lista_completa) {          
-            if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
-              newArray.push(item);
-            }
-          }
-          listaFiltrada = newArray
-        }
-        //Si filtra solo por la plaza
-        else if(this.plazaFiltro != "" && this.referenciaFiltro == "" && this.fechaFiltro == ""){      
-          listaFiltrada = _lista_completa.filter(dtc => dtc.squareCatalogId == this.plazaFiltro)
-        }
-        //Si filtra solo port la fecha
-        else if (this.fechaFiltro != "" && this.plazaFiltro == "" && this.referenciaFiltro == "") {    
-          let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
-          let newArray = [];
-          for (let item of _lista_completa) {
-            if (moment(item.elaborationDate).format("DD/MM/YYYY") == formatFecha) {
-              newArray.push(item);
-            }
-          }
-          listaFiltrada = newArray   
-        }
-        //Si filtra solo por la Referencia
-        else if (this.referenciaFiltro != "") {     
-          let newArray = [];
-          for (let item of _lista_completa) {          
-            if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
-              newArray.push(item);
-            }
-          }
-          listaFiltrada = newArray
-        }
+        let listaFiltrada = await FiltrosDTCServices.filtrarDTC(this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
+        console.log(listaFiltrada)
         this.$nextTick().then(() => {      
             this.infoDTC = listaFiltrada            
         }) 

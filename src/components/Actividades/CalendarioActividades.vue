@@ -39,8 +39,8 @@
           </div>
         </div>
         <div class="justify-end flex mt-5">
-          <button @click="agregar_actividad_dia" class="text-white px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
-          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="text-white px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+          <button @click="agregar_actividad_dia" class="botonIconCrear">Aceptar</button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar">Cancelar</button>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
         </div>
         <div class="justify-end flex mt-5">
           <!-- <button @click="(modal = false, modalActividades = false)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button> -->
-          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar">Cancelar</button>
         </div>
       </div>
     </div>

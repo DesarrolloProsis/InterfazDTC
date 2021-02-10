@@ -3,11 +3,11 @@
     <Nav></Nav>
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 pl-3 pr-3">                
-        <h1 class="text-black text-center text-4xl mt-3 mb-10 sm:mb-1">Inventario</h1>
+        <h1 class="text-black text-center text-4xl mt-3 mb-5 sm:mb-1">Inventario</h1>
         <!--/////////////////////////////////////////////////////////////////
         ////                     BOTONES NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-5 flex justify-between sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
+        <div class="mt-1 mb-1/2 flex justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
           <div class="inline-flex mt-2 sm:text-xs sm:ml-3 m-6">
             <div class="mr-3 sm:mr-1 mt-5">
               <span class="mr-2">Buscar</span>
@@ -52,14 +52,14 @@
           <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" v-if="!(tipoUsuario == 7)">
             <button
               @click="Cancelar"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 mr-3"
+              class="w-32 botonIconLimpiar"
             >
               <img src="../../assets/img/bin.png" class="mr-2 sm:m-0" width="25" height="25"/>
               <span class="text-xs">Cancelar</span>
             </button>
             <button
               @click="actualizar"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
+              class="w-32 botonIconBuscar"
             >
               <img src="../../assets/img/save.png" class="mr-2 sm:mr-0" width="25" height="25" />
               <span class="text-xs">Guardar</span>
@@ -82,20 +82,20 @@
               </div>
             </div>
         </div>  
-        <div class="overflow-x-auto sm:m-2 sm:text-xs">
-          <table class="border-2 border-gray-800 table-fixed">
+        <div class="overflow-x-auto sm:m-2 sm:text-xs rounded-lg shadow">
+          <table class="border-collapse  table-fixed">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead>
               <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                <th class="w-56 border-2 border-gray-800">Componete</th>
-                <th class="w-24 border-2 border-gray-800">Ubicación</th>
-                <th class="w-56 border-2 border-gray-800">Numero Serie</th>
-                <th class="w-40 border-2 border-gray-800">Fecha Instalacion</th>
-                <th class="w-40 border-2 border-gray-800">Fecha Mantenimiento</th>
-                <th class="w-32 border-2 border-gray-800">Folio Mantenimiento</th>
-                <th class="w-32 border-2 border-gray-800">Acciones</th>
+                <th class="cabeceraTable">Componete</th>
+                <th class="cabeceraTable">Ubicación</th>
+                <th class="cabeceraTable">Numero Serie</th>
+                <th class="cabeceraTable">Fecha Instalacion</th>
+                <th class="cabeceraTable">Fecha Mantenimiento</th>
+                <th class="cabeceraTable">Folio Mantenimiento</th>
+                <th class="cabeceraTable">Acciones</th>
               </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -103,21 +103,21 @@
             ////////////////////////////////////////////////////////////////////-->
             <tbody>
               <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in list_Component" :key="key">                
-                <td class="text-center border-2 border-gray-800">{{ item.component }}</td>
-                <td class="text-center border-2 border-gray-800">{{ item.lane }}</td>
-                <td class="text-center border-2 border-gray-800">
+                <td class="cuerpoTable">{{ item.component }}</td>
+                <td class="cuerpoTable">{{ item.lane }}</td>
+                <td class="cuerpoTable">
                   <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
                 </td>
-                <td class="text-center border-2 border-gray-800">
+                <td class="cuerpoTable">
                   <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date"/>
                 </td>
-                <td class="text-center border-2 border-gray-800">
+                <td class="cuerpoTable">
                   <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date"/>
                 </td>
-                <td class="text-center border-2 border-gray-800">
+                <td class="cuerpoTable">
                   <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
                 </td>
-                <td class="text-center border-2 border-gray-800">
+                <td class="cuerpoTable">
                   <button @click="Mostrar_Mas(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700">
                     <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
                     <span class="text-xs sm:hidden">Mas</span>
@@ -133,7 +133,7 @@
         <div class="flex justify-center mt-2 mb-32 sm:mb-5">
           <button
             @click="cambiar_Pagina(item)"
-            class="py-1 px-3 bg-gray-400 m-1 border-black border rounded-lg focus:shadow-outline"
+            class="mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg focus:shadow-outline"
             v-for="(item, key) in array_paginacion"
             :key="key"
           >
