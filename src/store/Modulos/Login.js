@@ -7,7 +7,19 @@ const state = {
   listaPlazas: [],
   userLogeado: [],
   listaTec: [],
-  PLAZAELEGIDA: 0
+  PLAZAELEGIDA: 0,
+  tipoUsuario: [
+    {id: 1, nombre: 'Tecnico'},
+    {id: 2, nombre: 'Supervisor'},
+    {id: 3, nombre: 'Sistemas'},
+    {id: 4, nombre: 'Administracion'},
+    {id: 5, nombre: 'Supervisor Sistemas'},
+    {id: 6, nombre: 'Almacen'},
+    {id: 7, nombre: 'CAPUFE'},
+    {id: 8, nombre: 'Contabilidad'},
+    {id: 9, nombre: 'Documentacion'},
+    {id: 10, nombre: 'Desarrollo'},
+  ]
 };
 const getters = {
   getUserForDTC: () => {
@@ -29,6 +41,14 @@ const getters = {
   getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
   getReferenceSquareActual: () => state.userLogeado[state.PLAZAELEGIDA].referenceSquare,
   getTypeUser: () => state.userLogeado[state.PLAZAELEGIDA].rollId,
+  GET_TIPO_USUARIO: () => {
+    if(state.userLogeado.length > 0){
+      let idRol = state.userLogeado[state.PLAZAELEGIDA].rollId
+      return state.tipoUsuario.find(item => item.id == idRol)
+    }
+    else
+      return ''
+  },
   getListaTec: () => state.listaTec,
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
 };

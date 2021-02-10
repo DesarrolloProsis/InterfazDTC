@@ -151,7 +151,7 @@ export default {
     let index = this.$store.getters['Header/getUSERSELECT']    
     this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']
-    this.disableInputs = this.tipoUsuario == 7 ? true : false
+    this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
     this.crear_array_paginacion("inicio");
     this.plazaSelect = this.listaPlazasUser[index].numPlaza;

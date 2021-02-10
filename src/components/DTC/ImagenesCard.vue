@@ -7,7 +7,7 @@
       <template v-if="cargarImagen">
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">         
           <div class="inline-flex justify-center">
-            <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
+            <input :disabled="(tipoUsuario != 9 || tipoUsuario != 7 || tipoUsuario != 8)" type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
             <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
           </div>
@@ -47,7 +47,7 @@
       <template v-else>
         <div class="flex justify-between">
           <div class="justify-start">
-            <button v-if="tipoUsuario != 2" @click="editar_img" class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700">
+            <button v-if="!(tipoUsuario != 9 || tipoUsuario != 7 || tipoUsuario != 8)" @click="editar_img" class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700">
               Agregar 
               <img src="../../assets/img/image-mini.png" class="w-6 border" alt/>
             </button>

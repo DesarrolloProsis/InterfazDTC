@@ -32,7 +32,6 @@ input:hover {
     @apply border-gray-700;
 }
 input:focus {
-
     @apply border-gray-300; 
     @apply shadow-none;
     @apply bg-white;
