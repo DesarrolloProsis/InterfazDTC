@@ -18,15 +18,15 @@
             <p class="text-lg font-semibold"></p>
           </div>
           <div class="m-5 sm:mr-0">
-            <p class="mb-1">Modelo</p>
+            <p class="mb-1">N° Modelo:</p>
             <p class="text-lg font-semibold"></p>
           </div>
           <div class="m-5 sm:mr-0">
-            <p class="mb-1">Numero de Serie</p>
+            <p class="mb-1">Folio:</p>
             <p class="text-lg font-semibold"></p>
           </div>        
           <div class="m-5 sm:mr-0">
-            <p class="mb-1">Observacion</p>
+            <p class="mb-1">Observaciones:</p>
             <p class="text-lg font-semibold"></p>
           </div>
         </div>

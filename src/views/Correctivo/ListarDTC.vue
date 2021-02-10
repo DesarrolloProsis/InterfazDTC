@@ -599,19 +599,19 @@ methods: {
     })
     setTimeout(() => {
         actualizar_status.then(() => {                       
-         this.limpiar_filtros()
-         this.$notify.success({
-               title: "Ok!",
-               msg: `Se actualizó el estatus.`,
-               position: "bottom right",
-               styles: {
-                 height: 100,
-                 width: 500,
-               },
-         });  
-       })
-       .catch((err) =>  console.log(err))    
-     }, 1000); 
+          this.limpiar_filtros()
+          this.$notify.success({
+                title: "Ok!",
+                msg: `Se actualizó el estatus.`,
+                position: "bottom right",
+                styles: {
+                  height: 100,
+                  width: 500,
+                },
+          });  
+        })
+        .catch((err) =>  console.log(err))    
+    }, 1000); 
   }
 },
 /////////////////////////////////////////////////////////////////////
