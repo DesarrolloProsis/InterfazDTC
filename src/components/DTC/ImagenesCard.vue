@@ -61,7 +61,7 @@
             </button>
           </div>
         </div>
-        <div class="p-1" v-show="!agregarbool">         
+        <div  @click="imagenes_carrusel" class="p-1" v-show="!agregarbool">         
           <lazy-image v-if="cambiarImagenBool" :src="imgbase64.array_img[index_imagen_actual].image" :img-class="['h-66']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"/>          
         </div>
       </template>
@@ -73,6 +73,7 @@ import Axios from "axios";
 import { mapGetters } from 'vuex'
 import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import EventBus from "../../services/EventBus.js";
 export default {
   name: 'ImgenesCard',
   component:{
@@ -153,6 +154,9 @@ export default {
 ////                          METODOS                              ////
 /////////////////////////////////////////////////////////////////////
   methods: {
+    imagenes_carrusel(){      
+      EventBus.$emit("abrir_modal_carrusel", this.imgbase64);
+    },
     recibirImagenes: function (e) {
       this.imagenes_enviar = this.fileUpload =ServiceImagenes.obtener_array_imagenes(e, this.fileUpload)        
       this.cargarImagen = true;      

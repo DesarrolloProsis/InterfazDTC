@@ -68,7 +68,7 @@ const actions = {
         .then((response) => {   
             console.log(response.data.result)  
             let actividades = response.data.result.map(actividad => {
-                actividad["jobStatus"] = 0
+                actividad["jobStatus"] = 1
                 return actividad
             })                                         
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               

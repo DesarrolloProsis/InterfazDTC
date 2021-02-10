@@ -19,7 +19,7 @@ const getters = {
   //Inventario
   GET_CARRILES_STATE: () => state.carriles,
   GET_CARRILES_LANE: (state) => (lanefind) => {
-   return state.full_Component.filter(item => item.lane == lanefind) 
+    return state.full_Component.filter(item => item.lane == lanefind) 
   },
   getlistaRefaccionesInventario: () => state.listaInventario,
   getlistaLaneInventario: () => state.listaLaneInventario,

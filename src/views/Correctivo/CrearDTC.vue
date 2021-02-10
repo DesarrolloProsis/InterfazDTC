@@ -116,7 +116,6 @@
 import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
-//import saveAs from "file-saver";
 import Axios from 'axios'
 import ServiceReporte from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
