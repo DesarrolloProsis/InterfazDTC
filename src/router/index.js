@@ -84,7 +84,12 @@ const routes = [
   {
     path: '/ConcentradoDTC',
     name: 'ConcentradoDTC',
-    component: () => import('../views/Correctivo/ConcentradoDTC')
+    component: () => import('../views/Correctivo/ConcentradoDTC'),
+    beforeEnter: async function (to, from, next) {
+      let info = store.getters['Login/getUserForDTC']      
+      await store.dispatch('DTC/buscarListaDTC', info)
+      next()
+    }
   },
   {
     path: '/ConcentradoDetallesDTC',

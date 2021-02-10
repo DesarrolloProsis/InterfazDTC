@@ -91,7 +91,7 @@
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="crearDTCTecnico(1)"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16"
+              class="botonIconBuscar"
             >
               <img src="../../assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
@@ -100,7 +100,7 @@
           <div class="w-1/2 p-2">
             <button
               @click="crearDTCTecnico(2)"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32"
+              class="botonIconCrear"
             >
               <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>

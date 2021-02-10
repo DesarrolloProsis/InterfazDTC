@@ -3,79 +3,208 @@
     <Nav></Nav>
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3">                
-            <h1 class="text-black text-center text-4xl mt-3 mb-10 sm:mb-1">Concentrado DTC</h1>
+            <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1">Concentrado DTC</h1>
         <!--/////////////////////////////////////////////////////////////////
-        ////                     BOTONES NAVEGACION                      ////
+         ////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-5 flex justify-between sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
-            <div class="inline-flex mt-2 sm:text-xs sm:ml-3 m-6">
-
+        <div class="mt-1 mb-5 flex justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
+            <div class="inline-flex mt-2 sm:text-xs sm:ml-3">
+              <div class="m-3">
+                <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
+                  <select v-model="plazaFiltro" class="w-full mb-3" type="text">
+                    <option disabled value="">Selecionar...</option>     
+                    <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
+                  </select>
+              </div>
+              <div class="m-3">
+                <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
+                <input v-model="fechaFiltro" class="border w-40" type="date"/>
+                <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
+              </div>
+              <div class="m-3">
+                <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
+                <input v-model="referenciaFiltro" class="border w-40" placeholder="PM-000000"/>
+              </div>   
             </div>
-          <!-- <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
-            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 mr-3"       >
-              <span class="text-xs">Cancelar</span>
-            </button>
-            <button>
-              <span class="text-xs">Guardar</span>
-            </button>
-            <span class="ml-5 text-gray-800"></span>
-          </div> -->
+        <!--/////////////////////////////////////////////////////////////////
+         ////                    BOTONES DE NAVEGACION                   ////
+        ////////////////////////////////////////////////////////////////////-->
+            <div class="mt-10 text-center">
+              <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
+                <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
+                <span>Limpiar</span>
+              </button>
+            
+              <button id="Buscar" @click="filtro_Dtc" class="w-32 botonIconBuscar">
+                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
+                <span>Buscar</span>
+              </button>
+          </div>
         </div>
 
-        <div class="overflow-x-auto sm:m-2 sm:text-xs">
-            <table class="border-2 border-gray-800 table-fixed">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" style="height:550px;">
+            <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead>
                 <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                    <th class="w-56 border-2 border-gray-800">Referencia</th>
-                    <th class="w-56 border-2 border-gray-800">Fecha de SIniestro</th>
-                    <th class="w-56 border-2 border-gray-800">Registro en Sistema</th>
-                    <th class="w-32 border-2 border-gray-800">Acciones</th>
+                    <th class="cabeceraTable">Referencia</th>
+                    <th class="cabeceraTable">Fecha de Elaboracion</th>
+                    <th class="cabeceraTable">Fecha de Siniestro</th>
+                    <th class="cabeceraTable">Registro en Sistema</th>
+                    <th class="cabeceraTable">Folio</th>
+                    <th class="cabeceraTable">N° de Reporte</th>
+                    <th class="cabeceraTable">N° de Siniestro</th>
+                    <th class="cabeceraTable">Fecha de Falla</th>
+                    <th class="cabeceraTable">Acciones</th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
             <tbody>
-                <tr class="h-12 text-gray-900 text-sm">                
-                <td class="text-center border-2 border-gray-800"></td>
-                <td class="text-center border-2 border-gray-800"></td>
-                <td class="text-center border-2 border-gray-800"></td>
-                <td class="text-center border-2 border-gray-800">
-                <button
-                    @click="Mostrar_Mas()"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700">
-                    <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
-                    <span class="text-xs sm:hidden">Más</span>
-                </button>
-                </td>
+                <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in infoDTC" :key="key">                
+                  <td class="cuerpoTable">{{ item.referenceNumber }}</td>
+                  <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
+                  <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
+                  <td class="cuerpoTable">{{ item.dateStamp | formatDate}}</td>
+                  <td class="cuerpoTable">
+                    <input class="text-center border-0 shadow-none" v-model="item.failureNumber" type="text" placeholder="Sin Información" readonly/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="text-center border-0 shadow-none" v-model="item.reportNumber" type="text" placeholder="Sin Información" readonly/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
+                  </td>
+                  <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
+                  <td class="cuerpoTable">
+                  <!-- <input type="checkbox"> -->
+                  <button
+                      @click="Mostrar_Mas()"
+                      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700">
+                      <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <span class="text-xs sm:hidden">Más</span>
+                  </button>
+                  </td>
                 </tr>
             </tbody>
         </table>
-        </div>              
+        </div> 
         </div>
-    </div>  
+        
+    </div>
     </div>
 </template>
 
 <script>
 import Nav from "../../components/Navbar";
+import moment from "moment";
+import FiltrosDTCServices from "../../services/FiltrosDTCServices"
 
 export default {
   name: "EditarComponente",
   components: {
     Nav,
   },
-  methods:{
-    Mostrar_Mas: function (){
+/////////////////////////////////////////////////////////////////////
+////                      DATA                                    ////
+/////////////////////////////////////////////////////////////////////
+data: function (){
+    return {
+      plazaFiltro: '',
+      infoDTC:[],
+      fechaFiltro: '',
+      referenciaFiltro: '',
+    }
+  },
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                        ////
+/////////////////////////////////////////////////////////////////////
+beforeMount: function () {
+  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"];
+  this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
+  let listaPlazasValias = []
+  let todasPlazas = this.$store.getters['Login/getListaPlazas']  
+  for(let plaza of todasPlazas){      
+      if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
+        plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
+        listaPlazasValias.push(plaza)        
+      }
+  }
+  this.plazasValidas = listaPlazasValias   
+},
+/////////////////////////////////////////////////////////////////////
+////                           METODOS                           ////
+/////////////////////////////////////////////////////////////////////
+methods:{
+Mostrar_Mas: function (){
         console.log("Mostar Más")
         this.$router.push({
         path: "/ConcentradoDetallesDTC"
         });
+    },
+filtro_Dtc: async function () {  
+      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
+      {
+        let listaFiltrada = await FiltrosDTCServices.filtrarDTC(this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
+        console.log(listaFiltrada)
+        this.$nextTick().then(() => {      
+            this.infoDTC = listaFiltrada            
+        }) 
+      }
+      //Si no ingresa ningún filtro 
+      else
+      {
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      }
+  
+  },
+limpiar_filtros: function() {     
+    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
+    {
+        //let info = this.$store.getters["DTC/getlistaInfoDTC"];
+        this.modalLoading = true 
+        //this.$store.dispatch('DTC/buscarListaDTC', info)                      
+        this.$nextTick().then(() => {             
+        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
+        this.fechaFiltro = "";
+        this.referenciaFiltro = "";            
+        this.plazaFiltro = ""; 
+      }) 
     }
-}
+    else{
+      this.$notify.warning({
+          title: "Ups!",
+          msg: `NO SE HA LLENADO NINGUN CAMPO.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+    }      
+  }
+},
+
+/////////////////////////////////////////////////////////////////////
+////                           FILTROS                           ////
+/////////////////////////////////////////////////////////////////////
+  filters: {
+    formatDate: function (value) {
+      return moment(value.substring(0, 10)).format("DD/MM/YYYY");
+    },
+  }, 
+
 };
 
 </script>

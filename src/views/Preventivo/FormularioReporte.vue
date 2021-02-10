@@ -26,6 +26,7 @@
                 <p class="text-xs">{{ errors.first("Observaciones") }}</p>
                 <span class="text-xs text-gray-500">{{ restante }}/300</span>
             </div>
+<<<<<<< HEAD
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
@@ -37,6 +38,10 @@
         ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/4 justify-end flex">
                 <button @click="crear_header_reporte" class="mt-32 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32">
+=======
+            <div class="w-1/2 justify-end flex">
+                <button @click="crear_header_reporte" class="mt-32 botonIconCrear h-16 w-32">
+>>>>>>> rama-carlos
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>

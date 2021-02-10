@@ -60,11 +60,11 @@
               ////                  BOTONES FILTROS                        ////
               /////////////////////////////////////////////////////////////////-->
           <div class="m-3 text-center">
-            <button @click.prevent="limpiar_filtros" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1">
+            <button @click.prevent="limpiar_filtros" class="botonIconLimpiar">
               <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
               <span>Limpiar</span>
             </button>
-            <button @click.prevent="filtro_Dtc" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700 m-1">
+            <button @click.prevent="filtro_Dtc" class="botonIconBuscar">
               <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
               <span>Buscar</span>
             </button>
