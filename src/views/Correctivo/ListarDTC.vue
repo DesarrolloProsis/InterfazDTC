@@ -75,9 +75,9 @@
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="carruselModal" class="rounded-lg border max-w-3xl mt-10 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 py-10 px-10 shadow-2xl">          
+          <div v-if="carruselModal" class="rounded-lg border max-w-3xl justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 py-10 px-10 shadow-2xl">          
             <div class="justify-center text-center block">            
-                <Carrusel :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
+                <Carrusel @cerrar-modal-carrusel="carruselModal = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
         </div>   
@@ -669,7 +669,7 @@ methods: {
           setTimeout(() => {     
             let index = this.lista_dtc.length
             for(let i = index; i < index + 3; i++){
-              if(i < this.infoDTC.length)
+              if(i <= this.infoDTC.length)
                 this.lista_dtc.push(this.infoDTC[i])
               else 
                 this.moreCard = false                
