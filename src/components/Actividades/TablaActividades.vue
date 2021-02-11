@@ -107,17 +107,17 @@
                                 <td v-else class="w-64 text-center cuerpoTable" :class="{'bg-green-200': true}">{{ 'Inconcluso' }}</td>
                                 <td class="w-64 text-center cuerpoTable">
                                     <div v-if="item.statusMaintenance == 'False'">                               
-                                        <button @click="vista_reporte_carril(item)" class="botonIconCrear">
+                                        <button @click="crear_reporte_carril(item)" class="botonIconCrear">
                                             <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Crear</span>
                                         </button>
                                     </div>
                                     <div v-else>
-                                        <button @click="vista_reporte_carril(item)" class="botonIconDescargar">
+                                        <button @click="reporte_pdf(item)" class="botonIconDescargar">
                                             <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Descargar</span>
                                         </button>
-                                        <button @click="vista_reporte_carril(item)" class="botonIconActualizar">
+                                        <button @click="editar_reporte_carril(item)" class="botonIconActualizar">
                                             <img src="../../assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Actualizar</span>
                                         </button>                                   
