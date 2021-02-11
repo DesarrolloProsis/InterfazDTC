@@ -40,6 +40,7 @@ const getters = {
   getListaPlazas: () => state.listaPlazas,
   getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
   getReferenceSquareActual: () => state.userLogeado[state.PLAZAELEGIDA].referenceSquare,
+  getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.userLogeado.find(item => item.squareName ==  nombrePlaza),
   getTypeUser: () => state.userLogeado[state.PLAZAELEGIDA].rollId,
   GET_TIPO_USUARIO: () => {
     if(state.userLogeado.length > 0){

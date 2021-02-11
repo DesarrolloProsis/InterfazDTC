@@ -24,7 +24,7 @@ module.exports = {
         '73': '34rem',
         '80': '95rem',
         
-      }
+      }      
     }
   },
   variants: {

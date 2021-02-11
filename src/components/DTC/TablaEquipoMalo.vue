@@ -636,8 +636,7 @@ beforeMount: async function () {
             item.mainRelationship,
             true,
             cantidad            
-          );
-                   
+          );                   
           new_partida["row1"] = this.arrayPartidas.length + 1;
           new_partida["row3"] = {
             description: item.name,
@@ -683,12 +682,6 @@ methods: {
           comp = componente
         }
       }      
-      // let comp_rep = this.arrayPartidas.some((item) => {
-      //   return (
-      //     item["row3"].description == value.description &&
-      //     item["row3"].componentsRelationship == value.componentsRelationship
-      //   );
-      // });
       if(JSON.stringify(comp) == '{}')
         componenteValido = true
       else{

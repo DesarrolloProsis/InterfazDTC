@@ -42,7 +42,7 @@
         <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
           <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
-              <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibirImagenes"/>
+              <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado"/>
               <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border" alt/>
               <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
             </div>
@@ -116,7 +116,7 @@
           <div class=" inline-flex">
             <a @click="menos" class="text-gray-700 md:mr-4 mt-3 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
-                <button @click.prevent="editar" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
+                <button @click.prevent="editar_dtc" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
                   <span class="text-xs">Editar</span>
                 </button>
@@ -127,13 +127,13 @@
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                   <span>Firmado</span>                
                 </button>   
-                <button v-if="infoCard.statusId > 2" @click.prevent="pdf(3)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
+                <button v-if="infoCard.statusId > 2" @click.prevent="generar_pdf(3)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
                   <span>Sellado</span>
                 </button>  
               </div> 
               <div v-else>
-                <button  @click.prevent="pdf(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
+                <button  @click.prevent="generar_pdf(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
                   <span>Sin Firma</span>
                 </button>  
@@ -211,7 +211,7 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
-    editar: async function () {
+    editar_dtc: async function () {
       let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
       await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);     
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
@@ -255,31 +255,27 @@ export default {
         },
       });
     },
-    editar_header(){
-      // window.scroll(0, 0);
-      this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
-        { 
+    editar_header: async function(){      
+      await this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', { 
           numSiniestro: this.infoCard.sinisterNumber,  
           numReporte: this.infoCard.reportNumber 
         }
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
-    pdf(status) {
+    generar_pdf(status) {
       ServiceReporte.generar_pdf_correctivo(
         this.infoCard.referenceNumber, 
         status,
         false
       )
     },
-    borrar() {
-      // window.scroll(0, 0);
+    borrar_dtc() {      
       this.$emit("borrar-card", this.infoCard.referenceNumber);
       this.menosMas = true;      
-      this.showmenosMas = false;
-      
+      this.showmenosMas = false;      
     },
-    recibirImagenes(e) {                  
+    recibir_pdf_sellado(e) {                  
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       else {
@@ -342,7 +338,7 @@ export default {
     },
     status_dtc_sellado(){                      
       let formData = new FormData();
-      let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name, true)
+      let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
       formData.append("file", file);
       console.log(file)
       let obj = {

@@ -22,7 +22,11 @@ const state = {
   ]
 };
 const getters = {
-  getListaDTCTecnico: () => state.listaDTCTecnico,
+  getListaDTCTecnico: () => {
+    console.log('hoa')
+    console.log(state.listaDTC)
+    state.listaDTCTecnico
+  },
   getListaDescriptions: () => state.listaDescriptions,
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => state.listaInfoDTC,

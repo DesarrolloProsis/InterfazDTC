@@ -311,7 +311,7 @@ beforeMount: async function () {
   let f = new Date()
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
   this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");
-  this.plazaSelect = this.listaPlazasUser[this.plazaSelect = this.$store.state.Login.PLAZAELEGIDA].numPlaza;
+  this.plazaSelect = this.listaPlazasUser[this.plazaSelect = await this.$store.state.Login.PLAZAELEGIDA].numPlaza;
   let value = await this.$store.getters["Header/getConvenioPlaza"];
   await this.$store.dispatch("Refacciones/buscarComponentes", value);
   this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];

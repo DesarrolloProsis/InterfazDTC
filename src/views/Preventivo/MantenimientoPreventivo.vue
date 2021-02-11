@@ -25,8 +25,7 @@ export default {
 
         }
     },
-    beforeMount(){
-        console.log(this.$route.params.tipoUsuario)
+    beforeMount(){        
     }
 }
 </script>

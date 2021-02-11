@@ -13,9 +13,14 @@ const state = {
   infoComponenteInventario: [],
   listaUbicacionGeneralInventario: [],
   full_Component: [],
+  carriles: []
 };
 const getters = {
   //Inventario
+  GET_CARRILES_STATE: () => state.carriles,
+  GET_CARRILES_LANE: (state) => (lanefind) => {
+    return state.full_Component.filter(item => item.lane == lanefind) 
+  },
   getlistaRefaccionesInventario: () => state.listaInventario,
   getlistaLaneInventario: () => state.listaLaneInventario,
   getinfoComponenteInventario: () => state.infoComponenteInventario,
@@ -65,7 +70,8 @@ const mutations = {
     state.listaRefacciones = []
     state.listaRefaccionesValid = []
     state.listaUbicacionGeneralInventario = []
-  },  
+  }, 
+  CARRILES_MUTATION: (state, value) => state.carriles = value
 }
 const actions = {
   async buscarComponentesInventario({ commit, rootGetters }, value) {
@@ -170,7 +176,18 @@ const actions = {
       .catch(Ex => {        
         console.log(Ex);
       })
-  }
+  },
+  async GET_CARRILES({ commit }, plaza) {          
+    Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
+      .then(response => {                      
+          if(response.status === 200){            
+              commit("CARRILES_MUTATION", response.data.result);                         
+          }                    
+      })
+      .catch((ex) => {          
+          console.log(ex)
+      });  
+    }
 };
 export default {
   namespaced: true,

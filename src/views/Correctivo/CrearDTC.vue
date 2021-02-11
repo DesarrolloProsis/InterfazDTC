@@ -92,9 +92,8 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button
-              @click="crearDTCTecnico(1)"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16"
+            <button @click="crearDTCTecnico(1)"
+              class="botonIconBuscar"
             >
               <img src="../../assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
@@ -103,7 +102,7 @@
           <div class="w-1/2 p-2">
             <button
               @click="crearDTCTecnico(2)"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32"
+              class="botonIconCrear"
             >
               <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
@@ -119,7 +118,6 @@
 import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
-//import saveAs from "file-saver";
 import Axios from 'axios'
 import ServiceReporte from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -156,13 +154,13 @@ created(){
         this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
     });
 },
-beforeMount() {    
-    this.datosUser = this.$store.getters["Header/getHeaders"];
-    this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
-    this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
+beforeMount: async function() {    
+    this.datosUser =  this.$store.getters["Header/getHeaders"];
+    this.descripcionHeaders =  this.$store.getters["DTC/getListaDescriptions"];
+    this.listaPlazasUser =  this.$store.getters["Login/getListaPlazasUser"]
     this.flagCreate = true;
-    if (JSON.stringify(this.$route.query) != "{}") {             
-      this.headerEdit = this.$route.query.headerInfo;
+    if (JSON.stringify(this.$route.query) != "{}") {                
+      this.headerEdit = this.$route.query.headerInfo;                 
       this.observaciones = this.headerEdit.observation;
       this.$store.commit("Header/referenceNumMutation",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
