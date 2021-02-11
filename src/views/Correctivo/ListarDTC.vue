@@ -57,17 +57,27 @@
               ////                  BOTONES FILTROS                        ////
               /////////////////////////////////////////////////////////////////-->
           <div class="m-3 text-center">
-            <button @click.prevent="limpiar_filtros" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-red-700 m-1">
+            <button @click.prevent="limpiar_filtros" class="botonIconLimpiar">
               <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
               <span>Limpiar</span>
             </button>
-            <button @click.prevent="filtro_Dtc" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-10 rounded inline-flex items-center border border-blue-700 m-1">
+            <button @click.prevent="filtro_Dtc" class="botonIconBuscar">
               <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
               <span>Buscar</span>
             </button>
           </div>
         </div>
-      </div>      
+      </div>   
+        <!--/////////////////////////////////////////////////////////////////
+        ////                         MODAL CARRUSEL                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+          <div v-if="carruselModal" class="rounded-lg border max-w-3xl justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 py-10 px-10 shadow-2xl">          
+            <div class="justify-center text-center block">            
+                <Carrusel @cerrar-modal-carrusel="carruselModal = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
+            </div>
+          </div>
+        </div>   
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -215,7 +225,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full">
+      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full mb-48">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -227,8 +237,13 @@
               :plazasValidas="plazasValidas"
               :infoCard="dtc"              
             ></CardListDTC>
-          </div>
+          </div>                 
         </div>
+      </div>
+      <div v-if="moreCard" class="relative  mb-64">          
+        <div class="flex absolute inset-x-0 bottom-0 justify-center">            
+            <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
+        </div>          
       </div>
     </div>
   </div>
@@ -238,10 +253,11 @@
 import Nav from "../../components/Navbar";
 import moment from "moment";
 import ServicePDfReporte from '../../services/ReportesPDFService'
-//import saveAs from "file-saver";
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import EventBus from "../../services/EventBus.js";
+import Carrusel from "../../components/Carrusel";
 export default {
   data() {
     return {
@@ -263,22 +279,34 @@ export default {
       modalFirma: false,
       modalLoading: false,
       modalCambiarStatus: false,
+      lista_dtc: [],
+      moreCard: true,
+      carruselModal: false,
+      arrayImagenesCarrusel: [],
       listaStatus: []
     };
   },
   components: {
     Nav,
     CardListDTC,
+    Carrusel
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: function () {
-  this.descripciones = this.$store.getters["DTC/getListaDescriptions"];
-  this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
-  this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
+created(){
+    EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
+      this.arrayImagenesCarrusel = arrayImagenes
+      this.carruselModal = true
+      console.log(this.arrayImagenesCarrusel)
+    });
+},
+beforeMount: async function () {
+  this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
+  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"];  
+  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
-  let todasPlazas = this.$store.getters['Login/getListaPlazas']  
+  let todasPlazas = await  this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
@@ -291,7 +319,12 @@ beforeMount: function () {
     if(this.infoDTC.some(item => item.statusId == i)){
         this.listaStatus.push(statusLista.find(status => status.id == i))
     }
-  }  
+  }     
+  this.infoDTC.forEach((element, index) => {
+      if(index < 3)
+        this.lista_dtc.push(element) 
+  });
+  this.scroll_infinito()
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -302,6 +335,7 @@ methods: {
       let obj = { "refNum": this.refNum, "userId": userId.idUser }    
       if (value) {
         this.infoDTC = []        
+        this.lista_dtc = []
         this.modalEliminar = false;   
         this.modal = false     
         await this.$store.dispatch("DTC/BORRAR_DTC",obj);                                                                                
@@ -320,6 +354,10 @@ methods: {
       await this.$store.dispatch("Header/buscarListaUnique");
       await this.$store.dispatch('DTC/buscarListaDTC', userId)            
       this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"] 
+      this.infoDTC.forEach((element, index) => {
+        if(index < 3)
+          this.lista_dtc.push(element) 
+      });
       this.refNum = "";
       
   },
@@ -364,10 +402,11 @@ methods: {
           }   
           let values = Object.values(objEdit)          
           for(let item of values){
-            if(item == null){
+            if(item === null){
               item = ''
             }
-          }                        
+          }           
+          console.log(objEdit)                       
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
             .then(() =>{                                                             
@@ -382,7 +421,6 @@ methods: {
               this.$notify.error({
               title: "ups!",
               msg: console.log(ex),
-
               position: "bottom right",
               styles: {
                 height: 100,
@@ -420,16 +458,21 @@ methods: {
   limpiar_filtros: async function() {     
       let info = this.$store.getters['Login/getUserForDTC']  
       this.modalLoading = true
+      this.moreCard = true     
       this.modal = true
       this.$store.dispatch('DTC/buscarListaDTC', info)            
-      this.infoDTC = []          
+      this.infoDTC = []    
+      this.lista_dtc = []      
       await this.$nextTick().then(() => {             
         this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
         this.fechaFiltro = "";
         this.referenciaFiltro = "";            
         this.plazaFiltro = ""
         this.statusFiltro = ""   
-        
+        this.infoDTC.forEach((element, index) => {
+          if(index < 3)
+            this.lista_dtc.push(element) 
+        });        
         setTimeout(() => {
           this.modalLoading = false
           this.modal = false
@@ -484,6 +527,7 @@ methods: {
   },
   filtro_Dtc: function () {    
     this.infoDTC  = []
+    this.lista_dtc = []
     let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
     let listaFiltrada = _lista_completa    
     if(this.plazaFiltro != ""){      
@@ -512,8 +556,13 @@ methods: {
       console.log(this.statusFiltro)  
       listaFiltrada = listaFiltrada.filter(item => item.statusId == this.statusFiltro)
     }
-    this.$nextTick().then(() => {      
-        this.infoDTC = listaFiltrada            
+    this.$nextTick().then(() => {
+        this.moreCard = true            
+        this.infoDTC = listaFiltrada  
+        this.infoDTC.forEach((element, index) => {
+          if(index < 3)
+            this.lista_dtc.push(element) 
+        });        
     })  
   },  
   agregar_autorizacion_gmmep(value){
@@ -592,8 +641,7 @@ methods: {
         this.statusEdit = ''
         this.motivoCambioStatus = ''   
         let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)   
-        //this.limpiar_filtros()    
+        this.$store.dispatch('DTC/buscarListaDTC', info)           
         resolve('ok')                     
       })
       .catch(Ex => {
@@ -603,19 +651,36 @@ methods: {
     })
     setTimeout(() => {
         actualizar_status.then(() => {                       
-         this.limpiar_filtros()
-         this.$notify.success({
-               title: "Ok!",
-               msg: `Se actualizó el estatus.`,
-               position: "bottom right",
-               styles: {
-                 height: 100,
-                 width: 500,
-               },
-         });  
+        this.limpiar_filtros()
+        this.$notify.success({
+              title: "Ok!",
+              msg: `Se actualizó el estatus.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+        });  
        })
        .catch((err) =>  console.log(err))    
      }, 1000); 
+  },
+  scroll_infinito(){
+    window.onscroll = () => {
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
+        if (bottomOfWindow) {
+          // Do something, anything!     
+          setTimeout(() => {     
+            let index = this.lista_dtc.length
+            for(let i = index; i < index + 3; i++){
+              if(i <= this.infoDTC.length)
+                this.lista_dtc.push(this.infoDTC[i])
+              else 
+                this.moreCard = false                
+            }                             
+            },1000)        
+        }    
+    };
   }
 },
 /////////////////////////////////////////////////////////////////////
@@ -630,9 +695,9 @@ computed: {
       if (this.referenciaFiltro != "") return true;
       else return false;
   },
-  lista_dtc(){
-    return this.infoDTC
-  }
+  // lista_dtc(){
+  //   return this.infoDTC
+  // }
 },
 
 

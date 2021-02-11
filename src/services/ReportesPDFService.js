@@ -1,6 +1,7 @@
 
 import saveAs from "file-saver";
 import store from '../store/index'
+import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -37,8 +38,22 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     });    
     saveAs(file, namePdf);
     };
-    oReq.send();
-    console.log(oReq)        
+    oReq.send();         
+}
+function generar_pdf_calendario(referenceSquare, fecha){
+    let user = store.getters['Login/getUserForDTC']
+    var oReq = new XMLHttpRequest(); 
+    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;      
+    let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
+    oReq.open("GET", urlTopdf, true);    
+    oReq.responseType = "blob";         
+    oReq.onload = function () {         
+    var file = new Blob([oReq.response], {
+        type: "application/pdf",
+    });    
+    saveAs(file, namePdf);
+    };
+    oReq.send();         
 }
 async function crear_referencia(sinisterDate, referenceSquare) {
     sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
@@ -55,19 +70,71 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     }
     let nomPlaza = referenceSquare;
     let autoCompleteDias;
-    if(diaCorriente < 10)
-        autoCompleteDias = "00" +  diaCorriente.toString();
-    else if (diaCorriente < 100)
-        autoCompleteDias = "0" + diaCorriente.toString();
-    else 
-        autoCompleteDias = diaCorriente.toString();
+    if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+    else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+    else autoCompleteDias = diaCorriente.toString();
     let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
     await store.commit("Header/referenceNumMutation", ReferenceNumber);
-    await store.dispatch("Header/buscarReferencia", ReferenceNumber);
-    
+    await store.dispatch("Header/buscarReferencia", ReferenceNumber);    
     return await store.getters["Header/getreferenceNum"];        
+}
+async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){   
+    fechaActividad = moment(fechaActividad,"DD-MM-YYYY").format("YYYY-MM-DD").split('-')
+    let tiporeferencia = tipoReferencia != 'Semanal' 
+        ? tipoReferencia.slice(0,2)
+        : tipoReferencia.slice(0,1)
+    let referenciaNueva = 
+        numeroReferencia + '-' + 'MP' + 
+        tiporeferencia + 
+        fechaActividad[2] + '-' + 
+        carril.slice(0,3)
+    return referenciaNueva.toUpperCase()
+}
+const TIPOSENCABEZADOREPORTECARRIL = [
+    { frecuencia: 1, encabezado:  6 },
+    { frecuencia: 2, encabezado:  7 },
+    { frecuencia: 3, encabezado:  8 },
+    { frecuencia: 4, encabezado:  9 },
+    { frecuencia: 5, encabezado:  10 },    
+]
+function frecuencia_id_to_encabezado_id(fecuenciaId){
+    return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId)).encabezado
+}
+function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado)}/${referenceNumber}`       
+    let namePdf = referenceNumber + ' ' + 'Preventivo' 
+    var oReq = new XMLHttpRequest();  
+    oReq.open("GET", urlTopdf, true);    
+    oReq.responseType = "blob";         
+    oReq.onload = function () {         
+    var file = new Blob([oReq.response], {
+        type: "application/pdf",
+    });    
+    saveAs(file, namePdf);
+    };
+    oReq.send();  
+}
+function generar_pdf_fotografico_preventivo(referenceNumber, lane){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
+    let namePdf = referenceNumber + ' ' + 'Preventivo' 
+    var oReq = new XMLHttpRequest();  
+    oReq.open("GET", urlTopdf, true);    
+    oReq.responseType = "blob";         
+    oReq.onload = function () {         
+    var file = new Blob([oReq.response], {
+        type: "application/pdf",
+    });    
+    saveAs(file, namePdf);
+    };
+    oReq.send();  
 }
 export default {
     generar_pdf_correctivo,
-    crear_referencia
+    crear_referencia,
+    crear_referencia_calendario,
+    generar_pdf_calendario,
+    generar_pdf_actividades_preventivo,
+    generar_pdf_fotografico_preventivo    
 }

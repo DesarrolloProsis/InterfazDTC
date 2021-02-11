@@ -20,6 +20,19 @@ const getters = {
             actividad["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
             return { ...actividad }
         })  
+    },
+    GET_ACTIVIDADES_MENSUALES_CALENDARIO: (state) => (obj) => {
+        return state.actividadesMensuales.map(actividad => {
+            let newEvent = {}
+            newEvent["day"] = `${actividad.day}/${obj.month}/${obj.year}` 
+            newEvent["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
+            return { ...newEvent }
+        })  
+    },  
+    GET_ACTIVIDADES_CARRIL: (state) => {
+        return state.listaActividadesCheck.map(item => {
+            return { ...item }
+        })        
     }      
 }
 const mutations = {
@@ -50,10 +63,12 @@ const actions = {
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/getTypeUser']        
+        console.log(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`)
         await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`,value)
-        .then((response) => {     
+        .then((response) => {   
+            console.log(response.data.result)  
             let actividades = response.data.result.map(actividad => {
-                actividad["jobStatus"] = 0
+                actividad["jobStatus"] = 1
                 return actividad
             })                                         
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               

@@ -58,7 +58,7 @@
                                 ////                           BOTON  BUSCAR                      ////
                                 ////////////////////////////////////////////////////////////////////-->
                                 <div class=" sm:justify-center sm:flex">
-                                    <button @click="filtrar_actividades_mensuales" class="bg-gray-300 hover:bg-gray-400 xl:w-58 text-gray-800 font-bold py-2 px-5 ml-5 mt-2 rounded inline-flex items-center border border-blue-700">
+                                    <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                         <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                         <span class="text-xs">Buscar Actividades</span>
                                     </button>
@@ -76,22 +76,22 @@
                 </div>            
             </div>
             <div>
-                <div class="overflow-x-auto sm:m-2 sm:text-xs justify-center flex">
+                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                           TABLA                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                    <table class="border-2 border-gray-800">
+                    <table class="border-collapse bg-white table-striped relative">
                         <!--/////////////////////////////////////////////////////////////////
                         ////                           HEADER TABLA                      ////
                         ////////////////////////////////////////////////////////////////////-->
                         <thead>
-                            <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800">                
-                                <th class="w-64 border-2 border-gray-800">Carril</th>
-                                <th class="w-64 border-2 border-gray-800">Numero Capufe</th>                                
-                                <th class="w-64 border-2 border-gray-800">Fecha de Actividad</th>
-                                <th class="w-64 border-2 border-gray-800">Tipo de Actividad</th>
-                                <th class="w-64 border-2 border-gray-800">Status</th>   
-                                <th class="w-64 border-2 border-gray-800">Acciones</th>                
+                            <tr class="text-md text-gray-400 font-normal bg-blue-800">                
+                                <th class="w-64 cabeceraTable">Carril</th>
+                                <th class="w-64 cabeceraTable">Numero Capufe</th>                                
+                                <th class="w-64 cabeceraTable">Fecha de Actividad</th>
+                                <th class="w-64 cabeceraTable">Tipo de Actividad</th>
+                                <th class="w-64 cabeceraTable">Status</th>   
+                                <th class="w-64 cabeceraTable">Acciones</th>                
                             </tr>
                         </thead>
                     <!--/////////////////////////////////////////////////////////////////
@@ -99,25 +99,28 @@
                         /////////////////////////////////////////////////////////////////-->
                         <tbody>
                             <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
-                                <td class="w-64 text-center border-2 border-gray-800">{{ item.lane }}</td>
-                                <td class="w-64 text-center border-2 border-gray-800">{{ item.capufeLaneNum }}</td>                                
-                                <td class="w-64 text-center border-2 border-gray-800">{{ item.day }}</td>
-                                <td class="w-64 text-center border-2 border-gray-800">{{ item.frequencyName }}</td>
-                                <td class="w-64 text-center border-2 border-gray-800" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
-                                <td class="w-64 text-center border-2 border-gray-800">
-                                    <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-red-700">
-                                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                        <span class="text-xs sm:hidden">Descargar</span>
-                                    </button>
-                                    <div>
-                                        <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-yellow-700">
-                                            <img src="../../assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span class="text-xs sm:hidden">Actualizar</span>
-                                        </button>
-                                        <button @click="vista_reporte_carril(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border border-blue-700">
+                                <td class="w-64 cuerpoTable text-center">{{ item.lane }}</td>
+                                <td class="w-64 cuerpoTable text-center">{{ item.capufeLaneNum }}</td>                                
+                                <td class="w-64 cuerpoTable text-center">{{ item.day }}</td>
+                                <td class="w-64 cuerpoTable text-center">{{ item.frequencyName }}</td>
+                                <td v-if="item.statusMaintenance == 'False'" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
+                                <td v-else class="w-64 text-center cuerpoTable" :class="{'bg-green-200': true}">{{ 'Inconcluso' }}</td>
+                                <td class="w-64 text-center cuerpoTable">
+                                    <div v-if="item.statusMaintenance == 'False'">                               
+                                        <button @click="vista_reporte_carril(item)" class="botonIconCrear">
                                             <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Crear</span>
                                         </button>
+                                    </div>
+                                    <div v-else>
+                                        <button @click="vista_reporte_carril(item)" class="botonIconDescargar">
+                                            <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <span class="text-xs sm:hidden">Descargar</span>
+                                        </button>
+                                        <button @click="vista_reporte_carril(item)" class="botonIconActualizar">
+                                            <img src="../../assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <span class="text-xs sm:hidden">Actualizar</span>
+                                        </button>                                   
                                     </div>
                                 </td>
                             </tr>                    
@@ -129,7 +132,10 @@
     </div>
 </template>
 <script>
-import servicioActividades from '../../services/ActividadesService.js'
+import ServicioActividades from '../../services/ActividadesService.js'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+import Axios from 'axios'
+import ServiceReportePDF from '../../services/ReportesPDFService'
 export default {
     data(){
         return{
@@ -160,7 +166,7 @@ beforeMount: async function(){
 /////////////////////////////////////////////////////////////////////
 methods: {
     filtrar_actividades_mensuales: async function(){                
-        let actualizar = await servicioActividades.filtrar_actividades_mensuales(this.mes, this.año)        
+        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,
@@ -176,9 +182,41 @@ methods: {
         this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
         this.listaActividadesMensuales = []
     },
-    vista_reporte_carril(item){      
-        item["plazaNombre"] = this.plazaNombre        
+    reporte_pdf: async function(item){
         console.log(item)
+        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        .then((response) => {                  
+            let referenceNumber = response.data.result.table[0].referenceNumber
+            ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId)                                                                                    
+            ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
+        })
+        .catch(Ex => {                    
+            console.log(Ex);                    
+        });                 
+    },
+    editar_reporte_carril: async function(item){
+        console.log(item)
+        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']        
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        .then((response) => {                  
+            let header = response.data.result.table[0]                        
+            let actividades = response.data.result.table1                             
+            this.$router.push({
+                path: `FormularioReporte`,
+                query: {
+                    headerCompuesto: { ...header, ...item},
+                    actividades: actividades,
+                    edicion: true
+                },
+            });
+        })
+        .catch(Ex => {                    
+            console.log(Ex);                    
+        });
+    },
+    crear_reporte_carril(item){      
+        item["plazaNombre"] = this.plazaNombre                
         this.$router.push({ 
             path: 'FormularioReporte',
             query: {
