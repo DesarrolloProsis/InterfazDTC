@@ -251,13 +251,13 @@
 
 <script>
 import Nav from "../../components/Navbar";
-import moment from "moment";
 import ServicePDfReporte from '../../services/ReportesPDFService'
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import EventBus from "../../services/EventBus.js";
 import Carrusel from "../../components/Carrusel";
+import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
 export default {
   data() {
     return {
@@ -320,10 +320,12 @@ beforeMount: async function () {
         this.listaStatus.push(statusLista.find(status => status.id == i))
     }
   }     
-  this.infoDTC.forEach((element, index) => {
-      if(index < 3)
-        this.lista_dtc.push(element) 
-  });
+   for(let i = 0; i <= 3; i++){
+            if(i < this.infoDTC.length)
+              this.lista_dtc.push(this.infoDTC[i])
+            else 
+              this.moreCard = false                
+        }    
   this.scroll_infinito()
 },
 /////////////////////////////////////////////////////////////////////
@@ -525,44 +527,20 @@ methods: {
       .catch((err) =>  console.log(err))    
     }, 3000);                                                                                   
   },
-  filtro_Dtc: function () {    
-    this.infoDTC  = []
-    this.lista_dtc = []
-    let _lista_completa  = this.$store.getters["DTC/getlistaInfoDTC"]; 
-    let listaFiltrada = _lista_completa    
-    if(this.plazaFiltro != ""){      
-      listaFiltrada = _lista_completa.filter(dtc => dtc.squareCatalogId == this.plazaFiltro)
-    } 
-    else if (this.fechaFiltro != "") {    
-      let formatFecha = moment(this.fechaFiltro).format("DD/MM/YYYY");
-      let newArray = [];
-      for (let item of _lista_completa) {
-        if (moment(item.sinisterDate).format("DD/MM/YYYY") == formatFecha) {
-          newArray.push(item);
-        }
-      }
-      listaFiltrada = newArray   
-    } 
-    else if (this.referenciaFiltro != "") {     
-      let newArray = [];
-      for (let item of _lista_completa) {          
-        if (item.referenceNumber.includes(this.referenciaFiltro.toUpperCase())) {
-          newArray.push(item);
-        }
-      }
-      listaFiltrada = newArray
-    }
-    if(this.statusFiltro != ""){   
-      console.log(this.statusFiltro)  
-      listaFiltrada = listaFiltrada.filter(item => item.statusId == this.statusFiltro)
-    }
-    this.$nextTick().then(() => {
+  filtro_Dtc: async function () { 
+    this.infoDTC = []
+    this.lista_dtc = []   
+    let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
+    console.log(dtcFiltrados)
+    this.$nextTick().then(async () => {
         this.moreCard = true            
-        this.infoDTC = listaFiltrada  
-        this.infoDTC.forEach((element, index) => {
-          if(index < 3)
-            this.lista_dtc.push(element) 
-        });        
+        this.infoDTC = dtcFiltrados
+        for(let i = 0; i <= 3; i++){
+            if(i < this.infoDTC.length)
+              this.lista_dtc.push(this.infoDTC[i])
+            else 
+              this.moreCard = false                
+        }                
     })  
   },  
   agregar_autorizacion_gmmep(value){
@@ -672,8 +650,8 @@ methods: {
           // Do something, anything!     
           setTimeout(() => {     
             let index = this.lista_dtc.length
-            for(let i = index; i < index + 3; i++){
-              if(i <= this.infoDTC.length)
+            for(let i = index; i <= index + 3; i++){
+              if(i < this.infoDTC.length)
                 this.lista_dtc.push(this.infoDTC[i])
               else 
                 this.moreCard = false                
@@ -695,12 +673,7 @@ computed: {
       if (this.referenciaFiltro != "") return true;
       else return false;
   },
-  // lista_dtc(){
-  //   return this.infoDTC
-  // }
 },
-
-
 };
 </script>
 
