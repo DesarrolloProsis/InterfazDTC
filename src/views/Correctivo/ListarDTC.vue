@@ -528,20 +528,33 @@ methods: {
     }, 3000);                                                                                   
   },
   filtro_Dtc: async function () { 
-    this.infoDTC = []
-    this.lista_dtc = []   
-    let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
-    console.log(dtcFiltrados)
-    this.$nextTick().then(async () => {
-        this.moreCard = true            
-        this.infoDTC = dtcFiltrados
-        for(let i = 0; i <= 3; i++){
-            if(i < this.infoDTC.length)
-              this.lista_dtc.push(this.infoDTC[i])
-            else 
-              this.moreCard = false                
-        }                
-    })  
+    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '' || this.statusFiltro != ''){
+      this.infoDTC = []
+      this.lista_dtc = []   
+      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
+      console.log(dtcFiltrados)
+      this.$nextTick().then(async () => {
+          this.moreCard = true            
+          this.infoDTC = dtcFiltrados
+          for(let i = 0; i <= 3; i++){
+              if(i < this.infoDTC.length)
+                this.lista_dtc.push(this.infoDTC[i])
+              else 
+                this.moreCard = false                
+          }                
+      })  
+    }
+    else{
+       this.$notify.warning({
+          title: "Ups!",
+          msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+    }
   },  
   agregar_autorizacion_gmmep(value){
     if(value === true){      
