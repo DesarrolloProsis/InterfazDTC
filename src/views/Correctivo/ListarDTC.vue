@@ -5,7 +5,7 @@
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': modal}">      
+      <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': modal, 'opacity-25': false}">      
         <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
           <div class="flex sm:inline-block">
             <!--/////////////////////////////////////////////////////////////////////
@@ -72,9 +72,9 @@
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="carruselModal" class="rounded-lg border max-w-3xl justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 py-10 px-10 shadow-2xl">          
+          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
             <div class="justify-center text-center block">            
-                <Carrusel @cerrar-modal-carrusel="carruselModal = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
+                <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
         </div>   
@@ -225,7 +225,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal}" class="flex justify-center w-full mb-48">
+      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full mb-48">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -298,6 +298,7 @@ created(){
     EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
       this.arrayImagenesCarrusel = arrayImagenes
       this.carruselModal = true
+      this.modal = true
       console.log(this.arrayImagenesCarrusel)
     });
 },
