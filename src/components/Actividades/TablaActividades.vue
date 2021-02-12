@@ -194,7 +194,7 @@ methods: {
         .catch(Ex => {                    
             console.log(Ex);                    
         });                 
-    },
+    },  
     editar_reporte_carril: async function(item){
         console.log(item)
         let refPlaza = this.$store.getters['Login/getReferenceSquareActual']        
