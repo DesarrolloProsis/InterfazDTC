@@ -2,47 +2,45 @@
 <div class="relative">
     <Nav></Nav>
     <div class="flex justify-center">
-        <div class="grid gap-4 grid-cols-1 pl-3 pr-3">                
-            <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1">Concentrado DTC</h1>
+        <div class="grid gap-4 grid-cols-1 py-3 px-3">                
+            <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Concentrado DTC</h1>
         <!--/////////////////////////////////////////////////////////////////
          ////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-5 flex justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
-            <div class="inline-flex mt-2 sm:text-xs sm:ml-3">
+        <div class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
+            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3">
               <div class="m-3">
-                <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
-                  <select v-model="plazaFiltro" class="w-full mb-3" type="text">
+                <p class="font-bold sm:text-sm mb-2 sm:text-center">Selecciones la Plaza</p>
+                  <select v-model="plazaFiltro" class="w-40 sm:w-full mb-3" type="text">
                     <option disabled value="">Selecionar...</option>     
                     <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
                   </select>
               </div>
-              <div class="m-3">
-                <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40" type="date"/>
+              <div class=" m-3">
+                <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
+                <input v-model="fechaFiltro" class="border w-40 sm:w-full" type="date"/>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
               </div>
               <div class="m-3">
-                <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
-                <input v-model="referenciaFiltro" class="border w-40" placeholder="PM-000000"/>
+                <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
+                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
               </div>   
             </div>
         <!--/////////////////////////////////////////////////////////////////
          ////                    BOTONES DE NAVEGACION                   ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-10 text-center">
+            <div class="mt-10 mb-4 text-center">
               <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
-                <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
+                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
                 <span>Limpiar</span>
               </button>
-            
               <button id="Buscar" @click="filtro_Dtc" class="w-32 botonIconBuscar">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
                 <span>Buscar</span>
               </button>
           </div>
         </div>
-
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" style="height:550px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" style="height:450px;">
             <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -83,7 +81,7 @@
                   <!-- <input type="checkbox"> -->
                   <button
                       @click="Mostrar_Mas()"
-                      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700">
+                      class="botonIconCrear">
                       <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden">Más</span>
                   </button>

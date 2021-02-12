@@ -1,9 +1,9 @@
 <template>
   <div class="relative">
-     <Nav></Nav>
-     <h1 class="text-black text-center text-4xl mt-3 sm:mb-1">Detalles DTC</h1>
+    <Nav></Nav>
+    <h1 class="text-black text-center text-4xl mt-3 sm:mb-1">Detalles DTC</h1>
 
-           <div class="flex border border-gray-400 shadow-lg rounded-md m-4">
+      <div class="flex border border-gray-400 shadow-lg rounded-md m-4">
         <div class="m-10 mt-3 sm:m-1 text-base font-light text-gray-900">
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Referencia</p>
@@ -61,7 +61,7 @@
           <div class="flex justify-center mt-5 sm:ml-5 sm:text-xs" v-if="tipoUsuario != 7">
             <button
               @click="Regresar()" 
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-green-700 sm:w-32">
+              class="botonIconNext">
               <img src="../../assets/img/deshacer.png" class="mr-2" width="25" height="2" />
               <span>Atrás</span>
             </button>

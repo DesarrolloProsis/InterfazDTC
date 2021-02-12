@@ -5,23 +5,23 @@
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': modal, 'opacity-25': false}">      
-        <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
-          <div class="flex sm:inline-block">
+      <div class="mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3" :class="{ 'pointer-events-none': modal}">      
+        <div class="grid gap-4 grid-cols-1 border-2 shadow-lg">
+          <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:inline-block">
             <!--/////////////////////////////////////////////////////////////////////
                 ////                         FILTRO TRAMO                        ////
                 ////////////////////////////////////////////////////////////////////-->
-            <div class="m-3" v-if="false">
-              <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
-                <select class="w-full" type="text">
-                  <option value="">Selecionar...</option>                                               
+<!--             <div class="m-3" v-if="false">
+              <p class="font-bold sm:text-sm mb-5 sm:text-center">Selecciones el Tramo</p>
+                <select class="w-full sm:w-full" type="text">
+                  <option disabled value="">Selecionar...</option>                                               
                 </select>
-            </div>
+            </div> -->
           <!--/////////////////////////////////////////////////////////////////
               ////                         FILTRO PLAZA                       ////
               ////////////////////////////////////////////////////////////////////-->
             <div class="m-3">
-              <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
+              <p class="font-bold sm:text-sm mb-5">Seleccione la Plaza</p>
                 <select v-model="plazaFiltro" class="w-full" type="text">
                   <option value="">Selecionar...</option>     
                   <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
@@ -32,7 +32,7 @@
                 ////////////////////////////////////////////////////////////////////-->        
             <div class="m-3">
               <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
-              <input v-model="fechaFiltro" class="border w-40" type="date"/>
+              <input v-model="fechaFiltro" class="border w-full" type="date"/>
               <span class="block text-xs text-gray-600">*Fecha de Siniestro</span>
             </div>
             <!--/////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@
                 ////////////////////////////////////////////////////////////////////-->
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
-              <input v-model="referenciaFiltro" class="border w-40" placeholder="PM-000000"/>
+              <input v-model="referenciaFiltro" class="border w-full text-center" placeholder="PM-000000"/>
             </div>  
               <!--////////////////////////////////////////////////////////////////////
                   ////                         FILTRO ESTATUS                     ////
@@ -55,17 +55,29 @@
           </div>
           <!--/////////////////////////////////////////////////////////////////
               ////                  BOTONES FILTROS                        ////
-              /////////////////////////////////////////////////////////////////-->
-          <div class="m-3 text-center">
-            <button @click.prevent="limpiar_filtros" class="botonIconLimpiar">
-              <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
-              <span>Limpiar</span>
-            </button>
-            <button @click.prevent="filtro_Dtc" class="botonIconBuscar">
-              <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
-              <span>Buscar</span>
-            </button>
-          </div>
+              /////////////////////////////////////////////////////////////////--> 
+          <div class="flex justify-center">
+            <div class="w-1/4 sm:w-0">
+            </div>
+            <div class="w-1/4 m-3 sm:w-1/2 sm:ml-5">
+              <div>
+                <button @click.prevent="limpiar_filtros" class="w-full mt-5 botonIconLimpiar mx-auto sm:w-32">
+                    <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
+                    <span>Limpiar</span>
+                  </button>
+              </div>   
+            </div>
+            <div class="w-1/4 m-3 sm:w-1/2">
+              <div>
+                <button @click.prevent="filtro_Dtc" class="w-full mt-5 botonIconBuscar mx-auto sm:w-32">
+                    <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
+                    <span>Buscar</span>
+                  </button>
+              </div>
+            </div>
+            <div class="w-1/4 sm:w-0">
+            </div>
+        </div>
         </div>
       </div>   
         <!--/////////////////////////////////////////////////////////////////
@@ -120,8 +132,8 @@
               </div>
             </div>
             <div class="justify-end flex mt-5">
-              <button @click="actualizar_dtc_status" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
-              <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = ''" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
+              <button @click="actualizar_dtc_status" class="botonIconCrear m-4">Aceptar</button>
+              <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = ''" class="botonIconCancelar m-4">Cancelar</button>
             </div>
           </div>
         </div>
@@ -134,8 +146,8 @@
           <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
             <div class="justify-center flex mt-5">
-              <button @click="agregar_autorizacion_gmmep(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-              <button @click="agregar_autorizacion_gmmep(false)" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+              <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
+              <button @click="agregar_autorizacion_gmmep(false)" class="botonIconBorrarCard">No</button>
             </div>
           </div>
         </div>
@@ -147,8 +159,8 @@
         <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
           <div class="justify-center flex mt-5">
-            <button @click="borrar(true)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-            <button @click="(modal = modalEliminar = false), (refNum = '')" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+            <button @click="borrar(true)" class="botonIconCrear">Si</button>
+            <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
           </div>
         </div>
         </div>
@@ -211,12 +223,12 @@
             <!--/////////////////////////////////////////////////////////////////////
                 ////                        BOTONES MODAL EDIT                         ////
                 ////////////////////////////////////////////////////////////////////-->
-              <div class="justify-end grid grid-cols-2  mt-10">  
-                <div >       
-                  <button @click="editar_header_dtc(true)" class="text-white px-5 py-3 rounded-lg bg-green-600 hover:bg-green-700">Actualizar</button>          
+              <div class="text-center grid grid-cols-2  mt-10">  
+                <div>       
+                  <button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button>          
                 </div>     
                 <div>                    
-                  <button @click="(modalEdit = modal = false), (refNum = '')" class="text-white px-4 py-3 rounded-lg  bg-red-600 hover:bg-red-700">Cancelar</button>              
+                  <button @click="(modalEdit = modal = false), (refNum = '')" class="botonIconCancelar">Cancelar</button>              
                 </div>     
               </div>
             </div>
