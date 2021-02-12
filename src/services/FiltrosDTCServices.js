@@ -1,11 +1,6 @@
 import store from "../store/index"
 import moment from "moment";
-async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafecha){
-    console.log(numPlaza)
-    console.log(fecha)
-    console.log(referenceNumber)
-    console.log(status)
-    console.log(banderafecha)
+async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafecha){                    
     this.infoDTC  = []
     let listaCompleta  = await store.getters["DTC/getlistaInfoDTC"]; 
     let listaFiltrada = []  

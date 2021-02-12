@@ -13,6 +13,7 @@ import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
+import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -154,6 +155,11 @@ const routes = [
       to.params.cargaInicial = result                             
       next()
     } 
+  },
+  {
+    path: '/CalendarioHistorico',
+    name: 'CalendarioHistorico',
+    component: CalendarioHistorico
   }
 ]
 const router = new VueRouter({

@@ -49,11 +49,9 @@
                         placeholder="jane@example.com"
                         name="Observaciones"
                         v-bind:maxlength="limite"
-
                     />
                     <span class="text-xs text-gray-500">{{ restante }}/500</span>
                     <p class="text-xs">{{ errors.first("Observaciones") }}</p>
-
                 </div>              
             </div>
             <!--///////////////////////////////////////////////////////////////////

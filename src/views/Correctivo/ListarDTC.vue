@@ -14,7 +14,7 @@
             <div class="m-3" v-if="false">
               <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
                 <select class="w-full" type="text">
-                  <option disabled value="">Selecionar...</option>                                               
+                  <option value="">Selecionar...</option>                                               
                 </select>
             </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
                 <select v-model="plazaFiltro" class="w-full" type="text">
-                  <option disabled value="">Selecionar...</option>     
+                  <option value="">Selecionar...</option>     
                   <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
                 </select>
             </div>  

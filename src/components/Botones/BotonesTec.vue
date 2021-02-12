@@ -15,7 +15,7 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">DTC Pendientes</h1>
             </router-link>
           </div>
-           <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl">
+          <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl">
             <router-link to="/ConcentradoDTC" class="text-center">
               <img src="../../assets/img/perfiles.png" height="200" width="200" class="m-10 sm:m-1"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">DTC Finalizados</h1>
@@ -87,7 +87,5 @@ export default {
     ? false 
     : true
   }
-  
-  
 }
 </script>
