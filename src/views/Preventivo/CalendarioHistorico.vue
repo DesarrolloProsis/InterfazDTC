@@ -13,7 +13,7 @@
                         ////////////////////////////////////////////////////////////////////-->
                         <div class="m-3">
                         <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
-                            <select v-model="tramoFiltro" class="w-full" type="text">
+                            <select v-model="tramoFiltro" @change="tramo_cascada" class="w-full" type="text">
                                 <option value="">Selecionar...</option>  
                                 <option value="1">Mexico-Acapulco</option>
                                 <option value="2">Mexico-Irapuato</option>                                             
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div> 
-            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow">
+            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66">
                 <table class="border-collapse  table-fixed">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
@@ -131,7 +131,9 @@ export default {
             mesFiltro: '',
             listaCompleta: [],
             listaCalendario: [], 
-            listaPlazasValidas: []           
+            listaPlazasValidas: [],
+            todasPlazas: []
+                       
         }
     },
     beforeMount: async function() {
@@ -140,18 +142,40 @@ export default {
         .then((response) => { 
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  
-            let todasPlazas =  this.$store.getters['Login/getListaPlazas']  
-            for(let plaza of todasPlazas){      
-            if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
-              plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
-              this.listaPlazasValidas.push(plaza)        
-            }
-        }                                                                                                           
+            this.todasPlazas =  this.$store.getters['Login/getListaPlazas']  
+            for(let plaza of this.todasPlazas){      
+                if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
+                  plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
+                  this.listaPlazasValidas.push(plaza)        
+                }
+            }                                                                                                           
         }).catch(Ex => {                            
             console.log(Ex);                                       
         })                  
     },
     methods:{
+        tramo_cascada(){
+            if(this.tramoFiltro != ''){                
+                this.listaPlazasValidas = []
+                let plazaTramo = this.todasPlazas.filter(plaza => plaza.delegationId == this.tramoFiltro)
+                console.log(plazaTramo)
+                for(let plaza of plazaTramo){      
+                    if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
+                      plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
+                      this.listaPlazasValidas.push(plaza)        
+                    }
+                } 
+            }
+            else{
+                this.listaPlazasValidas = []
+                for(let plaza of this.todasPlazas){      
+                    if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
+                      plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
+                      this.listaPlazasValidas.push(plaza)        
+                    }
+                } 
+            }
+        },
         limpiar_filtros: function(){
             this.listaCalendario = this.listaCompleta
             this.tramoFiltro = ''

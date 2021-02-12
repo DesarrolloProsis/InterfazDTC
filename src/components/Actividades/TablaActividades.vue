@@ -207,7 +207,11 @@ methods: {
                 query: {
                     headerCompuesto: { ...header, ...item},
                     actividades: actividades,
-                    edicion: true
+                    edicion: true,
+                    horas: {
+                        horaInicio: header.horaInicio,
+                        horaFin: header.horaFin
+                    }
                 },
             });
         })
@@ -220,7 +224,7 @@ methods: {
         this.$router.push({ 
             path: 'FormularioReporte',
             query: {
-                'header': item
+                'header': item,                
             }
         })
     }

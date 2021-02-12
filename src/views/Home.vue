@@ -4,7 +4,7 @@
     <div class="flex justify-center mt-10 mb-10 sm:mt-14" v-if="acultarPrimerosBotones">
       <div class>
         <div class="flex">
-          <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl h-73 sm:h-66" v-if="typeUser == 7">
+          <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl h-73 sm:h-66" v-if="typeUser == 7 || typeUser == 1">
             <router-link :to="`home/${typeUser}/preventivo`" class="text-center">
               <img src="../assets/img/mantenimientoPreventivo.png" height="200" width="200" class="m-10 mt-32 mb-32 sm:m-1 sm:mt-12 sm:mb-12"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Mantenimineto</h1>

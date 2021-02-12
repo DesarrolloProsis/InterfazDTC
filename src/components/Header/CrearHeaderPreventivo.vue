@@ -39,7 +39,7 @@
                     <div class="flex justify-start m-5">
                         <p class=" font-bold">Fecha:</p>                        
                         <p class="ml-5">{{ header.day }}</p> 
-                        <p @click="modalCambiarFecha" class="ml-5 text-sm cursor-pointer text-blue-700 font-mono">Cambiar Fecha</p>    
+                        <p @click="modalCambiarFecha" v-if="!$route.query.edicion" class="ml-5 text-sm cursor-pointer text-blue-700 font-mono">Cambiar Fecha</p>                            
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Inicio:</p>
@@ -147,13 +147,14 @@ props: {
     referenceNumber: {
         type: String,
         default: () => ''
-    }
+    }    
 },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function() {    
-    
+    this.horaInicio = this.$route.query.horas.horaInicio
+    this.horaFin = this.$route.query.horas.horaFin
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -168,48 +169,39 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 methods:{
 modalCambiarFecha: function (){
-        this.showModal = true
-        
-            
+        this.showModal = true                    
 },
 botoncambiar_modal: async function (){
-    if(this.fechaCambio !='' && this.motivoCambioFecha != '')
-    {
-
+    if(this.fechaCambio !='' && this.motivoCambioFecha != ''){
         let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']
         this.referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName,this.fechaCambio ,this.header.lane)
         let toDay = new Date()
-        let fecha = new Date(this.fechaCambio)
-        
+        let fecha = new Date(this.fechaCambio)        
         fecha.setDate(fecha.getDate())
-        //fecha.setDate(fecha.getDate()+1)
-        
-        //console.log(fecha <= toDay)
-        
-        //console.log(toDay)
-        //console.log(fecha)
-
-        if( fecha > toDay)
-        {
-                this.$notify.warning({
-                title: "Ops!! ",
-                msg: "FECHA INVALIDA",
-                position: "bottom right",
-                styles: {
-                        height: 100,
-                        width: 500,
-                        },
-                    });
-                this.fechaCambio = ''    
+        if( fecha > toDay){
+            this.$notify.warning({
+            title: "Ops!! ",
+            msg: "FECHA INVALIDA",
+            position: "bottom right",
+            styles: {
+                    height: 100,
+                    width: 500,
+                    },
+                });
+            this.fechaCambio = ''    
         }
-        else
-            {
-                this.header.day = this.fechaCambio    
-                this.showModal = false
-                this.fechaCambio = ''
-                this.motivoCambioFecha = ''
-            }
+        else {
+             this.$emit('guarar-log-fecha', {
+                fecha: this.fechaCambio,
+                motivo: this.motivoCambioFecha 
+            })
+            this.header.day = this.fechaCambio    
+            this.showModal = false
+            this.fechaCambio = ''
+            this.motivoCambioFecha = ''
+           
         }
+    }
     else
     {
         this.$notify.warning({
