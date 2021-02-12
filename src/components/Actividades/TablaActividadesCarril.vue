@@ -2,11 +2,11 @@
 <div>
     <div class="flex justify-center p-10">
         <div class="grid gap-4 grid-cols-1">
-            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" :class="{ 'overflow-x-auto': scrollBool}">
+            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto" :class="{ 'overflow-x-auto': scrollBool}">
             <!--//////////////////////////////////////////////////////////////////////
                 ////                           TABLA                             ////
                 ////////////////////////////////////////////////////////////////////-->
-                <table class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" style="height:550px;">
+                <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped"  style="height:550px;">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
                     ////////////////////////////////////////////////////////////////////-->

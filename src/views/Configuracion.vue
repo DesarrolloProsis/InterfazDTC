@@ -25,7 +25,7 @@
                 <td class="text-center border-2 border-gray-800">
                   <button
                     @click="editarUsuario(item)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-yellow-500 m-2"
+                    class="botonIconActualizar"
                   >
                     <img
                       src="../assets/img/pencil.png"
@@ -38,7 +38,7 @@
                   <button
                     v-if="typeUser"
                     @click="borrar_usuario(item)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+                    class="botonIconLimpiar m-2"
                   >
                     <img
                       src="../assets/img/bin.png"
@@ -56,7 +56,14 @@
       <div class="flex absolute justify-center inset-x-0 mt-24">
         <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex">
-            <button @click="limpiar_usuario">X</button>
+            <button @click="limpiar_usuario">
+              <img
+                  src="../assets/img/cerrar.png"
+                  class="mr-2"
+                  width="25"
+                  height="25"
+                />
+            </button>
           </div>
           <!--/////////////////////////////////////////////////////////////////
           ////                  MODAL PRIMERA PARTE                        ////
@@ -77,7 +84,7 @@
             <div class="mt-8 flex justify-center">
               <button
                 @click="modal_Part = true"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700 m-1"
+                class="botonIconNext"
               >
                 <img
                   src="../assets/img/rehacer.png"
@@ -116,7 +123,7 @@
             <div class="flex justify-center mt-5">
               <button
                 @click="modal_Part = false"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
+                class="botonIconNext"
               >
                 <img
                   src="../assets/img/deshacer.png"
@@ -127,14 +134,14 @@
                 <span class="text-xs">Regresar</span>
               </button>
             </div>
-            <div class="flex justify-center">
+            <div class="flex justify-center mt-5 ">
               <button
                 @click="confirmar"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-green-700 m-1"
+                class=" mt-4 botonIconBuscar"
               >
                 <img
-                  src="../assets/img/more.png"
-                  class="mr-1"
+                  src="../assets/img/save.png"
+                  class="mr-5"
                   width="25"
                   height="25"
                 />

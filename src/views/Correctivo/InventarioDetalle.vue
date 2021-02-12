@@ -74,8 +74,8 @@
             </select>
           </div>
           <div class="flex justify-center mt-5 sm:ml-5 sm:text-xs" v-if="tipoUsuario != 7">
-            <button @click.prevent="actualizar_componente" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-green-700 sm:w-32">
-              <img src="../../assets/img/more.png" class="mr-2" width="25" height="2" />
+            <button @click.prevent="actualizar_componente" class="botonIconBuscar sm:w-32">
+              <img src="../../assets/img/save.png" class="mr-2" width="25" height="2" />
               <span>Guardar Cambios</span>
             </button>
           </div>

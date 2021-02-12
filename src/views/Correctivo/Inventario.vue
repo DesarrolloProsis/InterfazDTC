@@ -2,18 +2,18 @@
   <div class="relative">
     <Nav></Nav>
     <div class="flex justify-center">
-      <div class="grid gap-4 grid-cols-1 pl-3 pr-3">                
-        <h1 class="text-black text-center text-4xl mt-3 mb-5 sm:mb-1">Inventario</h1>
+      <div class="grid gap-4 grid-cols-1 py-3 px-3">                
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Inventario</h1>
         <!--/////////////////////////////////////////////////////////////////
         ////                     BOTONES NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-1/2 flex justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md">
-          <div class="inline-flex mt-2 sm:text-xs sm:ml-3 m-6">
-            <div class="mr-3 sm:mr-1 mt-5">
+        <div class="mt-1 mb-1 flex justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
+          <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
+            <div class="mr-3 sm:mr-1 mt-6">
               <span class="mr-2">Buscar</span>
-              <input v-model="buscar_palabra" class="bg-white sm:w-24" />
+              <input v-model="buscar_palabra" class="bg-white sm:w-full" />
             </div>
-            <div class="mr-3 mt-5">
+            <div class="mr-3 mt-6">
               <span class="mr-2">Ubicación</span>
               <input
                 v-model="boolUbicacion"
@@ -22,7 +22,7 @@
                 type="checkbox"
               />
             </div>
-            <div class="mt-5">
+            <div class="mt-6">
               <span class="mr-4">Componente</span>
               <input
                 v-model="boolComponente"
@@ -41,30 +41,35 @@
                 </button> 
             </div>
             </div>-->
-          </div>
-          <div class=" text-sm mt-2 mx-auto">
-            <p class="text-md font-semibold mb-1 text-gray-900 ml-2">Cambiar Plaza</p>
-            <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
+          <div class="text-sm sm:mt-4">
+            <p class="text-md font-semibold mb-1 text-gray-900 sm:ml-0">Cambiar Plaza</p>
+            <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48 sm:w-full" type="text" name="TipoDescripcion">
               <option disabled value>Selecionar...</option>
               <option v-for="(item, index) in listaPlazasUser" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>
             </select>
           </div>
-          <div class="sm:mt-1 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" v-if="!(tipoUsuario == 7)">
+          <div class="mt-2">
+              <span class="text-gray-800">{{"Editados: " + list_Editados.length}}</span>
+          </div>
+          </div>
+        <!--/////////////////////////////////////////////////////////////////
+         ////                     BOTONES                                 ////
+        ////////////////////////////////////////////////////////////////////-->
+          <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" v-if="!(tipoUsuario == 7)">
             <button
               @click="Cancelar"
-              class="w-32 botonIconLimpiar"
+              class="w-32 botonIconBorrarCard ml-4 mr-4"
             >
-              <img src="../../assets/img/bin.png" class="mr-2 sm:m-0" width="25" height="25"/>
+              <img src="../../assets/img/borrar.png" class="mr-2 sm:m-0" width="25" height="25"/>
               <span class="text-xs">Cancelar</span>
             </button>
             <button
               @click="actualizar"
-              class="w-32 botonIconBuscar"
+              class="w-32 botonIconNext"
             >
               <img src="../../assets/img/save.png" class="mr-2 sm:mr-0" width="25" height="25" />
               <span class="text-xs">Guardar</span>
             </button>
-            <span class="ml-5 text-gray-800">{{"Editados: " + list_Editados.length}}</span>
           </div>
         </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -118,7 +123,7 @@
                   <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
                 </td>
                 <td class="cuerpoTable">
-                  <button @click="Mostrar_Mas(item)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700">
+                  <button @click="Mostrar_Mas(item)" class="botonIconCrear">
                     <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
                     <span class="text-xs sm:hidden">Mas</span>
                   </button>

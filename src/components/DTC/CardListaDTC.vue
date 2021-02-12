@@ -52,8 +52,8 @@
                 <p class="ml-2 mt-3 text-sm">{{ pdfSellado.name }}</p>
               </div>
               <div class="mt-2 justify-between">
-                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="rounded-md border ml-4 h-7 p-1 bg-red-600 text-sm">Cancelar</button>
-                <button @click="status_dtc_sellado" class="rounded-md border ml-2 h-7 p-1 bg-green-600 text-sm">Enviar PDF</button>
+                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar">Cancelar</button>
+                <button @click="status_dtc_sellado" class="botonIconCrear">Enviar PDF</button>
               </div>            
             </div>
           </div>
@@ -107,33 +107,33 @@
           ///////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
-          <div class="">
-            <button v-if="tipoUsuario == 4 || infoCard.statusId < 2" @click.prevent="borrar" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-red-700 mt-1">
-              <img src="../../assets/img/bin.png" class="mr-2" width="12" height="1"/>
+          <div class="inline-flex">
+            <button v-if="tipoUsuario == 4 || infoCard.statusId < 2" @click.prevent="borrar_dtc" class="botonIconBorrarCard">
+              <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
               <span>Borrar</span>
             </button>
           </div>
           <div class=" inline-flex">
             <a @click="menos" class="text-gray-700 md:mr-4 mt-3 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
-                <button @click.prevent="editar_dtc" class="bg-gray-300 m-1 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2 ml-14 rounded inline-flex items-center border border-yellow-600">
+                <button @click.prevent="editar_dtc" class="botonIconEditCard">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
                   <span class="text-xs">Editar</span>
                 </button>
             </div>
             <div v-else class="text-xs inline-flex">
               <div v-if="tipoUsuario != 8">
-                <button  @click.prevent="pdf(2)" class="bg-gray-300 hover:bg-gray-400 mr-2 text-gray-800 text-xs font-bold py-2 px-2 rounded inline-flex items-center border border-red-700">
+                <button  @click.prevent="generar_pdf(2)" class="botonIconBorrarCard">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                   <span>Firmado</span>                
                 </button>   
-                <button v-if="infoCard.statusId > 2" @click.prevent="generar_pdf(3)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
+                <button v-if="infoCard.statusId > 2" @click.prevent="generar_pdf(3)" class=" ml-1 botonIconBorrarCard">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
                   <span>Sellado</span>
                 </button>  
               </div> 
               <div v-else>
-                <button  @click.prevent="generar_pdf(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-2  rounded inline-flex items-center border border-red-700">
+                <button  @click.prevent="generar_pdf(1)" class="botonIconBorrarCard">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
                   <span>Sin Firma</span>
                 </button>  
