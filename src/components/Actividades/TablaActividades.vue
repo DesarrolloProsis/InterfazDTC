@@ -114,11 +114,11 @@
                                     </div>
                                     <div v-else>
                                         <button @click="reporte_pdf(item)" class="botonIconDescargar">
-                                            <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../assets/img/pdf.png" class="mr-2" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Descargar</span>
                                         </button>
                                         <button @click="editar_reporte_carril(item)" class="botonIconActualizar">
-                                            <img src="../../assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../assets/img/pencil.png" class="mr-2" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Actualizar</span>
                                         </button>                                   
                                     </div>
