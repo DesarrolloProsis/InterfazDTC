@@ -182,7 +182,7 @@ select:focus {
 }
 
 .botonIconBorrarCard{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-600 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-red-600 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
 .botonIconBorrarCard:hover{
     @apply bg-red-300 border-red-600 text-white;
@@ -192,8 +192,9 @@ select:focus {
 }
 
 .botonIconEditCard{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-yellow-500 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
+    @apply bg-white tracking-wide text-gray-800 border-b-2 border-yellow-500 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
 }
+
 .botonIconEditCard:hover{
     @apply border-orange-500 bg-yellow-400 text-white;
 }

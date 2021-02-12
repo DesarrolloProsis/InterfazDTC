@@ -7,7 +7,7 @@
         ////////////////////////////////////////////////////////////////////-->
       <div class="mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3" :class="{ 'pointer-events-none': modal}">      
         <div class="grid gap-4 grid-cols-1 border-2 shadow-lg">
-          <div class="flex grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:inline-block">
+          <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:inline-block">
             <!--/////////////////////////////////////////////////////////////////////
                 ////                         FILTRO TRAMO                        ////
                 ////////////////////////////////////////////////////////////////////-->
@@ -23,7 +23,7 @@
             <div class="m-3">
               <p class="font-bold sm:text-sm mb-5">Seleccione la Plaza</p>
                 <select v-model="plazaFiltro" class="w-full" type="text">
-                  <option disabled value="">Selecionar...</option>     
+                  <option disabled value="">Selecionar...</option>    
                   <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
                 </select>
             </div>  
