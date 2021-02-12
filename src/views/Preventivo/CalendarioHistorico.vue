@@ -5,15 +5,15 @@
         <!--//////////////////////////////////////////////////////////////////////
             ////                        FILTROS                              ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': modal, 'opacity-25': false}">      
+            <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
                 <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
                     <div class="flex sm:inline-block">      
                     <!--/////////////////////////////////////////////////////////////////////
                         ////                         FILTRO TRAMO                        ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <div class="m-3" v-if="false">
+                        <div class="m-3">
                         <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
-                            <select class="w-full" type="text">
+                            <select v-model="tramoFiltro" class="w-full" type="text">
                                 <option value="">Selecionar...</option>  
                                 <option value="1">Mexico-Acapulco</option>
                                 <option value="2">Mexico-Irapuato</option>                                             
@@ -26,40 +26,40 @@
                             <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
                             <select v-model="plazaFiltro" class="w-full" type="text">
                                 <option value="">Selecionar...</option>     
-                                <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
+                                <option v-for="(item, index) in listaPlazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option> 
                             </select>
                         </div>  
                         <!--/////////////////////////////////////////////////////////////////
                             ////                         FILTRO FECHA                        ////
                             ////////////////////////////////////////////////////////////////////-->        
-                        <div class="m-3">
-                            <p class="font-bold mb-5 sm:text-sm">Seleccione el Mes</p>
-                            <select v-model="plazaFiltro" class="w-full" type="text">
+                        <div class="m-3">                            
+                            <p class="font-bold sm:text-sm mb-5">Seleccione el Año</p>
+                            <select v-model="añoFiltro" class="w-full" type="text">
                                 <option value="">Selecionar...</option>     
-                                <option value="1">Enero</option>
-                                <option value="2">Febrero</option>
-                                <option value="3">Marzo</option>
-                                <option value="4">Abril</option>
-                                <option value="5">Mayo</option>
-                                <option value="6">Junio</option>
-                                <option value="7">Julio</option>
-                                <option value="8">Agosto</option>
-                                <option value="9">Septiembre</option>
-                                <option value="10">Octubre</option>
-                                <option value="11">Noviembre</option>
-                                <option value="12">Diciembre</option>
-                            </select>                                             
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>                            
+                            </select>                                                                        
                         </div>
                         <!--/////////////////////////////////////////////////////////////////////
                             ////                         FILTRO REFERENCIA                   ////
                             ////////////////////////////////////////////////////////////////////-->
                         <div class="m-3">
-                            <p class="font-bold sm:text-sm mb-5">Seleccione el Año</p>
+                            <p class="font-bold mb-5 sm:text-sm">Seleccione el Mes</p>
                             <select v-model="mesFiltro" class="w-full" type="text">
-                                <option value="">Selecionar...</option>     
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>                            
-                            </select>   
+                                 <option value="">Selecionar...</option>     
+                                 <option value="1">Enero</option>
+                                 <option value="2">Febrero</option>
+                                 <option value="3">Marzo</option>
+                                 <option value="4">Abril</option>
+                                 <option value="5">Mayo</option>
+                                 <option value="6">Junio</option>
+                                 <option value="7">Julio</option>
+                                 <option value="8">Agosto</option>
+                                 <option value="9">Septiembre</option>
+                                 <option value="10">Octubre</option>
+                                 <option value="11">Noviembre</option>
+                                 <option value="12">Diciembre</option>
+                             </select>                           
                         </div>                
                     </div>
                     <!--/////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@
                             <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
                             <span>Limpiar</span>
                         </button>
-                        <button @click.prevent="filtro_Dtc" class="botonIconBuscar">
+                        <button @click.prevent="filtros_calendario()" class="botonIconBuscar">
                             <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
                             <span>Buscar</span>
                         </button>
@@ -94,11 +94,16 @@
                     ////                          BODY TABLA                          ////
                     ////////////////////////////////////////////////////////////////////-->
                     <tbody>
-                        <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in list_Component" :key="key">                
-                            <td class="cuerpoTable">{{ 'Tlalapan' }}</td>
-                            <td class="cuerpoTable">{{ 'Tlalapan' }}</td>                                                                                 
-                            <td class="cuerpoTable">{{ 'Tlalapan' }}</td>
-                            <td class="cuerpoTable">{{ 'Tlalapan' }}</td>             
+                        <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaCalendario" :key="key">                
+                            <td class="cuerpoTable">{{ item.squareName }}</td>
+                            <td class="cuerpoTable">{{ item.fecha }}</td>                                                                                 
+                            <td class="cuerpoTable">{{ item.nombre  }}</td>
+                            <td class="cuerpoTable">
+                                <button @click="reporte_pdf(item)" class="botonIconDescargar">
+                                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                        <span class="text-xs sm:hidden">Descargar</span>
+                                </button>
+                            </td>             
                         </tr>
                     </tbody>
                 </table>
@@ -109,6 +114,10 @@
 
 <script>
 import Nav from '../../components/Navbar'
+import Axios from 'axios';
+import ServicePDF from '../../services/ReportesPDFService'
+import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: 'CalendarioHistorico',
     components:{
@@ -116,9 +125,67 @@ export default {
     },
     data(){
         return{
+            tramoFiltro: '',
             plazaFiltro: '',
             añoFiltro: '',
             mesFiltro: '',
+            listaCompleta: [],
+            listaCalendario: [], 
+            listaPlazasValidas: []           
+        }
+    },
+    beforeMount: async function() {
+        
+        await Axios.get(`${API}/Mantenimiento/Bitacora`)
+        .then((response) => { 
+            this.listaCompleta = response.data.result  
+            this.listaCalendario = response.data.result  
+            let todasPlazas =  this.$store.getters['Login/getListaPlazas']  
+            for(let plaza of todasPlazas){      
+            if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
+              plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
+              this.listaPlazasValidas.push(plaza)        
+            }
+        }                                                                                                           
+        }).catch(Ex => {                            
+            console.log(Ex);                                       
+        })                  
+    },
+    methods:{
+        limpiar_filtros: function(){
+            this.listaCalendario = this.listaCompleta
+            this.tramoFiltro = ''
+            this.plazaFiltro = ''
+            this.añoFiltro = ''
+            this.mesFiltro = ''
+        },
+        filtros_calendario: function(){
+            if(this.tramoFiltro != '' || this.plazaFiltro != '' || this.añoFiltro != '' || this.mesFiltro != ''){
+                this.listaCalendario = ServiceFiltrosDTC.filtrar_calendario_historico(this.listaCompleta, this.tramoFiltro, this.plazaFiltro, this.añoFiltro, this.mesFiltro)
+            }
+            else{
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+                    position: "bottom right",
+                    styles: {
+                      height: 100,
+                      width: 500,
+                    },
+                });
+            }            
+        },
+        reporte_pdf: async function(item){
+            let refPlaza = await this.$store.state.Login.userLogeado.find(plaza => plaza.squareCatalogId == item.plazaId).referenceSquare
+            console.log(refPlaza)
+            ServicePDF.generar_pdf_calendario(refPlaza, {
+              mes: item.month,
+              año: item.year
+            },
+            {
+                idUser: item.userId,
+                numPlaza: item.plazaId
+            }) 
         }
     }
 

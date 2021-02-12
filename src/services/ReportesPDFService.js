@@ -40,8 +40,12 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     };
     oReq.send();         
 }
-function generar_pdf_calendario(referenceSquare, fecha){
-    let user = store.getters['Login/getUserForDTC']
+function generar_pdf_calendario(referenceSquare, fecha, userSup){
+    let user = {}
+    if(userSup == undefined)
+        user = store.getters['Login/getUserForDTC']
+    else
+        user = userSup
     var oReq = new XMLHttpRequest(); 
     let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;      
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;

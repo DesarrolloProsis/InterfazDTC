@@ -51,8 +51,6 @@ import ImagenesActividadCarril from '../../components/Actividades/ImagenesActivi
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
-//import moment from "moment"; 
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
