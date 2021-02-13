@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
@@ -16,7 +17,11 @@ const state =  {
 const getters = {
     GET_ACTIVIDADES_MENSUALES: (state) => (obj) => {        
         return state.actividadesMensuales.map(actividad => {
-            actividad["day"] = `${actividad.day}/${obj.month}/${obj.year}` 
+            console.log(obj)
+            console.log(actividad.day)   
+            let ayudaFecha = new Date(parseInt(obj.year), parseInt(obj.month - 1), parseInt(actividad.day))                                                                     
+            console.log(ayudaFecha)
+            actividad["day"] = moment(ayudaFecha).format("DD/MM/YYYY"); //`${actividad.day}/${obj.month}/${obj.year}`  
             actividad["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
             return { ...actividad }
         })  
@@ -44,7 +49,8 @@ const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)         
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`,value)
-            .then((response) => {                
+            .then((response) => {               
+                console.log(response.data.result) 
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
             .catch(Ex => {
@@ -70,7 +76,8 @@ const actions = {
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1
                 return actividad
-            })                                         
+            })        
+            console.log(actividades)                                 
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
         .catch(Ex => {

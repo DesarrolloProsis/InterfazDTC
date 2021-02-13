@@ -83,14 +83,15 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     return await store.getters["Header/getreferenceNum"];        
 }
 async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){   
-    fechaActividad = moment(fechaActividad,"DD-MM-YYYY").format("YYYY-MM-DD").split('-')
+    //fechaActividad = moment(fechaActividad,"DD-MM-YYYY").format("YYYY-MM-DD").split('-')
+    fechaActividad = fechaActividad.split('/')
     let tiporeferencia = tipoReferencia != 'Semanal' 
         ? tipoReferencia.slice(0,2)
         : tipoReferencia.slice(0,1)
     let referenciaNueva = 
         numeroReferencia + '-' + 'MP' + 
         tiporeferencia + 
-        fechaActividad[2] + '-' + 
+        fechaActividad[0] + '-' + 
         carril.slice(0,3)
     return referenciaNueva.toUpperCase()
 }

@@ -125,6 +125,7 @@
 <script>
 import EventBus from "../../services/EventBus.js";
 import ServicesPDF from "../../services/ReportesPDFService.js";
+import moment from "moment";
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
@@ -172,9 +173,7 @@ modalCambiarFecha: function (){
         this.showModal = true                    
 },
 botoncambiar_modal: async function (){
-    if(this.fechaCambio !='' && this.motivoCambioFecha != ''){
-        let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']
-        this.referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName,this.fechaCambio ,this.header.lane)
+    if(this.fechaCambio !='' && this.motivoCambioFecha != ''){        
         let toDay = new Date()
         let fecha = new Date(this.fechaCambio)        
         fecha.setDate(fecha.getDate())
@@ -191,14 +190,18 @@ botoncambiar_modal: async function (){
             this.fechaCambio = ''    
         }
         else {
+            this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")
+            let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']                                            
+            let referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName, this.fechaCambio ,this.header.lane)
              this.$emit('guarar-log-fecha', {
                 fecha: this.fechaCambio,
-                motivo: this.motivoCambioFecha 
-            })
-            this.header.day = this.fechaCambio    
+                motivo: this.motivoCambioFecha,
+                ref: referenceNumber 
+            })            
+            this.header.day = this.fechaCambio                
             this.showModal = false
             this.fechaCambio = ''
-            this.motivoCambioFecha = ''
+            this.motivoCambioFecha = ''            
            
         }
     }

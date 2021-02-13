@@ -35,7 +35,7 @@ function eventos_calendario_formato(objApi){
     let catalogoActividades = store.state.Actividades.catalogoActividades
     let eventsReturn = []
     var i = 1;
-    let eventoReducidoDay = [];    
+    let eventoReducidoDay = [];       
     console.log(eventoSinFormato)
     while (i < 31) {
         let query = eventoSinFormato.filter(
@@ -67,7 +67,8 @@ function construir_objeto_actividad(listaCarriles, info){
             idGare: carril.idGare,
             calendarId: parseInt(carril.calendarId)
         });
-    }            
+    }  
+    console.log(info.day)          
     return {                        
         start: moment(info.day, "DD/MM/YYYY").format("YYYY-MM-DD"), 
         tipoActividad: codigo_colores_actividad(info.frequencyId).nombre,

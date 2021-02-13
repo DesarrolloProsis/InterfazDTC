@@ -154,7 +154,6 @@
 <script>
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
-//import ServiceImagenes from '../../services/ImagenesService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 export default {
   props: {

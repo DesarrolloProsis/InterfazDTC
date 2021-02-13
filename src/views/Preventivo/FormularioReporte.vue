@@ -106,10 +106,7 @@ export default {
                 setTimeout(() => {
                     this.$router.push({ path:'/ReportesMantenimiento/TablaActividades' })
                 }, 300);  
-            }
-            else{
-                console.log(this.$route.query.headerCompuesto)
-            }
+            }                    
         }
         else{
             let headerCompuesto = this.$route.query.headerCompuesto
@@ -162,17 +159,15 @@ export default {
 methods:{
     guardar_log_fecha(item){
         this.objetoLogDate = item
+        this.referenceNumber = item.ref
     },
     validar_horas(){
         if(this.horaInicio != '' && this.horaFin != ''){
-            let horaISplite = this.horaInicio.split(':')
-            console.log(horaISplite)
-            let horaFSplite = this.horaFin.split(':')
-            console.log(horaFSplite)
+            let horaISplite = this.horaInicio.split(':')            
+            let horaFSplite = this.horaFin.split(':')            
             let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
             let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-            if(dateInicio < dateFin){
-                console.log('hola')
+            if(dateInicio < dateFin){                
                 return true
             }
             else{
@@ -188,8 +183,7 @@ methods:{
                 return false
             }
         }
-        else{
-                    console.log('No hay dos horas')
+        else{                    
                     this.$notify.warning({
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
@@ -209,18 +203,17 @@ methods:{
             })
         if(validarActividades){            
             if(this.validar_horas()) { 
+                console.log('estoy insertando Header')
                 let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)
                 
                 let insercionHeaderPromise = new Promise(async (resolve, reject) => {                   
                     let user = await this.$store.getters['Login/getUserForDTC'] 
                     let fechaInsercion = ''
                     if(JSON.stringify(this.objetoLogDate) != '{}')
-                        fechaInsercion = this.header.day   
+                        fechaInsercion = new Date(this.objetoLogDate.fecha)
                     else{
                         fechaInsercion = this.header.day   
-                    }
-                    //console.log(new Date(fechaInsercion))
-                    console.log(fechaInsercion)
+                    }                                       
                     let headerReporte = {
                         ReferenceNumber: this.referenceNumber,
                         SquareId: refPlaza.squareCatalogId,
@@ -233,8 +226,8 @@ methods:{
                         End: this.horaFin,
                         Observations: this.observaciones,   
                         CalendarId: parseInt(this.header.calendarId)     
-                    }      
-                    console.log(headerReporte)          
+                    }    
+                    console.log(headerReporte)                      
                     await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
                     .then((response) => {     
                         console.log(response)                                                                  
@@ -245,6 +238,7 @@ methods:{
                     });                                  
                 })
                 let insercionActividadesPromise = new Promise(async (resolve, reject) => {
+                    console.log('estoy insertando actividades Job')
                     let arrayJob = []       
                     this.listaActividades.forEach(async (item) => {    
                         arrayJob.push({
@@ -254,8 +248,7 @@ methods:{
                                 flagUpdate: this.reporteInsert 
 
                         })    
-                    });      
-                    console.log(arrayJob)  
+                    });                           
                     Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.referenceSquare}/${this.header.calendarId}`, arrayJob)
                         .then((response) => {     
                             console.log(response) 
@@ -283,10 +276,12 @@ methods:{
                             console.log(Ex);                                       
                         })                  
                 })
+
                 if(this.reporteInsert) {
                     insercionHeaderPromise.then(() => {
                         insercionActividadesPromise.then(async () =>{
                             if(JSON.stringify(this.objetoLogDate != '{}')){
+                                console.log('estoy llenando el log')
                                 let refPlaza = this.referenceNumber.split('-')[0]
                                 let user = await this.$store.getters['Login/getUserForDTC']
                                 let dateLog = {
@@ -302,8 +297,9 @@ methods:{
                                     }).catch(Ex => {                            
                                         console.log(Ex);                                       
                                     })         
-                            }         
-                            EventBus.$emit("guardar_imagenes", this.referenceNumber);                                 
+                            }       
+                            this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                            
+                            EventBus.$emit("guardar_imagenes", this.referenceNumber);                                                             
                             ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
                             ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber)
                             this.$notify.success({
@@ -314,33 +310,18 @@ methods:{
                                 height: 100,
                                 width: 500,
                                 },
-                            });
-                            this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})  
+                            });                                
                         })
                     })
                     .catch((Ex) => {
                         console.log(Ex)
                     })     
                 }
-                else{
-                    insercionActividadesPromise.then(() => {
-                        // if(JSON.stringify(this.objetoLogDate != '{}')){
-                        //     let refPlaza = this.referenceNumber.split('-')[0]
-                        //     let dateLog = {
-                        //         calendarId: parseInt(this.header.calendarId)     ,
-                        //         date: this.objetoLogDate.fecha,
-                        //         userId: '',
-                        //         referenceNumber: this.referenceNumber,
-                        //         comment: this.objetoLogDate.motivo
-                        //     }
-                        //     Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
-                        //         .then((response) => {     
-                        //             console.log(response)                                                                                  
-                        //         }).catch(Ex => {                            
-                        //             console.log(Ex);                                       
-                        //         })         
-                        // }         
-                        EventBus.$emit("guardar_imagenes", this.referenceNumber);                                 
+                else {
+
+                    insercionActividadesPromise.then(() => {     
+                        this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                       
+                        EventBus.$emit("guardar_imagenes", this.referenceNumber);                            
                         ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
                         ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber)
                         this.$notify.success({
@@ -351,8 +332,7 @@ methods:{
                             height: 100,
                             width: 500,
                             },
-                        });
-                        this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})  
+                        });                         
                     })                    
                     .catch((Ex) => {
                         console.log(Ex)
