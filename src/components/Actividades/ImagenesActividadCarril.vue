@@ -86,6 +86,13 @@ export default {
         eliminar_imagen(index){
             if(this.arrayImagenes.length > 1){
                 this.arrayImagenes.splice(index,1)
+                //    await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${referenceNumber}/{}`)
+                //     .then((response) => {     
+                //         console.log(response)                                                                                      
+                //     })
+                //     .catch(Ex => {                    
+                //         console.log(Ex);                    
+                // });   
             }
             else{
                 this.arrayImagenes = []

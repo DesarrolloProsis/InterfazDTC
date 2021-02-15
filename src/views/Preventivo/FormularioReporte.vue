@@ -51,6 +51,7 @@ import ImagenesActividadCarril from '../../components/Actividades/ImagenesActivi
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
+import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -110,11 +111,12 @@ export default {
         }
         else{
             let headerCompuesto = this.$route.query.headerCompuesto
+            console.log(headerCompuesto.fecha.substring(0,10))
             this.header = {
                 calendarId: headerCompuesto.calendarId,
                 capufeLaneNum: headerCompuesto.capufeLaneNum,
                 dateStamp: headerCompuesto.dateStamp,
-                day: headerCompuesto.day,
+                day: moment(headerCompuesto.fecha).format('DD/MM/YYYY'),
                 frequencyId: headerCompuesto.frequencyId,
                 frequencyName: headerCompuesto.frequencyName,
                 idGare: headerCompuesto.idGare,
@@ -203,14 +205,19 @@ methods:{
             })
         if(validarActividades){            
             if(this.validar_horas()) { 
-                console.log('estoy insertando Header')
                 let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)
+                let refPlazaRef = this.referenceNumber.split('-')[0]
+                console.log(refPlazaRef)
                 
-                let insercionHeaderPromise = new Promise(async (resolve, reject) => {                   
+                let insercionHeaderPromise = new Promise(async (resolve, reject) => {     
+                    console.log('estoy insertando Header')              
                     let user = await this.$store.getters['Login/getUserForDTC'] 
                     let fechaInsercion = ''
-                    if(JSON.stringify(this.objetoLogDate) != '{}')
-                        fechaInsercion = new Date(this.objetoLogDate.fecha)
+                    if(JSON.stringify(this.objetoLogDate) != '{}'){
+                        let fechaAyuda = this.objetoLogDate.fecha.split('/')
+                        console.log(fechaAyuda)
+                        fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
+                    }
                     else{
                         fechaInsercion = this.header.day   
                     }                                       
@@ -230,7 +237,8 @@ methods:{
                     console.log(headerReporte)                      
                     await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
                     .then((response) => {     
-                        console.log(response)                                                                  
+                        console.log(response)   
+                        resolve('ok')                                                               
                     })
                     .catch(Ex => {    
                         reject(Ex)                  
@@ -280,7 +288,8 @@ methods:{
                 if(this.reporteInsert) {
                     insercionHeaderPromise.then(() => {
                         insercionActividadesPromise.then(async () =>{
-                            if(JSON.stringify(this.objetoLogDate != '{}')){
+                            if(this.objetoLogDate){
+                                alert()
                                 console.log('estoy llenando el log')
                                 let refPlaza = this.referenceNumber.split('-')[0]
                                 let user = await this.$store.getters['Login/getUserForDTC']
@@ -293,6 +302,7 @@ methods:{
                                 }
                                 Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                                     .then((response) => {     
+                                        alert()
                                         console.log(response)                                                                                  
                                     }).catch(Ex => {                            
                                         console.log(Ex);                                       
@@ -300,8 +310,8 @@ methods:{
                             }       
                             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                            
                             EventBus.$emit("guardar_imagenes", this.referenceNumber);                                                             
-                            ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
-                            ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber)
+                            //ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
+                            //ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)
                             this.$notify.success({
                             title: "Ok!",
                             msg: `GENERANDO REPORTE.`,
@@ -322,8 +332,8 @@ methods:{
                     insercionActividadesPromise.then(() => {     
                         this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                       
                         EventBus.$emit("guardar_imagenes", this.referenceNumber);                            
-                        ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
-                        ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber)
+                        //ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
+                        //ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)
                         this.$notify.success({
                         title: "Ok!",
                         msg: `GENERANDO REPORTE.`,

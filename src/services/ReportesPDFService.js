@@ -108,6 +108,7 @@ function frecuencia_id_to_encabezado_id(fecuenciaId){
 function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     let clavePlaza = referenceNumber.split('-')[0]
     let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado)}/${referenceNumber}`       
+    console.log(urlTopdf)
     let namePdf = referenceNumber + ' ' + 'Preventivo' 
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
