@@ -600,7 +600,9 @@
           </tbody>
         </table>
       </div>
-
+          <!--/////////////////////////////////////////////////////////////////
+           ////                 MODAL                                   ////
+          ////////////////////////////////////////////////////////////////////-->
       <div class="flex flex-col p-5" v-if="modal">
         <div
           class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40 h-72 p-2"
@@ -635,7 +637,7 @@
             <div class="m-1">
               <p class="text-md mb-1 font-semibold text-gray-900">Unidad:</p>
               <template v-if="!modalEdit">
-                 <select
+                <select
                     v-validate="'required'"
                     :class="{ 'is_valid': !errors.first('unidad_'), 'is_invalid': errors.first('unidad_')}"
                     class="w-12"
@@ -648,7 +650,7 @@
                   </select>
               </template>
               <template v-else>
-                 <select
+                <select
                     v-validate="'required'"
                     :class="{ 'is_valid': !errors.first('unidad_'), 'is_invalid': errors.first('unidad_')}"
                     v-model="editComponent.unidad"

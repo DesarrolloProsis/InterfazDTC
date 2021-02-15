@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-center w-auto sm:hidden">
+    <div class="flex justify-center w-auto sm:hidden md:hidden lg:show xl:show">
       <div>
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
@@ -27,7 +27,7 @@
                     <th class="px-4 border-2 border-gray-800">Folio<br />(Ultimo Mantenimiento)</th>
                     <th class="px-12 border-2 border-gray-800">Real</th>
                     <th class="px-1 border-2 border-gray-800 w-20">Fabricante</th>
-                    <th class="px-4 border-2 border-gray-800"></th>
+                    <th class="px-4 border-2 border-gray-800">Acciones</th>
                   </tr>
                 </thead>
                 <!--/////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@
                     </td>
                     <td class="border border-gray-800">
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
-                      <div v-else>
+                      <!--<div v-else>
                         <multiselect
                           @select="UpdateCompEditado()"
                           v-model="updtCompEditar"
@@ -62,7 +62,8 @@
                           >
                           <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
                         </multiselect>
-                      </div>
+                      </div>-->
+                      <div v-else></div>
                     </td>
                     <td class="border border-gray-800">
                       <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
@@ -84,7 +85,7 @@
                     </td>
                     <td class="border border-gray-800">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
-                      <div v-else>
+                      <!-- <div v-else>
                         <multiselect
                           v-model="laneSelectEditar"
                           :close-on-select="false"
@@ -98,7 +99,8 @@
                             <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                           </template>
                           </multiselect>
-                      </div>
+                      </div> -->
+                      <div v-else></div>
                     </td>
                     <td class="border border-gray-800">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row9" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
@@ -120,11 +122,11 @@
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd13" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="border border-gray-800 pb-2">
                       <div v-if="equipo.rowUp">
                         <button
                     v-on:click.stop.prevent="deleteItem(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+                    class="botonIconBorrarCard"
                   >
                     <img
                       src="../../assets/img/bin.png"
@@ -155,8 +157,8 @@
                     <img
                       src="../../assets/img/garrapata.png"
                       class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
+                      width="20"
+                      height="20"
                     />
                     <span>Confirmar</span>
                         </button>
@@ -170,6 +172,13 @@
                     <td class="border border-gray-800">{{ "*" }}</td>
                     <td class="border border-gray-800">{{ datosPrePartida.rowUnidad.toString() }}</td>
                     <td class="border border-gray-800">
+                      <button @click="modalAgregarComp">
+                        <img
+                          src="../../assets/img/more.png"
+                          width="15"
+                          height="15"
+                        />
+                      </button>
                       <multiselect
                           @open="UnClick"                          
                           @select="update_componente"
@@ -183,7 +192,7 @@
                           placeholder="Buscar componentes"
                           track-by="name"
                           openDirection="below"
-                          class=""
+                          class="md:hidden lg:hidden xl:hidden"
                           label="description"
                       ><span slot="noResult"></span>
                       </multiselect>
@@ -208,6 +217,7 @@
                           placeholder="Selecciona..."
                           :options="listLane"
                           :multiple="true"
+                          class="md:hidden lg:hidden xl:hidden"
                         >
                         <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
                           <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
@@ -220,7 +230,7 @@
                     <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
                     <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
                     <td class="border border-gray-800 p-2">
-                      <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24">
+                      <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24 hidden">
                         <img src="../../assets/img/more.png" width="20" height="20" />
                         <span class="text-xs">Agregar Partida</span>
                       </button>
@@ -233,7 +243,11 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-center sm:show lg:hidden xl:hidden">
+    <!--/////////////////////////////////////////////////////////////////////
+    //////                       TABLA                                //////
+    /////                       PEQUEÑA                              //////
+    ////////////////////////////////////////////////////////////////////-->
+    <div class="flex justify-center lg:hidden xl:hidden">
       <div class="p-4" :class="{ hidden: modal }">
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
@@ -242,20 +256,21 @@
           <div class="grid gap-4 grid-cols-1">
             <div class="sm:text-xs" :class="{ 'overflow-x-auto': scrollBool}">
               <table class="border-collapse">
-              <!--/////////////////////////////////////////////////////////////////
-              ////                 CABECERA DE LA TABLA                       ////
-              ////////////////////////////////////////////////////////////////////-->
+                <!--/////////////////////////////////////////////////////////////////////
+                /////                 CABECERA DE LA TABLA                       ///////
+                ////                       PEQUEÑA                              ///////
+                ////////////////////////////////////////////////////////////////////-->
                 <thead>
                   <tr class="border text-xs bg-blue-800 text-white">
                     <th class="w-20 border-2 border-gray-800">Partida</th>
                     <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
                     <th class="w-48 border-2 border-gray-800 text-red-600">Ubicacion<br />(carril/cuerpo)</th>
-                    <th class="w-48 border-2 border-gray-800"></th>
+                    <th class="w-48 border-2 border-gray-800">Acciones</th>
                   </tr>
                 </thead>
-                <!--/////////////////////////////////////////////////////////////////
-                  ////                 CUERPO DE LA TABLA                          ////
-              ////////////////////////////////////////////////////////////////////-->
+                <!--//////////////////////////////////////////////////////////////////
+                  ////                 CUERPO DE LA TABLA                      //////
+                 /////////////////////////////////////////////////////////////////-->
                 <tbody>
                   <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
                     <td class="border border-gray-800 text-sm">
@@ -264,7 +279,7 @@
                     </td>
                     <td class="border border-gray-800 text-sm">
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
-                      <div v-else>
+<!--                       <div v-else>
                         <multiselect
                         @select="UpdateCompEditado()"                        
                         v-model="updtCompEditar"
@@ -283,11 +298,12 @@
                           query.</span
                       >
                         </multiselect>           
-                      </div>
+                      </div> -->
+                      <div v-else></div>
                     </td>
                     <td class="border border-gray-800 text-sm">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
-                      <div v-else>
+<!--                       <div v-else>
                         <multiselect
                         v-model="laneSelectEditar"
                         :close-on-select="false"
@@ -309,13 +325,14 @@
                           >
                         </template>
                         </multiselect>
-                      </div>
+                      </div> -->
+                      <div v-else></div>
                     </td>
                     <td class="border border-gray-800">
                       <div v-if="equipo.rowUp">
                         <button
                         v-on:click.stop.prevent="deleteItem(index)"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 m-1"
+                        class="botonIconBorrarCard"
                       >
                         <img
                           src="../../assets/img/bin.png"
@@ -335,7 +352,7 @@
                         </button> -->
                         <button
                         v-on:click.stop.prevent="infoModal(index)"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-blue-700 m-1"
+                        class="botonIconMas ml-1"
                       >
                         <img
                           src="../../assets/img/mas.png"
@@ -368,12 +385,15 @@
                       </div>
                     </td>
                   </tr>
-                <!--/////////////////////////////////////////////////////////////////
-                ////           FOOTER DE LA TABLA + PARTIDA                      ////
-                ////////////////////////////////////////////////////////////////////-->
+                  <!--////////////////////////////////////////////////////////////////////
+                  ////           FOOTER DE LA TABLA + PARTIDA                      //////
+                  ////////////////////////////////////////////////////////////////////-->
                   <tr class="text-center">
                     <td class="border border-gray-800">{{ "*" }}</td>
                     <td class="border border-gray-800">
+                      <button @click="modalAgregarComp">
+                        <img src="../../assets/img/more.png" width="20" height="20" />
+                      </button>
                       <multiselect
                         @select="update_componente"
                         @open="UnClick,scrollBool = false"
@@ -387,7 +407,7 @@
                         :group-select="false"
                         placeholder="Buscar componentes"
                         track-by="name"
-                        class="w-32"
+                        class="w-32 sm:hidden md:hidden lg:hidden xl:hidden"
                         label="description"
                         ><span slot="noResult"
                           >Oops! No elements found. Consider changing the search
@@ -406,6 +426,7 @@
                         placeholder="Selecciona..."
                         :options="listLane"
                         :multiple="true"
+                        class="sm:hidden md:hidden lg:hidden xl:hidden"
                       >
                         <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
                           <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
@@ -415,7 +436,7 @@
                     <td class="border border-gray-800 p-3">
                       <button
                         v-on:click.stop.prevent="agregarPartida()"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs rounded inline-flex items-center border-2 border-green-700 w-20"
+                        class="botonIconCrear hidden"
                       >
                         <img
                           src="../../assets/img/more.png"
@@ -498,6 +519,61 @@
         </div>
       </div>
     </div>
+        <!--//////////////////////////////////////////////////////////////////
+        ////                         MODAL AGREGAR COMPONENTE            ////
+        //////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-69 mx-auto px-2">
+                <div class="rounded-lg border bg-white border-gray-700 px-4 py-10 shadow-2xl">
+                  <!--////////////////////////////////////////////////////////////////////
+                  ////                        BOTONES MODAL AGREGAR COMP             ////
+                  ////////////////////////////////////////////////////////////////////-->
+                    <multiselect
+                        @select="update_componente"
+                        @open="UnClick,scrollBool = false"
+                        @close="scrollBool = true"
+                        v-model="updtComp"
+                        :options="listaComponentes"
+                        :multiple="false"
+                        group-values="secundarios"
+                        group-label="componentePrincipal"
+                        :close-on-select="true"
+                        :group-select="false"
+                        placeholder="Componente"
+                        track-by="name"
+                        class="w-full"
+                        label="description"
+                        ><span slot="noResult"
+                          >Oops! No elements found. Consider changing the search
+                          query.</span
+                        >
+                      </multiselect>
+                      <br>
+                      <multiselect
+                        v-model="laneSelect"
+                        @open="scrollBool = false"                        
+                        @close="scrollBool = true"
+                        :close-on-select="false"
+                        :clear-on-select="true"
+                        :hideSelected="false"
+                        placeholder="Carril/Cuepro"
+                        :options="listLane"
+                        :multiple="true"
+                      >
+                        <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                          <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                        </template>
+                      </multiselect>
+                      
+                    <div class="justify-center flex mt-5">
+                        <button  
+                        v-on:click.stop.prevent="agregarPartida()"
+                        class="botonIconCrear m-6">Cambiar</button>
+                        <button @click="botoncancelar_modal" class="botonIconCancelar m-6">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
   </div>
 </template>
@@ -515,6 +591,7 @@ export default {
   },
   data() {
     return {
+      showModal: false,
       datosPrePartida: {
         rowPartida: [],
         rowUnidad: [],
@@ -668,7 +745,15 @@ destroyed: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  UnClick() { this.updtComp = "" },  
+  UnClick() { this.updtComp = "" },
+  modalAgregarComp: function (){
+        this.showModal = true       
+},  
+  botoncancelar_modal: function (){
+    this.showModal = false
+    this.laneSelect = ''
+    this.updtComp = ''
+},  
   update_componente: async function (value) {
       for (const propiedades in this.datosPrePartida) {
         this.datosPrePartida[propiedades] = [];
@@ -991,7 +1076,8 @@ methods: {
           this.updtComp = "";
           this.laneSelect = [];
           this.listLane = [];  
-          this.statusMetro = false        
+          this.statusMetro = false
+          this.showModal= false        
         } else {
           this.$notify.warning({
             title: "Ups!",

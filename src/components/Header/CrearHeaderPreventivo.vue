@@ -78,17 +78,17 @@
         ////                      MODAL CAMBIAR FECHA                    ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-            <div v-if="showModal" class="rounded-lg  justify-center absolute inset-x-0 w-69 mx-auto px-12 py-10">
+            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-69 mx-auto px-2">
                 <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
                     <p class="text-gray-900 font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
                     <div>
-                        <div class="mt-5">
+                        <div class="mt-5 sm:grid grid-cols-1">
                             <div class="flex justify-start grid grid-cols-2">
                                 <p class=" font-bold">Fecha Original:</p>                        
                                 <p class="ml-5 text-center">{{ header.day }}</p> 
                             </div> 
                             <br> 
-                            <div class="grid grid-cols-2">  
+                            <div class="grid grid-cols-2 sm:grid-cols-1">  
                             <p class="font-bold my-1 sm:text-sm">Nueva Fecha *:</p>
                             <input v-model="fechaCambio" class="border w-40" type="date"/>
                             </div>
@@ -113,8 +113,8 @@
                     ////                     BOTONES MODAL CAMBIAR FECHA          ////
                     ////////////////////////////////////////////////////////////////////-->
                     <div class="justify-center flex mt-5">
-                        <button  @click="botoncambiar_modal" class="botonIconCrear m-6">Cambiar</button>
-                        <button  @click="botoncancelar_modal" class="botonIconCancelar m-6">Cancelar</button>
+                        <button  @click="botoncambiar_modal" class="botonIconCrear m-6 sm:m-3">Cambiar</button>
+                        <button  @click="botoncancelar_modal" class="botonIconCancelar m-6 sm:m-3">Cancelar</button>
                     </div>
                 </div>
             </div>

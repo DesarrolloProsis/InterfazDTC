@@ -202,6 +202,16 @@ select:focus {
     @apply outline-none;
 }
 
+.botonIconMas{
+    @apply bg-white tracking-wide text-gray-800 border-b-2 border-blue-500 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
+}
+
+.botonIconMas:hover{
+    @apply border-blue-500 bg-blue-300 text-white;
+}
+.botonIconMas:focus{
+    @apply outline-none;
+}
 
 @tailwind components;
 
