@@ -4,7 +4,7 @@
         <div class=" inline-flex h-40 border border-gray-800 w-full">
             <div class="w-2/3 grid grid-cols-2 p-2 gap-4 overflow-auto">                                                                                                                
                 <div class="relative border" v-for="(item, key) in arrayImagenes" :key="key">
-                    <span @click="eliminar_imagen(key)" class="absolute border rounded-full top-0 right-0">
+                    <span @click="eliminar_imagen(item, key)" class="absolute border rounded-full top-0 right-0">
                         <img  src="../../assets/img/closeCircle.png" class="w-4 cursor-pointer " />
                     </span>   
                     <div class="p-2">      
@@ -83,19 +83,37 @@ export default {
                 });   
             }                     
         },
-        eliminar_imagen(index){
+        eliminar_imagen(item, key){
             if(this.arrayImagenes.length > 1){
-                this.arrayImagenes.splice(index,1)
-                //    await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${referenceNumber}/{}`)
-                //     .then((response) => {     
-                //         console.log(response)                                                                                      
-                //     })
-                //     .catch(Ex => {                    
-                //         console.log(Ex);                    
-                // });   
+                console.log(key)
+                console.log(item)
+                if(item.imgbase.length < 200){
+                   Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
+                       .then((response) => {     
+                           console.log(response)                                                                                      
+                       })
+                       .catch(Ex => {                    
+                           console.log(Ex);                    
+                   });  
+                } 
+                this.$nextTick(() => {
+                    this.arrayImagenes.splice(key,1)
+                    let arrayCache = { ...this.arrayImagenes }
+                    this.arrayImagenes = []
+                    this.arrayImagenes = arrayCache
+                })
             }
             else{
                 this.arrayImagenes = []
+                if(item.imgbase.length < 200){
+                Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
+                    .then((response) => {     
+                        console.log(response)                                                                                      
+                    })
+                    .catch(Ex => {                    
+                        console.log(Ex);                    
+                    });  
+                } 
             }
         }
     }

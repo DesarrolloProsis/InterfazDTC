@@ -165,12 +165,7 @@ export default {
     eliminarImagen: function (item) {
       if (confirm("¿Seguro que quiere eliminar esta imagen?")) {
         if (!this.agregarbool) {
-          let nombre = this.fileUpload[item].name;
-          // let eliminado = this.imagenes_enviar
-          //   .map(function (e) {
-          //     return e.name;
-          //   })
-          //   .indexOf(nombre);          
+          let nombre = this.fileUpload[item].name;         
           let index = this.fileUpload.indexOf(item => item.name == nombre) 
           if (index > -1){ 
             if(this.imagenes_enviar.length == 1){
