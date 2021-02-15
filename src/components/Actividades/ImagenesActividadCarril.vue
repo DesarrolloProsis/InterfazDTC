@@ -42,26 +42,25 @@ export default {
         }
     },
     created(){
-         EventBus.$on("guardar_imagenes", referenceNumber => {                                          
+        EventBus.$on("guardar_imagenes", referenceNumber => {                                          
             this.enviar_imagen(referenceNumber)
         });
     },
     beforeMount() {        
         setTimeout(() => {
-             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
-                 .then((response) => {     
-                    console.log(response)      
+            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+                .then((response) => {      
                     if(response.status != 404){
-                         response.data.forEach(item => {
-                           this.arrayImagenes.push({
-                             "name": item, 
-                             "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
-                           })
-                         })                                       
-                     }    
-                 })
-                 .catch(Ex => {                    
-                     console.log(Ex);                    
+                        response.data.forEach(item => {
+                            this.arrayImagenes.push({
+                                "name": item, 
+                                "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+                            })
+                        })                                       
+                    }    
+                })
+                .catch(Ex => {                    
+                    console.log(Ex);                    
             });
         }, 1000)
     },
@@ -84,17 +83,15 @@ export default {
             }                     
         },
         eliminar_imagen(item, key){
-            if(this.arrayImagenes.length > 1){
-                console.log(key)
-                console.log(item)
+            if(this.arrayImagenes.length > 1){                
                 if(item.imgbase.length < 200){
-                   Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
-                       .then((response) => {     
-                           console.log(response)                                                                                      
-                       })
-                       .catch(Ex => {                    
-                           console.log(Ex);                    
-                   });  
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
+                        .then((response) => {     
+                            console.log(response)                                                                                      
+                        })
+                        .catch(Ex => {                    
+                            console.log(Ex);                    
+                    });  
                 } 
                 this.$nextTick(() => {
                     this.arrayImagenes.splice(key,1)

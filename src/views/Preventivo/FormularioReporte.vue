@@ -195,7 +195,7 @@ methods:{
                         width: 500,
                     },
                 });
-                return false
+                return false    
             }
     },
     async crear_header_reporte(){                 
@@ -302,18 +302,7 @@ methods:{
                                     })         
                             }       
                             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                            
-                            EventBus.$emit("guardar_imagenes", this.referenceNumber);                                                             
-                            //ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
-                            //ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)
-                            this.$notify.success({
-                            title: "Ok!",
-                            msg: `GENERANDO REPORTE.`,
-                            position: "bottom right",
-                            styles: {
-                                height: 100,
-                                width: 500,
-                                },
-                            });                                
+                            EventBus.$emit("guardar_imagenes", this.referenceNumber);                                                                                                                      
                         })
                     })
                     .catch((Ex) => {
@@ -323,18 +312,7 @@ methods:{
                 else {
                     insercionActividadesPromise.then(() => {     
                         this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                       
-                        EventBus.$emit("guardar_imagenes", this.referenceNumber);                            
-                        //ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
-                        //ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)
-                        this.$notify.success({
-                        title: "Ok!",
-                        msg: `GENERANDO REPORTE.`,
-                        position: "bottom right",
-                        styles: {
-                            height: 100,
-                            width: 500,
-                            },
-                        });                         
+                        EventBus.$emit("guardar_imagenes", this.referenceNumber);                                                               
                     })                    
                     .catch((Ex) => {
                         console.log(Ex)

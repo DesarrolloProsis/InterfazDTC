@@ -3,7 +3,7 @@ import saveAs from "file-saver";
 import store from '../store/index'
 import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
-
+import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     sinfirma: 1,
@@ -108,7 +108,6 @@ function frecuencia_id_to_encabezado_id(fecuenciaId){
 function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     let clavePlaza = referenceNumber.split('-')[0]
     let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado)}/${referenceNumber}`       
-    console.log(urlTopdf)
     let namePdf = referenceNumber + ' ' + 'Preventivo' 
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
@@ -122,19 +121,27 @@ function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     oReq.send();  
 }
 function generar_pdf_fotografico_preventivo(referenceNumber, lane){
-    let clavePlaza = referenceNumber.split('-')[0]
-    let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
-    let namePdf = referenceNumber + ' ' + 'Preventivo' 
-    var oReq = new XMLHttpRequest();  
-    oReq.open("GET", urlTopdf, true);    
-    oReq.responseType = "blob";         
-    oReq.onload = function () {         
-    var file = new Blob([oReq.response], {
-        type: "application/pdf",
+    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`)
+    .then((response) => {    
+        if(response.data.length > 0){
+            let clavePlaza = referenceNumber.split('-')[0]
+            let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
+            let namePdf = referenceNumber + ' ' + 'Preventivo' 
+            var oReq = new XMLHttpRequest();  
+            oReq.open("GET", urlTopdf, true);    
+            oReq.responseType = "blob";         
+            oReq.onload = function () {         
+            var file = new Blob([oReq.response], {
+                type: "application/pdf",
+            });    
+            saveAs(file, namePdf);
+            };
+            oReq.send();  
+        }
+    })
+    .catch(Ex => {                    
+        console.log(Ex);                    
     });    
-    saveAs(file, namePdf);
-    };
-    oReq.send();  
 }
 export default {
     generar_pdf_correctivo,

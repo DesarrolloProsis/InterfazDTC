@@ -177,7 +177,7 @@ botoncambiar_modal: async function (){
         let toDay = new Date()
         let fecha = new Date(this.fechaCambio)        
         fecha.setDate(fecha.getDate())
-        if( fecha > toDay){
+        if( fecha < toDay){
             this.$notify.warning({
             title: "Ops!! ",
             msg: "FECHA INVALIDA",
@@ -193,7 +193,7 @@ botoncambiar_modal: async function (){
             this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")
             let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']                                            
             let referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName, this.fechaCambio ,this.header.lane)
-             this.$emit('guarar-log-fecha', {
+            this.$emit('guarar-log-fecha', {
                 fecha: this.fechaCambio,
                 motivo: this.motivoCambioFecha,
                 ref: referenceNumber 
@@ -201,8 +201,7 @@ botoncambiar_modal: async function (){
             this.header.day = this.fechaCambio                
             this.showModal = false
             this.fechaCambio = ''
-            this.motivoCambioFecha = ''            
-           
+            this.motivoCambioFecha = ''                       
         }
     }
     else
