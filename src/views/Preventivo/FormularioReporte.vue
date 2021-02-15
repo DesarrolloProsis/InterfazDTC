@@ -303,6 +303,10 @@ methods:{
                             }       
                             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                            
                             EventBus.$emit("guardar_imagenes", this.referenceNumber);                                                                                                                      
+                            setTimeout(() =>{
+                                ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
+                                ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)       
+                            },2000)                                              
                         })
                     })
                     .catch((Ex) => {
@@ -312,7 +316,11 @@ methods:{
                 else {
                     insercionActividadesPromise.then(() => {     
                         this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                       
-                        EventBus.$emit("guardar_imagenes", this.referenceNumber);                                                               
+                        EventBus.$emit("guardar_imagenes", this.referenceNumber);
+                        setTimeout(() =>{
+                            ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId)
+                            ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)       
+                        },2000)                                                                                
                     })                    
                     .catch((Ex) => {
                         console.log(Ex)

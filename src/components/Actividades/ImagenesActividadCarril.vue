@@ -73,7 +73,7 @@ export default {
                 let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)
                 let formData = new FormData();
                 formData.append("image", imgagen);
-                await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/TLA/${referenceNumber}`,formData)
+                await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData)
                     .then((response) => {     
                         console.log(response)                                                                                      
                     })
