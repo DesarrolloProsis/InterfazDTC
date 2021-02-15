@@ -219,7 +219,9 @@ methods:{
                         fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
                     }
                     else{
-                        fechaInsercion = this.header.day   
+                        let fechaAyuda = this.header.day.split('/')
+                        console.log(fechaAyuda)
+                        fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
                     }                                       
                     let headerReporte = {
                         ReferenceNumber: this.referenceNumber,
@@ -254,7 +256,6 @@ methods:{
                                 ComponentJob: parseInt(item.idJob),
                                 JobStatus: parseInt(item.jobStatus),
                                 flagUpdate: this.reporteInsert 
-
                         })    
                     });                           
                     Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.referenceSquare}/${this.header.calendarId}`, arrayJob)
@@ -284,7 +285,6 @@ methods:{
                             console.log(Ex);                                       
                         })                  
                 })
-
                 if(this.reporteInsert) {
                     insercionHeaderPromise.then(() => {
                         insercionActividadesPromise.then(async () =>{
@@ -328,7 +328,6 @@ methods:{
                     })     
                 }
                 else {
-
                     insercionActividadesPromise.then(() => {     
                         this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                       
                         EventBus.$emit("guardar_imagenes", this.referenceNumber);                            
