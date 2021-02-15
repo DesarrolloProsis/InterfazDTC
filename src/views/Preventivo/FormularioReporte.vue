@@ -215,12 +215,10 @@ methods:{
                     let fechaInsercion = ''
                     if(JSON.stringify(this.objetoLogDate) != '{}'){
                         let fechaAyuda = this.objetoLogDate.fecha.split('/')
-                        console.log(fechaAyuda)
                         fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
                     }
                     else{
                         let fechaAyuda = this.header.day.split('/')
-                        console.log(fechaAyuda)
                         fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
                     }                                       
                     let headerReporte = {
@@ -235,9 +233,8 @@ methods:{
                         End: this.horaFin,
                         Observations: this.observaciones,   
                         CalendarId: parseInt(this.header.calendarId)     
-                    }    
-                    console.log(headerReporte)                      
-                    await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.referenceSquare}`,headerReporte)
+                    }                       
+                    await Axios.post(`${API}/Calendario/CalendarReportData/${refPlazaRef}`,headerReporte)
                     .then((response) => {     
                         console.log(response)   
                         resolve('ok')                                                               
@@ -248,7 +245,6 @@ methods:{
                     });                                  
                 })
                 let insercionActividadesPromise = new Promise(async (resolve, reject) => {
-                    console.log('estoy insertando actividades Job')
                     let arrayJob = []       
                     this.listaActividades.forEach(async (item) => {    
                         arrayJob.push({
@@ -289,8 +285,6 @@ methods:{
                     insercionHeaderPromise.then(() => {
                         insercionActividadesPromise.then(async () =>{
                             if(this.objetoLogDate){
-                                alert()
-                                console.log('estoy llenando el log')
                                 let refPlaza = this.referenceNumber.split('-')[0]
                                 let user = await this.$store.getters['Login/getUserForDTC']
                                 let dateLog = {
@@ -302,7 +296,6 @@ methods:{
                                 }
                                 Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                                     .then((response) => {     
-                                        alert()
                                         console.log(response)                                                                                  
                                     }).catch(Ex => {                            
                                         console.log(Ex);                                       

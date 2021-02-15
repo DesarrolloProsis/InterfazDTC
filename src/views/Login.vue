@@ -14,7 +14,7 @@
         <br />
         <div class="mt-10">
           <div class="mb-5">
-            <input  v-validate="'required'" v-model="datos.User" class="w-full h-8" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
+            <input @keyup.enter="ingresarLogin()"  v-validate="'required'" v-model="datos.User" class="w-full h-8" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
             <span class="text-red-600 text-xs">{{ errors.first("Usuario") }}</span>
           </div>
           <div class="mb-5">

@@ -16,11 +16,8 @@ const state =  {
 }
 const getters = {
     GET_ACTIVIDADES_MENSUALES: (state) => (obj) => {        
-        return state.actividadesMensuales.map(actividad => {
-            console.log(obj)
-            console.log(actividad.day)   
+        return state.actividadesMensuales.map(actividad => { 
             let ayudaFecha = new Date(parseInt(obj.year), parseInt(obj.month - 1), parseInt(actividad.day))                                                                     
-            console.log(ayudaFecha)
             actividad["day"] = moment(ayudaFecha).format("DD/MM/YYYY"); //`${actividad.day}/${obj.month}/${obj.year}`  
             actividad["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
             return { ...actividad }
@@ -68,16 +65,13 @@ const actions = {
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
-        let rolUser = rootGetters['Login/getTypeUser']        
-        console.log(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`)
+        let rolUser = rootGetters['Login/getTypeUser']                
         await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`,value)
         .then((response) => {   
-            console.log(response.data.result)  
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1
                 return actividad
-            })        
-            console.log(actividades)                                 
+            })                                       
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
         .catch(Ex => {

@@ -36,7 +36,6 @@ function eventos_calendario_formato(objApi){
     let eventsReturn = []
     var i = 1;
     let eventoReducidoDay = [];       
-    console.log(eventoSinFormato)
     while (i < 31) {
         let query = eventoSinFormato.filter(
             (item) => item.day.split('/')[0] == i
@@ -50,8 +49,7 @@ function eventos_calendario_formato(objApi){
             }
         }
         i++;
-    }    
-    console.log(eventoReducidoDay)
+    }        
     for (let item of eventoReducidoDay) {  
         eventsReturn.push(construir_objeto_actividad(item, item[0]))
     }
@@ -59,7 +57,6 @@ function eventos_calendario_formato(objApi){
 }
 function construir_objeto_actividad(listaCarriles, info){
     let carriles = []    
-    console.log(listaCarriles)
     for (let carril of listaCarriles) {
         carriles.push({
             lane: carril.lane,
@@ -67,8 +64,7 @@ function construir_objeto_actividad(listaCarriles, info){
             idGare: carril.idGare,
             calendarId: parseInt(carril.calendarId)
         });
-    }  
-    console.log(info.day)          
+    }       
     return {                        
         start: moment(info.day, "DD/MM/YYYY").format("YYYY-MM-DD"), 
         tipoActividad: codigo_colores_actividad(info.frequencyId).nombre,
