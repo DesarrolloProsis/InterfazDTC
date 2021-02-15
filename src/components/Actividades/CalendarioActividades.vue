@@ -38,9 +38,9 @@
           <div>
           </div>
         </div>
-        <div class="justify-end flex mt-5">
-          <button @click="agregar_actividad_dia" class="botonIconCrear">Aceptar</button>
-          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar">Cancelar</button>
+        <div class="justify-end  flex sm:grid grid-cols-1 mt-5">
+          <button @click="agregar_actividad_dia" class="botonIconCrear sm:mb-2">Aceptar</button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar sm:w-full sm:ml-0">Cancelar</button>
         </div>
       </div>
     </div>

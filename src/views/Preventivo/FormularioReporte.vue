@@ -11,7 +11,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////          TEXT AREA PARA OBSERVACIONES                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class=" inline-flex mx-auto w-full pl-20 pr-20">
+        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-2">
             <div class="w-1/2">                
                 <p class="text-center font-bold text-xl text-gray-800 mb-5">Observaciones</p>          
                 <textarea
@@ -35,8 +35,8 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/2 justify-end flex">
-                <button @click="crear_header_reporte" class="mt-32 botonIconCrear h-16 w-32">
+            <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
+                <button @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32">
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>
