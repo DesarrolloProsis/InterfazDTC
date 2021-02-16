@@ -544,7 +544,8 @@ methods: {
     if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '' || this.statusFiltro != ''){
       this.infoDTC = []
       this.lista_dtc = []   
-      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
+      let filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
+      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
       console.log(dtcFiltrados)
       this.$nextTick().then(async () => {
           this.moreCard = true            
@@ -558,7 +559,7 @@ methods: {
       })  
     }
     else{
-       this.$notify.warning({
+      this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
           position: "bottom right",

@@ -69,9 +69,14 @@
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                       COMENTARIO                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-20 mt-10 inline-block sm:p-3">
-                        <p class=" uppercase sm:text-base text-lg">Comentario:</p>
-                        <p>{{ comentario }}</p>
+                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-20 sm:ml-0 sm:mb-2 mr-2 mt-1 inline-block sm:p-1">
+                        <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
+                        <!-- <p>{{ comentario }}</p> -->
+                        <textarea
+                        v-model="comentario"
+                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-500 rounded-lg px-2 py-2 h-32 w-full"
+                        readonly
+                        />
                     </div>                                 
                 </div>            
             </div>
