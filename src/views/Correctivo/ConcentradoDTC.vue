@@ -86,6 +86,7 @@
                       <span class="text-xs sm:hidden">Firmado</span>
                   </button>
                   <button
+                      v-if="item.statusId == 3"
                       @click="Descargar_PDF(item,3)"
                       class="botonIconCrear">
                       <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />

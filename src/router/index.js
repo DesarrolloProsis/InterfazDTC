@@ -99,6 +99,11 @@ const routes = [
   },
 
   {
+    path: '/Pruebas',
+    name: 'Pruebas',
+    component: () => import('../views/Correctivo/Pruebas')
+  },
+  {
     path: '/ListarDtc',
     name: 'ListarDtc',
     component: ListarDTC,
