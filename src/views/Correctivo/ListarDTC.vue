@@ -557,7 +557,7 @@ methods: {
       })  
     }
     else{
-       this.$notify.warning({
+      this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
           position: "bottom right",

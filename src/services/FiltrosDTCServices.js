@@ -1,17 +1,11 @@
 import store from "../store/index"
 import moment from "moment";
-async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafecha){
-    console.log(numPlaza)
-    console.log(fecha)
-    console.log(referenceNumber)
-    console.log(status)
-    console.log(banderafecha)
-    this.infoDTC  = []
+async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafecha){                        
     let listaCompleta  = await store.getters["DTC/getlistaInfoDTC"]; 
     let listaFiltrada = []  
     //Si filtra por plaza, fecha y referencia
     if (numPlaza != "" && fecha != "" && referenceNumber != ""){
-        listaFiltrada = filtro_plaza(listaCompleta, numPlaza)
+        listaFiltrada = filtro_plaza(listaCompleta, numPlaza, true)
         listaFiltrada = filtro_fecha( listaFiltrada, fecha, banderafecha)
         listaFiltrada = filtro_referencia(listaFiltrada,referenceNumber)
     }
@@ -22,12 +16,12 @@ async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafech
     }
     //Si filtra por  plaza y referencia
     else if (referenceNumber != "" && numPlaza != "") {     
-        listaFiltrada = filtro_plaza(listaCompleta, numPlaza)
+        listaFiltrada = filtro_plaza(listaCompleta, numPlaza, true)
         listaFiltrada = filtro_referencia(listaFiltrada,referenceNumber)
     }
     //Si filtra solo por la plaza
     else if(numPlaza != "" && fecha == "" && referenceNumber == ""){      
-        listaFiltrada = filtro_plaza(listaCompleta, numPlaza)
+        listaFiltrada = filtro_plaza(listaCompleta, numPlaza, true)
     }
     //Si filtra solo por la fecha
     else if (fecha != "" && numPlaza == "" && referenceNumber == "") {    
@@ -39,12 +33,20 @@ async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafech
     }
     
     if(status != undefined && status != '')
-        return listaFiltrada.filter(dtc => dtc.statusId == status)
+        if(listaFiltrada.length == 0)
+            return listaCompleta.filter(dtc => dtc.statusId == status)
+        else
+            return listaFiltrada.filter(dtc => dtc.statusId == status)
     else
         return listaFiltrada
 }
-function filtro_plaza (listaDTC, numPlaza) {
-    let listaFiltrada = listaDTC.filter(dtc => dtc.squareCatalogId == numPlaza)
+function filtro_plaza (listaDTC, numPlaza, tipoDTC) {
+    let listaFiltrada = []
+    if(tipoDTC)
+        listaFiltrada = listaDTC.filter(dtc => dtc.squareCatalogId == numPlaza)
+    else
+        listaFiltrada = listaDTC.filter(dtc => dtc.plazaId == numPlaza)
+
     return listaFiltrada
 }
 function  filtro_fecha (listaDTC, fecha, sinisterOrdElab) {
@@ -73,7 +75,51 @@ function filtro_referencia (listaDTC,referenceNumber) {
         }
     return newArray
 }
+
+function filtrar_calendario_historico(listaCalendario, numTramo, numPlaza, año, mes){
+    console.log(listaCalendario)
+    console.log(numTramo)
+    console.log(numPlaza)
+    console.log(año)
+    let listaCompleta = listaCalendario
+    let listaFiltrada = []
+    if(numTramo != ''){
+        listaFiltrada = filtro_tramo(listaCompleta, numTramo)
+    }
+    if(numPlaza != ''){
+        if(listaFiltrada.length == 0)
+            listaFiltrada = filtro_plaza(listaCompleta, numPlaza, false)
+        else
+            listaFiltrada = filtro_plaza(listaFiltrada, numPlaza, false)
+    }
+    if(año != ''){
+        if(listaFiltrada.length == 0)
+            listaFiltrada = filtro_año(listaCompleta, año)
+        else
+            listaFiltrada = filtro_año(listaFiltrada, año)
+    }
+    if(mes != ''){
+        if(listaFiltrada.length == 0)
+            listaFiltrada = filtro_mes(listaCompleta, mes)
+        else
+            listaFiltrada = filtro_mes(listaFiltrada, mes)
+    }
+    return listaFiltrada
+}
+function filtro_tramo (listaDTC, numTramo) {
+    let listaFiltrada = listaDTC.filter(dtc => dtc.delegationId == numTramo)
+    return listaFiltrada
+}
+function filtro_año (listaDTC, año) {
+    let listaFiltrada = listaDTC.filter(dtc => dtc.year == parseInt(año))
+    return listaFiltrada
+}
+function filtro_mes (listaDTC, mes) {
+    let listaFiltrada = listaDTC.filter(dtc => dtc.month == parseInt(mes))
+    return listaFiltrada
+}
 export default
 {
-    filtrarDTC
+    filtrarDTC,
+    filtrar_calendario_historico
 }
