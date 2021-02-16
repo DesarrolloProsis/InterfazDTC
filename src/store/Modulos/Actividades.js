@@ -44,7 +44,9 @@ const mutations = {
 }
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
-        dispatch('OBTENER_COMENTARIO_MENSUAL', value)         
+        dispatch('OBTENER_COMENTARIO_MENSUAL', value)      
+        console.log(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`)   
+        console.log(value)
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`,value)
             .then((response) => {               
                 console.log(response.data.result) 

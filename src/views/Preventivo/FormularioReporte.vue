@@ -254,7 +254,7 @@ methods:{
                                 flagUpdate: this.reporteInsert 
                         })    
                     });                           
-                    Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.referenceSquare}/${this.header.calendarId}`, arrayJob)
+                    Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlazaRef}/${this.header.calendarId}`, arrayJob)
                         .then((response) => {     
                             console.log(response) 
                             this.$notify.success({
