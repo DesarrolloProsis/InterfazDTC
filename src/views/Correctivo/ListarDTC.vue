@@ -295,7 +295,8 @@ export default {
       moreCard: true,
       carruselModal: false,
       arrayImagenesCarrusel: [],
-      listaStatus: []
+      listaStatus: [],
+      filtroVista: false
     };
   },
   components: {
@@ -315,8 +316,9 @@ created(){
     });
 },
 beforeMount: async function () {
+  this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
   this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
-  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"];  
+  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
   this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
   let todasPlazas = await  this.$store.getters['Login/getListaPlazas']  
@@ -368,7 +370,7 @@ methods: {
       }
       await this.$store.dispatch("Header/buscarListaUnique");
       await this.$store.dispatch('DTC/buscarListaDTC', userId)            
-      this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"] 
+      this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista) 
       this.infoDTC.forEach((element, index) => {
         if(index < 3)
           this.lista_dtc.push(element) 
@@ -479,7 +481,7 @@ methods: {
       this.infoDTC = []    
       this.lista_dtc = []      
       await this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
+        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
         this.fechaFiltro = "";
         this.referenciaFiltro = "";            
         this.plazaFiltro = ""
@@ -543,9 +545,8 @@ methods: {
   filtro_Dtc: async function () { 
     if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '' || this.statusFiltro != ''){
       this.infoDTC = []
-      this.lista_dtc = []   
-      let filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
+      this.lista_dtc = []         
+      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
       console.log(dtcFiltrados)
       this.$nextTick().then(async () => {
           this.moreCard = true            

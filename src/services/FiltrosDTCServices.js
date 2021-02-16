@@ -1,11 +1,7 @@
 import store from "../store/index"
 import moment from "moment";
-async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha){     
-    let listaCompleta = []
-    if(filtroVista)
-        listaCompleta  = await store.getters["DTC/getlistaInfoDTC"].filter(item => item.statusId == 4);        
-    else          
-        listaCompleta  = await store.getters["DTC/getlistaInfoDTC"].filter(item => item.statusId < 4); 
+async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha){         
+    let listaCompleta  = await store.getters["DTC/getlistaInfoDTC"](filtroVista); 
     let listaFiltrada = []  
     //Si filtra por plaza, fecha y referencia
     if (numPlaza != "" && fecha != "" && referenceNumber != ""){

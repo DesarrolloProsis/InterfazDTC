@@ -29,7 +29,12 @@ const getters = {
   },
   getListaDescriptions: () => state.listaDescriptions,
   getInsertDmgComplete: () => state.insertDmgComplete,
-  getlistaInfoDTC: () => state.listaInfoDTC,
+  getlistaInfoDTC: () => (tipoVista) => {
+    if(tipoVista)
+      return state.listaInfoDTC.filter(dtc => dtc.statusId == 4)
+    else
+      return state.listaInfoDTC.filter(dtc => dtc.statusId < 4)
+  },
   gettableFormComp: () => state.tableFormComponent,
   getcomponentesEdit: () => state.componetesEdit,
   getDmgLibre: () => state.listaDmgLibre,
