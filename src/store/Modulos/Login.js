@@ -3,7 +3,7 @@ import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
-  listUser: null,
+  listaHeaderDtcUser: null,
   listaPlazas: [],
   userLogeado: [],
   listaTec: [],
@@ -24,8 +24,8 @@ const state = {
 const getters = {
   getUserForDTC: () => {
     return {
-      numPlaza: state.listUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
-      idUser: state.listUser[state.PLAZAELEGIDA].userId
+      numPlaza: state.listaHeaderDtcUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
+      idUser: state.listaHeaderDtcUser[state.PLAZAELEGIDA].userId
     }
   },
   getListaPlazasUser: () => {
@@ -36,8 +36,8 @@ const getters = {
       return obj
     })
   },
-  getUser: () => state.listUser,
-  getListaPlazas: () => state.listaPlazas,
+  getUser: () => state.listaHeaderDtcUser,
+  //getListaPlazas: () => state.listaPlazas,
   getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
   getReferenceSquareActual: () => state.userLogeado[state.PLAZAELEGIDA].referenceSquare,
   getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.userLogeado.find(item => item.squareName ==  nombrePlaza),
@@ -50,25 +50,25 @@ const getters = {
     else
       return ''
   },
-  getListaTec: () => state.listaTec,
+  //getListaTec: () => state.listaTec,
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
 };
 const mutations = {
   PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
-  listaPlazasMutation: (state, value) => state.listaPlazas = value,
+  LISTA_PLAZAS_MUTATION: (state, value) => state.listaPlazas = value,
   userLogeadoMutation: (state, value) => state.userLogeado = value,
-  listaTecMutation: (state, value) => state.listaTec = value,
+  LISTA_TECNICOS_MUTATION: (state, value) => state.listaTec = value,
   cleanOut: (state) => {
-    state.listUser = []
+    state.listaHeaderDtcUser = []
     state.listaPlazas = []
     state.userLogeado = []
   },
-  listaUser: (state, value) => {
-    state.listUser = value,
+  LISTA_HEADER_PLAZA_USER: (state, value) => {
+    state.listaHeaderDtcUser = value,
     state.PLAZAELEGIDA = 0
   },  
   PLAZAELEGIDAFINDMUTATION: (state, value) => {    
-    let index = state.listUser.findIndex(item => item.referenceSquare == value)    
+    let index = state.listaHeaderDtcUser.findIndex(item => item.referenceSquare == value)    
     if(index != -1){
       state.PLAZAELEGIDA = index
     }
@@ -76,20 +76,20 @@ const mutations = {
 };
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
-  async buscarHeaderTec({ commit }, value) {
+  async BUSCAR_HEADER_OTRO_TECNICO({ commit }, value) {
     await Axios.get(`${API}/login/buscarHeaderTec/${value}`)
       .then(response => {
-        commit("listaUser", response.data.result);
+        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
       });
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
-  async buscarTec({ commit }, value) {
+  async BUSCAR_TECNICOS_PLAZA({ commit }, value) {
     await Axios.get(`${API}/login/buscarTec/${value}`)
       .then(response => {
-        commit("listaTecMutation", response.data.result);
+        commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
@@ -115,17 +115,17 @@ const actions = {
   async buscarUsuario({ commit }, value) {    
     await Axios.get(`${API}/login/${value.User}/${value.Password}/${false}`)
       .then(response => {        
-        commit("listaUser", response.data.result);
+        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
       });
   },
   //CONULTA PARA LISTAR LAS PLAZAS
-  async buscarPlazas({ commit }) {
+  async BUSCAR_PLAZAS({ commit }) {
     await Axios.get(`${API}/squaresCatalog`)
       .then(response => {
-        commit("listaPlazasMutation", response.data.result);
+        commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);

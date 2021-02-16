@@ -142,7 +142,7 @@ export default {
         .then((response) => { 
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  
-            this.todasPlazas =  this.$store.getters['Login/getListaPlazas']  
+            this.todasPlazas =  this.$store.state.Login.listaPlazas//this.$store.getters['Login/getListaPlazas']  
             for(let plaza of this.todasPlazas){      
                 if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
                   plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare

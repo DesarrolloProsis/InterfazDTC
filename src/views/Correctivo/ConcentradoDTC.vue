@@ -124,7 +124,7 @@ beforeMount: function () {
   this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"];
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
-  let todasPlazas = this.$store.getters['Login/getListaPlazas']  
+  let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
