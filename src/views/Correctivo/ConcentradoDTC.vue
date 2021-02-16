@@ -80,10 +80,16 @@
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
                   <button
-                      @click="Mostrar_Mas()"
+                      @click="Descargar_PDF(item,2)"
                       class="botonIconCrear">
                       <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
-                      <span class="text-xs sm:hidden">Más</span>
+                      <span class="text-xs sm:hidden">Firmado</span>
+                  </button>
+                  <button
+                      @click="Descargar_PDF(item,3)"
+                      class="botonIconCrear">
+                      <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <span class="text-xs sm:hidden">Sellado</span>
                   </button>
                   </td>
                 </tr>
@@ -99,7 +105,8 @@
 <script>
 import Nav from "../../components/Navbar";
 import moment from "moment";
-import FiltrosDTCServices from "../../services/FiltrosDTCServices"
+import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
+import ServiceReportPDF from "../../services/ReportesPDFService"
 
 export default {
   name: "EditarComponente",
@@ -137,16 +144,13 @@ beforeMount: function () {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-Mostrar_Mas: function (){
-        console.log("Mostar Más")
-        this.$router.push({
-        path: "/ConcentradoDetallesDTC"
-        });
-    },
+Descargar_PDF: function (infoDtc, status){
+      ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
+      },
 filtro_Dtc: async function () {  
-      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
-      {
-        let listaFiltrada = await FiltrosDTCServices.filtrarDTC(this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
+      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){
+        let filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
+        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
         console.log(listaFiltrada)
         this.$nextTick().then(() => {      
             this.infoDTC = listaFiltrada            

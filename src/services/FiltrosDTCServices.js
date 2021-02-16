@@ -1,7 +1,11 @@
 import store from "../store/index"
 import moment from "moment";
-async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafecha){                        
-    let listaCompleta  = await store.getters["DTC/getlistaInfoDTC"]; 
+async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha){     
+    let listaCompleta = []
+    if(filtroVista)
+        listaCompleta  = await store.getters["DTC/getlistaInfoDTC"].filter(item => item.statusId == 4);        
+    else          
+        listaCompleta  = await store.getters["DTC/getlistaInfoDTC"].filter(item => item.statusId < 4); 
     let listaFiltrada = []  
     //Si filtra por plaza, fecha y referencia
     if (numPlaza != "" && fecha != "" && referenceNumber != ""){
@@ -33,7 +37,10 @@ async function filtrarDTC (numPlaza, fecha, referenceNumber, status, banderafech
     }
     
     if(status != undefined && status != '')
-        return listaFiltrada.filter(dtc => dtc.statusId == status)
+        if(listaFiltrada.length == 0)
+            return listaCompleta.filter(dtc => dtc.statusId == status)
+        else
+            return listaFiltrada.filter(dtc => dtc.statusId == status)
     else
         return listaFiltrada
 }
@@ -80,7 +87,6 @@ function filtrar_calendario_historico(listaCalendario, numTramo, numPlaza, año,
     console.log(año)
     let listaCompleta = listaCalendario
     let listaFiltrada = []
-     
     if(numTramo != ''){
         listaFiltrada = filtro_tramo(listaCompleta, numTramo)
     }
