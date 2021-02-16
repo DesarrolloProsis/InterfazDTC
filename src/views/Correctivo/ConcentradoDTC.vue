@@ -81,14 +81,14 @@
                   <!-- <input type="checkbox"> -->
                   <button
                       @click="Descargar_PDF(item,2)"
-                      class="botonIconCrear">
+                      class="botonIconDescargar">
                       <img src="../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden">Firmado</span>
                   </button>
                   <button
-                      v-if="item.statusId == 3"
+                      v-if="item.statusId >= 3"
                       @click="Descargar_PDF(item,3)"
-                      class="botonIconCrear">
+                      class="botonIconDescargar">
                       <img src="../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden">Sellado</span>
                   </button>
