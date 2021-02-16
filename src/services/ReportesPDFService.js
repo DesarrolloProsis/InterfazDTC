@@ -48,6 +48,7 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
         user = userSup
     var oReq = new XMLHttpRequest(); 
     let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;      
+    console.log(urlTopdf)
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     oReq.open("GET", urlTopdf, true);    
     oReq.responseType = "blob";         

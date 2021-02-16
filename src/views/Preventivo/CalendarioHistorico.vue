@@ -46,20 +46,20 @@
                         <div class="m-3">
                             <p class="font-bold mb-5 sm:text-sm">Seleccione el Mes</p>
                             <select v-model="mesFiltro" class="w-full" type="text">
-                                 <option value="">Selecionar...</option>     
-                                 <option value="1">Enero</option>
-                                 <option value="2">Febrero</option>
-                                 <option value="3">Marzo</option>
-                                 <option value="4">Abril</option>
-                                 <option value="5">Mayo</option>
-                                 <option value="6">Junio</option>
-                                 <option value="7">Julio</option>
-                                 <option value="8">Agosto</option>
-                                 <option value="9">Septiembre</option>
-                                 <option value="10">Octubre</option>
-                                 <option value="11">Noviembre</option>
-                                 <option value="12">Diciembre</option>
-                             </select>                           
+                                <option value="">Selecionar...</option>     
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>                           
                         </div>                
                     </div>
                     <!--/////////////////////////////////////////////////////////////////
@@ -132,8 +132,7 @@ export default {
             listaCompleta: [],
             listaCalendario: [], 
             listaPlazasValidas: [],
-            todasPlazas: []
-                       
+            todasPlazas: []                       
         }
     },
     beforeMount: async function() {
@@ -145,8 +144,8 @@ export default {
             this.todasPlazas =  this.$store.getters['Login/getListaPlazas']  
             for(let plaza of this.todasPlazas){      
                 if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
-                  plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
-                  this.listaPlazasValidas.push(plaza)        
+                    plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
+                    this.listaPlazasValidas.push(plaza)        
                 }
             }                                                                                                           
         }).catch(Ex => {                            
@@ -161,8 +160,8 @@ export default {
                 console.log(plazaTramo)
                 for(let plaza of plazaTramo){      
                     if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
-                      plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
-                      this.listaPlazasValidas.push(plaza)        
+                        plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
+                        this.listaPlazasValidas.push(plaza)        
                     }
                 } 
             }
@@ -170,8 +169,8 @@ export default {
                 this.listaPlazasValidas = []
                 for(let plaza of this.todasPlazas){      
                     if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
-                      plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
-                      this.listaPlazasValidas.push(plaza)        
+                        plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
+                        this.listaPlazasValidas.push(plaza)        
                     }
                 } 
             }
@@ -193,8 +192,8 @@ export default {
                     msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
                     position: "bottom right",
                     styles: {
-                      height: 100,
-                      width: 500,
+                        height: 100,
+                        width: 500,
                     },
                 });
             }            
@@ -203,8 +202,8 @@ export default {
             let refPlaza = await this.$store.state.Login.userLogeado.find(plaza => plaza.squareCatalogId == item.plazaId).referenceSquare
             console.log(refPlaza)
             ServicePDF.generar_pdf_calendario(refPlaza, {
-              mes: item.month,
-              año: item.year
+                mes: item.month,
+                año: item.year
             },
             {
                 idUser: item.userId,
