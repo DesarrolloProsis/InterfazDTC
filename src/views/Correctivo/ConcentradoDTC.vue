@@ -122,13 +122,15 @@ data: function (){
       infoDTC:[],
       fechaFiltro: '',
       referenciaFiltro: '',
+      filtroVista: false,
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
-  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"];
+  this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
+  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
   let todasPlazas = this.$store.getters['Login/getListaPlazas']  
@@ -148,9 +150,8 @@ Descargar_PDF: function (infoDtc, status){
       ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
       },
 filtro_Dtc: async function () {  
-      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){
-        let filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
+      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
+        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
         console.log(listaFiltrada)
         this.$nextTick().then(() => {      
             this.infoDTC = listaFiltrada            
@@ -173,12 +174,10 @@ filtro_Dtc: async function () {
   },
 limpiar_filtros: function() {     
     if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
-    {
-        //let info = this.$store.getters["DTC/getlistaInfoDTC"];
-        this.modalLoading = true 
-        //this.$store.dispatch('DTC/buscarListaDTC', info)                      
+    {        
+        this.modalLoading = true                            
         this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"];  
+        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
         this.fechaFiltro = "";
         this.referenciaFiltro = "";            
         this.plazaFiltro = ""; 
