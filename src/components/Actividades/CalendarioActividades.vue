@@ -328,14 +328,7 @@ export default {
 }
 </script>
 <style >
-.vuecal--month-view .vuecal__cell {height: 100px;}
-.vuecal--month-view .vuecal__cell-content {
-  justify-content: flex-start;  
-  height: 100%;
-  align-items: flex-end;
-  
-}
-/* .vuecal__menu, .vuecal__cell-events-count { background-color :  #42b983 ;}  */
+
 
 
 </style>

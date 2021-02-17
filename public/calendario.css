@@ -1,0 +1,9 @@
+.vuecal__cell {height: 150px;}
+.vuecal--month-view 
+.vuecal__cell-content {
+  justify-content: flex-start;  
+  height: 100%;
+  align-items: flex-end;
+  
+}
+.vuecal__cell-events-count { background-color :  #42b983 ;} 
