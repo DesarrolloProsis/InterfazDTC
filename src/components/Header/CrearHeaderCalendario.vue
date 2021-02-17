@@ -25,9 +25,10 @@
                         <p class=" font-bold">Correspondiente al mes de:</p>
                         <h2 class="ml-5">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
-                    <div class="flex justify-start m-5">
+                    <!-- <Generico :tipo="'CAL'"></Generico> -->
+                    <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
                         <p class="font-bold">Plaza de Cobro:</p>
-                        <select v-model="plazaSelect" @change="cambiar_plaza" class="w-56 h-6 ml-5" type="text">
+                        <select v-model="plazaSelect" @change="cambiar_plaza" class="w-56 h-6 ml-5 sm:ml-0 sm:mt-2" type="text">
                             <option disabled value="">Selecionar...</option>     
                             <option v-for="(item, index) in plazasValidas" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>                
                         </select>                             
@@ -37,20 +38,20 @@
                             <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
                             <span>Crear</span>
                         </button>
-                    </div>                
+                    </div>
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
-                    <span class="text-center font-bold text-sm text-gray-800">Observaciones</span>          
+                    <span class="text-center font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
                     <textarea
                         v-model="comentario"
                         v-validate="'max:500'"
                         :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border"
+                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border sm:mt-2 sm:mb-1"
                         placeholder="jane@example.com"
                         name="Observaciones"
                         v-bind:maxlength="limite"
                     />
-                    <span class="text-xs text-gray-500">{{ restante }}/500</span>
+                    <span class="text-xs text-gray-500 sm:ml-4">{{ restante }}/500</span>
                     <p class="text-xs">{{ errors.first("Observaciones") }}</p>
                 </div>              
             </div>
@@ -86,7 +87,13 @@
 
 <script>
 import ServiceActividades from '../../services/ActividadesService'
+//import Generico from "../../components/Header/HeaderGenerico";
+
 export default {
+    /* name: 'HeaderGenerico',
+    components: {
+    Generico,
+    }, */
     props:{
         comentario:{
             type: String,

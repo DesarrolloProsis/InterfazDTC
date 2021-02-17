@@ -105,7 +105,7 @@
         ////                      MODAL CAMBIAR STATUS                   ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalCambiarStatus" class="rounded-lg  justify-center border absolute inset-x-0 w-69 mx-auto px-12 py-10">
+        <div v-if="modalCambiarStatus" class="rounded-lg  justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2">
           <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ refNum }}</p>
             <div>
@@ -228,7 +228,7 @@
                   <button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button>          
                 </div>     
                 <div>                    
-                  <button @click="(modalEdit = modal = false), (refNum = '')" class="botonIconCancelar">Cancelar</button>              
+                  <button @click="(modalEdit = modal = false), (refNum = '')" class="botonIconCancelar sm:ml-2">Cancelar</button>              
                 </div>     
               </div>
             </div>
@@ -314,12 +314,15 @@ created(){
       this.modal = true
       console.log(this.arrayImagenesCarrusel)
     });
+    //console.log('hola')
 },
 beforeMount: async function () {
   this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
   this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
-  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
+  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
+  console.log(this.infoDTC)  
   this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
+  console.log(this.tipoUsuario)
   let listaPlazasValias = []
   let todasPlazas = await  this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
@@ -335,7 +338,7 @@ beforeMount: async function () {
         this.listaStatus.push(statusLista.find(status => status.id == i))
     }
   }     
-   for(let i = 0; i <= 3; i++){
+    for(let i = 0; i <= 3; i++){
             if(i < this.infoDTC.length)
               this.lista_dtc.push(this.infoDTC[i])
             else 
@@ -667,9 +670,9 @@ methods: {
                 width: 500,
               },
         });  
-       })
-       .catch((err) =>  console.log(err))    
-     }, 1000); 
+      })
+      .catch((err) =>  console.log(err))    
+    }, 1000); 
   },
   scroll_infinito(){
     window.onscroll = () => {
