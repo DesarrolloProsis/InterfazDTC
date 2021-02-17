@@ -193,7 +193,7 @@ export default {
         Supervisor_Tecnico: 2,
         Sistemas: 3,
         Administracion: 4,
-        Supervisor_Sitemas: 5
+        Supervisor_Sitemas: 5,
     })   
   },
 /////////////////////////////////////////////////////////////////////

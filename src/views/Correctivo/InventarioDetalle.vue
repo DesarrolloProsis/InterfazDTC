@@ -2,11 +2,11 @@
   <div>
     <Nav></Nav>
     <h1 class="text-black text-center text-4xl mt-3 sm:mb-1">Inventario</h1>
-    <div class="flex justify-center" :class="{'pointer-events-none': tipoUsuario == 7}">
+    <div class="flex justify-center sm:mb-8" :class="{'pointer-events-none': tipoUsuario == 7}">
       <!--/////////////////////////////////////////////////////////////////
       ////                    COLUMNA IZQUIERDA                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div class="flex border border-gray-400 shadow-lg rounded-md m-4">
+      <div class="flex border border-gray-400 shadow-lg rounded-md m-4 sm:mb-16">
         <div class="m-10 mt-3 sm:m-1 text-base font-light text-gray-900">
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Componente</p>

@@ -2,7 +2,8 @@
   <div class="relative">
     <Nav></Nav>
     <div class="flex justify-center">
-      <div class="grid gap-4 grid-cols-1 py-3 px-3">                
+      <div class="grid gap-4 grid-cols-1 py-3 px-3">
+        <!--<Generico :titulo="'INVENTARIO'" :tipo="'INV'"></Generico>-->
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Inventario</h1>
         <!--/////////////////////////////////////////////////////////////////
         ////                     BOTONES NAVEGACION                      ////
@@ -31,7 +32,7 @@
                 type="checkbox"
               />
             </div>
-            <!--<div>           
+            <!-- <div>           
             <div class="mt-4">
               <button
                   @click="showModal = true"
@@ -40,7 +41,7 @@
                   <span class="mr-2">Registrar</span>
                 </button> 
             </div>
-            </div>-->
+            </div> -->
           <div class="text-sm sm:mt-4">
             <p class="text-md font-semibold mb-1 text-gray-900 sm:ml-0">Cambiar Plaza</p>
             <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48 sm:w-full" type="text" name="TipoDescripcion">
@@ -51,7 +52,7 @@
           <div class="mt-2">
               <span class="text-gray-800">{{"Editados: " + list_Editados.length}}</span>
           </div>
-          </div>
+          </div> 
         <!--/////////////////////////////////////////////////////////////////
          ////                     BOTONES                                 ////
         ////////////////////////////////////////////////////////////////////-->
@@ -75,17 +76,17 @@
           <!--/////////////////////////////////////////////////////////////////
             ////                           MODAL INVENTARIO                  ////
             ////////////////////////////////////////////////////////////////////-->
-          <div class="sticky inset-0">
-            <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC</p>
-              <div>
-                Maquetarias lo que falta
-              </div>
-              <div class="justify-center flex mt-5">
-                <button class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-                <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
-              </div>
+        <div class="sticky inset-0">
+          <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+            <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC</p>
+            <div>
+              Maquetarias lo que falta
             </div>
+            <div class="justify-center flex mt-5">
+              <button class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
+              <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+            </div>
+          </div>
         </div>  
         <div class="overflow-x-auto sm:m-2 sm:text-xs rounded-lg shadow">
           <table class="border-collapse  table-fixed">
@@ -146,18 +147,20 @@
           </button>
         </div>                        
       </div>
-      </div>  
+    </div>  
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import Nav from "../../components/Navbar";
+//import Generico from "../../components/Header/HeaderGenerico";
 
 export default {
   name: "EditarComponente",
   components: {
     Nav,
+    //Generico
   },
   data: function () {
     return {
