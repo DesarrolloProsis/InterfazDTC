@@ -3,7 +3,8 @@
     <Nav></Nav>
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
-            <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Concentrado DTC</h1>
+        <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
+          <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Concentrado DTC</h1>
         <!--/////////////////////////////////////////////////////////////////
          ////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->
@@ -26,8 +27,8 @@
                 <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
               </div>   
             </div>
-        <!--/////////////////////////////////////////////////////////////////
-         ////                    BOTONES DE NAVEGACION                   ////
+        <!--////////////////////////////////////////////////////////////////////
+         ////                    BOTONES DE NAVEGACION                   //////
         ////////////////////////////////////////////////////////////////////-->
             <div class="mt-10 mb-4 text-center">
               <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
@@ -38,7 +39,7 @@
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
                 <span>Buscar</span>
               </button>
-          </div>
+          </div> 
         </div>
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" style="height:450px;">
             <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
@@ -55,7 +56,7 @@
                     <th class="cabeceraTable">N° de Reporte</th>
                     <th class="cabeceraTable">N° de Siniestro</th>
                     <th class="cabeceraTable">Fecha de Falla</th>
-                    <th class="cabeceraTable">Acciones</th>
+                    <th class="cabeceraTable">Descargar</th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -79,28 +80,37 @@
                   <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
+                  <div v-if="tipoUsuario != 8">
                   <button
                       @click="Descargar_PDF(item,2)"
-                      class="botonIconCrear">
-                      <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      class="botonIconBorrarCard mr-2">
+                      <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden">Firmado</span>
                   </button>
                   <button
-                      v-if="item.statusId == 3"
+                      v-if="item.statusId >= 3"
                       @click="Descargar_PDF(item,3)"
-                      class="botonIconCrear">
-                      <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      class="botonIconBorrarCard">
+                      <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden">Sellado</span>
                   </button>
+                  </div>
+                  <div v-else>
+                          <button
+                      @click="Descargar_PDF(item,1)"
+                      class="botonIconBorrarCard mr-2">
+                      <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <span class="text-xs sm:hidden">Sin Firma</span>
+                  </button>
+                  </div>
                   </td>
                 </tr>
             </tbody>
         </table>
         </div> 
-        </div>
-        
+      </div>  
     </div>
-    </div>
+</div>
 </template>
 
 <script>
@@ -108,11 +118,13 @@ import Nav from "../../components/Navbar";
 import moment from "moment";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
+//import Generico from "../../components/Header/HeaderGenerico";
 
 export default {
-  name: "EditarComponente",
+  name: "ConcentradoDTC",
   components: {
     Nav,
+    //Generico
   },
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////

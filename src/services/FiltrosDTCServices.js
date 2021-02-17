@@ -11,7 +11,7 @@ async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status
     }
     //Si filtra por plaza y fecha
     else if (numPlaza != "" && fecha != ""){   
-        listaFiltrada = filtro_plaza(listaCompleta, numPlaza)
+        listaFiltrada = filtro_plaza(listaCompleta, numPlaza, true)
         listaFiltrada = filtro_fecha( listaFiltrada, fecha, banderafecha)
     }
     //Si filtra por  plaza y referencia
