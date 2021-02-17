@@ -210,7 +210,8 @@ methods: {
     },  
     editar_reporte_carril: async function(item){
         console.log(item)
-        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']        
+        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']    
+        console.log(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)    
         await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
         .then((response) => {                  
             let header = response.data.result.table[0]                        

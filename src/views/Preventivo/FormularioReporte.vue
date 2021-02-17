@@ -233,7 +233,8 @@ methods:{
                         End: this.horaFin,
                         Observations: this.observaciones,   
                         CalendarId: parseInt(this.header.calendarId)     
-                    }                       
+                    }  
+                    console.log(headerReporte)                     
                     await Axios.post(`${API}/Calendario/CalendarReportData/${refPlazaRef}`,headerReporte)
                     .then((response) => {     
                         console.log(response)   
@@ -253,7 +254,8 @@ methods:{
                                 JobStatus: parseInt(item.jobStatus),
                                 flagUpdate: this.reporteInsert 
                         })    
-                    });                           
+                    });  
+                    console.log(arrayJob)                         
                     Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlazaRef}/${this.header.calendarId}`, arrayJob)
                         .then((response) => {     
                             console.log(response) 
