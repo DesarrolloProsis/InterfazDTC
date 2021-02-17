@@ -4,7 +4,7 @@
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
         <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
-          <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Concentrado DTC</h1>
+          <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Autorizado GMMEP</h1>
         <!--/////////////////////////////////////////////////////////////////
          ////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->
