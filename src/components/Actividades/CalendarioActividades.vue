@@ -112,7 +112,6 @@ import Multiselect from "vue-multiselect";
 import HeaderCalendario from '../Header/CrearHeaderCalendario'
 import ServiceActividades from '../../services/ActividadesService'
 import ServicePDF from '../../services/ReportesPDFService'
-import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
