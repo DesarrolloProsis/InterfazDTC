@@ -82,14 +82,14 @@
                   <!-- <input type="checkbox"> -->
                   <div v-if="tipoUsuario != 8">
                     <button
-                        @click="Descargar_PDF(item,2)"
+                        @click="descargar_pdf(item,2)"
                         class="botonIconBorrarCard mr-2">
                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
                     <button
                         v-if="item.statusId >= 3"
-                        @click="Descargar_PDF(item,3)"
+                        @click="descargar_pdf(item,3)"
                         class="botonIconBorrarCard">
                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
@@ -97,7 +97,7 @@
                   </div>
                   <div v-else>
                     <button
-                      @click="Descargar_PDF(item,1)"
+                      @click="descargar_pdf(item,1)"
                       class="botonIconBorrarCard mr-2">
                       <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden">Sin Firma</span>
@@ -159,7 +159,7 @@ beforeMount: function () {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-Descargar_PDF: function (infoDtc, status){
+descargar_pdf: function (infoDtc, status){
       ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
       },
 filtro_Dtc: async function () {  
@@ -209,7 +209,6 @@ limpiar_filtros: function() {
     }      
   }
 },
-
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
 /////////////////////////////////////////////////////////////////////
