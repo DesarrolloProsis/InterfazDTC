@@ -212,9 +212,6 @@ select:focus {
 .botonIconMas:focus{
     @apply outline-none;
 }
-.vuecal__cell {
-    @apply h-64
-}
 
 @tailwind components;
 
