@@ -8,7 +8,7 @@
     <div class="sticky inset-0 z-50">
       <div v-if="modalAgreagrActividad" class="rounded-lg mt-64 justify-center text-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
         <h class="text-grey-darkest text-2xl">Agregar Actividad</h>
-        <h1 class="mt-5">{{ fechaModal }}</h1>
+        <h1 class="mt-5">{{ fechaModal | formatModal }}</h1>
         <div>
           <div>
             <div class="mt-5">
@@ -53,7 +53,7 @@
         <div class="text-center">                    
         <div class="mb-4">
             <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>    
-            <h1 class="mt-5">{{ fechaModal }}</h1>
+            <h1 class="mt-5">{{ fechaModal | formatModal }}</h1>
         </div>
         <div>
             <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border" v-for="(item, key) in this.carrilesModal" :key="key" >
@@ -217,14 +217,14 @@ export default {
   },  
   methods: {
     modal_actividades_dia(e){          
-      this.fechaModal = moment(e.start).format('DD/MM/YYYY')
+      this.fechaModal = e.start
       this.modal = true
       this.modalActividades = true
       this.carrilesModal = e.carriles
     },
     modal_agregar_actividad(item){
       this.modalAgreagrActividad = true        
-      this.fechaModal = moment(item).format('DD/MM/YYYY')      
+      this.fechaModal = item   
     },   
     agregar_actividad_dia: async function() {      
       let listaCarril = this.laneSelect.map((item) => {
@@ -325,6 +325,11 @@ export default {
           });          
           console.log(Ex);
         });
+    }
+  },
+  filters:{
+    formatModal(fecha){
+      return moment(fecha).format('DD/MM/YYYY')   
     }
   }
 }
