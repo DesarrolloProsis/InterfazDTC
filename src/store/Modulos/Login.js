@@ -1,11 +1,12 @@
 import Axios from "axios";
+import CookiesService from '../../services/CookiesService'
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
   listaHeaderDtcUser: null,
   listaPlazas: [],
-  userLogeado: [],
+  cookiesUser: [],
   listaTec: [],
   PLAZAELEGIDA: 0,
   tipoUsuario: [
@@ -28,40 +29,41 @@ const getters = {
       idUser: state.listaHeaderDtcUser[state.PLAZAELEGIDA].userId
     }
   },
-  getListaPlazasUser: () => {
-    return state.userLogeado.map((item) => {
-      let obj = {}
-      obj["numPlaza"] = item.squareCatalogId
-      obj["plazaName"] = item.squareName
-      return obj
-    })
-  },
+  // getListaPlazasUser: () => {
+  //   return state.cookiesUser.map((item) => {
+  //     let obj = {}
+  //     obj["numPlaza"] = item.squareCatalogId
+  //     obj["plazaName"] = item.squareName
+  //     return obj
+  //   })
+  // },
   getUser: () => state.listaHeaderDtcUser,
   //getListaPlazas: () => state.listaPlazas,
-  getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
-  getReferenceSquareActual: () => state.userLogeado[state.PLAZAELEGIDA].referenceSquare,
-  getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.userLogeado.find(item => item.squareName ==  nombrePlaza),
-  getTypeUser: () => state.userLogeado[state.PLAZAELEGIDA].rollId,
+  GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
+  getReferenceSquareActual: () => state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].refereciaPlaza,
+  getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
+  getTypeUser: () => state.cookiesUser.rollId,
   GET_TIPO_USUARIO: () => {
-    if(state.userLogeado.length > 0){
-      let idRol = state.userLogeado[state.PLAZAELEGIDA].rollId
-      return state.tipoUsuario.find(item => item.id == idRol)
-    }
-    else
-      return ''
+    
+    // if(state.cookiesUser.length > 0){
+    //   let idRol = state.cookiesUser[state.PLAZAELEGIDA].rollId
+    return state.tipoUsuario.find(item => item.id == state.cookiesUser.rollId)
+    // }
+    // else
+    //   return 0
   },
   //getListaTec: () => state.listaTec,
-  getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
+  getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].numeroPlaza)
 };
 const mutations = {
   PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
   LISTA_PLAZAS_MUTATION: (state, value) => state.listaPlazas = value,
-  userLogeadoMutation: (state, value) => state.userLogeado = value,
+  COOKIES_USER_MUTATION: (state, value) => state.cookiesUser = value,
   LISTA_TECNICOS_MUTATION: (state, value) => state.listaTec = value,
   cleanOut: (state) => {
     state.listaHeaderDtcUser = []
     state.listaPlazas = []
-    state.userLogeado = []
+    state.cookiesUser = []
   },
   LISTA_HEADER_PLAZA_USER: (state, value) => {
     state.listaHeaderDtcUser = value,
@@ -96,18 +98,18 @@ const actions = {
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
-  async buscarUsuarioCokie({ commit }, value) {        
+  async BUSCAR_COOKIES_USUARIO({ commit }, value) {        
     await Axios.get(`${API}/login/ValidUser/${value.User}/${value.Password}/${true}`)
       .then(response => {
-        if (response.data.result != null) {
-          commit("userLogeadoMutation", response.data.result);
+        if (response.data.result != null) {         
+          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result));
         }
         else {
-          commit("userLogeadoMutation", []);
+          commit("COOKIES_USER_MUTATION", []);
         }
       })
       .catch(Ex => {
-        commit("userLogeadoMutation", []);
+        commit("COOKIES_USER_MUTATION", []);
         console.log(Ex);
       });
   },

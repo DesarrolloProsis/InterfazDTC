@@ -30,7 +30,7 @@
                         <p class="font-bold">Plaza de Cobro:</p>
                         <select v-model="plazaSelect" @change="cambiar_plaza" class="w-56 h-6 ml-5 sm:ml-0 sm:mt-2" type="text">
                             <option disabled value="">Selecionar...</option>     
-                            <option v-for="(item, index) in plazasValidas" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>                
+                            <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">{{ item.plazaNombre }}</option>                
                         </select>                             
                     </div>  
                     <div class="flex justify-start m-5">
@@ -114,21 +114,19 @@ export default {
     },
     data(){
         return {            
-            plazasValidas: '',
+            listaPlazas: '',
             limite:500
         }
     },
     beforeMount(){        
-        this.plazasValidas = this.$store.getters['Login/getListaPlazasUser']
+        this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario
     },
     methods: {
         cambiar_plaza(){
-            let index = this.plazasValidas.findIndex(
-                (item) => item.numPlaza == this.plazaSelect
-            );
+            let index = this.listaPlazas.findIndex((item) => item.numeroPlaza == this.plazaSelect);
             this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
             this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);             
-            this.$emit("actualizar-actividad", this.plazasValidas[index].numPlaza);            
+            this.$emit("actualizar-actividad", this.listaPlazas[index].numPlaza);            
         },
         generar_pdf(){
             this.cambiar_plaza()

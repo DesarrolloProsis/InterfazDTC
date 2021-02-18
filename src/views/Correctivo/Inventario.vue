@@ -46,7 +46,7 @@
             <p class="text-md font-semibold mb-1 text-gray-900 sm:ml-0">Cambiar Plaza</p>
             <select v-model="plazaSelect" @change="cambiarPlaza" class="w-48 sm:w-full" type="text" name="TipoDescripcion">
               <option disabled value>Selecionar...</option>
-              <option v-for="(item, index) in listaPlazasUser" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>
+              <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">{{ item.plazaNombre }}</option>
             </select>
           </div>
           <div class="mt-2">
@@ -171,7 +171,7 @@ export default {
       list_Editados: [],
       boolUbicacion: true,
       boolComponente: false,
-      listaPlazasUser: [],
+      listaPlazas: [],
       plazaSelect: '',
       tipoUsuario: 0,
       disableInputs: false
@@ -182,12 +182,12 @@ export default {
 /////////////////////////////////////////////////////////////////////
   beforeMount: function () {
     let index = this.$store.getters['Header/getUSERSELECT']    
-    this.listaPlazasUser = this.$store.getters["Login/getListaPlazasUser"]
+    this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
     this.crear_array_paginacion("inicio");
-    this.plazaSelect = this.listaPlazasUser[index].numPlaza;
+    this.plazaSelect = this.listaPlazas[index].numeroPlaza;
     this.full_Component.sort((a, b) => {
       if (a.lane < b.lane) return -1;
       if (a.lane > b.lane) return 1;
@@ -376,8 +376,8 @@ export default {
       this.list_Editados = [];
     },
     cambiarPlaza: function(){
-      let index = this.listaPlazasUser.findIndex((item) => item.numPlaza == this.plazaSelect);
-      this.plazaSelect = this.listaPlazasUser[index].numPlaza;
+      let index = this.listaPlazas.findIndex((item) => item.numeroPlaza == this.plazaSelect);
+      this.plazaSelect = this.listaPlazas[index].numeroPlaza;
       this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
       this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
       let plaza = this.$store.getters['Header/getConvenioPlaza']

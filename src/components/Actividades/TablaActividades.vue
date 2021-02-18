@@ -18,8 +18,8 @@
                                 <p class="text-sm sm:text-sm text-red-600  mt-3 mr-2 sm:mr-6">Cambiar Plaza</p>                                   
                                 <select v-model="plazaSelect" @change="cambiar_plaza" class="w-40 mt-2 sm:w-40" type="text" name="TipoDescripcion" >
                                     <option disabled value>Selecionar...</option>
-                                    <option v-for="(item, index) in listaPlazas" v-bind:value="item.numPlaza" :key="index">
-                                        {{ item.plazaName }}
+                                    <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">
+                                        {{ item.plazaNombre }}
                                     </option>
                                 </select>
                                 </div> 
@@ -165,7 +165,7 @@ export default {
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function(){           
-    this.listaPlazas = await this.$store.getters["Login/getListaPlazasUser"] 
+    this.listaPlazas = await this.$store.state.Login.cookiesUser.plazasUsuario
     let cargaInicial = this.$route.params.cargaInicial
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales
     this.plazaSelect = cargaInicial.plazaSelect
@@ -188,9 +188,7 @@ methods: {
         })
     },  
     cambiar_plaza(){
-        let index = this.listaPlazas.findIndex(
-            (item) => item.numPlaza == this.plazaSelect
-        );
+        let index = this.listaPlazas.findIndex((item) => item.numeroPlaza == this.plazaSelect);
         this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
         this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
         this.listaActividadesMensuales = []
