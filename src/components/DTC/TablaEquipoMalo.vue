@@ -658,8 +658,7 @@ beforeMount: async function () {
           let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
           newObject["attachedId"] = item.attachedId;
           newObject["componentsRelationship"] = item.relationship;
-          newObject["componentsRelationshipId"] = item.mainRelationship;
-                    
+          newObject["componentsRelationshipId"] = item.mainRelationship;                    
           await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);
           let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];          
           let array_ubicacion = [];

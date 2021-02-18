@@ -38,7 +38,7 @@ async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status
         else
             return listaFiltrada.filter(dtc => dtc.statusId == status)
     else
-        return listaFiltrada
+        return  listaFiltrada
 }
 function filtro_plaza (listaDTC, numPlaza, tipoDTC) {
     let listaFiltrada = []
@@ -82,7 +82,7 @@ function filtrar_calendario_historico(listaCalendario, numTramo, numPlaza, año,
     console.log(numPlaza)
     console.log(año)
     let listaCompleta = listaCalendario
-    let listaFiltrada = []
+    let listaFiltrada = []     
     if(numTramo != ''){
         listaFiltrada = filtro_tramo(listaCompleta, numTramo)
     }

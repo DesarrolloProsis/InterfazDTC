@@ -324,7 +324,7 @@ beforeMount: async function () {
   this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
   console.log(this.tipoUsuario)
   let listaPlazasValias = []
-  let todasPlazas = await  this.$store.getters['Login/getListaPlazas']  
+  let todasPlazas = await  this.$store.state.Login.listaPlazas//this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
@@ -338,12 +338,12 @@ beforeMount: async function () {
         this.listaStatus.push(statusLista.find(status => status.id == i))
     }
   }     
-    for(let i = 0; i <= 3; i++){
-            if(i < this.infoDTC.length)
-              this.lista_dtc.push(this.infoDTC[i])
-            else 
-              this.moreCard = false                
-        }    
+  for(let i = 0; i <= 3; i++){
+      if(i < this.infoDTC.length)
+        this.lista_dtc.push(this.infoDTC[i])
+      else 
+        this.moreCard = false                
+  }    
   this.scroll_infinito()
 },
 /////////////////////////////////////////////////////////////////////

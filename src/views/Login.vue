@@ -53,7 +53,7 @@
       </div>
       <div class="mb-4">
         <p class="text-xs mb-1 text-gray-900">Plaza</p>
-        <select @change="buscarTec()" v-validate="'required'" :class="{ is_valid: !errors.first('Plaza'),is_invalid: errors.first('Plaza')}" v-model="plazaSelect" class="w-48 h-8" type="text" name="Plaza">
+        <select @change="buscar_tecnivo_plaza()" v-validate="'required'" :class="{ is_valid: !errors.first('Plaza'),is_invalid: errors.first('Plaza')}" v-model="plazaSelect" class="w-48 h-8" type="text" name="Plaza">
           <option value>Selecionar...</option>
           <option v-for="(item, index) in listaPlazas" v-bind:value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>
         </select>
@@ -67,7 +67,7 @@
         </select>
         <p class="text-red-600 text-xs">{{ errors.first("Tecnico") }}</p>
       </div>
-      <button @click="loginOther()" class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800">Ingresar</button>
+      <button @click="login_por_otro()" class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800">Ingresar</button>
       <button @click="modal = false" class="text-white px-4 py-2 rounded-full bg-red-800">Cancelar</button>
     </div>
   </div>
@@ -95,8 +95,8 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
   async beforeMount() {
-    await this.$store.dispatch("Login/buscarPlazas");
-    this.listaPlazas = await this.$store.getters["Login/getListaPlazas"];
+    await this.$store.dispatch("Login/BUSCAR_PLAZAS");
+    this.listaPlazas = await this.$store.state.Login.listaPlazas//this.$store.getters["Login/getListaPlazas"];
   },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -108,9 +108,9 @@ export default {
     passPerdido: function () {
       this.$router.push("home");
     },
-    loginOther: async function () {
+    login_por_otro: async function () {
       if (this.fields.Plaza.valid && this.fields.Tecnico.valid) {
-        await this.$store.dispatch("Login/buscarHeaderTec", this.tecSelect);
+        await this.$store.dispatch("Login/BUSCAR_HEADER_OTRO_TECNICO", this.tecSelect);
         let dataHeader = await this.$store.getters["Login/getUser"];
         await this.$store.commit("Header/listaHeadersMutation", dataHeader);
         await this.$store.dispatch("DTC/buscarDescriptions");
@@ -118,10 +118,10 @@ export default {
         this.$router.push("home");
       }
     },
-    buscarTec: async function () {
+    buscar_tecnivo_plaza: async function () {
       if (this.plazaSelect != "") {
-        await this.$store.dispatch("Login/buscarTec", this.plazaSelect);
-        this.listaTec = this.$store.getters["Login/getListaTec"];
+        await this.$store.dispatch("Login/BUSCAR_TECNICOS_PLAZA", this.plazaSelect);
+        this.listaTec = this.$store.state.Login.listaTec//this.$store.getters["Login/getListaTec"];
       } 
       else {
         this.listaTec = [];

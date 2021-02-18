@@ -30,8 +30,9 @@ const getters = {
   getListaDescriptions: () => state.listaDescriptions,
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => (tipoVista) => {
-    if(tipoVista)
-      return state.listaInfoDTC.filter(dtc => dtc.statusId == 4)
+    if(tipoVista){
+      return state.listaInfoDTC.filter(dtc => dtc.statusId == 4)    
+    }
     else
       return state.listaInfoDTC.filter(dtc => dtc.statusId < 4)
   },
