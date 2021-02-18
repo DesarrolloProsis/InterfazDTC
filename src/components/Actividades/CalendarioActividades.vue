@@ -112,7 +112,6 @@ import Multiselect from "vue-multiselect";
 import HeaderCalendario from '../Header/CrearHeaderCalendario'
 import ServiceActividades from '../../services/ActividadesService'
 import ServicePDF from '../../services/ReportesPDFService'
-import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
@@ -329,6 +328,25 @@ export default {
 </script>
 <style >
 
+.vuecal__cell {height: 180px;}
+.vuecal__event.ActividadSemanal{
+  background-color: #48bb78;
+}
+.vuecal__event.ActividadMensual{
+  background-color: #f56565;
+}
+.vuecal__event.ActividadTrimestral{
+  background-color: #4299e1;
+}
+.vuecal__event.ActividadSemestral{
+  background-color: #ed64a6;
+}
+.vuecal__event.ActividadAnual{
+  background-color: #ed8936;
+}
+.vuecal__menu{
+    background-color: #2a4365;
+}
 
 
 </style>
