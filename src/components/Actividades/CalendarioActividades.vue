@@ -328,6 +328,25 @@ export default {
 </script>
 <style >
 
+.vuecal__cell {height: 180px;}
+.vuecal__event.ActividadSemanal{
+  background-color: #48bb78;
+}
+.vuecal__event.ActividadMensual{
+  background-color: #f56565;
+}
+.vuecal__event.ActividadTrimestral{
+  background-color: #4299e1;
+}
+.vuecal__event.ActividadSemestral{
+  background-color: #ed64a6;
+}
+.vuecal__event.ActividadAnual{
+  background-color: #ed8936;
+}
+.vuecal__menu{
+    background-color: #2a4365;
+}
 
 
 </style>
