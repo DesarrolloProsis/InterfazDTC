@@ -6,8 +6,9 @@
       ////                      MODAL ELIMINAR                         ////
       ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
-      <div v-if="modalAgreagrActividad" class="rounded-lg mt-64 justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-        <p class="text-gray-900 font-thin text-md sm:text-sm text-center">Agregar Actividad</p>
+      <div v-if="modalAgreagrActividad" class="rounded-lg mt-64 justify-center text-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+        <h class="text-grey-darkest text-2xl">Agregar Actividad</h>
+        <h1 class="mt-5">{{ fechaModal }}</h1>
         <div>
           <div>
             <div class="mt-5">
@@ -51,7 +52,8 @@
       <div v-if="modalActividades" class="rounded-lg justify-center border absolute inset-x-0 mt-40 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">        
         <div class="text-center">                    
         <div class="mb-4">
-            <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>       
+            <h1 class="text-grey-darkest text-2xl">Lista de Carriles</h1>    
+            <h1 class="mt-5">{{ fechaModal }}</h1>
         </div>
         <div>
             <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border" v-for="(item, key) in this.carrilesModal" :key="key" >
@@ -76,7 +78,7 @@
       :año="año" 
       :plazaSelect="plazaSelect">
     </HeaderCalendario>  
-    <div class="pl-10 pr-10 mt-10 mb-32 " :class="{' pointer-events-none': modal}">
+    <div class="pl-10 pr-10 mt-10 mb-32" :class="{' pointer-events-none': modal}">
         <vue-cal 
           ref="vuecal"
           :time="false"
@@ -115,6 +117,7 @@ import ServicePDF from '../../services/ReportesPDFService'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
+import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -142,7 +145,7 @@ export default {
       nombrePlaza: '',
       año: '',
       mes: '',   
-      fechaActual: ''
+      fechaActual: '',      
     }
   },
   beforeMount(){
@@ -213,15 +216,15 @@ export default {
     },     
   },  
   methods: {
-    modal_actividades_dia(e){         
+    modal_actividades_dia(e){          
+      this.fechaModal = moment(e.start).format('DD/MM/YYYY')
       this.modal = true
       this.modalActividades = true
       this.carrilesModal = e.carriles
     },
     modal_agregar_actividad(item){
-      this.modalAgreagrActividad = true
-      console.log(item)      
-      this.fechaModal = item      
+      this.modalAgreagrActividad = true        
+      this.fechaModal = moment(item).format('DD/MM/YYYY')      
     },   
     agregar_actividad_dia: async function() {      
       let listaCarril = this.laneSelect.map((item) => {
@@ -328,24 +331,57 @@ export default {
 </script>
 <style >
 
-.vuecal__cell {height: 180px;}
+.vuecal__cell {
+  height: 180px;
+  padding: 10px;
+}
 .vuecal__event.ActividadSemanal{
   background-color: #48bb78;
+  height: 35px;
+  border: 2px solid gray;
+  border-radius: 15px 50px 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white;
 }
 .vuecal__event.ActividadMensual{
   background-color: #f56565;
+  height: 35px;
+  height: 35px;
+  border: 2px solid grey;
+  border-radius: 15px 50px 30px; 
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white;
 }
 .vuecal__event.ActividadTrimestral{
   background-color: #4299e1;
+  height: 35px;
+  height: 35px;
+  border: 2px solid grey;
+  border-radius: 15px 50px 30px; 
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white;
 }
 .vuecal__event.ActividadSemestral{
   background-color: #ed64a6;
+  height: 35px;
+  height: 35px;
+  border: 2px solid grey;
+  border-radius: 15px 50px 30px; 
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white;
 }
 .vuecal__event.ActividadAnual{
   background-color: #ed8936;
+  height: 35px;
+  height: 35px;
+  border: 2px solid grey;
+  border-radius: 15px 50px 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white; 
 }
 .vuecal__menu{
     background-color: #2a4365;
+    height: 35px;  
 }
 
 
