@@ -12,25 +12,12 @@
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl"> 
-            <div>
-              <button
-                @click="carruselModal = false">
-                cerrar
-              </button>
-            </div>
-            <div>
-              <p>{{ dtcImg.referenceNumber }} Algo</p>
-            </div>         
+          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
             <div class="justify-center text-center block">            
-                <ImagenesCard
-                  :plazasValidas="plazasValidas"
-                  :infoCard="dtc"
-                  > 
-                </ImagenesCard>
+                <Carrusel @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
-        </div>
+        </div>   
         <div class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
             <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3">
               <div class="m-3">
@@ -142,11 +129,7 @@
                   <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
                   <td>
                     <div>
-                      <button
-                      @click="abrirCarrusel(item)"
-                      >
-                        +
-                      </button>
+                      <button @click="abrirCarrusel(item)">+</button>
                     </div>
                   </td>
                   <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
@@ -202,17 +185,15 @@ import moment from "moment";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
 //import CardListDTC from "../../components/DTC/CardListaDTC.vue";
-import ImagenesCard from "../../components/DTC/ImagenesCard";
-//import Carrusel from "../../components/Carrusel";
+import Carrusel from "../../components/Carrusel";
 //import EventBus from "../../services/EventBus.js";
 //import Generico from "../../components/Header/HeaderGenerico";
 
 export default {
   name: "ConcentradoDTC",
   components: {
-    Nav,
-    ImagenesCard,
-    //Carrusel
+    Nav,    
+    Carrusel
     //Generico
     //CardListDTC,
   },
@@ -233,7 +214,8 @@ data: function (){
       statusEdit: "",
       limite:300,
       carruselModal: false,
-      dtcImg: {}
+      dtcImg: {},
+      arrayImagenesCarrusel: []
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -244,7 +226,6 @@ beforeMount: function () {
   this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
   //console.log(this.infoDTC)
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
-  
   let listaPlazasValias = []
   let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
@@ -267,9 +248,40 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-abrirCarrusel : function (item){
-  this.carruselModal = true
+abrirCarrusel : async function (item){  
   this.dtcImg = item
+  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+    .then((response) => {              
+        if(response.status != 404){
+          console.log(response)          
+          if(response.data.length > 0){
+            let array = response.data.map(imgData => {
+              return {
+                "fileName": imgData, 
+                "image": `${API}/dtcData/EquipoDañado/Images/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}/${imgData}`
+              }
+            })            
+            this.arrayImagenesCarrusel = {
+              array_img: array,
+              referenceNumber: item.referenceNumber,
+            };  
+            this.carruselModal = true
+          }
+          else{
+          this.$notify.warning({
+          title: "Ups!",
+          msg: `SIN FOTOS.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+        }   
+        }                   
+    })
+    .catch(() => {          
+    });      
 },
 editar_status_dtc: function (){
   let user = this.$store.getters['Login/getUserForDTC']
