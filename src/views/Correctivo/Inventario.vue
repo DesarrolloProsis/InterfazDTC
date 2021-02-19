@@ -3,36 +3,6 @@
     <Nav></Nav>
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 py-3 px-3">
-<<<<<<< HEAD
-        <!--<Generico :titulo="'INVENTARIO'" :tipo="'INV'"></Generico>-->
-        <!--/////////////////////////////////////////////////////////////////
-        ////                     BOTONES NAVEGACION                      ////
-        ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
-          <h1 class="text-black text-center text-4xl mt-3 sm:mb-1 sm:text-2xl font-bold">Inventario</h1>
-          <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-1 sm:text-xs sm:ml-3">
-            <div class="mr-3 sm:mr-1 mt-6">
-              <span class="mr-2">Buscar</span>
-              <input v-model="buscar_palabra" class="bg-white sm:w-full" />
-            </div>
-            <div class="mr-3 mt-6">
-              <span class="mr-2">Ubicación</span>
-              <input
-                v-model="boolUbicacion"
-                @change="change_orden('ubicacion')"
-                class="bg-white"
-                type="checkbox"
-              />
-            </div>
-            <div class="mt-6">
-              <span class="mr-4">Componente</span>
-              <input
-                v-model="boolComponente"
-                @change="change_orden('componente')"
-                class="bg-white"
-                type="checkbox"
-              />
-=======
         <HeaderGenerico :titulo="'INVENTARIO'" :tipo="'INV'">
           <template v-slot:botones-inventario>
             <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
@@ -44,7 +14,6 @@
                   <img src="../../assets/img/save.png" class="mr-2 sm:mr-0" width="25" height="25" />
                   <span class="text-xs">Guardar</span>
               </button>
->>>>>>> c16467789d71f7d0ac88f4661a55f3d346016a08
             </div>
           </template>
         </HeaderGenerico>

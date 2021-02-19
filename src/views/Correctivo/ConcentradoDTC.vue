@@ -129,8 +129,8 @@
                   <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
                   <td>
                     <div>
-                      <button @click="abrirCarrusel(item)" class="botonIconCrear">
-                        <img src="../../assets/img/mas.png" class="justify-center" width="15" height="15"/>
+                      <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
+                        <img src="../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                       </button>
                     </div>
                   </td>

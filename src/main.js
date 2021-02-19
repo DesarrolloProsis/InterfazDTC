@@ -17,9 +17,6 @@ Vue.use(VueFileAgent);
 //Lazy
 import VueLazyImage from "vue-lazy-images";
 Vue.use(VueLazyImage)
-//Calendario
-import VCalendar from 'v-calendar';
-Vue.use(VCalendar)
 //Validaciones en formularios
 Vue.use(VeeValidate, { 
     classes: false,
