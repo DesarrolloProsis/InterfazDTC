@@ -22,7 +22,7 @@
 export default {  
     computed: {
         tipoUsuario(){
-            return this.$store.getters['Login/GET_TIPO_USUARIO'].nombre      
+            return this.$store.state.Login.cookiesUser.nombreRoll     
         }
     }
 }

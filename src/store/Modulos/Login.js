@@ -6,7 +6,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
 const state = {
   listaHeaderDtcUser: null,
   listaPlazas: [],
-  cookiesUser: [],
+  cookiesUser: {},
   listaTec: [],
   PLAZAELEGIDA: 0,
   tipoUsuario: [
@@ -34,7 +34,7 @@ const getters = {
   getReferenceSquareActual: () => state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].refereciaPlaza,
   getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
   getTypeUser: () => state.cookiesUser.rollId,
-  GET_TIPO_USUARIO: () => state.tipoUsuario.find(item => item.id == state.cookiesUser.rollId), 
+  //GET_TIPO_USUARIO: () => state.tipoUsuario.find(item => item.id == state.cookiesUser.rollId), 
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].numeroPlaza)
 };
 const mutations = {
@@ -84,7 +84,7 @@ const actions = {
     await Axios.get(`${API}/login/ValidUser/${value.User}/${value.Password}/${true}`)
       .then(response => {
         if (response.data.result != null) {         
-          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result));
+          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));
         }
         else {
           commit("COOKIES_USER_MUTATION", []);
