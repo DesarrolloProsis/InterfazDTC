@@ -34,7 +34,7 @@
           <span>Generar Por Otra Persona</span>
         </div>
         <div class="container-login100-form-btn">
-          <button @click="ingresarLogin()" type="button" class="login100-form-btn text-blue-600 outline-none">Login</button>
+          <button @click="ingresar_inicio()" type="button" class="login100-form-btn text-blue-600 outline-none">Login</button>
         </div>
         <div class="flex flex-col text-center mt-3 text-blue-700">
           <a class="hover:text-blue-900 cursor-pointer" @click="registar_nuevo_usuario">Registrarse</a>
