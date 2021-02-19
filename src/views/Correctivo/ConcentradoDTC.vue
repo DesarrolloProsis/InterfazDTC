@@ -5,11 +5,8 @@
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
         <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
           <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Autorizado GMMEP</h1>
-        <!--/////////////////////////////////////////////////////////////////
-         ////                    FILTROS DE NAVEGACION                      ////
-        ////////////////////////////////////////////////////////////////////-->
-        <!--//////////////////////////////////////////////////////////////////////
-        ////                         MODAL CARRUSEL                        ////
+        <!--/////////////////////////////////////////////////////////////////////
+        ////                         MODAL CARRUSEL                        /////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
           <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
@@ -17,7 +14,10 @@
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
-        </div>   
+        </div>
+        <!--/////////////////////////////////////////////////////////////////////
+        /////                    FILTROS DE NAVEGACION                      ////
+        ////////////////////////////////////////////////////////////////////-->   
         <div class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
             <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3">
               <div class="m-3">
@@ -56,7 +56,7 @@
       ////                      MODAL CAMBIAR STATUS                   //////
       ////////////////////////////////////////////////////////////////////-->
       <div class="sticky inset-0">
-        <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2">
+        <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 -mt-10 sm:-mt-32">
           <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ dtcEdit.referenceNumber }}</p>
             <div>
@@ -129,7 +129,9 @@
                   <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
                   <td>
                     <div>
-                      <button @click="abrirCarrusel(item)">+</button>
+                      <button @click="abrirCarrusel(item)" class="botonIconCrear">
+                        <img src="../../assets/img/mas.png" class="justify-center" width="15" height="15"/>
+                      </button>
                     </div>
                   </td>
                   <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
@@ -145,14 +147,14 @@
                   <!-- <input type="checkbox"> -->
                   <div v-if="tipoUsuario != 8">
                     <button
-                        @click="descargar_pdf(item,2)"
+                        @click="descargar_PDF(item,2)"
                         class="botonIconBorrarCard mr-2">
                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
                     <button
                         v-if="item.statusId >= 3"
-                        @click="descargar_pdf(item,3)"
+                        @click="descargar_PDF(item,3)"
                         class="botonIconBorrarCard">
                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
@@ -160,7 +162,7 @@
                   </div>
                   <div v-else>
                     <button
-                      @click="descargar_pdf(item,1)"
+                      @click="descargar_PDF(item,1)"
                       class="botonIconBorrarCard mr-2">
                       <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden">Sin Firma</span>
@@ -184,9 +186,7 @@ import Nav from "../../components/Navbar";
 import moment from "moment";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
-//import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Carrusel from "../../components/Carrusel";
-//import EventBus from "../../services/EventBus.js";
 //import Generico from "../../components/Header/HeaderGenerico";
 
 export default {
@@ -195,7 +195,6 @@ export default {
     Nav,    
     Carrusel
     //Generico
-    //CardListDTC,
   },
 
 /////////////////////////////////////////////////////////////////////
@@ -311,7 +310,7 @@ editar_status_dtc: function (){
     }
     else
     {
-            this.$notify.warning({
+          this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA LLENADO LOS CAMPOS.`,
           position: "bottom right",
@@ -328,8 +327,9 @@ abrir_modal_editar : function (item){
   //Toma la variable y la iguala al objeto item que trae toda la fila 
   this.dtcEdit = item
 },
-Descargar_PDF: function (infoDtc, status){
-      ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
+descargar_PDF: function (infoDtc, status){
+    ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
+
       },
 filtro_Dtc: async function () {  
       if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
