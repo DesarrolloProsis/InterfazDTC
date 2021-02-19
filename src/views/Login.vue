@@ -26,8 +26,7 @@
               </span>
             </div>
             <span class="text-red-600 text-xs">{{ errors.first("Contraseña") }}</span>
-          </div>
-          
+          </div>          
         </div>
         <div class="text-center text-gray-900">
           <input v-model.number="datos.checkLog" class="mt-10 mb-10 mr-2" type="checkbox"/>
