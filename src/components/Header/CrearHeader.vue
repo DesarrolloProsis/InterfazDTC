@@ -161,7 +161,7 @@
         <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
         <select v-model="plazaSelect" @change="cambiarPlaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
           <option disabled value>Selecionar...</option>
-          <option v-for="(item, index) in listaPlazasUser" :value="item.numPlaza" :key="index">{{ item.plazaName }}</option>
+          <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">{{ item.plazaNombre }}</option>
         </select>
         <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span>
       </div>
@@ -245,7 +245,7 @@ export default {
       type: Object,
       default: () => {},
     },
-    listaPlazasUser: {
+    listaPlazas: {
       type: Array,
       default: () => [],
     },
@@ -311,7 +311,7 @@ beforeMount: async function () {
   let f = new Date()
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
   this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");
-  this.plazaSelect = this.listaPlazasUser[this.plazaSelect = await this.$store.state.Login.PLAZAELEGIDA].numPlaza;
+  this.plazaSelect = this.listaPlazas[this.plazaSelect = await this.$store.state.Login.PLAZAELEGIDA].numeroPlaza;
   let value = await this.$store.getters["Header/getConvenioPlaza"];
   await this.$store.dispatch("Refacciones/buscarComponentes", value);
   this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
@@ -363,13 +363,13 @@ methods: {
   },
   async cambiarPlaza() {   
       this.listaComponentes = []  
-      let index = this.listaPlazasUser.findIndex(
-        (item) => item.numPlaza == this.plazaSelect
+      let index = this.listaPlazas.findIndex(
+        (item) => item.numeroPlaza == this.plazaSelect
       );
       this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
       this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
       EventBus.$emit("ACTUALIZAR_HEADER", index);
-      this.plazaSelect = this.listaPlazasUser[index].numPlaza;
+      this.plazaSelect = this.listaPlazas[index].numeroPlaza;
       let value = await this.$store.getters["Header/getConvenioPlaza"];
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
       this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];

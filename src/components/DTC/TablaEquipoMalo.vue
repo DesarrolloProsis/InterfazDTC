@@ -568,7 +568,7 @@
                     <div class="justify-center flex mt-5">
                         <button  
                         v-on:click.stop.prevent="agregarPartida()"
-                        class="botonIconCrear m-6">Cambiar</button>
+                        class="botonIconCrear m-6">Agregar</button>
                         <button @click="botoncancelar_modal" class="botonIconCancelar m-6">Cancelar</button>
                     </div>
                 </div>

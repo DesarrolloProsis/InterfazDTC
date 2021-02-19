@@ -172,7 +172,7 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   if (to.name == 'login' || to.name == 'register') next()
-  else if (to.name !== 'login' && store.getters['Login/getUserLogeado']) next()
+  else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
   else next({ name: 'login' })
 })
 

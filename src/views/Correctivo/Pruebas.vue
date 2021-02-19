@@ -1,7 +1,7 @@
 <template>
     <div class="relative">
         <Nav></Nav>
-        <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>
+        <Generico :titulo="'CONCENTRADO DTC'" :tipo="'CAL'"></Generico>
     </div>
 </template>
 

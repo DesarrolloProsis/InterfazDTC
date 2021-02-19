@@ -14,12 +14,12 @@
         <br />
         <div class="mt-10">
           <div class="mb-5">
-            <input @keyup.enter="ingresarLogin()"  v-validate="'required'" v-model="datos.User" class="w-full h-8" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
+            <input @keyup.enter="ingresar_inicio()"  v-validate="'required'" v-model="datos.User" class="w-full h-8" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
             <span class="text-red-600 text-xs">{{ errors.first("Usuario") }}</span>
           </div>
           <div class="mb-5">
             <div class="w-full inline-flex relative">
-              <input @keyup.enter="ingresarLogin()" placeholder=" Contraseña" class="w-full h-8" v-validate="'required'" :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}" :type="tipoInput" name="Contraseña" v-model="datos.Password" />
+              <input @keyup.enter="ingresar_inicio()" placeholder=" Contraseña" class="w-full h-8" v-validate="'required'" :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}" :type="tipoInput" name="Contraseña" v-model="datos.Password" />
               <span class="absolute right-0 mt-2 mr-2 cursor-pointer" @click="tipoInput == 'password' ? tipoInput = 'text' : tipoInput = 'password'">
                 <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
                 <img v-else src="../assets/img/notvisibility.png" class="w-5" />
@@ -37,8 +37,8 @@
           <button @click="ingresarLogin()" type="button" class="login100-form-btn text-blue-600 outline-none">Login</button>
         </div>
         <div class="flex flex-col text-center mt-3 text-blue-700">
-          <a class="hover:text-blue-900 cursor-pointer" @click="register">Registrarse</a>
-          <a class="hover:text-blue-900 cursor-pointer" @click="passPerdido">¿Olvidaste tu constraseña?</a>
+          <a class="hover:text-blue-900 cursor-pointer" @click="registar_nuevo_usuario">Registrarse</a>
+          <a class="hover:text-blue-900 cursor-pointer" @click="contraseña_perdida">¿Olvidaste tu constraseña?</a>
         </div>
       </div>
     </div>
@@ -102,10 +102,10 @@ export default {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
   methods: {
-    register: function () {
+    registar_nuevo_usuario: function () {
       this.$router.push("register");
     },
-    passPerdido: function () {
+    contraseña_perdida: function () {
       this.$router.push("home");
     },
     login_por_otro: async function () {
@@ -128,9 +128,9 @@ export default {
         this.tecSelect = "";
       }
     },
-    ingresarLogin: async function () {
-      await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
-      if (this.$store.getters["Login/getUserLogeado"]) {
+    ingresar_inicio: async function () {      
+      await this.$store.dispatch("Login/BUSCAR_COOKIES_USUARIO", this.datos); 
+      if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {
         if (this.datos.checkLog === true) {
           this.modal = true;
         } 
@@ -142,12 +142,12 @@ export default {
           await this.$store.dispatch("DTC/buscarDescriptions");
           await this.$store.dispatch("Header/buscarListaUnique");
           let userTipo = await this.$store.getters['Login/getTypeUser']
-          if(userTipo == 9){
-            this.$router.push("ListarDtc");
+          if(userTipo == 9 || userTipo == 8){
+            this.$router.push("ConcentradoDTC");
           }
-            else if(userTipo == 8){
+            /* else if(userTipo == 8){
               this.$router.push("ConcentradoDTC");
-            }
+            } */
           else
             this.$router.push("home");
         }
