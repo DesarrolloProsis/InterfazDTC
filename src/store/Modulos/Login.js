@@ -29,30 +29,13 @@ const getters = {
       idUser: state.listaHeaderDtcUser[state.PLAZAELEGIDA].userId
     }
   },
-  // getListaPlazasUser: () => {
-  //   return state.cookiesUser.map((item) => {
-  //     let obj = {}
-  //     obj["numPlaza"] = item.squareCatalogId
-  //     obj["plazaName"] = item.squareName
-  //     return obj
-  //   })
-  // },
+
   getUser: () => state.listaHeaderDtcUser,
-  //getListaPlazas: () => state.listaPlazas,
   GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
   getReferenceSquareActual: () => state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].refereciaPlaza,
   getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
   getTypeUser: () => state.cookiesUser.rollId,
-  GET_TIPO_USUARIO: () => {
-    
-    // if(state.cookiesUser.length > 0){
-    //   let idRol = state.cookiesUser[state.PLAZAELEGIDA].rollId
-    return state.tipoUsuario.find(item => item.id == state.cookiesUser.rollId)
-    // }
-    // else
-    //   return 0
-  },
-  //getListaTec: () => state.listaTec,
+  GET_TIPO_USUARIO: () => state.tipoUsuario.find(item => item.id == state.cookiesUser.rollId), 
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].numeroPlaza)
 };
 const mutations = {
