@@ -10,9 +10,21 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     firmado: 2,
     sellado: 3
 })
+function xml_hhtp_request(urlTopdf,namePdf){
+    var oReq = new XMLHttpRequest();  
+    oReq.open("GET", urlTopdf, true);    
+    oReq.responseType = "blob";         
+    oReq.onload = function () {         
+    var file = new Blob([oReq.response], {
+        type: "application/pdf",
+    });    
+    saveAs(file, namePdf);
+    };
+    oReq.send();   
+}
 function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     let clavePlaza = numeroReferencia.split('-')[0]
-    var oReq = new XMLHttpRequest();    
+    //var oReq = new XMLHttpRequest();    
     let urlTopdf = ''
     let namePdf = ''
     if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
@@ -29,16 +41,8 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){
         urlTopdf = `${API}/pdf/GetPdfSellado/${clavePlaza}/${numeroReferencia}`;
         namePdf = `DTC-${numeroReferencia}-Sellado.pdf`;  
-    }                          
-    oReq.open("GET", urlTopdf, true);    
-    oReq.responseType = "blob";         
-    oReq.onload = function () {         
-    var file = new Blob([oReq.response], {
-        type: "application/pdf",
-    });    
-    saveAs(file, namePdf);
-    };
-    oReq.send();         
+    }     
+    xml_hhtp_request(urlTopdf, namePdf)                          
 }
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
     let user = {}
@@ -46,19 +50,10 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
         user = store.getters['Login/getUserForDTC']
     else
         user = userSup
-    var oReq = new XMLHttpRequest(); 
-    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;      
-    console.log(urlTopdf)
+
+    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;          
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
-    oReq.open("GET", urlTopdf, true);    
-    oReq.responseType = "blob";         
-    oReq.onload = function () {         
-    var file = new Blob([oReq.response], {
-        type: "application/pdf",
-    });    
-    saveAs(file, namePdf);
-    };
-    oReq.send();         
+    xml_hhtp_request(urlTopdf, namePdf)           
 }
 async function crear_referencia(sinisterDate, referenceSquare) {
     sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
@@ -83,8 +78,7 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     await store.dispatch("Header/buscarReferencia", ReferenceNumber);    
     return await store.getters["Header/getreferenceNum"];        
 }
-async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){   
-    //fechaActividad = moment(fechaActividad,"DD-MM-YYYY").format("YYYY-MM-DD").split('-')
+async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){       
     fechaActividad = fechaActividad.split('/')
     let tiporeferencia = tipoReferencia != 'Semanal' 
         ? tipoReferencia.slice(0,2)
@@ -110,16 +104,7 @@ function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     let clavePlaza = referenceNumber.split('-')[0]
     let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado)}/${referenceNumber}`       
     let namePdf = referenceNumber + ' ' + 'Preventivo' 
-    var oReq = new XMLHttpRequest();  
-    oReq.open("GET", urlTopdf, true);    
-    oReq.responseType = "blob";         
-    oReq.onload = function () {         
-    var file = new Blob([oReq.response], {
-        type: "application/pdf",
-    });    
-    saveAs(file, namePdf);
-    };
-    oReq.send();  
+    xml_hhtp_request(urlTopdf, namePdf)    
 }
 function generar_pdf_fotografico_preventivo(referenceNumber, lane){
     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`)
@@ -128,16 +113,7 @@ function generar_pdf_fotografico_preventivo(referenceNumber, lane){
             let clavePlaza = referenceNumber.split('-')[0]
             let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
             let namePdf = referenceNumber + ' ' + 'Preventivo' 
-            var oReq = new XMLHttpRequest();  
-            oReq.open("GET", urlTopdf, true);    
-            oReq.responseType = "blob";         
-            oReq.onload = function () {         
-            var file = new Blob([oReq.response], {
-                type: "application/pdf",
-            });    
-            saveAs(file, namePdf);
-            };
-            oReq.send();  
+            xml_hhtp_request(urlTopdf, namePdf)    
         }
     })
     .catch(Ex => {                    
