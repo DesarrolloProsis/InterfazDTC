@@ -142,12 +142,12 @@ export default {
           await this.$store.dispatch("DTC/buscarDescriptions");
           await this.$store.dispatch("Header/buscarListaUnique");
           let userTipo = await this.$store.getters['Login/getTypeUser']
-          if(userTipo == 9){
-            this.$router.push("ListarDtc");
+          if(userTipo == 9 || userTipo == 8){
+            this.$router.push("ConcentradoDTC");
           }
-            else if(userTipo == 8){
+            /* else if(userTipo == 8){
               this.$router.push("ConcentradoDTC");
-            }
+            } */
           else
             this.$router.push("home");
         }
