@@ -29,7 +29,6 @@ const getters = {
       idUser: state.listaHeaderDtcUser[state.PLAZAELEGIDA].userId
     }
   },
-
   getUser: () => state.listaHeaderDtcUser,
   GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
   getReferenceSquareActual: () => state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].refereciaPlaza,
