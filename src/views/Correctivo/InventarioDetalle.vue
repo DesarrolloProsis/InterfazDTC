@@ -124,7 +124,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
     this.listaComponentes = this.$store.getters["Refacciones/getlistaRefaccionesInventario"];
-    this.infoPlaza = this.$store.getters["Header/getConvenioPlaza"];
+    this.infoPlaza = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']
     this.listaUbicacionGeneral = this.$store.getters["Refacciones/getlistaUbicacionGeneralInventario"];
     if (JSON.stringify(this.$route.query) != "{}") {

@@ -262,7 +262,7 @@ export default {
       });
     },
     cancelar_filtros: function () {      
-      let plaza = this.$store.getters["Header/getConvenioPlaza"];
+      let plaza = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       this.$store.dispatch("Refacciones/FULL_COMPONETES", plaza);
       this.cambiar_pagina(1);
       this.listEditados = [];

@@ -297,7 +297,7 @@ export default {
     },
   },
   beforeMount: async function () {
-    let value = await this.$store.getters["Header/getConvenioPlaza"];
+    let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
     await this.$store.dispatch("Refacciones/buscarComponentes", value);
     this.listaComponentes = await this.$store.getters[
       "Refacciones/getListaRefacciones"

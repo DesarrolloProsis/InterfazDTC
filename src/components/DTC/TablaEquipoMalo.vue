@@ -582,7 +582,7 @@ import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
 import moment from "moment";
-
+import { mapGetters } from 'vuex';
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -649,13 +649,13 @@ props: {
 //////////////////////////////////////////////////////////////////////
 ////                    CICLOS DE VIDA                            ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function () {
+beforeMount: async function () {  
     try {
       let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
       if (JSON.stringify(componetesEdit) != "{}") {  
         console.log(componetesEdit)              
         for (const item of componetesEdit.items) { 
-          let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
+          let newObject = this.GET_CONVENIO_PLAZA
           newObject["attachedId"] = item.attachedId;
           newObject["componentsRelationship"] = item.relationship;
           newObject["componentsRelationshipId"] = item.mainRelationship;                    
@@ -777,7 +777,7 @@ methods: {
       this.statusMetro = false
       this.cantidadMetro = 0      
       if (componenteValido) {
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];        
+        let newObject = this.GET_CONVENIO_PLAZA
         newObject["attachedId"] = this.updtComp.attachedId;
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
@@ -820,7 +820,7 @@ methods: {
       if (!comp_rep) {
         this.laneSelectEditar = [];
         this.listLaneEditar = [];
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        let newObject = this.GET_CONVENIO_PLAZA
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.getters[
@@ -886,7 +886,7 @@ methods: {
       if (this.saveObjectEdiar.length == 0) {
         this.saveObjectEdiar = Object.values(datos);
         this.updtCompEditar = this.saveObjectEdiar[2];
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        let newObject = this.GET_CONVENIO_PLAZA
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.getters[
@@ -999,7 +999,7 @@ methods: {
         "row14",
         "rowUp",
       ];
-      let newObject = this.$store.getters["Header/getConvenioPlaza"];
+      let newObject = this.GET_CONVENIO_PLAZA
       newObject["id"] = this.saveObjectEdiar[2];
       this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
       let equipoValid = this.$store.getters["Refacciones/getEquipoMalo"];
@@ -1172,6 +1172,9 @@ watch: {
         ];
       }
   },
+},
+computed: {
+  ...mapGetters({GET_CONVENIO_PLAZA: 'Header/GET_CONVENIO_PLAZA'})
 },
 /////////////////////////////////////////////////////////////////////
 ////                          FILTROS                            ////

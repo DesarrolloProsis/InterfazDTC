@@ -9,7 +9,8 @@ const state = {
   diagnostico: '',
   listaUnique: [],
   insertHeaderComplete: false,
-  PLAZAELEGIDA: 0
+  PLAZAELEGIDA: 0,
+  convenioActual: {}
 };
 const getters = {
   getDatosSinester: () => {
@@ -33,7 +34,7 @@ const getters = {
       };
     } else return state.listaHeaders;
   },
-  getConvenioPlaza: () => {
+  GET_CONVENIO_PLAZA: () => {
     if (state.listaHeaders.length > 0) {
       let numPlaza = ''
       if(state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"] == "TM"){
@@ -67,6 +68,7 @@ const getters = {
   getFechaSiniestro: () => state.datosSinester.SinisterDate
 };
 const mutations = {
+  CONVENIO_ACTUAL_MUTATION: (state, value) => state.convenioActual = value,
   clearDatosSinesterMutation: (state) => {
     state.datosSinester = {}
     state.descripcion = ''

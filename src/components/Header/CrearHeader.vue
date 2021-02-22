@@ -312,7 +312,7 @@ beforeMount: async function () {
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
   this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");
   this.plazaSelect = this.listaPlazas[this.plazaSelect = await this.$store.state.Login.PLAZAELEGIDA].numeroPlaza;
-  let value = await this.$store.getters["Header/getConvenioPlaza"];
+  let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
   await this.$store.dispatch("Refacciones/buscarComponentes", value);
   this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
   await this.$store.dispatch("DTC/buscarDescriptions");
@@ -370,7 +370,7 @@ methods: {
       this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
       EventBus.$emit("ACTUALIZAR_HEADER", index);
       this.plazaSelect = this.listaPlazas[index].numeroPlaza;
-      let value = await this.$store.getters["Header/getConvenioPlaza"];
+      let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
       this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
       await this.$store.dispatch("DTC/buscarDescriptions");
