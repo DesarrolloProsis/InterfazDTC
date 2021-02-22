@@ -155,7 +155,7 @@
                     <button
                         v-if="item.statusId >= 3"
                         @click="descargar_PDF(item,3)"
-                        class="botonIconBorrarCard">
+                        class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400': item.escaneadobool }" :disabled=" item.escaneadobool ">
                         <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
