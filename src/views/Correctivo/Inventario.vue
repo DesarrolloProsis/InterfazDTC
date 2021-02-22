@@ -62,7 +62,7 @@
                 <td class="cuerpoTable">
                   <button @click="mostrar_mas(item)" class="botonIconCrear">
                     <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
-                    <span class="text-xs sm:hidden">Mas</span>
+                    <span class="text-xs">Mas</span>
                   </button>
                 </td>
               </tr>

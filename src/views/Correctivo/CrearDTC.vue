@@ -90,7 +90,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                           BOTONES                            ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700" style="padding: 3vw;">
+        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700 sm:mb-20" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="crearDTCTecnico(1)"
               class="botonIconBuscar"
