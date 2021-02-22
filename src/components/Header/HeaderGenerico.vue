@@ -80,9 +80,9 @@
        ///                    FILTROS DE NAVEGACION                   ////   
       ///                          CALENDARIO                        ////
      ///////////////////////////////////////////////////////////////////-->
-    <div class="inline-flex sm:inline-block w-full">
+    <div v-if="tipo == 'CAL'" class="inline-flex sm:inline-block w-full">
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div v-if="tipo == 'CAL'" class="sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
+        <div class="sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
             <div class="sm:w-full ml-5">
                 <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1">
                     <p class="font-bold">Plaza de Cobro:</p>
@@ -141,7 +141,6 @@ data: function (){
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
- 
 },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////

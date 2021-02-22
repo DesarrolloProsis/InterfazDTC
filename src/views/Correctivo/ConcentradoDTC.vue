@@ -81,7 +81,7 @@
                 <span class="text-gray-500">{{ restante }}/300</span>
               </div>
             </div>
-            <div class="justify-end flex mt-5">
+            <div class="justify-center flex mt-5">
               <button @click="editar_status_dtc" class="botonIconCrear m-4">Aceptar</button>
               <button @click="modalCambiarStatus = false, statusEdit = '', motivoCambio =''" class="botonIconCancelar m-4">Cancelar</button>
             </div>
@@ -149,14 +149,14 @@
                     <button
                         @click="descargar_PDF(item,2)"
                         class="botonIconBorrarCard mr-2">
-                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                        <img src="../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
                     <button
                         v-if="item.statusId >= 3"
                         @click="descargar_PDF(item,3)"
                         class="botonIconBorrarCard">
-                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
                   </div>

@@ -6,11 +6,11 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
-        <h1 class="text-4xl font-medium text-gray-800 text-center mb-8">Lista de Usuarios</h1>
+        <h1 class="text-4xl font-bold text-gray-800 text-center mb-8">Lista de Usuarios</h1>
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative">
+        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32">
           <table class="border-2 border-gray-800">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 border-2 border-gray-800">Nombre</th>
