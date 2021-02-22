@@ -3,19 +3,11 @@
     <Nav></Nav>
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 py-3 px-3">
-        <HeaderGenerico :titulo="'INVENTARIO'" :tipo="'INV'">
-          <template v-slot:botones-inventario>
-            <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
-              <button @click="Cancelar" class="w-32 botonIconBorrarCard ml-4 mr-4">
-                  <img src="../../assets/img/borrar.png" class="mr-2 sm:m-0" width="25" height="25"/>
-                  <span class="text-xs">Cancelar</span>
-              </button>
-              <button class="w-32 botonIconNext">
-                  <img src="../../assets/img/save.png" class="mr-2 sm:mr-0" width="25" height="25" />
-                  <span class="text-xs">Guardar</span>
-              </button>
-            </div>
-          </template>
+        <HeaderGenerico :titulo="'INVENTARIO'" :contadorInventario="listEditados.length"
+            @cambiar-orden="cambiar_ordern_inventario"
+            @cancelar-filtros="cancelar_filtros" 
+            @filtra-palabra="guardar_palabra_busqueda"
+            @guardar-cambios="guardar_cambios_inventario" :tipo="'INV'">               
         </HeaderGenerico>
           <!--/////////////////////////////////////////////////////////////////
             ////                           MODAL INVENTARIO                  ////
@@ -52,7 +44,7 @@
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
             <tbody>
-              <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in list_Component" :key="key">                
+              <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
                 <td class="cuerpoTable">{{ item.component }}</td>
                 <td class="cuerpoTable">{{ item.lane }}</td>
                 <td class="cuerpoTable">
@@ -68,7 +60,7 @@
                   <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
                 </td>
                 <td class="cuerpoTable">
-                  <button @click="Mostrar_Mas(item)" class="botonIconCrear">
+                  <button @click="mostrar_mas(item)" class="botonIconCrear">
                     <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
                     <span class="text-xs sm:hidden">Mas</span>
                   </button>
@@ -82,9 +74,9 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="flex justify-center mt-2 mb-32 sm:mb-5">
           <button
-            @click="cambiar_Pagina(item)"
+            @click="cambiar_pagina(item)"
             class="mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg focus:shadow-outline"
-            v-for="(item, key) in array_paginacion"
+            v-for="(item, key) in arrayPaginacion"
             :key="key"
           >
             {{ item }}
@@ -109,14 +101,12 @@ export default {
   data: function () {
     return {
       showModal: false,
-      buscar_palabra: "",
-      array_paginacion: [],
-      list_Component: [],
-      list_Editados: [],
+      buscarPalabra: "",
+      arrayPaginacion: [],
+      listComponent: [],
+      listEditados: [],
       boolUbicacion: true,
-      boolComponente: false,
-      listaPlazas: [],
-      plazaSelect: '',
+      boolComponente: false,            
       tipoUsuario: 0,
       disableInputs: false
     };
@@ -124,14 +114,11 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-  beforeMount: function () {
-    let index = this.$store.getters['Header/getUSERSELECT']    
-    this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario
+  beforeMount: function () {           
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
-    this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](1);
-    this.crear_array_paginacion("inicio");
-    this.plazaSelect = this.listaPlazas[index].numeroPlaza;
+    this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](1);
+    this.crear_array_paginacion("inicio");    
     this.full_Component.sort((a, b) => {
       if (a.lane < b.lane) return -1;
       if (a.lane > b.lane) return 1;
@@ -142,52 +129,53 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
   methods: {
-    cambiar_Pagina: function (value) {
+    cambiar_pagina: function (value) {
       if (value == "Anterior") {
-        if (this.array_paginacion[2] == 4) {
-          this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](3);
+        if (this.arrayPaginacion[2] == 4) {
+          this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](3);
           this.crear_array_paginacion("inicio");
-        } else if (this.array_paginacion[2] != 2) {
-          this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](this.array_paginacion[2] - 1);
+        } else if (this.arrayPaginacion[2] != 2) {
+          this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](this.array_paginacion[2] - 1);
           this.crear_array_paginacion("anterior");
         }
       } else if (value == "Mas") {
-        let pagina = this.array_paginacion[this.array_paginacion.length - 2];
+        let pagina = this.arrayPaginacion[this.arrayPaginacion.length - 2];
         if (pagina < Math.ceil(this.full_Component.length / 10)) {
-          this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](pagina + 1);
+          this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](pagina + 1);
           this.crear_array_paginacion("mas");
         }
       } else {
-        this.list_Component = this.$store.getters["Refacciones/getPaginationComponent"](value);
+        this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](value);
         if (value == 1) this.crear_array_paginacion("inicio");
       }
     },
     crear_array_paginacion: function (tipo) {
       if (tipo === "inicio") {
-        this.array_paginacion = ["Anterior", 1, 2, 3, "Mas"];
+        this.arrayPaginacion = ["Anterior", 1, 2, 3, "Mas"];
       } else if (tipo === "mas") {
         let new_array = ["Anterior", 1];
-        let ultima_pagina = this.array_paginacion[this.array_paginacion.length - 2];
+        let ultima_pagina = this.arrayPaginacion[this.arrayPaginacion.length - 2];
         let i = ultima_pagina + 1;
         while (i <= ultima_pagina + 3) {
           if (i <= Math.ceil(this.full_Component.length / 10)) {
             new_array.push(i);
             i++;
-          } else {
+          } 
+          else {
             break;
           }
         }
         new_array.push("Mas");
-        this.array_paginacion = new_array;
+        this.arrayPaginacion = new_array;
       } else if (tipo == "anterior") {
         let new_array = [];
-        if (this.array_paginacion[2] > 2) {
+        if (this.arrayPaginacion[2] > 2) {
           new_array.push("Anterior");
           new_array.push(1);
         } else {
           new_array.push("Anterior");
         }
-        let primera_pagina = this.array_paginacion[2];
+        let primera_pagina = this.arrayPaginacion[2];
         let i = primera_pagina - 3;
         while (i < primera_pagina) {
           if (i <= Math.ceil(this.full_Component.length / 10)) {
@@ -198,62 +186,56 @@ export default {
           }
         }
         new_array.push("Mas");
-        this.array_paginacion = new_array;
+        this.arrayPaginacion = new_array;
       }
     },
-    change_orden: function (orden) {
-      if (orden == "ubicacion") {
-        this.boolUbicacion == true
-          ? (this.boolComponente = false)
-          : (this.boolComponente = true);
+    cambiar_ordern_inventario: function (orden) {
+      if (orden == "ubicacion") { 
         this.full_Component.sort((a, b) => {
           if (a.lane < b.lane) return -1;
           if (a.lane > b.lane) return 1;
           return 0;
         });
-        this.cambiar_Pagina(1);
+        this.cambiar_pagina(1);
       } else if (orden == "componente") {
-        this.boolComponente == true
-          ? (this.boolUbicacion = false)
-          : (this.boolUbicacion = true);
         this.full_Component.sort((a, b) => {
           if (a.component < b.component) return -1;
           if (a.component > b.component) return 1;
           return 0;
         });
-        this.cambiar_Pagina(1);
+        this.cambiar_pagina(1);
       }
     },
     guardar_editado: function (value) {
-      if (this.list_Editados.length == 0)
-        this.list_Editados.push(Object.assign({}, value));
+      if (this.listEditados.length == 0)
+        this.listEditados.push(Object.assign({}, value));
       else {
-        if (this.list_Editados.some((item) =>item["lane"] == value["lane"] && item["component"] == value["component"])) {
-          for (let i = 0; i < this.list_Editados.length; i++) {
-            if (this.list_Editados[i]["lane"] == value["lane"] && this.list_Editados[i]["component"] == value["component"]) {
-              this.list_Editados[i] = Object.assign({}, value);
+        if (this.listEditados.some((item) =>item["lane"] == value["lane"] && item["component"] == value["component"])) {
+          for (let i = 0; i < this.listEditados.length; i++) {
+            if (this.listEditados[i]["lane"] == value["lane"] && this.listEditados[i]["component"] == value["component"]) {
+              this.listEditados[i] = Object.assign({}, value);
             }
           }
         } else {
-          this.list_Editados.push(Object.assign({}, value));
+          this.listEditados.push(Object.assign({}, value));
         }        
       }
     },
-    actualizar: function () {
-      if (this.list_Editados.length > 0) {
-        this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.list_Editados);
-        this.cambiar_Pagina(1);
-        this.list_Editados = [];
+    guardar_cambios_inventario: function () {
+      if (this.listEditados.length > 0) {
+        this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
+        this.cambiar_pagina(1);
+        this.listEditados = [];
         this.$notify.success({
           title: "Ok!",
-          msg: `SE ACTUALIZARON ${this.list_Editados.length} COMPONENTES.`,
+          msg: `SE ACTUALIZARON ${this.listEditados.length} COMPONENTES.`,
           position: "bottom right",
           styles: {
             height: 100,
             width: 500,
           },
         });
-        this.list_Editados = [];
+        this.listEditados = [];
       } else {
         this.$notify.warning({
           title: "Ups!",
@@ -266,7 +248,7 @@ export default {
         });
       }
     },
-    Mostrar_Mas: function (item) {
+    mostrar_mas: function (item) {
       this.$router.push({
         path: "/InventarioDetalle",
         query: {
@@ -279,21 +261,23 @@ export default {
         },
       });
     },
-    Cancelar: function () {
+    cancelar_filtros: function () {
       alert()
       let plaza = this.$store.getters["Header/getConvenioPlaza"];
       this.$store.dispatch("Refacciones/FULL_COMPONETES", plaza);
-      this.cambiar_Pagina(1);
-      this.list_Editados = [];
+      this.cambiar_pagina(1);
+      this.listEditados = [];
     },    
+    guardar_palabra_busqueda: function(palabra){
+      this.buscarPalabra = palabra
+    }
   },
 /////////////////////////////////////////////////////////////////////
 ////                         OBSERVADORES                        ////
 /////////////////////////////////////////////////////////////////////
   watch: {
-    buscar_palabra: function (newValue, oldValue) {
-      this.buscar_palabra.toUpperCase();
-      console.log(oldValue);
+    buscarPalabra: function (newValue) {
+      this.buscarPalabra.toUpperCase();      
       if (newValue != "") {
         let array_filtrado = [];
         if (this.boolUbicacion) {
@@ -310,10 +294,10 @@ export default {
             }
           }
         }
-        this.array_paginacion = [];
-        this.list_Component = array_filtrado;
+        this.arrayPaginacion = [];
+        this.listComponent = array_filtrado;
       } else {
-        this.cambiar_Pagina(1);
+        this.cambiar_pagina(1);
       }
     },
   },
