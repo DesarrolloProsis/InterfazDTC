@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
-            <div class="flex justify-center mt-10">
-                <h1 class=" text-3xl sm:text-2xl">TABLA DE ACTIVIDADES</h1>
+            <div class="flex justify-center mt-2">
+                <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
             </div>
             <div class="inline-flex h-56 xl:mx-auto sm:h-auto sm:m-0 border shadow-lg rounded-md border-gray-800">
                 <div class=" inline-flex sm:inline-block mt-3">

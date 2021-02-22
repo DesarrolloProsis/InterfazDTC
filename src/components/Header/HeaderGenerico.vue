@@ -1,10 +1,11 @@
 <template>
 <div class="relative">               
-    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+    
     <!--///////////////////////////////////////////////////////////////////
        ///                    FILTROS DE NAVEGACION   DTC             ////         
      ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'DTC'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3">
             <div class="m-3">
                 <SelectPlaza :fullPlazas="true"></SelectPlaza>
@@ -37,6 +38,7 @@
        ///              FILTROS DE NAVEGACION INVENTARIO               ////         
      ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'INV'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-2">Buscar</span>
@@ -58,7 +60,11 @@
             </div>
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
         ///                         BOTONES inventario               ////
+=======
+        ///                BOTONES DE NAVEGACION INVENTARIO             ////
+>>>>>>> ba112e1a704990e7f6ad4d83f279318ea4a25ed2
        ////////////////////////////////////////////////////////////////////-->
         <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard ml-4 mr-4">
@@ -75,6 +81,7 @@
        ///         FILTROS DE NAVEGACION CALENDARIO                   ////         
      ///////////////////////////////////////////////////////////////////-->
     <div class="inline-flex sm:inline-block w-full">
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div v-if="tipo == 'CAL'" class="sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
             <div class="sm:w-full ml-5">
                 <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1">

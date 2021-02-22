@@ -5,14 +5,19 @@
         <!--//////////////////////////////////////////////////////////////////////
             ////                        FILTROS                              ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
+            <div class="grid grid-cols justify-center mt-10" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
                 <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
-                    <div class="flex sm:inline-block">      
+                    <div>   
+                        <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">
+                            Bitacora de Visitas de Mantenimiento Equipos De Peaje
+                        </h1>     
+                    </div>
+                    <div class="flex sm:inline-block justify-center"> 
                     <!--/////////////////////////////////////////////////////////////////////
                         ////                         FILTRO TRAMO                        ////
                         ////////////////////////////////////////////////////////////////////-->
                         <div class="m-3">
-                        <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
+                        <p class="font-bold sm:text-sm mb-5 tex-2xl">Selecciones el Tramo</p>
                             <select v-model="tramoFiltro" @change="tramo_cascada" class="w-full" type="text">
                                 <option value="">Selecionar...</option>  
                                 <option value="1">Mexico-Acapulco</option>
@@ -67,18 +72,18 @@
                         /////////////////////////////////////////////////////////////////-->
                     <div class="m-3 text-center">
                         <button @click.prevent="limpiar_filtros" class="botonIconLimpiar">
-                            <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
+                            <img src="../../assets/img/bin.png" class="mr-2" width="20" height="2"/>
                             <span>Limpiar</span>
                         </button>
                         <button @click.prevent="filtros_calendario()" class="botonIconBuscar">
-                            <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
+                            <img src="../../assets/img/lupa.png" class="mr-2" width="20" height="2"/>
                             <span>Buscar</span>
                         </button>
                     </div>
                 </div>
             </div> 
-            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66">
-                <table class="border-collapse  table-fixed">
+            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66 mt-6" style="height:500px;">
+                <table class="border-collapse table-fixed">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
                     ////////////////////////////////////////////////////////////////////-->

@@ -31,7 +31,29 @@ const getters = {
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => (tipoVista) => {
     if(tipoVista){
-      return state.listaInfoDTC.filter(dtc => dtc.statusId == 4)    
+      let prueba = []
+      state.listaInfoDTC
+        .filter(dtc => dtc.statusId == 4)
+        .forEach(async (item) =>  {          
+          await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+          .then((response)=>{
+            //console.log(response)
+            if(response.data.length > 0){
+              let obj = { ...item, 'imgbool': false}
+              prueba.push(obj)              
+            }
+            else{
+              let obj = { ...item, 'imgbool': true}
+              prueba.push(obj)              
+            }
+          })
+
+          .catch((ex)=>{
+            console.log(ex)
+          })
+      })
+      console.log(prueba)
+      return prueba
     }
     else
       return state.listaInfoDTC.filter(dtc => dtc.statusId < 4)
