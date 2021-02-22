@@ -88,7 +88,7 @@
           </div>
         </div>
       </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto" style="height:450px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -155,7 +155,7 @@
                     <button
                         v-if="item.statusId >= 3"
                         @click="descargar_PDF(item,3)"
-                        class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400': item.escaneadobool }" :disabled=" item.escaneadobool ">
+                        class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400 hover:text-black': item.escaneadobool }" :disabled=" item.escaneadobool ">
                         <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>

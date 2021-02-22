@@ -43,17 +43,17 @@
           <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
               <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado"/>
-              <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border" alt/>
+              <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
               <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
             </div>
             <div class="flex" v-else>
               <div class="inline-flex">
-                <img src="../../assets/img/pdf.png" class="w-6 m-2 border opacity-75" alt/>    
-                <p class="ml-2 mt-3 text-sm">{{ pdfSellado.name }}</p>
+                <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
+                <p class="ml-2 mt-0 text-sm">{{ pdfSellado.name }}</p>
               </div>
-              <div class="mt-2 justify-between">
-                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar">Cancelar</button>
-                <button @click="status_dtc_sellado" class="botonIconCrear">Enviar PDF</button>
+              <div class="mt-0 justify-between grid grid-cols-2 ml-0">
+                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-2 h-10 text-sm justify-center">Cancelar</button>
+                <button @click="status_dtc_sellado" class="botonEnviarPDF h-10 text-sm justify-center w-24">Enviar PDF</button>
               </div>            
             </div>
           </div>
@@ -287,7 +287,7 @@ export default {
     },
     crearImage(file) {
       if(file.type.split('/')[1] == 'pdf'){
-        var reader = new FileReader();
+        var reader = new FileReader(); 
         reader.onload = (e) => {
           this.$nextTick().then(() => {
             this.pdfSellado = {
