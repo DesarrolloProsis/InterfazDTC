@@ -2,8 +2,7 @@
 <div class="relative">               
     
     <!--///////////////////////////////////////////////////////////////////
-       ///                    FILTROS DE NAVEGACION                   ////   
-      ///                             DTC                            ////
+       ///                    FILTROS DE NAVEGACION   DTC             ////         
      ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'DTC'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
@@ -36,49 +35,46 @@
         </div>
     </div>
     <!--///////////////////////////////////////////////////////////////////
-       ///                    FILTROS DE NAVEGACION                   ////   
-      ///                          INVENTARIO                        ////
+       ///              FILTROS DE NAVEGACION INVENTARIO               ////         
      ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'INV'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-2">Buscar</span>
-                <input class="bg-white sm:w-full" />
+                <input v-model="buscarPalabraInventario" class="bg-white sm:w-full" />
             </div>
             <div class="mr-3 mt-6">
                 <span class="mr-2">Ubicación</span>
-                <input class="bg-white" type="checkbox"/>
+                <input @change="cambiar_orden_inventario('ubicacion')" v-model="boolUbicacion" class="bg-white" type="checkbox"/>
             </div>
             <div class="mt-6">
                 <span class="mr-4">Componente</span>
-                <input class="bg-white" type="checkbox"
-                />
+                <input @change="cambiar_orden_inventario('componente')" v-model="boolComponente" class="bg-white" type="checkbox"/>
             </div>
             <div class="text-sm sm:mt-4">
                 <SelectPlaza :fullPlazas="true"></SelectPlaza>
             </div>
             <div class="mt-2">
-                <span class="text-gray-800">Editados:</span>
+                <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
-        ///                BOTONES DE NAVEGACION INVENTARIO             ////
+        ///                         BOTONES inventario               ////
        ////////////////////////////////////////////////////////////////////-->
         <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
-            <button class="w-32 botonIconBorrarCard ml-4 mr-4">
+            <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard ml-4 mr-4">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:m-0" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
             </button>
-            <button class="w-32 botonIconNext">
+            <button @click="actualizar_inventario" class="w-32 botonIconNext">
                 <img src="../../assets/img/save.png" class="mr-2 sm:mr-0" width="25" height="25" />
                 <span class="text-xs">Guardar</span>
             </button>
-        </div>
+        </div>     
     </div>    
     <!--///////////////////////////////////////////////////////////////////
-       ///                    FILTROS DE NAVEGACION                   ////   
-      ///                          CALENDARIO                        ////
+       ///         FILTROS DE NAVEGACION CALENDARIO                   ////         
      ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'CAL'" class="inline-flex sm:inline-block w-full">
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
@@ -107,7 +103,7 @@
 </template>
 
 <script>
-import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
+
 import SelectPlaza from '../Header/SelectPlaza'
 
 export default {
@@ -124,72 +120,54 @@ export default {
             type: String,
             default: () => ''
         },
+        contadorInventario: {
+            type: Number,
+            default: () => 0
+        }
     },
-/////////////////////////////////////////////////////////////////////
-////                      DATA                                    ////
-/////////////////////////////////////////////////////////////////////
-data: function (){
-    return {
-        plazaFiltro: '',
-        infoDTC:[],
-        fechaFiltro: '',
-        referenciaFiltro: '',
-        filtroVista: false,
+    /////////////////////////////////////////////////////////////////////
+    ////                      DATA                                    ////
+    /////////////////////////////////////////////////////////////////////
+    data: function (){
+        return {
+            plazaFiltro: '',
+            infoDTC:[],
+            fechaFiltro: '',
+            referenciaFiltro: '',
+            filtroVista: false,
+            //data inventario
+            boolUbicacion: true,
+            boolComponente: false,
+            buscarPalabraInventario: ''
+        }
+    },
+    /////////////////////////////////////////////////////////////////////
+    ////                       CICLOS DE VIDA                        ////
+    /////////////////////////////////////////////////////////////////////
+    beforeMount: function () {
+    
+    },
+    /////////////////////////////////////////////////////////////////////
+    ////                           METODOS                           ////
+    /////////////////////////////////////////////////////////////////////
+    methods:{
+        //Metodos Para Inventario
+        cancelar_filtro_inventario: function(){
+            this.$emit('cancelar-filtros')
+        },
+        actualizar_inventario: function(){
+            this.$emit('guardar-cambios')
+        },
+        cambiar_orden_inventario: function(orden){        
+            this.$emit('cambiar-orden', orden)
+            this.boolUbicacion = this.boolComponente = false 
+            orden =='ubicacion' ? this.boolUbicacion = true : this.boolComponente = true
+        }
+    },
+    watch:{
+        buscarPalabraInventario: function(newPalabra){
+            this.$emit('filtra-palabra', newPalabra)
+        }
     }
-},
-/////////////////////////////////////////////////////////////////////
-////                       CICLOS DE VIDA                        ////
-/////////////////////////////////////////////////////////////////////
-beforeMount: function () {
-},
-/////////////////////////////////////////////////////////////////////
-////                           METODOS                           ////
-/////////////////////////////////////////////////////////////////////
-methods:{
-filtro_Dtc: async function () {  
-    if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
-        console.log(listaFiltrada)
-        this.$nextTick().then(() => {      
-            this.infoDTC = listaFiltrada            
-        }) 
-    }
-      //Si no ingresa ningún filtro 
-    else{
-        this.$notify.warning({
-        title: "Ups!",
-        msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
-        position: "bottom right",
-        styles: {
-            height: 100,
-            width: 500,
-            },
-        });
-    }
-},
-limpiar_filtros: function() {     
-    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
-    {        
-        this.modalLoading = true                            
-        this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-        this.fechaFiltro = "";
-        this.referenciaFiltro = "";            
-        this.plazaFiltro = ""; 
-        }) 
-    }
-    else{
-        this.$notify.warning({
-        title: "Ups!",
-        msg: `NO SE HA LLENADO NINGUN CAMPO.`,
-        position: "bottom right",
-        styles: {
-            height: 100,
-            width: 500,
-                },
-            });
-        }      
-    }
-},
 }
 </script>
