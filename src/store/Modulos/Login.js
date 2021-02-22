@@ -8,6 +8,7 @@ const state = {
   listaPlazas: [],
   cookiesUser: {},
   listaTec: [],
+  plazaSelecionada: {},
   PLAZAELEGIDA: 0,
   tipoUsuario: [
     {id: 1, nombre: 'Tecnico'},
@@ -33,11 +34,11 @@ const getters = {
   GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
   getReferenceSquareActual: () => state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].refereciaPlaza,
   getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
-  getTypeUser: () => state.cookiesUser.rollId,
-  //GET_TIPO_USUARIO: () => state.tipoUsuario.find(item => item.id == state.cookiesUser.rollId), 
+  getTypeUser: () => state.cookiesUser.rollId,  
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].numeroPlaza)
 };
 const mutations = {
+  PLAZA_SELECCIONADA_MUTATION: (state, value) => state.plazaSelecionada = value,
   PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
   LISTA_PLAZAS_MUTATION: (state, value) => state.listaPlazas = value,
   COOKIES_USER_MUTATION: (state, value) => state.cookiesUser = value,
@@ -80,8 +81,14 @@ const actions = {
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
-  async BUSCAR_COOKIES_USUARIO({ commit }, value) {        
-    await Axios.get(`${API}/login/ValidUser/${value.User}/${value.Password}/${true}`)
+  async BUSCAR_COOKIES_USUARIO({ commit }, value) { 
+    let objLogin = {
+      username: value.User,
+      password: value.Password,
+      flag: true
+    }   
+    console.log(objLogin)    
+    await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
         if (response.data.result != null) {         
           commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));
@@ -96,8 +103,14 @@ const actions = {
       });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
-  async buscarUsuario({ commit }, value) {    
-    await Axios.get(`${API}/login/${value.User}/${value.Password}/${false}`)
+  async buscarUsuario({ commit }, value) {   
+    let objLogin = {
+      username: value.User,
+      password: value.Password,
+      flag: false
+    } 
+    console.log(objLogin)
+    await Axios.post(`${API}/login`,objLogin)
       .then(response => {        
         commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
