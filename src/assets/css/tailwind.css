@@ -112,7 +112,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconCancelar:hover{
-    @apply border-red-600 bg-red-500 text-white;
+    @apply border-red-800 bg-red-500 text-white;
 }
 .botonIconCancelar:focus{
     @apply outline-none;
@@ -177,6 +177,16 @@ select:focus {
     @apply border-blue-500 bg-blue-300 text-white;
 }
 .botonIconMas:focus{
+    @apply outline-none;
+}
+
+.botonEnviarPDF{
+    @apply bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md inline-flex items-center;
+}
+.botonEnviarPDF:hover{
+    @apply border-green-800 bg-green-500 text-white;
+}
+.botonEnviarPDF:focus{
     @apply outline-none;
 }
 

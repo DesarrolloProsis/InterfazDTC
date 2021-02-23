@@ -9,9 +9,9 @@
             @filtra-palabra="guardar_palabra_busqueda"
             @guardar-cambios="guardar_cambios_inventario" :tipo="'INV'">               
         </HeaderGenerico>
-          <!--/////////////////////////////////////////////////////////////////
-            ////                           MODAL INVENTARIO                  ////
-            ////////////////////////////////////////////////////////////////////-->
+          <!--////////////////////////////////////////////////////////////////////
+          ////                           MODAL INVENTARIO                  //////
+          ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
           <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC</p>
