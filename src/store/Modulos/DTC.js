@@ -31,7 +31,42 @@ const getters = {
   getInsertDmgComplete: () => state.insertDmgComplete,
   getlistaInfoDTC: () => (tipoVista) => {
     if(tipoVista){
-      return state.listaInfoDTC.filter(dtc => dtc.statusId == 4)    
+      let prueba = []
+      state.listaInfoDTC
+        .filter(dtc => dtc.statusId == 4)
+        .forEach(async (item) =>  {
+          await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+          .then( async (response)=>{
+            await Axios.get(`${API}/Pdf/PdfExists/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+            .then((response2) =>{
+              console.log(response2)
+              if(response.data.length > 0){
+                let obj = { ...item, 'imgbool': false, escaneadobool: false}
+                prueba.push(obj)
+              }
+              else{
+                let obj = { ...item, 'imgbool': true, escaneadobool: false}
+                prueba.push(obj)
+              }
+            })
+            .catch(()=>{
+              if(response.data.length > 0){
+                let obj = { ...item, 'imgbool': false, escaneadobool: true}
+                prueba.push(obj)
+              }
+              else{
+                let obj = { ...item, 'imgbool': true, escaneadobool: true}
+                prueba.push(obj)
+              }
+            })
+            //console.log(response)
+          })
+          .catch((ex)=>{
+            console.log(ex)
+          })
+      })
+      console.log(prueba)
+      return prueba
     }
     else
       return state.listaInfoDTC.filter(dtc => dtc.statusId < 4)
