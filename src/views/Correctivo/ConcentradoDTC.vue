@@ -213,28 +213,17 @@ data: function (){
       limite:300,
       carruselModal: false,
       dtcImg: {},
-      arrayImagenesCarrusel: [],
-      plazasValidas: []
+      arrayImagenesCarrusel: [],      
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: function () {
+beforeMount: async function () {
   this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-  this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
-  console.log(this.infoDTC)
-  this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
-  let listaPlazasValias = []
-  let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
-  for(let plaza of todasPlazas){      
-      if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
-        plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
-        listaPlazasValias.push(plaza)        
-      }
-  }
-  this.plazasValidas = listaPlazasValias
-  console.log(this.plazasValidas)   
+  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
+  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
+
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -242,7 +231,20 @@ beforeMount: function () {
 computed:{
     restante(){
         return  this.motivoCambio.length
-    }
+    },
+    plazasValidas: function(){
+      let listaPlazasValias = []
+      let todasPlazas =  this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
+      console.log(todasPlazas)
+      for(let plaza of todasPlazas){      
+          if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
+            plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
+            listaPlazasValias.push(plaza)        
+          }
+      }
+      console.log(listaPlazasValias)
+      return listaPlazasValias
+  }
 },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
