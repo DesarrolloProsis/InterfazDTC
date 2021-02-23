@@ -49,7 +49,7 @@
             <div class="flex" v-else>
               <div class="inline-flex">
                 <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
-                <p class="ml-2 mt-0 text-sm">{{ pdfSellado.name }}</p>
+                <p class="ml-2 mt-0 mr-10 text-sm">{{ pdfSellado.name }}</p>
               </div>
               <div class="mt-0 justify-between grid grid-cols-2 ml-0">
                 <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-2 h-10 text-sm justify-center">Cancelar</button>
