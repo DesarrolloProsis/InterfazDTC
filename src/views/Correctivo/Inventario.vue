@@ -121,7 +121,7 @@ export default {
       boolComponente: false,            
       tipoUsuario: 0,
       disableInputs: false,
-      modalLoading: true
+      modalLoading: false
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -248,20 +248,24 @@ export default {
     },
     guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
+        this.modalLoading = true
         let convenio = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
         await this.$store.dispatch("Refacciones/FULL_COMPONETES", convenio);
         this.cambiar_pagina(1);
         this.listEditados = [];
-        this.$notify.success({
-          title: "Ok!",
-          msg: `SE ACTUALIZARON ${this.listEditados.length} COMPONENTES.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });        
+        setTimeout(() => {
+          this.modalLoading = false
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE ACTUALIZARON ${this.listEditados.length} COMPONENTES.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          }); 
+        }, 2000)       
       } else {
         this.$notify.warning({
           title: "Ups!",
