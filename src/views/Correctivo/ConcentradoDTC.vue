@@ -213,7 +213,8 @@ data: function (){
       limite:300,
       carruselModal: false,
       dtcImg: {},
-      arrayImagenesCarrusel: []
+      arrayImagenesCarrusel: [],
+      plazasValidas: []
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -221,7 +222,8 @@ data: function (){
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
   this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
+  this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
+  console.log(this.infoDTC)
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
   let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
@@ -231,7 +233,8 @@ beforeMount: function () {
         listaPlazasValias.push(plaza)        
       }
   }
-  this.plazasValidas = listaPlazasValias   
+  this.plazasValidas = listaPlazasValias
+  console.log(this.plazasValidas)   
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////

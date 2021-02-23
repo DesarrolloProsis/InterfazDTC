@@ -332,6 +332,7 @@ beforeMount: async function () {
       }
   }
   this.plazasValidas = listaPlazasValias  
+  console.log(this.plazasValidas)
   let statusLista = this.$store.state.DTC.dtcStatus
   for(let i of [1,2,3,4]){
     if(this.infoDTC.some(item => item.statusId == i)){
