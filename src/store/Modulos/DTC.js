@@ -38,8 +38,8 @@ const getters = {
           await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
           .then( async (response)=>{
             await Axios.get(`${API}/Pdf/PdfExists/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
-            .then((response2) =>{
-              console.log(response2)
+            .then(() =>{
+              //console.log(response2)
               if(response.data.length > 0){
                 let obj = { ...item, 'imgbool': false, escaneadobool: false}
                 prueba.push(obj)
@@ -65,7 +65,7 @@ const getters = {
             console.log(ex)
           })
       })
-      console.log(prueba)
+      //console.log(prueba)
       return prueba
     }
     else

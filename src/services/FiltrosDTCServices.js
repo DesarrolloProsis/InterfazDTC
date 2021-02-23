@@ -2,6 +2,7 @@ import store from "../store/index"
 import moment from "moment";
 async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha){         
     let listaCompleta  = await store.getters["DTC/getlistaInfoDTC"](filtroVista); 
+    console.log(listaCompleta)
     let listaFiltrada = []  
     //Si filtra por plaza, fecha y referencia
     if (numPlaza != "" && fecha != "" && referenceNumber != ""){

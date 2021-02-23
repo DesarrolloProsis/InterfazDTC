@@ -331,7 +331,7 @@ descargar_PDF: function (infoDtc, status){
 
 filtro_Dtc: async function () {  
       if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
+        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, undefined, false)
         console.log(listaFiltrada)
         this.$nextTick().then(() => {      
             this.infoDTC = listaFiltrada            
