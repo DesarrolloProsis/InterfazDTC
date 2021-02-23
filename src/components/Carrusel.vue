@@ -2,11 +2,11 @@
     
 <div class="shadow-2xl ">
 	<div class="relative  w-full">
-        <span @click="cerrar_carrusel" class="absolute border rounded-full top-0 right-0">
+        <span @click="cerrar_carrusel" class="absolute rounded-full top-0 right-0">
             <img  src="../assets/img/closeCircle.png" class=" w-8 cursor-pointer " />
         </span>
         <div class="inline-flex">
-            <div class="my-auto absolute mt-48 ml-6 sm:ml-0">
+            <div class="my-auto absolute mt-48 ml-8 sm:ml-0">
                 <button @click="cambiar_imagen('anterior')">
                     <img src="../assets/img/anterior.png" class="w-24 opacity-50" alt />
                 </button>
