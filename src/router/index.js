@@ -77,7 +77,7 @@ const routes = [
     name: 'Inventario',
     component: Inventario,
     beforeEnter: async function (to, from, next) {
-      let plaza = store.getters['Header/getConvenioPlaza']
+      let plaza = store.getters['Header/GET_CONVENIO_PLAZA']
       await store.dispatch('Refacciones/FULL_COMPONETES', plaza)
       next()
     }
@@ -119,7 +119,7 @@ const routes = [
     name: 'InventarioDetalle',
     component: InventarioDetalle,
     beforeEnter: async function (to, from, next) {
-      let plaza = store.getters['Header/getConvenioPlaza']
+      let plaza = store.getters['Header/GET_CONVENIO_PLAZA']
       await store.dispatch('Refacciones/buscarComponentesInventario', plaza)
       await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')
       next()
