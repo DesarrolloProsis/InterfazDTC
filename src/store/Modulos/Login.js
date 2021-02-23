@@ -97,7 +97,12 @@ const actions = {
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
   async buscarUsuarioCokie({ commit }, value) {        
-    await Axios.get(`${API}/login/ValidUser/${value.User}/${value.Password}/${true}`)
+    let objLogin = {
+      username: value.User,
+      password: value.Password,
+      flag: true
+    }
+    await Axios.post(`${API}/login/ValidUser`, objLogin)
       .then(response => {
         if (response.data.result != null) {
           commit("userLogeadoMutation", response.data.result);
@@ -113,7 +118,12 @@ const actions = {
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async buscarUsuario({ commit }, value) {    
-    await Axios.get(`${API}/login/${value.User}/${value.Password}/${false}`)
+    let objLogin = {
+      username: value.User,
+      password: value.Password,
+      flag: false
+    }
+    await Axios.post(`${API}/login`,objLogin)
       .then(response => {        
         commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
