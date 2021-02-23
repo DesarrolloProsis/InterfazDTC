@@ -32,7 +32,7 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Configuración</h1>
             </router-link>
           </div>
-        
+      
       </div>
     </div>
     <div class="flex justify-center mt-2 sm:mt-14" v-else>
