@@ -91,7 +91,7 @@ select:focus {
 }
 
 .cabeceraTable{
-    @apply py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800;
+    @apply py-2 px-3 top-0 border-b border-gray-200 bg-blue-800;
 }
 
 .cuerpoTable{
