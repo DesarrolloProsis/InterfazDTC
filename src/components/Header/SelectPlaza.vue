@@ -10,6 +10,7 @@
 
 <script>
 import EventBus from "../../services/EventBus.js";
+import ServiceCookies from '../../services/CookiesService'
 import { mapState } from 'vuex'
 export default {
     props: {
@@ -22,29 +23,21 @@ export default {
         return{
             listaPlazas: [],
             plazaSelect: {},            
-            convenioSelect: {}
+            convenioSelect: {},
+            boolCambiarPlaza: false
         }
     },
-    beforeMount() {
+    beforeMount: async function() {
         if(this.fullPlazas)
             this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
-        
-        this.plazaSelect = this.listaPlazas[0]   
-        this.actualizar_plaza()     
-        this.convenioSelect = this.listaHeaders.find(header => header.referenceSquare == this.plazaSelect.refereciaPlaza)                
+                
+        let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
+        this.plazaSelect = plazaSelect
+        this.convenioSelect = convenioSelect         
     },
     methods:{    
         actualizar_plaza: async function(){                              
-            await this.$store.commit('Login/PLAZA_SELECCIONADA_MUTATION', this.plazaSelect)  
-            this.convenioSelect = this.listaHeaders.find(header => header.referenceSquare == this.plazaSelect.refereciaPlaza)                                         
-            let objConvenio = {
-                id: null,
-                numPlaza: this.plazaSelect.numeroPlaza,
-                numConvenio: this.convenioSelect.agrement,
-                idConvenio: this.convenioSelect.agremmentInfoId,
-            }                      
-            await this.$store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
-            await this.$store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
+            this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect, this.listaPlazas, this.listaHeaders)
             EventBus.$emit('ACTUALIZAR_INVENTARIO')
         }
     },

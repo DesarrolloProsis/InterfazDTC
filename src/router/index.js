@@ -14,6 +14,7 @@ import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
+import ServiceCookies from '../services/CookiesService'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -77,8 +78,7 @@ const routes = [
     name: 'Inventario',
     component: Inventario,
     beforeEnter: async function (to, from, next) {
-      let plaza = store.getters['Header/GET_CONVENIO_PLAZA']
-      await store.dispatch('Refacciones/FULL_COMPONETES', plaza)
+      await ServiceCookies.actualizar_plaza()            
       next()
     }
   },

@@ -127,10 +127,10 @@ export default {
         });  
     });
   },
-  beforeMount: function () {           
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser']
+  beforeMount: async function () {           
+    this.tipoUsuario = await this.$store.getters['Login/getTypeUser']
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
-    this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](1);
+    this.listComponent = await this.$store.getters["Refacciones/getPaginationComponent"](1);
     this.crear_array_paginacion("inicio");    
     this.full_Component.sort((a, b) => {
       if (a.lane < b.lane) return -1;
@@ -234,9 +234,11 @@ export default {
         }        
       }
     },
-    guardar_cambios_inventario: function () {
+    guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
-        this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
+        let convenio = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+        await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
+        await this.$store.dispatch("Refacciones/FULL_COMPONETES", convenio);
         this.cambiar_pagina(1);
         this.listEditados = [];
         this.$notify.success({
@@ -247,8 +249,7 @@ export default {
             height: 100,
             width: 500,
           },
-        });
-        this.listEditados = [];
+        });        
       } else {
         this.$notify.warning({
           title: "Ups!",
@@ -275,8 +276,8 @@ export default {
       });
     },
     cancelar_filtros: function () {      
-      let plaza = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-      this.$store.dispatch("Refacciones/FULL_COMPONETES", plaza);
+      let convenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
+      this.$store.dispatch("Refacciones/FULL_COMPONETES", convenio);
       this.cambiar_pagina(1);
       this.listEditados = [];
     },    
