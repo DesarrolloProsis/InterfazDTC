@@ -617,7 +617,7 @@ methods: {
     }
     else if(value === false){
         this.referenciaFiltro = this.refNum
-        this.filtro_Dtc()
+        this.limpiar_filtros()
         this.modalFirma = false
         this.refNum = ''
     }
