@@ -147,7 +147,7 @@
             <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
             <div class="mt-5 justify-items-center">
               <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
-              <button @click="agregar_autorizacion_gmmep(false)" class="botonIconCancelar">No</button>
+              <button @click="modalFirma=false" class="botonIconCancelar">No</button>
             </div>
           </div>
         </div>
@@ -350,6 +350,9 @@ beforeMount: async function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  cerrarModal: function(){
+    this.modalFirma = false
+  },
   borrar: async  function (value) {  
       let userId = this.$store.getters['Login/getUserForDTC']         
       let obj = { "refNum": this.refNum, "userId": userId.idUser }    
