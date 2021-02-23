@@ -1,4 +1,5 @@
 function formato_cookies_usuario(listaPlazasUser, tipoUsuario){
+    console.log(listaPlazasUser)
     let plazasUsuario = listaPlazasUser.map(item => {
         return {
             refereciaPlaza: item.referenceSquare,

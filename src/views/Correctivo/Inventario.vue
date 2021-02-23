@@ -90,6 +90,7 @@
 <script>
 import { mapState } from "vuex";
 import Nav from "../../components/Navbar";
+import EventBus from "../../services/EventBus.js";
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 
 export default {
@@ -114,6 +115,18 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
+  created: function(){
+    EventBus.$on("ACTUALIZAR_INVENTARIO", () => {              
+        this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](1);
+        console.log(this.listComponent.length)
+        this.crear_array_paginacion("inicio");    
+        this.full_Component.sort((a, b) => {
+          if (a.lane < b.lane) return -1;
+          if (a.lane > b.lane) return 1;
+          return 0;
+        });  
+    });
+  },
   beforeMount: function () {           
     this.tipoUsuario = this.$store.getters['Login/getTypeUser']
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
