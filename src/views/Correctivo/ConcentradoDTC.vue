@@ -165,7 +165,7 @@
                       @click="descargar_PDF(item,1)"
                       class="botonIconBorrarCard mr-2">
                       <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
-                      <span class="text-xs sm:hidden">Sin Firma</span>
+                      <span class="text-xs sm:hidden w-24">Sin Firma</span>
                     </button>
                   </div>
                   </td>
@@ -329,10 +329,9 @@ descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
       },
 
-filtro_Dtc: async function () {  
-      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, undefined, false)
-        console.log(listaFiltrada)
+filtro_Dtc: function () {  
+      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){                    
+        let listaFiltrada =  ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, undefined, false, this.infoDTC)        
         this.$nextTick().then(() => {      
             this.infoDTC = listaFiltrada            
         }) 

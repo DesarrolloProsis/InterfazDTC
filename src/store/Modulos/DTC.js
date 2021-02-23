@@ -34,12 +34,11 @@ const getters = {
       let prueba = []
       state.listaInfoDTC
         .filter(dtc => dtc.statusId == 4)
-        .forEach(async (item) =>  {
-          await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
-          .then( async (response)=>{
-            await Axios.get(`${API}/Pdf/PdfExists/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
-            .then(() =>{
-              //console.log(response2)
+        .forEach((item) =>  {
+          Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+          .then(  (response)=>{
+            Axios.get(`${API}/Pdf/PdfExists/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+            .then(() =>{              
               if(response.data.length > 0){
                 let obj = { ...item, 'imgbool': false, escaneadobool: false}
                 prueba.push(obj)
@@ -64,8 +63,7 @@ const getters = {
           .catch((ex)=>{
             console.log(ex)
           })
-      })
-      //console.log(prueba)
+      })      
       return prueba
     }
     else
