@@ -87,8 +87,9 @@
           </div>
         </div>
       </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
+      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
@@ -126,7 +127,7 @@
                     <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
                   </td>
                   <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
-                  <td class="cuerpoTable">
+                  <td>
                     <div>
                       <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
                         <img src="../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
