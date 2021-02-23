@@ -1,7 +1,13 @@
 import store from "../store/index"
 import moment from "moment";
-async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha){         
-    let listaCompleta  = await store.getters["DTC/getlistaInfoDTC"](filtroVista); 
+function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha, listaDTC){ 
+    console.log(listaDTC) 
+    let listaCompleta = []   
+    if(listaDTC == undefined)
+        listaCompleta = store.getters["DTC/getlistaInfoDTC"](filtroVista)      
+    else{
+        listaCompleta = listaDTC
+    }                              
     let listaFiltrada = []  
     //Si filtra por plaza, fecha y referencia
     if (numPlaza != "" && fecha != "" && referenceNumber != ""){
@@ -31,14 +37,13 @@ async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status
     else if (referenceNumber != "" && numPlaza == "" && fecha == "") {     
         listaFiltrada = filtro_referencia(listaCompleta,referenceNumber)
     }
-    
     if(status != undefined && status != '')
         if(listaFiltrada.length == 0)
             return listaCompleta.filter(dtc => dtc.statusId == status)
         else
             return listaFiltrada.filter(dtc => dtc.statusId == status)
     else
-        return  listaFiltrada
+        return  listaFiltrada      
 }
 function filtro_plaza (listaDTC, numPlaza, tipoDTC) {
     let listaFiltrada = []

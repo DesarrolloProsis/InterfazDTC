@@ -329,10 +329,9 @@ descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
       },
 
-filtro_Dtc: async function () {  
-      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
-        console.log(listaFiltrada)
+filtro_Dtc: function () {  
+      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){                    
+        let listaFiltrada =  ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, undefined, false, this.infoDTC)        
         this.$nextTick().then(() => {      
             this.infoDTC = listaFiltrada            
         }) 
