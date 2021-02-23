@@ -14,7 +14,7 @@
             <div class="block h-69 w-full  bg-indigo-500 text-white text-5xl text-center">           
                 <lazy-image v-if="cambiarImagenBool" :src="arrayImagenes.array_img[index_imagen_actual].image" :img-class="['w-full', 'h-69', ' rounded-xl', '']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" />          
             </div>
-            <div class="my-auto absolute mt-48 ml-56 sm:ml-64">
+            <div class="my-auto absolute mt-48 ml-73 sm:ml-64">
                 <button @click="cambiar_imagen('siguiente')">
                     <img src="../assets/img/siguiente.png" class="w-24 opacity-50 " alt />
                 </button>
