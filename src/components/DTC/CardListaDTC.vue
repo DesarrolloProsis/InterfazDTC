@@ -46,14 +46,12 @@
               <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
               <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
             </div>
-            <div class="flex" v-else>
+            <div class="grid grid-cols-2" v-else>
               <div class="inline-flex">
                 <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
-                <p class="ml-2 mt-0 mr-1 text-sm">{{ pdfSellado.name }}</p>
-              </div>
-              <div class="mt-0 justify-between grid grid-cols-2 ml-0">
-                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-2 h-10 text-sm justify-center">Cancelar</button>
-                <button @click="status_dtc_sellado" class="botonEnviarPDF h-10 text-sm justify-center w-24">Enviar PDF</button>
+                <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
+                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                <button @click="status_dtc_sellado" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
               </div>            
             </div>
           </div>
