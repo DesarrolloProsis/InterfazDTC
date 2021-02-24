@@ -133,7 +133,7 @@ const routes = [
       {
         path: 'TablaActividades',
         component: () => import('../views/Preventivo/TablaActividades.vue'),
-        beforeEnter: async function(to,from,next){
+        beforeEnter: async function(to,from,next){          
           let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined, false)                    
           to.params.cargaInicial = result                             
           next()

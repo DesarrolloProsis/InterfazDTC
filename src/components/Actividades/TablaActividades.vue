@@ -15,14 +15,8 @@
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
                             <div class=" sm:w-full sm:ml-3">
                                 <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
-                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center">
-                                <p class="text-sm sm:text-sm text-red-600  mt-3 mr-2 sm:mr-6">Cambiar Plaza</p>                                   
-                                <select v-model="plazaSelect" @change="cambiar_plaza" class="w-40 mt-2 sm:w-40" type="text" name="TipoDescripcion" >
-                                    <option disabled value>Selecionar...</option>
-                                    <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">
-                                        {{ item.plazaNombre }}
-                                    </option>
-                                </select>
+                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center">                                
+                                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
                                 </div> 
                             </div>
                             <!--//////////////////////////////////////////////////////////////////////
@@ -109,10 +103,10 @@
                                 <td class="w-64 cuerpoTable text-center">{{ item.capufeLaneNum }}</td>                                
                                 <td class="w-64 cuerpoTable text-center">{{ item.day}}</td>
                                 <td class="w-64 cuerpoTable text-center">{{ item.frequencyName }}</td>
-                                <td v-if="item.statusMaintenance == 'False'" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
+                                <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                 <td v-else class="w-64 text-center cuerpoTable" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                 <td class="w-64 text-center cuerpoTable">
-                                    <div v-if="item.statusMaintenance == 'False'">                               
+                                    <div v-if="item.statusMaintenance == false">                               
                                         <button @click="crear_reporte_carril(item)" class="botonIconCrear">
                                             <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Crear</span>
@@ -147,10 +141,14 @@
 </template>
 <script>
 import ServicioActividades from '../../services/ActividadesService.js'
-const API = process.env.VUE_APP_URL_API_PRODUCCION
+import SelectPlaza from '../Header/SelectPlaza'
 import Axios from 'axios'
 import ServiceReportePDF from '../../services/ReportesPDFService'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
+    components:{
+        SelectPlaza
+    },
     data(){
         return{
             listaActividadesMensuales:[],
@@ -168,8 +166,7 @@ export default {
 beforeMount: async function(){           
     this.listaPlazas = await this.$store.state.Login.cookiesUser.plazasUsuario
     let cargaInicial = this.$route.params.cargaInicial
-    this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales
-    this.plazaSelect = cargaInicial.plazaSelect
+    this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
     this.plazaNombre = cargaInicial.plazaNombre
     this.comentario = cargaInicial.comentario     
     this.mes = cargaInicial.mes
@@ -188,10 +185,8 @@ methods: {
             this.plazaSelect = actualizar.plazaSelect
         })
     },  
-    cambiar_plaza(){
-        let index = this.listaPlazas.findIndex((item) => item.numeroPlaza == this.plazaSelect);
-        this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
-        this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
+    cambiar_plaza(numeroPlaza){     
+        this.plazaSelect = numeroPlaza
         this.listaActividadesMensuales = []
     },
     reporte_pdf: async function(item){
@@ -207,8 +202,7 @@ methods: {
             console.log(Ex);                    
         });                 
     },  
-    editar_reporte_carril: async function(item){
-        console.log(item)
+    editar_reporte_carril: async function(item){        
         let refPlaza = this.$store.getters['Login/getReferenceSquareActual']    
         console.log(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)    
         await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)

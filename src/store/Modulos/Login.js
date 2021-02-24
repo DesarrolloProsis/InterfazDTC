@@ -26,8 +26,8 @@ const state = {
 const getters = {
   getUserForDTC: () => {
     return {
-      numPlaza: state.listaHeaderDtcUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
-      idUser: state.listaHeaderDtcUser[state.PLAZAELEGIDA].userId
+      numPlaza: state.plazaSelecionada.numeroPlaza,
+      idUser: state.cookiesUser.userId
     }
   },
   getUser: () => state.listaHeaderDtcUser,

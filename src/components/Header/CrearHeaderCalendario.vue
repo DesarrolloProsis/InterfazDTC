@@ -24,14 +24,9 @@
                     <div class="flex justify-starts m-5">
                         <p class=" font-bold">Correspondiente al mes de:</p>
                         <h2 class="ml-5">{{ `${mesNombre} del ${año}` }}</h2>
-                    </div>
-                    <!-- <Generico :tipo="'CAL'"></Generico> -->
+                    </div>                    
                     <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
-                        <p class="font-bold">Plaza de Cobro:</p>
-                        <select v-model="plazaSelect" @change="cambiar_plaza" class="w-56 h-6 ml-5 sm:ml-0 sm:mt-2" type="text">
-                            <option disabled value="">Selecionar...</option>     
-                            <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">{{ item.plazaNombre }}</option>                
-                        </select>                             
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                                                    
                     </div>  
                     <div class="flex justify-start m-5">
                         <button @click="generar_pdf" class="botonIconCrear">
@@ -87,13 +82,12 @@
 
 <script>
 import ServiceActividades from '../../services/ActividadesService'
-//import Generico from "../../components/Header/HeaderGenerico";
+import SelectPlaza from '../Header/SelectPlaza'
 
 export default {
-    /* name: 'HeaderGenerico',
-    components: {
-    Generico,
-    }, */
+    components:{
+        SelectPlaza
+    },
     props:{
         comentario:{
             type: String,
@@ -106,37 +100,27 @@ export default {
         año: {
             type: Number,
             default: () => 0
-        },
-        plazaSelect: {
-            type: String,
-            default: () => 0
-        }
+        }     
     },
     data(){
-        return {            
-            listaPlazas: '',
-            limite:500
+        return {                        
+            limite:500,            
         }
     },
-    beforeMount(){        
-        this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario
+    beforeMount(){                        
     },
     methods: {
-        cambiar_plaza(){
-            let index = this.listaPlazas.findIndex((item) => item.numeroPlaza == this.plazaSelect);
-            this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
-            this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);             
-            this.$emit("actualizar-actividad", this.listaPlazas[index].numPlaza);            
+        cambiar_plaza(numeroPlaza){                  
+            this.$emit("actualizar-actividad", numeroPlaza);            
         },
-        generar_pdf(){
-            this.cambiar_plaza()
+        generar_pdf(){           
             this.$emit('generar-pdf', this.comentario)
         }        
     },
     computed:{
-            restante(){
-        return  this.comentario.length
-    },
+        restante(){
+            return  this.comentario.length
+        },
         mesNombre(){
             return ServiceActividades.numero_to_nombre(this.mes)
         }
