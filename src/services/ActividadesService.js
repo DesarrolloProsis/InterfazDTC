@@ -4,6 +4,7 @@ import moment from "moment";
 async function filtrar_actividades_mensuales(mes, año, tipoCalendario){    
     let listaPlazas = await store.state.Login.cookiesUser.plazasUsuario
     let user = await store.getters['Login/getUserForDTC']
+    console.log(user)
     store.dispatch('Refacciones/GET_CARRILES',user.numPlaza)
     if(mes == undefined && año == undefined){
         let fecha_comodin = new Date()

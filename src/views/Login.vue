@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import ServiceCookies from '../services/CookiesService'
 export default {
   name: "Login",
   data() {
@@ -149,6 +150,8 @@ export default {
             } */
           else
             this.$router.push("home");
+          
+          ServiceCookies.actualizar_plaza()
         }
       } 
       else {

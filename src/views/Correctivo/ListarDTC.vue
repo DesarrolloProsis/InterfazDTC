@@ -356,8 +356,7 @@ methods: {
             if(item === null){
               item = ''
             }
-          }           
-          console.log(objEdit)                       
+          }                                           
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
             .then(() =>{                                                             
@@ -428,14 +427,11 @@ methods: {
   },
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
-    let pdf_sellado_promise = new Promise((resolve, reject) => {
-      console.log(value.file)
+    let pdf_sellado_promise = new Promise((resolve, reject) => {    
       Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file)                   
-        .then((response) => {
-          console.log(response)
+        .then(() => {          
           Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-          .then((response) => { 
-              console.log(response)
+          .then(() => {               
               resolve('ok')                
               let info = this.$store.getters['Login/getUserForDTC']  
               this.$store.dispatch('DTC/buscarListaDTC', info)   
@@ -476,8 +472,7 @@ methods: {
     if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            
       this.infoDTC = []
       this.lista_dtc = []         
-      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltros.plazaFiltro, objFiltros.fechaFiltro, objFiltros.referenciaFiltro, objFiltros.statusFiltro, true)          
-      console.log(dtcFiltrados)
+      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltros.plazaFiltro, objFiltros.fechaFiltro, objFiltros.referenciaFiltro, objFiltros.statusFiltro, true)                
       this.$nextTick().then(async () => {
           this.moreCard = true            
           this.infoDTC = dtcFiltrados
@@ -555,8 +550,7 @@ methods: {
   editar_status_dtc(info){
     this.modalCambiarStatus = true
     this.refNum = info
-    this.modal = true
-    console.log(info)
+    this.modal = true    
   },
   actualizar_dtc_status: function(){
     let actualizar_status = new Promise((resolve, reject) => {
@@ -567,11 +561,9 @@ methods: {
         "StatusId": parseInt(this.statusEdit),
         "UserId": user.idUser,
         "Comment": this.motivoCambioStatus,
-      }
-      console.log(objeActualizado)
+      }      
       Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)    
-      .then(response => {
-        console.log(response)
+      .then(() => {        
         this.refNum = ''
         this.statusEdit = ''
         this.motivoCambioStatus = ''   

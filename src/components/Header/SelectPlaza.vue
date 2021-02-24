@@ -20,10 +20,10 @@ export default {
         },
         tipo: {
             type: String,
-            default: ''
+            default: 'insercion'
         }
     },
-    data(){
+    data(){ 
         return{
             listaPlazas: [],
             plazaSelect: {},            
