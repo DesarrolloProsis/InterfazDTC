@@ -142,14 +142,13 @@
         ////                      MODAL CONFIRMAR GMMEP                 ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalFirma" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl">
-          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+        <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
-            <div class="justify-center flex mt-5">
+            <div class="mt-5 text-center">
               <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
-              <button @click="agregar_autorizacion_gmmep(false)" class="botonIconBorrarCard">No</button>
+              <button @click="modalFirma = false" class="botonIconCancelar">No</button>
             </div>
-          </div>
+          
         </div>
         </div>
         <!--/////////////////////////////////////////////////////////////////
