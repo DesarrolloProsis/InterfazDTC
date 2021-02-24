@@ -1,17 +1,17 @@
 <template>
     
-<div class="shadow-2xl ">
+<div class="shadow-2xl bg-gray-300">
 	<div class="relative  w-full">
             <span @click="cerrar_carrusel" class="absolute  top-0 right-0">
                 <img  src="../assets/img/closeCircle.png" class=" w-8 cursor-pointer " />
             </span>     
-            <div class="inline-flex">
+            <div class="inline-flex w-full">
                 <div class="my-auto absolute mt-48 ml-6 sm:ml-0">
                     <button @click="cambiar_imagen('anterior')">
                         <img src="../assets/img/anterior.png" class="w-24 opacity-50" alt />
                     </button>
                 </div>         
-                <div class="block h-69 w-full  bg-indigo-500 text-white text-5xl text-center">           
+                <div class="block h-69 w-full text-white text-5xl text-center">           
                     <lazy-image v-if="cambiarImagenBool" :src="arrayImagenes.array_img[index_imagen_actual].image" :img-class="['w-full', 'h-69', ' rounded-xl', '']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" />          
                 </div>
                 <div class="my-auto absolute mt-48 ml-73 sm:ml-64">
