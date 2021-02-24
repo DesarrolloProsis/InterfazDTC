@@ -1,16 +1,17 @@
 <template>
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
-            <div class="flex justify-center mt-2">
+            <!-- <div class="flex justify-center mt-2">
                 <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
-            </div>
-            <div class="inline-flex h-56 xl:mx-auto sm:h-auto sm:m-0 border shadow-lg rounded-md border-gray-800">
-                <div class=" inline-flex sm:inline-block mt-3">
+            </div> -->
+            <div class="xl:mx-auto sm:h-auto sm:m-0 border shadow-lg rounded-md w-full h-64 mt-5">
+                <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES</h1>
+                <div class="inline-flex sm:inline-block mt-3">
                     <div class="w-1/2 sm:w-full">
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <p class=" uppercase sm:text-sm sm:w-66 text-lg text-center">Actividades del mes {{ mes }} del {{ año }}</p> 
+                        <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p> 
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
                             <div class=" sm:w-full sm:ml-3">
                                 <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
@@ -69,12 +70,12 @@
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                       COMENTARIO                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-20 sm:ml-0 sm:mb-2 mr-2 mt-1 inline-block sm:p-1">
+                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-48 sm:ml-5 sm:mb-2 mt-0 inline-block sm:p-1">
                         <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
                         <!-- <p>{{ comentario }}</p> -->
                         <textarea
                         v-model="comentario"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-500 rounded-lg px-2 py-2 h-32 w-full"
+                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-300 rounded-lg px-2 py-2 h-32 w-full"
                         readonly
                         />
                     </div>                                 
