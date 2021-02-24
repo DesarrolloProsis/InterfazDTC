@@ -5,81 +5,7 @@
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div class="mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3" :class="{ 'pointer-events-none': modal}">      
-        <div class="grid gap-4 grid-cols-1 border-2 shadow-lg">
-          <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:inline-block">
-            <!--/////////////////////////////////////////////////////////////////////
-                ////                         FILTRO TRAMO                        ////
-                ////////////////////////////////////////////////////////////////////-->
-<!--             <div class="m-3" v-if="false">
-              <p class="font-bold sm:text-sm mb-5 sm:text-center">Selecciones el Tramo</p>
-                <select class="w-full sm:w-full" type="text">
-                  <option disabled value="">Selecionar...</option>                                               
-                </select>
-            </div> -->
-          <!--/////////////////////////////////////////////////////////////////
-              ////                         FILTRO PLAZA                       ////
-              ////////////////////////////////////////////////////////////////////-->
-            <div class="m-3">
-              <p class="font-bold sm:text-sm mb-5">Seleccione la Plaza</p>
-                <select v-model="plazaFiltro" class="w-full" type="text">
-                  <option value="">Selecionar...</option>     
-                  <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
-                </select>
-            </div>  
-            <!--/////////////////////////////////////////////////////////////////
-                ////                         FILTRO FECHA                        ////
-                ////////////////////////////////////////////////////////////////////-->        
-            <div class="m-3">
-              <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
-              <input v-model="fechaFiltro" class="border w-full" type="date"/>
-              <span class="block text-xs text-gray-600">*Fecha de Siniestro</span>
-            </div>
-            <!--/////////////////////////////////////////////////////////////////////
-                ////                         FILTRO REFERENCIA                   ////
-                ////////////////////////////////////////////////////////////////////-->
-            <div class="m-3">
-              <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
-              <input v-model="referenciaFiltro" class="border w-full text-center" placeholder="PM-000000"/>
-            </div>  
-              <!--////////////////////////////////////////////////////////////////////
-                  ////                         FILTRO ESTATUS                     ////
-                  ////////////////////////////////////////////////////////////////////-->          
-            <div class="m-3">
-              <p class="font-bold mb-5 sm:text-sm">Status DTC</p>
-              <select v-model="statusFiltro" class="w-full" type="text">
-                  <option value="">Selecionar...</option>     
-                  <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
-              </select>                  
-            </div>
-          </div>
-          <!--/////////////////////////////////////////////////////////////////
-              ////                  BOTONES FILTROS                        ////
-              /////////////////////////////////////////////////////////////////--> 
-          <div class="flex justify-center">
-            <div class="w-1/4 sm:w-0">
-            </div>
-            <div class="w-1/4 m-3 sm:w-1/2 sm:ml-5">
-              <div>
-                <button @click.prevent="limpiar_filtros" class="w-full mt-5 botonIconLimpiar mx-auto sm:w-32">
-                    <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
-                    <span>Limpiar</span>
-                  </button>
-              </div>   
-            </div>
-            <div class="w-1/4 m-3 sm:w-1/2">
-              <div>
-                <button @click.prevent="filtro_Dtc" class="w-full mt-5 botonIconBuscar mx-auto sm:w-32">
-                    <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
-                    <span>Buscar</span>
-                  </button>
-              </div>
-            </div>
-            <div class="w-1/4 sm:w-0">
-            </div>
-        </div>
-        </div>
-      </div>   
+        <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'DTC Pendientes'" :dtcVista="'pendientes'" :tipo="'DTC'" :listaStatus="statusValidos"></HeaderGenerico>
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -266,65 +192,69 @@ import Nav from "../../components/Navbar";
 import ServicePDfReporte from '../../services/ReportesPDFService'
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
-const API = process.env.VUE_APP_URL_API_PRODUCCION
+import HeaderGenerico from '../../components/Header/HeaderGenerico'
 import EventBus from "../../services/EventBus.js";
 import Carrusel from "../../components/Carrusel";
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   data() {
     return {
-      infoDTC: [],
-      fechaFiltro: "",
-      referenciaFiltro: "",
-      modal: false,
-      modalEliminar: false,
-      modalEdit: false,
-      refNum: "",    
-      tipoUsuario: '',
-      dtcEdit: {},
+      infoDTC: [], 
+      lista_dtc: [],       
+      plazasValidas: [], 
+      //catalogos
+      statusValidos: [],
       descripciones: [],
-      plazasValidas: [],
-      plazaFiltro: '',
-      statusFiltro: '',
-      statusEdit: '',
-      motivoCambioStatus: '',
-      modalFirma: false,
+      //data modals          
+      modal: false,
+      //carrusel  
+      carruselModal: false, 
+      arrayImagenesCarrusel: [], 
+      //eliminar  
+      modalEliminar: false,
+      //loading
       modalLoading: false,
-      modalCambiarStatus: false,
-      lista_dtc: [],
-      moreCard: true,
-      carruselModal: false,
-      arrayImagenesCarrusel: [],
-      listaStatus: [],
+      //firma
+      modalFirma: false,
+      //status
+      modalCambiarStatus: false,      
+      motivoCambioStatus: '', 
+      //edit
+      modalEdit: false,
+      statusEdit: '',
+      dtcEdit: {}, 
+      //otros
+      refNum: "",    
+      tipoUsuario: '',                                                             
+      moreCard: true,                  
       filtroVista: false
     };
   },
   components: {
     Nav,
     CardListDTC,
-    Carrusel
+    Carrusel,
+    HeaderGenerico,
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
 created(){
-    EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
-      this.arrayImagenesCarrusel = arrayImagenes
-      this.carruselModal = true
-      this.modal = true
-      console.log(this.arrayImagenesCarrusel)
-    });
-    //console.log('hola')
+  EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
+    this.arrayImagenesCarrusel = arrayImagenes
+    this.carruselModal = true
+    this.modal = true      
+  });    
 },
 beforeMount: async function () {
-  this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
+  this.filtroVista = false
   this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
-  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
-  console.log(this.infoDTC)  
-  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
-  console.log(this.tipoUsuario)
+  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);   
+  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];  
   let listaPlazasValias = []
-  let todasPlazas = await  this.$store.state.Login.listaPlazas//this.$store.getters['Login/getListaPlazas']  
+  //Lista Plaza Validas
+  let todasPlazas = await  this.$store.state.Login.listaPlazas
   for(let plaza of todasPlazas){      
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
@@ -332,12 +262,14 @@ beforeMount: async function () {
       }
   }
   this.plazasValidas = listaPlazasValias  
+  //Lista Status Validos
   let statusLista = this.$store.state.DTC.dtcStatus
   for(let i of [1,2,3,4]){
     if(this.infoDTC.some(item => item.statusId == i)){
-        this.listaStatus.push(statusLista.find(status => status.id == i))
+        this.statusValidos.push(statusLista.find(status => status.id == i))
     }
-  }     
+  }
+  //PAginacion Inicial Toma 3 Cards     
   for(let i = 0; i <= 3; i++){
       if(i < this.infoDTC.length)
         this.lista_dtc.push(this.infoDTC[i])
@@ -378,8 +310,7 @@ methods: {
         if(index < 3)
           this.lista_dtc.push(element) 
       });
-      this.refNum = "";
-      
+      this.refNum = "";      
   },
   confimaBorrar: function (refNum) {
       this.refNum = refNum;
@@ -484,11 +415,7 @@ methods: {
       this.infoDTC = []    
       this.lista_dtc = []      
       await this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-        this.fechaFiltro = "";
-        this.referenciaFiltro = "";            
-        this.plazaFiltro = ""
-        this.statusFiltro = ""   
+        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);                                         
         this.infoDTC.forEach((element, index) => {
           if(index < 3)
             this.lista_dtc.push(element) 
@@ -545,11 +472,11 @@ methods: {
       .catch((err) =>  console.log(err))    
     }, 3000);                                                                                   
   },
-  filtro_Dtc: async function () { 
-    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '' || this.statusFiltro != ''){
+  filtro_dtc: async function (objFiltros) {     
+    if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            
       this.infoDTC = []
       this.lista_dtc = []         
-      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
+      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(objFiltros.filtroVista, objFiltros.plazaFiltro, objFiltros.fechaFiltro, objFiltros.referenciaFiltro, objFiltros.statusFiltro, true)          
       console.log(dtcFiltrados)
       this.$nextTick().then(async () => {
           this.moreCard = true            
@@ -615,9 +542,8 @@ methods: {
         }).catch((err) => console.log(err))
       }, 3000)
     }
-    else if(value === false){
-        this.referenciaFiltro = this.refNum
-        this.filtro_Dtc()
+    else if(value === false){        
+        this.limpiar_filtros()
         this.modalFirma = false
         this.refNum = ''
     }
@@ -696,14 +622,7 @@ methods: {
 ////                          COMPUTADOS                         ////
 /////////////////////////////////////////////////////////////////////
 computed: {
-  validaFecha: function () {
-      if (this.fechaFiltro != "") return true;
-      else return false;
-  },
-  validaReferencia: function () {
-      if (this.referenciaFiltro != "") return true;
-      else return false;
-  },
+
 },
 };
 </script>

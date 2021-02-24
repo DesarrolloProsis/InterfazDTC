@@ -128,6 +128,7 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
   created: function(){
+    //Escucha Evento SelectPlaza Component
     EventBus.$on("ACTUALIZAR_INVENTARIO", () => {              
         this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](1);
         console.log(this.listComponent.length)
