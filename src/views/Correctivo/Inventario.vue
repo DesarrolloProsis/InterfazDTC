@@ -24,6 +24,17 @@
             </div>
           </div>
         </div>  
+        <!--/////////////////////////////////////////////////////////////////
+        ////                         MODAL LOADER                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+          <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
+            <div class="justify-center text-center block">            
+                <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
+                <p class="text-gray-900 font-thin text-md">Espere ... </p>
+            </div>
+          </div>
+        </div>
         <div class="overflow-x-auto sm:m-2 sm:text-xs rounded-lg shadow">
           <table class="border-collapse  table-fixed">
             <!--/////////////////////////////////////////////////////////////////
@@ -90,6 +101,7 @@
 <script>
 import { mapState } from "vuex";
 import Nav from "../../components/Navbar";
+import EventBus from "../../services/EventBus.js";
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 
 export default {
@@ -108,16 +120,30 @@ export default {
       boolUbicacion: true,
       boolComponente: false,            
       tipoUsuario: 0,
-      disableInputs: false
+      disableInputs: false,
+      modalLoading: false
     };
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-  beforeMount: function () {           
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser']
+  created: function(){
+    //Escucha Evento SelectPlaza Component
+    EventBus.$on("ACTUALIZAR_INVENTARIO", () => {              
+        this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](1);
+        console.log(this.listComponent.length)
+        this.crear_array_paginacion("inicio");    
+        this.full_Component.sort((a, b) => {
+          if (a.lane < b.lane) return -1;
+          if (a.lane > b.lane) return 1;
+          return 0;
+        });  
+    });
+  },
+  beforeMount: async function () {           
+    this.tipoUsuario = await this.$store.getters['Login/getTypeUser']
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
-    this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](1);
+    this.listComponent = await this.$store.getters["Refacciones/getPaginationComponent"](1);
     this.crear_array_paginacion("inicio");    
     this.full_Component.sort((a, b) => {
       if (a.lane < b.lane) return -1;
@@ -221,21 +247,26 @@ export default {
         }        
       }
     },
-    guardar_cambios_inventario: function () {
+    guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
-        this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
+        this.modalLoading = true
+        let convenio = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+        await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
+        await this.$store.dispatch("Refacciones/FULL_COMPONETES", convenio);
         this.cambiar_pagina(1);
         this.listEditados = [];
-        this.$notify.success({
-          title: "Ok!",
-          msg: `SE ACTUALIZARON ${this.listEditados.length} COMPONENTES.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-        this.listEditados = [];
+        setTimeout(() => {
+          this.modalLoading = false
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE ACTUALIZARON ${this.listEditados.length} COMPONENTES.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          }); 
+        }, 2000)       
       } else {
         this.$notify.warning({
           title: "Ups!",
@@ -262,8 +293,8 @@ export default {
       });
     },
     cancelar_filtros: function () {      
-      let plaza = this.$store.getters["Header/getConvenioPlaza"];
-      this.$store.dispatch("Refacciones/FULL_COMPONETES", plaza);
+      let convenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
+      this.$store.dispatch("Refacciones/FULL_COMPONETES", convenio);
       this.cambiar_pagina(1);
       this.listEditados = [];
     },    

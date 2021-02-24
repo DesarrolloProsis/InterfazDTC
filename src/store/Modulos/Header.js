@@ -9,7 +9,8 @@ const state = {
   diagnostico: '',
   listaUnique: [],
   insertHeaderComplete: false,
-  PLAZAELEGIDA: 0
+  PLAZAELEGIDA: 0,
+  convenioActual: {}
 };
 const getters = {
   getDatosSinester: () => {
@@ -33,23 +34,7 @@ const getters = {
       };
     } else return state.listaHeaders;
   },
-  getConvenioPlaza: () => {
-    if (state.listaHeaders.length > 0) {
-      let numPlaza = ''
-      if(state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"] == "TM"){
-          numPlaza = state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 4)
-      }
-      else{
-        numPlaza = state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 3)
-      }
-      return {
-        id: null,
-        numPlaza: numPlaza,
-        numConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],        
-        idConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"]
-      };
-    } else return state.listaHeaders;
-  },
+  GET_CONVENIO_PLAZA: () => state.convenioActual,
   getreferenceNum: () => state.referenceNum,
   getUniqueNoSinester: (state) => (num) => {
     return state.listaUnique.every(item => {
@@ -67,6 +52,7 @@ const getters = {
   getFechaSiniestro: () => state.datosSinester.SinisterDate
 };
 const mutations = {
+  CONVENIO_ACTUAL_MUTATION: (state, value) => state.convenioActual = value,
   clearDatosSinesterMutation: (state) => {
     state.datosSinester = {}
     state.descripcion = ''
