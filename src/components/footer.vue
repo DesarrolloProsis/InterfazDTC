@@ -11,7 +11,7 @@
                     </p>
                 </div>
                 <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.9</p>
+                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.10</p>
                 </div>
             </div>                                
         </div>        
