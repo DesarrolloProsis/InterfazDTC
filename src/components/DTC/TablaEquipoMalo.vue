@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div class="flex justify-center w-auto sm:hidden md:hidden lg:show xl:show">
+    <div class="flex w-full sm:hidden md:hidden lg:show xl:show">
       <div>
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <div class="flex justify-center p-8">
           <div class="grid gap-4 grid-cols-1">
-            <div class="sm:m-2 sm:text-xs">
-              <table class="border-collapse table-fixed">
+            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24">
+              <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="border text-xs md:text-sm bg-blue-800 text-white">
+                  <tr class="text-md text-gray-400 font-normal bg-blue-800">
                     <th class="px-1 border-2 border-gray-800">Partida</th>
                     <th class="px-1 border-2 border-gray-800 w-16">Unidad</th>
                     <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>

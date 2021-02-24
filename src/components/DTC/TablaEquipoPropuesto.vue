@@ -70,7 +70,7 @@
                 name="Diagnostico"
                 v-bind:maxlength="limite"
               />
-              <span class="text-gray-500">{{ restante }}/300</span>
+              <span class="text-gray-500 ml-6">{{ restante }}/300</span>
               <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
             </td>
           </div>
