@@ -13,7 +13,7 @@
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="text-md text-gray-400 font-normal bg-blue-800">
+                  <tr class="text-sm text-gray-400 font-normal bg-blue-800">
                     <th class="px-1 border-2 border-gray-800">Partida</th>
                     <th class="px-1 border-2 border-gray-800 w-16">Unidad</th>
                     <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
