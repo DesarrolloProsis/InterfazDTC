@@ -35,7 +35,7 @@
                 <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
                 <span>Limpiar</span>
             </button>
-            <button @click="filtar_dtc_pendientes" class="w-32 botonIconBuscar">
+            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
                 <span>Buscar</span>
             </button>
@@ -130,13 +130,13 @@ export default {
         },
         //Props Inventario
         contadorInventario: {
-            type: Number,
+            type: Number,            
             default: () => 0
         },
         //Props DTC
         dtcVista: {
             type: String,
-            default: 'concentrado'
+            default: () => 'concentrado'
         },
         listaStatus: {
             type: Array,
@@ -187,16 +187,19 @@ export default {
             orden =='ubicacion' ? this.boolUbicacion = true : this.boolComponente = true
         },
         //Metodos Para Listar DTC
-        limpiar_filtros_dtc: function(){            
+        limpiar_filtros_dtc: function(){   
+            this.plazaFiltro = ''
+            this.referenciaFiltro = ''
+            this.statusFiltro = ''
+            this.fechaFiltro = ''                     
             this.$emit('limpiar-filtros')
         },
-        filtar_dtc_pendientes(){
+        filtar_dtc_generico(){
             let objFiltro = {
                 'plazaFiltro': this.plazaFiltro,
                 'fechaFiltro': this.fechaFiltro,
                 'referenciaFiltro': this.referenciaFiltro,
-                'statusFiltro': this.statusFiltro,
-                'filtroVista': false
+                'statusFiltro': this.statusFiltro,                
             }
             this.$emit('filtrar-dtc',objFiltro)
         }

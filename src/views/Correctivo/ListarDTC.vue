@@ -476,7 +476,7 @@ methods: {
     if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            
       this.infoDTC = []
       this.lista_dtc = []         
-      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(objFiltros.filtroVista, objFiltros.plazaFiltro, objFiltros.fechaFiltro, objFiltros.referenciaFiltro, objFiltros.statusFiltro, true)          
+      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltros.plazaFiltro, objFiltros.fechaFiltro, objFiltros.referenciaFiltro, objFiltros.statusFiltro, true)          
       console.log(dtcFiltrados)
       this.$nextTick().then(async () => {
           this.moreCard = true            
@@ -617,12 +617,6 @@ methods: {
         }    
     };
   }
-},
-/////////////////////////////////////////////////////////////////////
-////                          COMPUTADOS                         ////
-/////////////////////////////////////////////////////////////////////
-computed: {
-
 },
 };
 </script>

@@ -42,10 +42,12 @@ export default {
         }        
     },
     methods:{    
-        actualizar_plaza: async function(){                              
-            this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect, this.listaPlazas, this.listaHeaders)
-            this.$emit('actualizar-plaza', this.plazaSelect.numeroPlaza)
-            EventBus.$emit('ACTUALIZAR_INVENTARIO')
+        actualizar_plaza: async function(){   
+            if(this.tipo != 'filtro'){                                           
+                this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect, this.listaPlazas, this.listaHeaders)
+                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            }
+            this.$emit('actualizar-plaza', this.plazaSelect.numeroPlaza)            
         }
     },
     computed:{

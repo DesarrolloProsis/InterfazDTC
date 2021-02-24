@@ -17,41 +17,7 @@
         <!--/////////////////////////////////////////////////////////////////////
         /////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->   
-        <div class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
-          <h1 class="text-black text-center text-4xl mt-3 sm:mb-1 sm:text-2xl font-bold">Autorizado GMMEP</h1>
-            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 sm:text-xs sm:ml-3">
-              <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Selecciones la Plaza</p>
-                  <select v-model="plazaFiltro" class="w-40 sm:w-full mb-3" type="text">
-                    <option disabled value="">Selecionar...</option>     
-                    <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
-                  </select>
-              </div>
-              <div class=" m-3">
-                <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full" type="date"/>
-                <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
-              </div>
-              <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
-                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
-              </div>   
-            </div>
-        <!--////////////////////////////////////////////////////////////////////
-         ////                    BOTONES DE NAVEGACION                   //////
-        ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-1 mb-4 text-center">
-              <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
-                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
-                <span>Limpiar</span>
-              </button>
-              <button id="Buscar" @click="filtro_Dtc" class="w-32 botonIconBuscar">
-                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
-                <span>Buscar</span>
-              </button>
-          </div> 
-        </div>
-    
+      <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'Autorizado GMMEP'" :tipo="'DTC'"></HeaderGenerico>       
       <!--////////////////////////////////////////////////////////////////////
       ////                      MODAL CAMBIAR STATUS                   //////
       ////////////////////////////////////////////////////////////////////-->
@@ -187,25 +153,22 @@ import moment from "moment";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
 import Carrusel from "../../components/Carrusel";
-//import Generico from "../../components/Header/HeaderGenerico";
+import HeaderGenerico from "../../components/Header/HeaderGenerico";
 
 export default {
   name: "ConcentradoDTC",
   components: {
     Nav,    
-    Carrusel
-    //Generico
+    Carrusel,
+    HeaderGenerico
   },
 
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
 /////////////////////////////////////////////////////////////////////
 data: function (){
-    return {
-      plazaFiltro: '',
-      infoDTC:[],
-      fechaFiltro: '',
-      referenciaFiltro: '',
+    return {      
+      infoDTC:[],            
       filtroVista: false,
       modalCambiarStatus: false,
       dtcEdit: {},
@@ -221,9 +184,8 @@ data: function (){
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
-  this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
-  //console.log(this.infoDTC)
+  this.filtroVista = true
+  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
   let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
@@ -321,7 +283,6 @@ editar_status_dtc: function (){
         });
     }
 },
-//Abre el Modal Para editar el status
 abrir_modal_editar : function (item){
   this.modalCambiarStatus = true
   //Toma la variable y la iguala al objeto item que trae toda la fila 
@@ -329,55 +290,34 @@ abrir_modal_editar : function (item){
 },
 descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
-
+},
+filtro_dtc: async function (objFiltro) {  
+  if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
+    let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false, this.infoDTC)    
+    this.$nextTick().then(() => {      
+        this.infoDTC = listaFiltrada            
+    }) 
+  }  
+  else{
+    this.$notify.warning({
+      title: "Ups!",
+      msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+      position: "bottom right",
+      styles: {
+        height: 100,
+        width: 500,
       },
-filtro_Dtc: async function () {  
-      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
-        console.log(listaFiltrada)
-        this.$nextTick().then(() => {      
-            this.infoDTC = listaFiltrada            
-        }) 
-      }
-      //Si no ingresa ningún filtro 
-      else
-      {
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-  
-  },
-limpiar_filtros: function() {     
-    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
-    {        
-        this.modalLoading = true                            
-        this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-        this.fechaFiltro = "";
-        this.referenciaFiltro = "";            
-        this.plazaFiltro = ""; 
-      }) 
-    }
-    else{
-      this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE HA LLENADO NINGUN CAMPO.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-    }      
+    });
   }
 },
+limpiar_filtros: function() {             
+  this.modalLoading = true                            
+  this.$nextTick().then(() => {             
+    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);              
+  })           
+},
+},
+
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
 /////////////////////////////////////////////////////////////////////
