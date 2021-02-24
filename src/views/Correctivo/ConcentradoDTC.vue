@@ -40,7 +40,7 @@
         <!--////////////////////////////////////////////////////////////////////
          ////                    BOTONES DE NAVEGACION                   //////
         ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-10 mb-4 text-center">
+            <div class="mt-1 mb-4 text-center">
               <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
                 <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
                 <span>Limpiar</span>
