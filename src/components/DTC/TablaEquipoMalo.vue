@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-center w-auto sm:hidden md:hidden lg:show xl:show">
+    <div class="flex w-full sm:hidden md:hidden lg:show xl:show">
       <div>
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
@@ -582,7 +582,6 @@ import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
 import moment from "moment";
-
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -655,7 +654,7 @@ beforeMount: async function () {
       if (JSON.stringify(componetesEdit) != "{}") {  
         console.log(componetesEdit)              
         for (const item of componetesEdit.items) { 
-          let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
+          let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];          
           newObject["attachedId"] = item.attachedId;
           newObject["componentsRelationship"] = item.relationship;
           newObject["componentsRelationshipId"] = item.mainRelationship;                    
@@ -777,7 +776,7 @@ methods: {
       this.statusMetro = false
       this.cantidadMetro = 0      
       if (componenteValido) {
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];        
+        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
         newObject["attachedId"] = this.updtComp.attachedId;
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
@@ -820,7 +819,7 @@ methods: {
       if (!comp_rep) {
         this.laneSelectEditar = [];
         this.listLaneEditar = [];
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.getters[
@@ -886,7 +885,7 @@ methods: {
       if (this.saveObjectEdiar.length == 0) {
         this.saveObjectEdiar = Object.values(datos);
         this.updtCompEditar = this.saveObjectEdiar[2];
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.getters[
@@ -999,7 +998,7 @@ methods: {
         "row14",
         "rowUp",
       ];
-      let newObject = this.$store.getters["Header/getConvenioPlaza"];
+      let newObject = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       newObject["id"] = this.saveObjectEdiar[2];
       this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
       let equipoValid = this.$store.getters["Refacciones/getEquipoMalo"];
