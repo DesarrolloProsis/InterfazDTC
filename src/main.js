@@ -24,12 +24,12 @@ Vue.use(VeeValidate, {
   
 const NoSiniestro = {
   validate(value){
-      return store.getters['Header/getUniqueNoSinester'](value)
+      return store.getters['Header/GET_UNIQUE_SINESTER_NUMBER'](value)
   }
 }
 const NoReporte = {
   validate(value){
-    return store.getters['Header/getUniqueNoReport'](value)
+    return store.getters['Header/GET_UNIQUE_REPORT_NUMBER'](value)
   }
 }
 const FechaValidaList = {

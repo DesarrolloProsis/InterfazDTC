@@ -3,8 +3,7 @@
     <Nav></Nav>
     <Header
       :descripciones="descripcionHeaders"
-      :datosUser="datosUser"
-      :headerEdit="headerEdit"
+      :datosUser="datosUser"      
       :observaciones="observaciones"
     ></Header>
     <div class="md:border border-black" style="margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
@@ -122,21 +121,14 @@ export default {
       dateSinester: "",
     };
   },
-  beforeMount() {
-    this.datosUser = this.$store.getters["Header/getHeaders"];
+  beforeMount() {    
     this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
     this.flagCreate = true;
     if (JSON.stringify(this.$route.query) != "{}") {
       this.headerEdit = this.$route.query.headerInfo;
       this.observaciones = this.headerEdit.observation;
-      this.$store.commit(
-        "Header/referenceNumMutation",
-        this.headerEdit.referenceNumber
-      );
-      this.$store.commit(
-        "Header/DIAGNOSTICO_MUTATION",
-        this.headerEdit.diagnosis
-      );
+      this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
+      this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;
     }
   },
@@ -146,12 +138,11 @@ export default {
     },
   },
   methods: {
-    crearDTCTecnico: async function (status) {
-      // 1 ---> Modo Libre
-      // 0 --->
-      this.refNum = this.$store.getters["Header/getreferenceNum"];
-      await this.$store.dispatch("Header/crearHeaders", {
-        datosUser: this.datosUser,
+    crearDTCTecnico: async function (status) {            
+      this.refNum = this.$store.state.Header.referenciaDtc
+      let header = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+      await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
+        header: header,
         status: status,
         flag: this.flagCreate,
         openFlag: true,

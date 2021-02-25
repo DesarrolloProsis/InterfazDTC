@@ -305,7 +305,7 @@ created: function (){
 },
 beforeMount: async function () {    
   let f = new Date()
-  this.headerSelecionado = this.$store.getters["Header/getHeaders"];
+  this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
   this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");  
   let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
@@ -332,15 +332,15 @@ beforeMount: async function () {
 methods: {
   confirmar_referencia(value){
     if(value){
-    this.$store.commit("Header/referenceNumMutation", this.referenceSelected)
-    this.datosSinester.ReferenceNumber = this.referenceSelected
-    this.modalReferencia = false
+      this.$store.commit("Header/REFERENCIA_DTC_MUTATION", this.referenceSelected)
+      this.datosSinester.ReferenceNumber = this.referenceSelected
+      this.modalReferencia = false
     }
     else{
       this.datosSinester.SinisterDate = ''
       this.datosSinester.ReferenceNumber = ''
       this.referenceSelected = ''
-      this.$store.commit("Header/referenceNumMutation", this.referenceSelected)
+      this.$store.commit("Header/REFERENCIA_DTC_MUTATION", this.referenceSelected)
       this.modalReferencia = false
     }
   },
@@ -360,7 +360,7 @@ methods: {
   async cambiar_plaza(numeroPlaza) {  
       console.log(numeroPlaza) 
       this.listaComponentes = []  
-      this.headerSelecionado = this.$store.getters["Header/getHeaders"];
+      this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
       let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
       this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];

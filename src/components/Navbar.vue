@@ -28,8 +28,7 @@ export default {
   },
 
   beforeMount: function () {
-    let header = this.$store.getters["Header/getHeaders"];
-    this.nameUser = header.nombre;
+    this.nameUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
   },
 };
 </script>

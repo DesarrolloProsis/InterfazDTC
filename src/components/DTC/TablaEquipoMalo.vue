@@ -672,8 +672,7 @@ beforeMount: async function () {
           });              
           let cantidad = array_cantidad.every(ammont => ammont == 0) == true
           ? array_cantidad.length
-          : parseInt(array_cantidad[0])
-          // let fechaSiniesto = await this.$store.getters["Header/getFechaSiniestro"];
+          : parseInt(array_cantidad[0])          
           setTimeout(async () => {          
           //AGREGAMOS PARTIDA AL STORE                    
           let objPartida = Service.obj_partida(

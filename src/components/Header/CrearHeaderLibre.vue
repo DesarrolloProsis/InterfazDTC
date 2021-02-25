@@ -270,17 +270,12 @@ export default {
       }
       this.datosSinester.ReferenceNumber =
         nomPlaza + "-" + newYear + autoCompleteDias;
-      await this.$store.commit(
-        "Header/referenceNumMutation",
-        this.datosSinester.ReferenceNumber
-      );
+      await this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.datosSinester.ReferenceNumber);
       await this.$store.dispatch(
         "Header/buscarReferencia",
         this.datosSinester.ReferenceNumber
       );
-      this.datosSinester.ReferenceNumber = await this.$store.getters[
-        "Header/getreferenceNum"
-      ];
+      this.datosSinester.ReferenceNumber = await this.$store.state.Header.referenciaDtc
     },
   },
   watch: {

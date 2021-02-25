@@ -38,8 +38,7 @@ const getters = {
   getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].numeroPlaza)
 };
 const mutations = {
-  PLAZA_SELECCIONADA_MUTATION: (state, value) => state.plazaSelecionada = value,
-  PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
+  PLAZA_SELECCIONADA_MUTATION: (state, value) => state.plazaSelecionada = value,  
   LISTA_PLAZAS_MUTATION: (state, value) => state.listaPlazas = value,
   COOKIES_USER_MUTATION: (state, value) => state.cookiesUser = value,
   LISTA_TECNICOS_MUTATION: (state, value) => state.listaTec = value,
@@ -52,12 +51,6 @@ const mutations = {
     state.listaHeaderDtcUser = value,
     state.PLAZAELEGIDA = 0
   },  
-  PLAZAELEGIDAFINDMUTATION: (state, value) => {    
-    let index = state.listaHeaderDtcUser.findIndex(item => item.referenceSquare == value)    
-    if(index != -1){
-      state.PLAZAELEGIDA = index
-    }
-  }
 };
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO

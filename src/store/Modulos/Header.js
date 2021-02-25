@@ -5,53 +5,27 @@ const state = {
   listaHeaders: [],
   datosSinester: {},
   headerSeleccionado: {},
-  referenceNum: '',
+  referenciaDtc: '',
   observaciones: '',
   diagnostico: '',
   listaUnique: [],
-  insertHeaderComplete: false,
-  PLAZAELEGIDA: 0,
+  insertHeaderComplete: false,  
   convenioActual: {}
 };
-const getters = {
-  getDatosSinester: () => {
-    return { ...state.datosSinester, 'diagnostico': state.diagnostico, 'observaciones': state.observaciones }
-  },
-  getHeaders: () => {
-    return state.headerSeleccionado
-    // if (state.listaHeaders.length > 0) {
-    //   return {
-    //     agrement: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
-    //     managerName: state.listaHeaders[state.PLAZAELEGIDA]["managerName"],
-    //     position: state.listaHeaders[state.PLAZAELEGIDA]["position"],
-    //     mail: state.listaHeaders[state.PLAZAELEGIDA]["mail"],
-    //     plaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"],
-    //     nombre: state.listaHeaders[state.PLAZAELEGIDA]["nombre"],
-    //     agremmentInfoId: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"],
-    //     userId: state.listaHeaders[state.PLAZAELEGIDA]["userId"],
-    //     regionalCoordination: state.listaHeaders[state.PLAZAELEGIDA]["regionalCoordination"],
-    //     referenceSquare: state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"],
-    //     adminName: state.listaHeaders[state.PLAZAELEGIDA]["adminName"],
-    //     adminMail: state.listaHeaders[state.PLAZAELEGIDA]["adminMail"]
-    //   };
-    // } else return state.listaHeaders;
-  },
-  GET_CONVENIO_PLAZA: () => state.convenioActual,
-  getreferenceNum: () => state.referenceNum,
-  getUniqueNoSinester: (state) => (num) => {
+const getters = { 
+  GET_HEADER_SELECCIONADO: () => state.headerSeleccionado,
+  GET_CONVENIO_PLAZA: () => state.convenioActual,  
+  GET_UNIQUE_SINESTER_NUMBER: (state) => (num) => {
     return state.listaUnique.every(item => {
       return item.sinisterNumber != num
     })
   },
-  getUniqueNoReport: (state) => (num) => {
+  GET_UNIQUE_REPORT_NUMBER: (state) => (num) => {
     return state.listaUnique.every(item => {
       return item.reportNumber != num
     })
-  },
-  getUSERSELECT: (state) => state.PLAZAELEGIDA,
-  getInsertHeaderComplete: () => state.insertHeaderComplete,
-  getDiagnostico: () => state.diagnostico,
-  getFechaSiniestro: () => state.datosSinester.SinisterDate
+  },  
+  getInsertHeaderComplete: () => state.insertHeaderComplete,    
 };
 const mutations = {
   HEADER_SELECCIONADO_MUTATION: (state, value) => state.headerSeleccionado = value,
@@ -64,12 +38,11 @@ const mutations = {
   cleanOut: (state) => {
     state.listaHeaders = []
     state.listaUnique = []
-    state.referenceNum = ''
+    state.referenciaDtc = ''
   },
-  insertHeaderCompleteMutation: (state, value) => state.insertHeaderComplete = value,
-  PLAZAELEGIDAMUTATION: (state,value) => state.PLAZAELEGIDA = value,
+  insertHeaderCompleteMutation: (state, value) => state.insertHeaderComplete = value,  
   datosSinesterMutation: (state, value) => state.datosSinester = value,
-  referenceNumMutation: (state, value) => state.referenceNum = value,
+  REFERENCIA_DTC_MUTATION: (state, value) => state.referenciaDtc = value,
   listaHeadersMutation: (state, value) => state.listaHeaders = value,
   listaUniqueMutation: (state, value) => state.listaUnique = value,
   OBSERVACION_MUTATION: (state, value) => state.observaciones = value,
@@ -81,12 +54,6 @@ const mutations = {
       state.listaUnique.splice(index, 1)
     }    
   },
-  PLAZAELEGIDAFINDMUTATION: (state, value) => {         
-    let index = state.listaHeaders.findIndex(item => item.referenceSquare == value)    
-    if(index != -1){
-      state.PLAZAELEGIDA = index
-    }
-  }
 };
 const actions = {
   async buscarReferencia({ commit, rootGetters }, value) {    
@@ -94,10 +61,10 @@ const actions = {
       .then(response => {
         console.log(response)
         if (response.data.result.length == 1) {          
-          commit("referenceNumMutation", response.data.result[0].referenceNumber);
+          commit("REFERENCIA_DTC_MUTATION", response.data.result[0].referenceNumber);
         }
         if(response.data.result.length > 1){
-          commit("referenceNumMutation", response.data.result);
+          commit("REFERENCIA_DTC_MUTATION", response.data.result);
         }
       })
       .catch(Ex => {
@@ -115,11 +82,9 @@ const actions = {
         console.log(Ex);
       });
   },
-  //Consulta API Crear Carril
-  async crearHeaders({ state, commit, rootGetters }, value) {      
-
+  async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {      
     let newObject = {
-      ReferenceNumber: state.referenceNum,
+      ReferenceNumber: state.referenciaDtc,
       SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
       ReportNumber: state.datosSinester.ReportNumber,
       SinisterDate: state.datosSinester.SinisterDate,
@@ -130,12 +95,12 @@ const actions = {
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.diagnostico,
       Observation: state.observaciones == null ? '' : state.observaciones,
-      UserId: value.datosUser.userId,
-      AgremmentInfoId: value.datosUser.agremmentInfoId,
+      UserId: value.header.userId,
+      AgremmentInfoId: value.header.agremmentInfoId,
       flag: value.flag,
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
-      SquareId: value.datosUser.plaza.slice(0,3)
+      SquareId: value.header.plaza.slice(0,3)
     }      
     console.log(newObject)         
     await Axios.post(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}`, newObject)

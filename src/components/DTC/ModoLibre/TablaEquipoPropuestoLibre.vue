@@ -432,7 +432,7 @@ export default {
     });
   },
   beforeMount: function () {
-    this.diagnostico = this.$store.getters["Header/getDiagnostico"];
+    this.diagnostico = this.$store.state.Header.diagnostico
 
     let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
 

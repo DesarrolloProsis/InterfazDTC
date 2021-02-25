@@ -134,7 +134,7 @@ export default {
       descripcionHeaders: [],
       datosUser: {},
       observaciones: "",
-      refNum: "",
+      referenciaDtc: "",
       headerEdit: {},
       flagCreate: true,
       listaComponentes: "",
@@ -147,18 +147,18 @@ export default {
 /////////////////////////////////////////////////////////////////////
 created(){
     EventBus.$on("ACTUALIZAR_HEADER", () => {      
-        this.datosUser = this.$store.getters["Header/getHeaders"];
+        this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];        
     });
 },
 beforeMount: async function() {    
-    this.datosUser = this.$store.getters["Header/getHeaders"];
+    this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
     this.descripcionHeaders =  this.$store.getters["DTC/getListaDescriptions"];    
     this.flagCreate = true;
     if (JSON.stringify(this.$route.query) != "{}") {                
       this.headerEdit = this.$route.query.headerInfo;                 
       this.observaciones = this.headerEdit.observation;
-      this.$store.commit("Header/referenceNumMutation",this.headerEdit.referenceNumber);
+      this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;         
       Axios.get(`${API}/dtcData/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.headerEdit.referenceNumber}`)
@@ -184,10 +184,10 @@ computed:{
 methods: {
   crearDTCTecnico: async function (status) {
       await EventBus.$emit("validar_header");
-      this.refNum = this.$store.getters["Header/getreferenceNum"];
-      console.log(this.datosUser)
-      await this.$store.dispatch("Header/crearHeaders", {
-        datosUser: this.datosUser,
+      this.referenciaDtc = this.$store.state.Header.referenciaDtc
+      let header = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+      await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
+        header: header,
         status: status,
         flag: this.flagCreate,
         openFlag: false
@@ -196,7 +196,7 @@ methods: {
       if (insertHeader) {
         this.$notify.success({
           title: "Ok!",
-          msg: `EL HEDER CON LA REFERENCIA ${this.refNum} SE INSERTO CORRECTAMENTE.`,
+          msg: `EL HEDER CON LA REFERENCIA ${this.referenciaDtc} SE INSERTO CORRECTAMENTE.`,
           position: "bottom right",
           styles: {
             height: 100,
@@ -204,7 +204,7 @@ methods: {
           },
         });
         let value_insert = {
-          refNum: this.refNum,
+          refNum: this.referenciaDtc,
           flagCreate: this.flagCreate,
         };
         await this.$store.dispatch("DTC/crearDmg", value_insert);
@@ -221,7 +221,7 @@ methods: {
           });
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
-              this.refNum, 
+              this.referenciaDtc, 
               status, 
               true
             )        
