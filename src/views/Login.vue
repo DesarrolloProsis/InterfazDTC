@@ -113,7 +113,7 @@ export default {
         await this.$store.dispatch("Login/BUSCAR_HEADER_OTRO_TECNICO", this.tecSelect);
         let dataHeader = await this.$store.getters["Login/getUser"];
         await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
-        await this.$store.dispatch("DTC/buscarDescriptions");
+        await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
         await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
         this.$router.push("home");
       }
@@ -139,7 +139,7 @@ export default {
           let dataHeader = await this.$store.getters["Login/getUser"];
           console.log(dataHeader)
           await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
-          await this.$store.dispatch("DTC/buscarDescriptions");
+          await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
           await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
           let userTipo = await this.$store.getters['Login/getTypeUser']
           if(userTipo == 9 || userTipo == 8){

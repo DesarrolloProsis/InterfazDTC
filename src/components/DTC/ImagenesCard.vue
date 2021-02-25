@@ -313,7 +313,7 @@ export default {
           array_img: arrayimg,
         };
         this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);
-        this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
+        this.imgbase64 = this.$store.getters["DTC/GET_IMAGENES_DTC"](this.referenceNumber);
         this.agregarbool = false;
         this.cargarImagen = false;
       } else {

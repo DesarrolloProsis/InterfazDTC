@@ -148,12 +148,12 @@ export default {
 created(){
     EventBus.$on("ACTUALIZAR_HEADER", () => {      
         this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-        this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];        
+        this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     });
 },
 beforeMount: async function() {    
     this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-    this.descripcionHeaders =  this.$store.getters["DTC/getListaDescriptions"];    
+    this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     this.flagCreate = true;
     if (JSON.stringify(this.$route.query) != "{}") {                
       this.headerEdit = this.$route.query.headerInfo;                 
@@ -207,7 +207,7 @@ methods: {
           refNum: this.referenciaDtc,
           flagCreate: this.flagCreate,
         };
-        await this.$store.dispatch("DTC/crearDmg", value_insert);
+        await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
         if (insertDmg) {
           this.$notify.success({
@@ -235,7 +235,7 @@ methods: {
               },
             });
           }
-          await this.$store.commit("DTC/listaDmgClearMutation");
+          await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);
           await this.$store.commit("Header/insertHeaderCompleteMutation",false);
           await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");

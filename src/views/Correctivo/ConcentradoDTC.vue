@@ -185,7 +185,7 @@ data: function (){
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
   this.filtroVista = true
-  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
+  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
   this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
   let listaPlazasValias = []
   let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
@@ -263,7 +263,7 @@ editar_status_dtc: function (){
         this.statusEdit = ''
         this.motivoCambio = ''   
         let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)
+        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
         this.modalCambiarStatus = false                                
       })
       .catch(Ex => {
@@ -313,7 +313,7 @@ filtro_dtc: async function (objFiltro) {
 limpiar_filtros: function() {             
   this.modalLoading = true                            
   this.$nextTick().then(() => {             
-    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);              
+    this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
   })           
 },
 },

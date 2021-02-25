@@ -248,8 +248,8 @@ created(){
 },
 beforeMount: async function () {
   this.filtroVista = false
-  this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
-  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);   
+  this.descripciones = await this.$store.state.DTC.listaDescriptions
+  this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);   
   this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];  
   let listaPlazasValias = []
   //Lista Plaza Validas
@@ -303,8 +303,8 @@ methods: {
         });
       }
       await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-      await this.$store.dispatch('DTC/buscarListaDTC', userId)            
-      this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista) 
+      await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', userId)            
+      this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista) 
       this.infoDTC.forEach((element, index) => {
         if(index < 3)
           this.lista_dtc.push(element) 
@@ -362,7 +362,7 @@ methods: {
               this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
               let info = this.$store.getters['Login/getUserForDTC']
               this.modal = false  
-              this.$store.dispatch('DTC/buscarListaDTC', info)               
+              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)               
               resolve('ok')                     
             })
             .catch((ex) => {
@@ -409,11 +409,11 @@ methods: {
       this.modalLoading = true
       this.moreCard = true     
       this.modal = true
-      this.$store.dispatch('DTC/buscarListaDTC', info)            
+      this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)            
       this.infoDTC = []    
       this.lista_dtc = []      
       await this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);                                         
+        this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                         
         this.infoDTC.forEach((element, index) => {
           if(index < 3)
             this.lista_dtc.push(element) 
@@ -433,7 +433,7 @@ methods: {
           .then(() => {               
               resolve('ok')                
               let info = this.$store.getters['Login/getUserForDTC']  
-              this.$store.dispatch('DTC/buscarListaDTC', info)   
+              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
               this.limpiar_filtros()                                                                                         
           })                                  
         })
@@ -503,7 +503,7 @@ methods: {
         Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
         .then(() => {           
           let info = this.$store.getters['Login/getUserForDTC']  
-          this.$store.dispatch('DTC/buscarListaDTC', info)                 
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
           this.refNum = ''     
           resolve('ok')         
         })
@@ -567,7 +567,7 @@ methods: {
         this.statusEdit = ''
         this.motivoCambioStatus = ''   
         let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)           
+        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
         resolve('ok')                     
       })
       .catch(Ex => {

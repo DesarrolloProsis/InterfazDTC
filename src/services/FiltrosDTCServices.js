@@ -3,7 +3,7 @@ import moment from "moment";
 async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha, listaOpcional){         
     let listaCompleta  = []
     if(listaOpcional == undefined)
-        listaCompleta = await store.getters["DTC/getlistaInfoDTC"](filtroVista);
+        listaCompleta = await store.getters["DTC/GET_LISTA_DTC"](filtroVista);
     else
         listaCompleta = listaOpcional
         

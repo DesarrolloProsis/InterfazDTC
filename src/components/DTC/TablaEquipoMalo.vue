@@ -650,7 +650,7 @@ props: {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function () {
     try {
-      let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
+      let componetesEdit = await this.$store.state.DTC.componetesEdit
       if (JSON.stringify(componetesEdit) != "{}") {  
         console.log(componetesEdit)              
         for (const item of componetesEdit.items) { 
@@ -683,7 +683,7 @@ beforeMount: async function () {
             true,
             cantidad
           );
-          await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+          await this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -730,7 +730,7 @@ beforeMount: async function () {
 },
 destroyed: function () {
     this.arrayPartidas = [];
-    this.$store.commit("DTC/listaDmgClearMutation");
+    this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
     this.$store.commit("DTC/insertDmgCompleteMutation", false);
     this.$store.commit("Header/insertHeaderCompleteMutation", false);
     this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
@@ -878,7 +878,7 @@ methods: {
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         this.arrayPartidas[i]["row1"] = i + 1;
       }
-      this.$store.commit("DTC/listaDmgMutationDelete", index);
+      this.$store.commit("DTC/ELIMINAR_ITEM_DTC_DAÑADO_MUTATION", index);
   },
   updateRowTable: async function (index, datos) {
       if (this.saveObjectEdiar.length == 0) {
@@ -920,7 +920,7 @@ methods: {
             index: index,
             value: objPartida,
           };
-          this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);
+          this.$store.commit("DTC/ACTUALIZAR_ITEM_DTC_DAÑAD", objMutation);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -1031,7 +1031,7 @@ methods: {
             null,
             this.statusMetro == true ? this.cantidadMetro : 0
           );
-          this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+          this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",

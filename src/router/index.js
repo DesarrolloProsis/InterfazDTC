@@ -88,7 +88,7 @@ const routes = [
     component: () => import('../views/Correctivo/ConcentradoDTC'),
     beforeEnter: async function (to, from, next) {
       let info = store.getters['Login/getUserForDTC']      
-      await store.dispatch('DTC/buscarListaDTC', info)
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
       next()
     }
   },
@@ -109,7 +109,7 @@ const routes = [
     component: ListarDTC,
     beforeEnter: async function (to, from, next) {
       let info = store.getters['Login/getUserForDTC']      
-      await store.dispatch('DTC/buscarListaDTC', info)
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
       store.commit("DTC/LIMPIAR_IMAGENES_FULL");
       next()
     }

@@ -433,9 +433,7 @@ export default {
   },
   beforeMount: function () {
     this.diagnostico = this.$store.state.Header.diagnostico
-
-    let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
-
+    let componetesEdit = this.$store.state.DTC.componetesEdit
     if (JSON.stringify(componetesEdit) != "{}") {
       console.log(componetesEdit);
 

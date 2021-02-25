@@ -122,7 +122,7 @@ export default {
     };
   },
   beforeMount() {    
-    this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
+    this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     this.flagCreate = true;
     if (JSON.stringify(this.$route.query) != "{}") {
       this.headerEdit = this.$route.query.headerInfo;
@@ -162,7 +162,7 @@ export default {
           refNum: this.refNum,
           flagCreate: this.flagCreate,
         };
-        await this.$store.dispatch("DTC/crearDmgLibre", value_insert);
+        await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
         
         if (insertDmg) {
