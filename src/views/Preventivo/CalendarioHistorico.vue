@@ -7,7 +7,10 @@
             ////////////////////////////////////////////////////////////////////-->
             <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
                 <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
-                    <div class="flex sm:inline-block">      
+                    <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">
+                            Bitacora de Visitas de Mantenimiento Equipos De Peaje
+                    </h1> 
+                    <div class="flex sm:inline-block justify-center">      
                     <!--/////////////////////////////////////////////////////////////////////
                         ////                         FILTRO TRAMO                        ////
                         ////////////////////////////////////////////////////////////////////-->
