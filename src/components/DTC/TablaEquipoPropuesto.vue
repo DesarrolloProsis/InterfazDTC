@@ -7,7 +7,7 @@
           <h6 class=" font-bold text-xl text-gray-800">Equipo Propuesto</h6>
         </div>
         <!-- ************************************************************** -->
-        <div class="inline-flex">
+        <div class="inline-flex ">
           <table>
             <tr class="border text-xs bg-blue-800 text-white">
               <th class="w-20 border-2 border-gray-800">Partida</th>
