@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div> 
-            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66">
+            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66" style="height:550px;">
                 <table class="border-collapse  table-fixed">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
