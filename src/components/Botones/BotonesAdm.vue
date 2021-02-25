@@ -49,9 +49,16 @@
 <script>
 export default {
   data(){
-    return{
-
+        return{
+            tipoUsuario: 0,
+            tipoBotones: false
+        }
+    },  
+    beforeMount(){
+        this.tipoUsuario = this.$store.getters['Login/getTypeUser']                  
+        this.tipoBotones = this.$router.currentRoute.name === 'Preventivo' 
+        ? false 
+        : true  
     }
-  },  
 }
 </script>
