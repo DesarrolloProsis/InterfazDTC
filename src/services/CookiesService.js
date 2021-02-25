@@ -36,6 +36,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders){
         }      
         console.log(objConvenio )                
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
+        await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
         await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
         return {
             plazaSelect,
@@ -52,6 +53,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders){
             idConvenio: convenioSelect.agremmentInfoId,
         }                      
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
+        await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
         await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
         return convenioSelect
     }

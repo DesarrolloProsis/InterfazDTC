@@ -8,8 +8,7 @@
       :descripciones="descripcionHeaders"
       :datosUser="datosUser"
       :headerEdit="headerEdit"
-      :observaciones="observaciones"
-      :listaPlazas="listaPlazas"
+      :observaciones="observaciones"      
     ></Header>
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
@@ -139,8 +138,7 @@ export default {
       headerEdit: {},
       flagCreate: true,
       listaComponentes: "",
-      dateSinester: "",
-      listaPlazas: [],
+      dateSinester: "",      
       limite: 300
     };
   },
@@ -150,14 +148,12 @@ export default {
 created(){
     EventBus.$on("ACTUALIZAR_HEADER", () => {      
         this.datosUser = this.$store.getters["Header/getHeaders"];
-        this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
-        this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario
+        this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];        
     });
 },
 beforeMount: async function() {    
-    this.datosUser =  this.$store.getters["Header/getHeaders"];
-    this.descripcionHeaders =  this.$store.getters["DTC/getListaDescriptions"];
-    this.listaPlazas =  this.$store.state.Login.cookiesUser.plazasUsuario
+    this.datosUser = this.$store.getters["Header/getHeaders"];
+    this.descripcionHeaders =  this.$store.getters["DTC/getListaDescriptions"];    
     this.flagCreate = true;
     if (JSON.stringify(this.$route.query) != "{}") {                
       this.headerEdit = this.$route.query.headerInfo;                 

@@ -4,6 +4,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
 const state = {
   listaHeaders: [],
   datosSinester: {},
+  headerSeleccionado: {},
   referenceNum: '',
   observaciones: '',
   diagnostico: '',
@@ -17,22 +18,23 @@ const getters = {
     return { ...state.datosSinester, 'diagnostico': state.diagnostico, 'observaciones': state.observaciones }
   },
   getHeaders: () => {
-    if (state.listaHeaders.length > 0) {
-      return {
-        agrement: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
-        managerName: state.listaHeaders[state.PLAZAELEGIDA]["managerName"],
-        position: state.listaHeaders[state.PLAZAELEGIDA]["position"],
-        mail: state.listaHeaders[state.PLAZAELEGIDA]["mail"],
-        plaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"],
-        nombre: state.listaHeaders[state.PLAZAELEGIDA]["nombre"],
-        agremmentInfoId: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"],
-        userId: state.listaHeaders[state.PLAZAELEGIDA]["userId"],
-        regionalCoordination: state.listaHeaders[state.PLAZAELEGIDA]["regionalCoordination"],
-        referenceSquare: state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"],
-        adminName: state.listaHeaders[state.PLAZAELEGIDA]["adminName"],
-        adminMail: state.listaHeaders[state.PLAZAELEGIDA]["adminMail"]
-      };
-    } else return state.listaHeaders;
+    return state.headerSeleccionado
+    // if (state.listaHeaders.length > 0) {
+    //   return {
+    //     agrement: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
+    //     managerName: state.listaHeaders[state.PLAZAELEGIDA]["managerName"],
+    //     position: state.listaHeaders[state.PLAZAELEGIDA]["position"],
+    //     mail: state.listaHeaders[state.PLAZAELEGIDA]["mail"],
+    //     plaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"],
+    //     nombre: state.listaHeaders[state.PLAZAELEGIDA]["nombre"],
+    //     agremmentInfoId: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"],
+    //     userId: state.listaHeaders[state.PLAZAELEGIDA]["userId"],
+    //     regionalCoordination: state.listaHeaders[state.PLAZAELEGIDA]["regionalCoordination"],
+    //     referenceSquare: state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"],
+    //     adminName: state.listaHeaders[state.PLAZAELEGIDA]["adminName"],
+    //     adminMail: state.listaHeaders[state.PLAZAELEGIDA]["adminMail"]
+    //   };
+    // } else return state.listaHeaders;
   },
   GET_CONVENIO_PLAZA: () => state.convenioActual,
   getreferenceNum: () => state.referenceNum,
@@ -52,6 +54,7 @@ const getters = {
   getFechaSiniestro: () => state.datosSinester.SinisterDate
 };
 const mutations = {
+  HEADER_SELECCIONADO_MUTATION: (state, value) => state.headerSeleccionado = value,
   CONVENIO_ACTUAL_MUTATION: (state, value) => state.convenioActual = value,
   clearDatosSinesterMutation: (state) => {
     state.datosSinester = {}

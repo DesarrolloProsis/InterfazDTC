@@ -21,7 +21,7 @@
         <div>
           <br />
           <label class for="inline-full-name" style="font-weight: normal">Contrato / Oferta:</label>
-          <label style="font-weight: bold; padding-left: 0.5vw">{{ datosUser.agrement }}</label>
+          <label style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</label>
         </div>
         <div>
           <br />
@@ -39,7 +39,7 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="mr-6">
           <label>Atencion:</label>
-          <label class="ml-2 text-sm" style="font-weight: normal">{{ datosUser.managerName }}</label>
+          <label class="ml-2 text-sm" style="font-weight: normal">{{ headerSelecionado.managerName }}</label>
       </div>
       <div class="sm:flex-col pr-2 inline-block">
           <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Siniestros</p>
@@ -90,7 +90,7 @@
       ///////////////////////////////////////////////////////////////////// -->
         <div class="mr-6">
           <label class="inline">Cargo:</label>
-          <label class="inline ml-2 text-sm" style="font-weight: normal">{{ datosUser.position }}</label>
+          <label class="inline ml-2 text-sm" style="font-weight: normal">{{ headerSelecionado.position }}</label>
         </div>
         <div class="pr-2">
           <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Siniestro:</p>
@@ -123,7 +123,7 @@
       ///////////////////////////////////////////////////////////////////// -->
         <div class="mr-6">
         <label class="inline">Correo:</label>
-        <label class="inline ml-2 text-sm" style="color: blue">{{ datosUser.mail }}</label>
+        <label class="inline ml-2 text-sm" style="color: blue">{{ headerSelecionado.mail }}</label>
         </div>
         <div class="pr-2">
         <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
@@ -143,7 +143,7 @@
       ///////////////////////////////////////////////////////////////////// -->
         <div class="mr-6">
         <label>Plaza Cobro:</label>
-        <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ datosUser.plaza }}</label>
+        <label class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ headerSelecionado.plaza }}</label>
         </div>
         <div class="pr-2">
         <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
@@ -152,23 +152,24 @@
         </div>
         <div class="pr-2">
         <label>Tecnico Responsable:</label>
-        <label class="text-md ml-2" style="font-weight: normal">{{ datosUser.nombre }}</label>
+        <label class="text-md ml-2" style="font-weight: normal">{{ headerSelecionado.nombre }}</label>
         </div>
       <!-- //////////////////////////////////////////////////////////////////
       ////                   QUINTA  LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
       <div class="text-sm">
-        <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
+        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
+        <!-- <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
         <select v-model="plazaSelect" @change="cambiarPlaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
           <option disabled value>Selecionar...</option>
           <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">{{ item.plazaNombre }}</option>
-        </select>
+        </select> -->
         <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span>
       </div>
       <div></div>
       <div class="pr-2">
         <label>Coordinacion Regional:</label>
-        <label class="text-md" style="font-weight: normal">{{ datosUser.regionalCoordination }}</label>
+        <label class="text-md" style="font-weight: normal">{{ headerSelecionado.regionalCoordination }}</label>
       </div>
       <!-- //////////////////////////////////////////////////////////////////
       ////                   SEXTA LINEA                              ////
@@ -226,6 +227,7 @@
 import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
 import ServiceReportePDF from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
+import SelectPlaza from '../Header/SelectPlaza'
 import moment from "moment";
 export default {
   name: "CrearHeader",
@@ -244,14 +246,12 @@ export default {
     headerEdit: {
       type: Object,
       default: () => {},
-    },
-    listaPlazas: {
-      type: Array,
-      default: () => [],
-    },
+    }     
   },
   components: {
     TablaEquipoMalo,
+    SelectPlaza,
+    
   },
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
@@ -276,13 +276,13 @@ export default {
       },
       listaComponentes: [],
       fechaSiniestoEdit: false,
-      sizeSmall: false,
-      plazaSelect: 0,
+      sizeSmall: false,      
       boolCambiarPlaza: false,
       fecha_validacion: '',
       modalReferencia: false,
       arrayReference: [],
-      referenceSelected: ''
+      referenceSelected: '',
+      headerSelecionado: {}
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -309,9 +309,9 @@ created: function (){
 },
 beforeMount: async function () {    
   let f = new Date()
+  this.headerSelecionado = this.$store.getters["Header/getHeaders"];
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
-  this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");
-  this.plazaSelect = this.listaPlazas[this.plazaSelect = await this.$store.state.Login.PLAZAELEGIDA].numeroPlaza;
+  this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");  
   let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
   await this.$store.dispatch("Refacciones/buscarComponentes", value);
   this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
@@ -351,7 +351,7 @@ methods: {
   crear_referencia_dtc: async function () {      
       let _arrayReference  = await ServiceReportePDF.crear_referencia(
         moment(this.datosSinester.SinisterDate,"YYYY-MM-DD").format("DD-MM-YYYY"), 
-        this.datosUser.referenceSquare
+        this.headerSelecionado.referenceSquare
       )
       if(typeof(_arrayReference) == 'object'){
           this.arrayReference = _arrayReference
@@ -361,15 +361,10 @@ methods: {
         this.datosSinester.ReferenceNumber = _arrayReference
       }          
   },
-  async cambiarPlaza() {   
+  async cambiar_plaza(numeroPlaza) {  
+      console.log(numeroPlaza) 
       this.listaComponentes = []  
-      let index = this.listaPlazas.findIndex(
-        (item) => item.numeroPlaza == this.plazaSelect
-      );
-      this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
-      this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
-      EventBus.$emit("ACTUALIZAR_HEADER", index);
-      this.plazaSelect = this.listaPlazas[index].numeroPlaza;
+      this.headerSelecionado = this.$store.getters["Header/getHeaders"];
       let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       await this.$store.dispatch("Refacciones/buscarComponentes", value);
       this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
@@ -393,7 +388,7 @@ methods: {
 ////                          OBSERVADORES                        ////
 /////////////////////////////////////////////////////////////////////
 watch: {    
-  datosUser: function (newValue) {
+  headerSelecionado: function (newValue) {
       this.datosSinester.UserId = newValue["userId"];
       this.datosSinester.AgremmentInfoId = newValue["agremmentInfoId"];
   },
