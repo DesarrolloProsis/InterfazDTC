@@ -733,7 +733,7 @@ destroyed: function () {
     this.$store.commit("DTC/listaDmgClearMutation");
     this.$store.commit("DTC/insertDmgCompleteMutation", false);
     this.$store.commit("Header/insertHeaderCompleteMutation", false);
-    this.$store.dispatch("Header/buscarListaUnique");
+    this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
     this.$store.commit("Header/clearDatosSinesterMutation");
     this.$store.commit("DTC/COMPONENTES_EDIT", {});
     this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");

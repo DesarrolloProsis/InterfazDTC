@@ -75,7 +75,7 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     else autoCompleteDias = diaCorriente.toString();
     let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
     await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
-    await store.dispatch("Header/buscarReferencia", ReferenceNumber);    
+    await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
     return await store.state.Header.referenciaDtc
 }
 async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){       

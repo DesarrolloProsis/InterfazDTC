@@ -302,7 +302,7 @@ methods: {
           },
         });
       }
-      await this.$store.dispatch("Header/buscarListaUnique");
+      await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
       await this.$store.dispatch('DTC/buscarListaDTC', userId)            
       this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista) 
       this.infoDTC.forEach((element, index) => {
@@ -359,7 +359,7 @@ methods: {
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
             .then(() =>{                                                             
-              this.$store.dispatch("Header/buscarListaUnique");
+              this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
               let info = this.$store.getters['Login/getUserForDTC']
               this.modal = false  
               this.$store.dispatch('DTC/buscarListaDTC', info)               

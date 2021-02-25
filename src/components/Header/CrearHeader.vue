@@ -391,7 +391,7 @@ watch: {
   datosSinester: {
       deep: true,
       handler(datosSinester) {
-        this.$store.commit("Header/datosSinesterMutation", datosSinester);
+        this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
       },
   }
 },

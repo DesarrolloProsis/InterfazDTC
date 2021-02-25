@@ -41,10 +41,10 @@ const mutations = {
     state.referenciaDtc = ''
   },
   insertHeaderCompleteMutation: (state, value) => state.insertHeaderComplete = value,  
-  datosSinesterMutation: (state, value) => state.datosSinester = value,
+  DATOS_SINESTER_MUTATION: (state, value) => state.datosSinester = value,
   REFERENCIA_DTC_MUTATION: (state, value) => state.referenciaDtc = value,
-  listaHeadersMutation: (state, value) => state.listaHeaders = value,
-  listaUniqueMutation: (state, value) => state.listaUnique = value,
+  LISTA_HEADERS_MUTATION: (state, value) => state.listaHeaders = value,
+  LISTA_UNIQUE_MUTATION: (state, value) => state.listaUnique = value,
   OBSERVACION_MUTATION: (state, value) => state.observaciones = value,
   DIAGNOSTICO_MUTATION: (state, value) => state.diagnostico = value,
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
@@ -56,10 +56,9 @@ const mutations = {
   },
 };
 const actions = {
-  async buscarReferencia({ commit, rootGetters }, value) {    
+  async BUSCAR_REFERENCIA_DTC_VALIDA({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/getReferenceSquareActual']}/${value}`)    
-      .then(response => {
-        console.log(response)
+      .then(response => {        
         if (response.data.result.length == 1) {          
           commit("REFERENCIA_DTC_MUTATION", response.data.result[0].referenceNumber);
         }
@@ -71,11 +70,11 @@ const actions = {
         console.log(Ex);
       });
   },
-  async buscarListaUnique({ commit, rootGetters }) {
+  async BUSCAR_LISTA_UNIQUE({ commit, rootGetters }) {
     await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/getReferenceSquareActual']}`)
       .then(response => {
         if (response.data.message) {
-          commit("listaUniqueMutation", response.data.result);
+          commit("LISTA_UNIQUE_MUTATION", response.data.result);
         }
       })
       .catch(Ex => {
@@ -101,8 +100,7 @@ const actions = {
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
       SquareId: value.header.plaza.slice(0,3)
-    }      
-    console.log(newObject)         
+    }                
     await Axios.post(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}`, newObject)
       .then(response => {
         if (response.status === 201) {

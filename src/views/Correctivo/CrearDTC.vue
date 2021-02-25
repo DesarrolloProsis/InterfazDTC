@@ -238,7 +238,7 @@ methods: {
           await this.$store.commit("DTC/listaDmgClearMutation");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);
           await this.$store.commit("Header/insertHeaderCompleteMutation",false);
-          await this.$store.dispatch("Header/buscarListaUnique");
+          await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
           await this.$store.commit("Header/clearDatosSinesterMutation");
           this.$router.push("Home");
         } else {
