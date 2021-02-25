@@ -158,7 +158,7 @@
       ////                   QUINTA  LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
       <div class="text-sm">
-        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
+        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'"></SelectPlaza>
         <!-- <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
         <select v-model="plazaSelect" @change="cambiarPlaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
           <option disabled value>Selecionar...</option>
@@ -238,11 +238,7 @@ export default {
     descripciones: {
       type: Array,
       default: () => [],
-    },
-    datosUser: {
-      type: Object,
-      default: () => {},
-    },
+    },  
     headerEdit: {
       type: Object,
       default: () => {},

@@ -152,6 +152,7 @@
 <script>
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
+import ServiceCookies from '../../services/CookiesService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 export default {
   props: {
@@ -209,16 +210,17 @@ export default {
       this.showmenosMas = false;
     },
     editar_dtc: async function () {
-      let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
-      await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);     
+      //let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
+      await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber);     
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
         { 
           numSiniestro: this.infoCard.sinisterNumber,  
           numReporte: this.infoCard.reportNumber 
         }
-      )       
-      this.$store.commit("Header/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
-      this.$store.commit("Login/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
+      )             
+      console.log(this.infoCard.referenceNumber.split("-")[0])
+      let pruebas = await ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.infoCard.referenceNumber.split("-")[0])      
+      console.log(pruebas)
       let datosSinester = {
         ReferenceNumber: "",
         SinisterNumber: "",
