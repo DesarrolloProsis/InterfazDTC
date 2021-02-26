@@ -74,6 +74,7 @@ const actions = {
       password: value.Password,
       flag: true
     }         
+    console.log(objLogin)
     await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
         if (response.data.result != null) {         
