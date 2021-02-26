@@ -70,7 +70,6 @@
 </template>
 <script>
 import Axios from "axios";
-import { mapGetters } from 'vuex'
 import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import EventBus from "../../services/EventBus.js";
@@ -109,7 +108,7 @@ export default {
 ////                          CICLOS DE VIDA                     ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {    
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser'];              
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     let _ref = this.referenceNumber.split("-")[0]          
     let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == _ref).squareName          
     if(nombre_plaza != undefined){       
@@ -143,12 +142,6 @@ export default {
           };
       }
     }
-  },
-/////////////////////////////////////////////////////////////////////
-////                          COMPUTADAS                          ////
-/////////////////////////////////////////////////////////////////////
-  computed: {
-      ...mapGetters({getReferenceSquareActual: 'Login/getReferenceSquareActual'})
   },
   /////////////////////////////////////////////////////////////////////
 ////                          METODOS                              ////
@@ -218,7 +211,7 @@ export default {
       this.cargarImagen = true;
     },
     uploadFiles: async function () {
-      let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
+      let nombre_plaza = this.$store.state.Login.plazaSelecionada.plazaNombre
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {

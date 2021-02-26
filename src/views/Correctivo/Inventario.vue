@@ -141,7 +141,7 @@ export default {
     });
   },
   beforeMount: async function () {           
-    this.tipoUsuario = await this.$store.getters['Login/getTypeUser']
+    this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/getPaginationComponent"](1);
     this.crear_array_paginacion("inicio");    

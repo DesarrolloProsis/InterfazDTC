@@ -175,7 +175,7 @@ export default {
         }));        
         return carrilesReturn
       } else if (this.actividadSelect > 1) {
-        let rolUser = this.$store.getters['Login/getTypeUser']        
+        let rolUser = this.$store.state.Login.cookiesUser.rollId
         let actividadNombre = this.listaActividades.find(item => item.value == this.actividadSelect).text
         let carriles_prohibidos = [];
         for (let evento of this.events) {
@@ -238,7 +238,7 @@ export default {
       this.modalAgreagrActividad = false
       this.laneSelect = []            
       //Mandar a la DB     
-      let refPlaza = this.$store.getters['Login/getReferenceSquareActual']  
+      let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       let actividadInsert = ServiceActividades.objeto_actividad_insertar(
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
@@ -276,8 +276,8 @@ export default {
       this.año = parseInt(fecha[2])      
     },    
     generar_pdf_calendario(comentario){      
-        let user = this.$store.getters['Login/getUserForDTC']
-        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
+        let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let objComentario = {
           UserId: user.idUser,
           Month: this.mes,
@@ -299,7 +299,7 @@ export default {
         });  
     },
     borrar_carril_evento(item, index){      
-      let refPlaza = this.$store.getters['Login/getReferenceSquareActual']  
+      let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
         .then(async (response) => {     
             console.log(response) 

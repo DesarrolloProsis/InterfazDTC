@@ -47,7 +47,7 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
     let user = {}
     if(userSup == undefined)
-        user = store.getters['Login/getUserForDTC']
+        user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
 

@@ -189,7 +189,7 @@ export default {
   beforeMount: function () {
     this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];    
     console.log(this.lista_Usuarios);
-    if (this.$store.getters["Login/getTypeUser"] == 1) {
+    if (this.$store.state.Login.cookiesUser.rollId == 1) {
       this.typeUser = false;
     }
   },

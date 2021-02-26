@@ -111,7 +111,7 @@ export default {
     login_por_otro: async function () {
       if (this.fields.Plaza.valid && this.fields.Tecnico.valid) {
         await this.$store.dispatch("Login/BUSCAR_HEADER_OTRO_TECNICO", this.tecSelect);
-        let dataHeader = await this.$store.getters["Login/getUser"];
+        let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
         await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
         await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
         await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
@@ -136,12 +136,11 @@ export default {
         } 
         else {
           await this.$store.dispatch("Login/buscarUsuario", this.datos);
-          let dataHeader = await this.$store.getters["Login/getUser"];
-          console.log(dataHeader)
+          let dataHeader = await this.$store.state.Login.listaHeaderDtcUser          
           await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
           await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
           await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-          let userTipo = await this.$store.getters['Login/getTypeUser']
+          let userTipo = await this.$store.state.Login.cookiesUser.rollId
           if(userTipo == 9 || userTipo == 8){
             this.$router.push("ConcentradoDTC");
           }

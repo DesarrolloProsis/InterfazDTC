@@ -2,7 +2,7 @@ import store from '../store/index'
 import moment from "moment";
 
 async function filtrar_actividades_mensuales(mes, año, tipoCalendario){        
-    let user = await store.getters['Login/getUserForDTC']
+    let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let nombrePlaza = store.state.Login.plazaSelecionada.plazaNombre    
     store.dispatch('Refacciones/GET_CARRILES',user.numPlaza)
     if(mes == undefined && año == undefined){
@@ -78,7 +78,7 @@ function objeto_actividad_insertar(listaCarriles, info){
     let idGares = []
     let capufeLaneNum = []
     let daySplit = info.day.split('/')
-    let user = store.getters['Login/getUserForDTC']
+    let user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     for (let carril of listaCarriles) {
         idGares.push(carril.idGare);
         capufeLaneNum.push(carril.capufeLaneNum);

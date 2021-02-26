@@ -125,7 +125,7 @@ export default {
   beforeMount: async function () {
     this.listaComponentes = this.$store.getters["Refacciones/getlistaRefaccionesInventario"];
     this.infoPlaza = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser']
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     this.listaUbicacionGeneral = this.$store.getters["Refacciones/getlistaUbicacionGeneralInventario"];
     if (JSON.stringify(this.$route.query) != "{}") {
       this.objDatos.idComponent = this.$route.query.infoComponent.idComponent 

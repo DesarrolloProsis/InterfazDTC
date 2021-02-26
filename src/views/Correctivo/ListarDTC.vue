@@ -257,7 +257,7 @@ beforeMount: async function () {
   this.filtroVista = false
   this.descripciones = await this.$store.state.DTC.listaDescriptions
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);   
-  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];  
+  this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
   //Lista Plaza Validas
   let todasPlazas = await  this.$store.state.Login.listaPlazas
@@ -289,7 +289,7 @@ beforeMount: async function () {
 /////////////////////////////////////////////////////////////////////
 methods: {
   borrar: async  function (value) {  
-      let userId = this.$store.getters['Login/getUserForDTC']         
+      let userId = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']         
       let obj = { "refNum": this.refNum, "userId": userId.idUser }    
       if (value) {
         this.infoDTC = []        
@@ -364,10 +364,10 @@ methods: {
             }
           }                                           
           let editar_dtc_promise = new Promise((resolve , reject) => {
-            Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
+            Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit)
             .then(() =>{                                                             
               this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-              let info = this.$store.getters['Login/getUserForDTC']
+              let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
               this.modal = false  
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)               
               resolve('ok')                     
@@ -412,7 +412,7 @@ methods: {
     }    
   },
   limpiar_filtros: async function() {     
-      let info = this.$store.getters['Login/getUserForDTC']  
+      let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
       this.modalLoading = true
       this.moreCard = true     
       this.modal = true
@@ -439,7 +439,7 @@ methods: {
           Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
           .then(() => {               
               resolve('ok')                
-              let info = this.$store.getters['Login/getUserForDTC']  
+              let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
               this.limpiar_filtros()                                                                                         
           })                                  
@@ -509,7 +509,7 @@ methods: {
       let agregar_firma_promise = new Promise((resolve, reject) => {              
         Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
         .then(() => {           
-          let info = this.$store.getters['Login/getUserForDTC']  
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
           this.refNum = ''     
           resolve('ok')         
@@ -560,7 +560,7 @@ methods: {
   },
   actualizar_dtc_status: function(){
     let actualizar_status = new Promise((resolve, reject) => {
-      let user = this.$store.getters['Login/getUserForDTC']
+      let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
       this.modalCambiarStatus = false
       let objeActualizado = {
         "ReferenceNumber": this.refNum,
@@ -573,7 +573,7 @@ methods: {
         this.refNum = ''
         this.statusEdit = ''
         this.motivoCambioStatus = ''   
-        let info = this.$store.getters['Login/getUserForDTC']  
+        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
         this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
         resolve('ok')                     
       })

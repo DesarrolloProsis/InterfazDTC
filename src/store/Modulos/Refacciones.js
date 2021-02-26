@@ -76,7 +76,7 @@ const mutations = {
 const actions = {
   async buscarComponentesInventario({ commit, rootGetters }, value) {
     commit("listaRefaccionesInventarioMutation", []);    
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/getReferenceSquareActual']}/${value.numPlaza}`)
+    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
     .then(response => {      
       commit("listaRefaccionesInventarioMutation", response.data.result);
     })
@@ -85,7 +85,7 @@ const actions = {
     });
   },
   async buscarCarrilesInventario({ commit, rootGetters }, value){
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/getReferenceSquareActual']}/${value.componente}/${value.numPlaza}`)
+    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.numPlaza}`)
     .then(response => {      
       commit("listaLaneInventarioMutation", response.data.result);
     })
@@ -94,7 +94,7 @@ const actions = {
     });
   },
   async buscarInfoComponeteInventario({ commit, rootGetters }, value){
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/getReferenceSquareActual']}/${value.componente}/${value.carril}/${value.numPlaza}`)
+    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
     .then(response => {    
       commit("infoComponenteInventarioMutation", response.data.result);
     })
@@ -104,7 +104,7 @@ const actions = {
   },
   async buscarUbicacionGeneralInventario({ commit, rootGetters }){
     commit("listaUbicacionGeneralInventarioMutation", []);
-    await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/getReferenceSquareActual']}`)
+    await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
     .then(response => {    
       commit("listaUbicacionGeneralInventarioMutation", response.data.result);
     })
@@ -126,7 +126,7 @@ const actions = {
       strMaintenanceDate: value.infoComponentes.fechaUltimoMantenimiento,
       strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento
     }          
-    await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/getReferenceSquareActual']}`, newObject)
+    await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
     .then(() => {          
     })
     .catch(Ex => {
@@ -134,7 +134,7 @@ const actions = {
     });
   },
   async buscarComponentes({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/component/${rootGetters['Login/getReferenceSquareActual']}/${value.idConvenio}`)            
+    await Axios.get(`${API}/component/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idConvenio}`)            
       .then(response => {                
         commit("listaRefaccionesMutation", response.data.result);
       })
@@ -144,7 +144,7 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit, rootGetters }, value) {      
-    await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/getReferenceSquareActual']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
+    await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
       .then(response => {                            
           if(response.data.result != null){
             commit("listaRefaccionValidMutation", response.data.result.listaFiltro);
@@ -160,7 +160,7 @@ const actions = {
       })
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
-    await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/getReferenceSquareActual']}/${value.numPlaza}`)
+    await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
       .then(response => {       
           console.log(response.data.result)                
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
@@ -170,7 +170,7 @@ const actions = {
       })
   },
   async EDIT_COMPONETE_QUICK({ dispatch, rootGetters }, value){
-    await Axios.put(`${API}/Component/UpdateInventoryList/${rootGetters['Login/getReferenceSquareActual']}`, value)
+    await Axios.put(`${API}/Component/UpdateInventoryList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, value)
       .then(() => {                      
         dispatch('FULL_COMPONETES')       
       })

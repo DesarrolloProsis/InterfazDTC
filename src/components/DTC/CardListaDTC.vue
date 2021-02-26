@@ -186,7 +186,7 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 ////////////////////////////////////////////////////////////////////
   beforeMount: function () {          
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser']; 
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
         Supervisor_Tecnico: 2,

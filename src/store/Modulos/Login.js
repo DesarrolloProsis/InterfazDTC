@@ -24,18 +24,16 @@ const state = {
   ]
 };
 const getters = {
-  getUserForDTC: () => {
+  GET_USEER_ID_PLAZA_ID: () => {
     return {
       numPlaza: state.plazaSelecionada.numeroPlaza,
       idUser: state.cookiesUser.userId
     }
-  },
-  getUser: () => state.listaHeaderDtcUser,
+  },  
   GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
-  getReferenceSquareActual: () => state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].refereciaPlaza,
-  getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
-  getTypeUser: () => state.cookiesUser.rollId,  
-  getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].numeroPlaza)
+  GET_REFERENCIA_ACTUAL_PLAZA: () => state.plazaSelecionada.refereciaPlaza,
+  GET_REFERENCIA_PLAZA_TO_NOMBRE: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
+  GET_TIPO_USUARIO: () => state.cookiesUser.rollId,    
 };
 const mutations = {
   PLAZA_SELECCIONADA_MUTATION: (state, value) => state.plazaSelecionada = value,  
@@ -47,10 +45,7 @@ const mutations = {
     state.listaPlazas = []
     state.cookiesUser = []
   },
-  LISTA_HEADER_PLAZA_USER: (state, value) => {
-    state.listaHeaderDtcUser = value,
-    state.PLAZAELEGIDA = 0
-  },  
+  LISTA_HEADER_PLAZA_USER: (state, value) => state.listaHeaderDtcUser = value,  
 };
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
@@ -79,8 +74,7 @@ const actions = {
       username: value.User,
       password: value.Password,
       flag: true
-    }   
-    console.log(objLogin)    
+    }         
     await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
         if (response.data.result != null) {         
@@ -101,8 +95,7 @@ const actions = {
       username: value.User,
       password: value.Password,
       flag: false
-    } 
-    console.log(objLogin)
+    }     
     await Axios.post(`${API}/login`,objLogin)
       .then(response => {        
         commit("LISTA_HEADER_PLAZA_USER", response.data.result);
