@@ -5,7 +5,14 @@
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'DTC Pendientes'" :dtcVista="'pendientes'" :tipo="'DTC'" :listaStatus="statusValidos"></HeaderGenerico>
+        <HeaderGenerico 
+            @limpiar-filtros="limpiar_filtros" 
+            @filtrar-dtc="filtro_dtc" 
+            :titulo="'DTC Pendientes'" 
+            :dtcVista="'pendientes'" 
+            :tipo="'DTC'" 
+            :listaStatus="statusValidos">
+        </HeaderGenerico>
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
