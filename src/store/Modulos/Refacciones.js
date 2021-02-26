@@ -152,8 +152,9 @@ const actions = {
         console.log(Ex);
       })
   },
-  async BUSCAR_CARRILES({ commit }, plaza) {          
-    Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
+  async BUSCAR_CARRILES({ commit }, plaza) {  
+    console.log(plaza)        
+    Axios.get(`${API}/squaresCatalog/lanes/${plaza}`, CookiesService.obtener_bearer_token())
       .then(response => {                      
           if(response.status === 200){            
               commit("CARRILES_MUTATION", response.data.result);                         

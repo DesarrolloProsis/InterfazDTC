@@ -39,15 +39,15 @@
                     <span class="text-center font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
                     <textarea
                         v-model="comentario"
-                        v-validate="'max:500'"
-                        :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
+                        v-validate="'max:500|required'"
+                        :class="{ 'is_valid': !errors.first('comentario'), 'is_invalid': errors.first('comentario')}"
                         class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border sm:mt-2 sm:mb-1"
                         placeholder="jane@example.com"
-                        name="Observaciones"
+                        name="comentario"
                         v-bind:maxlength="limite"
                     />
                     <span class="text-xs text-gray-500 sm:ml-4">{{ restante }}/500</span>
-                    <p class="text-xs">{{ errors.first("Observaciones") }}</p>
+                    <p class="text-xs">{{ errors.first("comentario") }}</p>
                 </div>              
             </div>
             <!--///////////////////////////////////////////////////////////////////
@@ -100,15 +100,44 @@ export default {
         año: {
             type: Number,
             default: () => 0
-        }     
+        },
+        numeroActividades: {
+            type: Number,
+            default: () => 0
+        }
+
     },
     data(){
         return {                        
             limite:500,            
         }
     },
-    beforeMount(){                        
-    },
+    destroyed(){        
+        if(this.comentario == '' && this.numeroActividades > 0){
+            this.$router.push({ path: 'CalendarioActividades' })
+            this.$notify.warning({
+                title: "Ups!",
+                msg: `NO PUEDES TENER CALENDARIO SIN COMENTARIO`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },          
+            });          
+        }
+        else if(this.numeroActividades == 0 && this.comentario != ''){
+            this.$router.push({ path: 'CalendarioActividades' })
+            this.$notify.warning({
+                title: "Ups!",
+                msg: `NO PUEDES TENER CALENDARIO SIN ACTIVIDADES`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },          
+            });  
+        }                                    
+    },    
     methods: {
         cambiar_plaza(numeroPlaza){                  
             this.$emit("actualizar-actividad", numeroPlaza);            
