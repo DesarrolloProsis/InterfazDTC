@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
@@ -12,7 +13,7 @@ const mutations = {
 }
 const actions = {
     async Consulta_Users({commit}, value){      
-        await Axios.post(`${API}/User/consulta`,value)
+        await Axios.post(`${API}/User/consulta`,value, CookiesService.obtener_bearer_token())
             .then(response => {                              
               commit("USUARIOS_MUTATION", response.data.result);              
             })
@@ -22,7 +23,7 @@ const actions = {
     },
     async Update_User({commit}, value){
         commit        
-        await Axios.put(`${API}/User/update`,value)
+        await Axios.put(`${API}/User/update`,value, CookiesService.obtener_bearer_token())
             .then(() => {})
             .catch(Ex => {
               console.log(Ex);
@@ -30,7 +31,7 @@ const actions = {
     },
     async BorrarUser({commit}, value){
         commit                
-        await Axios.put(`${API}/User/delete`,value)
+        await Axios.put(`${API}/User/delete`,value, CookiesService.obtener_bearer_token())
             .then(() => {                                          
             })
             .catch(Ex => {
@@ -39,7 +40,7 @@ const actions = {
     },
     async NuevoUser({commit}, value){
         commit        
-        await Axios.post(`${API}/user/nuevo`,value)
+        await Axios.post(`${API}/user/nuevo`,value, CookiesService.obtener_bearer_token())
             .then(() => {})
             .catch(Ex => {
               console.log(Ex);
@@ -47,7 +48,7 @@ const actions = {
     },
     async UPDATE_PASSWORD({commit}, value){
       commit            
-      await Axios.put(`${API}/User/newPassword`,value)
+      await Axios.put(`${API}/User/newPassword`,value, CookiesService.obtener_bearer_token())
           .then(() => {})
           .catch(Ex => {
             console.log(Ex);

@@ -52,6 +52,7 @@ import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
 import moment from "moment";
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -256,7 +257,7 @@ methods:{
                         })    
                     });  
                     console.log(arrayJob)                         
-                    Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlazaRef}/${this.header.calendarId}`, arrayJob)
+                    Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlazaRef}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                         .then((response) => {     
                             console.log(response) 
                             this.$notify.success({
@@ -296,7 +297,7 @@ methods:{
                                     referenceNumber: this.referenceNumber,
                                     comment: this.objetoLogDate.motivo
                                 }
-                                Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
+                                Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
                                     .then((response) => {     
                                         console.log(response)                                                                                  
                                     }).catch(Ex => {                            

@@ -154,6 +154,7 @@ import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
 import Carrusel from "../../components/Carrusel";
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import CookiesService from '../../services/CookiesService'
 
 export default {
   name: "ConcentradoDTC",
@@ -257,7 +258,7 @@ editar_status_dtc: function (){
     if( this.statusEdit != '' && this.motivoCambio != '')
     {
       //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)    
+    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.formato_cookies_usuario())    
       .then(response => {
         console.log(response)
         this.statusEdit = ''

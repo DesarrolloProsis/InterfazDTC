@@ -73,6 +73,8 @@ import Axios from "axios";
 import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import EventBus from "../../services/EventBus.js";
+import CookiesService from '../../services/CookiesService'
+
 export default {
   name: 'ImgenesCard',
   component:{
@@ -112,7 +114,7 @@ export default {
     let _ref = this.referenceNumber.split("-")[0]          
     let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == _ref).squareName          
     if(nombre_plaza != undefined){       
-      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
         .then((response) => {              
             if(response.status != 404){
               let array = response.data.map(item => {
@@ -215,7 +217,7 @@ export default {
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-            Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`)
+            Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`, CookiesService.obtener_bearer_token())
               .then(() => {})
               .catch((ex) => {
                 console.log("error al eliminar");
@@ -245,7 +247,7 @@ export default {
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
-            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
+            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
               .then((response) => {    
                 console.log(response)            
                 this.$notify.success({
@@ -286,7 +288,7 @@ export default {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
         .then((response) => {          
           array_nombre_imagenes = response.data;
         })

@@ -119,6 +119,7 @@ import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios'
 import ServiceReporte from '../../services/ReportesPDFService'
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "CrearDTC",
@@ -161,7 +162,7 @@ beforeMount: async function() {
       this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;         
-      Axios.get(`${API}/dtcData/${this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"]}/${this.headerEdit.referenceNumber}`)
+      Axios.get(`${API}/dtcData/${this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"]}/${this.headerEdit.referenceNumber}`, CookiesService.obtener_bearer_token())
         .then(response => {          
           this.datosUser = response.data.result[0]
         })

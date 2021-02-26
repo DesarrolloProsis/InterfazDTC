@@ -122,6 +122,7 @@ import Nav from '../../components/Navbar'
 import Axios from 'axios';
 import ServicePDF from '../../services/ReportesPDFService'
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: 'CalendarioHistorico',
@@ -142,7 +143,7 @@ export default {
     },
     beforeMount: async function() {
         
-        await Axios.get(`${API}/Mantenimiento/Bitacora`)
+        await Axios.get(`${API}/Mantenimiento/Bitacora`, CookiesService.obtener_bearer_token())
         .then((response) => { 
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  

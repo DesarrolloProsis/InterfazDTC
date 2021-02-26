@@ -118,6 +118,8 @@ import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
 import moment from "moment";
+import CookiesService from '../../services/CookiesService'
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -152,7 +154,7 @@ export default {
     let cargaInicial = this.$route.params.cargaInicial    
     this.events = cargaInicial.listaActividadesMensuales
     this.comentario = cargaInicial.comentario
-    this.año = cargaInicial.año    
+    this.año = cargaInicial.año 
     this.plazaSelect = cargaInicial.plazaSelect
     this.mes = cargaInicial.mes
     this.nombrePlaza = cargaInicial.plazaNombre
@@ -244,7 +246,7 @@ export default {
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
       )           
-      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
+      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
         .then(async (response) => {     
             console.log(response)
             await this.actualizar_actividades(this.plazaSelect)                                                    
@@ -286,7 +288,7 @@ export default {
           Year: this.año
         }        
         console.log(objComentario)
-        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
+        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario, CookiesService.obtener_bearer_token())
         .then((response) => {                    
           console.log(response)
           ServicePDF.generar_pdf_calendario(refPlaza, {
@@ -300,7 +302,7 @@ export default {
     },
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
-      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
+      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then(async (response) => {     
             console.log(response) 
             if(this.carrilesModal.length == 1){ 
