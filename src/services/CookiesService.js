@@ -82,12 +82,18 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         return convenioSelect
     }
 }
-function obtener_bearer_token(){
-    let tokenData = JSON.parse(localStorage.getItem('token'))    
-    let config = {
-        headers: { Authorization: `Bearer ${tokenData.token}` }
-    };
-    return config
+function obtener_bearer_token(tokenPDF){
+    if(tokenPDF == undefined) {
+        let tokenData = JSON.parse(localStorage.getItem('token'))    
+        let config = {
+            headers: { Authorization: `Bearer ${tokenData.token}` }
+        };
+        return config
+    }
+    else{
+        let tokenData = JSON.parse(localStorage.getItem('token'))  
+        return tokenData.token
+    }
 }
 export default{
     formato_cookies_usuario,

@@ -4,6 +4,7 @@ import store from '../store/index'
 import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
 import Axios from 'axios'
+import CookiesService from '../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     sinfirma: 1,
@@ -13,7 +14,9 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
 function xml_hhtp_request(urlTopdf,namePdf){
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
-    oReq.responseType = "blob";         
+    oReq.responseType = "blob";  
+    let token = CookiesService.obtener_bearer_token('pdf')
+    oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
     oReq.onload = function () {         
     var file = new Blob([oReq.response], {
         type: "application/pdf",
