@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import moment from "moment";
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
@@ -44,12 +45,9 @@ const mutations = {
 }
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
-        dispatch('OBTENER_COMENTARIO_MENSUAL', value)      
-        console.log(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)   
-        console.log(value)
-        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
-            .then((response) => {               
-                console.log(response.data.result) 
+        dispatch('OBTENER_COMENTARIO_MENSUAL', value)                      
+        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
+            .then((response) => {                               
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
             .catch(Ex => {
@@ -58,7 +56,7 @@ const actions = {
         }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
-        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
+        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
             .then((response) => {                                  
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
@@ -69,7 +67,7 @@ const actions = {
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                
-        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`,value)
+        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`,value, CookiesService.obtener_bearer_token())
         .then((response) => {   
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1

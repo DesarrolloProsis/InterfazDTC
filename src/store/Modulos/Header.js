@@ -1,4 +1,5 @@
 import Axios from "axios"
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
@@ -57,7 +58,7 @@ const mutations = {
 };
 const actions = {
   async BUSCAR_REFERENCIA_DTC_VALIDA({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`)    
+    await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`, CookiesService.obtener_bearer_token())    
       .then(response => {        
         if (response.data.result.length == 1) {          
           commit("REFERENCIA_DTC_MUTATION", response.data.result[0].referenceNumber);
@@ -71,7 +72,7 @@ const actions = {
       });
   },
   async BUSCAR_LISTA_UNIQUE({ commit, rootGetters }) {
-    await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
+    await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, CookiesService.obtener_bearer_token())
       .then(response => {
         if (response.data.message) {
           commit("LISTA_UNIQUE_MUTATION", response.data.result);
@@ -101,7 +102,7 @@ const actions = {
       OpenFlag: value.openFlag,
       SquareId: value.header.plaza.slice(0,3)
     }                
-    await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
+    await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
       .then(response => {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)
