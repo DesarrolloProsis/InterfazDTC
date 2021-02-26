@@ -654,7 +654,7 @@ beforeMount: async function () {
       if (JSON.stringify(componetesEdit) != "{}") {  
         console.log(componetesEdit)              
         for (const item of componetesEdit.items) { 
-          let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];          
+          let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
           newObject["attachedId"] = item.attachedId;
           newObject["componentsRelationship"] = item.relationship;
           newObject["componentsRelationshipId"] = item.mainRelationship;                    
@@ -776,10 +776,12 @@ methods: {
       this.statusMetro = false
       this.cantidadMetro = 0      
       if (componenteValido) {
-        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];   
+        console.log(newObject)     
         newObject["attachedId"] = this.updtComp.attachedId;
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
+        console.log(newObject)
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.getters["Refacciones/getListaLane"];
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
@@ -819,7 +821,7 @@ methods: {
       if (!comp_rep) {
         this.laneSelectEditar = [];
         this.listLaneEditar = [];
-        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.getters[
@@ -885,7 +887,7 @@ methods: {
       if (this.saveObjectEdiar.length == 0) {
         this.saveObjectEdiar = Object.values(datos);
         this.updtCompEditar = this.saveObjectEdiar[2];
-        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
+        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.getters[
@@ -998,8 +1000,8 @@ methods: {
         "row14",
         "rowUp",
       ];
-      let newObject = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-      newObject["id"] = this.saveObjectEdiar[2];
+      let newObject = this.$store.getters["Header/getConvenioPlaza"];
+      newObject["id"] = this.saveObjectEdiar[2];      
       this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
       let equipoValid = this.$store.getters["Refacciones/getEquipoMalo"];
       let obj_abort = Service.lane_select(
