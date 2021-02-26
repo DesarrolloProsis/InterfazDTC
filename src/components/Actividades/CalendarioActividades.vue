@@ -76,6 +76,7 @@
       :comentario="comentario" 
       :mes="mes" 
       :año="año" 
+      :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
     </HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32" :class="{' pointer-events-none': modal}">
@@ -147,7 +148,8 @@ export default {
       nombrePlaza: '',
       año: '',
       mes: '',   
-      fechaActual: '',      
+      fechaActual: '',   
+      numeroActividades: ''   
     }
   },
   beforeMount(){
@@ -327,6 +329,11 @@ export default {
           });          
           console.log(Ex);
         });
+    }
+  },
+  watch: {
+    events: function(newActividad){
+        this.numeroActividades = newActividad.length
     }
   },
   filters:{
