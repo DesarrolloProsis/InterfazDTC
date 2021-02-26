@@ -45,19 +45,20 @@ const mutations = {
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)      
-        console.log(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`)   
+        console.log(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)   
         console.log(value)
-        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/getReferenceSquareActual']}`,value)
+        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
             .then((response) => {               
                 console.log(response.data.result) 
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
             .catch(Ex => {
-            console.log(Ex);
+                commit("ACTIVIDADES_MENSUALES_MUTATION", [])  
+                console.log(Ex);
         }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
-        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/getReferenceSquareActual']}`,value)
+        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
             .then((response) => {                                  
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
@@ -67,8 +68,8 @@ const actions = {
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
-        let rolUser = rootGetters['Login/getTypeUser']                
-        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/getReferenceSquareActual']}/${rolUser}/${value.frequencyId}`,value)
+        let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                
+        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`,value)
         .then((response) => {   
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1

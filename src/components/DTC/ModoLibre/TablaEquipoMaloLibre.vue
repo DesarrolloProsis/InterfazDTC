@@ -1031,7 +1031,7 @@ export default {
     },
   },
   beforeMount: function () {
-    let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
+    let componetesEdit = this.$store.state.DTC.componetesEdit
 
     if (JSON.stringify(componetesEdit) != "{}") {
       console.log(componetesEdit);

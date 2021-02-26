@@ -270,17 +270,9 @@ export default {
       }
       this.datosSinester.ReferenceNumber =
         nomPlaza + "-" + newYear + autoCompleteDias;
-      await this.$store.commit(
-        "Header/referenceNumMutation",
-        this.datosSinester.ReferenceNumber
-      );
-      await this.$store.dispatch(
-        "Header/buscarReferencia",
-        this.datosSinester.ReferenceNumber
-      );
-      this.datosSinester.ReferenceNumber = await this.$store.getters[
-        "Header/getreferenceNum"
-      ];
+      await this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.datosSinester.ReferenceNumber);
+      await this.$store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA",this.datosSinester.ReferenceNumber);
+      this.datosSinester.ReferenceNumber = await this.$store.state.Header.referenciaDtc
     },
   },
   watch: {
@@ -298,14 +290,10 @@ export default {
   },
   beforeMount: async function () {
     let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-    await this.$store.dispatch("Refacciones/buscarComponentes", value);
-    this.listaComponentes = await this.$store.getters[
-      "Refacciones/getListaRefacciones"
-    ];
-    await this.$store.dispatch("DTC/buscarDescriptions");
-    this.listaDescripciones = await this.$store.getters[
-      "DTC/getListaDescriptions"
-    ];
+    await this.$store.dispatch("Refacciones/BUSCAR_COMPONETES", value);
+    this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
+    await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
+    this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
     if (JSON.stringify(this.headerEdit) != "{}") {
       this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
       this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;

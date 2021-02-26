@@ -47,7 +47,7 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
     let user = {}
     if(userSup == undefined)
-        user = store.getters['Login/getUserForDTC']
+        user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
 
@@ -74,9 +74,9 @@ async function crear_referencia(sinisterDate, referenceSquare) {
     else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
     else autoCompleteDias = diaCorriente.toString();
     let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
-    await store.commit("Header/referenceNumMutation", ReferenceNumber);
-    await store.dispatch("Header/buscarReferencia", ReferenceNumber);    
-    return await store.getters["Header/getreferenceNum"];        
+    await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
+    await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+    return await store.state.Header.referenciaDtc
 }
 async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){       
     fechaActividad = fechaActividad.split('/')

@@ -189,9 +189,8 @@ botoncambiar_modal: async function (){
             this.fechaCambio = ''    
         }
         else {
-            this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")
-                //let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']    
-            let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre).referenceSquare 
+            this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")                
+            let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre).referenceSquare 
             console.log(refPlaza)                                       
             let referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName, this.fechaCambio ,this.header.lane)
             this.$emit('guarar-log-fecha', {

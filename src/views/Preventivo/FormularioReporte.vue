@@ -86,7 +86,7 @@ export default {
     beforeMount: async function(){        
         if(!this.$route.query.edicion == true){            
             this.header = this.$route.query.header 
-            let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.$route.query.header.plazaNombre)        
+            let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.$route.query.header.plazaNombre)        
             this.referenceNumber = await ServiceReporte.crear_referencia_calendario(
                 refPlaza.referenceSquare,
                 this.header.frequencyName,
@@ -205,13 +205,13 @@ methods:{
             })
         if(validarActividades){            
             if(this.validar_horas()) { 
-                let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre)
+                let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)
                 let refPlazaRef = this.referenceNumber.split('-')[0]
                 console.log(refPlazaRef)
                 
                 let insercionHeaderPromise = new Promise(async (resolve, reject) => {     
                     console.log('estoy insertando Header')              
-                    let user = await this.$store.getters['Login/getUserForDTC'] 
+                    let user = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'] 
                     let fechaInsercion = ''
                     if(JSON.stringify(this.objetoLogDate) != '{}'){
                         let fechaAyuda = this.objetoLogDate.fecha.split('/')
@@ -288,7 +288,7 @@ methods:{
                         insercionActividadesPromise.then(async () =>{
                             if(this.objetoLogDate){
                                 let refPlaza = this.referenceNumber.split('-')[0]
-                                let user = await this.$store.getters['Login/getUserForDTC']
+                                let user = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
                                 let dateLog = {
                                     calendarId: parseInt(this.header.calendarId)     ,
                                     date: this.objetoLogDate.fecha,

@@ -8,8 +8,7 @@ const state = {
   listaPlazas: [],
   cookiesUser: {},
   listaTec: [],
-  plazaSelecionada: {},
-  PLAZAELEGIDA: 0,
+  plazaSelecionada: {},  
   tipoUsuario: [
     {id: 1, nombre: 'Tecnico'},
     {id: 2, nombre: 'Supervisor'},
@@ -24,22 +23,19 @@ const state = {
   ]
 };
 const getters = {
-  getUserForDTC: () => {
+  GET_USEER_ID_PLAZA_ID: () => {
     return {
       numPlaza: state.plazaSelecionada.numeroPlaza,
       idUser: state.cookiesUser.userId
     }
-  },
-  getUser: () => state.listaHeaderDtcUser,
+  },  
   GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
-  getReferenceSquareActual: () => state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].refereciaPlaza,
-  getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
-  getTypeUser: () => state.cookiesUser.rollId,  
-  getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.cookiesUser.plazasUsuario[state.PLAZAELEGIDA].numeroPlaza)
+  GET_REFERENCIA_ACTUAL_PLAZA: () => state.plazaSelecionada.refereciaPlaza,
+  GET_REFERENCIA_PLAZA_TO_NOMBRE: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
+  GET_TIPO_USUARIO: () => state.cookiesUser.rollId,    
 };
 const mutations = {
-  PLAZA_SELECCIONADA_MUTATION: (state, value) => state.plazaSelecionada = value,
-  PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
+  PLAZA_SELECCIONADA_MUTATION: (state, value) => state.plazaSelecionada = value,  
   LISTA_PLAZAS_MUTATION: (state, value) => state.listaPlazas = value,
   COOKIES_USER_MUTATION: (state, value) => state.cookiesUser = value,
   LISTA_TECNICOS_MUTATION: (state, value) => state.listaTec = value,
@@ -48,21 +44,12 @@ const mutations = {
     state.listaPlazas = []
     state.cookiesUser = []
   },
-  LISTA_HEADER_PLAZA_USER: (state, value) => {
-    state.listaHeaderDtcUser = value,
-    state.PLAZAELEGIDA = 0
-  },  
-  PLAZAELEGIDAFINDMUTATION: (state, value) => {    
-    let index = state.listaHeaderDtcUser.findIndex(item => item.referenceSquare == value)    
-    if(index != -1){
-      state.PLAZAELEGIDA = index
-    }
-  }
+  LISTA_HEADER_PLAZA_USER: (state, value) => state.listaHeaderDtcUser = value,  
 };
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async BUSCAR_HEADER_OTRO_TECNICO({ commit }, value) {
-    await Axios.get(`${API}/login/buscarHeaderTec/${value}`)
+    await Axios.get(`${API}/login/buscarHeaderTec/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
         commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
@@ -72,7 +59,7 @@ const actions = {
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
   async BUSCAR_TECNICOS_PLAZA({ commit }, value) {
-    await Axios.get(`${API}/login/buscarTec/${value}`)
+    await Axios.get(`${API}/login/buscarTec/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
         commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
@@ -86,8 +73,7 @@ const actions = {
       username: value.User,
       password: value.Password,
       flag: true
-    }   
-    console.log(objLogin)    
+    }             
     await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
         if (response.data.result != null) {         
@@ -103,25 +89,25 @@ const actions = {
       });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
-  async buscarUsuario({ commit }, value) {   
+  async INICIAR_SESION_LOGIN({ commit }, value) {   
     let objLogin = {
       username: value.User,
       password: value.Password,
       flag: false
-    } 
-    console.log(objLogin)
+    }     
     await Axios.post(`${API}/login`,objLogin)
-      .then(response => {        
-        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
+      .then(response => {                
+        commit("LISTA_HEADER_PLAZA_USER", response.data.result.login);
       })
       .catch(Ex => {
         console.log(Ex);
       });
   },
   //CONULTA PARA LISTAR LAS PLAZAS
-  async BUSCAR_PLAZAS({ commit }) {
-    await Axios.get(`${API}/squaresCatalog`)
+  async BUSCAR_PLAZAS({ commit }) {        
+    await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
       .then(response => {
+        console.log('Si Sirve el token')
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(Ex => {

@@ -94,9 +94,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-  async beforeMount() {
-    await this.$store.dispatch("Login/BUSCAR_PLAZAS");
-    this.listaPlazas = await this.$store.state.Login.listaPlazas//this.$store.getters["Login/getListaPlazas"];
+  async beforeMount() {  
   },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -111,17 +109,17 @@ export default {
     login_por_otro: async function () {
       if (this.fields.Plaza.valid && this.fields.Tecnico.valid) {
         await this.$store.dispatch("Login/BUSCAR_HEADER_OTRO_TECNICO", this.tecSelect);
-        let dataHeader = await this.$store.getters["Login/getUser"];
-        await this.$store.commit("Header/listaHeadersMutation", dataHeader);
-        await this.$store.dispatch("DTC/buscarDescriptions");
-        await this.$store.dispatch("Header/buscarListaUnique");
+        let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
+        await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
+        await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
+        await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
         this.$router.push("home");
       }
     },
     buscar_tecnivo_plaza: async function () {
       if (this.plazaSelect != "") {
         await this.$store.dispatch("Login/BUSCAR_TECNICOS_PLAZA", this.plazaSelect);
-        this.listaTec = this.$store.state.Login.listaTec//this.$store.getters["Login/getListaTec"];
+        this.listaTec = this.$store.state.Login.listaTec
       } 
       else {
         this.listaTec = [];
@@ -129,19 +127,20 @@ export default {
       }
     },
     ingresar_inicio: async function () {      
-      await this.$store.dispatch("Login/BUSCAR_COOKIES_USUARIO", this.datos); 
+      await this.$store.dispatch("Login/BUSCAR_COOKIES_USUARIO", this.datos);             
       if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {
+        await this.$store.dispatch("Login/BUSCAR_PLAZAS");
+        this.listaPlazas = await this.$store.state.Login.listaPlazas
         if (this.datos.checkLog === true) {
           this.modal = true;
         } 
         else {
-          await this.$store.dispatch("Login/buscarUsuario", this.datos);
-          let dataHeader = await this.$store.getters["Login/getUser"];
-          console.log(dataHeader)
-          await this.$store.commit("Header/listaHeadersMutation", dataHeader);
-          await this.$store.dispatch("DTC/buscarDescriptions");
-          await this.$store.dispatch("Header/buscarListaUnique");
-          let userTipo = await this.$store.getters['Login/getTypeUser']
+          await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);
+          let dataHeader = await this.$store.state.Login.listaHeaderDtcUser          
+          await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
+          await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
+          await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+          let userTipo = await this.$store.state.Login.cookiesUser.rollId
           if(userTipo == 9 || userTipo == 8){
             this.$router.push("ConcentradoDTC");
           }

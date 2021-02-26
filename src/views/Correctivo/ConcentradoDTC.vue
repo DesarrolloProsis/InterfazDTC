@@ -185,8 +185,8 @@ data: function (){
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
   this.filtroVista = true
-  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-  this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
+  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
+  this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
   let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
@@ -245,7 +245,7 @@ abrirCarrusel : async function (item){
     });      
 },
 editar_status_dtc: function (){
-  let user = this.$store.getters['Login/getUserForDTC']
+  let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
   //Crea un objeto con los elementos necesarios para hacer un evento post
   let objeActualizado = {
         "ReferenceNumber": this.dtcEdit.referenceNumber,
@@ -262,8 +262,8 @@ editar_status_dtc: function (){
         console.log(response)
         this.statusEdit = ''
         this.motivoCambio = ''   
-        let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)
+        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
         this.modalCambiarStatus = false                                
       })
       .catch(Ex => {
@@ -313,7 +313,7 @@ filtro_dtc: async function (objFiltro) {
 limpiar_filtros: function() {             
   this.modalLoading = true                            
   this.$nextTick().then(() => {             
-    this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);              
+    this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
   })           
 },
 },

@@ -130,7 +130,7 @@ export default {
   created: function(){
     //Escucha Evento SelectPlaza Component
     EventBus.$on("ACTUALIZAR_INVENTARIO", () => {              
-        this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](1);
+        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);
         console.log(this.listComponent.length)
         this.crear_array_paginacion("inicio");    
         this.full_Component.sort((a, b) => {
@@ -141,9 +141,9 @@ export default {
     });
   },
   beforeMount: async function () {           
-    this.tipoUsuario = await this.$store.getters['Login/getTypeUser']
+    this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
-    this.listComponent = await this.$store.getters["Refacciones/getPaginationComponent"](1);
+    this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);
     this.crear_array_paginacion("inicio");    
     this.full_Component.sort((a, b) => {
       if (a.lane < b.lane) return -1;
@@ -158,20 +158,20 @@ export default {
     cambiar_pagina: function (value) {
       if (value == "Anterior") {
         if (this.arrayPaginacion[2] == 4) {
-          this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](3);
+          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](3);
           this.crear_array_paginacion("inicio");
         } else if (this.arrayPaginacion[2] != 2) {
-          this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](this.array_paginacion[2] - 1);
+          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](this.array_paginacion[2] - 1);
           this.crear_array_paginacion("anterior");
         }
       } else if (value == "Mas") {
         let pagina = this.arrayPaginacion[this.arrayPaginacion.length - 2];
         if (pagina < Math.ceil(this.full_Component.length / 10)) {
-          this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](pagina + 1);
+          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](pagina + 1);
           this.crear_array_paginacion("mas");
         }
       } else {
-        this.listComponent = this.$store.getters["Refacciones/getPaginationComponent"](value);
+        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](value);
         if (value == 1) this.crear_array_paginacion("inicio");
       }
     },

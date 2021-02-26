@@ -64,7 +64,7 @@ const routes = [
     name: 'Configuracion',
     component: Configuracion,
     beforeEnter: async function (to, from, next) {
-      let user = store.getters['Login/getUserForDTC']
+      let user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
       let params = {
         Id: user.idUser,
         Square: user.numPlaza
@@ -87,8 +87,8 @@ const routes = [
     name: 'ConcentradoDTC',
     component: () => import('../views/Correctivo/ConcentradoDTC'),
     beforeEnter: async function (to, from, next) {
-      let info = store.getters['Login/getUserForDTC']      
-      await store.dispatch('DTC/buscarListaDTC', info)
+      let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
       next()
     }
   },
@@ -112,8 +112,8 @@ const routes = [
     name: 'ListarDtc',
     component: ListarDTC,
     beforeEnter: async function (to, from, next) {
-      let info = store.getters['Login/getUserForDTC']      
-      await store.dispatch('DTC/buscarListaDTC', info)
+      let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
       store.commit("DTC/LIMPIAR_IMAGENES_FULL");
       next()
     }
@@ -124,8 +124,8 @@ const routes = [
     component: InventarioDetalle,
     beforeEnter: async function (to, from, next) {
       let plaza = store.getters['Header/GET_CONVENIO_PLAZA']
-      await store.dispatch('Refacciones/buscarComponentesInventario', plaza)
-      await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')
+      await store.dispatch('Refacciones/BUSCAR_COMPONETES_INVENTARIO', plaza)
+      await store.dispatch('Refacciones/BUSCAR_UBICACION_GENERAL_INVENTARIO')
       next()
     }
   },  

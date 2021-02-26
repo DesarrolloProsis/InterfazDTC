@@ -191,7 +191,7 @@ methods: {
     },
     reporte_pdf: async function(item){
         console.log(item)
-        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
         .then((response) => {                  
             let referenceNumber = response.data.result.table[0].referenceNumber
@@ -203,7 +203,7 @@ methods: {
         });                 
     },  
     editar_reporte_carril: async function(item){        
-        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']    
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']    
         console.log(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)    
         await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
         .then((response) => {                  

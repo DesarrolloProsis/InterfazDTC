@@ -34,12 +34,19 @@ export default {
     beforeMount: async function() {
         if(this.fullPlazas)
             this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
-        
-        if(this.tipo != 'filtro'){
+                
+        if(this.tipo == 'edicion'){
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = true
+        }
+        else if(this.tipo != 'filtro'){
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
             this.plazaSelect = plazaSelect
             this.convenioSelect = convenioSelect 
-        }        
+        }
+        
+
     },
     methods:{    
         actualizar_plaza: async function(){   

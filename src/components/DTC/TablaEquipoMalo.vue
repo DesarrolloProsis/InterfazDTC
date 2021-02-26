@@ -650,7 +650,7 @@ props: {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function () {
     try {
-      let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
+      let componetesEdit = await this.$store.state.DTC.componetesEdit
       if (JSON.stringify(componetesEdit) != "{}") {  
         console.log(componetesEdit)              
         for (const item of componetesEdit.items) { 
@@ -659,7 +659,7 @@ beforeMount: async function () {
           newObject["componentsRelationship"] = item.relationship;
           newObject["componentsRelationshipId"] = item.mainRelationship;                    
           await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);
-          let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];          
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];          
           let array_ubicacion = [];
           let array_carril = [];
           let array_cantidad = [];
@@ -672,8 +672,7 @@ beforeMount: async function () {
           });              
           let cantidad = array_cantidad.every(ammont => ammont == 0) == true
           ? array_cantidad.length
-          : parseInt(array_cantidad[0])
-          // let fechaSiniesto = await this.$store.getters["Header/getFechaSiniestro"];
+          : parseInt(array_cantidad[0])          
           setTimeout(async () => {          
           //AGREGAMOS PARTIDA AL STORE                    
           let objPartida = Service.obj_partida(
@@ -684,7 +683,7 @@ beforeMount: async function () {
             true,
             cantidad
           );
-          await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+          await this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -731,10 +730,10 @@ beforeMount: async function () {
 },
 destroyed: function () {
     this.arrayPartidas = [];
-    this.$store.commit("DTC/listaDmgClearMutation");
+    this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
     this.$store.commit("DTC/insertDmgCompleteMutation", false);
     this.$store.commit("Header/insertHeaderCompleteMutation", false);
-    this.$store.dispatch("Header/buscarListaUnique");
+    this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
     this.$store.commit("Header/clearDatosSinesterMutation");
     this.$store.commit("DTC/COMPONENTES_EDIT", {});
     this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
@@ -781,7 +780,7 @@ methods: {
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLane = await this.$store.getters["Refacciones/getListaLane"];
+        this.listLane = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
@@ -822,9 +821,7 @@ methods: {
         let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
@@ -879,7 +876,7 @@ methods: {
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         this.arrayPartidas[i]["row1"] = i + 1;
       }
-      this.$store.commit("DTC/listaDmgMutationDelete", index);
+      this.$store.commit("DTC/ELIMINAR_ITEM_DTC_DAÑADO_MUTATION", index);
   },
   updateRowTable: async function (index, datos) {
       if (this.saveObjectEdiar.length == 0) {
@@ -888,9 +885,7 @@ methods: {
         let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane                  
         this.laneSelectEditar = this.saveObjectEdiar[7];
         this.arrayPartidas[index]["rowUp"] = false;
       } else {
@@ -908,20 +903,14 @@ methods: {
   confirmRowTable: async function (index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
-          let objPartida = Service.obj_partida(
-            this.laneSelectEditar,
-            equipoValid,
-            this.dateSinester
-          );
+          let objPartida = Service.obj_partida(this.laneSelectEditar,equipoValid,this.dateSinester);
           let objMutation = {
             index: index,
             value: objPartida,
           };
-          this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);
+          this.$store.commit("DTC/ACTUALIZAR_ITEM_DTC_DAÑAD", objMutation);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -1001,7 +990,7 @@ methods: {
       let newObject = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       newObject["id"] = this.saveObjectEdiar[2];
       this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      let equipoValid = this.$store.getters["Refacciones/getEquipoMalo"];
+      let equipoValid = this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
       let obj_abort = Service.lane_select(
         lanes,
         key_abort,
@@ -1020,9 +1009,7 @@ methods: {
   agregarPartida: async function () {
       if (this.updtComp != "") {
         if (this.laneSelect.length > 0) {
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
           let objPartida = Service.obj_partida(
             this.laneSelect,
@@ -1032,7 +1019,7 @@ methods: {
             null,
             this.statusMetro == true ? this.cantidadMetro : 0
           );
-          this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+          this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -1115,9 +1102,7 @@ watch: {
         else this.datosPrePartida[propiedades] = [];
       }      
       if (newValue.length > 0) {
-        let equipoValid = await this.$store.getters[
-          "Refacciones/getEquipoMalo"
-        ];
+        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.datosPrePartida = Service.lane_select(
           newValue,
           this.datosPrePartida,
@@ -1155,9 +1140,7 @@ watch: {
           "rowUpd14",
           "rowUpd15",
         ];
-        let equipoValid = await this.$store.getters[
-          "Refacciones/getEquipoMalo"
-        ];
+        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.objectEditar = await Service.lane_select(
           newValue,
           key_updt,
@@ -1166,9 +1149,8 @@ watch: {
           this.relationShipPrincipal,
           undefined
         );
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane          
+
       }
   },
 },

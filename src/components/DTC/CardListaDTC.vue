@@ -152,6 +152,7 @@
 <script>
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
+import ServiceCookies from '../../services/CookiesService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 export default {
   props: {
@@ -185,7 +186,7 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 ////////////////////////////////////////////////////////////////////
   beforeMount: function () {          
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser']; 
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
         Supervisor_Tecnico: 2,
@@ -200,8 +201,8 @@ export default {
   methods: {
     mas: async function () {
       this.menosMas = false;
-      await this.$store.dispatch("DTC/tableFormComponent",this.infoCard.referenceNumber);
-      this.tableFormat = await this.$store.getters["DTC/gettableFormComp"];
+      await this.$store.dispatch("DTC/BUSCAR_TABLA_CARDS",this.infoCard.referenceNumber);
+      this.tableFormat = await this.$store.getters["DTC/GET_TABLE_DTC_CARDS"];
       this.showmenosMas = true;
     },
     menos: function () {
@@ -209,16 +210,17 @@ export default {
       this.showmenosMas = false;
     },
     editar_dtc: async function () {
-      let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
-      await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);     
+      //let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
+      await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber);     
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
         { 
           numSiniestro: this.infoCard.sinisterNumber,  
           numReporte: this.infoCard.reportNumber 
         }
-      )       
-      this.$store.commit("Header/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
-      this.$store.commit("Login/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
+      )             
+      console.log(this.infoCard.referenceNumber.split("-")[0])
+      let pruebas = await ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.infoCard.referenceNumber.split("-")[0])      
+      console.log(pruebas)
       let datosSinester = {
         ReferenceNumber: "",
         SinisterNumber: "",
@@ -243,7 +245,7 @@ export default {
       datosSinester.FailureDate = moment(this.infoCard.failureDate).format("YYYY-MM-DD");
       datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format("YYYY-MM-DD");
       datosSinester.TypeDescriptionId = 2;
-      this.$store.commit("Header/datosSinesterMutation", datosSinester);
+      this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
       let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";
       this.$router.push({
         path: `/${page}`,

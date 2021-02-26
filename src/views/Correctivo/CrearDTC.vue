@@ -8,8 +8,7 @@
       :descripciones="descripcionHeaders"
       :datosUser="datosUser"
       :headerEdit="headerEdit"
-      :observaciones="observaciones"
-      :listaPlazas="listaPlazas"
+      :observaciones="observaciones"      
     ></Header>
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
@@ -135,12 +134,11 @@ export default {
       descripcionHeaders: [],
       datosUser: {},
       observaciones: "",
-      refNum: "",
+      referenciaDtc: "",
       headerEdit: {},
       flagCreate: true,
       listaComponentes: "",
-      dateSinester: "",
-      listaPlazas: [],
+      dateSinester: "",      
       limite: 300
     };
   },
@@ -149,23 +147,21 @@ export default {
 /////////////////////////////////////////////////////////////////////
 created(){
     EventBus.$on("ACTUALIZAR_HEADER", () => {      
-        this.datosUser = this.$store.getters["Header/getHeaders"];
-        this.descripcionHeaders = this.$store.getters["DTC/getListaDescriptions"];
-        this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario
+        this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     });
 },
 beforeMount: async function() {    
-    this.datosUser =  this.$store.getters["Header/getHeaders"];
-    this.descripcionHeaders =  this.$store.getters["DTC/getListaDescriptions"];
-    this.listaPlazas =  this.$store.state.Login.cookiesUser.plazasUsuario
+    this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+    this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     this.flagCreate = true;
     if (JSON.stringify(this.$route.query) != "{}") {                
       this.headerEdit = this.$route.query.headerInfo;                 
       this.observaciones = this.headerEdit.observation;
-      this.$store.commit("Header/referenceNumMutation",this.headerEdit.referenceNumber);
+      this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;         
-      Axios.get(`${API}/dtcData/${this.$store.getters["Login/getReferenceSquareActual"]}/${this.headerEdit.referenceNumber}`)
+      Axios.get(`${API}/dtcData/${this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"]}/${this.headerEdit.referenceNumber}`)
         .then(response => {          
           this.datosUser = response.data.result[0]
         })
@@ -188,10 +184,10 @@ computed:{
 methods: {
   crearDTCTecnico: async function (status) {
       await EventBus.$emit("validar_header");
-      this.refNum = this.$store.getters["Header/getreferenceNum"];
-      console.log(this.datosUser)
-      await this.$store.dispatch("Header/crearHeaders", {
-        datosUser: this.datosUser,
+      this.referenciaDtc = this.$store.state.Header.referenciaDtc
+      let header = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+      await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
+        header: header,
         status: status,
         flag: this.flagCreate,
         openFlag: false
@@ -200,7 +196,7 @@ methods: {
       if (insertHeader) {
         this.$notify.success({
           title: "Ok!",
-          msg: `EL HEDER CON LA REFERENCIA ${this.refNum} SE INSERTO CORRECTAMENTE.`,
+          msg: `EL HEDER CON LA REFERENCIA ${this.referenciaDtc} SE INSERTO CORRECTAMENTE.`,
           position: "bottom right",
           styles: {
             height: 100,
@@ -208,10 +204,10 @@ methods: {
           },
         });
         let value_insert = {
-          refNum: this.refNum,
+          refNum: this.referenciaDtc,
           flagCreate: this.flagCreate,
         };
-        await this.$store.dispatch("DTC/crearDmg", value_insert);
+        await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
         if (insertDmg) {
           this.$notify.success({
@@ -225,7 +221,7 @@ methods: {
           });
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
-              this.refNum, 
+              this.referenciaDtc, 
               status, 
               true
             )        
@@ -239,10 +235,10 @@ methods: {
               },
             });
           }
-          await this.$store.commit("DTC/listaDmgClearMutation");
+          await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);
           await this.$store.commit("Header/insertHeaderCompleteMutation",false);
-          await this.$store.dispatch("Header/buscarListaUnique");
+          await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
           await this.$store.commit("Header/clearDatosSinesterMutation");
           this.$router.push("Home");
         } else {
