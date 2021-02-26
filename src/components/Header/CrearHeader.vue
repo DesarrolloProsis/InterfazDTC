@@ -309,8 +309,8 @@ beforeMount: async function () {
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
   this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");  
   let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-  await this.$store.dispatch("Refacciones/buscarComponentes", value);
-  this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
+  await this.$store.dispatch("Refacciones/BUSCAR_COMPONETES", value);
+  this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
   await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
   this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
   if (JSON.stringify(this.headerEdit) != "{}") {      
@@ -362,8 +362,8 @@ methods: {
       this.listaComponentes = []  
       this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
       let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-      await this.$store.dispatch("Refacciones/buscarComponentes", value);
-      this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
+      await this.$store.dispatch("Refacciones/BUSCAR_COMPONETES", value);
+      this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
       await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
       this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
       this.crear_referencia_dtc()      

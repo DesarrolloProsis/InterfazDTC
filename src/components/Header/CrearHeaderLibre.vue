@@ -290,8 +290,8 @@ export default {
   },
   beforeMount: async function () {
     let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-    await this.$store.dispatch("Refacciones/buscarComponentes", value);
-    this.listaComponentes = await this.$store.getters["Refacciones/getListaRefacciones"];
+    await this.$store.dispatch("Refacciones/BUSCAR_COMPONETES", value);
+    this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
     await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
     this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
     if (JSON.stringify(this.headerEdit) != "{}") {

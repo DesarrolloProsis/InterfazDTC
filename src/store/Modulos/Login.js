@@ -8,8 +8,7 @@ const state = {
   listaPlazas: [],
   cookiesUser: {},
   listaTec: [],
-  plazaSelecionada: {},
-  PLAZAELEGIDA: 0,
+  plazaSelecionada: {},  
   tipoUsuario: [
     {id: 1, nombre: 'Tecnico'},
     {id: 2, nombre: 'Supervisor'},

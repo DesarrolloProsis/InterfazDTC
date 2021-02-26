@@ -659,7 +659,7 @@ beforeMount: async function () {
           newObject["componentsRelationship"] = item.relationship;
           newObject["componentsRelationshipId"] = item.mainRelationship;                    
           await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);
-          let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];          
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];          
           let array_ubicacion = [];
           let array_carril = [];
           let array_cantidad = [];
@@ -780,7 +780,7 @@ methods: {
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLane = await this.$store.getters["Refacciones/getListaLane"];
+        this.listLane = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
@@ -821,9 +821,7 @@ methods: {
         let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
@@ -887,9 +885,7 @@ methods: {
         let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane                  
         this.laneSelectEditar = this.saveObjectEdiar[7];
         this.arrayPartidas[index]["rowUp"] = false;
       } else {
@@ -907,15 +903,9 @@ methods: {
   confirmRowTable: async function (index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
-          let objPartida = Service.obj_partida(
-            this.laneSelectEditar,
-            equipoValid,
-            this.dateSinester
-          );
+          let objPartida = Service.obj_partida(this.laneSelectEditar,equipoValid,this.dateSinester);
           let objMutation = {
             index: index,
             value: objPartida,
@@ -1000,7 +990,7 @@ methods: {
       let newObject = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       newObject["id"] = this.saveObjectEdiar[2];
       this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      let equipoValid = this.$store.getters["Refacciones/getEquipoMalo"];
+      let equipoValid = this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
       let obj_abort = Service.lane_select(
         lanes,
         key_abort,
@@ -1019,9 +1009,7 @@ methods: {
   agregarPartida: async function () {
       if (this.updtComp != "") {
         if (this.laneSelect.length > 0) {
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
           let objPartida = Service.obj_partida(
             this.laneSelect,
@@ -1114,9 +1102,7 @@ watch: {
         else this.datosPrePartida[propiedades] = [];
       }      
       if (newValue.length > 0) {
-        let equipoValid = await this.$store.getters[
-          "Refacciones/getEquipoMalo"
-        ];
+        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.datosPrePartida = Service.lane_select(
           newValue,
           this.datosPrePartida,
@@ -1154,9 +1140,7 @@ watch: {
           "rowUpd14",
           "rowUpd15",
         ];
-        let equipoValid = await this.$store.getters[
-          "Refacciones/getEquipoMalo"
-        ];
+        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.objectEditar = await Service.lane_select(
           newValue,
           key_updt,
@@ -1165,9 +1149,8 @@ watch: {
           this.relationShipPrincipal,
           undefined
         );
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane          
+
       }
   },
 },

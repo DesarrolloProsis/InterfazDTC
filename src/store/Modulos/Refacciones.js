@@ -1,8 +1,5 @@
 import Axios from "axios";
-import moment from 'moment'
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
 const state = {
   listaRefacciones: [],  
   listaRefaccionesValid: [],
@@ -20,33 +17,9 @@ const getters = {
   GET_CARRILES_STATE: () => state.carriles,
   GET_CARRILES_LANE: (state) => (lanefind) => {
     return state.full_Component.filter(item => item.lane == lanefind) 
-  },
-  getlistaRefaccionesInventario: () => state.listaInventario,
-  getlistaLaneInventario: () => state.listaLaneInventario,
-  getinfoComponenteInventario: () => state.infoComponenteInventario,
-  getlistaUbicacionGeneralInventario: () => state.listaUbicacionGeneralInventario,  
-  getEquipoMalo: () => state.listaRefaccionesValid.length > 0 ? state.listaRefaccionesValid : [],
-  getListaRefaccionesValid: () => state.listaRefaccionesValid,
-  getListaRefacciones: () => state.listaRefacciones ,
-  getListaLane: () => state.listaLane,
-  getComponentDisable () {
-    if(state.listaRefaccionesValid.length > 0){
-        return {
-          unity: state.listaRefaccionesValid[0]['unity'],
-          brand: state.listaRefaccionesValid[0]['brand'],
-          model: state.listaRefaccionesValid[0]['model'],
-          instalationDate: state.listaRefaccionesValid[0]['instalationDate'].substr(0,10),
-          lifeTime: state.listaRefaccionesValid[0]['lifeTime'],          
-          unitaryPrice: state.listaRefaccionesValid[0]['unitaryPrice'],
-          idGare: state.listaRefaccionesValid[0]['idGare'],
-          componentsStockId: state.listaRefaccionesValid[0]['componentsStockId'],
-          maintenanceDate: moment(state.listaRefaccionesValid[0]['maintenanceDate']).format('YYYY-MM-DD'),              
-        }
-      }
-      else
-        return []
-  },
-  getPaginationComponent: (state) => (index) => {
+  },      
+  GET_REFACCIONES_VALIDAS: () => state.listaRefaccionesValid.length > 0 ? state.listaRefaccionesValid : [],      
+  GET_PAGINACION_COMPONENTES: (state) => (index) => {
     let fin = index * 10
     let inicio = fin - 10
     return state.full_Component.slice(inicio ,fin)
@@ -54,14 +27,14 @@ const getters = {
 };
 const mutations = {
   FULL_COMPONENT_MUTATION: (state, value) => state.full_Component = value,
-  listaRefaccionesMutation: (state, value) => state.listaRefacciones = value,
-  listaLaneMutation: (state, value) => state.listaLane = value,
-  listaRefaccionValidMutation: (state, value) => state.listaRefaccionesValid = value,
+  LISTA_REFACCIONES_MUTATION: (state, value) => state.listaRefacciones = value,
+  LISTA_LANE_MUTATION: (state, value) => state.listaLane = value,
+  LISTA_REFACCIONES_VALIDAS_MUTATION: (state, value) => state.listaRefaccionesValid = value,
   //Inventario
-  listaRefaccionesInventarioMutation: (state, value) => state.listaInventario = value,
-  listaLaneInventarioMutation: (state, value) => state.listaLaneInventario = value,  
-  infoComponenteInventarioMutation: (state, value) => state.infoComponenteInventario = value,
-  listaUbicacionGeneralInventarioMutation: (state, value) => state.listaUbicacionGeneralInventario = value,
+  LISTA_REFACCIONES_INVENTARIO_MUTATION: (state, value) => state.listaInventario = value,
+  LISTA_LANE_INVENTARIO_MUTATION: (state, value) => state.listaLaneInventario = value,  
+  INFO_COMPONENTE_INVENTARIO_MUTATION: (state, value) => state.infoComponenteInventario = value,
+  LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION: (state, value) => state.listaUbicacionGeneralInventario = value,
   cleanOut: (state) => {
     state.infoComponenteInventario = []
     state.listaInventario = []
@@ -74,45 +47,45 @@ const mutations = {
   CARRILES_MUTATION: (state, value) => state.carriles = value
 }
 const actions = {
-  async buscarComponentesInventario({ commit, rootGetters }, value) {
-    commit("listaRefaccionesInventarioMutation", []);    
+  async BUSCAR_COMPONETES_INVENTARIO({ commit, rootGetters }, value) {
+    commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", []);    
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
     .then(response => {      
-      commit("listaRefaccionesInventarioMutation", response.data.result);
+      commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(Ex => {
       console.log(Ex);
     });
   },
-  async buscarCarrilesInventario({ commit, rootGetters }, value){
+  async BUSCAR_CARRILES_INVENTARIO({ commit, rootGetters }, value){
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.numPlaza}`)
     .then(response => {      
-      commit("listaLaneInventarioMutation", response.data.result);
+      commit("LISTA_LANE_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(Ex => {
       console.log(Ex);
     });
   },
-  async buscarInfoComponeteInventario({ commit, rootGetters }, value){
+  async BUSCAR_INFO_COMPONENTES_INVENTARIO({ commit, rootGetters }, value){
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
     .then(response => {    
-      commit("infoComponenteInventarioMutation", response.data.result);
+      commit("INFO_COMPONENTE_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(Ex => {
       console.log(Ex); 
     });
   },
-  async buscarUbicacionGeneralInventario({ commit, rootGetters }){
-    commit("listaUbicacionGeneralInventarioMutation", []);
+  async BUSCAR_UBICACION_GENERAL_INVENTARIO({ commit, rootGetters }){
+    commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", []);
     await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
     .then(response => {    
-      commit("listaUbicacionGeneralInventarioMutation", response.data.result);
+      commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(Ex => {
       console.log(Ex);
     });
   },
-  async updateComponenteInventary({ rootGetters }, value){
+  async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
     let newObject = {
       TableFolio: value.infoComponentes.idComponent,
       strInventaryNumCapufe: value.infoComponentes.numInventarioCapufe,
@@ -133,10 +106,10 @@ const actions = {
       console.log(Ex);
     });
   },
-  async buscarComponentes({ commit, rootGetters }, value) {    
+  async BUSCAR_COMPONETES({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/component/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idConvenio}`)            
       .then(response => {                
-        commit("listaRefaccionesMutation", response.data.result);
+        commit("LISTA_REFACCIONES_MUTATION", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
@@ -147,12 +120,12 @@ const actions = {
     await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
       .then(response => {                            
           if(response.data.result != null){
-            commit("listaRefaccionValidMutation", response.data.result.listaFiltro);
-            commit("listaLaneMutation", response.data.result.listLane); 
+            commit("LISTA_REFACCIONES_VALIDAS_MUTATION", response.data.result.listaFiltro);
+            commit("LISTA_LANE_MUTATION", response.data.result.listLane); 
           }
           else{
-            commit("listaRefaccionValidMutation", []);
-            commit("listaLaneMutation", []); 
+            commit("LISTA_REFACCIONES_VALIDAS_MUTATION", []);
+            commit("LISTA_LANE_MUTATION", []); 
           }       
       })
       .catch(Ex => {        
@@ -178,7 +151,7 @@ const actions = {
         console.log(Ex);
       })
   },
-  async GET_CARRILES({ commit }, plaza) {          
+  async BUSCAR_CARRILES({ commit }, plaza) {          
     Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
       .then(response => {                      
           if(response.status === 200){            

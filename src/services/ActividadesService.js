@@ -4,7 +4,7 @@ import moment from "moment";
 async function filtrar_actividades_mensuales(mes, año, tipoCalendario){        
     let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let nombrePlaza = store.state.Login.plazaSelecionada.plazaNombre    
-    store.dispatch('Refacciones/GET_CARRILES',user.numPlaza)
+    store.dispatch('Refacciones/BUSCAR_CARRILES',user.numPlaza)
     if(mes == undefined && año == undefined){
         let fecha_comodin = new Date()
         mes = fecha_comodin.getMonth() + 1,

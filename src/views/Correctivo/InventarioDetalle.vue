@@ -123,10 +123,10 @@ export default {
 ////                     CICLO DE VIDA                            ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
-    this.listaComponentes = this.$store.getters["Refacciones/getlistaRefaccionesInventario"];
+    this.listaComponentes = this.$store.state.Refacciones.listaInventario,
     this.infoPlaza = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
     this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-    this.listaUbicacionGeneral = this.$store.getters["Refacciones/getlistaUbicacionGeneralInventario"];
+    this.listaUbicacionGeneral = this.$store.state.Refacciones.listaUbicacionGeneralInventario
     if (JSON.stringify(this.$route.query) != "{}") {
       this.objDatos.idComponent = this.$route.query.infoComponent.idComponent 
       this.objDatos.componente = this.$route.query.infoComponent.component;
@@ -134,8 +134,8 @@ export default {
         numPlaza: this.infoPlaza.numPlaza,
         componente: this.objDatos.componente,
       };
-      await this.$store.dispatch("Refacciones/buscarCarrilesInventario",newObject);
-      this.listaCarriles = await this.$store.getters["Refacciones/getlistaLaneInventario"];
+      await this.$store.dispatch("Refacciones/BUSCAR_CARRILES_INVENTARIO",newObject);
+      this.listaCarriles = await this.$store.state.Refacciones.listaLaneInventario 
       this.objDatos.ubicacion = this.$route.query.infoComponent.lane;
       await this.buscar_info_componente();
       this.objDatos.numSerie = this.$route.query.infoComponent.serialNumber;
@@ -159,8 +159,8 @@ export default {
           numPlaza: this.infoPlaza.numPlaza,
           componente: this.objDatos.componente,
         };
-        await this.$store.dispatch("Refacciones/buscarCarrilesInventario",newObject);
-        this.listaCarriles = this.$store.getters["Refacciones/getlistaLaneInventario"];
+        await this.$store.dispatch("Refacciones/BUSCAR_CARRILES_INVENTARIO",newObject);
+        this.listaCarriles = this.$store.state.Refacciones.listaLaneInventario
         for (var props in this.objDatos) {
           if (props != "componente") this.objDatos[props] = "";
         }
@@ -173,8 +173,8 @@ export default {
           carril: this.objDatos.ubicacion,
           componente: this.objDatos.componente,
         };
-        await this.$store.dispatch("Refacciones/buscarInfoComponeteInventario",newObject);
-        let infoComponente = this.$store.getters["Refacciones/getinfoComponenteInventario"];
+        await this.$store.dispatch("Refacciones/BUSCAR_INFO_COMPONENTES_INVENTARIO",newObject);
+        let infoComponente = this.$store.state.Refacciones.infoComponenteInventario
         this.objDatos.oldNumSerie = infoComponente[0]["serialNumber"];
         if (infoComponente.length == 1) {
           this.onliInfoComponente = true;
@@ -226,7 +226,7 @@ export default {
         infoPlaza: this.infoPlaza,
         infoUbicacionGeneral: idUbicacion,
       };
-      this.$store.dispatch("Refacciones/updateComponenteInventary", parametros);
+      this.$store.dispatch("Refacciones/ACTUALIZAR_COMPONENTE_INVENTARIO", parametros);
       this.$notify.success({
           title: "Ok!",
           msg: `SE ACTUALIZO CORRECTAMENTE EL COMPONENTE.`,

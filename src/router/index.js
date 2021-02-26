@@ -120,8 +120,8 @@ const routes = [
     component: InventarioDetalle,
     beforeEnter: async function (to, from, next) {
       let plaza = store.getters['Header/GET_CONVENIO_PLAZA']
-      await store.dispatch('Refacciones/buscarComponentesInventario', plaza)
-      await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')
+      await store.dispatch('Refacciones/BUSCAR_COMPONETES_INVENTARIO', plaza)
+      await store.dispatch('Refacciones/BUSCAR_UBICACION_GENERAL_INVENTARIO')
       next()
     }
   },  
