@@ -111,7 +111,7 @@
                                 <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                 <td v-else class="w-64 text-center cuerpoTable" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                 <td class="w-64 text-center cuerpoTable">
-                                    <div v-if="item.statusMaintenance == 'False'">                               
+                                    <div v-if="item.statusMaintenance == false">                               
                                         <button @click="crear_reporte_carril(item)" class="botonIconCrear">
                                             <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Crear</span>
