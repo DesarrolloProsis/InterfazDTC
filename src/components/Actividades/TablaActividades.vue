@@ -108,7 +108,7 @@
                                 <td class="w-64 cuerpoTable text-center">{{ item.capufeLaneNum }}</td>                                
                                 <td class="w-64 cuerpoTable text-center">{{ item.day}}</td>
                                 <td class="w-64 cuerpoTable text-center">{{ item.frequencyName }}</td>
-                                <td v-if="item.statusMaintenance == 'False'" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
+                                <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                 <td v-else class="w-64 text-center cuerpoTable" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                 <td class="w-64 text-center cuerpoTable">
                                     <div v-if="item.statusMaintenance == 'False'">                               
