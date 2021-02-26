@@ -53,7 +53,8 @@ const actions = {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
             .catch(Ex => {
-            console.log(Ex);
+                commit("ACTIVIDADES_MENSUALES_MUTATION", [])   
+                console.log(Ex);
         }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
