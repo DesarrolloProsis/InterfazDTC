@@ -144,6 +144,8 @@ import ServicioActividades from '../../services/ActividadesService.js'
 import SelectPlaza from '../Header/SelectPlaza'
 import Axios from 'axios'
 import ServiceReportePDF from '../../services/ReportesPDFService'
+import CookiesService from '../../services/CookiesService'
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -192,7 +194,7 @@ methods: {
     reporte_pdf: async function(item){
         console.log(item)
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then((response) => {                  
             let referenceNumber = response.data.result.table[0].referenceNumber
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId)                                                                                    
@@ -205,7 +207,7 @@ methods: {
     editar_reporte_carril: async function(item){        
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']    
         console.log(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)    
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then((response) => {                  
             let header = response.data.result.table[0]                        
             let actividades = response.data.result.table1                             

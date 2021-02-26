@@ -28,6 +28,8 @@
 import Axios from 'axios'
 import ServiceImagenes from '../../services/ImagenesService'
 import EventBus from "../../services/EventBus.js";
+import CookiesService from '../../services/CookiesService'
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     props:{
@@ -48,7 +50,7 @@ export default {
     },
     beforeMount() {        
         setTimeout(() => {
-            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
                 .then((response) => {      
                     if(response.status != 404){
                         response.data.forEach(item => {
@@ -73,7 +75,7 @@ export default {
                 let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)
                 let formData = new FormData();
                 formData.append("image", imgagen);
-                await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData)
+                await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                     .then((response) => {     
                         console.log(response)                                                                                      
                     })
@@ -85,7 +87,7 @@ export default {
         eliminar_imagen(item, key){
             if(this.arrayImagenes.length > 1){                
                 if(item.imgbase.length < 200){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`, CookiesService.obtener_bearer_token())
                         .then((response) => {     
                             console.log(response)                                                                                      
                         })
@@ -103,7 +105,7 @@ export default {
             else{
                 this.arrayImagenes = []
                 if(item.imgbase.length < 200){
-                Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
+                Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`, CookiesService.obtener_bearer_token())
                     .then((response) => {     
                         console.log(response)                                                                                      
                     })
