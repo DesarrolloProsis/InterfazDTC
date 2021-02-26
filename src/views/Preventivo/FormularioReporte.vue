@@ -236,7 +236,7 @@ methods:{
                         CalendarId: parseInt(this.header.calendarId)     
                     }  
                     console.log(headerReporte)                     
-                    await Axios.post(`${API}/Calendario/CalendarReportData/${refPlazaRef}`,headerReporte)
+                    await Axios.post(`${API}/Calendario/CalendarReportData/${refPlazaRef}`,headerReporte, CookiesService.obtener_bearer_token())
                     .then((response) => {     
                         console.log(response)   
                         resolve('ok')                                                               
