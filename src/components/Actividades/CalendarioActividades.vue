@@ -152,7 +152,7 @@ export default {
     let cargaInicial = this.$route.params.cargaInicial    
     this.events = cargaInicial.listaActividadesMensuales
     this.comentario = cargaInicial.comentario
-    this.año = cargaInicial.año    
+    this.año = cargaInicial.año 
     this.plazaSelect = cargaInicial.plazaSelect
     this.mes = cargaInicial.mes
     this.nombrePlaza = cargaInicial.plazaNombre
