@@ -73,6 +73,7 @@
     <HeaderCalendario 
       @actualizar-actividad="actualizar_actividades" 
       @generar-pdf="generar_pdf_calendario" 
+      @actualizar-comentario="actualizar_comentario_header"
       :comentario="comentario" 
       :mes="mes" 
       :año="año" 
@@ -220,6 +221,9 @@ export default {
     },     
   },  
   methods: {
+    actualizar_comentario_header(comentario){
+      this.comentario = comentario
+    },
     modal_actividades_dia(e){          
       this.fechaModal = e.start
       this.modal = true
@@ -234,8 +238,7 @@ export default {
       let listaCarril = this.laneSelect.map((item) => {
         return { ...item.value }
       })      
-      let objActividad = await ServiceActividades.construir_objeto_actividad(
-        listaCarril,
+      let objActividad = await ServiceActividades.construir_objeto_actividad(listaCarril,
         { day: this.fechaModal.toLocaleDateString(), frequencyId: this.actividadSelect } 
       )      
       this.events.push(objActividad)           
@@ -269,7 +272,7 @@ export default {
       this.plazaSelect = plaza
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
-      this.comentario = result.comentario      
+      this.comentario = this.comentario != '' ? this.comentario : result.comentario      
     }, 
     cambiar_mes: async function(item){
       let fecha = item.startDate.toLocaleDateString().split('/')
@@ -279,7 +282,8 @@ export default {
       this.mes = parseInt(fecha[1]) 
       this.año = parseInt(fecha[2])      
     },    
-    generar_pdf_calendario(comentario){      
+    generar_pdf_calendario(comentario){   
+      if(this.events.length != 0 & comentario != ''){ 
         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let objComentario = {
@@ -300,7 +304,19 @@ export default {
         })
         .catch((ex) => {          
           console.log(ex);
-        });  
+        });
+      }
+      else{        
+        this.$notify.warning({
+            title: "Ups!",
+            msg: `FALTAN LLENAR CAMPOS PARA EL CALENDARIO 'COMENTARIO O ACTIVIDADES'`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },          
+          });          
+      }  
     },
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  

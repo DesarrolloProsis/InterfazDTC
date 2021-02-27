@@ -105,7 +105,6 @@ export default {
             type: Number,
             default: () => 0
         }
-
     },
     data(){
         return {                        
@@ -153,7 +152,13 @@ export default {
         mesNombre(){
             return ServiceActividades.numero_to_nombre(this.mes)
         }
+    },
+    watch: {
+        comentario(newValue){
+            this.$emit('actualizar-comentario', newValue)
+        }
     }
+
 }
 </script>
 
