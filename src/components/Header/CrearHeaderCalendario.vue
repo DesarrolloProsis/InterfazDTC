@@ -36,31 +36,22 @@
                         </button>
                     </div>
                     <div class="flex-col justify-center h-12 w-full mt-5" >
-                        <div class="flex justify-center" v-if="pdfEscBool == false">
-                            
+                        <div class="flex justify-center" v-if="pdfSelladoBool == false">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
-                                     <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
+                                    <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
                                 <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
                                 <span>Subir Escaneado</span>
                             </button>
-                           
                         </div>                        
                         <div class="grid grid-cols-2" v-else>
                             <div class="inline-flex">
-                                <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
-                                <p class="ml-2 mt-3 mr-1 text-sm"></p>
-                                <button @click="pdfEscBool = false, calendar_escaneado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
-                                <button Class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                                <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
+                                <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
+                                <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                                <button @click="pdfSelladoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
                             </div>            
                         </div>
                     </div>
-                    <!-- <div class="flex justify-start m-5">
-                        <button @click="recibir_escaneado" class="botonIconCancelar">
-                            <input type="file" class="opacity-0 w-auto h-12 absolute" multiple/>
-                            <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                            <span>Subir Escaneado</span>
-                        </button>
-                    </div> -->
                     </div>          
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
@@ -182,68 +173,79 @@ export default {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
             else {
-              this.pdfSelladoBool = true
-              for (let item of files) {        
+                this.pdfSelladoBool = true
+                for (let item of files) {        
                 if(this.crearImage(item) == false)
-                  this.pdfSelladoBool = false
-              }        
+                    this.pdfSelladoBool = false
+                }        
             }
-    },
-    crearImage(file) {
-      if(file.type.split('/')[1] == 'pdf'){
-        var reader = new FileReader(); 
-        reader.onload = (e) => {
-          this.$nextTick().then(() => {
-            this.calendarEscaneado = e.target.result.split(',')[1]
-          })        
-        };
-        reader.readAsDataURL(file);   
-        return true
-      }
-      else{
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },          
-        });
-        this.pdfSellado = {}
-        return false
-      }         
-    },
-    enviar_calendario_escaneado(){
-        let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEScaneador" + this.mes + this.año)
-        console.log(calendarioEscaneadoFile)
-        let numeroPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-        let  formFile = new FormData()
-        formFile.append('file', calendarioEscaneadoFile)
-                                                       
-        Axios.post(`${API}/calendario/CalendarioEscaneado/${numeroPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
-          .then((response) => {               
-                console.log(response)                                                                        
-                                         
-        })
-        .catch((ex) => {
-            console.log(ex)
-        })
-        
-    },
-    base64ToFile(dataurl, fileName) {                    
-        let url = "data:text/pdf;base64," + dataurl;  
-        var arr = url.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], fileName + '.pdf', { type: mime });
-    }, 
-    },
+        },
+        crearImage(file) {
+        if(file.type.split('/')[1] == 'pdf'){
+            var reader = new FileReader(); 
+            reader.onload = (e) => {
+            this.$nextTick().then(() => {
+                this.calendarEscaneado = e.target.result.split(',')[1]
+
+                })        
+            };
+            reader.readAsDataURL(file);   
+            return true
+        }
+        else{
+            this.$notify.warning({
+                title: "Ups!",
+                msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+                position: "bottom right",
+                styles: {
+                height: 100,
+                width: 500,
+            },          
+            });
+            this.pdfSellado = {}
+            return false
+            }         
+        },
+        enviar_calendario_escaneado(){
+            let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)
+            console.log(calendarioEscaneadoFile)
+            let numeroPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+            let  formFile = new FormData()
+            formFile.append('file', calendarioEscaneadoFile)                     
+            Axios.post(`${API}/calendario/CalendarioEscaneado/${numeroPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
+                .then((response) => {               
+                    console.log(response)
+                    this.pdfSelladoBool= false
+                    this.$notify.success({
+                    title: "Ok!",
+                    msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                        },
+                    });                                                                                                     
+                })
+                .catch((ex) => {
+                    console.log(ex)
+                    if(ex.response.status == 401)
+                        CookiesService.token_no_autorizado()
+                })
+
+        },
+        base64ToFile(dataurl, fileName) {                    
+            let url = "data:text/pdf;base64," + dataurl;  
+            var arr = url.split(","),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+            while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+            return new File([u8arr], fileName + '.pdf', { type: mime });
+        }, 
+},
     computed:{
         restante(){
             return  this.comentario.length
