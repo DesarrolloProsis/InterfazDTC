@@ -37,12 +37,14 @@
                     </div>
                     <div class="flex-col justify-center h-12 w-full mt-5" >
                         <div class="flex justify-center" v-if="pdfEscBool == false">
-                            <button @click="recibir_escaneado" class="botonIconCancelar">
-                                <input type="file" class="opacity-0 w-auto h-12 absolute" multiple/>
+                            
+                                <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
+                                     <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
                                 <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
                                 <span>Subir Escaneado</span>
                             </button>
-                        </div>
+                           
+                        </div>                        
                         <div class="grid grid-cols-2" v-else>
                             <div class="inline-flex">
                                 <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
@@ -109,6 +111,9 @@
 <script>
 import ServiceActividades from '../../services/ActividadesService'
 import SelectPlaza from '../Header/SelectPlaza'
+import CookiesService from '../../services/CookiesService'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+import Axios from "axios";
 
 export default {
     components:{
@@ -135,8 +140,9 @@ export default {
     data(){
         return {                        
             limite:500,
-            calendar_escaneado: '',
-            pdfEscBool: false  ,          
+            calendarEscaneado: '',
+            pdfEscBool: false  , 
+            pdfSelladoBool: false         
         }
     },
     destroyed(){        
@@ -171,11 +177,72 @@ export default {
         },
         generar_pdf(){           
             this.$emit('generar-pdf', this.comentario)
-        },
-        recibir_escaneado(){
-            console.log('Subir Escaneado')
-            this.$emit('CalendarioEscaneado')
-        }        
+        },         
+        recibir_calendario_escaneado(e) {                  
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            else {
+              this.pdfSelladoBool = true
+              for (let item of files) {        
+                if(this.crearImage(item) == false)
+                  this.pdfSelladoBool = false
+              }        
+            }
+    },
+    crearImage(file) {
+      if(file.type.split('/')[1] == 'pdf'){
+        var reader = new FileReader(); 
+        reader.onload = (e) => {
+          this.$nextTick().then(() => {
+            this.calendarEscaneado = e.target.result.split(',')[1]
+          })        
+        };
+        reader.readAsDataURL(file);   
+        return true
+      }
+      else{
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },          
+        });
+        this.pdfSellado = {}
+        return false
+      }         
+    },
+    enviar_calendario_escaneado(){
+        let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEScaneador" + this.mes + this.año)
+        console.log(calendarioEscaneadoFile)
+        let numeroPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+        let  formFile = new FormData()
+        formFile.append('file', calendarioEscaneadoFile)
+                                                       
+        Axios.post(`${API}/calendario/CalendarioEscaneado/${numeroPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
+          .then((response) => {               
+                console.log(response)                                                                        
+                                         
+        })
+        .catch((ex) => {
+            console.log(ex)
+        })
+        
+    },
+    base64ToFile(dataurl, fileName) {                    
+        let url = "data:text/pdf;base64," + dataurl;  
+        var arr = url.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], fileName + '.pdf', { type: mime });
+    }, 
     },
     computed:{
         restante(){
