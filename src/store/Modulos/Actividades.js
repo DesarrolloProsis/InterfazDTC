@@ -69,8 +69,9 @@ const actions = {
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
-        let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                
-        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`, value, CookiesService.obtener_bearer_token())
+        let rolUser = rootGetters['Login/GET_TIPO_USUARIO']               
+        console.log(CookiesService.obtener_bearer_token())         
+        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`, CookiesService.obtener_bearer_token())
         .then((response) => {   
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1
@@ -79,6 +80,7 @@ const actions = {
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
         .catch(error => {
+            console.log(error.response)
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
             if(error.response.status == 401)
                 CookiesService.token_no_autorizado()

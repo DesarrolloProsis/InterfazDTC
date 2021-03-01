@@ -206,8 +206,7 @@ methods: {
         });                 
     },  
     editar_reporte_carril: async function(item){        
-        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']    
-        console.log(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)    
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                    
         await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then((response) => {                  
             let header = response.data.result.table[0]                        
@@ -225,9 +224,9 @@ methods: {
                 },
             });
         })
-        .catch(Ex => {                    
-            console.log(Ex);    
-            CookiesService.token_no_autorizado()                
+        .catch(error => {                                
+            if(error.response.status == 401)
+                CookiesService.token_no_autorizado()                         
         });
     },
     crear_reporte_carril(item){      
