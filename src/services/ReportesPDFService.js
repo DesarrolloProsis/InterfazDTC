@@ -110,7 +110,7 @@ function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     xml_hhtp_request(urlTopdf, namePdf)    
 }
 function generar_pdf_fotografico_preventivo(referenceNumber, lane){
-    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`)
+    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
     .then((response) => {    
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]

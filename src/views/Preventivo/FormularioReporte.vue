@@ -89,7 +89,7 @@ export default {
             this.header = this.$route.query.header 
             let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.$route.query.header.plazaNombre)        
             this.referenceNumber = await ServiceReporte.crear_referencia_calendario(
-                refPlaza.referenceSquare,
+                refPlaza.refereciaPlaza,
                 this.header.frequencyName,
                 this.header.day,
                 this.header.lane
@@ -205,14 +205,10 @@ methods:{
                 return parseInt(actividad.jobStatus) != 0
             })
         if(validarActividades){            
-            if(this.validar_horas()) { 
-                let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)
-                let refPlazaRef = this.referenceNumber.split('-')[0]
-                console.log(refPlazaRef)
-                
-                let insercionHeaderPromise = new Promise(async (resolve, reject) => {     
-                    console.log('estoy insertando Header')              
-                    let user = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'] 
+            if(this.validar_horas()) {                 
+                let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                                                         
+                let insercionHeaderPromise = new Promise(async (resolve, reject) => {                         
+                    let user = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']                    
                     let fechaInsercion = ''
                     if(JSON.stringify(this.objetoLogDate) != '{}'){
                         let fechaAyuda = this.objetoLogDate.fecha.split('/')
@@ -224,19 +220,18 @@ methods:{
                     }                                       
                     let headerReporte = {
                         ReferenceNumber: this.referenceNumber,
-                        SquareId: refPlaza.squareCatalogId,
+                        SquareId: refPlaza.numeroPlaza,
                         CapufeLaneNum: this.header.capufeLaneNum,
                         IdGare: this.header.idGare,
                         UserId: user.idUser,
-                        AdminSquare: refPlaza.adminSquareId,
+                        AdminSquare: refPlaza.administradorId,
                         ReportDate: fechaInsercion,
                         Start: this.horaInicio,
                         End: this.horaFin,
                         Observations: this.observaciones,   
                         CalendarId: parseInt(this.header.calendarId)     
-                    }  
-                    console.log(headerReporte)                     
-                    await Axios.post(`${API}/Calendario/CalendarReportData/${refPlazaRef}`,headerReporte, CookiesService.obtener_bearer_token())
+                    }                                        
+                    await Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}`,headerReporte, CookiesService.obtener_bearer_token())
                     .then((response) => {     
                         console.log(response)   
                         resolve('ok')                                                               
@@ -257,9 +252,8 @@ methods:{
                                 JobStatus: parseInt(item.jobStatus),
                                 flagUpdate: this.reporteInsert 
                         })    
-                    });  
-                    console.log(arrayJob)                         
-                    Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlazaRef}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
+                    });                                     
+                    Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                         .then((response) => {     
                             console.log(response) 
                             this.$notify.success({

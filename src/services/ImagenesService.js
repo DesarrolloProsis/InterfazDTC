@@ -30,9 +30,7 @@ function base64_to_file(dataurl, fileName) {
     u8arr = new Uint8Array(n);
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
-    }
-    console.log(mime)
-    console.log('dfdsafsd')
+    }        
     return new File([u8arr], fileName, { type: mime });
 }
 export default {
