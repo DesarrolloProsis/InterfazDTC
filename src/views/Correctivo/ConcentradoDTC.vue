@@ -212,7 +212,7 @@ computed:{
 methods:{
 abrirCarrusel : async function (item){  
   this.dtcImg = item
-  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
     .then((response) => {              
         if(response.status != 404){
           console.log(response)          
@@ -242,8 +242,9 @@ abrirCarrusel : async function (item){
         }   
         }                   
     })
-    .catch(() => {   
-      CookiesService.token_no_autorizado()       
+    .catch((error) => {   
+      if(error.response.status == 401)
+        CookiesService.token_no_autorizado()       
     });      
 },
 editar_status_dtc: function (){
@@ -268,10 +269,10 @@ editar_status_dtc: function (){
         this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
         this.modalCambiarStatus = false                                
       })
-      .catch(Ex => {
-        if(Ex.response.status == 401)
+      .catch(error => {
+        if(error.response.status == 401)
             CookiesService.token_no_autorizado()
-        console.log(Ex);
+        console.log(error);
       });
     }
     else

@@ -27,9 +27,9 @@ const getters = {
       state.listaInfoDTC
         .filter(dtc => dtc.statusId == 4)
         .forEach(async (item) =>  {          
-          await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+          await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
           .then( async (response)=>{
-            await Axios.get(`${API}/Pdf/PdfExists/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+            await Axios.get(`${API}/Pdf/PdfExists/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
             .then((response2) =>{
               console.log(response2)
               if(response.data.length > 0){
@@ -41,14 +41,19 @@ const getters = {
                 prueba.push(obj)              
               }
             })
-            .catch(()=>{
-              if(response.data.length > 0){
-                let obj = { ...item, 'imgbool': false, escaneadobool: true}
-                prueba.push(obj)              
+            .catch((error)=>{
+              if(error.response.status != 401){
+                if(response.data.length > 0){
+                  let obj = { ...item, 'imgbool': false, escaneadobool: true}
+                  prueba.push(obj)              
+                }
+                else{
+                  let obj = { ...item, 'imgbool': true, escaneadobool: true}
+                  prueba.push(obj)              
+                }
               }
               else{
-                let obj = { ...item, 'imgbool': true, escaneadobool: true}
-                prueba.push(obj)              
+                CookiesService.token_no_autorizado()
               }
             })
             //console.log(response)
