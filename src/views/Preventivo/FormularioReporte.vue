@@ -241,7 +241,8 @@ methods:{
                         console.log(response)   
                         resolve('ok')                                                               
                     })
-                    .catch(Ex => {    
+                    .catch(Ex => { 
+                        CookiesService.token_no_autorizado()   
                         reject(Ex)                  
                         console.log(Ex);
                     });                                  
@@ -280,6 +281,7 @@ methods:{
                             });
                             resolve('ok')                                                             
                         }).catch(Ex => {    
+                            CookiesService.token_no_autorizado()
                             reject(Ex)         
                             console.log(Ex);                                       
                         })                  
@@ -300,7 +302,8 @@ methods:{
                                 Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
                                     .then((response) => {     
                                         console.log(response)                                                                                  
-                                    }).catch(Ex => {                            
+                                    }).catch(Ex => {      
+                                        CookiesService.token_no_autorizado()                      
                                         console.log(Ex);                                       
                                     })         
                             }       

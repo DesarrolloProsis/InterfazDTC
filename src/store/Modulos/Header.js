@@ -69,6 +69,7 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
+        CookiesService.token_no_autorizado()
       });
   },
   async BUSCAR_LISTA_UNIQUE({ commit, rootGetters }) {
@@ -80,6 +81,7 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
+        CookiesService.token_no_autorizado()
       });
   },
   async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {      
@@ -110,6 +112,7 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
+        CookiesService.token_no_autorizado()
       });
   }
 };

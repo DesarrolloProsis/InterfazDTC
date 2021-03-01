@@ -129,7 +129,8 @@ export default {
               };   
             }               
         })
-        .catch(() => {          
+        .catch(() => {    
+          CookiesService.token_no_autorizado()      
         });      
       if (this.imgbase64.array_img.length > 0) {        
           this.agregarbool = false;
@@ -220,6 +221,7 @@ export default {
             Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`, CookiesService.obtener_bearer_token())
               .then(() => {})
               .catch((ex) => {
+                CookiesService.token_no_autorizado()
                 console.log("error al eliminar");
                 reject("mal");
                 this.$notify.error({
@@ -260,7 +262,8 @@ export default {
                   },
                 });
               })
-              .catch((ex) => {                
+              .catch((ex) => {    
+                CookiesService.token_no_autorizado()            
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
@@ -294,6 +297,7 @@ export default {
         })
         .catch(() => {
           console.log("error en el actuzaliacion");
+          CookiesService.token_no_autorizado()
         });
       let arrayimg = [];
       if (array_nombre_imagenes.length > 0) {

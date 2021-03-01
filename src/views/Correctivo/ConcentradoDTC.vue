@@ -242,7 +242,8 @@ abrirCarrusel : async function (item){
         }   
         }                   
     })
-    .catch(() => {          
+    .catch(() => {   
+      CookiesService.token_no_autorizado()       
     });      
 },
 editar_status_dtc: function (){
@@ -268,6 +269,7 @@ editar_status_dtc: function (){
         this.modalCambiarStatus = false                                
       })
       .catch(Ex => {
+        CookiesService.token_no_autorizado()
         console.log(Ex);
       });
     }
