@@ -150,7 +150,7 @@ export default {
       año: '',
       mes: '',   
       fechaActual: '',   
-      numeroActividades: ''   
+      numeroActividades: 0  
     }
   },
   beforeMount(){

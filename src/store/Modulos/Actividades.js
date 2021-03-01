@@ -45,7 +45,8 @@ const mutations = {
 }
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
-        dispatch('OBTENER_COMENTARIO_MENSUAL', value)                      
+        dispatch('OBTENER_COMENTARIO_MENSUAL', value)   
+        console.log(value)                   
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
             .then((response) => {                               
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
@@ -70,8 +71,9 @@ const actions = {
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
-        let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                
-        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`,value, CookiesService.obtener_bearer_token())
+        let rolUser = rootGetters['Login/GET_TIPO_USUARIO']               
+        console.log(CookiesService.obtener_bearer_token())         
+        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`, CookiesService.obtener_bearer_token())
         .then((response) => {   
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1
@@ -79,11 +81,11 @@ const actions = {
             })                                       
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
-        .catch(Ex => {
+        .catch(error => {
+            console.log(error.response)
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
-            console.log(Ex);
-            if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+            if(error.response.status == 401)
+                CookiesService.token_no_autorizado()
         });
     }
 }  
