@@ -98,7 +98,7 @@ function obtener_bearer_token(tokenPDF){
     }
 }
 function token_no_autorizado(){
-    alert()
+    localStorage.clear()
     router.push('/')
 }
 export default{
