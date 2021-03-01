@@ -73,9 +73,11 @@
     <HeaderCalendario 
       @actualizar-actividad="actualizar_actividades" 
       @generar-pdf="generar_pdf_calendario" 
+      @actualizar-comentario="actualizar_comentario_header"
       :comentario="comentario" 
       :mes="mes" 
       :año="año" 
+      :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
     </HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32" :class="{' pointer-events-none': modal}">
@@ -118,6 +120,8 @@ import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
 import moment from "moment";
+
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -145,14 +149,15 @@ export default {
       nombrePlaza: '',
       año: '',
       mes: '',   
-      fechaActual: '',      
+      fechaActual: '',   
+      numeroActividades: ''   
     }
   },
   beforeMount(){
     let cargaInicial = this.$route.params.cargaInicial    
     this.events = cargaInicial.listaActividadesMensuales
     this.comentario = cargaInicial.comentario
-    this.año = cargaInicial.año    
+    this.año = cargaInicial.año 
     this.plazaSelect = cargaInicial.plazaSelect
     this.mes = cargaInicial.mes
     this.nombrePlaza = cargaInicial.plazaNombre
@@ -175,7 +180,7 @@ export default {
         }));        
         return carrilesReturn
       } else if (this.actividadSelect > 1) {
-        let rolUser = this.$store.getters['Login/getTypeUser']        
+        let rolUser = this.$store.state.Login.cookiesUser.rollId
         let actividadNombre = this.listaActividades.find(item => item.value == this.actividadSelect).text
         let carriles_prohibidos = [];
         for (let evento of this.events) {
@@ -216,6 +221,9 @@ export default {
     },     
   },  
   methods: {
+    actualizar_comentario_header(comentario){
+      this.comentario = comentario
+    },
     modal_actividades_dia(e){          
       this.fechaModal = e.start
       this.modal = true
@@ -230,15 +238,14 @@ export default {
       let listaCarril = this.laneSelect.map((item) => {
         return { ...item.value }
       })      
-      let objActividad = await ServiceActividades.construir_objeto_actividad(
-        listaCarril,
+      let objActividad = await ServiceActividades.construir_objeto_actividad(listaCarril,
         { day: this.fechaModal.toLocaleDateString(), frequencyId: this.actividadSelect } 
       )      
       this.events.push(objActividad)           
       this.modalAgreagrActividad = false
       this.laneSelect = []            
       //Mandar a la DB     
-      let refPlaza = this.$store.getters['Login/getReferenceSquareActual']  
+      let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       let actividadInsert = ServiceActividades.objeto_actividad_insertar(
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
@@ -265,7 +272,7 @@ export default {
       this.plazaSelect = plaza
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
-      this.comentario = result.comentario      
+      this.comentario = this.comentario != '' ? this.comentario : result.comentario      
     }, 
     cambiar_mes: async function(item){
       let fecha = item.startDate.toLocaleDateString().split('/')
@@ -275,9 +282,10 @@ export default {
       this.mes = parseInt(fecha[1]) 
       this.año = parseInt(fecha[2])      
     },    
-    generar_pdf_calendario(comentario){      
-        let user = this.$store.getters['Login/getUserForDTC']
-        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
+    generar_pdf_calendario(comentario){   
+      if(this.events.length != 0 & comentario != ''){ 
+        let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let objComentario = {
           UserId: user.idUser,
           Month: this.mes,
@@ -296,10 +304,22 @@ export default {
         })
         .catch((ex) => {          
           console.log(ex);
-        });  
+        });
+      }
+      else{        
+        this.$notify.warning({
+            title: "Ups!",
+            msg: `FALTAN LLENAR CAMPOS PARA EL CALENDARIO 'COMENTARIO O ACTIVIDADES'`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },          
+          });          
+      }  
     },
     borrar_carril_evento(item, index){      
-      let refPlaza = this.$store.getters['Login/getReferenceSquareActual']  
+      let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
         .then(async (response) => {     
             console.log(response) 
@@ -325,6 +345,11 @@ export default {
           });          
           console.log(Ex);
         });
+    }
+  },
+  watch: {
+    events: function(newActividad){
+        this.numeroActividades = newActividad.length
     }
   },
   filters:{
