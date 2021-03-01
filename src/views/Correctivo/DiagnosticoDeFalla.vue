@@ -82,29 +82,42 @@
                             <div class=" mr-10">
                                 <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                                 <textarea
+                                    v-model="descripcion"
                                     class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                                     placeholder="jane@example.com"
                                     name="Observaciones"
+                                    v-bind:maxlength="limite"
                                 />
-                                <span class="text-gray-500">{{ restante }}/300</span>
+                                <span class="text-gray-500">{{ restante_desc }}/300</span>
                             </div>
                             <div class="mr-10">
                                 <span class="">DIAGNOSTICO DE LA FALLA REPORTADA:</span>
                                 <textarea
+                                    v-model="diagnostico"
                                     class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                                     placeholder="jane@example.com"
                                     name="Observaciones"
+                                    v-bind:maxlength="limite"
                                 />
-                                <span class="text-gray-500">{{ restante }}/300</span>
+                                <span class="text-gray-500">{{ restante_diag }}/300</span>
                             </div>
                             <div class="mt-5 mr-10">
                                 <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                                 <textarea
+                                    v-model="causaFalla"
                                     class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                                     placeholder="jane@example.com"
-                                    name="Observaciones"
+                                    name="CausaDeLaFalla"
+                                    v-bind:maxlength="limite"
                                 />
-                                <span class="text-gray-500">{{ restante }}/300</span>
+                                <span class="text-gray-500">{{ restante_causa }}/300</span>
+                            </div>
+                            <div class="border-2 border-gray-500 justify-center h-12 border-dashed mt-20 mr-10">         
+                                <div class="inline-flex justify-center">
+                                    <!--<input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>-->
+                                    <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
+                                    <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -131,8 +144,30 @@ import Nav from "../../components/Navbar";
 export default {
     name: "Diagnostico",
     components: {
-    Nav,
+        Nav,
     },
+    data(){
+        return{
+            limite:300,
+            causaFalla: "",
+            descripcion: "",
+            diagnostico: "",
+        }
+    },
+/////////////////////////////////////////////////////////////////////
+////                          COMPUTADAS                          ////
+/////////////////////////////////////////////////////////////////////
+computed:{
+    restante_causa(){
+        return this.causaFalla.length
+    },
+    restante_desc(){
+        return this.descripcion.length
+    },
+    restante_diag(){
+        return this.diagnostico.length
+    },
+}
 }
 </script>
 
