@@ -1,4 +1,5 @@
 import store from '../store/index'
+import router from '../router/index'
 function formato_cookies_usuario(loginSesion, tipoUsuario){    
     let plazasUsuario = loginSesion.cookie.map(item => {
         return {
@@ -17,7 +18,8 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
         plazasUsuario: plazasUsuario,
         registrado: userValido
     }        
-    localStorage.setItem('cookiesUser', cookies);  
+    localStorage.clear()    
+    localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
     localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
     return cookies 
 }
@@ -95,8 +97,13 @@ function obtener_bearer_token(tokenPDF){
         return tokenData.token
     }
 }
+function token_no_autorizado(){
+    alert()
+    router.push('/')
+}
 export default{
     formato_cookies_usuario,
     actualizar_plaza,
-    obtener_bearer_token
+    obtener_bearer_token,
+    token_no_autorizado
 }

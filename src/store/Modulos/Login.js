@@ -52,8 +52,9 @@ const actions = {
       .then(response => {
         commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(error => {
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       });
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
@@ -62,8 +63,9 @@ const actions = {
       .then(response => {
         commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(error => {
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
@@ -75,16 +77,13 @@ const actions = {
     }             
     await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
-        if (response.data.result != null) {         
-          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));
-        }
-        else {
-          commit("COOKIES_USER_MUTATION", []);
-        }
+        if (response.data.result != null)
+          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));      
+        else 
+          commit("COOKIES_USER_MUTATION", []);        
       })
-      .catch(Ex => {
-        commit("COOKIES_USER_MUTATION", []);
-        console.log(Ex);
+      .catch(() => {
+        commit("COOKIES_USER_MUTATION", []);        
       });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
@@ -95,22 +94,21 @@ const actions = {
       flag: false
     }     
     await Axios.post(`${API}/login`,objLogin)
-      .then(response => {                
-        commit("LISTA_HEADER_PLAZA_USER", response.data.result.login);
+      .then(response => {                     
+        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(() => {                
       });
   },
   //CONULTA PARA LISTAR LAS PLAZAS
-  async BUSCAR_PLAZAS({ commit }) {        
+  async BUSCAR_PLAZAS({ commit }) {                    
     await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
-      .then(response => {
-        console.log('Si Sirve el token')
+      .then(response => {        
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(error => {        
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       });
   },
 };
