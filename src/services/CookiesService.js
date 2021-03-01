@@ -17,8 +17,9 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
         plazasUsuario: plazasUsuario,
         registrado: userValido
     }        
-    localStorage.setItem('cookiesUser', cookies);  
-    localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
+    // localStorage.clear()    
+    // localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
+    // localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
     return cookies 
 }
 async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia){

@@ -95,8 +95,9 @@ const actions = {
       flag: false
     }     
     await Axios.post(`${API}/login`,objLogin)
-      .then(response => {                
-        commit("LISTA_HEADER_PLAZA_USER", response.data.result.login);
+      .then(response => {   
+        console.log(response)             
+        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
       })
       .catch(Ex => {
         console.log(Ex);
@@ -104,13 +105,15 @@ const actions = {
   },
   //CONULTA PARA LISTAR LAS PLAZAS
   async BUSCAR_PLAZAS({ commit }) {        
-    await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
-      .then(response => {
-        console.log('Si Sirve el token')
+    let config = {
+      headers: { Authorization: `Bearer $1` }
+  };
+    await Axios.get(`${API}/squaresCatalog`, config)
+      .then(response => {        
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(Ex => {
-        console.log(Ex);
+        console.log(Ex.status);
       });
   },
 };

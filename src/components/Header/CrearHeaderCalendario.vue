@@ -154,7 +154,7 @@ export default {
         }
     },
     watch: {
-        comentario(newValue){
+        comentario(newValue){            
             this.$emit('actualizar-comentario', newValue)
         }
     }
