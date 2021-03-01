@@ -129,8 +129,9 @@ const actions = {
             commit("LISTA_LANE_MUTATION", []); 
           }       
       })
-      .catch(Ex => {        
-        console.log(Ex);
+      .catch(error => {        
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       })
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
@@ -139,8 +140,9 @@ const actions = {
           console.log(response.data.result)                
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
-      .catch(Ex => {        
-        console.log(Ex);
+      .catch(error => {        
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       })
   },
   async EDIT_COMPONETE_QUICK({ dispatch, rootGetters }, value){
@@ -148,8 +150,9 @@ const actions = {
       .then(() => {                      
         dispatch('FULL_COMPONETES')       
       })
-      .catch(Ex => {        
-        console.log(Ex);
+      .catch(error => {        
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()        
       })
   },
   async BUSCAR_CARRILES({ commit }, plaza) {  
@@ -160,8 +163,9 @@ const actions = {
               commit("CARRILES_MUTATION", response.data.result);                         
           }                    
       })
-      .catch((ex) => {          
-          console.log(ex)
+      .catch((error) => {          
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       });  
     }
 };

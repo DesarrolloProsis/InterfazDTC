@@ -143,11 +143,8 @@ export default {
           let userTipo = await this.$store.state.Login.cookiesUser.rollId
           if(userTipo == 9 || userTipo == 8){
             this.$router.push("ConcentradoDTC");
-          }
-            /* else if(userTipo == 8){
-              this.$router.push("ConcentradoDTC");
-            } */
-          else
+          }                                     
+          else            
             this.$router.push("home");
           
           ServiceCookies.actualizar_plaza()
