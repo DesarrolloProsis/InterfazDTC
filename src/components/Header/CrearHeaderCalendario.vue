@@ -27,13 +27,39 @@
                     </div>                    
                     <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                                                    
-                    </div>  
+                    </div>
+                    <div class="grid grid-cols-2">
                     <div class="flex justify-start m-5">
                         <button @click="generar_pdf" class="botonIconCrear">
                             <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
                             <span>Crear</span>
                         </button>
                     </div>
+                    <div class="flex-col justify-center h-12 w-full mt-5" >
+                        <div class="flex justify-center" v-if="pdfEscBool == false">
+                            <button @click="recibir_escaneado" class="botonIconCancelar">
+                                <input type="file" class="opacity-0 w-auto h-12 absolute" multiple/>
+                                <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
+                                <span>Subir Escaneado</span>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2" v-else>
+                            <div class="inline-flex">
+                                <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
+                                <p class="ml-2 mt-3 mr-1 text-sm"></p>
+                                <button @click="pdfEscBool = false, calendar_escaneado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                                <button Class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                            </div>            
+                        </div>
+                    </div>
+                    <!-- <div class="flex justify-start m-5">
+                        <button @click="recibir_escaneado" class="botonIconCancelar">
+                            <input type="file" class="opacity-0 w-auto h-12 absolute" multiple/>
+                            <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
+                            <span>Subir Escaneado</span>
+                        </button>
+                    </div> -->
+                    </div>          
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
                     <span class="text-center font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
@@ -108,7 +134,9 @@ export default {
     },
     data(){
         return {                        
-            limite:500,            
+            limite:500,
+            calendar_escaneado: '',
+            pdfEscBool: false  ,          
         }
     },
     destroyed(){        
@@ -143,6 +171,10 @@ export default {
         },
         generar_pdf(){           
             this.$emit('generar-pdf', this.comentario)
+        },
+        recibir_escaneado(){
+            console.log('Subir Escaneado')
+            this.$emit('CalendarioEscaneado')
         }        
     },
     computed:{
