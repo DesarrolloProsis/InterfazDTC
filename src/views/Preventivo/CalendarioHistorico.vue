@@ -154,7 +154,8 @@ export default {
                     this.listaPlazasValidas.push(plaza)        
                 }
             }                                                                                                           
-        }).catch(Ex => {                            
+        }).catch(Ex => {      
+            CookiesService.token_no_autorizado()                      
             console.log(Ex);                                       
         })                  
     },

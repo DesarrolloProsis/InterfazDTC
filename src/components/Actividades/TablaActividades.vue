@@ -201,7 +201,8 @@ methods: {
             ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
         })
         .catch(Ex => {                    
-            console.log(Ex);                    
+            console.log(Ex);        
+            CookiesService.token_no_autorizado()            
         });                 
     },  
     editar_reporte_carril: async function(item){        
@@ -225,7 +226,8 @@ methods: {
             });
         })
         .catch(Ex => {                    
-            console.log(Ex);                    
+            console.log(Ex);    
+            CookiesService.token_no_autorizado()                
         });
     },
     crear_reporte_carril(item){      

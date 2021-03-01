@@ -62,7 +62,8 @@ export default {
                     }    
                 })
                 .catch(Ex => {                    
-                    console.log(Ex);                    
+                    console.log(Ex);    
+                    CookiesService.token_no_autorizado()                
             });
         }, 1000)
     },
@@ -80,7 +81,8 @@ export default {
                         console.log(response)                                                                                      
                     })
                     .catch(Ex => {                    
-                        console.log(Ex);                    
+                        console.log(Ex);    
+                        CookiesService.token_no_autorizado()                
                 });   
             }                     
         },
@@ -93,6 +95,7 @@ export default {
                         })
                         .catch(Ex => {                    
                             console.log(Ex);                    
+                            CookiesService.token_no_autorizado()
                     });  
                 } 
                 this.$nextTick(() => {
@@ -110,7 +113,8 @@ export default {
                         console.log(response)                                                                                      
                     })
                     .catch(Ex => {                    
-                        console.log(Ex);                    
+                        console.log(Ex);  
+                        CookiesService.token_no_autorizado()                  
                     });  
                 } 
             }

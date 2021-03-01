@@ -53,6 +53,7 @@ const actions = {
             .catch(Ex => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])  
                 console.log(Ex);
+                CookiesService.token_no_autorizado()
         }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
@@ -63,6 +64,7 @@ const actions = {
             })
             .catch(Ex => {
             console.log(Ex);
+            CookiesService.token_no_autorizado()
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
@@ -78,6 +80,7 @@ const actions = {
         .catch(Ex => {
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
             console.log(Ex);
+            CookiesService.token_no_autorizado()
         });
     }
 }  

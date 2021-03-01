@@ -168,6 +168,7 @@ beforeMount: async function() {
         })
         .catch(Ex => {
           console.log(Ex);
+          CookiesService.token_no_autorizado()
         });             
     }
 },

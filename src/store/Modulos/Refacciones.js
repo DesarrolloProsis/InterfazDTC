@@ -56,6 +56,7 @@ const actions = {
     })
     .catch(Ex => {
       console.log(Ex);
+      CookiesService.token_no_autorizado()
     });
   },
   async BUSCAR_CARRILES_INVENTARIO({ commit, rootGetters }, value){
@@ -65,6 +66,7 @@ const actions = {
     })
     .catch(Ex => {
       console.log(Ex);
+      CookiesService.token_no_autorizado()
     });
   },
   async BUSCAR_INFO_COMPONENTES_INVENTARIO({ commit, rootGetters }, value){
@@ -74,6 +76,7 @@ const actions = {
     })
     .catch(Ex => {
       console.log(Ex); 
+      CookiesService.token_no_autorizado()
     });
   },
   async BUSCAR_UBICACION_GENERAL_INVENTARIO({ commit, rootGetters }){
@@ -84,6 +87,7 @@ const actions = {
     })
     .catch(Ex => {
       console.log(Ex);
+      CookiesService.token_no_autorizado()
     });
   },
   async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
@@ -105,6 +109,7 @@ const actions = {
     })
     .catch(Ex => {
       console.log(Ex);
+      CookiesService.token_no_autorizado()
     });
   },
   async BUSCAR_COMPONETES({ commit, rootGetters }, value) {    
@@ -114,6 +119,7 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
+        CookiesService.token_no_autorizado()
       });
   },
   //Cosnsulta API Listar Carriles
