@@ -8,7 +8,7 @@
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">         
           <div class="inline-flex justify-center">
             <input :disabled="(tipoUsuario == 9 || tipoUsuario == 7 || tipoUsuario == 8 || tipoUsuario == 4)" type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
-            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
+            <img src="../../assets/img/image-mini.png" class="w-6 h-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
           </div>
         </div>

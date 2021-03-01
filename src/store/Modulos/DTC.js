@@ -59,6 +59,8 @@ const getters = {
             //console.log(response)
           })
           .catch((ex)=>{
+            if(ex.response.status == 401)
+              CookiesService.token_no_autorizado()
             console.log(ex)
           })
       })
