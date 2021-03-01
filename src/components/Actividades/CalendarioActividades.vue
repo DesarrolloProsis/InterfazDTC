@@ -258,6 +258,7 @@ export default {
         })
         .catch(Ex => {            
             console.log(Ex);
+            if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
         });
       this.actividadSelect = ''
@@ -305,7 +306,8 @@ export default {
         })
         .catch((ex) => {          
           console.log(ex);
-          CookiesService.token_no_autorizado()
+          if(ex.response.status == 401)
+            CookiesService.token_no_autorizado()
         });
       }
       else{        
@@ -346,7 +348,8 @@ export default {
             },          
           });          
           console.log(Ex);
-          CookiesService.token_no_autorizado()
+          if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
         });
     }
   },

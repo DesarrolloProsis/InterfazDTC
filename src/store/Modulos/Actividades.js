@@ -53,6 +53,7 @@ const actions = {
             .catch(Ex => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])  
                 console.log(Ex);
+                if(Ex.response.status == 401)
                 CookiesService.token_no_autorizado()
         }); 
     },
@@ -64,6 +65,7 @@ const actions = {
             })
             .catch(Ex => {
             console.log(Ex);
+            if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
             });
     },
@@ -80,6 +82,7 @@ const actions = {
         .catch(Ex => {
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
             console.log(Ex);
+            if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
         });
     }

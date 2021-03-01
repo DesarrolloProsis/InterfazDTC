@@ -374,7 +374,8 @@ methods: {
               resolve('ok')                     
             })
             .catch((ex) => {
-              CookiesService.token_no_autorizado()
+              if(ex.response.status == 401)
+                CookiesService.token_no_autorizado()
               reject(ex)
               this.$notify.error({
               title: "ups!",
@@ -447,7 +448,8 @@ methods: {
           })                                  
         })
         .catch((ex) => {
-          CookiesService.token_no_autorizado()
+          if(ex.response.status == 401)
+            CookiesService.token_no_autorizado()
           reject(ex)                          
           this.$notify.error({
             title: "ups!",
@@ -518,7 +520,8 @@ methods: {
           resolve('ok')         
         })
         .catch((ex) => {   
-          CookiesService.token_no_autorizado()
+          if(ex.response.status == 401)
+            CookiesService.token_no_autorizado()
           reject(ex)                     
           this.$notify.error({
             title: "ups!",
@@ -582,7 +585,8 @@ methods: {
         resolve('ok')                     
       })
       .catch(Ex => {
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+          CookiesService.token_no_autorizado()
         reject('mal')
         console.log(Ex);
       });

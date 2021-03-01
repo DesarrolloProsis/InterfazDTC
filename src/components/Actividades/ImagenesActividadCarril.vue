@@ -63,7 +63,8 @@ export default {
                 })
                 .catch(Ex => {                    
                     console.log(Ex);    
-                    CookiesService.token_no_autorizado()                
+                    if(Ex.response.status == 401)
+                        CookiesService.token_no_autorizado()               
             });
         }, 1000)
     },
@@ -82,7 +83,8 @@ export default {
                     })
                     .catch(Ex => {                    
                         console.log(Ex);    
-                        CookiesService.token_no_autorizado()                
+                        if(Ex.response.status == 401)
+                            CookiesService.token_no_autorizado()              
                 });   
             }                     
         },
@@ -95,7 +97,8 @@ export default {
                         })
                         .catch(Ex => {                    
                             console.log(Ex);                    
-                            CookiesService.token_no_autorizado()
+                            if(Ex.response.status == 401)
+                                CookiesService.token_no_autorizado()
                     });  
                 } 
                 this.$nextTick(() => {
@@ -114,7 +117,8 @@ export default {
                     })
                     .catch(Ex => {                    
                         console.log(Ex);  
-                        CookiesService.token_no_autorizado()                  
+                        if(Ex.response.status == 401)
+                            CookiesService.token_no_autorizado()
                     });  
                 } 
             }

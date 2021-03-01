@@ -112,12 +112,18 @@
                                 />
                                 <span class="text-gray-500">{{ restante_causa }}/300</span>
                             </div>
-                            <div class="border-2 border-gray-500 justify-center h-12 border-dashed mt-20 mr-10">         
+                            <!-- <div class="border-2 border-gray-500 text-center h-12 border-dashed mt-20 mr-10">         
                                 <div class="inline-flex justify-center">
-                                    <!--<input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>-->
+                                    <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
                                     <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
                                     <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
                                 </div>
+                            </div> -->
+                            <!-- /////////////////////////////////////////////////////////////////////
+                            ////                         IMAGENES                             ////
+                            ///////////////////////////////////////////////////////////////////// -->
+                            <div class="flex text-center cursor-pointer border-gray-800 flex-col sm:m-3 sm:mt-5 mt-12">
+                                <ImagenesCard></ImagenesCard>
                             </div>
                         </div>
                     </div>
@@ -140,11 +146,14 @@
 
 <script>
 import Nav from "../../components/Navbar";
+import ImagenesCard from "../../components/DTC/ImagenesCard.vue";
 
 export default {
     name: "Diagnostico",
     components: {
         Nav,
+        ImagenesCard,
+
     },
     data(){
         return{

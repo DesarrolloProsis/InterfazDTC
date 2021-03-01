@@ -28,7 +28,7 @@
           </div>
           <div class="inline-flex justify-center" v-show="true">
             <input type="file" class="opacity-0 w-64 h-12 absolute" multiple @change="recibirImagenes"/>
-            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
+            <img src="../../assets/img/image-mini.png" class="w-6 h-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
           </div>
           <div v-if="agregarbool" class="inline-flex w-full border-t-2">
@@ -129,8 +129,9 @@ export default {
               };   
             }               
         })
-        .catch(() => {    
-          CookiesService.token_no_autorizado()      
+        .catch((Ex) => {    
+          if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
         });      
       if (this.imgbase64.array_img.length > 0) {        
           this.agregarbool = false;
@@ -221,7 +222,8 @@ export default {
             Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`, CookiesService.obtener_bearer_token())
               .then(() => {})
               .catch((ex) => {
-                CookiesService.token_no_autorizado()
+                if(ex.response.status == 401)
+                  CookiesService.token_no_autorizado()
                 console.log("error al eliminar");
                 reject("mal");
                 this.$notify.error({
@@ -263,7 +265,8 @@ export default {
                 });
               })
               .catch((ex) => {    
-                CookiesService.token_no_autorizado()            
+                if(ex.response.status == 401)
+                  CookiesService.token_no_autorizado()            
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
@@ -295,9 +298,10 @@ export default {
         .then((response) => {          
           array_nombre_imagenes = response.data;
         })
-        .catch(() => {
+        .catch((error) => {
           console.log("error en el actuzaliacion");
-          CookiesService.token_no_autorizado()
+          if(error.response.status == 401)
+            CookiesService.token_no_autorizado()
         });
       let arrayimg = [];
       if (array_nombre_imagenes.length > 0) {

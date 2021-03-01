@@ -19,7 +19,8 @@ const actions = {
             })
             .catch(Ex => {
               console.log(Ex);
-              CookiesService.token_no_autorizado()
+              if(Ex.response.status == 401)
+                CookiesService.token_no_autorizado()
             }); 
     },
     async Update_User({commit}, value){
@@ -28,7 +29,8 @@ const actions = {
             .then(() => {})
             .catch(Ex => {
               console.log(Ex);
-              CookiesService.token_no_autorizado()
+              if(Ex.response.status == 401)
+                CookiesService.token_no_autorizado()
         }); 
     },
     async BorrarUser({commit}, value){
@@ -38,7 +40,8 @@ const actions = {
             })
             .catch(Ex => {
               console.log(Ex);
-              CookiesService.token_no_autorizado()
+              if(Ex.response.status == 401)
+                CookiesService.token_no_autorizado()
         }); 
     },
     async NuevoUser({commit}, value){
@@ -47,7 +50,8 @@ const actions = {
             .then(() => {})
             .catch(Ex => {
               console.log(Ex);
-              CookiesService.token_no_autorizado()
+              if(Ex.response.status == 401)
+                CookiesService.token_no_autorizado()
         }); 
     },
     async UPDATE_PASSWORD({commit}, value){
@@ -56,7 +60,8 @@ const actions = {
           .then(() => {})
           .catch(Ex => {
             console.log(Ex);
-            CookiesService.token_no_autorizado()
+            if(Ex.response.status == 401)
+              CookiesService.token_no_autorizado()
       }); 
   },
 }

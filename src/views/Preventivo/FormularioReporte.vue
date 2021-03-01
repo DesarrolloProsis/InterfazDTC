@@ -242,7 +242,8 @@ methods:{
                         resolve('ok')                                                               
                     })
                     .catch(Ex => { 
-                        CookiesService.token_no_autorizado()   
+                        if(Ex.response.status == 401)
+                            CookiesService.token_no_autorizado()
                         reject(Ex)                  
                         console.log(Ex);
                     });                                  
@@ -281,7 +282,8 @@ methods:{
                             });
                             resolve('ok')                                                             
                         }).catch(Ex => {    
-                            CookiesService.token_no_autorizado()
+                            if(Ex.response.status == 401)
+                                CookiesService.token_no_autorizado()
                             reject(Ex)         
                             console.log(Ex);                                       
                         })                  
@@ -303,7 +305,8 @@ methods:{
                                     .then((response) => {     
                                         console.log(response)                                                                                  
                                     }).catch(Ex => {      
-                                        CookiesService.token_no_autorizado()                      
+                                        if(Ex.response.status == 401)
+                                            CookiesService.token_no_autorizado()
                                         console.log(Ex);                                       
                                     })         
                             }       

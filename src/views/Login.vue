@@ -8,7 +8,7 @@
         <p class="text-center text-black font-sans text-4xl">Bienvenido</p>
         <div>
           <div class="flex">
-            <img src="../assets/img/loginIcon.png" class="w-64 mx-auto" />
+            <img src="../assets/img/loginIcon.png" class="w-64 h-64 mx-auto" />
           </div>
         </div>
         <br />

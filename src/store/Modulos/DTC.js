@@ -109,7 +109,8 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
   //Consulta API Crear DTC
@@ -131,7 +132,8 @@ const actions = {
       })
       .catch(Ex => {
         console.log('ERROR!!! ' + Ex);
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
   async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {    
@@ -142,7 +144,8 @@ const actions = {
       .catch(Ex => {
         commit("LISTA_DTC_MUTATION", []);
         console.log(Ex);
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
   async BUSCAR_TABLA_CARDS({ commit, rootGetters }, value) {            
@@ -156,7 +159,8 @@ const actions = {
       .catch(Ex => {
         commit("TABLA_DTC_CARDS_MUTATION", []);
         console.log(Ex);
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
   async BORRAR_DTC({ commit, rootGetters }, value) {    
@@ -167,7 +171,8 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
@@ -177,7 +182,8 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex); 
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
   async COMPONENT_EDIT_OPEN({ commit, rootGetters }, value) {
@@ -187,7 +193,8 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
   async crearDmgLibre({ state, commit, rootGetters }, value) {
@@ -227,7 +234,8 @@ const actions = {
       })
       .catch(Ex => {
         console.log('ERROR!!! ' + Ex);
-        CookiesService.token_no_autorizado()
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
 };
