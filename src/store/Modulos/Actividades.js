@@ -51,10 +51,10 @@ const actions = {
             .then((response) => {                               
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
-            .catch(Ex => {
+            .catch(error => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])  
-                console.log(Ex);
-                CookiesService.token_no_autorizado()
+                if(error.response.status == 401)
+                    CookiesService.token_no_autorizado()                
         }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
@@ -63,9 +63,9 @@ const actions = {
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
             })
-            .catch(Ex => {
-            console.log(Ex);
-            CookiesService.token_no_autorizado()
+            .catch(error => {
+                if(error.response.status == 401)
+                    CookiesService.token_no_autorizado()             
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
@@ -78,10 +78,10 @@ const actions = {
             })                                       
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
-        .catch(Ex => {
+        .catch(error => {
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
-            console.log(Ex);
-            CookiesService.token_no_autorizado()
+            if(error.response.status == 401)
+                CookiesService.token_no_autorizado()
         });
     }
 }  
