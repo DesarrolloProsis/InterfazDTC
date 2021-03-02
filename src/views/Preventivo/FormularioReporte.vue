@@ -249,8 +249,7 @@ methods:{
         if(validarActividades){            
             if(this.validar_horas()) {                                 
                 if(this.reporteInsert) {               
-                        let insercionHeaderPromise =  new Promise((resolve, reject) => {  
-            alert('insertando header')     
+                        let insercionHeaderPromise =  new Promise((resolve, reject) => {                
             let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                      
             let user =  this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']                    
             let fechaInsercion = ''
