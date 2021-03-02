@@ -114,7 +114,7 @@ function generar_pdf_fotografico_preventivo(referenceNumber, lane){
     .then((response) => {    
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]
-            let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
+            let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane.split('-')[0]}`       
             let namePdf = referenceNumber + ' ' + 'Preventivo' 
             xml_hhtp_request(urlTopdf, namePdf)    
         }

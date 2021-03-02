@@ -55,13 +55,15 @@ export default {
         setTimeout(() => {
             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
                 .then((response) => {                          
-                    if(response.status != 404){                        
+                    if(response.status != 404){  
+                        let newArrayImg = []                      
                         response.data.forEach(item => {
-                            this.arrayImagenes.push({
+                            newArrayImg.push({
                                 "name": item, 
                                 "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
                             })
-                        })                                       
+                        })
+                        this.arrayImagenes = newArrayImg                                       
                     }    
                 })
                 .catch(Ex => {                    
