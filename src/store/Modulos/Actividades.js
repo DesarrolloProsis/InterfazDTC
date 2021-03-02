@@ -45,8 +45,7 @@ const mutations = {
 }
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
-        dispatch('OBTENER_COMENTARIO_MENSUAL', value)   
-        console.log(value)                   
+        dispatch('OBTENER_COMENTARIO_MENSUAL', value)                         
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
             .then((response) => {                               
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
