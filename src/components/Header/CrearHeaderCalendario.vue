@@ -218,7 +218,7 @@ export default {
                     this.pdfSelladoBool= false
                     this.$notify.success({
                     title: "Ok!",
-                    msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
+                    msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
                     position: "bottom right",
                     styles: {
                         height: 100,
