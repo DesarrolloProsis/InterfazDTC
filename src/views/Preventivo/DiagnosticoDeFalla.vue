@@ -14,15 +14,22 @@
                         ////////////////////////////////////////////////////////////////////--> 
                         <div class="mt-6 ml-5 w-full">
                             <div>
-                                <span class="mr-5">No. De Reporte</span>
+                                <span class="mr-10">No. De Reporte</span>
                                 <input class="bg-white border-gray-400 w-69" readonly/>
                             </div>
-                            <div class="mt-5">
-                                <span class="mr-6">Plaza de Cobro</span>
-                                <input class="bg-white border-gray-400 w-69" readonly/>
+                            <div class="mt-5 grid grid-cols-2">
+                                <div>
+                                    <span>Plaza de Cobro</span>
+                                </div>
+                                <div class="-ml-66">
+                                    <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
+                                        <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
+                                        <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="mt-5">
-                                <span class="mr-16">Ubicación</span>
+                                <span class="mr-20">Ubicación</span>
                                 <input class="bg-white border-gray-400 w-69" readonly/>
                             </div>
                         </div>
@@ -32,15 +39,15 @@
                         <div class="mt-6 ml-10 mr-5 text-center">
                             <div>
                                 <span class="ml-16">Fecha:</span>
-                                <input class="ml-16 bg-white border-gray-400" type="date"/>
+                                <input class="ml-16 bg-white border-gray-400" type="date" v-model="fecha"/>
                             </div>
                             <div class="mt-5">
                                 <span class="px-3">Hora INICIO:</span>
-                                <input class="ml-4 bg-white border-gray-400 mr-4" type="time"/>
+                                <input class="ml-4 bg-white border-gray-400 mr-4" type="time" v-model="horaInicio"/>
                             </div>
                             <div class="mt-5">
                                 <span class="mr-2">Hora FIN:</span>
-                                <input class="ml-10 bg-white border-gray-400" type="time"/>
+                                <input class="ml-10 bg-white border-gray-400" type="time" v-model="horaFin"/>
                             </div>
                         </div>
                     </div>
@@ -64,10 +71,10 @@
                                 <input class="bg-white border-gray-400 w-full text-center" />
                             </div>
                             <div class="mt-5 -ml-69">
-                                <input class="bg-white border-gray-400 w-full text-center" />
+                                <input class="bg-white border-gray-400 w-full text-center"  />
                             </div>
                             <div class="mt-5 -ml-69">
-                                <input class="bg-white border-gray-400 w-full text-center" readonly/>
+                                <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
                             </div>
                         </div>
                     </div>
@@ -132,7 +139,7 @@
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-10 ml-12">
                         <div>
-                            <button class="botonIconCrear">
+                            <button @click="crearDiagnostico" class="botonIconCrear">
                                 <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Crear</span>
                             </button>
@@ -147,6 +154,9 @@
 <script>
 import Nav from "../../components/Navbar";
 import ImagenesCard from "../../components/DTC/ImagenesCard.vue";
+import EventBus from "../../services/EventBus.js";
+
+//import moment from "moment";
 
 export default {
     name: "Diagnostico",
@@ -161,7 +171,10 @@ export default {
             causaFalla: "",
             descripcion: "",
             diagnostico: "",
-            TIPO_USUARIO: 0
+            nameUser:"",
+            horaInicio:"",
+            horaFin:"",
+            fecha: ""
         }
     },
     
@@ -178,7 +191,89 @@ computed:{
     restante_diag(){
         return this.diagnostico.length
     },
-}
+    nombre_usuario(){
+        return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
+    },
+},
+/////////////////////////////////////////////////////////////////////
+////                           METODOS                           ////
+/////////////////////////////////////////////////////////////////////
+methods:{
+    validar_horas(){
+    if(this.horaInicio != '' && this.horaFin != ''){
+        let horaISplite = this.horaInicio.split(':')            
+        let horaFSplite = this.horaFin.split(':')            
+        let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+        let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+        if(dateInicio < dateFin){                
+            return true
+        }
+        else{
+                this.$notify.warning({
+                title: "Ups!",
+                msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
+            return false
+        }
+    }
+    else{                    
+                this.$notify.warning({
+                title: "Ups!",
+                msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
+            return false    
+        }
+    },
+    crearDiagnostico : function (){
+        if( this.causaFalla != '' && this.descripcion != '' && this.diagnostico != '' && this.horaInicio != '' && this.horaFin != '' && this.fecha != '')
+        {
+            this.causaFalla=''
+            this.descripcion=''
+            this.diagnostico=''
+            this.$notify.success({
+                    title: "Ok!",
+                    msg: `SE GENERÓ CORRECTAMENTE EL DICTAMEN.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                        },
+                    });         
+        }
+        else{
+            this.$notify.warning({
+                title: "Ups!",
+                msg: `NO SE HA LLENADO LOS CAMPOS.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
+        }
+    },
+},
+/////////////////////////////////////////////////////////////////////
+////                       Watcher                               ////
+/////////////////////////////////////////////////////////////////////
+watch:{
+    horaInicio: function(newHora){
+        EventBus.$emit("actualizar_hora_inicio", newHora);
+    },
+    horaFin: function(newHora){
+        EventBus.$emit("actualizar_hora_fin", newHora);
+    }
+},
 }
 </script>
 

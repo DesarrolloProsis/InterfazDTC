@@ -215,7 +215,7 @@ botoncambiar_modal: async function (){
             width: 500,
             },
         });
-    }
+    }0
 },
 botoncancelar_modal: function (){
     this.showModal = false

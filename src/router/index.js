@@ -100,7 +100,7 @@ const routes = [
   {
     path: '/DiagnosticoDeFalla',
     name: '/DiagnosticoDeFalla',
-    component: () => import('../views/Correctivo/DiagnosticoDeFalla')
+    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
   },
   {
     path: '/Pruebas',
