@@ -43,14 +43,14 @@ const mutations = {
     state.listaPlazas = []
     state.cookiesUser = []
   },
-  LISTA_HEADER_PLAZA_USER: (state, value) => state.listaHeaderDtcUser = value,  
+  LISTA_HEADER_PLAZA_USER_MUTATION: (state, value) => state.listaHeaderDtcUser = value,  
 };
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async BUSCAR_HEADER_OTRO_TECNICO({ commit }, value) {
     await Axios.get(`${API}/login/buscarHeaderTec/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
-        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
+        commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
       .catch(error => {
         if(error.response.status == 401)
@@ -78,7 +78,7 @@ const actions = {
     await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
         if (response.data.result != null)
-          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));      
+          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));           
         else 
           commit("COOKIES_USER_MUTATION", []);        
       })
@@ -94,8 +94,9 @@ const actions = {
       flag: false
     }     
     await Axios.post(`${API}/login`,objLogin)
-      .then(response => {                     
-        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
+      .then(response => {        
+        localStorage.setItem('listaHeaderUser', JSON.stringify(response.data.result))                  
+        commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
       .catch(() => {                
       });

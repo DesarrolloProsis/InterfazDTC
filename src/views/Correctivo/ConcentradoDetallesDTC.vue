@@ -81,8 +81,7 @@ export default {
     Nav,
   },
     methods:{
-    Regresar: function (){
-        console.log("Mostar Más")
+    Regresar: function (){        
         this.$router.push({
         path: "/ConcentradoDTC"
         });

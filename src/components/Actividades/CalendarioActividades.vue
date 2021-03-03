@@ -252,8 +252,7 @@ export default {
         this.comentario
       )           
       await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
-        .then(async (response) => {     
-            console.log(response)
+        .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
         .catch(Ex => {            
@@ -294,11 +293,9 @@ export default {
           Comment: comentario,
           SquareId: user.numPlaza,
           Year: this.año
-        }        
-        console.log(objComentario)
+        }                
         Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario, CookiesService.obtener_bearer_token())
-        .then((response) => {                    
-          console.log(response)
+        .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {
               mes: this.mes,
               año: this.año
@@ -325,8 +322,7 @@ export default {
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
-        .then(async (response) => {     
-            console.log(response) 
+        .then(async () => {                 
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
               this.modalActividades = false

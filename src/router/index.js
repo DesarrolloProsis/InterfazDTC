@@ -15,6 +15,7 @@ import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
 import ServiceCookies from '../services/CookiesService'
+import CookiesService from '../services/CookiesService'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -182,7 +183,12 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.name == 'login' || to.name == 'register') next()
   else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
-  else next({ name: 'login' })
+  else {
+    CookiesService.cache_token()
+    setTimeout(() => {
+      next()
+    },2000)
+    
+  }
 })
-
 export default router

@@ -220,8 +220,7 @@ crear_referencia: async function () {
     let _arrayReference  = await ServiceReportePDF.crear_referencia(
         moment(this.fecha,"YYYY-MM-DD").format("DD-MM-YYYY"), 
         this.headerSelecionado.referenceSquare, true
-    )
-    //console.log(this.headerSelecionado.referenceSquare)
+    )    
     if(typeof(_arrayReference) == 'object'){
         return this.arrayReference = _arrayReference
     }

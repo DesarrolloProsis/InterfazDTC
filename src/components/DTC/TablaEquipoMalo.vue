@@ -651,8 +651,7 @@ props: {
 beforeMount: async function () {
     try {
       let componetesEdit = await this.$store.state.DTC.componetesEdit
-      if (JSON.stringify(componetesEdit) != "{}") {  
-        console.log(componetesEdit)              
+      if (JSON.stringify(componetesEdit) != "{}") {                     
         for (const item of componetesEdit.items) { 
           let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];          
           newObject["attachedId"] = item.attachedId;

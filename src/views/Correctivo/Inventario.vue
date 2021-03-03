@@ -130,8 +130,7 @@ export default {
   created: function(){
     //Escucha Evento SelectPlaza Component
     EventBus.$on("ACTUALIZAR_INVENTARIO", () => {              
-        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);
-        console.log(this.listComponent.length)
+        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);        
         this.crear_array_paginacion("inicio");    
         this.full_Component.sort((a, b) => {
           if (a.lane < b.lane) return -1;

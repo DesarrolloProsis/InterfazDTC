@@ -191,8 +191,7 @@ methods: {
         this.plazaSelect = numeroPlaza
         this.listaActividadesMensuales = []
     },
-    reporte_pdf: async function(item){
-        console.log(item)
+    reporte_pdf: async function(item){        
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then((response) => {                  
@@ -230,8 +229,7 @@ methods: {
                 CookiesService.token_no_autorizado()                         
         });
     },
-    crear_reporte_carril(item){      
-        console.log(item.day)
+    crear_reporte_carril(item){              
         item["plazaNombre"] = this.plazaNombre                
         this.$router.push({ 
             path: 'FormularioReporte',

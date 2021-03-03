@@ -79,8 +79,7 @@ export default {
         },
         enviar_imagen: async function(referenceNumber){                                          
             for(let imagenes of this.arrayImagenes){                
-                if(imagenes.name.split('_')[0] != this.referenceNumber){
-                    alert('Soy Foto Nueva')
+                if(imagenes.name.split('_')[0] != this.referenceNumber){                    
                     let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                     let formData = new FormData();
                     formData.append("image", imgagen);
@@ -135,8 +134,8 @@ export default {
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
-                        .then((response) => {     
-                            console.log(response)                                                                                      
+                        .then(() => {     
+                                                                                                         
                         })
                         .catch(Ex => {                    
                             console.log(Ex);  
