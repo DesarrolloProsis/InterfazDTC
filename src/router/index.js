@@ -23,6 +23,7 @@ const routes = [
     name: 'login',
     component: Login,
     beforeEnter: async function (to, from, next) {
+      localStorage.clear()
       store.commit('DTC/cleanOut')
       store.commit('Header/cleanOut')
       store.commit('Login/cleanOut')
