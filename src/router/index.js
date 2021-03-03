@@ -181,13 +181,16 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.name == 'login' || to.name == 'register') next()
   else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
   else {
-    CookiesService.cache_token()
+    let resultToken = await CookiesService.cache_token()
     setTimeout(() => {
-      next()
+      if(resultToken)
+        next()  
+      else
+        router.push('/')    
     },2000)
     
   }
