@@ -217,10 +217,8 @@ export default {
           numSiniestro: this.infoCard.sinisterNumber,  
           numReporte: this.infoCard.reportNumber 
         }
-      )             
-      console.log(this.infoCard.referenceNumber.split("-")[0])
-      let pruebas = await ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.infoCard.referenceNumber.split("-")[0])      
-      console.log(pruebas)
+      )                   
+      await ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.infoCard.referenceNumber.split("-")[0])            
       let datosSinester = {
         ReferenceNumber: "",
         SinisterNumber: "",
@@ -338,8 +336,7 @@ export default {
     status_dtc_sellado(){                      
       let formData = new FormData();
       let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
-      formData.append("file", file);
-      console.log(file)
+      formData.append("file", file);     
       let obj = {
         referenceNumber: this.infoCard.referenceNumber,
         file: formData

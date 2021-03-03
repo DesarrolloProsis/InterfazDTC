@@ -252,8 +252,7 @@ export default {
             formData.append("plaza", nombre_plaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
             await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-              .then((response) => {    
-                console.log(response)            
+              .then(() => {                            
                 this.$notify.success({
                   title: "Ok!",
                   msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,

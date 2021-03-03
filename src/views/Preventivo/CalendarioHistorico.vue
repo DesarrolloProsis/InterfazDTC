@@ -164,8 +164,7 @@ export default {
         tramo_cascada(){
             if(this.tramoFiltro != ''){                
                 this.listaPlazasValidas = []
-                let plazaTramo = this.todasPlazas.filter(plaza => plaza.delegationId == this.tramoFiltro)
-                console.log(plazaTramo)
+                let plazaTramo = this.todasPlazas.filter(plaza => plaza.delegationId == this.tramoFiltro)                
                 for(let plaza of plazaTramo){      
                     if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
                         plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
@@ -207,8 +206,7 @@ export default {
             }            
         },
         reporte_pdf: async function(item){
-            let refPlaza = await this.$store.state.Login.cookiesUser.find(plaza => plaza.squareCatalogId == item.plazaId).referenceSquare
-            console.log(refPlaza)
+            let refPlaza = await this.$store.state.Login.cookiesUser.find(plaza => plaza.squareCatalogId == item.plazaId).referenceSquare            
             ServicePDF.generar_pdf_calendario(refPlaza, {
                 mes: item.month,
                 año: item.year

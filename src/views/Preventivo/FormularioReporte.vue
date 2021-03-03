@@ -199,8 +199,7 @@ methods:{
                 return false    
             }
     },
-    async crear_header_reporte(){    
-        console.log(this.reporteInsert)             
+    async crear_header_reporte(){            
         let validarActividades = this.listaActividades.every((actividad) => parseInt(actividad.jobStatus) != 0 )          
         //DAtos Para Insertar ACtividades                                                         
         let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                        
@@ -241,8 +240,7 @@ methods:{
             if(this.validar_horas()) {                                                 
                 if(this.reporteInsert) {                                                                                                                  
                         Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}`,headerReporte, CookiesService.obtener_bearer_token())
-                        .then((response) => {  
-                            console.log(response)    
+                        .then(() => {                              
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                             .then(() => {  
                                 if(this.objetoLogDate.fecha != ''){
@@ -257,8 +255,8 @@ methods:{
                                         comment: this.objetoLogDate.motivo
                                     }
                                     Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
-                                        .then((response) => {     
-                                            console.log(response)                                                                                  
+                                        .then(() => {     
+                                                                                                                              
                                         }).catch(Ex => {      
                                             if(Ex.response.status == 401)
                                                 CookiesService.token_no_autorizado()

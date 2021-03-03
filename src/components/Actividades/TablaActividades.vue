@@ -229,8 +229,7 @@ methods: {
                 CookiesService.token_no_autorizado()                         
         });
     },
-    crear_reporte_carril(item){      
-        console.log(item.day)
+    crear_reporte_carril(item){              
         item["plazaNombre"] = this.plazaNombre                
         this.$router.push({ 
             path: 'FormularioReporte',
