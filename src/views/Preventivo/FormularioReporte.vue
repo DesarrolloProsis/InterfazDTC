@@ -245,7 +245,8 @@ methods:{
                             console.log(response)    
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                             .then(() => {  
-                                if(this.objetoLogDate){
+                                if(this.objetoLogDate.fecha != ''){
+                                    alert('cambie fecha')
                                     let refPlaza = this.referenceNumber.split('-')[0]
                                     let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
                                     let dateLog = {
@@ -306,26 +307,7 @@ methods:{
                 }
                 else {      
                     Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
-                        .then(() => {  
-                            if(this.objetoLogDate){
-                                let refPlaza = this.referenceNumber.split('-')[0]
-                                let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-                                let dateLog = {
-                                    calendarId: parseInt(this.header.calendarId)     ,
-                                    date: this.objetoLogDate.fecha,
-                                    userId: user.idUser,
-                                    referenceNumber: this.referenceNumber,
-                                    comment: this.objetoLogDate.motivo
-                                }
-                                Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
-                                    .then((response) => {     
-                                        console.log(response)                                                                                  
-                                    }).catch(Ex => {      
-                                        if(Ex.response.status == 401)
-                                            CookiesService.token_no_autorizado()
-                                        console.log(Ex);                                       
-                                    })         
-                            }  
+                        .then(() => {                             
                             //Envio Imagenes y Generacion de Reportes     
                             EventBus.$emit("guardar_imagenes", this.referenceNumber);    
                             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                                                                                                                                          
