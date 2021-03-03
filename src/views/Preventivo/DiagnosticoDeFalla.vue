@@ -25,9 +25,15 @@
                                     <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
                                 </div>
                             </div>
-                            <div class="mt-5">
-                                <span class="mr-20">Ubicación</span>
-                                <input class="bg-white border-gray-400 w-69" readonly/>
+                            <div class="mt-5 grid grid-cols-2">
+                                <div>
+                                    <span class="mr-20">Ubicación</span>
+                                </div>
+                                <div class="-ml-66">
+                                    <select class="w-56" type="text">
+                                        <option value="">Selecionar...</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <!--/////////////////////////////////////////////////////////////////////
