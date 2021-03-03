@@ -58,28 +58,54 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
 }
-async function crear_referencia(sinisterDate, referenceSquare) {
-    sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
-    let datesplit =  sinisterDate.split("-");
-    console.log(datesplit)
-    let diaActual = parseInt(datesplit[2]);
-    let mesActual = parseInt(datesplit[1]);
-    let yearActual = parseInt(datesplit[0]);
-    let diaCorriente = 0;
-    let newYear = parseInt(sinisterDate.substr(2, 2));
-    diaCorriente = diaActual;
-    for (let i = 1; i < mesActual; i++) {
-        diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+async function crear_referencia(sinisterDate, referenceSquare,bandera) {
+    if(bandera != true)
+    {
+        sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
+        let datesplit =  sinisterDate.split("-");
+        console.log(datesplit)
+        let diaActual = parseInt(datesplit[2]);
+        let mesActual = parseInt(datesplit[1]);
+        let yearActual = parseInt(datesplit[0]);
+        let diaCorriente = 0;
+        let newYear = parseInt(sinisterDate.substr(2, 2));
+        diaCorriente = diaActual;
+        for (let i = 1; i < mesActual; i++) {
+            diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+        }
+        let nomPlaza = referenceSquare;
+        let autoCompleteDias;
+        if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+        else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+        else autoCompleteDias = diaCorriente.toString();
+        let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
+        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
+        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+        return await store.state.Header.referenciaDtc
     }
-    let nomPlaza = referenceSquare;
-    let autoCompleteDias;
-    if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
-    else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
-    else autoCompleteDias = diaCorriente.toString();
-    let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
-    await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
-    await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
-    return await store.state.Header.referenciaDtc
+    else{
+        sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
+        let datesplit =  sinisterDate.split("-");
+        console.log(datesplit)
+        let diaActual = parseInt(datesplit[2]);
+        let mesActual = parseInt(datesplit[1]);
+        let yearActual = parseInt(datesplit[0]);
+        let diaCorriente = 0;
+        let newYear = parseInt(sinisterDate.substr(2, 2));
+        diaCorriente = diaActual;
+        for (let i = 1; i < mesActual; i++) {
+            diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+        }
+        let nomPlaza = referenceSquare;
+        let autoCompleteDias;
+        if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+        else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+        else autoCompleteDias = diaCorriente.toString();
+        let ReferenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
+        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
+        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+        return await store.state.Header.referenciaDtc
+    }
 }
 async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){       
     fechaActividad = fechaActividad.split('/')

@@ -80,7 +80,6 @@ function filtro_referencia (listaDTC,referenceNumber) {
         }
     return newArray
 }
-
 function filtrar_calendario_historico(listaCalendario, numTramo, numPlaza, año, mes){
     console.log(listaCalendario)
     console.log(numTramo)

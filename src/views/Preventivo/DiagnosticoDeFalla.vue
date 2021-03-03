@@ -13,19 +13,16 @@
                         /////                           FILA UNO                            ////
                         ////////////////////////////////////////////////////////////////////--> 
                         <div class="mt-6 ml-5 w-full">
-                            <div>
-                                <span class="mr-10">No. De Reporte</span>
-                                <input class="bg-white border-gray-400 w-69" readonly/>
+                            <div class="grid grid-cols-2">
+                                <span class="">No. De Reporte</span>
+                                <p class="-ml-66">{{ datosDiagnostico.ReferenceNumber }}</p>
                             </div>
                             <div class="mt-5 grid grid-cols-2">
                                 <div>
                                     <span>Plaza de Cobro</span>
                                 </div>
                                 <div class="-ml-66">
-                                    <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
-                                        <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
-                                        <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
-                                    </select>
+                                    <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
                                 </div>
                             </div>
                             <div class="mt-5">
@@ -36,17 +33,20 @@
                         <!--/////////////////////////////////////////////////////////////////////
                         /////                           FILA DOS                            ////
                         ////////////////////////////////////////////////////////////////////--> 
-                        <div class="mt-6 ml-10 mr-5 text-center">
+                        <div class="mt-6 ml-65">
                             <div>
-                                <span class="ml-16">Fecha:</span>
-                                <input class="ml-16 bg-white border-gray-400" type="date" v-model="fecha"/>
+                                <span class="">Fecha:</span>
+                                <input class="ml-16 bg-white border-gray-400" 
+                                type="date" 
+                                v-model="fecha"
+                                @change="crear_referencia"/>
                             </div>
                             <div class="mt-5">
-                                <span class="px-3">Hora INICIO:</span>
+                                <span class="">Hora INICIO:</span>
                                 <input class="ml-4 bg-white border-gray-400 mr-4" type="time" v-model="horaInicio"/>
                             </div>
                             <div class="mt-5">
-                                <span class="mr-2">Hora FIN:</span>
+                                <span class="">Hora FIN:</span>
                                 <input class="ml-10 bg-white border-gray-400" type="time" v-model="horaFin"/>
                             </div>
                         </div>
@@ -119,13 +119,6 @@
                                 />
                                 <span class="text-gray-500">{{ restante_causa }}/300</span>
                             </div>
-                            <!-- <div class="border-2 border-gray-500 text-center h-12 border-dashed mt-20 mr-10">         
-                                <div class="inline-flex justify-center">
-                                    <input type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
-                                    <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
-                                    <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
-                                </div>
-                            </div> -->
                             <!-- /////////////////////////////////////////////////////////////////////
                             ////                         IMAGENES                             ////
                             ///////////////////////////////////////////////////////////////////// -->
@@ -155,14 +148,16 @@
 import Nav from "../../components/Navbar";
 import ImagenesCard from "../../components/DTC/ImagenesCard.vue";
 import EventBus from "../../services/EventBus.js";
-
-//import moment from "moment";
+import SelectPlaza from '../../components/Header/SelectPlaza';
+import ServiceReportePDF from '../../services/ReportesPDFService'
+import moment from "moment";
 
 export default {
     name: "Diagnostico",
     components: {
         Nav,
         ImagenesCard,
+        SelectPlaza
 
     },
     data(){
@@ -174,10 +169,23 @@ export default {
             nameUser:"",
             horaInicio:"",
             horaFin:"",
-            fecha: ""
+            fecha: "",
+            datosDiagnostico:{
+                ReferenceNumber: ""
+            },
+            listaPlazas: [],
+            arrayReference: [],
+            headerSelecionado: {},
+            
         }
     },
-    
+/////////////////////////////////////////////////////////////////////
+////                       CICLOS DE VIDA                        ////
+/////////////////////////////////////////////////////////////////////
+beforeMount: async function (){
+    //this.listaPlazas = await this.$store.state.Login.plazaSeleccionada.refereciaPlaza
+    this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+},
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
 /////////////////////////////////////////////////////////////////////
@@ -194,11 +202,35 @@ computed:{
     nombre_usuario(){
         return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
     },
+    plaza_selecc(){
+        return this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"];    
+    }
 },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+crear_referencia: async function () {      
+    let _arrayReference  = await ServiceReportePDF.crear_referencia(
+        moment(this.fecha,"YYYY-MM-DD").format("DD-MM-YYYY"), 
+        this.headerSelecionado.referenceSquare, true
+    )
+    //console.log(this.headerSelecionado.referenceSquare)
+    if(typeof(_arrayReference) == 'object'){
+        return this.arrayReference = _arrayReference
+    }
+    else{
+        return this.datosDiagnostico.ReferenceNumber = _arrayReference
+    }          
+},
+async cambiar_plaza(numeroPlaza) {  
+    console.log(numeroPlaza) 
+    this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+    this.crear_referencia()      
+    if (JSON.stringify(this.headerEdit) != "{}") {
+        this.datosDiagnostico.ReferenceNumber = this.headerEdit.referenceNumber;
+    }
+},
     validar_horas(){
     if(this.horaInicio != '' && this.horaFin != ''){
         let horaISplite = this.horaInicio.split(':')            

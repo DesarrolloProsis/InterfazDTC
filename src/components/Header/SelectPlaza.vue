@@ -1,10 +1,18 @@
 <template>
     <div>
-        <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
-        <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
-            <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
-            <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
-        </select>
+        <div v-if="forma == ''">
+            <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
+                <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
+                <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
+            </select>
+        </div>
+        <div v-if="forma == 'diagnostico'">
+            <select v-model="plazaSelect" @change="actualizar_plaza" class="w-48" type="text" name="TipoDescripcion">
+                <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
+                <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
+            </select>
+        </div>
     </div>
 </template>
 
@@ -21,6 +29,10 @@ export default {
         tipo: {
             type: String,
             default: 'insercion'
+        },
+        forma: {
+            type: String,
+            default: () => ''
         }
     },
     data(){ 
@@ -28,7 +40,7 @@ export default {
             listaPlazas: [],
             plazaSelect: {},            
             convenioSelect: {},
-            boolCambiarPlaza: false
+            boolCambiarPlaza: false,
         }
     },
     beforeMount: async function() {
@@ -43,7 +55,8 @@ export default {
         else if(this.tipo != 'filtro'){
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
             this.plazaSelect = plazaSelect
-            this.convenioSelect = convenioSelect 
+            this.convenioSelect = convenioSelect
+            this.boolCambiarPlaza = true 
         }
         
 
