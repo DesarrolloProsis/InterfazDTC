@@ -523,7 +523,7 @@
         ////                         MODAL AGREGAR COMPONENTE            ////
         //////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-69 mx-auto px-2">
+            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-80 mx-auto px-2">
                 <div class="rounded-lg border bg-white border-gray-700 px-4 py-10 shadow-2xl">
                   <!--////////////////////////////////////////////////////////////////////
                   ////                        BOTONES MODAL AGREGAR COMP             ////
