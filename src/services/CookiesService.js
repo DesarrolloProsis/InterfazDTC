@@ -97,6 +97,17 @@ function obtener_bearer_token(tokenPDF){
         return tokenData.token
     }
 }
+async function cache_token(){
+    let datosUserCookies = JSON.parse(localStorage.getItem('cookiesUser'))
+    let headerUser = JSON.parse(localStorage.getItem('listaHeaderUser'))    
+    await store.commit('Login/COOKIES_USER_MUTATION', datosUserCookies)    
+    await store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION', headerUser)
+    await store.commit('Header/LISTA_HEADERS_MUTATION', headerUser)    
+    await actualizar_plaza()    
+    await store.dispatch('Login/BUSCAR_PLAZAS')
+    await store.dispatch('DTC/BUSCAR_DESCRIPCIONES_DTC')
+    await store.dispatch('Header/BUSCAR_LISTA_UNIQUE')    
+}
 function token_no_autorizado(){
     localStorage.clear()
     router.push('/')
@@ -105,5 +116,6 @@ export default{
     formato_cookies_usuario,
     actualizar_plaza,
     obtener_bearer_token,
-    token_no_autorizado
+    token_no_autorizado,
+    cache_token
 }
