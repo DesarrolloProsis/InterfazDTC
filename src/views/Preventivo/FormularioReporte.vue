@@ -111,8 +111,7 @@ export default {
                 }, 300);  
             }                    
         }
-        else{     
-            alert('soy editado')      
+        else{                      
             this.reporteInsert = false   
             let headerCompuesto = this.$route.query.headerCompuesto
             console.log(headerCompuesto.fecha.substring(0,10))
@@ -217,16 +216,18 @@ methods:{
                 })    
             });                                     
             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
-                .then(() => {                                 
-                    this.$notify.success({
-                    title: "Ok!",
-                    msg: `SE INSERTO EL HEADER.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                        },
-                    });
+                .then(() => {  
+                    if(this.reporteInsert == true){                               
+                        this.$notify.success({
+                        title: "Ok!",
+                        msg: `SE INSERTO EL HEADER.`,
+                        position: "bottom right",
+                        styles: {
+                            height: 100,
+                            width: 500,
+                            },
+                        });
+                    }
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
@@ -249,43 +250,43 @@ methods:{
         if(validarActividades){            
             if(this.validar_horas()) {                                 
                 if(this.reporteInsert) {               
-                        let insercionHeaderPromise =  new Promise((resolve, reject) => {                
-            let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                      
-            let user =  this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']                    
-            let fechaInsercion = ''
-            if(JSON.stringify(this.objetoLogDate) != '{}'){
-                let fechaAyuda = this.objetoLogDate.fecha.split('/')
-                fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
-            }
-            else{
-                let fechaAyuda = this.header.day.split('/')
-                fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
-            }                                       
-            let headerReporte = {
-                ReferenceNumber: this.referenceNumber,
-                SquareId: refPlaza.numeroPlaza,
-                CapufeLaneNum: this.header.capufeLaneNum,
-                IdGare: this.header.idGare,
-                UserId: user.idUser,
-                AdminSquare: refPlaza.administradorId,
-                ReportDate: fechaInsercion,
-                Start: this.horaInicio,
-                End: this.horaFin,
-                Observations: this.observaciones,   
-                CalendarId: parseInt(this.header.calendarId)     
-            }   
-            console.log(headerReporte)                                     
-            Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}`,headerReporte, CookiesService.obtener_bearer_token())
-            .then((response) => {     
-                console.log(response)   
-                resolve('ok')                                                               
-            })
-            .catch(Ex => { 
-                if(Ex.response.status == 401)
-                    CookiesService.token_no_autorizado()
-                reject(Ex)                  
-                console.log(Ex);
-            });                                  
+                    let insercionHeaderPromise =  new Promise((resolve, reject) => {                
+                        let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                      
+                        let user =  this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']                    
+                        let fechaInsercion = ''
+                        if(JSON.stringify(this.objetoLogDate) != '{}'){
+                            let fechaAyuda = this.objetoLogDate.fecha.split('/')
+                            fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
+                        }
+                        else{
+                            let fechaAyuda = this.header.day.split('/')
+                            fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1], fechaAyuda[0])
+                        }                                       
+                        let headerReporte = {
+                            ReferenceNumber: this.referenceNumber,
+                            SquareId: refPlaza.numeroPlaza,
+                            CapufeLaneNum: this.header.capufeLaneNum,
+                            IdGare: this.header.idGare,
+                            UserId: user.idUser,
+                            AdminSquare: refPlaza.administradorId,
+                            ReportDate: fechaInsercion,
+                            Start: this.horaInicio,
+                            End: this.horaFin,
+                            Observations: this.observaciones,   
+                            CalendarId: parseInt(this.header.calendarId)     
+                        }   
+                        console.log(headerReporte)                                     
+                        Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}`,headerReporte, CookiesService.obtener_bearer_token())
+                        .then((response) => {     
+                            console.log(response)   
+                            resolve('ok')                                                               
+                        })
+                        .catch(Ex => { 
+                            if(Ex.response.status == 401)
+                                CookiesService.token_no_autorizado()
+                            reject(Ex)                  
+                            console.log(Ex);
+                        });                                  
                     })     
                     insercionHeaderPromise.then(() => {             
                         insercionActividadesPromise.then(async () =>{
@@ -320,8 +321,7 @@ methods:{
                         console.log(Ex)
                     })     
                 }
-                else {
-                    alert('actualizando')
+                else {                    
                     insercionActividadesPromise.then(() => {   
                         EventBus.$emit("guardar_imagenes", this.referenceNumber); 
                         setTimeout(() =>{
