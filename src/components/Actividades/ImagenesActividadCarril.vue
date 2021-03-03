@@ -79,8 +79,7 @@ export default {
         },
         enviar_imagen: async function(referenceNumber){                                          
             for(let imagenes of this.arrayImagenes){                
-                if(imagenes.name.split('_')[0] != this.referenceNumber){
-                    alert('Soy Foto Nueva')
+                if(imagenes.name.split('_')[0] != this.referenceNumber){                    
                     let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                     let formData = new FormData();
                     formData.append("image", imgagen);
