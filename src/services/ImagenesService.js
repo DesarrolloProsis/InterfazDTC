@@ -2,7 +2,7 @@ function obtener_array_imagenes(e, arrayComponete) {
     let array_imagenes = arrayComponete
     const crear_imagen = function(file){        
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = (e) => {            
             let obj = {
                 imgbase: e.target.result.split(",")[1],
                 name: file.name,
@@ -20,9 +20,8 @@ function obtener_array_imagenes(e, arrayComponete) {
         return array_imagenes
     }
 }
-function base64_to_file(dataurl, fileName) {
-                    
-    let url = "data:image/jpeg;base64," + dataurl;  
+function base64_to_file(dataurl, fileName) {    
+    let url = "data:image/jpeg;base64," + dataurl;      
     var arr = url.split(","),
     mime = arr[0].match(/:(.*?);/)[1],    
     bstr = atob(arr[1]),
