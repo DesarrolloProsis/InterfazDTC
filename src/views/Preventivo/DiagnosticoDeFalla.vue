@@ -30,6 +30,8 @@
                                     <span class="mr-20">Ubicación</span>
                                 </div>
                                 <div class="-ml-66">
+                                    <input type="text"
+                                    @change="buscar_carriles">
                                     <select class="w-56" type="text">
                                         <option value="">Selecionar...</option>
                                     </select>
@@ -155,7 +157,8 @@ import Nav from "../../components/Navbar";
 import ImagenesCard from "../../components/DTC/ImagenesCard.vue";
 import EventBus from "../../services/EventBus.js";
 import SelectPlaza from '../../components/Header/SelectPlaza';
-import ServiceReportePDF from '../../services/ReportesPDFService'
+import ServiceReportePDF from '../../services/ReportesPDFService';
+import Refacciones from '../../store/Modulos/Refacciones';
 import moment from "moment";
 
 export default {
@@ -182,6 +185,7 @@ export default {
             listaPlazas: [],
             arrayReference: [],
             headerSelecionado: {},
+            arrayCarriles:[],
             
         }
     },
@@ -216,6 +220,13 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+buscar_carriles: async function (){
+    let carril = await Refacciones.BUSCAR_CARRILES({},this.headerSelecionado.referenceSquare)
+    if ( typeof(carril) == 'object' ){
+        return this.arrayCarriles.carril
+    }
+    console.log(this.arrayCarriles.carril)
+},
 crear_referencia: async function () {      
     let _arrayReference  = await ServiceReportePDF.crear_referencia(
         moment(this.fecha,"YYYY-MM-DD").format("DD-MM-YYYY"), 
