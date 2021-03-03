@@ -108,6 +108,11 @@ const routes = [
     component: () => import('../views/Correctivo/Pruebas')
   },
   {
+    path: '/SesionExpirada',
+    name: 'SesionExpirada',
+    component: () => import('../views/SesionExpirada')
+  },
+  {
     path: '/ListarDtc',
     name: 'ListarDtc',
     component: ListarDTC,
