@@ -293,8 +293,7 @@ abrir_modal_editar : function (item){
 descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
 },
-filtro_dtc: async function (objFiltro) { 
-  console.log(objFiltro) 
+filtro_dtc: async function (objFiltro) {   
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
     let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
     this.$nextTick().then(() => {      

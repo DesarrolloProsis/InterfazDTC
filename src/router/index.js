@@ -153,8 +153,7 @@ const routes = [
       {
         path: 'FormularioReporte',
         component: () => import('../views/Preventivo/FormularioReporte.vue'),
-        beforeEnter: async function(to, from, next) {
-          console.log(!to.query.edicion)
+        beforeEnter: async function(to, from, next) {          
           if(!to.query.edicion == true)
             await store.dispatch('Actividades/OBTENER_LISTA_ACTIVIDADES_CHECK', to.query.header)                    
           next()          

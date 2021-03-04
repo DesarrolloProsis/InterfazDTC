@@ -207,8 +207,7 @@ export default {
             }         
         },
         enviar_calendario_escaneado(){
-            let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)
-            console.log(calendarioEscaneadoFile)
+            let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)            
             let numeroPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     

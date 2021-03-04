@@ -70,8 +70,7 @@ const actions = {
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
-        let rolUser = rootGetters['Login/GET_TIPO_USUARIO']               
-        console.log(CookiesService.obtener_bearer_token())         
+        let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                           
         await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`, CookiesService.obtener_bearer_token())
         .then((response) => {   
             let actividades = response.data.result.map(actividad => {

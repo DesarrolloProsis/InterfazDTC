@@ -490,8 +490,7 @@ export default {
       this.$validator
         .validateAll()
         .then((item) => {
-          if (item) {
-            console.log();
+          if (item) {            
             if (this.bool_editar) {
               console.log("editar");
               this.infoRow[this.index_editar].marca = this.marca;
