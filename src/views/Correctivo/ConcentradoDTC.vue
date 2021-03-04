@@ -229,17 +229,17 @@ abrirCarrusel : async function (item){
             this.carruselModal = true
           }
           else{
-          this.$notify.warning({
-          title: "Ups!",
-          msg: `SIN FOTOS.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
+            this.$notify.warning({
+            title: "Ups!",
+            msg: `SIN FOTOS.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
         }   
-        }                   
+      }                   
     })
     .catch((error) => {   
       if(error.response.status == 401)
@@ -272,8 +272,7 @@ editar_status_dtc: function (){
         console.log(error);
       });
     }
-    else
-    {
+    else{
           this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA LLENADO LOS CAMPOS.`,
