@@ -112,6 +112,7 @@
 </template>
 
 <script>
+import EventBus from '../../services/EventBus'
 
 import SelectPlaza from '../Header/SelectPlaza'
 
@@ -193,7 +194,8 @@ export default {
             this.plazaFiltro = ''
             this.referenciaFiltro = ''
             this.statusFiltro = ''
-            this.fechaFiltro = ''                     
+            this.fechaFiltro = ''         
+            EventBus.$emit('Limpiar-SelectPlaza')            
             this.$emit('limpiar-filtros')
         },
         filtar_dtc_generico(){

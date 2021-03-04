@@ -9,7 +9,7 @@
         </div>
         <div v-if="forma == 'diagnostico'">
             <select v-model="plazaSelect" @change="actualizar_plaza" class="w-48" type="text" name="TipoDescripcion">
-                <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
+                <option :disabled="tipo != 'filtro'" value="">Selecionar...</option>
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
             </select>
         </div>
@@ -42,6 +42,12 @@ export default {
             convenioSelect: {},
             boolCambiarPlaza: false,
         }
+    },   
+    created(){
+        EventBus.$on("Limpiar-SelectPlaza", () => {      
+            this.plazaSelect = {}
+            this.convenioSelect = {}            
+        });
     },
     beforeMount: async function() {
         if(this.fullPlazas)
@@ -57,17 +63,21 @@ export default {
             this.plazaSelect = plazaSelect
             this.convenioSelect = convenioSelect
             this.boolCambiarPlaza = true 
-        }
-        
-
+        }        
     },
     methods:{    
         actualizar_plaza: async function(){   
-            if(this.tipo != 'filtro'){                                           
-                this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect, this.listaPlazas, this.listaHeaders)
-                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            if(this.plazaSelect != ''){
+                if(this.tipo != 'filtro'){                                           
+                    this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect, this.listaPlazas, this.listaHeaders)
+                    EventBus.$emit('ACTUALIZAR_INVENTARIO')
+                }
+                this.$emit('actualizar-plaza', this.plazaSelect.numeroPlaza)   
             }
-            this.$emit('actualizar-plaza', this.plazaSelect.numeroPlaza)            
+            else{
+                this.convenioSelect = []
+                this.$emit('actualizar-plaza', this.plazaSelect)
+            }         
         }
     },
     computed:{
