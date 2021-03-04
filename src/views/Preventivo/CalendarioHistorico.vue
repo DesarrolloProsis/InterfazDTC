@@ -203,8 +203,8 @@ export default {
                 });
             }            
         },
-        reporte_pdf: async function(item){
-            let refPlaza = await this.$store.state.Login.cookiesUser.find(plaza => plaza.squareCatalogId == item.plazaId).referenceSquare            
+        reporte_pdf: async function(item){            
+            let refPlaza = await this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.numeroPlaza == item.plazaId).refereciaPlaza        
             ServicePDF.generar_pdf_calendario(refPlaza, {
                 mes: item.month,
                 año: item.year
