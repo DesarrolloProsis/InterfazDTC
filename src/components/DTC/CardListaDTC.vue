@@ -43,15 +43,21 @@
           <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
               <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado"/>
-              <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border" alt/>
+              <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
               <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
             </div>
             <div class="grid grid-cols-2" v-else>
               <div class="inline-flex">
                 <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
+<<<<<<< HEAD
                 <p class="ml-2 mt-3 text-sm">{{ pdfSellado.name }}</p>
                 <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
                 <button @click="status_dtc_sellado" class="botonIconCrear mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Cargar</button>
+=======
+                <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
+                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                <button @click="status_dtc_sellado" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+>>>>>>> nueva-version
               </div>            
             </div>
           </div>
@@ -71,7 +77,7 @@
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between">
         <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 ">Status: {{ infoCard.statusDescription }}</a>        
-        <div class="pb-2" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 " v-show="menosMas">
+        <div class="pb-2" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
@@ -152,6 +158,7 @@
 <script>
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
+import ServiceCookies from '../../services/CookiesService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 export default {
   props: {
@@ -185,7 +192,7 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 ////////////////////////////////////////////////////////////////////
   beforeMount: function () {          
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser']; 
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
         Supervisor_Tecnico: 2,
@@ -200,8 +207,8 @@ export default {
   methods: {
     mas: async function () {
       this.menosMas = false;
-      await this.$store.dispatch("DTC/tableFormComponent",this.infoCard.referenceNumber);
-      this.tableFormat = await this.$store.getters["DTC/gettableFormComp"];
+      await this.$store.dispatch("DTC/BUSCAR_TABLA_CARDS",this.infoCard.referenceNumber);
+      this.tableFormat = await this.$store.getters["DTC/GET_TABLE_DTC_CARDS"];
       this.showmenosMas = true;
     },
     menos: function () {
@@ -209,16 +216,15 @@ export default {
       this.showmenosMas = false;
     },
     editar_dtc: async function () {
-      let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
-      await this.$store.dispatch(`DTC/${ruta}`, this.infoCard.referenceNumber);     
+      //let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
+      await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber);     
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
         { 
           numSiniestro: this.infoCard.sinisterNumber,  
           numReporte: this.infoCard.reportNumber 
         }
-      )       
-      this.$store.commit("Header/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
-      this.$store.commit("Login/PLAZAELEGIDAFINDMUTATION",this.infoCard.referenceNumber.split("-")[0]);
+      )                   
+      await ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.infoCard.referenceNumber.split("-")[0])            
       let datosSinester = {
         ReferenceNumber: "",
         SinisterNumber: "",
@@ -243,7 +249,7 @@ export default {
       datosSinester.FailureDate = moment(this.infoCard.failureDate).format("YYYY-MM-DD");
       datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format("YYYY-MM-DD");
       datosSinester.TypeDescriptionId = 2;
-      this.$store.commit("Header/datosSinesterMutation", datosSinester);
+      this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
       let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";
       this.$router.push({
         path: `/${page}`,
@@ -285,7 +291,7 @@ export default {
     },
     crearImage(file) {
       if(file.type.split('/')[1] == 'pdf'){
-        var reader = new FileReader();
+        var reader = new FileReader(); 
         reader.onload = (e) => {
           this.$nextTick().then(() => {
             this.pdfSellado = {
@@ -336,8 +342,7 @@ export default {
     status_dtc_sellado(){                      
       let formData = new FormData();
       let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
-      formData.append("file", file);
-      console.log(file)
+      formData.append("file", file);     
       let obj = {
         referenceNumber: this.infoCard.referenceNumber,
         file: formData

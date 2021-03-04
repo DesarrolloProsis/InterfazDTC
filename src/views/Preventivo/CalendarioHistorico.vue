@@ -5,17 +5,17 @@
         <!--//////////////////////////////////////////////////////////////////////
             ////                        FILTROS                              ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="flex justify-center mt-2" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
+            <div class="grid grid-cols justify-center mt-10" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
                 <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
-                    <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">
-                            Bitacora de Visitas de Mantenimiento Equipos De Peaje
-                    </h1> 
-                    <div class="flex sm:inline-block justify-center">      
+                    <div>   
+                        <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Bitacora de Visitas de Mantenimiento Equipos De Peaje</h1>     
+                    </div>
+                    <div class="flex sm:inline-block justify-center"> 
                     <!--/////////////////////////////////////////////////////////////////////
                         ////                         FILTRO TRAMO                        ////
                         ////////////////////////////////////////////////////////////////////-->
                         <div class="m-3">
-                        <p class="font-bold sm:text-sm mb-5">Selecciones el Tramo</p>
+                        <p class="font-bold sm:text-sm mb-5 tex-2xl">Selecciones el Tramo</p>
                             <select v-model="tramoFiltro" @change="tramo_cascada" class="w-full" type="text">
                                 <option value="">Selecionar...</option>  
                                 <option value="1">Mexico-Acapulco</option>
@@ -70,18 +70,18 @@
                         /////////////////////////////////////////////////////////////////-->
                     <div class="m-3 text-center">
                         <button @click.prevent="limpiar_filtros" class="botonIconLimpiar">
-                            <img src="../../assets/img/bin.png" class="mr-2" width="25" height="2"/>
+                            <img src="../../assets/img/bin.png" class="mr-2" width="20" height="2"/>
                             <span>Limpiar</span>
                         </button>
                         <button @click.prevent="filtros_calendario()" class="botonIconBuscar">
-                            <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
+                            <img src="../../assets/img/lupa.png" class="mr-2" width="20" height="2"/>
                             <span>Buscar</span>
                         </button>
                     </div>
                 </div>
             </div> 
-            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66" style="height:550px;">
-                <table class="border-collapse  table-fixed">
+            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66 mt-6" style="height:500px;">
+                <table class="border-collapse table-fixed">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
                     ////////////////////////////////////////////////////////////////////-->
@@ -120,6 +120,7 @@ import Nav from '../../components/Navbar'
 import Axios from 'axios';
 import ServicePDF from '../../services/ReportesPDFService'
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: 'CalendarioHistorico',
@@ -140,7 +141,7 @@ export default {
     },
     beforeMount: async function() {
         
-        await Axios.get(`${API}/Mantenimiento/Bitacora`)
+        await Axios.get(`${API}/Mantenimiento/Bitacora`, CookiesService.obtener_bearer_token())
         .then((response) => { 
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  
@@ -151,7 +152,9 @@ export default {
                     this.listaPlazasValidas.push(plaza)        
                 }
             }                                                                                                           
-        }).catch(Ex => {                            
+        }).catch(Ex => {      
+            if(Ex.response.status == 401)
+                CookiesService.token_no_autorizado()
             console.log(Ex);                                       
         })                  
     },
@@ -159,8 +162,7 @@ export default {
         tramo_cascada(){
             if(this.tramoFiltro != ''){                
                 this.listaPlazasValidas = []
-                let plazaTramo = this.todasPlazas.filter(plaza => plaza.delegationId == this.tramoFiltro)
-                console.log(plazaTramo)
+                let plazaTramo = this.todasPlazas.filter(plaza => plaza.delegationId == this.tramoFiltro)                
                 for(let plaza of plazaTramo){      
                     if(this.listaCompleta.some(dtc => dtc.plazaId == plaza.squareCatalogId)){
                         plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
@@ -202,8 +204,7 @@ export default {
             }            
         },
         reporte_pdf: async function(item){
-            let refPlaza = await this.$store.state.Login.userLogeado.find(plaza => plaza.squareCatalogId == item.plazaId).referenceSquare
-            console.log(refPlaza)
+            let refPlaza = await this.$store.state.Login.cookiesUser.find(plaza => plaza.squareCatalogId == item.plazaId).referenceSquare            
             ServicePDF.generar_pdf_calendario(refPlaza, {
                 mes: item.month,
                 año: item.year

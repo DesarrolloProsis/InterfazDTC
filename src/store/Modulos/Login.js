@@ -1,13 +1,13 @@
 import Axios from "axios";
-
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
   listaHeaderDtcUser: null,
   listaPlazas: [],
-  userLogeado: [],
+  cookiesUser: {},
   listaTec: [],
-  PLAZAELEGIDA: 0,
+  plazaSelecionada: {},  
   tipoUsuario: [
     {id: 1, nombre: 'Tecnico'},
     {id: 2, nombre: 'Supervisor'},
@@ -22,123 +22,94 @@ const state = {
   ]
 };
 const getters = {
-  getUserForDTC: () => {
+  GET_USEER_ID_PLAZA_ID: () => {
     return {
-      numPlaza: state.listaHeaderDtcUser[state.PLAZAELEGIDA].plaza.substring(0, 3),
-      idUser: state.listaHeaderDtcUser[state.PLAZAELEGIDA].userId
+      numPlaza: state.plazaSelecionada.numeroPlaza,
+      idUser: state.cookiesUser.userId
     }
-  },
-  getListaPlazasUser: () => {
-    return state.userLogeado.map((item) => {
-      let obj = {}
-      obj["numPlaza"] = item.squareCatalogId
-      obj["plazaName"] = item.squareName
-      return obj
-    })
-  },
-  getUser: () => state.listaHeaderDtcUser,
-  //getListaPlazas: () => state.listaPlazas,
-  getUserLogeado: () => state.userLogeado.length > 0 ? true : false,
-  getReferenceSquareActual: () => state.userLogeado[state.PLAZAELEGIDA].referenceSquare,
-  getReferenceSquareNombre: (state) => (nombrePlaza) =>  state.userLogeado.find(item => item.squareName ==  nombrePlaza),
-  getTypeUser: () => state.userLogeado[state.PLAZAELEGIDA].rollId,
-  GET_TIPO_USUARIO: () => {
-    if(state.userLogeado.length > 0){
-      let idRol = state.userLogeado[state.PLAZAELEGIDA].rollId
-      return state.tipoUsuario.find(item => item.id == idRol)
-    }
-    else
-      return ''
-  },
-  //getListaTec: () => state.listaTec,
-  getPlaza: () => state.listaPlazas.find(item => item.squareCatalogId == state.userLogeado[state.PLAZAELEGIDA].squareCatalogId)
+  },  
+  GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
+  GET_REFERENCIA_ACTUAL_PLAZA: () => state.plazaSelecionada.refereciaPlaza,
+  GET_REFERENCIA_PLAZA_TO_NOMBRE: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
+  GET_TIPO_USUARIO: () => state.cookiesUser.rollId,    
 };
 const mutations = {
-  PLAZAELEGIDAMUTATION: (state, value) => state.PLAZAELEGIDA = value,
+  PLAZA_SELECCIONADA_MUTATION: (state, value) => state.plazaSelecionada = value,  
   LISTA_PLAZAS_MUTATION: (state, value) => state.listaPlazas = value,
-  userLogeadoMutation: (state, value) => state.userLogeado = value,
+  COOKIES_USER_MUTATION: (state, value) => state.cookiesUser = value,
   LISTA_TECNICOS_MUTATION: (state, value) => state.listaTec = value,
   cleanOut: (state) => {
     state.listaHeaderDtcUser = []
     state.listaPlazas = []
-    state.userLogeado = []
+    state.cookiesUser = []
   },
-  LISTA_HEADER_PLAZA_USER: (state, value) => {
-    state.listaHeaderDtcUser = value,
-    state.PLAZAELEGIDA = 0
-  },  
-  PLAZAELEGIDAFINDMUTATION: (state, value) => {    
-    let index = state.listaHeaderDtcUser.findIndex(item => item.referenceSquare == value)    
-    if(index != -1){
-      state.PLAZAELEGIDA = index
-    }
-  }
+  LISTA_HEADER_PLAZA_USER_MUTATION: (state, value) => state.listaHeaderDtcUser = value,  
 };
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async BUSCAR_HEADER_OTRO_TECNICO({ commit }, value) {
-    await Axios.get(`${API}/login/buscarHeaderTec/${value}`)
+    await Axios.get(`${API}/login/buscarHeaderTec/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
-        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
+        commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(error => {
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       });
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
   async BUSCAR_TECNICOS_PLAZA({ commit }, value) {
-    await Axios.get(`${API}/login/buscarTec/${value}`)
+    await Axios.get(`${API}/login/buscarTec/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
         commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(error => {
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
-  async buscarUsuarioCokie({ commit }, value) {        
+  async BUSCAR_COOKIES_USUARIO({ commit }, value) { 
     let objLogin = {
       username: value.User,
       password: value.Password,
       flag: true
-    }
-    await Axios.post(`${API}/login/ValidUser`, objLogin)
+    }             
+    await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
-        if (response.data.result != null) {
-          commit("userLogeadoMutation", response.data.result);
-        }
-        else {
-          commit("userLogeadoMutation", []);
-        }
+        if (response.data.result != null)
+          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));           
+        else 
+          commit("COOKIES_USER_MUTATION", []);        
       })
-      .catch(Ex => {
-        commit("userLogeadoMutation", []);
-        console.log(Ex);
+      .catch(() => {
+        commit("COOKIES_USER_MUTATION", []);        
       });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
-  async buscarUsuario({ commit }, value) {    
+  async INICIAR_SESION_LOGIN({ commit }, value) {   
     let objLogin = {
       username: value.User,
       password: value.Password,
       flag: false
-    }
+    }     
     await Axios.post(`${API}/login`,objLogin)
       .then(response => {        
-        commit("LISTA_HEADER_PLAZA_USER", response.data.result);
+        localStorage.setItem('listaHeaderUser', JSON.stringify(response.data.result))                  
+        commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(() => {                
       });
   },
   //CONULTA PARA LISTAR LAS PLAZAS
-  async BUSCAR_PLAZAS({ commit }) {
-    await Axios.get(`${API}/squaresCatalog`)
-      .then(response => {
+  async BUSCAR_PLAZAS({ commit }) {                    
+    await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
+      .then(response => {        
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(error => {        
+        if(error.response.status == 401)
+          CookiesService.token_no_autorizado()
       });
   },
 };

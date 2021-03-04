@@ -1,5 +1,5 @@
 <template>
-<div class="relative">
+<div>
     <Nav></Nav>
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
@@ -14,43 +14,10 @@
             </div>
           </div>
         </div>
-        <!--/////////////////////////////////////////////////////////////////
-         ////                    FILTROS DE NAVEGACION                      ////
-        ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
-          <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Autorizado GMMEP</h1>
-            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3">
-              <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Selecciones la Plaza</p>
-                  <select v-model="plazaFiltro" class="w-40 sm:w-full mb-3" type="text">
-                    <option disabled value="">Selecionar...</option>     
-                    <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
-                  </select>
-              </div>
-              <div class=" m-3">
-                <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full" type="date"/>
-                <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
-              </div>
-              <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
-                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
-              </div>   
-            </div>
-        <!--////////////////////////////////////////////////////////////////////
-         ////                    BOTONES DE NAVEGACION                   //////
-        ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-1 mb-4 text-center">
-              <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
-                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
-                <span>Limpiar</span>
-              </button>
-              <button id="Buscar" @click="filtro_Dtc" class="w-32 botonIconBuscar">
-                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
-                <span>Buscar</span>
-              </button>
-          </div> 
-        </div>
+        <!--/////////////////////////////////////////////////////////////////////
+        /////                    FILTROS DE NAVEGACION                      ////
+        ////////////////////////////////////////////////////////////////////-->   
+      <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'Autorizado GMMEP'" :tipo="'DTC'"></HeaderGenerico>       
       <!--////////////////////////////////////////////////////////////////////
       ////                      MODAL CAMBIAR STATUS                   //////
       ////////////////////////////////////////////////////////////////////-->
@@ -87,9 +54,8 @@
           </div>
         </div>
       </div>
-      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
-
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
@@ -173,9 +139,8 @@
             </tbody>
           </table>
         </div>  
-
       </div>  
-    </div>
+    </div> 
 </div>
 </template>
 
@@ -187,24 +152,23 @@ import moment from "moment";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
 import Carrusel from "../../components/Carrusel";
-//import Generico from "../../components/Header/HeaderGenerico";
+import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import CookiesService from '../../services/CookiesService'
 
 export default {
   name: "ConcentradoDTC",
   components: {
-    Nav,
-    Carrusel
-    //Generico
+    Nav,    
+    Carrusel,
+    HeaderGenerico
   },
+
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
 /////////////////////////////////////////////////////////////////////
 data: function (){
-    return {
-      plazaFiltro: '',
-      infoDTC:[],
-      fechaFiltro: '',
-      referenciaFiltro: '',
+    return {      
+      infoDTC:[],            
       filtroVista: false,
       modalCambiarStatus: false,
       dtcEdit: {},
@@ -213,17 +177,26 @@ data: function (){
       limite:300,
       carruselModal: false,
       dtcImg: {},
-      arrayImagenesCarrusel: [],      
+      arrayImagenesCarrusel: []
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function () {
-  this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
-
+beforeMount: function () {
+  this.filtroVista = true
+  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
+  this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
+  let listaPlazasValias = []
+  let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
+  for(let plaza of todasPlazas){      
+      if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
+        plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
+        listaPlazasValias.push(plaza)        
+      }
+      console.log(listaPlazasValias)
+      return listaPlazasValias
+  }
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -231,20 +204,7 @@ beforeMount: async function () {
 computed:{
     restante(){
         return  this.motivoCambio.length
-    },
-    plazasValidas: function(){
-      let listaPlazasValias = []
-      let todasPlazas =  this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
-      console.log(todasPlazas)
-      for(let plaza of todasPlazas){      
-          if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
-            plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
-            listaPlazasValias.push(plaza)        
-          }
-      }
-      console.log(listaPlazasValias)
-      return listaPlazasValias
-  }
+    }
 },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
@@ -252,10 +212,9 @@ computed:{
 methods:{
 abrirCarrusel : async function (item){  
   this.dtcImg = item
-  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
     .then((response) => {              
-        if(response.status != 404){
-          console.log(response)          
+        if(response.status != 404){                 
           if(response.data.length > 0){
             let array = response.data.map(imgData => {
               return {
@@ -282,33 +241,35 @@ abrirCarrusel : async function (item){
         }   
         }                   
     })
-    .catch(() => {          
+    .catch((error) => {   
+      if(error.response.status == 401)
+        CookiesService.token_no_autorizado()       
     });      
 },
 editar_status_dtc: function (){
-  let user = this.$store.getters['Login/getUserForDTC']
+  let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
   //Crea un objeto con los elementos necesarios para hacer un evento post
   let objeActualizado = {
         "ReferenceNumber": this.dtcEdit.referenceNumber,
         "StatusId": parseInt(this.statusEdit),
         "UserId": user.idUser,
         "Comment": this.motivoCambio,
-      }
-    console.log(objeActualizado)
+      }    
     if( this.statusEdit != '' && this.motivoCambio != '')
     {
       //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)    
-      .then(response => {
-        console.log(response)
+    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.formato_cookies_usuario())    
+      .then(() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   
-        let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)
+        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
         this.modalCambiarStatus = false                                
       })
-      .catch(Ex => {
-        console.log(Ex);
+      .catch(error => {
+        if(error.response.status == 401)
+            CookiesService.token_no_autorizado()
+        console.log(error);
       });
     }
     else
@@ -324,7 +285,6 @@ editar_status_dtc: function (){
         });
     }
 },
-//Abre el Modal Para editar el status
 abrir_modal_editar : function (item){
   this.modalCambiarStatus = true
   //Toma la variable y la iguala al objeto item que trae toda la fila 
@@ -332,54 +292,34 @@ abrir_modal_editar : function (item){
 },
 descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
+},
+filtro_dtc: async function (objFiltro) {   
+  if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
+    let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
+    this.$nextTick().then(() => {      
+        this.infoDTC = listaFiltrada            
+    }) 
+  }  
+  else{
+    this.$notify.warning({
+      title: "Ups!",
+      msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+      position: "bottom right",
+      styles: {
+        height: 100,
+        width: 500,
       },
-
-filtro_Dtc: function () {  
-      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){                    
-        let listaFiltrada =  ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, undefined, false, this.infoDTC)        
-        this.$nextTick().then(() => {      
-            this.infoDTC = listaFiltrada            
-        }) 
-      }
-      //Si no ingresa ningún filtro 
-      else
-      {
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-  
-  },
-limpiar_filtros: function() {     
-    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
-    {        
-        this.modalLoading = true                            
-        this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-        this.fechaFiltro = "";
-        this.referenciaFiltro = "";            
-        this.plazaFiltro = ""; 
-      }) 
-    }
-    else{
-      this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE HA LLENADO NINGUN CAMPO.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-    }      
+    });
   }
 },
+limpiar_filtros: function() {             
+  this.modalLoading = true                            
+  this.$nextTick().then(() => {             
+    this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
+  })           
+},
+},
+
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
 /////////////////////////////////////////////////////////////////////

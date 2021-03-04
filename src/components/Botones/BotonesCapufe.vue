@@ -50,7 +50,7 @@ export default {
         }
     },  
     beforeMount(){
-        this.tipoUsuario = this.$store.getters['Login/getTypeUser']                  
+        this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
         this.tipoBotones = this.$router.currentRoute.name === 'Preventivo' 
         ? false 
         : true  

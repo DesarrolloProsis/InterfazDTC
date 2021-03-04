@@ -11,7 +11,7 @@
                     </p>
                 </div>
                 <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.10</p>
+                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.14</p>
                 </div>
             </div>                                
         </div>        
@@ -22,7 +22,7 @@
 export default {  
     computed: {
         tipoUsuario(){
-            return this.$store.getters['Login/GET_TIPO_USUARIO'].nombre      
+            return this.$store.state.Login.cookiesUser.nombreRoll     
         }
     }
 }

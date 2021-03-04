@@ -17,7 +17,7 @@
           <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
             <router-link to="/ConcentradoDTC" class="text-center">
               <img src="../../assets/img/DtcFinalizado.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">DTC Finalizados</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Autorizado GMMEP</h1>
             </router-link>
           </div>
           <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
@@ -51,14 +51,14 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Mantenimiento</h1>
             </router-link>
           </div>
-          <!-- <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
-            <router-link to="/Configuracion" class="text-center">
+          <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
+            <router-link to="/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/evidencia.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Evidencia</h1>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Mantenimiento</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Diagnostico de</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Falla</h1>
             </router-link>
           </div>       
-          <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
+          <!-- <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
             <router-link to="/Configuracion" class="text-center">
               <img src="../../assets/img/config.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Configuración</h1>

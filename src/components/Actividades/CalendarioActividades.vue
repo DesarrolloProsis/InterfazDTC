@@ -120,7 +120,7 @@ import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
 import moment from "moment";
-
+import CookiesService from '../../services/CookiesService'
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -150,7 +150,7 @@ export default {
       año: '',
       mes: '',   
       fechaActual: '',   
-      numeroActividades: ''   
+      numeroActividades: 0  
     }
   },
   beforeMount(){
@@ -251,13 +251,14 @@ export default {
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
       )           
-      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
-        .then(async (response) => {     
-            console.log(response)
+      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
+        .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
         .catch(Ex => {            
             console.log(Ex);
+            if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
         });
       this.actividadSelect = ''
       
@@ -292,11 +293,9 @@ export default {
           Comment: comentario,
           SquareId: user.numPlaza,
           Year: this.año
-        }        
-        console.log(objComentario)
-        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
-        .then((response) => {                    
-          console.log(response)
+        }                
+        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario, CookiesService.obtener_bearer_token())
+        .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {
               mes: this.mes,
               año: this.año
@@ -304,6 +303,8 @@ export default {
         })
         .catch((ex) => {          
           console.log(ex);
+          if(ex.response.status == 401)
+            CookiesService.token_no_autorizado()
         });
       }
       else{        
@@ -320,9 +321,8 @@ export default {
     },
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
-      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
-        .then(async (response) => {     
-            console.log(response) 
+      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
+        .then(async () => {                 
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
               this.modalActividades = false
@@ -344,6 +344,8 @@ export default {
             },          
           });          
           console.log(Ex);
+          if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
         });
     }
   },

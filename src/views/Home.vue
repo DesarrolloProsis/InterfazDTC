@@ -27,7 +27,6 @@
 
 <script>
 import Nav from "../components/Navbar";
-import { mapGetters } from 'vuex'
 export default {
   name: "home",
   components: {
@@ -40,15 +39,9 @@ export default {
       }
   },
   beforeMount: function(){
-    this.typeUser = this.$store.getters['Login/getTypeUser']
+    this.typeUser = this.$store.state.Login.cookiesUser.rollId
   },
   methods: {
-    rutas(){
-      
-    }
   },
-  computed: {
-    ...mapGetters({getReferenceSquareActual: 'Login/getReferenceSquareActual'}),   
-  }
 };
 </script>

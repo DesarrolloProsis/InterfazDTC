@@ -4,6 +4,7 @@ import store from '../store/index'
 import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
 import Axios from 'axios'
+import CookiesService from '../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     sinfirma: 1,
@@ -13,7 +14,9 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
 function xml_hhtp_request(urlTopdf,namePdf){
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
-    oReq.responseType = "blob";         
+    oReq.responseType = "blob";  
+    let token = CookiesService.obtener_bearer_token('pdf')
+    oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
     oReq.onload = function () {         
     var file = new Blob([oReq.response], {
         type: "application/pdf",
@@ -47,7 +50,7 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
     let user = {}
     if(userSup == undefined)
-        user = store.getters['Login/getUserForDTC']
+        user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
 
@@ -55,28 +58,54 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
 }
-async function crear_referencia(sinisterDate, referenceSquare) {
-    sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
-    let datesplit =  sinisterDate.split("-");
-    console.log(datesplit)
-    let diaActual = parseInt(datesplit[2]);
-    let mesActual = parseInt(datesplit[1]);
-    let yearActual = parseInt(datesplit[0]);
-    let diaCorriente = 0;
-    let newYear = parseInt(sinisterDate.substr(2, 2));
-    diaCorriente = diaActual;
-    for (let i = 1; i < mesActual; i++) {
-        diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+async function crear_referencia(sinisterDate, referenceSquare,bandera) {
+    if(bandera != true)
+    {
+        sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
+        let datesplit =  sinisterDate.split("-");
+        console.log(datesplit)
+        let diaActual = parseInt(datesplit[2]);
+        let mesActual = parseInt(datesplit[1]);
+        let yearActual = parseInt(datesplit[0]);
+        let diaCorriente = 0;
+        let newYear = parseInt(sinisterDate.substr(2, 2));
+        diaCorriente = diaActual;
+        for (let i = 1; i < mesActual; i++) {
+            diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+        }
+        let nomPlaza = referenceSquare;
+        let autoCompleteDias;
+        if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+        else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+        else autoCompleteDias = diaCorriente.toString();
+        let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
+        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
+        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+        return await store.state.Header.referenciaDtc
     }
-    let nomPlaza = referenceSquare;
-    let autoCompleteDias;
-    if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
-    else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
-    else autoCompleteDias = diaCorriente.toString();
-    let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
-    await store.commit("Header/referenceNumMutation", ReferenceNumber);
-    await store.dispatch("Header/buscarReferencia", ReferenceNumber);    
-    return await store.getters["Header/getreferenceNum"];        
+    else{
+        sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
+        let datesplit =  sinisterDate.split("-");
+        console.log(datesplit)
+        let diaActual = parseInt(datesplit[2]);
+        let mesActual = parseInt(datesplit[1]);
+        let yearActual = parseInt(datesplit[0]);
+        let diaCorriente = 0;
+        let newYear = parseInt(sinisterDate.substr(2, 2));
+        diaCorriente = diaActual;
+        for (let i = 1; i < mesActual; i++) {
+            diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+        }
+        let nomPlaza = referenceSquare;
+        let autoCompleteDias;
+        if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+        else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+        else autoCompleteDias = diaCorriente.toString();
+        let ReferenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
+        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
+        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+        return await store.state.Header.referenciaDtc
+    }
 }
 async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){       
     fechaActividad = fechaActividad.split('/')
@@ -107,11 +136,11 @@ function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
     xml_hhtp_request(urlTopdf, namePdf)    
 }
 function generar_pdf_fotografico_preventivo(referenceNumber, lane){
-    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`)
+    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
     .then((response) => {    
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]
-            let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
+            let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane.split('-')[0]}`       
             let namePdf = referenceNumber + ' ' + 'Preventivo' 
             xml_hhtp_request(urlTopdf, namePdf)    
         }

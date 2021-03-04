@@ -8,7 +8,7 @@
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">         
           <div class="inline-flex justify-center">
             <input :disabled="(tipoUsuario == 9 || tipoUsuario == 7 || tipoUsuario == 8 || tipoUsuario == 4)" type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>
-            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
+            <img src="../../assets/img/image-mini.png" class="w-6 h-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Fotos Equipo Dañado</p>
           </div>
         </div>
@@ -28,7 +28,7 @@
           </div>
           <div class="inline-flex justify-center" v-show="true">
             <input type="file" class="opacity-0 w-64 h-12 absolute" multiple @change="recibirImagenes"/>
-            <img src="../../assets/img/image-mini.png" class="w-6 mr-3 mt-3 border" alt/>
+            <img src="../../assets/img/image-mini.png" class="w-6 h-6 mr-3 mt-3 border" alt/>
             <p class="text-base text-gray-900 mt-3">Subir Imagenes</p>
           </div>
           <div v-if="agregarbool" class="inline-flex w-full border-t-2">
@@ -70,10 +70,11 @@
 </template>
 <script>
 import Axios from "axios";
-import { mapGetters } from 'vuex'
 import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import EventBus from "../../services/EventBus.js";
+import CookiesService from '../../services/CookiesService'
+
 export default {
   name: 'ImgenesCard',
   component:{
@@ -87,6 +88,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    fotosEnDtc: {
+      type: Array,
+      default: () => []
+    }
   },
   data: function () {
     return {
@@ -109,46 +114,30 @@ export default {
 ////                          CICLOS DE VIDA                     ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {    
-    this.tipoUsuario = this.$store.getters['Login/getTypeUser'];              
-    let _ref = this.referenceNumber.split("-")[0]          
-    let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == _ref).squareName          
-    if(nombre_plaza != undefined){       
-      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
-        .then((response) => {              
-            if(response.status != 404){
-              let array = response.data.map(item => {
-                return {
-                  "fileName": item, 
-                  "image": `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
-                }
-              })            
-              this.imgbase64 = {
-                array_img: array,
-                referenceNumber: this.referenceNumber,
-              };   
-            }               
-        })
-        .catch(() => {          
-        });      
-      if (this.imgbase64.array_img.length > 0) {        
-          this.agregarbool = false;
-          this.cargarImagen = false;                   
-      } 
-      else {
-          this.agregarbool = true;
-          this.cargarImagen = true;
-          this.imgbase64 = {
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
+    let arrayNombreFotos = this.$store.getters['DTC/GET_FOTOS_EQUIPO_DAÑADO_REFERENCE'](this.referenceNumber)                
+    if(arrayNombreFotos.length > 0){       
+        let array = arrayNombreFotos.map(item => {
+          return {
+            "fileName": item, 
+            "image": `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+          }
+        })            
+        this.imgbase64 = {
+          array_img: array,
+          referenceNumber: this.referenceNumber,
+        };                  
+        this.agregarbool = false;
+        this.cargarImagen = false;                   
+    } 
+    else {
+        this.agregarbool = true;
+        this.cargarImagen = true;
+        this.imgbase64 = {
             array_img: [],
             referenceNumber: "",
-          };
-      }
-    }
-  },
-/////////////////////////////////////////////////////////////////////
-////                          COMPUTADAS                          ////
-/////////////////////////////////////////////////////////////////////
-  computed: {
-      ...mapGetters({getReferenceSquareActual: 'Login/getReferenceSquareActual'})
+        };
+    }        
   },
   /////////////////////////////////////////////////////////////////////
 ////                          METODOS                              ////
@@ -218,13 +207,15 @@ export default {
       this.cargarImagen = true;
     },
     uploadFiles: async function () {
-      let nombre_plaza = this.$store.getters["Login/getPlaza"].squareName;
+      let nombre_plaza = this.$store.state.Login.plazaSelecionada.plazaNombre
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-            Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`)
+            Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`, CookiesService.obtener_bearer_token())
               .then(() => {})
               .catch((ex) => {
+                if(ex.response.status == 401)
+                  CookiesService.token_no_autorizado()
                 console.log("error al eliminar");
                 reject("mal");
                 this.$notify.error({
@@ -252,9 +243,8 @@ export default {
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
-            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
-              .then((response) => {    
-                console.log(response)            
+            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
+              .then(() => {                            
                 this.$notify.success({
                   title: "Ok!",
                   msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
@@ -265,7 +255,9 @@ export default {
                   },
                 });
               })
-              .catch((ex) => {                
+              .catch((ex) => {    
+                if(ex.response.status == 401)
+                  CookiesService.token_no_autorizado()            
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
@@ -293,12 +285,14 @@ export default {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
         .then((response) => {          
           array_nombre_imagenes = response.data;
         })
-        .catch(() => {
+        .catch((error) => {
           console.log("error en el actuzaliacion");
+          if(error.response.status == 401)
+            CookiesService.token_no_autorizado()
         });
       let arrayimg = [];
       if (array_nombre_imagenes.length > 0) {
@@ -313,7 +307,7 @@ export default {
           array_img: arrayimg,
         };
         this.$store.commit("DTC/LISTA_IMAGENES_DTC_MUTATION", obj);
-        this.imgbase64 = this.$store.getters["DTC/getImagenesDTC"](this.referenceNumber);
+        this.imgbase64 = this.$store.getters["DTC/GET_IMAGENES_DTC"](this.referenceNumber);
         this.agregarbool = false;
         this.cargarImagen = false;
       } else {

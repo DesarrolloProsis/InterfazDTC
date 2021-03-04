@@ -1031,11 +1031,9 @@ export default {
     },
   },
   beforeMount: function () {
-    let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
+    let componetesEdit = this.$store.state.DTC.componetesEdit
 
-    if (JSON.stringify(componetesEdit) != "{}") {
-      console.log(componetesEdit);
-
+    if (JSON.stringify(componetesEdit) != "{}") {      
       for (let item of componetesEdit.requestedComponents) {
         let objectMalo = {
           rowUpPropuesto: false,
@@ -1090,9 +1088,7 @@ export default {
     confirmar_componente_cel: function () {
       let index = this.listaequipoMalo.findIndex(
         (item) => item.partida == this.editComponent.partida
-      );
-      console.log(index);
-
+      );      
       this.listaequipoMalo[index].partida = this.editComponent.partida;
       this.listaequipoMalo[index].unidad = this.editComponent.unidad;
       this.listaequipoMalo[index].componente = this.editComponent.componente;

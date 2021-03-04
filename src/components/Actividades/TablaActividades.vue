@@ -1,27 +1,22 @@
 <template>
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
-            <div class="flex justify-center mt-10">
-                <h1 class=" text-3xl sm:text-2xl">TABLA DE ACTIVIDADES</h1>
-            </div>
-            <div class="inline-flex h-56 xl:mx-auto sm:h-auto sm:m-0 border shadow-lg rounded-md border-gray-800">
-                <div class=" inline-flex sm:inline-block mt-3">
+            <!-- <div class="flex justify-center mt-2">
+                <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
+            </div> -->
+            <div class="xl:mx-auto sm:h-auto sm:m-0 border shadow-lg rounded-md w-full h-64 mt-5">
+                <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES</h1>
+                <div class="inline-flex sm:inline-block mt-3">
                     <div class="w-1/2 sm:w-full">
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <p class=" uppercase sm:text-sm sm:w-66 text-lg text-center">Actividades del mes {{ mes }} del {{ año }}</p> 
+                        <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p> 
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
                             <div class=" sm:w-full sm:ml-3">
                                 <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
-                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center">
-                                <p class="text-sm sm:text-sm text-red-600  mt-3 mr-2 sm:mr-6">Cambiar Plaza</p>                                   
-                                <select v-model="plazaSelect" @change="cambiar_plaza" class="w-40 mt-2 sm:w-40" type="text" name="TipoDescripcion" >
-                                    <option disabled value>Selecionar...</option>
-                                    <option v-for="(item, index) in listaPlazas" v-bind:value="item.numPlaza" :key="index">
-                                        {{ item.plazaName }}
-                                    </option>
-                                </select>
+                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center">                                
+                                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
                                 </div> 
                             </div>
                             <!--//////////////////////////////////////////////////////////////////////
@@ -69,12 +64,12 @@
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                       COMENTARIO                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-20 sm:ml-0 sm:mb-2 mr-2 mt-1 inline-block sm:p-1">
+                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-48 sm:ml-5 sm:mb-2 mt-0 inline-block sm:p-1">
                         <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
                         <!-- <p>{{ comentario }}</p> -->
                         <textarea
                         v-model="comentario"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-500 rounded-lg px-2 py-2 h-32 w-full"
+                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-300 rounded-lg px-2 py-2 h-32 w-full"
                         readonly
                         />
                     </div>                                 
@@ -146,10 +141,16 @@
 </template>
 <script>
 import ServicioActividades from '../../services/ActividadesService.js'
-const API = process.env.VUE_APP_URL_API_PRODUCCION
+import SelectPlaza from '../Header/SelectPlaza'
 import Axios from 'axios'
 import ServiceReportePDF from '../../services/ReportesPDFService'
+import CookiesService from '../../services/CookiesService'
+
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
+    components:{
+        SelectPlaza
+    },
     data(){
         return{
             listaActividadesMensuales:[],
@@ -165,10 +166,9 @@ export default {
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function(){           
-    this.listaPlazas = await this.$store.getters["Login/getListaPlazasUser"] 
+    this.listaPlazas = await this.$store.state.Login.cookiesUser.plazasUsuario
     let cargaInicial = this.$route.params.cargaInicial
-    this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales
-    this.plazaSelect = cargaInicial.plazaSelect
+    this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
     this.plazaNombre = cargaInicial.plazaNombre
     this.comentario = cargaInicial.comentario     
     this.mes = cargaInicial.mes
@@ -187,32 +187,27 @@ methods: {
             this.plazaSelect = actualizar.plazaSelect
         })
     },  
-    cambiar_plaza(){
-        let index = this.listaPlazas.findIndex(
-            (item) => item.numPlaza == this.plazaSelect
-        );
-        this.$store.commit("Header/PLAZAELEGIDAMUTATION", index);
-        this.$store.commit("Login/PLAZAELEGIDAMUTATION", index);
+    cambiar_plaza(numeroPlaza){     
+        this.plazaSelect = numeroPlaza
         this.listaActividadesMensuales = []
     },
-    reporte_pdf: async function(item){
-        console.log(item)
-        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+    reporte_pdf: async function(item){        
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then((response) => {                  
             let referenceNumber = response.data.result.table[0].referenceNumber
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId)                                                                                    
             ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
         })
         .catch(Ex => {                    
-            console.log(Ex);                    
+            console.log(Ex);        
+            if(Ex.response.status == 401)
+                CookiesService.token_no_autorizado()
         });                 
     },  
-    editar_reporte_carril: async function(item){
-        console.log(item)
-        let refPlaza = this.$store.getters['Login/getReferenceSquareActual']    
-        console.log(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)    
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+    editar_reporte_carril: async function(item){        
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                    
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then((response) => {                  
             let header = response.data.result.table[0]                        
             let actividades = response.data.result.table1                             
@@ -229,12 +224,12 @@ methods: {
                 },
             });
         })
-        .catch(Ex => {                    
-            console.log(Ex);                    
+        .catch(error => {                                
+            if(error.response.status == 401)
+                CookiesService.token_no_autorizado()                         
         });
     },
-    crear_reporte_carril(item){      
-        console.log(item.day)
+    crear_reporte_carril(item){              
         item["plazaNombre"] = this.plazaNombre                
         this.$router.push({ 
             path: 'FormularioReporte',
