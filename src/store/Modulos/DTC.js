@@ -22,53 +22,25 @@ const state = {
 const getters = {  
   getInsertDmgComplete: () => state.insertDmgComplete,
   GET_LISTA_DTC: () => (tipoVista) => {
-    if(tipoVista){
-      let prueba = []
-      state.listaInfoDTC
-        .filter(dtc => dtc.statusId == 4)
-        .forEach(async (item) =>  {          
-          await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
-          .then( async (response)=>{
-            await Axios.get(`${API}/Pdf/PdfExists/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
-            .then((response2) =>{
-              console.log(response2)
-              if(response.data.length > 0){
-                let obj = { ...item, 'imgbool': false, escaneadobool: false}
-                prueba.push(obj)              
-              }
-              else{
-                let obj = { ...item, 'imgbool': true, escaneadobool: false}
-                prueba.push(obj)              
-              }
-            })
-            .catch((error)=>{
-              if(error.response.status != 401){
-                if(response.data.length > 0){
-                  let obj = { ...item, 'imgbool': false, escaneadobool: true}
-                  prueba.push(obj)              
-                }
-                else{
-                  let obj = { ...item, 'imgbool': true, escaneadobool: true}
-                  prueba.push(obj)              
-                }
-              }
-              else{
-                CookiesService.token_no_autorizado()
-              }
-            })
-            //console.log(response)
-          })
-          .catch((ex)=>{
-            if(ex.response.status == 401)
-              CookiesService.token_no_autorizado()
-            console.log(ex)
-          })
-      })
-      console.log(prueba)
-      return prueba
+    if(tipoVista){      
+      return state.listaInfoDTC
+        .filter(dtc => dtc.dtcView.statusId == 4)
+        .map((item) => {
+          if(item.paths.length > 0)
+            item.dtcView.imgbool = false
+          else  
+            item.dtcView.imgbool = true
+
+          if(item.pdfExists)
+            item.dtcView.escaneadobool = false
+          else
+            item.dtcView.escaneadobool = true
+
+          return item.dtcView          
+        })     
     }
     else
-      return state.listaInfoDTC.filter(dtc => dtc.statusId < 4)
+      return state.listaInfoDTC.filter(dtc => dtc.dtcView.statusId < 4).map(item => item.dtcView)
   },
   GET_TABLE_DTC_CARDS: () => state.tableFormComponent, 
   GET_IMAGENES_DTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference), 
