@@ -8,7 +8,7 @@
             </select>
         </div>
         <div v-if="forma == 'diagnostico'">
-            <select v-model="plazaSelect" @change="actualizar_plaza" class="w-48" type="text" name="TipoDescripcion">
+            <select v-model="plazaSelect" @change="actualizar_plaza" class="w-48 sm:w-20" type="text" name="TipoDescripcion">
                 <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
             </select>
