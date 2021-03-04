@@ -3,37 +3,36 @@
         <Nav></Nav>
         <div class="justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
-                <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
+                <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
                     <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Diagnóstico de Falla</h1>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                   DATOS DEL REPORTE                           ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10">
+                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mb-2">
                         <!--/////////////////////////////////////////////////////////////////////
                         /////                           FILA UNO                            ////
                         ////////////////////////////////////////////////////////////////////--> 
-                        <div class="mt-6 ml-5 w-full">
-                            <div class="grid grid-cols-2">
-                                <span class="">No. De Reporte</span>
-                                <p class="-ml-66">{{ datosDiagnostico.ReferenceNumber }}</p>
+                        <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
+                            <div class="grid grid-cols-2 sm:grid grid-cols-1 md:grid grid-cols-1">
+                                <span class="">No. De Reporte:</span>
+                                <p class="-ml-66 sm:ml-0 sm:w-24">{{ datosDiagnostico.ReferenceNumber }}</p>
                             </div>
-                            <div class="mt-5 grid grid-cols-2">
+                            <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
                                 <div>
-                                    <span>Plaza de Cobro</span>
+                                    <span>Plaza de Cobro:</span>
                                 </div>
-                                <div class="-ml-66">
-                                    <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
+                                <div class="-ml-66 sm:ml-0">
+                                    <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
                                 </div>
                             </div>
-                            <div class="mt-5 grid grid-cols-2">
+                            <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
                                 <div>
-                                    <span class="mr-20">Ubicación</span>
+                                    <span class="mr-20 sm:mr-0">Ubicación:</span>
                                 </div>
-                                <div class="-ml-66">
-                                    <input type="text"
-                                    @change="buscar_carriles">
-                                    <select class="w-56" type="text">
+                                <div class="-ml-66 sm:ml-0">
+                                    <select class="w-56 sm:w-20" v-model="arraySelect" type="text">
                                         <option value="">Selecionar...</option>
+                                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -41,7 +40,7 @@
                         <!--/////////////////////////////////////////////////////////////////////
                         /////                           FILA DOS                            ////
                         ////////////////////////////////////////////////////////////////////--> 
-                        <div class="mt-6 ml-65">
+                        <div class="mt-6 ml-65 sm:ml-4">
                             <div>
                                 <span class="">Fecha:</span>
                                 <input class="ml-16 bg-white border-gray-400" 
@@ -51,37 +50,38 @@
                             </div>
                             <div class="mt-5">
                                 <span class="">Hora INICIO:</span>
-                                <input class="ml-4 bg-white border-gray-400 mr-4" type="time" v-model="horaInicio"/>
+                                <input class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="horaInicio"/>
                             </div>
                             <div class="mt-5">
                                 <span class="">Hora FIN:</span>
-                                <input class="ml-10 bg-white border-gray-400" type="time" v-model="horaFin"/>
+                                <input class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="horaFin"/>
                             </div>
                         </div>
                     </div>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                             FOLIOS                            ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10">
-                        <div class="mt-6 ml-5 w-full">
-                            <div class="text-center w-32 ml-64 mr-40">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0">
+                        <div class="mt-6 ml-5 w-full sm:-ml-6">
+                            <div class="text-center w-32 ml-64 mr-40 sm:ml-0">
                                 <span class="">Folio de FALLA:</span>
                             </div>
-                            <div class="mt-5 text-center w-32 ml-64">
+                            <div class="mt-5 text-center w-32 ml-64 sm:ml-0">
                                 <span class="">No. De Reporte:</span>
                             </div>
-                            <div class="mt-5 text-center w-56 ml-40">
-                                <span class="">Técnico Responsable PROSIS:</span>
+                            <div class="mt-5 text-center w-56 ml-40 sm:-ml-12">
+                                <span class="sm:hidden">Técnico Responsable PROSIS:</span>
+                                <span class="sm:show md:show lg:hidden xl:hidden">Tec.Res. PROSIS:</span>
                             </div>
                         </div>
-                        <div class="mt-6 mr-16 grid grid-cols-1">
-                            <div class="-ml-69">
-                                <input class="bg-white border-gray-400 w-full text-center" />
+                        <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
+                            <div class="-ml-69 sm:-ml-16">
+                                <input class="bg-white border-gray-400 w-full text-center" v-model="folioFalla" />
                             </div>
-                            <div class="mt-5 -ml-69">
+                            <div class="mt-5 -ml-69 sm:-ml-16">
                                 <input class="bg-white border-gray-400 w-full text-center"  />
                             </div>
-                            <div class="mt-5 -ml-69">
+                            <div class="mt-5 -ml-69 sm:-ml-16">
                                 <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
                             </div>
                         </div>
@@ -91,9 +91,9 @@
                     ////////////////////////////////////////////////////////////////////-->      
                     <div class="mt-2 sm:text-xs sm:ml-3 mb-16 mr-5 ml-5">
                         <!--/////////////////////////////////////////////////////////////////////
-                        /////                           FILA UNO                            ////
+                        /////                           FILA TRES                           ////
                         ////////////////////////////////////////////////////////////////////--> 
-                        <div class="mt-6 w-full grid grid-cols-2">
+                        <div class="mt-6 w-full grid grid-cols-2 ">
                             <div class=" mr-10">
                                 <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                                 <textarea
@@ -127,10 +127,16 @@
                                 />
                                 <span class="text-gray-500">{{ restante_causa }}/300</span>
                             </div>
+
                             <!-- /////////////////////////////////////////////////////////////////////
                             ////                         IMAGENES                             ////
                             ///////////////////////////////////////////////////////////////////// -->
-                            <div class="flex text-center cursor-pointer border-gray-800 flex-col sm:m-3 sm:mt-5 mt-12">
+                            <div class="flex text-center cursor-pointer border-gray-800 flex-col sm:m-3 sm:mt-10 mt-12 sm:hidden md:hidden">
+                                <ImagenesCard></ImagenesCard>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex text-center cursor-pointer border-gray-800 flex-col sm:m-3 sm:mt-10 mt-12 lg:hidden xl:hidden">
                                 <ImagenesCard></ImagenesCard>
                             </div>
                         </div>
@@ -138,7 +144,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-10 ml-12">
+                    <div class="mb-10 ml-12 sm:mb-6">
                         <div>
                             <button @click="crearDiagnostico" class="botonIconCrear">
                                 <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -158,7 +164,6 @@ import ImagenesCard from "../../components/DTC/ImagenesCard.vue";
 import EventBus from "../../services/EventBus.js";
 import SelectPlaza from '../../components/Header/SelectPlaza';
 import ServiceReportePDF from '../../services/ReportesPDFService';
-import Refacciones from '../../store/Modulos/Refacciones';
 import moment from "moment";
 
 export default {
@@ -179,13 +184,16 @@ export default {
             horaInicio:"",
             horaFin:"",
             fecha: "",
+            folioFalla:"",
             datosDiagnostico:{
                 ReferenceNumber: ""
             },
             listaPlazas: [],
             arrayReference: [],
             headerSelecionado: {},
-            arrayCarriles:[],
+            plazaSeleccionada:"",
+            arraySelect:{}
+
             
         }
     },
@@ -194,7 +202,9 @@ export default {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function (){
     //this.listaPlazas = await this.$store.state.Login.plazaSeleccionada.refereciaPlaza
+    this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
@@ -212,21 +222,14 @@ computed:{
     nombre_usuario(){
         return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
     },
-    plaza_selecc(){
-        return this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"];    
+    carriles_plaza(){
+        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
     }
 },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-buscar_carriles: async function (){
-    let carril = await Refacciones.BUSCAR_CARRILES({},this.headerSelecionado.referenceSquare)
-    if ( typeof(carril) == 'object' ){
-        return this.arrayCarriles.carril
-    }
-    console.log(this.arrayCarriles.carril)
-},
 crear_referencia: async function () {      
     let _arrayReference  = await ServiceReportePDF.crear_referencia(
         moment(this.fecha,"YYYY-MM-DD").format("DD-MM-YYYY"), 
@@ -240,8 +243,9 @@ crear_referencia: async function () {
     }          
 },
 async cambiar_plaza(numeroPlaza) {  
-    console.log(numeroPlaza) 
+    this.plazaSeleccionada = numeroPlaza 
     this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+    this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
     this.crear_referencia()      
     if (JSON.stringify(this.headerEdit) != "{}") {
         this.datosDiagnostico.ReferenceNumber = this.headerEdit.referenceNumber;
@@ -288,6 +292,10 @@ async cambiar_plaza(numeroPlaza) {
             this.causaFalla=''
             this.descripcion=''
             this.diagnostico=''
+            this.fecha=''
+            this.horaInicio=''
+            this.horaFin=''
+            this.arraySelect=''
             this.$notify.success({
                     title: "Ok!",
                     msg: `SE GENERÓ CORRECTAMENTE EL DICTAMEN.`,
