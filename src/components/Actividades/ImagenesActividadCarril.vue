@@ -134,8 +134,7 @@ export default {
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
-                        .then(() => {     
-                                                                                                         
+                        .then(() => {                                                                                                              
                         })
                         .catch(Ex => {                    
                             console.log(Ex);  
