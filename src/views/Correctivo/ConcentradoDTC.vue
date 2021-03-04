@@ -295,7 +295,7 @@ descargar_PDF: function (infoDtc, status){
 },
 filtro_dtc: async function (objFiltro) {  
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
-    let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false, this.infoDTC)    
+    let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
     this.$nextTick().then(() => {      
         this.infoDTC = listaFiltrada            
     }) 

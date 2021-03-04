@@ -88,6 +88,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    fotosEnDtc: {
+      type: Array,
+      default: () => []
+    }
   },
   data: function () {
     return {
@@ -111,41 +115,29 @@ export default {
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {    
     this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-    let _ref = this.referenceNumber.split("-")[0]          
-    let nombre_plaza = this.plazasValidas.find(plaza => plaza.referenceSquare == _ref).squareName          
-    if(nombre_plaza != undefined){       
-      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
-        .then((response) => {              
-            if(response.status != 404){
-              let array = response.data.map(item => {
-                return {
-                  "fileName": item, 
-                  "image": `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
-                }
-              })            
-              this.imgbase64 = {
-                array_img: array,
-                referenceNumber: this.referenceNumber,
-              };   
-            }               
-        })
-        .catch((Ex) => {    
-          if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
-        });      
-      if (this.imgbase64.array_img.length > 0) {        
-          this.agregarbool = false;
-          this.cargarImagen = false;                   
-      } 
-      else {
-          this.agregarbool = true;
-          this.cargarImagen = true;
-          this.imgbase64 = {
+    let arrayNombreFotos = this.$store.getters['DTC/GET_FOTOS_EQUIPO_DAÑADO_REFERENCE'](this.referenceNumber)                
+    if(arrayNombreFotos.length > 0){       
+        let array = arrayNombreFotos.map(item => {
+          return {
+            "fileName": item, 
+            "image": `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+          }
+        })            
+        this.imgbase64 = {
+          array_img: array,
+          referenceNumber: this.referenceNumber,
+        };                  
+        this.agregarbool = false;
+        this.cargarImagen = false;                   
+    } 
+    else {
+        this.agregarbool = true;
+        this.cargarImagen = true;
+        this.imgbase64 = {
             array_img: [],
             referenceNumber: "",
-          };
-      }
-    }
+        };
+    }        
   },
   /////////////////////////////////////////////////////////////////////
 ////                          METODOS                              ////

@@ -42,6 +42,7 @@ const getters = {
     else
       return state.listaInfoDTC.filter(dtc => dtc.dtcView.statusId < 4).map(item => item.dtcView)
   },
+  GET_FOTOS_EQUIPO_DAÑADO_REFERENCE: () => (numeroReferencia) => state.listaInfoDTC.find(dtc => dtc.dtcView.referenceNumber == numeroReferencia).paths,
   GET_TABLE_DTC_CARDS: () => state.tableFormComponent, 
   GET_IMAGENES_DTC: (state) => (reference) => state.listaImagenesDTC.find(item => item.referenceNumber == reference), 
   getDmgLibre: () => state.listaDmgLibre,
