@@ -148,8 +148,7 @@ const actions = {
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
     await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
-      .then(response => {       
-          console.log(response.data.result)                
+      .then(response => {                                
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
       .catch(error => {        

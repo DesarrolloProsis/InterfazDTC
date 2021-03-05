@@ -62,7 +62,7 @@ export default {
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
             this.plazaSelect = plazaSelect
             this.convenioSelect = convenioSelect
-            this.boolCambiarPlaza = true 
+            this.boolCambiarPlaza = false 
         }        
     },
     methods:{    
