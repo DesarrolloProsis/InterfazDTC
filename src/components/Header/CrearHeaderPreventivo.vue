@@ -174,9 +174,15 @@ modalCambiarFecha: function (){
 botoncambiar_modal: async function (){
     if(this.fechaCambio !='' && this.motivoCambioFecha != ''){        
         let toDay = new Date()
-        let fecha = new Date(this.fechaCambio)        
+        let mest = toDay.getMonth()
+        mest = mest + 1;
+        console.log(mest)
+        let fecha = new Date(this.fechaCambio)
+        let mes = fecha.getMonth()
+        mes = mes + 1;
+        console.log(mes)
         fecha.setDate(fecha.getDate())
-        if( fecha >= toDay){
+        if( mes > mest || mes < mest){
             this.$notify.warning({
             title: "Ops!! ",
             msg: "FECHA INVALIDA",
