@@ -75,19 +75,11 @@
         ////                      MODAL CONFIRMAR GMMEP                 ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-<<<<<<< HEAD
-        <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl">
-            <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
-            <div class="mt-5 text-center">
-              <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
-              <button @click="modalFirma=false" class="botonIconCancelar">No</button>
-=======
         <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
             <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
             <div class="mt-5 text-center">
               <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
               <button @click="modalFirma = false" class="botonIconCancelar">No</button>
->>>>>>> nueva-version
             </div>
           
         </div>

@@ -35,7 +35,7 @@
                             <span>Crear</span>
                         </button>
                     </div>
-                    <div class="flex-col justify-center h-12 w-full mt-5" >
+                    <div class="flex-col justify-center h-12 w-full mt-5 hidden" >
                         <div class="flex justify-center" v-if="pdfSelladoBool == false">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
                                     <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
