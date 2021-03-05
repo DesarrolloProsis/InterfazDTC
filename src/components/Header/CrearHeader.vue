@@ -158,7 +158,7 @@
       ////                   QUINTA  LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
       <div class="text-sm">
-        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'"></SelectPlaza>
+        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="tipoPlazaSelect"></SelectPlaza>
         <!-- <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
         <select v-model="plazaSelect" @change="cambiarPlaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
           <option disabled value>Selecionar...</option>
@@ -278,7 +278,8 @@ export default {
       modalReferencia: false,
       arrayReference: [],
       referenceSelected: '',
-      headerSelecionado: {}
+      headerSelecionado: {},
+      tipoPlazaSelect: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -305,6 +306,7 @@ created: function (){
 },
 beforeMount: async function () {    
   let f = new Date()
+  this.tipoPlazaSelect = 'insersion'      
   this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
   this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");  
@@ -313,7 +315,8 @@ beforeMount: async function () {
   this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
   await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
   this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
-  if (JSON.stringify(this.headerEdit) != "{}") {      
+  if (JSON.stringify(this.headerEdit) != "{}") {
+    this.tipoPlazaSelect = 'filtro'      
     this.boolCambiarPlaza = true
     this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
     this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;

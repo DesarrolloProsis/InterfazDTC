@@ -209,8 +209,7 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
-    editar_dtc: async function () {
-      //let ruta = this.infoCard.openMode ? "COMPONENT_EDIT_OPEN" : "COMPONENT_EDIT";
+    editar_dtc: async function () {      
       await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber);     
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
         { 
