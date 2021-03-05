@@ -238,8 +238,7 @@ methods:{
             End: this.horaFin,
             Observations: this.observaciones,   
             CalendarId: parseInt(this.header.calendarId)     
-        }       
-        console.log(headerReporte)
+        }               
         let tipoEncabezadoLane = headerReporte.CapufeLaneNum != '0000' ? 'carril' : undefined
         if(validarActividades){            
             if(this.validar_horas()) {                                                 
