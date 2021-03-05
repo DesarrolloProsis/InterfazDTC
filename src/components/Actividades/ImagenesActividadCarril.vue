@@ -106,7 +106,7 @@ export default {
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
                             this.$notify.success({
                                 title: "Ups!",
@@ -133,7 +133,7 @@ export default {
             else{
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                                                              
                         })
                         .catch(Ex => {                    
