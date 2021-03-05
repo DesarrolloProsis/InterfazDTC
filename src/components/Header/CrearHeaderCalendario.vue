@@ -35,6 +35,7 @@
                             <span>Crear</span>
                         </button>
                     </div>
+                    <!--
                     <div class="flex-col justify-center h-12 w-full mt-5" >
                         <div class="flex justify-center" v-if="pdfSelladoBool == false">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
@@ -52,6 +53,7 @@
                             </div>            
                         </div>
                     </div>
+                    -->
                     </div>          
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
