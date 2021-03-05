@@ -120,18 +120,26 @@ async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fec
     return referenciaNueva.toUpperCase()
 }
 const TIPOSENCABEZADOREPORTECARRIL = [
-    { frecuencia: 1, encabezado:  6 },
-    { frecuencia: 2, encabezado:  7 },
-    { frecuencia: 3, encabezado:  8 },
-    { frecuencia: 4, encabezado:  9 },
-    { frecuencia: 5, encabezado:  10 },    
+    { frecuencia: 1, encabezado:  1, tipoCarril: false },
+    { frecuencia: 2, encabezado:  2, tipoCarril: false },
+    { frecuencia: 3, encabezado:  3, tipoCarril: false },
+    { frecuencia: 4, encabezado:  4, tipoCarril: false },
+    { frecuencia: 5, encabezado:  5, tipoCarril: false },    
+    { frecuencia: 1, encabezado:  6, tipoCarril: true },
+    { frecuencia: 2, encabezado:  7, tipoCarril: true },
+    { frecuencia: 3, encabezado:  8, tipoCarril: true },
+    { frecuencia: 4, encabezado:  9, tipoCarril: true },
+    { frecuencia: 5, encabezado:  10, tipoCarril: true },        
 ]
-function frecuencia_id_to_encabezado_id(fecuenciaId){
-    return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId)).encabezado
+function frecuencia_id_to_encabezado_id(fecuenciaId, tipo){
+    if(tipo == 'carril')
+        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId) && item.tipoCarril == true).encabezado
+    else
+        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId) && item.tipoCarril == false).encabezado
 }
-function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
+function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado, tipoEncabezadoLane){
     let clavePlaza = referenceNumber.split('-')[0]
-    let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado)}/${referenceNumber}`       
+    let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado, tipoEncabezadoLane)}/${referenceNumber}`       
     let namePdf = referenceNumber + ' ' + 'Preventivo' 
     xml_hhtp_request(urlTopdf, namePdf)    
 }
