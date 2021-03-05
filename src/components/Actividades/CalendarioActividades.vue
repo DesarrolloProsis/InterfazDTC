@@ -150,7 +150,8 @@ export default {
       año: '',
       mes: '',   
       fechaActual: '',   
-      numeroActividades: 0  
+      numeroActividades: 0,
+      tipoUsuario: 0 
     }
   },
   beforeMount(){
@@ -162,14 +163,14 @@ export default {
     this.mes = cargaInicial.mes
     this.nombrePlaza = cargaInicial.plazaNombre
     this.listaActividades = this.$store.state.Actividades.catalogoActividades
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
   },
   computed:{     
     ...mapState("Refacciones", ["carriles"]),
     carriles_filtrados() {
       if (this.actividadSelect == "") {                
         return ['Sin Actividad']
-      } else if (this.actividadSelect == 1) {
-        
+      } else if (this.actividadSelect == 1) {        
         let carrilesReturn = this.carriles.map((item) => ({
           value: {
             capufeLaneNum: item.capufeLaneNum,
@@ -177,7 +178,9 @@ export default {
             lane: item.lane,
           },
           text: item.lane,
-        }));        
+        }));     
+        if(this.tipoUsuario == 1)
+          carrilesReturn = carrilesReturn.filter(item => item.value.capufeLaneNum != '0000')             
         return carrilesReturn
       } else if (this.actividadSelect > 1) {
         let rolUser = this.$store.state.Login.cookiesUser.rollId
@@ -214,7 +217,9 @@ export default {
               text: carrilesFull.lane,
             });
           }
-        }                 
+        }  
+        if(this.tipoUsuario == 1)
+          carrilesReturn = carrilesReturn.filter(item => item.value.capufeLaneNum != '0000')             
         return carrilesReturn
       }
       return ['no entre en ninguno']
@@ -275,7 +280,7 @@ export default {
       this.events = result.listaActividadesMensuales
       this.comentario = this.comentario != '' ? this.comentario : result.comentario      
     }, 
-    cambiar_mes: async function(item){
+    cambiar_mes: async function(item){ 
       let fecha = item.startDate.toLocaleDateString().split('/')
       let result = await ServiceActividades.filtrar_actividades_mensuales(fecha[1], fecha[2], true) 
       this.events = result.listaActividadesMensuales
