@@ -26,7 +26,7 @@
                         <h2 class="ml-5">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>                    
                     <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                                                    
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'insercion'"></SelectPlaza>                                                    
                     </div>
                     <div class="grid grid-cols-2">
                     <div class="flex justify-start m-5">
@@ -35,7 +35,7 @@
                             <span>Crear</span>
                         </button>
                     </div>
-                    <div class="flex-col justify-center h-12 w-full mt-5" >
+                    <!-- <div class="flex-col justify-center h-12 w-full mt-5" >
                         <div class="flex justify-center" v-if="pdfSelladoBool == false">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
                                     <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
@@ -51,7 +51,7 @@
                                 <button @click="pdfSelladoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
                             </div>            
                         </div>
-                    </div>
+                    </div> -->
                     </div>          
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
