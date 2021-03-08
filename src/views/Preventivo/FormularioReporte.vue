@@ -112,11 +112,8 @@ export default {
             }                    
         }
         else{                      
-            this.reporteInsert = false               
-            console.log(fechaNueva)
-            let headerCompuesto = this.$route.query.headerCompuesto   
-            let fechaNueva = new Date(headerCompuesto.fecha)
-            console.log(headerCompuesto)         
+            this.reporteInsert = false                           
+            let headerCompuesto = this.$route.query.headerCompuesto                              
             this.header = {
                 calendarId: headerCompuesto.calendarId,
                 capufeLaneNum: headerCompuesto.capufeLaneNum,
