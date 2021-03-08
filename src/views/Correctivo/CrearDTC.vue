@@ -197,15 +197,40 @@ methods: {
       });
       let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
       if (insertHeader) {
-        this.$notify.success({
+        if(status == 2){
+          this.$notify.success({
+            title: "Ok!",
+            msg: `DTC CON REFERENCIA ${this.referenciaDtc} CREADO CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });  
+        }
+        else{
+          if(status == 1)
+          {
+            this.$notify.success({
+            title: "Ok!",
+            msg: `DTC CON REFERENCIA ${this.referenciaDtc} GUARDADO CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+              },
+            });  
+          }
+        }
+/*         this.$notify.success({
           title: "Ok!",
-          msg: `EL HEDER CON LA REFERENCIA ${this.referenciaDtc} SE INSERTO CORRECTAMENTE.`,
+          msg: `DTC CON REFERENCIA ${this.referenciaDtc} CREADO CORRECTAMENTE.`,
           position: "bottom right",
           styles: {
             height: 100,
             width: 500,
           },
-        });
+        }); */
         let value_insert = {
           refNum: this.referenciaDtc,
           flagCreate: this.flagCreate,
@@ -213,7 +238,8 @@ methods: {
         await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
         if (insertDmg) {
-          this.$notify.success({
+          console.log('Los componentes se insertaron correctamente')
+/*          this.$notify.success({
             title: "Ok!",
             msg: `LOS COMPONENTES SE INSERTARON CORRECTAMENTE.`,
             position: "bottom right",
@@ -221,14 +247,15 @@ methods: {
               height: 100,
               width: 500,
             },
-          });
+          }); */
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               this.referenciaDtc, 
               status, 
               true
-            )        
-            this.$notify.success({
+            ) 
+              console.log('Creado el reporte')       
+/*            this.$notify.success({
               title: "Ok!",
               msg: `CREANDO EL REPORTE ${this.refNum}.`,
               position: "bottom right",
@@ -236,7 +263,7 @@ methods: {
                 height: 100,
                 width: 500,
               },
-            });
+            }); */
           }
           await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);
@@ -258,7 +285,7 @@ methods: {
       } else {
         this.$notify.warning({
           title: "Ups!",
-          msg: `NO SE INSERTO EL HEDER CON LA REFERENCIA ${this.refNum}.`,
+          msg: `NO SE CREO EL DTC CON LA REFERENCIA ${this.refNum}.`,
           position: "bottom right",
           styles: {
             height: 100,
