@@ -77,10 +77,13 @@ export default {
         recibir_imagenes: async function (e){                                    
             this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
         },
-        enviar_imagen: async function(referenceNumber){     
-            if(this.arrayImagenes.length > 0){                                     
+        enviar_imagen: async function(referenceNumber){    
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
+            if(boolValidacion){           
+                let contador = 0                          
                 for(let imagenes of this.arrayImagenes){                
-                    if(imagenes.name.split('_')[0] != this.referenceNumber){                    
+                    if(imagenes.name.split('_')[0] != this.referenceNumber){          
+                        contador++         
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
@@ -94,7 +97,7 @@ export default {
                         }); 
                         this.$notify.success({
                             title: "Ok!",
-                            msg: `SE INSERTARON ${this.arrayImagenes.length}.`,
+                            msg: `SE INSERTARON ${contador}.`,
                             position: "bottom right",
                             styles: {
                                 height: 100,
