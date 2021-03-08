@@ -112,11 +112,8 @@ export default {
             }                    
         }
         else{                      
-            this.reporteInsert = false               
-            console.log(fechaNueva)
-            let headerCompuesto = this.$route.query.headerCompuesto   
-            let fechaNueva = new Date(headerCompuesto.fecha)
-            console.log(headerCompuesto)         
+            this.reporteInsert = false                           
+            let headerCompuesto = this.$route.query.headerCompuesto                              
             this.header = {
                 calendarId: headerCompuesto.calendarId,
                 capufeLaneNum: headerCompuesto.capufeLaneNum,
@@ -249,8 +246,7 @@ methods:{
                             console.log(arrayJob)                             
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                             .then(() => {  
-                                if(this.objetoLogDate.fecha != ''){
-                                    alert('cambie fecha')
+                                if(this.objetoLogDate.fecha != ''){                                    
                                     let refPlaza = this.referenceNumber.split('-')[0]
                                     let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
                                     let dateLog = {

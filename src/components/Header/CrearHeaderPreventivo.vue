@@ -11,7 +11,7 @@
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
                 <div class="border-gray-800 border-2 p-5 pt-0">
-                    <h1 class="mt-5 border-purple-800">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel Carril` }}</h1>            
+                    <h1 class="mt-5 border-purple-800">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel ${tituloUbicacion}` }}</h1>            
                 </div>
             </div>
         </div>
@@ -137,6 +137,7 @@ data() {
         fechaCambio: '',
         motivoCambioFecha: '',
         limite: 300,
+        tituloUbicacion: ''
     };
 },
 props: {
@@ -152,7 +153,8 @@ props: {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function() {    
+beforeMount: async function() {   
+    this.tituloUbicacion = this.header.capufeLaneNum == '0000' ? 'Plaza' : 'Carril' 
     this.horaInicio = this.$route.query.horas.horaInicio
     this.horaFin = this.$route.query.horas.horaFin
 },

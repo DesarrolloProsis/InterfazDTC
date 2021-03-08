@@ -77,30 +77,35 @@ export default {
         recibir_imagenes: async function (e){                                    
             this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
         },
-        enviar_imagen: async function(referenceNumber){                                          
-            for(let imagenes of this.arrayImagenes){                
-                if(imagenes.name.split('_')[0] != this.referenceNumber){                    
-                    let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
-                    let formData = new FormData();
-                    formData.append("image", imgagen);
-                    await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-                        .then(() => {     
-                            this.$notify.success({
-                                title: "Ups!",
-                                msg: `NUEVA IMAGEN INSERTADA.`,
-                                position: "bottom right",
-                                styles: {
-                                    height: 100,
-                                    width: 500,
-                                },
-                            });                                                                             
-                        })
-                        .catch(Ex => {                    
-                            console.log(Ex);    
-                            if(Ex.response.status == 401)
-                                CookiesService.token_no_autorizado()              
-                    }); 
-                }  
+        enviar_imagen: async function(referenceNumber){    
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
+            if(boolValidacion){           
+                let contador = 0                          
+                for(let imagenes of this.arrayImagenes){                
+                    if(imagenes.name.split('_')[0] != this.referenceNumber){          
+                        contador++         
+                        let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
+                        let formData = new FormData();
+                        formData.append("image", imgagen);
+                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
+                            .then(() => {                                                                                                            
+                            })
+                            .catch(Ex => {                    
+                                console.log(Ex);    
+                                if(Ex.response.status == 401)
+                                    CookiesService.token_no_autorizado()              
+                        }); 
+                        this.$notify.success({
+                            title: "Ok!",
+                            msg: `SE INSERTARON ${contador}.`,
+                            position: "bottom right",
+                            styles: {
+                                height: 100,
+                                width: 500,
+                            },
+                        }); 
+                    }  
+                }
             }                     
         },
         eliminar_imagen(nombreImagen){                
@@ -109,7 +114,7 @@ export default {
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
                             this.$notify.success({
-                                title: "Ups!",
+                                title: "Ok!",
                                 msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
                                 position: "bottom right",
                                 styles: {
