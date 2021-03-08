@@ -86,7 +86,7 @@ export default {
                     await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                         .then(() => {     
                             this.$notify.success({
-                                title: "Ups!",
+                                title: "Ok!",
                                 msg: `NUEVA IMAGEN INSERTADA.`,
                                 position: "bottom right",
                                 styles: {
@@ -109,7 +109,7 @@ export default {
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
                             this.$notify.success({
-                                title: "Ups!",
+                                title: "Ok!",
                                 msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
                                 position: "bottom right",
                                 styles: {
