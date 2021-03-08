@@ -471,7 +471,7 @@ methods: {
         this.limpiar_filtros()
         this.$notify.success({
             title: "Ok!",
-            msg: `Se subio el archivo correctamente.`,
+            msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
             position: "bottom right",
             styles: {
               height: 100,

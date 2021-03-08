@@ -212,7 +212,21 @@ export default {
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
             Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`, CookiesService.obtener_bearer_token())
-              .then(() => {})
+              .then(() => {
+                if(eliminar)
+                {
+                  this.$notify.error({
+                  title: "ups!",
+                  //msg: ex,
+                  msg: 'IMAGENES ELIMINADAS',
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+              }
+              })
               .catch((ex) => {
                 if(ex.response.status == 401)
                   CookiesService.token_no_autorizado()
@@ -220,7 +234,8 @@ export default {
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
-                  msg: ex,
+                  //msg: ex,
+                  msg: 'IMAGENES ELIMINADAS',
                   position: "bottom right",
                   styles: {
                     height: 100,
