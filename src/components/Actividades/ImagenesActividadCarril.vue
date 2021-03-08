@@ -84,21 +84,21 @@ export default {
                     let formData = new FormData();
                     formData.append("image", imgagen);
                     await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-                        .then(() => {     
-                            this.$notify.success({
-                                title: "Ok!",
-                                msg: `NUEVA IMAGEN INSERTADA.`,
-                                position: "bottom right",
-                                styles: {
-                                    height: 100,
-                                    width: 500,
-                                },
-                            });                                                                             
+                        .then(() => {                                                                                                            
                         })
                         .catch(Ex => {                    
                             console.log(Ex);    
                             if(Ex.response.status == 401)
                                 CookiesService.token_no_autorizado()              
+                    }); 
+                    this.$notify.success({
+                        title: "Ok!",
+                        msg: `SE INSERTARON ${this.arrayImagenes.length}.`,
+                        position: "bottom right",
+                        styles: {
+                            height: 100,
+                            width: 500,
+                        },
                     }); 
                 }  
             }                     
