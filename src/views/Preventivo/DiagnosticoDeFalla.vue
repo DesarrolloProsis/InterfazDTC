@@ -29,9 +29,6 @@
 
 <script>
 import Nav from "../../components/Navbar";
-import EventBus from "../../services/EventBus.js";
-import ServiceReportePDF from '../../services/ReportesPDFService';
-import moment from "moment";
 import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
 
 export default {
@@ -56,25 +53,7 @@ export default {
             type:"DIAG"
         }
     },
-/////////////////////////////////////////////////////////////////////
-////                       CICLOS DE VIDA                        ////
-/////////////////////////////////////////////////////////////////////
-beforeMount: async function (){    
-    this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
-    this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-},
-/////////////////////////////////////////////////////////////////////
-////                          COMPUTADAS                          ////
-/////////////////////////////////////////////////////////////////////
-computed:{
-    nombre_usuario(){
-        return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
-    },
-    carriles_plaza(){
-        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
-    }
-},
+
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
@@ -90,47 +69,16 @@ methods:{
             let validar = valueHeader.some(prop => prop == '')
             
             if(validar){
+
                 alert('falta llenar campos')
             }
             else{
+                console.log()
                 alert('estoy completo')
             }            
         }
     },
-    crear_referencia: async function () {      
-    let _arrayReference  = await ServiceReportePDF.crear_referencia(
-        moment(this.fecha,"YYYY-MM-DD").format("DD-MM-YYYY"), 
-        this.headerSelecionado.referenceSquare, true
-    )    
-    if(typeof(_arrayReference) == 'object'){
-        return this.arrayReference = _arrayReference
-    }
-    else{
-        return this.datosDiagnostico.ReferenceNumber = _arrayReference
-    }          
 },
-async cambiar_plaza(numeroPlaza) {  
-    this.plazaSeleccionada = numeroPlaza 
-    this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-    this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-    this.crear_referencia()      
-    if (JSON.stringify(this.headerEdit) != "{}") {
-        this.datosDiagnostico.ReferenceNumber = this.headerEdit.referenceNumber;
-    }
-},
-},
-/////////////////////////////////////////////////////////////////////
-////                       Watcher                               ////
-/////////////////////////////////////////////////////////////////////
-watch:{
-    horaInicio: function(newHora){
-        EventBus.$emit("actualizar_hora_inicio", newHora);
-    },
-    horaFin: function(newHora){
-        EventBus.$emit("actualizar_hora_fin", newHora);
-    }
-}, 
-
 
 }
 </script>
