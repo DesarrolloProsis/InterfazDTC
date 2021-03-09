@@ -130,7 +130,7 @@
         <!-- /////////////////////////////////////////////////////////////////////
         ////                            FICHA                             ///////
         //////////////////////////////////////////////////////////////////// -->
-        <div v-if="tipo == 'DIAG'"> 
+        <div v-if="tipo == 'FICHA'"> 
             <div class="grid grid-cols-2 ml-5">
                 <div class="">
                     <span>TIPO DE FALLA:</span>
@@ -185,6 +185,9 @@
 
 <script>
 import SelectPlaza from '../../components/Header/SelectPlaza'
+import ServiceReportePDF from '../../services/ReportesPDFService';
+import moment from "moment";
+
 export default {
 name: "Diagnostico",
 props:{
@@ -209,7 +212,10 @@ data(){
             horaInicio: '',
             horaFin: '',
             folioFalla: '',
-            numeroReporte: ''
+            numeroReporte: '',
+            descripcionFalla: '',
+            diagnosticoFlla:'',
+            causaFalla:''
         },
         listaPlazas: [],
         arrayReference: [],
@@ -228,6 +234,21 @@ beforeMount: function(){
 ////                          COMPUTADAS                          ////
 /////////////////////////////////////////////////////////////////////
 computed:{
+    nombre_usuario(){
+        return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
+    },
+    carriles_plaza(){
+        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+    },
+    restante_desc(){
+        return  this.datosDiagnostico.descripcionFalla.length
+    },
+    restante_diag(){
+        return this.datosDiagnostico.diagnosticoFlla.length
+    },
+    restante_causa(){
+        return this.datosDiagnostico.causaFalla.length
+    },
 },
 watch:{
     datosDiagnostico: {
@@ -238,8 +259,45 @@ watch:{
     }
 },
 methods:{
+        validar_horas(){
+        if(this.datosDianostico.horaInicio != '' && this.datosDianostico.horaFin != ''){
+            let horaISplite = this.datosDianostico.horaInicio.split(':')            
+            let horaFSplite = this.datosDianostico.horaFin.split(':')            
+            let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+            let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+            if(dateInicio < dateFin){                
+                return true
+            }
+            else {
+/*                     this.$notify.warning({
+                    title: "Ups!",
+                    msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                }); */
+                console.log('LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN')
+                return false
+            }
+        }
+        else{                    
+/*             this.$notify.warning({
+                title: "Ups!",
+                msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            }); */
+                console.log('FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO')
+                return false    
+            }
+    },
     validar_datos_header(){
-        if(this.causaFalla != '' && this.descripcion !='' && this.diagnostico != '' && this.solucion != ''){
+        if(this.datosDiagnostico.causaFalla != '' && this.datosDiagnostico.descripcion !='' && this.datosDiagnostico.diagnostico != '' && this.validar_horas() != false){
             this.$notify.success({
                 title: "Ok!",
                 msg: `SE GENERÓ CORRECTAMENTE.`,
@@ -263,7 +321,28 @@ methods:{
             });
             return false
         }
-    }
+    },
+    crear_referencia: async function () {      
+        let _arrayReference  = await ServiceReportePDF.crear_referencia(
+            moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
+            this.headerSelecionado.referenceSquare, true
+        )    
+        if(typeof(_arrayReference) == 'object'){
+            return this.arrayReference = _arrayReference
+        }
+        else{
+            return this.datosDiagnostico.referenceNumber = _arrayReference
+        }          
+    },
+    async cambiar_plaza(numeroPlaza) {  
+        this.plazaSeleccionada = numeroPlaza 
+        this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.crear_referencia()      
+        if (JSON.stringify(this.headerEdit) != "{}") {
+            this.datosDiagnostico.referenceNumber = this.headerEdit.referenceNumber;
+        }
+    },
 },
 }
 </script>
