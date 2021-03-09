@@ -269,7 +269,7 @@ methods:{
                 return true
             }
             else {
-/*                     this.$notify.warning({
+/*                  this.$notify.warning({
                     title: "Ups!",
                     msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
                     position: "bottom right",
