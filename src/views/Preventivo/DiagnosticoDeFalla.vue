@@ -9,7 +9,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo = this.type></HeaderFalla>
+                    <HeaderFalla :tipo="type"></HeaderFalla>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -41,34 +41,24 @@ export default {
         HeaderFalla
 
     },
+    props:{
+        tipo:{
+            type: String,
+            default: () => ''
+        } 
+    }, 
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
     /////////////////////////////////////////////////////////////////////
     data (){
-        return{
-            limite:300,
-            nameUser:"",
-            horaInicio:"",
-            horaFin:"",
-            fecha: "",
-            folioFalla:"",
-            noReporte:"",
-            datosDiagnostico:{
-                ReferenceNumber: ""
-            },
-            listaPlazas: [],
-            arrayReference: [],
-            headerSelecionado: {},
-            plazaSeleccionada:"",
-            arraySelect:{},
-            type:"DIAG",
+        return{          
+            type:"DIAG"
         }
     },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function (){
-    //this.listaPlazas = await this.$store.state.Login.plazaSeleccionada.refereciaPlaza
+beforeMount: async function (){    
     this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
