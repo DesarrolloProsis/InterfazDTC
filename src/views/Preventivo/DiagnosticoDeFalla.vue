@@ -60,20 +60,63 @@ methods:{
     actualizar_header(header){
         this.datosHeader = header
     },
+    validar_horas(){
+            if(this.datosHeader.horaInicio != '' && this.datosHeader.horaFin != ''){
+                let horaISplite = this.datosHeader.horaInicio.split(':')            
+                let horaFSplite = this.datosHeader.horaFin.split(':')            
+                let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+                let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+                if(dateInicio < dateFin){                
+                    return true
+                }
+                else {
+                    this.$notify.warning({
+                        title: "Ups!",
+                        msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
+                        position: "bottom right",
+                        styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                    console.log('LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN')
+                    return false
+                }
+            }
+            else{                    
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
+                    console.log('FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO')
+                    return false    
+                }
+    },
     enviar_header_diagnostico(){    
-        let llavesHeader = Object.keys(this.datosHeader)
+        let llavesHeader = Object.keys(this.datosHeader)    
+        console.log(llavesHeader)    
         if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
-            let validar = valueHeader.some(prop => prop == '')
-            
+            let validar = valueHeader.some(prop => prop == '')            
             if(validar){
-
                 alert('falta llenar campos')
             }
-            else{
-                console.log()
+            else{                
                 alert('estoy completo')
+                let horasValidas = this.validar_horas()
+                if(horasValidas){
+                    //AQUI SE LLAMA A LA API PARA INSERTAR
+                    alert('Horas Son Validas')
+                }                
             }            
+        }
+        else{
+            alert('faltan campos')
         }
     },
 },
