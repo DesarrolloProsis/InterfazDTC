@@ -10,7 +10,7 @@
             <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
                 <div class="grid grid-cols-2 sm:grid grid-cols-1 md:grid grid-cols-1">
                     <span class="">No. De Reporte:</span>
-                    <p class="-ml-66 sm:ml-0 sm:w-24">{{ datosDiagnostico.ReferenceNumber }}</p>
+                    <p class="-ml-66 sm:ml-0 sm:w-24">{{ datosDiagnostico.referenceNumber }}</p>
                 </div>
                 <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
                     <div>
@@ -25,7 +25,7 @@
                         <span class="mr-20 sm:mr-0">Ubicación:</span>
                     </div>
                     <div class="-ml-66 sm:ml-0">
-                        <select class="w-56 sm:w-20" v-model="arraySelect" type="text">
+                        <select class="w-56 sm:w-20" v-model="datosDiagnostico.ubicacion" type="text">
                             <option value="">Selecionar...</option>
                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                         </select>
@@ -40,16 +40,16 @@
                     <span class="">Fecha:</span>
                     <input class="ml-16 bg-white border-gray-400" 
                     type="date" 
-                    v-model="fecha"
+                    v-model="datosDiagnostico.fechaDiagnostico"
                     @change="crear_referencia"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora INICIO:</span>
-                    <input class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="horaInicio"/>
+                    <input class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="datosDiagnostico.horaInicio"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora FIN:</span>
-                    <input class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="horaFin"/>
+                    <input class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="datosDiagnostico.horaFin"/>
                 </div>
             </div>
         </div>    
@@ -71,10 +71,10 @@
             </div>
             <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
                 <div class="-ml-69 sm:-ml-16">
-                    <input class="bg-white border-gray-400 w-full text-center" v-model="folioFalla" />
+                    <input class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.folioFalla" />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
-                    <input class="bg-white border-gray-400 w-full text-center" v-model="noReporte"  />
+                    <input class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.noReporte"  />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
                     <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
@@ -233,7 +233,7 @@ watch:{
     datosDiagnostico: {
         deep: true,
         handler(datosDiagnostico) {
-            console.log(datosDiagnostico)
+            this.$emit('actualizar-header', datosDiagnostico)
         },
     }
 },

@@ -9,7 +9,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="type"></HeaderFalla>
+                    <HeaderFalla :tipo="type" @enviar-header-diagnostico="enviar_header_diagnostico" @actualizar-header="actualizar_header"></HeaderFalla>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -51,7 +51,8 @@ export default {
     ////                      DATA                                    ////
     /////////////////////////////////////////////////////////////////////
     data (){
-        return{          
+        return{    
+            datosHeader: {},      
             type:"DIAG"
         }
     },
@@ -78,6 +79,11 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+    actualizar_header(header){
+        this.datosHeader = header
+    },
+    enviar_header_diagnostico(){        
+    },
 crear_referencia: async function () {      
     let _arrayReference  = await ServiceReportePDF.crear_referencia(
         moment(this.fecha,"YYYY-MM-DD").format("DD-MM-YYYY"), 
@@ -99,7 +105,6 @@ async cambiar_plaza(numeroPlaza) {
         this.datosDiagnostico.ReferenceNumber = this.headerEdit.referenceNumber;
     }
 },
-
 },
 /////////////////////////////////////////////////////////////////////
 ////                       Watcher                               ////
