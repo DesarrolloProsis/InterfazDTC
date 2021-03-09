@@ -58,35 +58,7 @@
                                 <input class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="horaFin"/>
                             </div>
                         </div>
-                    </div>
-                    <!--/////////////////////////////////////////////////////////////////////
-                    /////                             FOLIOS                            ////
-                    ////////////////////////////////////////////////////////////////////--> 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0">
-                        <div class="mt-6 ml-5 w-full sm:-ml-6">
-                            <div class="text-center w-32 ml-64 mr-40 sm:ml-0">
-                                <span class="">Folio de FALLA:</span>
-                            </div>
-                            <div class="mt-5 text-center w-32 ml-64 sm:ml-0">
-                                <span class="">No. De Reporte:</span>
-                            </div>
-                            <div class="mt-5 text-center w-56 ml-40 sm:-ml-12">
-                                <span class="sm:hidden">Técnico Responsable PROSIS:</span>
-                                <span class="sm:show md:show lg:hidden xl:hidden">Tec.Res. PROSIS:</span>
-                            </div>
-                        </div>
-                        <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
-                            <div class="-ml-69 sm:-ml-16">
-                                <input class="bg-white border-gray-400 w-full text-center" v-model="folioFalla" />
-                            </div>
-                            <div class="mt-5 -ml-69 sm:-ml-16">
-                                <input class="bg-white border-gray-400 w-full text-center" v-model="noReporte"  />
-                            </div>
-                            <div class="mt-5 -ml-69 sm:-ml-16">
-                                <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
-                            </div>
-                        </div>
-                    </div>
+                    </div>              
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
