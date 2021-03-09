@@ -9,13 +9,13 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="type" @enviar-header-diagnostico="enviar_header_diagnostico" @actualizar-header="actualizar_header"></HeaderFalla>
+                    <HeaderFalla :tipo="type" @actualizar-header="actualizar_header"></HeaderFalla>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-10 ml-12 sm:mb-6">
                         <div>
-                            <button @click="crearDiagnostico" class="botonIconCrear">
+                            <button @click="enviar_header_diagnostico" class="botonIconCrear">
                                 <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Crear</span>
                             </button>
@@ -82,9 +82,22 @@ methods:{
     actualizar_header(header){
         this.datosHeader = header
     },
-    enviar_header_diagnostico(){        
+    enviar_header_diagnostico(){    
+        let llavesHeader = Object.keys(this.datosHeader)
+        if(llavesHeader.length == 10){
+            
+            let valueHeader = Object.values(this.datosHeader)
+            let validar = valueHeader.some(prop => prop == '')
+            
+            if(validar){
+                alert('falta llenar campos')
+            }
+            else{
+                alert('estoy completo')
+            }            
+        }
     },
-crear_referencia: async function () {      
+    crear_referencia: async function () {      
     let _arrayReference  = await ServiceReportePDF.crear_referencia(
         moment(this.fecha,"YYYY-MM-DD").format("DD-MM-YYYY"), 
         this.headerSelecionado.referenceSquare, true
