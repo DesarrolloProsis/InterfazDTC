@@ -130,7 +130,7 @@
         <!-- /////////////////////////////////////////////////////////////////////
         ////                            FICHA                             ///////
         //////////////////////////////////////////////////////////////////// -->
-        <div v-if="tipo == 'FICHA'"> 
+        <div v-if="tipo == 'DIAG'"> 
             <div class="grid grid-cols-2 ml-5">
                 <div class="">
                     <span>TIPO DE FALLA:</span>
@@ -203,7 +203,7 @@ data(){
     return{
         limite:300,                                                                                      
         datosDiagnostico:{
-            ReferenceNumber: "",
+            referenceNumber: "",
             ubicacion: '',
             fechaDiagnostico: '',
             horaInicio: '',
@@ -229,8 +229,16 @@ beforeMount: function(){
 /////////////////////////////////////////////////////////////////////
 computed:{
 },
+watch:{
+    datosDiagnostico: {
+        deep: true,
+        handler(datosDiagnostico) {
+            console.log(datosDiagnostico)
+        },
+    }
+},
 methods:{
-    validarCampos(){
+    validar_datos_header(){
         if(this.causaFalla != '' && this.descripcion !='' && this.diagnostico != '' && this.solucion != ''){
             this.$notify.success({
                 title: "Ok!",
