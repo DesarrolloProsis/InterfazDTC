@@ -113,7 +113,6 @@
 
 <script>
 import EventBus from '../../services/EventBus'
-
 import SelectPlaza from '../Header/SelectPlaza'
 
 export default {
@@ -146,7 +145,7 @@ export default {
             default: () => []
         }
     },
-    /////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
     /////////////////////////////////////////////////////////////////////
     data: function (){

@@ -4,7 +4,8 @@
         <div class="justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Diagnóstico de Falla</h1>
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-if="this.type == 'DIAG' ">Diagnostico de Falla</h1>
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-else>Ficha Técnica de Atención</h1>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                   DATOS DEL REPORTE                           ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -79,7 +80,7 @@
                                 <input class="bg-white border-gray-400 w-full text-center" v-model="folioFalla" />
                             </div>
                             <div class="mt-5 -ml-69 sm:-ml-16">
-                                <input class="bg-white border-gray-400 w-full text-center"  />
+                                <input class="bg-white border-gray-400 w-full text-center" v-model="noReporte"  />
                             </div>
                             <div class="mt-5 -ml-69 sm:-ml-16">
                                 <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
@@ -89,58 +90,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <div class="mt-2 sm:text-xs sm:ml-3 mb-16 mr-5 ml-5">
-                        <!--/////////////////////////////////////////////////////////////////////
-                        /////                           FILA TRES                           ////
-                        ////////////////////////////////////////////////////////////////////--> 
-                        <div class="mt-6 w-full grid grid-cols-2 ">
-                            <div class=" mr-10">
-                                <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
-                                <textarea
-                                    v-model="descripcion"
-                                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                                    placeholder="jane@example.com"
-                                    name="Observaciones"
-                                    v-bind:maxlength="limite"
-                                />
-                                <span class="text-gray-500">{{ restante_desc }}/300</span>
-                            </div>
-                            <div class="mr-10">
-                                <span class="">DIAGNOSTICO DE LA FALLA REPORTADA:</span>
-                                <textarea
-                                    v-model="diagnostico"
-                                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                                    placeholder="jane@example.com"
-                                    name="Observaciones"
-                                    v-bind:maxlength="limite"
-                                />
-                                <span class="text-gray-500">{{ restante_diag }}/300</span>
-                            </div>
-                            <div class="mt-5 mr-10">
-                                <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
-                                <textarea
-                                    v-model="causaFalla"
-                                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                                    placeholder="jane@example.com"
-                                    name="CausaDeLaFalla"
-                                    v-bind:maxlength="limite"
-                                />
-                                <span class="text-gray-500">{{ restante_causa }}/300</span>
-                            </div>
-
-                            <!-- /////////////////////////////////////////////////////////////////////
-                            ////                         IMAGENES                             ////
-                            ///////////////////////////////////////////////////////////////////// -->
-                            <div class="flex text-center cursor-pointer border-gray-800 flex-col sm:m-3 sm:mt-10 mt-12 sm:hidden md:hidden">
-                                <ImagenesCard></ImagenesCard>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex text-center cursor-pointer border-gray-800 flex-col sm:m-3 sm:mt-10 mt-12 lg:hidden xl:hidden">
-                                <ImagenesCard></ImagenesCard>
-                            </div>
-                        </div>
-                    </div>
+                    <HeaderFalla :tipo = this.type></HeaderFalla>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -160,31 +110,39 @@
 
 <script>
 import Nav from "../../components/Navbar";
-import ImagenesCard from "../../components/DTC/ImagenesCard.vue";
 import EventBus from "../../services/EventBus.js";
 import SelectPlaza from '../../components/Header/SelectPlaza';
 import ServiceReportePDF from '../../services/ReportesPDFService';
 import moment from "moment";
+import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
 
 export default {
     name: "Diagnostico",
     components: {
         Nav,
-        ImagenesCard,
-        SelectPlaza
+        SelectPlaza,
+        HeaderFalla
 
     },
-    data(){
+    props:{
+        tipo:
+        {
+            type: String,
+            default: () => ''
+        } 
+    }, 
+    ///////////////////////////////////////////////////////////////////////
+    ////                      DATA                                    ////
+    /////////////////////////////////////////////////////////////////////
+    data (){
         return{
             limite:300,
-            causaFalla: "",
-            descripcion: "",
-            diagnostico: "",
             nameUser:"",
             horaInicio:"",
             horaFin:"",
             fecha: "",
             folioFalla:"",
+            noReporte:"",
             datosDiagnostico:{
                 ReferenceNumber: ""
             },
@@ -192,9 +150,8 @@ export default {
             arrayReference: [],
             headerSelecionado: {},
             plazaSeleccionada:"",
-            arraySelect:{}
-
-            
+            arraySelect:{},
+            type:"DIAG"
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -210,15 +167,6 @@ beforeMount: async function (){
 ////                          COMPUTADAS                          ////
 /////////////////////////////////////////////////////////////////////
 computed:{
-    restante_causa(){
-        return this.causaFalla.length
-    },
-    restante_desc(){
-        return this.descripcion.length
-    },
-    restante_diag(){
-        return this.diagnostico.length
-    },
     nombre_usuario(){
         return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
     },
@@ -251,7 +199,7 @@ async cambiar_plaza(numeroPlaza) {
         this.datosDiagnostico.ReferenceNumber = this.headerEdit.referenceNumber;
     }
 },
-    validar_horas(){
+validar_horas(){
     if(this.horaInicio != '' && this.horaFin != ''){
         let horaISplite = this.horaInicio.split(':')            
         let horaFSplite = this.horaFin.split(':')            
@@ -261,20 +209,23 @@ async cambiar_plaza(numeroPlaza) {
             return true
         }
         else{
-                this.$notify.warning({
+                /* this.$notify.warning({
                 title: "Ups!",
                 msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
                 position: "bottom right",
                 styles: {
                     height: 100,
                     width: 500,
+
                 },
             });
+            */
+            console.log('LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.')
             return false
         }
     }
     else{                    
-                this.$notify.warning({
+                /* this.$notify.warning({
                 title: "Ups!",
                 msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
                 position: "bottom right",
@@ -282,42 +233,55 @@ async cambiar_plaza(numeroPlaza) {
                     height: 100,
                     width: 500,
                 },
-            });
+            }); */
+            console.log('FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.')
             return false    
         }
     },
-    crearDiagnostico : function (){
-        if( this.causaFalla != '' && this.descripcion != '' && this.diagnostico != '' && this.horaInicio != '' && this.horaFin != '' && this.fecha != '')
+crearDiagnostico (){
+
+    if(this.fecha != '' && this.folioFalla != '' && this.noReporte !='' && this.validar_horas() != false )
+    {   
+        if(this.type == 'DIAG')
         {
-            this.causaFalla=''
-            this.descripcion=''
-            this.diagnostico=''
-            this.fecha=''
-            this.horaInicio=''
-            this.horaFin=''
-            this.arraySelect=''
-            this.$notify.success({
-                    title: "Ok!",
-                    msg: `SE GENERÓ CORRECTAMENTE EL DICTAMEN.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                        },
-                    });         
+        this.$notify.success({
+            title: "Ok!",
+            msg: `SE GENERÓ CORRECTAMENTE EL DIAGNOSTICO DE FALLA.`,
+            position: "bottom right",
+            styles: {
+                height: 100,
+                width: 500,
+                },
+            });
+        this.type = 'FICHA'
+        console.log(this.type)
         }
-        else{
-            this.$notify.warning({
-                title: "Ups!",
-                msg: `NO SE HA LLENADO LOS CAMPOS.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
+        else
+        {
+            this.$notify.success({
+            title: "Ok!",
+            msg: `SE GENERÓ CORRECTAMENTE LA FICHA TÉCNICA.`,
+            position: "bottom right",
+            styles: {
+                height: 100,
+                width: 500,
                 },
             });
         }
-    },
+        
+    }
+    else{
+        this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE HA LLENADO LOS CAMPOS CORRECTAMENTE O ESTAN INCOMPLETOS.`,
+            position: "bottom right",
+            styles: {
+                height: 100,
+                width: 500,
+            },
+        });
+    }
+},
 },
 /////////////////////////////////////////////////////////////////////
 ////                       Watcher                               ////
@@ -329,7 +293,9 @@ watch:{
     horaFin: function(newHora){
         EventBus.$emit("actualizar_hora_fin", newHora);
     }
-},
+}, 
+
+
 }
 </script>
 
