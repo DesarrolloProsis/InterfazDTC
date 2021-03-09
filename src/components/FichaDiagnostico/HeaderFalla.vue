@@ -74,7 +74,7 @@
                     <input class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.folioFalla" />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
-                    <input class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.noReporte"  />
+                    <input class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.numeroReporte"  />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
                     <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
@@ -155,7 +155,7 @@
                     <div class="mr-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
-                            v-model="descripcion"
+                            v-model="datosDiagnostico.descripcionFalla"
                             class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                             placeholder="jane@example.com"
                             name="Observaciones"
@@ -217,6 +217,7 @@ data(){
             diagnosticoFlla:'',
             causaFalla:''
         },
+        solucion:'',
         listaPlazas: [],
         arrayReference: [],
         headerSelecionado: {},
@@ -229,6 +230,7 @@ beforeMount: function(){
     this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+    this.$emit('actualizar-header', this.datosDiagnostico)
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
@@ -249,6 +251,9 @@ computed:{
     restante_causa(){
         return this.datosDiagnostico.causaFalla.length
     },
+    restante_sol(){
+        return this.solucion.length
+    },
 },
 watch:{
     datosDiagnostico: {
@@ -258,70 +263,7 @@ watch:{
         },
     }
 },
-methods:{
-        validar_horas(){
-        if(this.datosDianostico.horaInicio != '' && this.datosDianostico.horaFin != ''){
-            let horaISplite = this.datosDianostico.horaInicio.split(':')            
-            let horaFSplite = this.datosDianostico.horaFin.split(':')            
-            let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-            let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-            if(dateInicio < dateFin){                
-                return true
-            }
-            else {
-/*                  this.$notify.warning({
-                    title: "Ups!",
-                    msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                    },
-                }); */
-                console.log('LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN')
-                return false
-            }
-        }
-        else{                    
-/*             this.$notify.warning({
-                title: "Ups!",
-                msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                },
-            }); */
-                console.log('FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO')
-                return false    
-            }
-    },
-    validar_datos_header(){
-        if(this.datosDiagnostico.causaFalla != '' && this.datosDiagnostico.descripcion !='' && this.datosDiagnostico.diagnostico != '' && this.validar_horas() != false){
-            this.$notify.success({
-                title: "Ok!",
-                msg: `SE GENERÓ CORRECTAMENTE.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                    },
-            });
-            return true
-        }
-        else{
-            this.$notify.warning({
-                title: "Ups!",
-                msg: `NO SE HA LLENADO LOS CAMPOS.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                },
-            });
-            return false
-        }
-    },
+methods:{    
     crear_referencia: async function () {      
         let _arrayReference  = await ServiceReportePDF.crear_referencia(
             moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 

@@ -35,8 +35,7 @@ export default {
     name: "Diagnostico",
     components: {
         Nav,        
-        HeaderFalla
-
+        HeaderFalla        
     },
     props:{
         tipo:{
@@ -61,21 +60,81 @@ methods:{
     actualizar_header(header){
         this.datosHeader = header
     },
+    validar_horas(){
+                let horaISplite = this.datosHeader.horaInicio.split(':')            
+                let horaFSplite = this.datosHeader.horaFin.split(':')            
+                let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+                let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+                if(dateInicio < dateFin){                
+                    return true
+                }
+                else {
+                    return false
+                } 
+                
+    },
     enviar_header_diagnostico(){    
-        let llavesHeader = Object.keys(this.datosHeader)
-        if(llavesHeader.length == 10){
-            
+        let llavesHeader = Object.keys(this.datosHeader)    
+        console.log(llavesHeader)    
+        if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
-            let validar = valueHeader.some(prop => prop == '')
-            
+            let validar = valueHeader.some(prop => prop == '')            
             if(validar){
-
-                alert('falta llenar campos')
+                //alert('falta llenar campos')
+                console.log('Falta llenar campor')
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `FALTA LLENAR CAMPOS.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
             }
-            else{
-                console.log()
-                alert('estoy completo')
+            else{                
+                //alert('estoy completo')
+                console.log('completo')
+                let horasValidas = this.validar_horas()
+                if(horasValidas != true){
+                    //AQUI SE LLAMA A LA API PARA INSERTAR
+                    //alert('Horas incorrectas')
+                    console.log('horas incorrectas')
+                    this.$notify.success({
+                        title: "Ok!",
+                        msg: `CREADO CORRECTAMENTE.`,
+                        position: "bottom right",
+                        styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                }                
             }            
+            //this.type = "FICHA";
+            //console.log(this.type)
+            this.$notify.warning({
+                title: "Ok",
+                msg: `SE CREO CORRECTAMENTE.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
+        }
+        else{
+            //alert('faltan campos')
+            console.log('falnta llenar campos')
+            this.$notify.warning({
+                    title: "Ups!",
+                    msg: `FALTA LLENAR CAMPOS.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
         }
     },
 },
