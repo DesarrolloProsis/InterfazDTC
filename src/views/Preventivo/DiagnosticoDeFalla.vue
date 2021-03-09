@@ -38,8 +38,7 @@ export default {
     name: "Diagnostico",
     components: {
         Nav,        
-        HeaderFalla
-
+        HeaderFalla        
     },
     props:{
         tipo:{
@@ -84,8 +83,7 @@ methods:{
     },
     enviar_header_diagnostico(){    
         let llavesHeader = Object.keys(this.datosHeader)
-        if(llavesHeader.length == 10){
-            
+        if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
             let validar = valueHeader.some(prop => prop == '')
             

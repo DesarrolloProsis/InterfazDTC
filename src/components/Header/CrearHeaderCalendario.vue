@@ -35,7 +35,7 @@
                             <span>Crear</span>
                         </button>
                     </div>
-                    <div class="flex-col justify-center h-12 w-full mt-5 hidden" >
+                    <div class="flex-col justify-center h-12 w-full mt-5 " >
                         <div class="flex justify-center" v-if="pdfSelladoBool == false">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
                                     <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
@@ -51,7 +51,7 @@
                                 <button @click="pdfSelladoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
                             </div>            
                         </div>
-                    </div> -->
+                    </div>
                     </div>          
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
@@ -131,10 +131,12 @@ export default {
     data(){
         return {                        
             limite:500,
-            calendarEscaneado: '',
-            pdfEscBool: false  , 
+            calendarEscaneado: '',            
             pdfSelladoBool: false         
         }
+    },
+    beforeMount(){
+
     },
     destroyed(){        
         if(this.comentario == '' && this.numeroActividades > 0){
