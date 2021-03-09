@@ -1,5 +1,58 @@
 <template>
-    <div>        
+    <div>    
+            <!--/////////////////////////////////////////////////////////////////////
+                    /////                   DATOS DEL REPORTE                           ////
+                    ////////////////////////////////////////////////////////////////////--> 
+                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mb-2">
+                        <!--/////////////////////////////////////////////////////////////////////
+                        /////                           FILA UNO                            ////
+                        ////////////////////////////////////////////////////////////////////--> 
+                        <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
+                            <div class="grid grid-cols-2 sm:grid grid-cols-1 md:grid grid-cols-1">
+                                <span class="">No. De Reporte:</span>
+                                <p class="-ml-66 sm:ml-0 sm:w-24">{{ datosDiagnostico.ReferenceNumber }}</p>
+                            </div>
+                            <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
+                                <div>
+                                    <span>Plaza de Cobro:</span>
+                                </div>
+                                <div class="-ml-66 sm:ml-0">
+                                    <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
+                                </div>
+                            </div>
+                            <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
+                                <div>
+                                    <span class="mr-20 sm:mr-0">Ubicación:</span>
+                                </div>
+                                <div class="-ml-66 sm:ml-0">
+                                    <select class="w-56 sm:w-20" v-model="arraySelect" type="text">
+                                        <option value="">Selecionar...</option>
+                                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/////////////////////////////////////////////////////////////////////
+                        /////                           FILA DOS                            ////
+                        ////////////////////////////////////////////////////////////////////--> 
+                        <div class="mt-6 ml-65 sm:ml-4">
+                            <div>
+                                <span class="">Fecha:</span>
+                                <input class="ml-16 bg-white border-gray-400" 
+                                type="date" 
+                                v-model="fecha"
+                                @change="crear_referencia"/>
+                            </div>
+                            <div class="mt-5">
+                                <span class="">Hora INICIO:</span>
+                                <input class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="horaInicio"/>
+                            </div>
+                            <div class="mt-5">
+                                <span class="">Hora FIN:</span>
+                                <input class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="horaFin"/>
+                            </div>
+                        </div>
+                    </div>    
         <!--/////////////////////////////////////////////////////////////////////
         /////                             FOLIOS                            ////
         ////////////////////////////////////////////////////////////////////--> 
@@ -131,7 +184,7 @@
 </template>
 
 <script>
-
+import SelectPlaza from '../../components/Header/SelectPlaza'
 export default {
     name: "Diagnostico",
     props:{
@@ -139,6 +192,9 @@ export default {
             type: String,
             default: () => ''
         } 
+    },
+    components:{
+        SelectPlaza,
     },
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
@@ -150,25 +206,33 @@ export default {
             causaFalla: "",
             descripcion: "",
             diagnostico: "",
-            solucion:"",
+            solucion:"",                
+            nameUser:"",
+            horaInicio:"",
+            horaFin:"",
+            fecha: "",
+            folioFalla:"",
+            noReporte:"",
+            datosDiagnostico:{
+                ReferenceNumber: ""
+            },
+            listaPlazas: [],
+            arrayReference: [],
+            headerSelecionado: {},
+            plazaSeleccionada:"",
+            arraySelect:{},
+            type:"DIAG"
         }
+    },
+    beforeMount: function(){           
+        this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
+        this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
     },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
 /////////////////////////////////////////////////////////////////////
 computed:{
-    restante_causa(){
-        return this.causaFalla.length
-    },
-    restante_desc(){
-        return this.descripcion.length
-    },
-    restante_diag(){
-        return this.diagnostico.length
-    },
-    restante_sol(){
-        return this.solucion.length
-    },
 },
 methods:{
     validarCampos(){

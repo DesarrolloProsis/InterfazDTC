@@ -5,60 +5,7 @@
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
                     <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-if="this.type == 'DIAG' ">Diagnostico de Falla</h1>
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-else>Ficha Técnica de Atención</h1>
-                    <!--/////////////////////////////////////////////////////////////////////
-                    /////                   DATOS DEL REPORTE                           ////
-                    ////////////////////////////////////////////////////////////////////--> 
-                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mb-2">
-                        <!--/////////////////////////////////////////////////////////////////////
-                        /////                           FILA UNO                            ////
-                        ////////////////////////////////////////////////////////////////////--> 
-                        <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
-                            <div class="grid grid-cols-2 sm:grid grid-cols-1 md:grid grid-cols-1">
-                                <span class="">No. De Reporte:</span>
-                                <p class="-ml-66 sm:ml-0 sm:w-24">{{ datosDiagnostico.ReferenceNumber }}</p>
-                            </div>
-                            <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
-                                <div>
-                                    <span>Plaza de Cobro:</span>
-                                </div>
-                                <div class="-ml-66 sm:ml-0">
-                                    <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
-                                </div>
-                            </div>
-                            <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
-                                <div>
-                                    <span class="mr-20 sm:mr-0">Ubicación:</span>
-                                </div>
-                                <div class="-ml-66 sm:ml-0">
-                                    <select class="w-56 sm:w-20" v-model="arraySelect" type="text">
-                                        <option value="">Selecionar...</option>
-                                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/////////////////////////////////////////////////////////////////////
-                        /////                           FILA DOS                            ////
-                        ////////////////////////////////////////////////////////////////////--> 
-                        <div class="mt-6 ml-65 sm:ml-4">
-                            <div>
-                                <span class="">Fecha:</span>
-                                <input class="ml-16 bg-white border-gray-400" 
-                                type="date" 
-                                v-model="fecha"
-                                @change="crear_referencia"/>
-                            </div>
-                            <div class="mt-5">
-                                <span class="">Hora INICIO:</span>
-                                <input class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="horaInicio"/>
-                            </div>
-                            <div class="mt-5">
-                                <span class="">Hora FIN:</span>
-                                <input class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="horaFin"/>
-                            </div>
-                        </div>
-                    </div>              
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-else>Ficha Técnica de Atención</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
@@ -83,7 +30,6 @@
 <script>
 import Nav from "../../components/Navbar";
 import EventBus from "../../services/EventBus.js";
-import SelectPlaza from '../../components/Header/SelectPlaza';
 import ServiceReportePDF from '../../services/ReportesPDFService';
 import moment from "moment";
 import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
@@ -91,8 +37,7 @@ import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
 export default {
     name: "Diagnostico",
     components: {
-        Nav,
-        SelectPlaza,
+        Nav,        
         HeaderFalla
 
     },
