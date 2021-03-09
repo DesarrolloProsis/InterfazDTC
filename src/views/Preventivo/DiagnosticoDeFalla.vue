@@ -124,13 +124,6 @@ export default {
         HeaderFalla
 
     },
-    props:{
-        tipo:
-        {
-            type: String,
-            default: () => ''
-        } 
-    }, 
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
     /////////////////////////////////////////////////////////////////////
@@ -151,7 +144,7 @@ export default {
             headerSelecionado: {},
             plazaSeleccionada:"",
             arraySelect:{},
-            type:"DIAG"
+            type:"DIAG",
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -239,7 +232,6 @@ validar_horas(){
         }
     },
 crearDiagnostico (){
-
     if(this.fecha != '' && this.folioFalla != '' && this.noReporte !='' && this.validar_horas() != false )
     {   
         if(this.type == 'DIAG')
