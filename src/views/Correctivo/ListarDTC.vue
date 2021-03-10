@@ -1,5 +1,5 @@
   <template>
-  <div >
+  <div id="container">
     <Nav></Nav>
     <div class="relative mb-16 " >
     <!--//////////////////////////////////////////////////////////////////////
@@ -616,13 +616,15 @@ methods: {
       .catch((err) =>  console.log(err))    
     }, 1000); 
   },
+
   cargar_mas(){
+    let pos = document.documentElement.offsetHeight
     let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length){
                 this.lista_dtc.push(this.infoDTC[i])
-              }
-              else 
+                window.scrollTo(0, pos)         
+              }else 
                 this.moreCard = false                
             }            
   },
@@ -634,9 +636,10 @@ methods: {
               
             let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
-              if(i < this.infoDTC.length)
+              if(i < this.infoDTC.length){
                 this.lista_dtc.push(this.infoDTC[i])
-              else 
+                //bottomOfWindow.scrollto = bottomOfWindow.scrollHeight;
+              }else 
                 this.moreCard = false                
             }                             
                   
