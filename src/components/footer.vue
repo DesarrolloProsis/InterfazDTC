@@ -1,4 +1,4 @@
-<template>
+npm run build<template>
     <footer class="fixed inset-x-0 bottom-0">        
         <div class="w-full px-6 bg-blue-900">                
             <div class="inline-flex justify-between  py-3 w-full">
@@ -11,7 +11,7 @@
                     </p>
                 </div>
                 <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.15</p>
+                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.16</p>
                 </div>
             </div>                                
         </div>        
