@@ -111,7 +111,7 @@ methods:{
                 let horasValidas = this.validar_horas()
                 if(horasValidas){
                     //AQUI SE LLAMA A LA API PARA INSERTAR
-                    alert('Horas Son Validas')
+                    alert('Horas Son')
                 }                
             }            
         }

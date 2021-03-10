@@ -255,10 +255,10 @@ editar_status_dtc: function (){
         "UserId": user.idUser,
         "Comment": this.motivoCambio,
       }    
-    if( this.statusEdit != '' && this.motivoCambio != '')
-    {
+    console.log(objeActualizado)
+    if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.formato_cookies_usuario())    
+    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())    
       .then(() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   
@@ -272,7 +272,7 @@ editar_status_dtc: function (){
         console.log(error);
       });
     }
-    else{
+    else {
           this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA LLENADO LOS CAMPOS.`,

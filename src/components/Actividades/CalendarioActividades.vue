@@ -76,6 +76,7 @@
       @actualizar-comentario="actualizar_comentario_header"
       :comentario="comentario" 
       :mes="mes" 
+      :calendarioEscaneado="calendarioEscaneado"
       :año="año" 
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
@@ -151,7 +152,8 @@ export default {
       mes: '',   
       fechaActual: '',   
       numeroActividades: 0,
-      tipoUsuario: 0 
+      tipoUsuario: 0,
+      calendarioEscaneado: false 
     }
   },
   beforeMount(){
@@ -163,8 +165,9 @@ export default {
     this.mes = cargaInicial.mes
     this.nombrePlaza = cargaInicial.plazaNombre
     this.listaActividades = this.$store.state.Actividades.catalogoActividades
-    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-  },
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId   
+    this.validar_calendario_escaneado()     
+  },  
   computed:{     
     ...mapState("Refacciones", ["carriles"]),
     carriles_filtrados() {
@@ -255,7 +258,8 @@ export default {
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )           
+      )        
+      console.log(actividadInsert)   
       await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
@@ -279,6 +283,7 @@ export default {
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
       this.comentario = this.comentario != '' ? this.comentario : result.comentario      
+      this.validar_calendario_escaneado()
     }, 
     cambiar_mes: async function(item){ 
       let fecha = item.startDate.toLocaleDateString().split('/')
@@ -286,7 +291,8 @@ export default {
       this.events = result.listaActividadesMensuales
       this.comentario = result.comentario         
       this.mes = parseInt(fecha[1]) 
-      this.año = parseInt(fecha[2])      
+      this.año = parseInt(fecha[2])   
+      this.validar_calendario_escaneado()   
     },    
     generar_pdf_calendario(comentario){   
       if(this.events.length != 0 & comentario != ''){ 
@@ -352,7 +358,19 @@ export default {
           if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
         });
+    },
+    validar_calendario_escaneado(){
+      let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}`, CookiesService.obtener_bearer_token())
+      .then(() => {
+        this.calendarioEscaneado = true
+      })
+      .catch((error) => {
+          console.log(error)
+          this.calendarioEscaneado = false
+      })
     }
+
   },
   watch: {
     events: function(newActividad){
