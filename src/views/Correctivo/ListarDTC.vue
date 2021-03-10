@@ -169,7 +169,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full mb-48">
+      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -184,11 +184,16 @@
           </div>                 
         </div>
       </div>
-      <div v-if="moreCard" class="relative  mb-64">          
+      <div class="text-center" v-if="moreCard != false">       
+        <button @click="cargar_mas" class="botonBajar">
+          <img src="../../assets/img/abajo.png"  width="60" height="60" />
+        </button>          
+      </div>
+<!--       <div v-if="moreCard" class="relative  mb-64">          
         <div class="flex absolute inset-x-0 bottom-0 justify-center">            
             <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
         </div>          
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -276,8 +281,8 @@ beforeMount: async function () {
         this.statusValidos.push(statusLista.find(status => status.id == i))
     }
   }
-  //PAginacion Inicial Toma 3 Cards     
-  for(let i = 0; i <= 3; i++){
+  //PAginacion Inicial Toma 6 Cards     
+  for(let i = 0; i <= 5; i++){
       if(i < this.infoDTC.length)
         this.lista_dtc.push(this.infoDTC[i])
       else 
@@ -610,20 +615,30 @@ methods: {
       .catch((err) =>  console.log(err))    
     }, 1000); 
   },
+  cargar_mas(){
+    let index = this.lista_dtc.length
+            for(let i = index; i <= index + 5; i++){
+              if(i < this.infoDTC.length){
+                this.lista_dtc.push(this.infoDTC[i])
+              }
+              else 
+                this.moreCard = false                
+            }            
+  },
   scroll_infinito(){
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
         if (bottomOfWindow) {
           // Do something, anything!     
-          setTimeout(() => {     
+            
             let index = this.lista_dtc.length
-            for(let i = index; i <= index + 3; i++){
+            for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length)
                 this.lista_dtc.push(this.infoDTC[i])
               else 
                 this.moreCard = false                
             }                             
-            },1000)        
+                  
         }    
     };
   }
