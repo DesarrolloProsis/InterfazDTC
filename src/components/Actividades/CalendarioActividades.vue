@@ -370,7 +370,6 @@ export default {
           this.calendarioEscaneado = false
       })
     }
-
   },
   watch: {
     events: function(newActividad){

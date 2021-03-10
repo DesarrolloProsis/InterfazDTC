@@ -189,6 +189,15 @@ select:focus {
 .botonEnviarPDF:focus{
     @apply outline-none;
 }
+.botonBajar{
+    @apply rounded-full shadow-md inline-flex items-center;
+}
+.botonBajar:hover{
+    @apply border-gray-800 bg-gray-200 text-white;
+}
+.botonBajar:focus{
+    @apply outline-none;
+}
 
 @tailwind components;
 

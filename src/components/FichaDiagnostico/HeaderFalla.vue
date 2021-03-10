@@ -155,7 +155,7 @@
                     <div class="mr-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
-                            v-model="descripcion"
+                            v-model="datosDiagnostico.descripcionFalla"
                             class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                             placeholder="jane@example.com"
                             name="Observaciones"
@@ -217,6 +217,7 @@ data(){
             diagnosticoFlla:'',
             causaFalla:''
         },
+        solucion:'',
         listaPlazas: [],
         arrayReference: [],
         headerSelecionado: {},
@@ -249,6 +250,9 @@ computed:{
     },
     restante_causa(){
         return this.datosDiagnostico.causaFalla.length
+    },
+    restante_sol(){
+        return this.solucion.length
     },
 },
 watch:{
