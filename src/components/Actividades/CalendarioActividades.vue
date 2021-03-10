@@ -83,7 +83,7 @@
     </HeaderCalendario>  
     <div class="pl-10 pr-10 mt-10 mb-32" :class="{' pointer-events-none': modal}">
         <vue-cal 
-          ref="vuecal"
+          ref="vuecal"          
           :time="false"
           :selected-date="fechaActual"         
           :disable-views="['years', 'year','week', 'day']"
@@ -386,11 +386,12 @@ export default {
 </script>
 <style >
 
-.vuecal__cell {
+.vuecal__cell {  
   height: 180px;
   padding: 10px;
 }
 .vuecal__event.ActividadSemanal{
+  position: static;
   background-color: #48bb78;
   height: 35px;
   border: 2px solid gray;
@@ -399,6 +400,7 @@ export default {
   color: white;
 }
 .vuecal__event.ActividadMensual{
+  position: static;
   background-color: #f56565;
   height: 35px;
   height: 35px;
@@ -408,6 +410,7 @@ export default {
   color: white;
 }
 .vuecal__event.ActividadTrimestral{
+  position: static;
   background-color: #4299e1;
   height: 35px;
   height: 35px;
@@ -417,6 +420,7 @@ export default {
   color: white;
 }
 .vuecal__event.ActividadSemestral{
+  position: static;
   background-color: #ed64a6;
   height: 35px;
   height: 35px;
@@ -426,6 +430,7 @@ export default {
   color: white;
 }
 .vuecal__event.ActividadAnual{
+  position: static;
   background-color: #ed8936;
   height: 35px;
   height: 35px;
@@ -437,6 +442,13 @@ export default {
 .vuecal__menu{
     background-color: #2a4365;
     height: 35px;  
+}
+
+.vuecal__cell--today{
+  z-index: auto;
+}
+.vuecal__cell--selected{
+  z-index: auto;
 }
 
 
