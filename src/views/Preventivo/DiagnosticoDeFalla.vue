@@ -98,9 +98,6 @@ methods:{
                 let horasValidas = this.validar_horas()
                 if(horasValidas != true){
                     //AQUI SE LLAMA A LA API PARA INSERTAR
-<<<<<<< HEAD
-                    alert('Horas Son')
-=======
                     //alert('Horas incorrectas')
                     console.log('horas incorrectas')
                     this.$notify.warning({
@@ -112,7 +109,6 @@ methods:{
                             width: 500,
                         },
                     });
->>>>>>> 887d9bab8968dd36c71ab20f37405cadfa5f897a
                 }                
             }            
             //this.type = "FICHA";

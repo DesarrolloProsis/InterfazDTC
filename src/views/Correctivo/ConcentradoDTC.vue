@@ -265,11 +265,7 @@ editar_status_dtc: function (){
     console.log(objeActualizado)
     if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
-<<<<<<< HEAD
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())    
-=======
     Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
->>>>>>> 887d9bab8968dd36c71ab20f37405cadfa5f897a
       .then(() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   
