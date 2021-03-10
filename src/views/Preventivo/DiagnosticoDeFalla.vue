@@ -100,9 +100,9 @@ methods:{
                     //AQUI SE LLAMA A LA API PARA INSERTAR
                     //alert('Horas incorrectas')
                     console.log('horas incorrectas')
-                    this.$notify.success({
-                        title: "Ok!",
-                        msg: `CREADO CORRECTAMENTE.`,
+                    this.$notify.warning({
+                        title: "Ups!",
+                        msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
                         position: "bottom right",
                         styles: {
                             height: 100,
@@ -113,7 +113,7 @@ methods:{
             }            
             //this.type = "FICHA";
             //console.log(this.type)
-            this.$notify.warning({
+            this.$notify.success({
                 title: "Ok",
                 msg: `SE CREO CORRECTAMENTE.`,
                 position: "bottom right",
