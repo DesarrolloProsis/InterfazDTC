@@ -630,7 +630,7 @@ methods: {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
         if (bottomOfWindow) {
           // Do something, anything!     
-          setTimeout(() => {     
+              
             let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length)
@@ -638,7 +638,7 @@ methods: {
               else 
                 this.moreCard = false                
             }                             
-            },1000)        
+                    
         }    
     };
   }
