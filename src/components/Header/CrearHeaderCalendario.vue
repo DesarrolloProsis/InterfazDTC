@@ -36,20 +36,25 @@
                         </button>
                     </div>
                     <div class="flex-col justify-center h-12 w-full mt-5 " >
-                        <div class="flex justify-center" v-if="pdfSelladoBool == false">
+                        <div v-if="calendarioEscaneadoBool">
+
+                        </div>
+                        <div v-else>
+                            <div  class="grid grid-cols-2" v-if="escaneadoBool"> 
+                                <div class="inline-flex">
+                                    <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
+                                    <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
+                                    <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                                    <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                                </div>                                
+                            </div>                        
+                            <div v-else class="flex justify-center">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
-                                    <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
-                                <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                <span>Subir Escaneado</span>
-                            </button>
-                        </div>                        
-                        <div class="grid grid-cols-2" v-else>
-                            <div class="inline-flex">
-                                <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
-                                <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
-                                <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
-                                <button @click="pdfSelladoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
-                            </div>            
+                                <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
+                                    <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
+                                    <span>Subir Escaneado</span>
+                                </button>                                       
+                            </div>
                         </div>
                     </div>
                     </div>          
@@ -126,13 +131,17 @@ export default {
         numeroActividades: {
             type: Number,
             default: () => 0
+        },
+        calendarioEscaneadoBool: {
+            type: Boolean,
+            default: () => false
         }
     },
     data(){
         return {                        
             limite:500,
-            calendarEscaneado: '',            
-            pdfSelladoBool: false         
+            calendarEscaneado: null,      
+            escaneadoBool: false                  
         }
     },
     beforeMount(){
@@ -175,10 +184,10 @@ export default {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
             else {
-                this.pdfSelladoBool = true
+                this.escaneadoBool = true
                 for (let item of files) {        
                 if(this.crearImage(item) == false)
-                    this.pdfSelladoBool = false
+                    this.escaneadoBool = false
                 }        
             }
         },
@@ -210,13 +219,13 @@ export default {
         },
         enviar_calendario_escaneado(){
             let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)            
-            let numeroPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+            let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
-            Axios.post(`${API}/calendario/CalendarioEscaneado/${numeroPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
+            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
                 .then((response) => {               
                     console.log(response)
-                    this.pdfSelladoBool= false
+                    this.escaneadoBool= false
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,

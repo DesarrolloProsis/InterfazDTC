@@ -36,7 +36,7 @@ function eventos_calendario_formato(objApi){
     let eventsReturn = []
     var i = 1;
     let eventoReducidoDay = [];       
-    while (i < 31) {
+    while (i < 32) {
         let query = eventoSinFormato.filter(
             (item) => item.day.split('/')[0] == i
         );                
