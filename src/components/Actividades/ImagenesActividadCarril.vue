@@ -29,7 +29,7 @@ import Axios from 'axios'
 import ServiceImagenes from '../../services/ImagenesService'
 import EventBus from "../../services/EventBus.js";
 import CookiesService from '../../services/CookiesService'
-import ServiceReporte from '../../services/ReportesPDFService'
+//import ServiceReporte from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     props:{
@@ -77,7 +77,8 @@ export default {
         recibir_imagenes: async function (e){                                    
             this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
         },
-        enviar_imagen: async function(objReporte){    
+        enviar_imagen: async function(objReporte){  
+            console.log(objReporte)  
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
             if(boolValidacion){                           
                 let contador = 0                          
@@ -106,20 +107,24 @@ export default {
                                 width: 500,
                             },
                         });        
-                console.log('termine de subir fotos')                                                                                                                                                                                               
-                    console.log('genere reporte Insercion Imagenes True')
-                    ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
-                    ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)
-                    //this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})   
-                    this.$emit('ocutar-modal-loading')    
-                    //this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                       
+                    console.log('termine de subir fotos')    
+                    setTimeout(() => {
+                        console.log('genere reporte Insercion Imagenes True')
+                        this.$emit('ocutar-modal-loading',objReporte)    
+                        // await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
+                        // await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)
+                        // this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                        
+                    }, 600)                                                                                                                                                                                                                               
             }    
-            else {                          
-                console.log('genere reporte Insercion Imagenes True')                 
-                await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
-                await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)                
-                this.$emit('ocutar-modal-loading')   
-                //this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                        
+            else {    
+                setTimeout(() => {
+                    console.log('genere reporte Insercion Imagenes false')  
+                    this.$emit('ocutar-modal-loading',objReporte)                  
+                    // await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
+                    // await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)      
+                    //this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                      
+                }, 500)                      
+                
             }                        
         },
         eliminar_imagen(nombreImagen){                

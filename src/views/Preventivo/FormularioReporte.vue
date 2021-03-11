@@ -41,7 +41,7 @@
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
             <div class=" w-1/2 ml-20">
-                <ImagenesActividadCarril :referenceNumber="referenceNumber" :ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
+                <ImagenesActividadCarril :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
@@ -211,8 +211,13 @@ methods:{
                 return false    
             }
     },
-    ocultar_modal_loading(){
+    ocultar_modal_loading(objReporte) {       
         this.modalLoading = false
+        setTimeout(async () => {
+            await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
+            await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)
+            this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})  
+        }, 2000);                      
     },
     async crear_header_reporte(){          
         let validarActividades = this.listaActividades.every((actividad) => parseInt(actividad.jobStatus) != 0 )          
@@ -343,6 +348,7 @@ methods:{
                                     });                                                                                
                                 })
                                 .catch(Ex => {    
+                                    console.log(Ex)
                                     if(Ex.response.status == 401)
                                         CookiesService.token_no_autorizado()                                                                                     
                                 })
