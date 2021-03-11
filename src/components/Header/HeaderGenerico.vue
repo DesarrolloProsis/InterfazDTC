@@ -115,8 +115,8 @@
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3" >
                 <div class="mt-5">
-                        <!--<span>Plaza de Cobro:</span>-->
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
+                        <span>Plaza de Cobro:</span>
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'filtro'" :forma="'diagnostico'"></SelectPlaza>
                         <!--<SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>-->
                 </div>
             <div class=" m-3">
