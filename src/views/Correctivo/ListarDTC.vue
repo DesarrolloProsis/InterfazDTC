@@ -189,19 +189,11 @@
           <img src="../../assets/img/abajo.png"  width="60" height="60" />
         </button>          
       </div>
-<<<<<<< HEAD
-      <!--<div v-if="moreCard" class="relative  mb-64">          
-        <div class="flex absolute inset-x-0 bottom-0 justify-center">            
-            <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
-        </div>          
-      </div>-->
-=======
 <!--       <div v-if="moreCard" class="relative  mb-64">          
         <div class="flex absolute inset-x-0 bottom-0 justify-center">            
             <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
         </div>          
       </div> -->
->>>>>>> 2965c3db6329f9be3c10e681fd55e53df03a6167
     </div>
   </div>
 </template>
@@ -638,11 +630,7 @@ methods: {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
         if (bottomOfWindow) {
           // Do something, anything!     
-<<<<<<< HEAD
-              
-=======
             
->>>>>>> 2965c3db6329f9be3c10e681fd55e53df03a6167
             let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length)
@@ -650,11 +638,7 @@ methods: {
               else 
                 this.moreCard = false                
             }                             
-<<<<<<< HEAD
-                    
-=======
                   
->>>>>>> 2965c3db6329f9be3c10e681fd55e53df03a6167
         }    
     };
   }
