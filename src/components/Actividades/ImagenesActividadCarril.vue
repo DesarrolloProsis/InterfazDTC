@@ -29,7 +29,6 @@ import Axios from 'axios'
 import ServiceImagenes from '../../services/ImagenesService'
 import EventBus from "../../services/EventBus.js";
 import CookiesService from '../../services/CookiesService'
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     props:{
@@ -90,22 +89,21 @@ export default {
                         await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                             .then(() => {                                                                                                            
                             })
-                            .catch(Ex => {                    
-                                console.log(Ex);    
-                                if(Ex.response.status == 401)
-                                    CookiesService.token_no_autorizado()              
-                        }); 
-                        this.$notify.success({
-                            title: "Ok!",
-                            msg: `SE INSERTARON ${contador}.`,
-                            position: "bottom right",
-                            styles: {
-                                height: 100,
-                                width: 500,
-                            },
-                        }); 
-                    }  
+                            .catch(error => {                                                      
+                                if(error.response.status == 401)
+                                    CookiesService.token_no_autorizado()
+                        });                       
+                    }                      
                 }
+                this.$notify.success({
+                    title: "Ok!",
+                    msg: `SE INSERTARON ${contador}.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                }); 
             }                     
         },
         eliminar_imagen(nombreImagen){                
