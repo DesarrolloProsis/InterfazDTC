@@ -114,10 +114,10 @@
     <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols" >
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3" >
-                <div class="mt-5">
-                        <span>Plaza de Cobro:</span>
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'filtro'" :forma="'diagnostico'"></SelectPlaza>
-                        <!--<SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>-->
+                <div class="mt-4">
+                        <!--<span>Plaza de Cobro:</span>
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'filtro'" :forma="'diagnostico'"></SelectPlaza>-->
+                        <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>
             <div class=" m-3">
                 <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
@@ -230,7 +230,8 @@ export default {
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){
-            this.plazaFiltro = value
+            this.plazaFiltro = value 
+            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
         },
         //Metodos Para Inventario
         cancelar_filtro_inventario: function(){
