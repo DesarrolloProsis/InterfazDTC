@@ -266,10 +266,11 @@ methods:{
                                 }  
                                 //Envio Imagenes y Generacion de Reportes     
                                 EventBus.$emit("guardar_imagenes", this.referenceNumber);    
-                                this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                                                                                                                                          
+                                //this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                                                                                                                                          
                                 setTimeout(() =>{
                                     ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId, tipoEncabezadoLane)
                                     ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)       
+                                    this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})
                                 },2000)  
                                 //Notificaciones de Termino  
                                 if(this.reporteInsert == true){                               
