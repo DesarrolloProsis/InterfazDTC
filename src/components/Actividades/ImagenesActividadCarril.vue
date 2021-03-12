@@ -80,10 +80,12 @@ export default {
     },
     methods: {
         recibir_imagenes: async function (e){   
-            let sumaImagenes = e.taget.files.length  + this.arrayImagenes.length                                                                
-            if(sumaImagenes >= 3){
+            console.log(e.target.files)
+            let sumaImagenes = e.target.files.length  + this.arrayImagenes.length                                                                
+            if(sumaImagenes >= 3) {
                 alert('más de 3')
-            }else{
+            }
+            else{
                 alert('menos de 3')
                 this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)
             }
