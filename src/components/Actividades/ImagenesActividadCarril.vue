@@ -14,10 +14,11 @@
                 </div>
             </div>
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center">
-                <div class="">
+                <div class=""
+                >
                     <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 ">
-                    <img src="../../assets/img/more.png" class="p-5 w-auto h-32" alt/>
-                    <span class="text-gray-500 text-sm">Agregar imagenes</span>
+                    <img src="../../assets/img/more.png" class="p-5 ml-6 w-auto h-32" alt/>
+                    <span class="text-gray-500 text-sm">Agregar imagenes {{ num }}</span>
                 </div>
             </div>
         </div>
@@ -29,14 +30,13 @@ import Axios from 'axios'
 import ServiceImagenes from '../../services/ImagenesService'
 import EventBus from "../../services/EventBus.js";
 import CookiesService from '../../services/CookiesService'
-//import ServiceReporte from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     props:{
         referenceNumber: {
             type: String,
             default: () => ''
-        }
+        },
     },
     data(){
         return{
@@ -73,9 +73,14 @@ export default {
             });
         }, 1000)
     },
+    computed:{
+        num (){
+            return this.arrayImagenes.length
+        }
+    },
     methods: {
-        recibir_imagenes: async function (e){                                    
-            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
+        recibir_imagenes: async function (e){  
+            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
         },
         enviar_imagen: async function(objReporte){  
             console.log(objReporte)  
@@ -91,41 +96,22 @@ export default {
                         await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                             .then(() => {                                                                                                            
                             })
-                            .catch(Ex => {                    
-                                console.log(Ex);    
-                                if(Ex.response.status == 401)
-                                    CookiesService.token_no_autorizado()              
+                            .catch(error => {                                                      
+                                if(error.response.status == 401)
+                                    CookiesService.token_no_autorizado()
                         });                       
-                    }  
-                }  
+                    }                      
+                }
                 this.$notify.success({
-                            title: "Ok!",
-                            msg: `SE INSERTARON ${contador}.`,
-                            position: "bottom right",
-                            styles: {
-                                height: 100,
-                                width: 500,
-                            },
-                        });        
-                    console.log('termine de subir fotos')    
-                    setTimeout(() => {
-                        console.log('genere reporte Insercion Imagenes True')
-                        this.$emit('ocutar-modal-loading',objReporte)    
-                        // await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
-                        // await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)
-                        // this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                        
-                    }, 600)                                                                                                                                                                                                                               
-            }    
-            else {    
-                setTimeout(() => {
-                    console.log('genere reporte Insercion Imagenes false')  
-                    this.$emit('ocutar-modal-loading',objReporte)                  
-                    // await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
-                    // await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)      
-                    //this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                      
-                }, 500)                      
-                
-            }                        
+                    title: "Ok!",
+                    msg: `SE INSERTARON ${contador}.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                }); 
+            }                     
         },
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                

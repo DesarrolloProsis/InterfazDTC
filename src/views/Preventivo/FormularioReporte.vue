@@ -294,7 +294,7 @@ methods:{
                                 if(this.reporteInsert == true){                               
                                     this.$notify.success({
                                         title: "Ok!",
-                                        msg: `SE INSERTO EL HEADER.`,
+                                        msg: `SE GENERARON LOS REPORTES CORRECTAMENTE.`,
                                         position: "bottom right",
                                         styles: {
                                             height: 100,
@@ -302,7 +302,8 @@ methods:{
                                         },
                                     });
                                 }
-                                this.$notify.success({
+                                console.log('SE INSERTARON TODAS LAS ACTIVIDADES.')
+                                /* this.$notify.success({
                                     title: "Ok!",
                                     msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
                                     position: "bottom right",
@@ -310,7 +311,7 @@ methods:{
                                         height: 100,
                                         width: 500,
                                     },
-                                });                                                                                
+                                });        */                                                                         
                             })
                             .catch(Ex => {    
                                 if(Ex.response.status == 401)

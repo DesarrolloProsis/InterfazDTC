@@ -170,65 +170,65 @@ computed:{
 ////                       METODOS                               ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-modalCambiarFecha: function (){
-        this.showModal = true                    
-},
-botoncambiar_modal: async function (){
-    if(this.fechaCambio !='' && this.motivoCambioFecha != ''){        
-        let toDay = new Date()
-        let mest = toDay.getMonth()
-        mest = mest + 1;
-        console.log(mest)
-        let fecha = new Date(this.fechaCambio)
-        let mes = fecha.getMonth()
-        mes = mes + 1;
-        console.log(mes)
-        fecha.setDate(fecha.getDate())
-        if( mes > mest || mes < mest){
+    modalCambiarFecha: function (){
+            this.showModal = true                    
+    },
+    botoncambiar_modal: async function (){
+        if(this.fechaCambio !='' && this.motivoCambioFecha != ''){        
+            let toDay = new Date()
+            let mest = toDay.getMonth()
+            mest = mest + 1;
+            console.log(mest)
+            let fecha = new Date(this.fechaCambio)
+            let mes = fecha.getMonth()
+            mes = mes + 1;
+            console.log(mes)
+            fecha.setDate(fecha.getDate())
+            if( mes > mest || mes < mest){
+                this.$notify.warning({
+                title: "Ops!! ",
+                msg: "FECHA INVALIDA",
+                position: "bottom right",
+                styles: {
+                        height: 100,
+                        width: 500,
+                        },
+                    });
+                this.fechaCambio = ''    
+            }
+            else {
+                this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")                
+                let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre).refereciaPlaza                                         
+                let referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName, this.fechaCambio ,this.header.lane)
+                this.$emit('guarar-log-fecha', {
+                    fecha: this.fechaCambio,
+                    motivo: this.motivoCambioFecha,
+                    ref: referenceNumber 
+                })            
+                this.header.day = this.fechaCambio                
+                this.showModal = false
+                this.fechaCambio = ''
+                this.motivoCambioFecha = ''                       
+            }
+        }
+        else
+        {
             this.$notify.warning({
-            title: "Ops!! ",
-            msg: "FECHA INVALIDA",
+            title: "* Son datos obligatorios",
+            msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
             position: "bottom right",
             styles: {
-                    height: 100,
-                    width: 500,
-                    },
-                });
-            this.fechaCambio = ''    
-        }
-        else {
-            this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")                
-            let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre).refereciaPlaza                                         
-            let referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName, this.fechaCambio ,this.header.lane)
-            this.$emit('guarar-log-fecha', {
-                fecha: this.fechaCambio,
-                motivo: this.motivoCambioFecha,
-                ref: referenceNumber 
-            })            
-            this.header.day = this.fechaCambio                
-            this.showModal = false
-            this.fechaCambio = ''
-            this.motivoCambioFecha = ''                       
-        }
+                height: 100,
+                width: 500,
+                },
+            });
+        }0
+    },
+    botoncancelar_modal: function (){
+        this.showModal = false
+        this.fechaCambio = ''
+        this.motivoCambioFecha = ''
     }
-    else
-    {
-        this.$notify.warning({
-        title: "* Son datos obligatorios",
-        msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
-        position: "bottom right",
-        styles: {
-            height: 100,
-            width: 500,
-            },
-        });
-    }0
-},
-botoncancelar_modal: function (){
-    this.showModal = false
-    this.fechaCambio = ''
-    this.motivoCambioFecha = ''
-}
 },
 /////////////////////////////////////////////////////////////////////
 ////                       Watcher                               ////

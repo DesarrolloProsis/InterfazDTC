@@ -95,9 +95,9 @@ const routes = [
     }
   },
   {
-    path: '/ConcentradoDetallesDTC',
-    name:'ConcentradoDetallesDTC',
-    component: () => import('../views/Correctivo/ConcentradoDetallesDTC')
+    path: '/ConcentradoFichas',
+    name:'ConccentradoFichas',
+    component: () => import('../views/Correctivo/ConcentradoFichas')
   },
   {
     path: '/DiagnosticoDeFalla',

@@ -189,6 +189,35 @@ select:focus {
 .botonEnviarPDF:focus{
     @apply outline-none;
 }
+.botonBajar{
+    @apply rounded-full shadow-md inline-flex items-center;
+}
+.botonBajar:hover{
+    @apply border-gray-800 bg-gray-200 text-white;
+}
+.botonBajar:focus{
+    @apply outline-none;
+}
+
+.botonDescargar{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-blue-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonDescargar:hover{
+    @apply border-blue-800 bg-blue-300 text-white;
+}
+.botonDescargar:focus{
+    @apply outline-none;
+}
+
+.botonSubir{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-green-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonSubir:hover{
+    @apply border-green-800 bg-green-300 text-white;
+}
+.botonSubir:focus{
+    @apply outline-none;
+}
 
 .botonBajar{
     @apply rounded-full shadow-md inline-flex items-center;
