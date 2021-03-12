@@ -140,9 +140,9 @@ export default {
     });
   },
   beforeMount: async function () {    
-       let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
-            console.log(numeroPlaza)            
-            await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
+    let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
+    console.log(numeroPlaza)            
+    await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);
