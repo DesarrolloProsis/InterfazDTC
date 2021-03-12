@@ -217,7 +217,7 @@ export default {
         }
       }
     },
-    actualizar_componente: function () {
+    actualizar_componente: async function () {
       let idUbicacion = this.listaUbicacionGeneral.filter(
         (x) => x.ubicacion == this.objDatos.ubicacionGeneral
       );
@@ -226,7 +226,8 @@ export default {
         infoPlaza: this.infoPlaza,
         infoUbicacionGeneral: idUbicacion,
       };
-      this.$store.dispatch("Refacciones/ACTUALIZAR_COMPONENTE_INVENTARIO", parametros);
+      
+      await this.$store.dispatch("Refacciones/ACTUALIZAR_COMPONENTE_INVENTARIO", parametros); 
       this.$notify.success({
           title: "Ok!",
           msg: `SE ACTUALIZO CORRECTAMENTE EL COMPONENTE.`,
@@ -236,7 +237,11 @@ export default {
             width: 500,
           },
         });
-      this.$router.push('/Inventario')
+        setTimeout(() => {
+         
+            this.$router.push('/Inventario')
+        },2000)
+      
     },
   },
 };

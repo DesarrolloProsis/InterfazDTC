@@ -14,7 +14,7 @@ import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
-import ServiceCookies from '../services/CookiesService'
+//import ServiceCookies from '../services/CookiesService'
 import CookiesService from '../services/CookiesService'
 Vue.use(VueRouter)
 const routes = [
@@ -79,8 +79,8 @@ const routes = [
     path: '/Inventario',
     name: 'Inventario',
     component: Inventario,
-    beforeEnter: async function (to, from, next) {
-      await ServiceCookies.actualizar_plaza()            
+    beforeEnter:  function (to, from, next) {
+      //await ServiceCookies.actualizar_plaza()            
       next()
     }
   },
