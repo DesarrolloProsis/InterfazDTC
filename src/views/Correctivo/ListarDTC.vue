@@ -90,7 +90,7 @@
         <div class="sticky inset-0">
         <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
-          <div class="flex mt-5">
+          <div class="mt-5 text-center">
             <button @click="borrar(true)" class="botonIconCrear">Si</button>
             <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
           </div>
@@ -308,7 +308,7 @@ methods: {
         await this.$store.dispatch("DTC/BORRAR_DTC",obj);                                                                                
         this.menosMas = true
         this.showmenosMas = false,        
-        this.$notify.default({
+        this.$notify.success({
           title: "Ok!",
           msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
           position: "bottom right",
