@@ -137,25 +137,25 @@ const TIPOSENCABEZADOREPORTECARRIL = [
     { frecuencia: 4, encabezado:  9, tipoCarril: true },
     { frecuencia: 5, encabezado:  10, tipoCarril: true },        
 ]
-function frecuencia_id_to_encabezado_id(fecuenciaId, tipo){
+function frecuencia_id_to_encabezado_id(frecuenciaId, tipo){ 
     if(tipo == 'carril')
-        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId) && item.tipoCarril == true).encabezado
+        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(frecuenciaId) && item.tipoCarril == true).encabezado
     else
-        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId) && item.tipoCarril == false).encabezado
+        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(frecuenciaId) && item.tipoCarril == false).encabezado
 }
-function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado, tipoEncabezadoLane){
+async function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado, tipoEncabezadoLane){    
     let clavePlaza = referenceNumber.split('-')[0]
     let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado, tipoEncabezadoLane)}/${referenceNumber}`       
-    let namePdf = referenceNumber + ' ' + 'Preventivo' 
+    let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)    
 }
-function generar_pdf_fotografico_preventivo(referenceNumber, lane){
+async function generar_pdf_fotografico_preventivo(referenceNumber, lane){    
     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
     .then((response) => {    
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]
             let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane.split('-')[0]}`       
-            let namePdf = referenceNumber + ' ' + 'Preventivo' 
+            let namePdf = 'ReporteFotografica' + '-' + referenceNumber
             xml_hhtp_request(urlTopdf, namePdf)    
         }
     })
