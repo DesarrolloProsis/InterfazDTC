@@ -18,7 +18,7 @@ function obtener_array_imagenes(e, arrayComponete) {
         
         for (let item of files) {  
             
-            if(contar  < 5){
+            if(contar  < 36){
                 crear_imagen(item)
                 contar++
             }                

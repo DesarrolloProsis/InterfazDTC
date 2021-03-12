@@ -14,14 +14,14 @@
                 </div>
             </div>
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center">
-                <div class=""
-                >
-                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 ">
+                <div class="">
+                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0">
                     <img src="../../assets/img/more.png" class="p-5 ml-6 w-auto h-32" alt/>
-                    <span class="text-gray-500 text-sm">Agregar imagenes {{ num }}</span>
+                    <span class="text-sm text-gray-500 mb-0">Agregar imagenes</span>
                 </div>
             </div>
         </div>
+        <span class="text-gray-500 text-sm">{{ num }}/36 (Máximo 36 fotografías)</span>
     </div>
 </template>
 
@@ -126,7 +126,7 @@ export default {
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
-                            this.$notify.success({
+/*                           this.$notify.success({
                                 title: "Ok!",
                                 msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
                                 position: "bottom right",
@@ -134,7 +134,8 @@ export default {
                                     height: 100,
                                     width: 500,
                                 },
-                            });                                                                                 
+                            });  */ 
+                            console.log('Se borró')                                                                               
                         })
                         .catch(Ex => {                    
                             console.log(Ex);                    
