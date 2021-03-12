@@ -79,16 +79,17 @@ export default {
         }
     },
     methods: {
-        recibir_imagenes: async function (e){   
-            console.log(e.target.files)
-            let sumaImagenes = e.target.files.length  + this.arrayImagenes.length                                                                
-            if(sumaImagenes >= 3) {
-                alert('más de 3')
-            }
-            else{
-                alert('menos de 3')
-                this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)
-            }
+        recibir_imagenes: async function (e){  
+            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes) 
+            // console.log(e.target.files)
+            // let sumaImagenes = e.target.files.length  + this.arrayImagenes.length                                                                
+            // if(sumaImagenes >= 3) {
+            //     alert('más de 3')
+            // }
+            // else{
+            //     alert('menos de 3')
+            //     this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)
+            // }
         },
         enviar_imagen: async function(referenceNumber){    
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 

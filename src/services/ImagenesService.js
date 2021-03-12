@@ -1,4 +1,5 @@
 function obtener_array_imagenes(e, arrayComponete) {
+    let contar = arrayComponete.length
     let array_imagenes = arrayComponete
     const crear_imagen = function(file){        
         var reader = new FileReader();
@@ -14,9 +15,15 @@ function obtener_array_imagenes(e, arrayComponete) {
     var files = e.target.files || e.dataTransfer.files;
     if (!files.length) return [];
     else {
-        for (let item of files) {        
-            crear_imagen(item);
-        }               
+        
+        for (let item of files) {  
+            
+            if(contar  < 5){
+                crear_imagen(item)
+                contar++
+            }                
+        }  
+        console.log(array_imagenes)             
         return array_imagenes
     }
 }
