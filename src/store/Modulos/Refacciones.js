@@ -50,8 +50,11 @@ const mutations = {
 const actions = {
   async BUSCAR_COMPONETES_INVENTARIO({ commit, rootGetters }, value) {
     commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", []);    
+    
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
     .then(response => {      
+      
+      
       commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(Ex => {
@@ -86,6 +89,7 @@ const actions = {
     commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", []);
     await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, CookiesService.obtener_bearer_token())
     .then(response => {    
+      alert()
       commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(Ex => {
@@ -148,7 +152,8 @@ const actions = {
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
     await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
-      .then(response => {                                
+      .then(response => { 
+        console.log(response)                               
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
       .catch(error => {        

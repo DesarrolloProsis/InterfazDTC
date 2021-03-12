@@ -62,7 +62,7 @@
                 <input @change="cambiar_orden_inventario('componente')" v-model="boolComponente" class="bg-white" type="checkbox"/>
             </div>
             <div class="text-sm sm:mt-4">
-                <SelectPlaza :fullPlazas="true"></SelectPlaza>
+                <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
             <div class="mt-2">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
