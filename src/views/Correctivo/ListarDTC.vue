@@ -185,7 +185,7 @@
         </div>
       </div>
       <div class="text-center" v-if="moreCard != false">       
-        <button @click="cargar_mas" class="botonBajar">
+        <button @click="cargar_mas" class="botonBajar" :disabled="modalLoading">
           <img src="../../assets/img/abajo.png"  width="60" height="60" />
         </button>          
       </div>
