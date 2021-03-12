@@ -14,10 +14,11 @@
                 </div>
             </div>
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center">
-                <div class="">
+                <div class=""
+                >
                     <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 ">
                     <img src="../../assets/img/more.png" class="p-5 ml-6 w-auto h-32" alt/>
-                    <span class="text-gray-500 text-sm">Agregar imagenes</span>
+                    <span class="text-gray-500 text-sm">Agregar imagenes {{ num }}</span>
                 </div>
             </div>
         </div>
@@ -35,7 +36,7 @@ export default {
         referenceNumber: {
             type: String,
             default: () => ''
-        }
+        },
     },
     data(){
         return{
@@ -72,9 +73,19 @@ export default {
             });
         }, 1000)
     },
+    computed:{
+        num (){
+            return this.arrayImagenes.length
+        }
+    },
     methods: {
-        recibir_imagenes: async function (e){                                    
-            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
+        recibir_imagenes: async function (e){                                                              
+            if(this.arrayImagenes.length >= 3){
+                alert('más de 3')
+            }else{
+                alert('menos de 3')
+                this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)
+            }
         },
         enviar_imagen: async function(referenceNumber){    
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
