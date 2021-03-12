@@ -79,8 +79,9 @@ export default {
         }
     },
     methods: {
-        recibir_imagenes: async function (e){                                                              
-            if(this.arrayImagenes.length >= 3){
+        recibir_imagenes: async function (e){   
+            let sumaImagenes = e.taget.files.length  + this.arrayImagenes.length                                                                
+            if(sumaImagenes >= 3){
                 alert('más de 3')
             }else{
                 alert('menos de 3')
