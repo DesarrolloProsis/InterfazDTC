@@ -80,20 +80,12 @@ export default {
     },
     methods: {
         recibir_imagenes: async function (e){  
-            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes) 
-            // console.log(e.target.files)
-            // let sumaImagenes = e.target.files.length  + this.arrayImagenes.length                                                                
-            // if(sumaImagenes >= 3) {
-            //     alert('más de 3')
-            // }
-            // else{
-            //     alert('menos de 3')
-            //     this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)
-            // }
+            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
         },
-        enviar_imagen: async function(referenceNumber){    
-            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
-            if(boolValidacion){           
+        enviar_imagen: async function(objReporte){  
+            console.log(objReporte)  
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
+            if(boolValidacion){                           
                 let contador = 0                          
                 for(let imagenes of this.arrayImagenes){                
                     if(imagenes.name.split('_')[0] != this.referenceNumber){          
@@ -101,7 +93,7 @@ export default {
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
-                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
+                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                             .then(() => {                                                                                                            
                             })
                             .catch(error => {                                                      

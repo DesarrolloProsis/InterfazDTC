@@ -189,11 +189,6 @@
           <img src="../../assets/img/abajo.png"  width="60" height="60" />
         </button>          
       </div>
-      <!--<div v-if="moreCard" class="relative  mb-64">          
-        <div class="flex absolute inset-x-0 bottom-0 justify-center">            
-            <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
-        </div>          
-      </div>-->
     </div>
   </div>
 </template>
@@ -280,8 +275,7 @@ beforeMount: async function () {
     if(this.infoDTC.some(item => item.statusId == i)){
         this.statusValidos.push(statusLista.find(status => status.id == i))
     }
-  }
-  //PAginacion Inicial Toma 3 Cards     
+  }  
   for(let i = 0; i <= 5; i++){
       if(i < this.infoDTC.length)
         this.lista_dtc.push(this.infoDTC[i])
@@ -632,8 +626,7 @@ methods: {
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
         if (bottomOfWindow) {
-          // Do something, anything!     
-              
+          // Do something, anything!                   
             let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length){
@@ -641,8 +634,7 @@ methods: {
                 //bottomOfWindow.scrollto = bottomOfWindow.scrollHeight;
               }else 
                 this.moreCard = false                
-            }                             
-                  
+            }                                               
         }    
     };
   }
