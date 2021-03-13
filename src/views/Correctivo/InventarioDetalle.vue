@@ -237,11 +237,7 @@ export default {
             width: 500,
           },
         });
-        setTimeout(() => {
-         
-            this.$router.push('/Inventario')
-        },2000)
-      
+        this.$router.push('/Inventario')
     },
   },
 };

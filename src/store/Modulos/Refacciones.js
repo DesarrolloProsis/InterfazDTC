@@ -89,7 +89,6 @@ const actions = {
     commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", []);
     await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, CookiesService.obtener_bearer_token())
     .then(response => {    
-      alert()
       commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(Ex => {
