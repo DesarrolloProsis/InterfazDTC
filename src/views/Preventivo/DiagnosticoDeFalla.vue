@@ -111,7 +111,7 @@ methods:{
                     });
                 }                
             }            
-            //this.type = "FICHA";
+            this.type = "FICHA";
             //console.log(this.type)
             this.$notify.success({
                 title: "Ok",
