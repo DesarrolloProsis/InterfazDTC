@@ -37,7 +37,8 @@ export default {
         edicion: {
             type: Number,
             default: () => 0
-        }
+        },
+
     },
     data(){ 
         return{
@@ -55,12 +56,17 @@ export default {
     },
     beforeMount: async function() {
         if(this.fullPlazas)
-            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario   
                 
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
             this.boolCambiarPlaza = this.edicion ==  0 ? true : false
+        }
+        else if(this.tipo == 'tipoPlazaSelect'){   
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = true
         }
         else if(this.tipo != 'filtro'){
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    

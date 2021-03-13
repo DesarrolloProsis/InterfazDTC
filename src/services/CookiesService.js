@@ -23,13 +23,13 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
     localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
     return cookies 
 }
-async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia){
+async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia){    
     if(soloReferencia != undefined){        
         try{        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
         listaHeaders = store.state.Header.listaHeaders        
         let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia)             
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia)
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia)        
         await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
@@ -49,7 +49,6 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
             alert()
             console.log(error)
         }
-
     }
     else if(plazaSelect == undefined){        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario

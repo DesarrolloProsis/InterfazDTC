@@ -158,7 +158,7 @@
       ////                   QUINTA  LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
       <div class="text-sm">
-        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="tipoPlazaSelect"></SelectPlaza>
+        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
         <!-- <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
         <select v-model="plazaSelect" @change="cambiarPlaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
           <option disabled value>Selecionar...</option>
@@ -228,6 +228,7 @@ import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
 import ServiceReportePDF from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import SelectPlaza from '../Header/SelectPlaza'
+import ServiceCookies from '../../services/CookiesService'
 import moment from "moment";
 export default {
   name: "CrearHeader",
@@ -279,13 +280,14 @@ export default {
       arrayReference: [],
       referenceSelected: '',
       headerSelecionado: {},
-      tipoPlazaSelect: ''
+      tipoPlazaSelect: '',      
     };
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-created: function (){
+created:  function (){    
+    ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.headerEdit.referenceSquare)
     EventBus.$on("validar_header", async () => {
       await this.$validator.validateAll().then((item) => {
         if(item == false){
@@ -315,8 +317,8 @@ beforeMount: async function () {
   this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
   await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
   this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
-  if (JSON.stringify(this.headerEdit) != "{}") {
-    this.tipoPlazaSelect = 'filtro'      
+  if (JSON.stringify(this.headerEdit) != "{}") {    
+    this.tipoPlazaSelect = 'edicion'      
     this.boolCambiarPlaza = true
     this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
     this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;

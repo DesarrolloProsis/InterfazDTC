@@ -154,7 +154,6 @@
 <script>
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
-import ServiceCookies from '../../services/CookiesService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 export default {
   props: {
@@ -219,7 +218,7 @@ export default {
           numReporte: this.infoCard.reportNumber 
         }
       )                   
-      await ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.infoCard.referenceNumber.split("-")[0])            
+      
       let datosSinester = {
         ReferenceNumber: "",
         SinisterNumber: "",
