@@ -44,7 +44,8 @@ export default {
         }
     },
     created(){
-        EventBus.$on("guardar_imagenes", referenceNumber => {                                          
+        EventBus.$on("guardar_imagenes", referenceNumber => {        
+            console.log(referenceNumber)                                  
             this.enviar_imagen(referenceNumber)
         });
     },
@@ -77,17 +78,17 @@ export default {
         recibir_imagenes: async function (e){                                    
             this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
         },
-        enviar_imagen: async function(referenceNumber){    
-            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
+        enviar_imagen: async function(value){    
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != value.referenceNumber) 
             if(boolValidacion){           
                 let contador = 0                          
                 for(let imagenes of this.arrayImagenes){                
-                    if(imagenes.name.split('_')[0] != this.referenceNumber){          
+                    if(imagenes.name.split('_')[0] != value.referenceNumber){          
                         contador++         
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
-                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
+                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                             .then(() => {                                                                                                            
                             })
                             .catch(Ex => {                    
@@ -106,7 +107,8 @@ export default {
                         }); 
                     }  
                 }
-            }                     
+            }  
+            this.$emit('ocutar-modal-loading',value)                   
         },
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                
