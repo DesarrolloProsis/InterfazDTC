@@ -260,6 +260,9 @@ export default {
         this.comentario
       )        
       console.log(actividadInsert)   
+      console.log(`${API}/Calendario/Actividad/${refPlaza}`)
+      console.log(CookiesService.obtener_bearer_token())
+
       await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    

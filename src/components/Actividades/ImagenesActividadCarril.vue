@@ -56,6 +56,7 @@ export default {
             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
                 .then((response) => {                          
                     if(response.status != 404){  
+                        console.log(response.data)
                         let newArrayImg = []                      
                         response.data.forEach(item => {
                             newArrayImg.push({
