@@ -74,8 +74,7 @@ methods:{
                 
     },
     enviar_header_diagnostico(){    
-        let llavesHeader = Object.keys(this.datosHeader)    
-        console.log(llavesHeader)    
+        let llavesHeader = Object.keys(this.datosHeader)            
         if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
             let validar = valueHeader.some(prop => prop == '')            
@@ -92,14 +91,9 @@ methods:{
                     },
                 });
             }
-            else{                
-                //alert('estoy completo')
-                console.log('completo')
+            else{                                                
                 let horasValidas = this.validar_horas()
-                if(horasValidas != true){
-                    //AQUI SE LLAMA A LA API PARA INSERTAR
-                    //alert('Horas incorrectas')
-                    console.log('horas incorrectas')
+                if(horasValidas != true){                           
                     this.$notify.warning({
                         title: "Ups!",
                         msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
@@ -110,9 +104,8 @@ methods:{
                         },
                     });
                 }                
-            }            
-            this.type = "FICHA";
-            //console.log(this.type)
+            }     
+            this.insertar_diagnostico_falla()                   
             this.$notify.success({
                 title: "Ok",
                 msg: `SE CREO CORRECTAMENTE.`,
@@ -137,6 +130,30 @@ methods:{
                 });
         }
     },
+    insertar_diagnostico_falla(){
+        let userIdPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+        let administradorId = this.$store.state.Login.plazaSelecionada.administradorId
+        let objDiagnostico = {
+            referenceNumber: this.datosHeader.referenceNumber,
+            squareId: userIdPlaza.numPlaza,
+            diagnosisDate: this.datosHeader.fechaDiagnostico,
+            start: this.datosHeader.horaInicio,
+            end: this.datosHeader.horaFin,
+            sinisterNumber: this.datosHeader.numeroReporte,
+            failureNumber: this.datosHeader.folioFalla,
+            userId: userIdPlaza.idUser,
+            failureDescription: this.datosHeader.descripcionFalla,
+            failureDiagnosis: this.datosHeader.diagnosticoFalla,
+            causeFailure: this.datosHeader.causaFalla,
+            adminSquareId: administradorId,
+            updateFlag: 1
+        }
+        console.log(objDiagnostico)
+        this.$router.push('/FichaTecnicaDeFalla')
+        this.type = "FICHA";            
+    }
+
+
 },
 
 }

@@ -105,6 +105,11 @@ const routes = [
     component: () => import('../views/Preventivo/DiagnosticoDeFalla')
   },
   {
+    path: '/FichaTecnicaDeFalla',
+    name: 'FichaTecnicaDeFalla',
+    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
+  },
+  {
     path: '/Pruebas',
     name: 'Pruebas',
     component: () => import('../views/Correctivo/Pruebas')
