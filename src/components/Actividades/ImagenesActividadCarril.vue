@@ -112,7 +112,8 @@ export default {
                         width: 500,
                     },
                 }); 
-            }                     
+            }
+            this.$emit('ocutar-modal-loading', objReporte)                     
         },
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                

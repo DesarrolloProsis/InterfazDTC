@@ -14,17 +14,11 @@ function obtener_array_imagenes(e, arrayComponete) {
     }
     var files = e.target.files || e.dataTransfer.files;
     if (!files.length) return [];
-<<<<<<< HEAD
-    else {        
-        for (let item of files) {              
-            if(contar  < 5){
-=======
     else {
         
         for (let item of files) {  
             
             if(contar  < 36){
->>>>>>> 0c7806e2ce6c0887f3eedeb5b6c9f8e0e8131563
                 crear_imagen(item)
                 contar++
             }                

@@ -103,7 +103,7 @@
                 <div class="mr-10">
                     <span class="">DIAGNOSTICO DE LA FALLA REPORTADA:</span>
                     <textarea
-                        v-model="datosDiagnostico.diagnosticoFlla"
+                        v-model="datosDiagnostico.diagnosticoFalla"
                         class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                         placeholder="jane@example.com"
                         name="Observaciones"
@@ -214,7 +214,7 @@ data(){
             folioFalla: '',
             numeroReporte: '',
             descripcionFalla: '',
-            diagnosticoFlla:'',
+            diagnosticoFalla:'',
             causaFalla:''
         },
         solucion:'',
@@ -246,7 +246,7 @@ computed:{
         return  this.datosDiagnostico.descripcionFalla.length
     },
     restante_diag(){
-        return this.datosDiagnostico.diagnosticoFlla.length
+        return this.datosDiagnostico.diagnosticoFalla.length
     },
     restante_causa(){
         return this.datosDiagnostico.causaFalla.length
