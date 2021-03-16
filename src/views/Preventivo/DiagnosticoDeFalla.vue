@@ -104,8 +104,8 @@ methods:{
                         },
                     });
                 }                
-            }            
-            this.type = "FICHA";            
+            }     
+            this.insertar_diagnostico_falla()                   
             this.$notify.success({
                 title: "Ok",
                 msg: `SE CREO CORRECTAMENTE.`,
@@ -149,6 +149,8 @@ methods:{
             updateFlag: 1
         }
         console.log(objDiagnostico)
+        this.$router.push('/FichaTecnicaDeFalla')
+        this.type = "FICHA";            
     }
 
 
