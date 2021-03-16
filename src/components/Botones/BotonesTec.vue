@@ -27,6 +27,12 @@
             </router-link>
           </div>
           <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
+            <router-link to="/Inventario" class="text-center cursor-pointer">
+              <img src="../../assets/img/map.png" height="200" width="200" class="m-10 sm:m-1"/>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Plano Georeferenciado</h1>
+            </router-link>
+          </div>
+          <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
               <img src="../../assets/img/config.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Configuración</h1>
@@ -51,13 +57,15 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Mantenimiento</h1>
             </router-link>
           </div>
+          <!--
           <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
             <router-link to="/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/evidencia.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Diagnostico de</h1>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Falla</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Reeporte Mensual</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">de Actividades</h1>
             </router-link>
-          </div>       
+          </div> 
+          -->      
           <!-- <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400">
             <router-link to="/Configuracion" class="text-center">
               <img src="../../assets/img/config.png" height="200" width="200" class="m-10 sm:m-1" />

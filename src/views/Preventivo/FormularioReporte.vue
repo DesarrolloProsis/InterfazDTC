@@ -5,6 +5,17 @@
         ////////////////////////////////////////////////////////////////////-->
         <HeaderPreventivo :header="header" :referenceNumber="referenceNumber" @guarar-log-fecha="guardar_log_fecha"></HeaderPreventivo>
         <!--/////////////////////////////////////////////////////////////////
+        ////                         MODAL LOADER                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+            <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
+                <div class="justify-center text-center block">            
+                    <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
+                    <p class="text-gray-900 font-thin text-md">Espere ... </p>
+                </div>
+            </div>
+        </div>
+        <!--/////////////////////////////////////////////////////////////////
         ////                    TABLA DE ACTIVIDADES JOB                   ////
         ////////////////////////////////////////////////////////////////////-->
         <TablaActividadesCarril :listaActividades="listaActividades" :referenceNumber="referenceNumber"></TablaActividadesCarril>
@@ -30,13 +41,13 @@
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
             <div class=" w-1/2 ml-20">
-                <ImagenesActividadCarril :referenceNumber="referenceNumber"></ImagenesActividadCarril>
+                <ImagenesActividadCarril :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
         ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
-                <button @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32">
+                <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600': modalLoading}">
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>
@@ -70,7 +81,8 @@ export default {
             horaInicio: '',
             limite: 300,
             objetoLogDate: {},
-            reporteInsert: true
+            reporteInsert: true,
+            modalLoading: false
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -199,7 +211,15 @@ methods:{
                 return false    
             }
     },
-    async crear_header_reporte(){            
+    ocultar_modal_loading(objReporte) {       
+        this.modalLoading = false
+        setTimeout(async () => {
+            await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
+            await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)
+            this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})  
+        }, 2000);                      
+    },
+    async crear_header_reporte(){          
         let validarActividades = this.listaActividades.every((actividad) => parseInt(actividad.jobStatus) != 0 )          
         //DAtos Para Insertar ACtividades                                                         
         let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                        
@@ -240,7 +260,7 @@ methods:{
         if(validarActividades){            
             if(this.validar_horas()) {                                                 
                 if(this.reporteInsert) {     
-                    console.log(headerReporte)                                                                                                             
+                        this.modalLoading = true                                                                                                       
                         Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte, CookiesService.obtener_bearer_token())
                         .then(() => { 
                             console.log(arrayJob)                             
@@ -263,18 +283,15 @@ methods:{
                                                 CookiesService.token_no_autorizado()
                                             console.log(Ex);                                       
                                         })         
-                                }  
-                                //Envio Imagenes y Generacion de Reportes     
-                                EventBus.$emit("guardar_imagenes", this.referenceNumber);    
-                                //this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                                                                                                                                          
-                                setTimeout(() =>{
-                                    ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId, tipoEncabezadoLane)
-                                    ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)       
-                                    this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})
-                                },2000)  
-                                //Notificaciones de Termino  
-                                if(this.reporteInsert == true){   
-                                    console.log('SE INSERTO EL HEADER.')                            
+                                } 
+                                let objImg = {
+                                    referenceNumber: this.referenceNumber,
+                                    frecuenciaId : this.header.frequencyId,
+                                    tipoEncabezadoLane: tipoEncabezadoLane,
+                                    lane: this.header.lane
+                                }                                                                     
+                                EventBus.$emit("guardar_imagenes", objImg)                                                   
+                                if(this.reporteInsert == true){                               
                                     this.$notify.success({
                                         title: "Ok!",
                                         msg: `SE GENERARON LOS REPORTES CORRECTAMENTE.`,
@@ -308,18 +325,19 @@ methods:{
                         });                                                                                                                                                                                          
                 }
                 else {  
+                    this.modalLoading = true
                     Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`,headerReporte, CookiesService.obtener_bearer_token())
                         .then(() => {     
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                                 .then(() => {                             
-                                    //Envio Imagenes y Generacion de Reportes     
-                                    EventBus.$emit("guardar_imagenes", this.referenceNumber);    
-                                    this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})                                                                                                                                                                          
-                                    setTimeout(() =>{
-                                        ServiceReporte.generar_pdf_actividades_preventivo(this.referenceNumber, this.header.frequencyId, tipoEncabezadoLane)
-                                        ServiceReporte.generar_pdf_fotografico_preventivo(this.referenceNumber, this.header.lane)       
-                                    },2000)  
-                                    //Notificaciones de Termino  
+                                    //Envio Imagenes y Generacion de Reportes    
+                                    let objImg = {
+                                        referenceNumber: this.referenceNumber,
+                                        frecuenciaId : this.header.frequencyId,
+                                        tipoEncabezadoLane: tipoEncabezadoLane,
+                                        lane: this.header.lane
+                                    }                                      
+                                    EventBus.$emit("guardar_imagenes", objImg);                                   
                                     this.$notify.success({
                                         title: "Ok!",
                                         msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
@@ -331,6 +349,7 @@ methods:{
                                     });                                                                                
                                 })
                                 .catch(Ex => {    
+                                    console.log(Ex)
                                     if(Ex.response.status == 401)
                                         CookiesService.token_no_autorizado()                                                                                     
                                 })

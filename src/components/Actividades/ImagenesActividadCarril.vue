@@ -14,14 +14,14 @@
                 </div>
             </div>
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center">
-                <div class=""
-                >
-                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 ">
+                <div class="">
+                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0">
                     <img src="../../assets/img/more.png" class="p-5 ml-6 w-auto h-32" alt/>
-                    <span class="text-gray-500 text-sm">Agregar imagenes {{ num }}</span>
+                    <span class="text-sm text-gray-500 mb-0">Agregar imagenes</span>
                 </div>
             </div>
         </div>
+        <span class="text-gray-500 text-sm">{{ num }}/36 (Máximo 36 fotografías)</span>
     </div>
 </template>
 
@@ -81,20 +81,12 @@ export default {
     },
     methods: {
         recibir_imagenes: async function (e){  
-            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes) 
-            // console.log(e.target.files)
-            // let sumaImagenes = e.target.files.length  + this.arrayImagenes.length                                                                
-            // if(sumaImagenes >= 3) {
-            //     alert('más de 3')
-            // }
-            // else{
-            //     alert('menos de 3')
-            //     this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)
-            // }
+            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
         },
-        enviar_imagen: async function(referenceNumber){    
-            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
-            if(boolValidacion){           
+        enviar_imagen: async function(objReporte){  
+            console.log(objReporte)  
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
+            if(boolValidacion){                           
                 let contador = 0                          
                 for(let imagenes of this.arrayImagenes){                
                     if(imagenes.name.split('_')[0] != this.referenceNumber){          
@@ -102,7 +94,7 @@ export default {
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
-                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData, CookiesService.obtener_bearer_token())
+                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                             .then(() => {                                                                                                            
                             })
                             .catch(error => {                                                      
@@ -127,7 +119,7 @@ export default {
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
-                            this.$notify.success({
+/*                           this.$notify.success({
                                 title: "Ok!",
                                 msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
                                 position: "bottom right",
@@ -135,7 +127,8 @@ export default {
                                     height: 100,
                                     width: 500,
                                 },
-                            });                                                                                 
+                            });  */ 
+                            console.log('Se borró')                                                                               
                         })
                         .catch(Ex => {                    
                             console.log(Ex);                    

@@ -90,7 +90,7 @@
         <div class="sticky inset-0">
         <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
-          <div class="flex mt-5">
+          <div class="mt-5 text-center">
             <button @click="borrar(true)" class="botonIconCrear">Si</button>
             <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
           </div>
@@ -189,11 +189,6 @@
           <img src="../../assets/img/abajo.png"  width="60" height="60" />
         </button>          
       </div>
-      <!--<div v-if="moreCard" class="relative  mb-64">          
-        <div class="flex absolute inset-x-0 bottom-0 justify-center">            
-            <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
-        </div>          
-      </div>-->
     </div>
   </div>
 </template>
@@ -280,8 +275,7 @@ beforeMount: async function () {
     if(this.infoDTC.some(item => item.statusId == i)){
         this.statusValidos.push(statusLista.find(status => status.id == i))
     }
-  }
-  //PAginacion Inicial Toma 3 Cards     
+  }  
   for(let i = 0; i <= 5; i++){
       if(i < this.infoDTC.length)
         this.lista_dtc.push(this.infoDTC[i])
@@ -309,7 +303,7 @@ methods: {
         await this.$store.dispatch("DTC/BORRAR_DTC",obj);                                                                                
         this.menosMas = true
         this.showmenosMas = false,        
-        this.$notify.default({
+        this.$notify.success({
           title: "Ok!",
           msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
           position: "bottom right",
@@ -632,8 +626,7 @@ methods: {
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
         if (bottomOfWindow) {
-          // Do something, anything!     
-              
+          // Do something, anything!                   
             let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length){
@@ -641,8 +634,7 @@ methods: {
                 //bottomOfWindow.scrollto = bottomOfWindow.scrollHeight;
               }else 
                 this.moreCard = false                
-            }                             
-                  
+            }                                               
         }    
     };
   }
