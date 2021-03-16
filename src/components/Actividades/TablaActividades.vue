@@ -4,67 +4,62 @@
             <!-- <div class="flex justify-center mt-2">
                 <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
             </div> -->
-            <div class="xl:mx-auto sm:h-auto sm:m-0 border shadow-lg rounded-md w-full h-64 mt-5">
+            <div class="sm:m-0 border shadow-lg rounded-md w-full mt-5">
                 <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES</h1>
-                <div class="inline-flex sm:inline-block mt-3">
-                    <div class="w-1/2 sm:w-full">
-                    <!--//////////////////////////////////////////////////////////////////////
+                <div class="grid grid-cols-2 sm:inline-block mt-3">
+                    <div class="sm:w-full">
+                        <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
                         ////////////////////////////////////////////////////////////////////-->
                         <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p> 
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
                             <div class=" sm:w-full sm:ml-3">
                                 <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
-                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center">                                
+                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center -ml-8">                                
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class=" inline-flex mb-4 mt-4 -ml-4">
+                                        <p class="text-sm sm:text-sm text-gray-900 ml-3 mr-2">Mes:</p>                                
+                                        <select v-model="mes" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
+                                            <option disabled value>Selecionar...</option>
+                                            <option value="1">Enero</option>
+                                            <option value="2">Febrero</option>
+                                            <option value="3">Marzo</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Mayo</option>
+                                            <option value="6">Junio</option>
+                                            <option value="7">Julio</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Septiembre</option>
+                                            <option value="10">Octubre</option>
+                                            <option value="11">Noviembre</option>
+                                            <option value="12">Diciembre</option>
+                                        </select>
+                                    </div>
+                                    <div class="inline-flex mb-4 mt-4 ml-6">
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año:</p>
+                                        <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
+                                            <option disabled value>Selecionar...</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>                                        
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="inline-flex">
+                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril):</p>
+                                    <select class="ml-6" v-model="ubicacion" type="text">
+                                        <option value="">Selecionar...</option>
+                                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                                    </select>
                                 </div> 
-                            </div>
-                            <!--//////////////////////////////////////////////////////////////////////
-                                ////                          FILTROS                             ////
-                                ////////////////////////////////////////////////////////////////////-->
-                            <div class="pl-5 sm:pl-0 sm:w-full sm:mt-6">
-                                <div class=" inline-flex mb-4">
-                                    <p class="text-sm sm:text-sm text-gray-900 ml-3 mr-2">Mes</p>                                
-                                    <select v-model="mes" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
-                                        <option disabled value>Selecionar...</option>
-                                        <option value="1">Enero</option>
-                                        <option value="2">Febrero</option>
-                                        <option value="3">Marzo</option>
-                                        <option value="4">Abril</option>
-                                        <option value="5">Mayo</option>
-                                        <option value="6">Junio</option>
-                                        <option value="7">Julio</option>
-                                        <option value="8">Agosto</option>
-                                        <option value="9">Septiembre</option>
-                                        <option value="10">Octubre</option>
-                                        <option value="11">Noviembre</option>
-                                        <option value="12">Diciembre</option>
-                                    </select>
-                                </div>
-                                <div class=" inline-flex mb-3">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año</p>
-                                    <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
-                                        <option disabled value>Selecionar...</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2021">2021</option>                                        
-                                    </select>
-                                </div>
-                            <!--//////////////////////////////////////////////////////////////////////
-                                ////                           BOTON  BUSCAR                      ////
-                                ////////////////////////////////////////////////////////////////////-->
-                                <div class=" sm:justify-center sm:flex">
-                                    <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
-                                        <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
-                                        <span class="text-xs">Buscar Actividades</span>
-                                    </button>
-                                </div>
-                            </div>                            
+                            </div>                           
                         </div>                          
                     </div>
                     <!--//////////////////////////////////////////////////////////////////////
-                        ////                       COMENTARIO                             ////
-                        ////////////////////////////////////////////////////////////////////-->
-                    <div class="w-1/2 sm:w-full justify-start sm:mt-3 ml-48 sm:ml-5 sm:mb-2 mt-0 inline-block sm:p-1">
+                    ////                       COMENTARIO                             ////
+                    ////////////////////////////////////////////////////////////////////-->
+                    <div class="sm:w-full justify-start sm:mt-3 mr-10 sm:ml-5 sm:mb-2 mt-0 inline-block sm:p-1">
                         <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
                         <!-- <p>{{ comentario }}</p> -->
                         <textarea
@@ -73,7 +68,16 @@
                         readonly
                         />
                     </div>                                 
-                </div>            
+                </div> 
+                <!--//////////////////////////////////////////////////////////////////////
+                ////                           BOTON  BUSCAR                      ////
+                ////////////////////////////////////////////////////////////////////-->
+                <div class=" sm:flex mb-4 ml-68">
+                    <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
+                        <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
+                        <span class="text-xs">Buscar Actividades</span>
+                    </button>
+                </div>           
             </div>
             <div>
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
@@ -159,7 +163,8 @@ export default {
             plazaNombre: '',
             año: '',
             mes: '',
-            comentario: ''
+            comentario: '',
+            ubicacion: '',
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -172,7 +177,14 @@ beforeMount: async function(){
     this.plazaNombre = cargaInicial.plazaNombre
     this.comentario = cargaInicial.comentario     
     this.mes = cargaInicial.mes
-    this.año = cargaInicial.año               
+    this.año = cargaInicial.año
+    this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
+    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)               
+},
+computed:{
+        carriles_plaza(){
+        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+    },
 },
 /////////////////////////////////////////////////////////////////////
 ////                            METODOS                          ////
@@ -190,6 +202,7 @@ methods: {
     cambiar_plaza(numeroPlaza){     
         this.plazaSelect = numeroPlaza
         this.listaActividadesMensuales = []
+        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
     },
     reporte_pdf: async function(item){          
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
