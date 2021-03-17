@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="inline-flex">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril):</p>
-                                    <select class="ml-6" v-model="ubicacion" type="text">
+                                    <select class="ml-2" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select>
@@ -56,9 +56,9 @@
                                 <div class="inline-flex mb-4 mt-4 ml-2">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status:</p>
                                     <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
-                                        <option disabled value>Selecionar...</option>
-                                        <option value="true">Concluido</option>
-                                        <option value="false">Inconcluso</option>                                        
+                                        <option value="">Selecionar...</option>
+                                        <option :value=true>Concluido</option>
+                                        <option :value=false>Inconcluso</option>                                        
                                     </select>
                                 </div>
                             </div>                           
@@ -67,25 +67,32 @@
                     <!--//////////////////////////////////////////////////////////////////////
                     ////                       COMENTARIO                             ////
                     ////////////////////////////////////////////////////////////////////-->
-                    <div class="sm:w-full justify-start sm:mt-3 mr-10 sm:ml-5 sm:mb-2 mt-0 inline-block sm:p-1">
-                        <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
-                        <!-- <p>{{ comentario }}</p> -->
-                        <textarea
-                        v-model="comentario"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-300 rounded-lg px-2 py-2 h-32 w-full"
-                        readonly
-                        />
-                    </div>                                 
+                    <div>
+                        <div class="sm:w-full justify-start sm:mt-3 mr-10 sm:ml-5 sm:mb-2 mt-0 inline-block sm:p-1 w-69">
+                            <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
+                            <!-- <p>{{ comentario }}</p> -->
+                            <textarea
+                            v-model="comentario"
+                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-300 rounded-lg px-2 py-2 h-32 w-full"
+                            readonly
+                            />
+                        </div>
+                        <!--//////////////////////////////////////////////////////////////////////
+                        ////                           BOTON  BUSCAR                      ////
+                        ////////////////////////////////////////////////////////////////////-->
+                        <div class=" sm:flex mb-4 ml-6 mt-6">
+                            <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
+                                <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
+                                <span class="text-xs">Buscar Actividades</span>
+                            </button>
+                            <button @click="limpiar_filtros" class="botonIconLimpiar">
+                                <img src="../../assets/img/escoba.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
+                                <span class="text-xs">Limpiar Filtro</span>
+                            </button>
+                        </div>                                   
+                    </div>
+                    
                 </div> 
-                <!--//////////////////////////////////////////////////////////////////////
-                ////                           BOTON  BUSCAR                      ////
-                ////////////////////////////////////////////////////////////////////-->
-                <div class=" sm:flex mb-4 ml-68">
-                    <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
-                        <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
-                        <span class="text-xs">Buscar Actividades</span>
-                    </button>
-                </div>           
             </div>
             <div>
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
@@ -173,7 +180,7 @@ export default {
             mes: '',
             comentario: '',
             ubicacion: '',
-            status:'',
+            status:''
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -199,13 +206,24 @@ computed:{
 ////                            METODOS                          ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-    filtrar_actividades_mensuales: async function(){                
+    limpiar_filtros : async function(){
+        this.ubicacion = ""
+        this.status = ""
         let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,
             this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect            
+            this.plazaSelect = actualizar.plazaSelect           
+        })
+    },
+    filtrar_actividades_mensuales: async function(){                
+        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
+        this.$nextTick().then(() => {
+            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+            this.plazaNombre = actualizar.plazaNombre,
+            this.comentario = actualizar.comentario,
+            this.plazaSelect = actualizar.plazaSelect           
         })
     },  
     cambiar_plaza(numeroPlaza){     

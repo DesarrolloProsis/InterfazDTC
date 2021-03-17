@@ -16,17 +16,17 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         "month": mes,
         "year": año,
     }
-    await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)   
+    await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
     let listaActidadesTipo = tipoCalendario === false 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-        : eventos_calendario_formato(objApi)       
-
-    if(status != undefined){
-        listaActidadesTipo = listaActidadesTipo.filter(item => item.status == status)    
-    }    
-    if(carril != undefined){
-        listaActidadesTipo = listaActidadesTipo.filter(item => item.lane == status)
+        : eventos_calendario_formato(objApi)        
+    if (status != undefined){
+        listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
     }
+    if (carril != undefined){
+        //console.log(item.lane.split('-'))
+        listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
+    } 
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,
