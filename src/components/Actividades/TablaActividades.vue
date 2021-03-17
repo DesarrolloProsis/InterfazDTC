@@ -4,7 +4,7 @@
             <!-- <div class="flex justify-center mt-2">
                 <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
             </div> -->
-            <div class="sm:m-0 border shadow-lg rounded-md w-full mt-5">
+            <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
                 <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES</h1>
                 <div class="grid grid-cols-2 sm:inline-block mt-3">
                     <div class="sm:w-full">
@@ -15,7 +15,7 @@
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
                             <div class=" sm:w-full sm:ml-3">
                                 <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
-                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center -ml-8 mb-4">                                
+                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center sm:-ml-1 -ml-8 mb-4">                                
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
                                 </div>
                                 <div class="grid grid-cols-2">
@@ -37,7 +37,7 @@
                                             <option value="12">Diciembre</option>
                                         </select>
                                     </div>
-                                    <div class="inline-flex mb-4 mt-4 ml-6">
+                                    <div class="inline-flex mb-4 mt-4 -ml-8 sm:-ml-4">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año:</p>
                                         <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
@@ -53,13 +53,17 @@
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select>
                                 </div> 
-                                <div class="inline-flex mb-4 mt-4 ml-2">
+                                <div class="inline-flex mb-4 mt-4 ml-2 sm:-ml-4">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status:</p>
                                     <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                         <option value="">Selecionar...</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
                                     </select>
+                                </div>
+                                <div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
+                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Referencia:</p>
+                                    <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
                                 </div>
                             </div>                           
                         </div>                          
@@ -68,7 +72,7 @@
                     ////                       COMENTARIO                             ////
                     ////////////////////////////////////////////////////////////////////-->
                     <div>
-                        <div class="sm:w-full justify-start sm:mt-3 mr-10 sm:ml-5 sm:mb-2 mt-0 inline-block sm:p-1 w-69">
+                        <div class="sm:w-full justify-start sm:mt-3 mr-10  sm:mb-2 mt-0 inline-block sm:p-1 w-69">
                             <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
                             <!-- <p>{{ comentario }}</p> -->
                             <textarea
@@ -80,7 +84,7 @@
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                           BOTON  BUSCAR                      ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <div class=" sm:flex mb-4 ml-6 mt-6">
+                        <div class=" sm:flex mb-4 ml-6 mt-12">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>
@@ -94,7 +98,7 @@
                     
                 </div> 
             </div>
-            <div>
+            <div class="sm:m-2 sm:w-full sm:ml-1">
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
                     <!--//////////////////////////////////////////////////////////////////////
                         ////                           TABLA                             ////
@@ -180,7 +184,8 @@ export default {
             mes: '',
             comentario: '',
             ubicacion: '',
-            status:''
+            status:'',
+            ref:'',
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -209,6 +214,7 @@ methods: {
     limpiar_filtros : async function(){
         this.ubicacion = ""
         this.status = ""
+        this.ref = ""
         let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
@@ -218,7 +224,7 @@ methods: {
         })
     },
     filtrar_actividades_mensuales: async function(){                
-        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
+        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.ref)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,
