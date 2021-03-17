@@ -147,7 +147,7 @@ methods:{
             failureDiagnosis: this.datosHeader.diagnosticoFalla,
             causeFailure: this.datosHeader.causaFalla,
             adminSquareId: administradorId,
-            updateFlag: 1
+            updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
         }
         console.log(objDiagnostico)
         Axios.post(`${API}/FichaTecnicaAtencion/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())

@@ -370,7 +370,10 @@ export default {
         this.calendarioEscaneado = true
       })
       .catch((error) => {
-          console.log(error)
+          console.log(error)                    
+          if(error.response.state == 401)
+            CookiesService.token_no_autorizado
+          
           this.calendarioEscaneado = false
       })
     }
