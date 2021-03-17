@@ -87,7 +87,6 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
         user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
-
     let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;          
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
@@ -197,11 +196,18 @@ async function generar_pdf_fotografico_preventivo(referenceNumber, lane){
         console.log(Ex);                    
     });    
 }
+function generar__pdf_calendario_escaneado(año, mes){
+    let clavePlaza = store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
+    let urlTopdf = `${API}/Calendario/GetPdfSellado/${clavePlaza}/${año}/${mes}`
+    let namePdf = clavePlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
+    xml_hhtp_request(urlTopdf, namePdf) 
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
     crear_referencia_calendario,
     generar_pdf_calendario,
     generar_pdf_actividades_preventivo,
-    generar_pdf_fotografico_preventivo    
+    generar_pdf_fotografico_preventivo,
+    generar__pdf_calendario_escaneado    
 }
