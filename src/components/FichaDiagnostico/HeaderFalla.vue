@@ -25,7 +25,7 @@
                         <span class="mr-20 sm:mr-0">Ubicación:</span>
                     </div>
                     <div class="-ml-66 sm:ml-0">
-                        <select class="w-56 sm:w-20" v-model="datosDiagnostico.ubicacion" type="text">
+                        <select class="w-56 sm:w-20" :disabled="blockInput" v-model="datosDiagnostico.ubicacion" type="text">
                             <option value="">Selecionar...</option>
                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                         </select>
@@ -40,16 +40,17 @@
                     <span class="">Fecha:</span>
                     <input class="ml-16 bg-white border-gray-400" 
                     type="date" 
+                    :disabled="blockInput"
                     v-model="datosDiagnostico.fechaDiagnostico"
                     @change="crear_referencia"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora INICIO:</span>
-                    <input class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="datosDiagnostico.horaInicio"/>
+                    <input :disabled="blockInput" class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="datosDiagnostico.horaInicio"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora FIN:</span>
-                    <input class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="datosDiagnostico.horaFin"/>
+                    <input :disabled="blockInput" class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="datosDiagnostico.horaFin"/>
                 </div>
             </div>
         </div>    
@@ -71,10 +72,10 @@
             </div>
             <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
                 <div class="-ml-69 sm:-ml-16">
-                    <input class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.folioFalla" />
+                    <input :disabled="blockInput" class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.folioFalla" />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
-                    <input class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.numeroReporte"  />
+                    <input :disabled="blockInput" class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.numeroReporte"  />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
                     <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
@@ -138,7 +139,8 @@
                 <div class="grid grid-cols-3 -ml-69">
                     <div class="text-center">
                         <p>POR OPERACIÓN</p>
-                        <input type="checkbox">
+                        
+                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox">
                     </div>
                     <div class="text-center">
                         <p>POR SINIESTRO</p>
@@ -166,7 +168,7 @@
                     <div class="mr-10">
                         <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
                         <textarea
-                            v-model="solucion"
+                            v-model="datosDiagnostico.solucionFalla"
                             class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                             placeholder="jane@example.com"
                             name="Observaciones"
@@ -223,7 +225,8 @@ data(){
         headerSelecionado: {},
         plazaSeleccionada:"",
         arraySelect:{},
-        type:"DIAG"
+        type:"DIAG",
+        blockInput: false
     }
 },
 beforeMount: function(){           
@@ -256,12 +259,20 @@ computed:{
     },
 },
 watch:{
+    tipo(newValue){
+        if(newValue == 'FICHA'){
+            delete this.datosDiagnostico["descripcionFalla"]
+            delete this.datosDiagnostico["diagnosticoFalla"]
+            delete this.datosDiagnostico["causaFalla"]
+            this.blockInput = true
+        }
+    },
     datosDiagnostico: {
         deep: true,
         handler(datosDiagnostico) {
             this.$emit('actualizar-header', datosDiagnostico)
         },
-    }
+    },
 },
 methods:{    
     crear_referencia: async function () {      
