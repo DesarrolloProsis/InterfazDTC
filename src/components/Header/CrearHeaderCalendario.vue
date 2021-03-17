@@ -36,8 +36,11 @@
                         </button>
                     </div>
                     <div class="flex-col justify-center h-12 w-full mt-5 " >
-                        <div v-if="calendarioEscaneadoBool">
-
+                        <div v-if="calendarioEscaneado">
+                            <button @click="obtener_escaneado_calendario" class="botonIconDescargar mb-1 sm:mt-2">
+                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
+                                    <span class="text-xs sm:hidden">Descargar Calendario Escaneado</span>
+                            </button>
                         </div>
                         <div v-else>
                             <div  class="grid grid-cols-2" v-if="escaneadoBool"> 
@@ -110,6 +113,7 @@ import SelectPlaza from '../Header/SelectPlaza'
 import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import Axios from "axios";
+import ReportesPDFService from '../../services/ReportesPDFService'
 
 export default {
     components:{
@@ -132,7 +136,7 @@ export default {
             type: Number,
             default: () => 0
         },
-        calendarioEscaneadoBool: {
+        calendarioEscaneado: {
             type: Boolean,
             default: () => false
         }
@@ -175,7 +179,7 @@ export default {
     },    
     methods: {
         cambiar_plaza(numeroPlaza){                  
-            this.$emit("actualizar-actividad", numeroPlaza);            
+            this.$emit("actualizar-actividad", numeroPlaza);
         },
         generar_pdf(){           
             this.$emit('generar-pdf', this.comentario)
@@ -225,7 +229,11 @@ export default {
             Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
                 .then((response) => {               
                     console.log(response)
-                    this.escaneadoBool= false
+                    this.escaneadoBool = false
+                    this.calendarioEscaneado = false
+                    let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
+                    this.$emit("actualizar-actividad", numPlaza);
+                    //this.calendarioEscaneado = true               
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
@@ -255,6 +263,9 @@ export default {
         }
             return new File([u8arr], fileName + '.pdf', { type: mime });
         }, 
+        obtener_escaneado_calendario(){
+            ReportesPDFService.generar__pdf_calendario_escaneado(this.año, this.mes)
+        }
 },
     computed:{
         restante(){
