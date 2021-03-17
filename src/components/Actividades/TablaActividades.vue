@@ -224,7 +224,7 @@ methods: {
         })
     },
     filtrar_actividades_mensuales: async function(){                
-        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.ref)        
+        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,

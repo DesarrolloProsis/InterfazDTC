@@ -1,7 +1,7 @@
 import store from '../store/index'
 import moment from "moment";
 
-async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){        
+async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril){        
     let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let nombrePlaza = store.state.Login.plazaSelecionada.plazaNombre    
     store.dispatch('Refacciones/BUSCAR_CARRILES',user.numPlaza)
@@ -27,9 +27,9 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         //console.log(item.lane.split('-'))
         listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
     }
-    if (ref != '' || ref != undefined){
+/*     if (ref != '' || ref != undefined){
         listaActidadesTipo = listaActidadesTipo.filter(item => item.referenceNumber == ref)
-    } 
+    }  */
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,
