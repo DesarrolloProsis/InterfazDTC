@@ -15,6 +15,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario){
         "squareId": user.numPlaza,
         "month": mes,
         "year": año,
+
     }
     await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)   
     let listaActidadesTipo = tipoCalendario === false 
@@ -26,7 +27,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario){
         comentario: store.state.Actividades.comentarioMensual, 
         plazaSelect: user.numPlaza,
         mes: mes,
-        año: año,        
+        año: año,         
     }    
     return obj
 }
