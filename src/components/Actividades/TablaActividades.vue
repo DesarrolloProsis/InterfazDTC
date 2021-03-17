@@ -80,10 +80,14 @@
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                           BOTON  BUSCAR                      ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <div class=" sm:flex mb-4 ml-32 mt-6">
+                        <div class=" sm:flex mb-4 ml-6 mt-6">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>
+                            </button>
+                            <button @click="limpiar_filtros" class="botonIconLimpiar">
+                                <img src="../../assets/img/escoba.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
+                                <span class="text-xs">Limpiar Filtro</span>
                             </button>
                         </div>                                   
                     </div>
@@ -202,6 +206,15 @@ computed:{
 ////                            METODOS                          ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+    limpiar_filtros : async function(){
+        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
+        this.$nextTick().then(() => {
+            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+            this.plazaNombre = actualizar.plazaNombre,
+            this.comentario = actualizar.comentario,
+            this.plazaSelect = actualizar.plazaSelect           
+        })
+    },
     filtrar_actividades_mensuales: async function(){                
         let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
         this.$nextTick().then(() => {
