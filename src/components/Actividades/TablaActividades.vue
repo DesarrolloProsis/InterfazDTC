@@ -56,7 +56,7 @@
                                 <div class="inline-flex mb-4 mt-4 ml-2">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status:</p>
                                     <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
-                                        <option disabled value>Selecionar...</option>
+                                        <option value="">Selecionar...</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
                                     </select>
@@ -207,6 +207,8 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 methods: {
     limpiar_filtros : async function(){
+        this.ubicacion = ""
+        this.status = ""
         let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
