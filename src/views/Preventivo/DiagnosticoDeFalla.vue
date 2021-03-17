@@ -30,6 +30,9 @@
 <script>
 import Nav from "../../components/Navbar";
 import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
+import Axios from 'axios';
+import CookiesService from '../../services/CookiesService';
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "Diagnostico",
@@ -78,9 +81,7 @@ methods:{
         if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
             let validar = valueHeader.some(prop => prop == '')            
-            if(validar){
-                //alert('falta llenar campos')
-                console.log('Falta llenar campor')
+            if(validar){                                
                 this.$notify.warning({
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS.`,
@@ -149,8 +150,35 @@ methods:{
             updateFlag: 1
         }
         console.log(objDiagnostico)
-        this.$router.push('/FichaTecnicaDeFalla')
-        this.type = "FICHA";            
+        Axios.post(`${API}/Calendario/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
+            .then((response) => {
+                console.log(response)
+                let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
+                    let newCarril = {}
+                    newCarril["referenceNumber"] = objDiagnostico.referenceNumber
+                    newCarril["capufeLaneNum"] = carril.capufeLaneNum
+                    newCarril["idGare"] = carril.idGare
+                    newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
+                    return newCarril
+                })
+                Axios.post(`${API}/Calendario/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carrilesInsertDiagnostic, CookiesService.obtener_bearer_token())
+                    .then((response) => {
+                        console.log(response)                        
+                        this.$router.push('/FichaTecnicaDeFalla')
+                        this.type = "FICHA";   
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        if(error.response.status == 401)
+                            CookiesService.token_no_autorizado()
+                    })                                           
+                
+            })
+            .catch((error) => {
+                if(error.response.status == 401)
+                    CookiesService.token_no_autorizado()
+                console.log(error)
+            })         
     }
 
 

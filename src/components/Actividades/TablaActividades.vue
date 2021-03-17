@@ -205,8 +205,7 @@ methods: {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,
             this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect
-            
+            this.plazaSelect = actualizar.plazaSelect            
         })
     },  
     cambiar_plaza(numeroPlaza){     

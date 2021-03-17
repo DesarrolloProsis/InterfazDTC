@@ -25,10 +25,26 @@
                         <span class="mr-20 sm:mr-0">Ubicación:</span>
                     </div>
                     <div class="-ml-66 sm:ml-0">
-                        <select class="w-56 sm:w-20" :disabled="blockInput" v-model="datosDiagnostico.ubicacion" type="text">
+                        <!-- <select class="w-56 sm:w-20" :disabled="blockInput" v-model="datosDiagnostico.ubicacion" type="text">
                             <option value="">Selecionar...</option>
                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                        </select>
+                        </select> -->
+                        <multiselect
+                            :disabled="blockInput"
+                            v-model="datosDiagnostico.ubicacion"  
+                            :custom-label="label_multi_select"                                                  
+                            :close-on-select="false"
+                            :clear-on-select="true"
+                            :hideSelected="false"
+                            placeholder="Selecciona..."
+                            :options="carriles_plaza"
+                            :multiple="true"
+              
+                        >
+                            <template slot="selection" slot-scope="{ values, isOpen }">
+                                <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                            </template>
+                        </multiselect>
                     </div>
                 </div>
             </div>
@@ -189,7 +205,7 @@
 import SelectPlaza from '../../components/Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService';
 import moment from "moment";
-
+import Multiselect from "vue-multiselect";
 export default {
 name: "Diagnostico",
 props:{
@@ -200,6 +216,7 @@ props:{
 },
 components:{
     SelectPlaza,
+    Multiselect
 },
 ///////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
@@ -296,7 +313,13 @@ methods:{
             this.datosDiagnostico.referenceNumber = this.headerEdit.referenceNumber;
         }
     },
-},
+    label_multi_select(value){            
+      if(value != 'Sin Actividad')
+        return value.lane
+      else 
+        return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
+    }
+}
 }
 </script>
 
