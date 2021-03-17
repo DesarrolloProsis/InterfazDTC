@@ -36,8 +36,11 @@
                         </button>
                     </div>
                     <div class="flex-col justify-center h-12 w-full mt-5 " >
-                        <div v-if="calendarioEscaneadoBool">
-
+                        <div v-if="calendarioEscaneado">
+                            <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2">
+                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
+                                    <span class="text-xs sm:hidden">Descargar Calendario Escaneado</span>
+                            </button>
                         </div>
                         <div v-else>
                             <div  class="grid grid-cols-2" v-if="escaneadoBool"> 
@@ -132,7 +135,7 @@ export default {
             type: Number,
             default: () => 0
         },
-        calendarioEscaneadoBool: {
+        calendarioEscaneado: {
             type: Boolean,
             default: () => false
         }
