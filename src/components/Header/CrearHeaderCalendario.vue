@@ -179,7 +179,7 @@ export default {
     },    
     methods: {
         cambiar_plaza(numeroPlaza){                  
-            this.$emit("actualizar-actividad", numeroPlaza);            
+            this.$emit("actualizar-actividad", numeroPlaza);
         },
         generar_pdf(){           
             this.$emit('generar-pdf', this.comentario)
@@ -229,7 +229,11 @@ export default {
             Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
                 .then((response) => {               
                     console.log(response)
-                    this.escaneadoBool= false
+                    this.escaneadoBool = false
+                    this.calendarioEscaneado = false
+                    let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
+                    this.$emit("actualizar-actividad", numPlaza);
+                    //this.calendarioEscaneado = true               
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
