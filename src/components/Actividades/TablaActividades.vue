@@ -15,7 +15,7 @@
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
                             <div class=" sm:w-full sm:ml-3">
                                 <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
-                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center -ml-8">                                
+                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center -ml-8 mb-4">                                
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
                                 </div>
                                 <div class="grid grid-cols-2">
@@ -53,6 +53,14 @@
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select>
                                 </div> 
+                                <div class="inline-flex mb-4 mt-4 ml-2">
+                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status:</p>
+                                    <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
+                                        <option disabled value>Selecionar...</option>
+                                        <option value="true">Concluido</option>
+                                        <option value="false">Inconcluso</option>                                        
+                                    </select>
+                                </div>
                             </div>                           
                         </div>                          
                     </div>
@@ -91,7 +99,7 @@
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">                
                                 <th class="w-64 cabeceraTable">Carril</th>
-                                <th class="w-64 cabeceraTable">Numero Capufe</th>                                
+                                <th class="w-64 cabeceraTable">Referencia</th>                                
                                 <th class="w-64 cabeceraTable">Fecha de Actividad</th>
                                 <th class="w-64 cabeceraTable">Tipo de Actividad</th>
                                 <th class="w-64 cabeceraTable">Status</th>   
@@ -104,7 +112,7 @@
                         <tbody>
                             <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
                                 <td class="w-64 cuerpoTable text-center">{{ item.lane }}</td>
-                                <td class="w-64 cuerpoTable text-center">{{ item.capufeLaneNum }}</td>                                
+                                <td class="w-64 cuerpoTable text-center">{{ item.referenceNumber }}</td>                                
                                 <td class="w-64 cuerpoTable text-center">{{ item.day}}</td>
                                 <td class="w-64 cuerpoTable text-center">{{ item.frequencyName }}</td>
                                 <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
@@ -165,6 +173,7 @@ export default {
             mes: '',
             comentario: '',
             ubicacion: '',
+            status:'',
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -182,8 +191,8 @@ beforeMount: async function(){
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)               
 },
 computed:{
-        carriles_plaza(){
-        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+    carriles_plaza(){
+    return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
     },
 },
 /////////////////////////////////////////////////////////////////////
@@ -197,12 +206,13 @@ methods: {
             this.plazaNombre = actualizar.plazaNombre,
             this.comentario = actualizar.comentario,
             this.plazaSelect = actualizar.plazaSelect
+            
         })
     },  
     cambiar_plaza(numeroPlaza){     
         this.plazaSelect = numeroPlaza
         this.listaActividadesMensuales = []
-        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect)
     },
     reporte_pdf: async function(item){          
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']

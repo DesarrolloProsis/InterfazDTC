@@ -12,6 +12,10 @@ const state =  {
         { value: 4, text: "Semestral" },
         { value: 5, text: "Anual" },
     ],
+    status :[
+        { value: true, text: "true" },
+        { value: false, text: "false" },
+    ],
     comentarioMensual: '',
     listaActividadesCheck: []
 }
@@ -21,6 +25,7 @@ const getters = {
             let ayudaFecha = new Date(parseInt(obj.year), parseInt(obj.month - 1), parseInt(actividad.day))                                                                     
             actividad["day"] = moment(ayudaFecha).format("DD/MM/YYYY"); //`${actividad.day}/${obj.month}/${obj.year}`  
             actividad["frequencyName"] = state.catalogoActividades.find(item => item.value == actividad.frequencyId).text 
+            //actividad["statusMaintenance"] = state.status.find(item => item.value == actividad)
             return { ...actividad }
         })  
     },
