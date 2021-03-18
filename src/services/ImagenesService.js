@@ -1,8 +1,9 @@
 function obtener_array_imagenes(e, arrayComponete) {
+    let contar = arrayComponete.length
     let array_imagenes = arrayComponete
     const crear_imagen = function(file){        
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = (e) => {            
             let obj = {
                 imgbase: e.target.result.split(",")[1],
                 name: file.name,
@@ -14,15 +15,20 @@ function obtener_array_imagenes(e, arrayComponete) {
     var files = e.target.files || e.dataTransfer.files;
     if (!files.length) return [];
     else {
-        for (let item of files) {        
-            crear_imagen(item);
-        }               
+        
+        for (let item of files) {  
+            
+            if(contar  < 36){
+                crear_imagen(item)
+                contar++
+            }                
+        }  
+        console.log(array_imagenes)             
         return array_imagenes
     }
 }
-function base64_to_file(dataurl, fileName) {
-                    
-    let url = "data:image/jpeg;base64," + dataurl;  
+function base64_to_file(dataurl, fileName) {    
+    let url = "data:image/jpeg;base64," + dataurl;      
     var arr = url.split(","),
     mime = arr[0].match(/:(.*?);/)[1],    
     bstr = atob(arr[1]),
@@ -30,9 +36,7 @@ function base64_to_file(dataurl, fileName) {
     u8arr = new Uint8Array(n);
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
-    }
-    console.log(mime)
-    console.log('dfdsafsd')
+    }        
     return new File([u8arr], fileName, { type: mime });
 }
 export default {

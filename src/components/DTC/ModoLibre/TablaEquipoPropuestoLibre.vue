@@ -417,8 +417,7 @@ export default {
       );
       this.modal = true;
     });
-    EventBus.$on("editar_componente", (value) => {
-      console.log(value);
+    EventBus.$on("editar_componente", (value) => {      
       this.infoRow[value.index].partida = value.data.partida;
       this.infoRow[value.index].unidad = value.data.unidad;
       this.infoRow[value.index].componente = value.data.componente;
@@ -432,13 +431,9 @@ export default {
     });
   },
   beforeMount: function () {
-    this.diagnostico = this.$store.getters["Header/getDiagnostico"];
-
-    let componetesEdit = this.$store.getters["DTC/getcomponentesEdit"];
-
-    if (JSON.stringify(componetesEdit) != "{}") {
-      console.log(componetesEdit);
-
+    this.diagnostico = this.$store.state.Header.diagnostico
+    let componetesEdit = this.$store.state.DTC.componetesEdit
+    if (JSON.stringify(componetesEdit) != "{}") {      
       for (let item of componetesEdit.proposedComponents) {
         let newPartida = {
           partida: item.item,
@@ -477,8 +472,7 @@ export default {
     },
     sumatoria_conteo: function () {
       let suma = 0;
-      for (let item of this.infoRow) {
-        console.log(item);
+      for (let item of this.infoRow) {        
         suma += parseInt(item.precioTotal);
       }
       this.sumatoria = "$ " + suma.toLocaleString("en-US");
@@ -496,8 +490,7 @@ export default {
       this.$validator
         .validateAll()
         .then((item) => {
-          if (item) {
-            console.log();
+          if (item) {            
             if (this.bool_editar) {
               console.log("editar");
               this.infoRow[this.index_editar].marca = this.marca;
@@ -620,8 +613,7 @@ export default {
 
     letraMoneda: function () {
       let suma = 0;
-      for (let item of this.infoRow) {
-        console.log(item);
+      for (let item of this.infoRow) {        
         suma += parseInt(item.precioTotal);
       }
       if (suma > 0) {
@@ -637,8 +629,7 @@ export default {
     },
     letraMonedaCel: function () {
       let suma = 0;
-      for (let item of this.infoRow) {
-        console.log(item);
+      for (let item of this.infoRow) {        
         suma += parseInt(item.precioTotal);
       }
       if (suma > 0) {

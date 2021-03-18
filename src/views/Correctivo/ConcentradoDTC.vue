@@ -1,48 +1,61 @@
 <template>
-<div class="relative">
+<div>
     <Nav></Nav>
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
         <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
-          <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Autorizado GMMEP</h1>
-        <!--/////////////////////////////////////////////////////////////////
-         ////                    FILTROS DE NAVEGACION                      ////
+        <!--/////////////////////////////////////////////////////////////////////
+        ////                         MODAL CARRUSEL                        /////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
-            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3">
-              <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Selecciones la Plaza</p>
-                  <select v-model="plazaFiltro" class="w-40 sm:w-full mb-3" type="text">
-                    <option disabled value="">Selecionar...</option>     
-                    <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
-                  </select>
-              </div>
-              <div class=" m-3">
-                <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full" type="date"/>
-                <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
-              </div>
-              <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
-                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
-              </div>   
+        <div class="sticky inset-0">
+          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
+            <div class="justify-center text-center block">            
+                <Carrusel @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
-        <!--////////////////////////////////////////////////////////////////////
-         ////                    BOTONES DE NAVEGACION                   //////
-        ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-10 mb-4 text-center">
-              <button id="Limpiar" @click="limpiar_filtros" class="w-32 botonIconLimpiar">
-                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
-                <span>Limpiar</span>
-              </button>
-              <button id="Buscar" @click="filtro_Dtc" class="w-32 botonIconBuscar">
-                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
-                <span>Buscar</span>
-              </button>
-          </div> 
+          </div>
         </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" style="height:450px;">
-            <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+      <!--/////////////////////////////////////////////////////////////////////
+      /////                    FILTROS DE NAVEGACION                      ////
+      ////////////////////////////////////////////////////////////////////-->   
+      <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'Autorizado GMMEP'" :tipo="'DTC'"></HeaderGenerico>       
+      <!--////////////////////////////////////////////////////////////////////
+      ////                      MODAL CAMBIAR STATUS                   //////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0">
+        <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 -mt-10 sm:-mt-32">
+          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+            <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ dtcEdit.referenceNumber }}</p>
+            <div>
+              <div class="mt-5">
+                <p class="mb-1 sm:text-sm">Status DTC</p>
+                <select v-model="statusEdit" class="w-full" type="text">
+                  <option value="">Selecionar...</option>     
+                  <option value="1">Inconcluso</option>  
+                  <option value="2">Concluido</option>                                                                  
+                  <option value="3">Sellado</option>                                                                                                                               
+                  <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
+                </select> 
+              </div>
+              <div class="mt-5">
+                <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
+                <textarea
+                v-model="motivoCambio"
+                class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
+                placeholder="Motivo del Cambio"
+                v-bind:maxlength="limite"
+                />
+                <span class="text-gray-500">{{ restante }}/300</span>
+              </div>
+            </div>
+            <div class="justify-center flex mt-5">
+              <button @click="editar_status_dtc" class="botonIconCrear m-4">Aceptar</button>
+              <button @click="modalCambiarStatus = false, statusEdit = '', motivoCambio =''" class="botonIconCancelar m-4">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
@@ -56,7 +69,9 @@
                     <th class="cabeceraTable">N° de Reporte</th>
                     <th class="cabeceraTable">N° de Siniestro</th>
                     <th class="cabeceraTable">Fecha de Falla</th>
-                    <th class="cabeceraTable">Descargar</th>
+                    <th class="cabeceraTable">Fotografias</th>
+                    <th class="cabeceraTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Status</th>
+                    <th class="cabeceraTable">PDF</th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -78,73 +93,93 @@
                     <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
                   </td>
                   <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
+                  <td>
+                    <div>
+                      <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
+                        <img src="../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
+                      </button>
+                    </div>
+                  </td>
+                  <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
+                    <div>
+                      <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Status</button>
+                    </div>
+                  </td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
                   <div v-if="tipoUsuario != 8">
-                    <button
-                        @click="descargar_pdf(item,2)"
-                        class="botonIconBorrarCard mr-2">
-                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard mr-2">
+                        <img src="../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button
-                        v-if="item.statusId >= 3"
-                        @click="descargar_pdf(item,3)"
-                        class="botonIconBorrarCard">
-                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
+                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
+                    </button>
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool != 1 }">
+                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                        <span class="text-xs sm:hidden">Subir Sellado</span>
                     </button>
                   </div>
                   <div v-else>
-                    <button
-                      @click="descargar_pdf(item,1)"
-                      class="botonIconBorrarCard mr-2">
+                    <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
                       <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
-                      <span class="text-xs sm:hidden">Sin Firma</span>
+                      <span class="text-xs sm:hidden w-24">Sin Firma</span>
                     </button>
                   </div>
                   </td>
                 </tr>
             </tbody>
-        </table>
-        </div> 
+          </table>
+        </div>  
       </div>  
-    </div>
+    </div> 
 </div>
 </template>
 
 <script>
+import Axios from "axios";
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 import Nav from "../../components/Navbar";
 import moment from "moment";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
-//import Generico from "../../components/Header/HeaderGenerico";
+import Carrusel from "../../components/Carrusel";
+import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import CookiesService from '../../services/CookiesService'
 
 export default {
   name: "ConcentradoDTC",
   components: {
-    Nav,
-    //Generico
+    Nav,    
+    Carrusel,
+    HeaderGenerico
   },
+
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
 /////////////////////////////////////////////////////////////////////
 data: function (){
-    return {
-      plazaFiltro: '',
-      infoDTC:[],
-      fechaFiltro: '',
-      referenciaFiltro: '',
+    return {      
+      infoDTC:[],            
       filtroVista: false,
+      modalCambiarStatus: false,
+      dtcEdit: {},
+      motivoCambio:"",
+      statusEdit: "",
+      limite:300,
+      carruselModal: false,
+      dtcImg: {},
+      arrayImagenesCarrusel: []
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
-  this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-  this.infoDTC =  this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
-  this.tipoUsuario = this.$store.getters['Login/getTypeUser'];
+  this.filtroVista = true
+  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
+  this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
   let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
   for(let plaza of todasPlazas){      
@@ -152,63 +187,131 @@ beforeMount: function () {
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
         listaPlazasValias.push(plaza)        
       }
+      console.log(listaPlazasValias)
+      return listaPlazasValias
   }
-  this.plazasValidas = listaPlazasValias   
+},
+/////////////////////////////////////////////////////////////////////
+////                       COMPUTADOS                            ////
+/////////////////////////////////////////////////////////////////////
+computed:{
+    restante(){
+        return  this.motivoCambio.length
+    }
 },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-descargar_pdf: function (infoDtc, status){
-      ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
-      },
-filtro_Dtc: async function () {  
-      if( this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != ''){        
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, false)
-        console.log(listaFiltrada)
-        this.$nextTick().then(() => {      
-            this.infoDTC = listaFiltrada            
-        }) 
-      }
-      //Si no ingresa ningún filtro 
-      else
-      {
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-  
-  },
-limpiar_filtros: function() {     
-    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '')
-    {        
-        this.modalLoading = true                            
-        this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-        this.fechaFiltro = "";
-        this.referenciaFiltro = "";            
-        this.plazaFiltro = ""; 
-      }) 
+abrirCarrusel : async function (item){  
+  this.dtcImg = item
+  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
+    .then((response) => {              
+        if(response.status != 404){                 
+          if(response.data.length > 0){
+            let array = response.data.map(imgData => {
+              return {
+                "fileName": imgData, 
+                "image": `${API}/dtcData/EquipoDañado/Images/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}/${imgData}`
+              }
+            })            
+            this.arrayImagenesCarrusel = {
+              array_img: array,
+              referenceNumber: item.referenceNumber,
+            };  
+            this.carruselModal = true
+          }
+          else{
+            this.$notify.warning({
+            title: "Ups!",
+            msg: `SIN FOTOS.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        }   
+      }                   
+    })
+    .catch((error) => {   
+      if(error.response.status == 401)
+        CookiesService.token_no_autorizado()       
+    });      
+},
+editar_status_dtc: function (){
+  let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+  //Crea un objeto con los elementos necesarios para hacer un evento post
+  let objeActualizado = {
+        "ReferenceNumber": this.dtcEdit.referenceNumber,
+        "StatusId": parseInt(this.statusEdit),
+        "UserId": user.idUser,
+        "Comment": this.motivoCambio,
+      }    
+    console.log(objeActualizado)
+    if( this.statusEdit != '' && this.motivoCambio != ''){
+      //Evento post que llama a la api 
+    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
+      .then(() => {        
+        this.statusEdit = ''
+        this.motivoCambio = ''   
+        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+        this.modalCambiarStatus = false                                
+      })
+      .catch(error => {
+        if(error.response.status == 401)
+            CookiesService.token_no_autorizado()
+        console.log(error);
+      });
     }
-    else{
-      this.$notify.warning({
+    else {
+          this.$notify.warning({
           title: "Ups!",
-          msg: `NO SE HA LLENADO NINGUN CAMPO.`,
+          msg: `NO SE HA LLENADO LOS CAMPOS.`,
           position: "bottom right",
           styles: {
             height: 100,
             width: 500,
           },
         });
-    }      
+    }
+},
+abrir_modal_editar : function (item){
+  this.modalCambiarStatus = true
+  //Toma la variable y la iguala al objeto item que trae toda la fila 
+  this.dtcEdit = item
+},
+descargar_PDF: function (infoDtc, status){
+    ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
+},
+filtro_dtc: async function (objFiltro) {   
+  if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
+    let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
+    this.$nextTick().then(() => {      
+        this.infoDTC = listaFiltrada            
+    }) 
+  }  
+  else{
+    this.$notify.warning({
+      title: "Ups!",
+      msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+      position: "bottom right",
+      styles: {
+        height: 100,
+        width: 500,
+      },
+    });
   }
 },
+limpiar_filtros: function() {             
+  this.modalLoading = true                            
+  this.$nextTick().then(() => {             
+    this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
+  })           
+},
+},
+
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
 /////////////////////////////////////////////////////////////////////

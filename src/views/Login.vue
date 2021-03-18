@@ -8,37 +8,36 @@
         <p class="text-center text-black font-sans text-4xl">Bienvenido</p>
         <div>
           <div class="flex">
-            <img src="../assets/img/loginIcon.png" class="w-64 mx-auto" />
+            <img src="../assets/img/loginIcon.png" class="w-64 h-64 mx-auto" />
           </div>
         </div>
         <br />
         <div class="mt-10">
           <div class="mb-5">
-            <input @keyup.enter="ingresarLogin()"  v-validate="'required'" v-model="datos.User" class="w-full h-8" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
+            <input @keyup.enter="ingresar_inicio()"  v-validate="'required'" v-model="datos.User" class="w-full h-8" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
             <span class="text-red-600 text-xs">{{ errors.first("Usuario") }}</span>
           </div>
           <div class="mb-5">
             <div class="w-full inline-flex relative">
-              <input @keyup.enter="ingresarLogin()" placeholder=" Contraseña" class="w-full h-8" v-validate="'required'" :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}" :type="tipoInput" name="Contraseña" v-model="datos.Password" />
+              <input @keyup.enter="ingresar_inicio()" placeholder=" Contraseña" class="w-full h-8" v-validate="'required'" :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}" :type="tipoInput" name="Contraseña" v-model="datos.Password" />
               <span class="absolute right-0 mt-2 mr-2 cursor-pointer" @click="tipoInput == 'password' ? tipoInput = 'text' : tipoInput = 'password'">
                 <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
                 <img v-else src="../assets/img/notvisibility.png" class="w-5" />
               </span>
             </div>
             <span class="text-red-600 text-xs">{{ errors.first("Contraseña") }}</span>
-          </div>
-          
+          </div>          
         </div>
         <div class="text-center text-gray-900">
           <input v-model.number="datos.checkLog" class="mt-10 mb-10 mr-2" type="checkbox"/>
           <span>Generar Por Otra Persona</span>
         </div>
         <div class="container-login100-form-btn">
-          <button @click="ingresarLogin()" type="button" class="login100-form-btn text-blue-600 outline-none">Login</button>
+          <button @click="ingresar_inicio()" type="button" class="login100-form-btn text-blue-600 outline-none">Login</button>
         </div>
         <div class="flex flex-col text-center mt-3 text-blue-700">
-          <a class="hover:text-blue-900 cursor-pointer" @click="register">Registrarse</a>
-          <a class="hover:text-blue-900 cursor-pointer" @click="passPerdido">¿Olvidaste tu constraseña?</a>
+          <a class="hover:text-blue-900 cursor-pointer" @click="registar_nuevo_usuario">Registrarse</a>
+          <a class="hover:text-blue-900 cursor-pointer" @click="contraseña_perdida">¿Olvidaste tu constraseña?</a>
         </div>
       </div>
     </div>
@@ -74,6 +73,7 @@
 </template>
 
 <script>
+import ServiceCookies from '../services/CookiesService'
 export default {
   name: "Login",
   data() {
@@ -94,62 +94,60 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-  async beforeMount() {
-    await this.$store.dispatch("Login/BUSCAR_PLAZAS");
-    this.listaPlazas = await this.$store.state.Login.listaPlazas//this.$store.getters["Login/getListaPlazas"];
+  async beforeMount() {  
   },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
   methods: {
-    register: function () {
+    registar_nuevo_usuario: function () {
       this.$router.push("register");
     },
-    passPerdido: function () {
+    contraseña_perdida: function () {
       this.$router.push("home");
     },
     login_por_otro: async function () {
       if (this.fields.Plaza.valid && this.fields.Tecnico.valid) {
         await this.$store.dispatch("Login/BUSCAR_HEADER_OTRO_TECNICO", this.tecSelect);
-        let dataHeader = await this.$store.getters["Login/getUser"];
-        await this.$store.commit("Header/listaHeadersMutation", dataHeader);
-        await this.$store.dispatch("DTC/buscarDescriptions");
-        await this.$store.dispatch("Header/buscarListaUnique");
+        let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
+        await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
+        await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
+        await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
         this.$router.push("home");
       }
     },
     buscar_tecnivo_plaza: async function () {
       if (this.plazaSelect != "") {
         await this.$store.dispatch("Login/BUSCAR_TECNICOS_PLAZA", this.plazaSelect);
-        this.listaTec = this.$store.state.Login.listaTec//this.$store.getters["Login/getListaTec"];
+        this.listaTec = this.$store.state.Login.listaTec
       } 
       else {
         this.listaTec = [];
         this.tecSelect = "";
       }
     },
-    ingresarLogin: async function () {
-      await this.$store.dispatch("Login/buscarUsuarioCokie", this.datos);
-      if (this.$store.getters["Login/getUserLogeado"]) {
+    ingresar_inicio: async function () {      
+      await this.$store.dispatch("Login/BUSCAR_COOKIES_USUARIO", this.datos);             
+      if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {
+        await this.$store.dispatch("Login/BUSCAR_PLAZAS");
+        this.listaPlazas = await this.$store.state.Login.listaPlazas
         if (this.datos.checkLog === true) {
           this.modal = true;
         } 
         else {
-          await this.$store.dispatch("Login/buscarUsuario", this.datos);
-          let dataHeader = await this.$store.getters["Login/getUser"];
-          console.log(dataHeader)
-          await this.$store.commit("Header/listaHeadersMutation", dataHeader);
-          await this.$store.dispatch("DTC/buscarDescriptions");
-          await this.$store.dispatch("Header/buscarListaUnique");
-          let userTipo = await this.$store.getters['Login/getTypeUser']
-          if(userTipo == 9){
-            this.$router.push("ListarDtc");
-          }
-            else if(userTipo == 8){
-              this.$router.push("ConcentradoDTC");
-            }
-          else
+          await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);
+          let dataHeader = await this.$store.state.Login.listaHeaderDtcUser          
+          await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
+          await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
+          await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+          let userTipo = await this.$store.state.Login.cookiesUser.rollId
+          if(userTipo == 9 || userTipo == 8){
+            this.$router.push("ConcentradoDTC");
+          }                                     
+          else            
             this.$router.push("home");
+          
+          ServiceCookies.actualizar_plaza()
         }
       } 
       else {

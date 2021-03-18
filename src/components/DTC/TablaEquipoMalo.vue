@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div class="flex justify-center w-auto sm:hidden md:hidden lg:show xl:show">
+    <div class="flex w-full sm:hidden md:hidden lg:show xl:show">
       <div>
         <div class="text-center mb-5">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <div class="flex justify-center p-8">
           <div class="grid gap-4 grid-cols-1">
-            <div class="sm:m-2 sm:text-xs">
-              <table class="border-collapse table-fixed">
+            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24">
+              <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="border text-xs md:text-sm bg-blue-800 text-white">
+                  <tr class="text-sm text-gray-400 font-normal bg-blue-800">
                     <th class="px-1 border-2 border-gray-800">Partida</th>
                     <th class="px-1 border-2 border-gray-800 w-16">Unidad</th>
                     <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
@@ -523,7 +523,7 @@
         ////                         MODAL AGREGAR COMPONENTE            ////
         //////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-69 mx-auto px-2">
+            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-80 mx-auto px-2">
                 <div class="rounded-lg border bg-white border-gray-700 px-4 py-10 shadow-2xl">
                   <!--////////////////////////////////////////////////////////////////////
                   ////                        BOTONES MODAL AGREGAR COMP             ////
@@ -568,7 +568,7 @@
                     <div class="justify-center flex mt-5">
                         <button  
                         v-on:click.stop.prevent="agregarPartida()"
-                        class="botonIconCrear m-6">Cambiar</button>
+                        class="botonIconCrear m-6">Agregar</button>
                         <button @click="botoncancelar_modal" class="botonIconCancelar m-6">Cancelar</button>
                     </div>
                 </div>
@@ -582,7 +582,6 @@ import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
 import moment from "moment";
-
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -651,16 +650,15 @@ props: {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function () {
     try {
-      let componetesEdit = await this.$store.getters["DTC/getcomponentesEdit"];
-      if (JSON.stringify(componetesEdit) != "{}") {  
-        console.log(componetesEdit)              
+      let componetesEdit = await this.$store.state.DTC.componetesEdit
+      if (JSON.stringify(componetesEdit) != "{}") {                     
         for (const item of componetesEdit.items) { 
-          let newObject = await this.$store.getters["Header/getConvenioPlaza"];          
+          let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];          
           newObject["attachedId"] = item.attachedId;
           newObject["componentsRelationship"] = item.relationship;
           newObject["componentsRelationshipId"] = item.mainRelationship;                    
           await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);
-          let equipoValid = await this.$store.getters["Refacciones/getEquipoMalo"];          
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];          
           let array_ubicacion = [];
           let array_carril = [];
           let array_cantidad = [];
@@ -673,8 +671,7 @@ beforeMount: async function () {
           });              
           let cantidad = array_cantidad.every(ammont => ammont == 0) == true
           ? array_cantidad.length
-          : parseInt(array_cantidad[0])
-          // let fechaSiniesto = await this.$store.getters["Header/getFechaSiniestro"];
+          : parseInt(array_cantidad[0])          
           setTimeout(async () => {          
           //AGREGAMOS PARTIDA AL STORE                    
           let objPartida = Service.obj_partida(
@@ -685,7 +682,7 @@ beforeMount: async function () {
             true,
             cantidad
           );
-          await this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+          await this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -732,10 +729,10 @@ beforeMount: async function () {
 },
 destroyed: function () {
     this.arrayPartidas = [];
-    this.$store.commit("DTC/listaDmgClearMutation");
+    this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
     this.$store.commit("DTC/insertDmgCompleteMutation", false);
     this.$store.commit("Header/insertHeaderCompleteMutation", false);
-    this.$store.dispatch("Header/buscarListaUnique");
+    this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
     this.$store.commit("Header/clearDatosSinesterMutation");
     this.$store.commit("DTC/COMPONENTES_EDIT", {});
     this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
@@ -777,12 +774,13 @@ methods: {
       this.statusMetro = false
       this.cantidadMetro = 0      
       if (componenteValido) {
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];        
+        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
         newObject["attachedId"] = this.updtComp.attachedId;
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
+        console.log(newObject)
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLane = await this.$store.getters["Refacciones/getListaLane"];
+        this.listLane = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
@@ -820,12 +818,10 @@ methods: {
       if (!comp_rep) {
         this.laneSelectEditar = [];
         this.listLaneEditar = [];
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
@@ -880,18 +876,16 @@ methods: {
       for (let i = 0; i < this.arrayPartidas.length; i++) {
         this.arrayPartidas[i]["row1"] = i + 1;
       }
-      this.$store.commit("DTC/listaDmgMutationDelete", index);
+      this.$store.commit("DTC/ELIMINAR_ITEM_DTC_DAÑADO_MUTATION", index);
   },
   updateRowTable: async function (index, datos) {
       if (this.saveObjectEdiar.length == 0) {
         this.saveObjectEdiar = Object.values(datos);
         this.updtCompEditar = this.saveObjectEdiar[2];
-        let newObject = await this.$store.getters["Header/getConvenioPlaza"];
+        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane                  
         this.laneSelectEditar = this.saveObjectEdiar[7];
         this.arrayPartidas[index]["rowUp"] = false;
       } else {
@@ -909,20 +903,14 @@ methods: {
   confirmRowTable: async function (index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
-          let objPartida = Service.obj_partida(
-            this.laneSelectEditar,
-            equipoValid,
-            this.dateSinester
-          );
+          let objPartida = Service.obj_partida(this.laneSelectEditar,equipoValid,this.dateSinester);
           let objMutation = {
             index: index,
             value: objPartida,
           };
-          this.$store.commit("DTC/listaDmgMutationUpdate", objMutation);
+          this.$store.commit("DTC/ACTUALIZAR_ITEM_DTC_DAÑAD", objMutation);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -999,10 +987,10 @@ methods: {
         "row14",
         "rowUp",
       ];
-      let newObject = this.$store.getters["Header/getConvenioPlaza"];
+      let newObject = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       newObject["id"] = this.saveObjectEdiar[2];
       this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      let equipoValid = this.$store.getters["Refacciones/getEquipoMalo"];
+      let equipoValid = this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
       let obj_abort = Service.lane_select(
         lanes,
         key_abort,
@@ -1021,9 +1009,7 @@ methods: {
   agregarPartida: async function () {
       if (this.updtComp != "") {
         if (this.laneSelect.length > 0) {
-          let equipoValid = await this.$store.getters[
-            "Refacciones/getEquipoMalo"
-          ];
+          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
           let objPartida = Service.obj_partida(
             this.laneSelect,
@@ -1033,7 +1019,7 @@ methods: {
             null,
             this.statusMetro == true ? this.cantidadMetro : 0
           );
-          this.$store.commit("DTC/newlistaDmgMutationPush", objPartida);
+          this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
           let key_partidas = [
             "row1",
@@ -1116,9 +1102,7 @@ watch: {
         else this.datosPrePartida[propiedades] = [];
       }      
       if (newValue.length > 0) {
-        let equipoValid = await this.$store.getters[
-          "Refacciones/getEquipoMalo"
-        ];
+        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.datosPrePartida = Service.lane_select(
           newValue,
           this.datosPrePartida,
@@ -1156,9 +1140,7 @@ watch: {
           "rowUpd14",
           "rowUpd15",
         ];
-        let equipoValid = await this.$store.getters[
-          "Refacciones/getEquipoMalo"
-        ];
+        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.objectEditar = await Service.lane_select(
           newValue,
           key_updt,
@@ -1167,9 +1149,8 @@ watch: {
           this.relationShipPrincipal,
           undefined
         );
-        this.listLaneEditar = await this.$store.getters[
-          "Refacciones/getListaLane"
-        ];
+        this.listLaneEditar = await this.$store.state.Refacciones.listaLane          
+
       }
   },
 },

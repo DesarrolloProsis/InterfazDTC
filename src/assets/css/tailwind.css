@@ -74,7 +74,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconLimpiar:hover{
-    @apply border-red-600 bg-red-500 text-white;
+    @apply border-red-600 bg-red-500 text-white transition duration-500;
 }
 .botonIconLimpiar:focus{
     @apply outline-none;
@@ -84,14 +84,14 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonIconBuscar:hover{
-    @apply border-blue-600 bg-blue-500 text-white;
+    @apply border-blue-600 bg-blue-500 text-white transition duration-500;
 }
 .botonIconBuscar:focus{
     @apply outline-none;
 }
 
 .cabeceraTable{
-    @apply py-2 px-3 sticky top-0 border-b border-gray-200 bg-blue-800;
+    @apply py-2 px-3 top-0 border-b border-gray-200 bg-blue-800;
 }
 
 .cuerpoTable{
@@ -102,7 +102,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonIconCrear:hover{
-    @apply border-green-500 bg-green-500 text-white;
+    @apply border-green-500 bg-green-500 text-white transition duration-500;
 }
 .botonIconCrear:focus{
     @apply outline-none;
@@ -112,7 +112,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconCancelar:hover{
-    @apply border-red-600 bg-red-500 text-white;
+    @apply border-red-800 bg-red-500 text-white transition duration-500;
 }
 .botonIconCancelar:focus{
     @apply outline-none;
@@ -122,7 +122,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-yellow-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconActualizar:hover{
-    @apply border-orange-500 bg-yellow-400 text-white;
+    @apply border-orange-500 bg-yellow-400 text-white transition duration-500;
 }
 .botonIconActualizar:focus{
     @apply outline-none;
@@ -132,7 +132,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconDescargar:hover{
-    @apply border-red-600 bg-red-300 text-white;
+    @apply border-red-600 bg-red-300 text-white transition duration-500;
 }
 .botonIconDescargar:focus{
     @apply outline-none;
@@ -142,7 +142,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonIconNext:hover{
-    @apply border-blue-600 bg-blue-300 text-white;
+    @apply border-blue-600 bg-blue-300 text-white transition duration-500;
 }
 .botonIconNext:focus{
     @apply outline-none;
@@ -152,7 +152,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-red-600 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
 .botonIconBorrarCard:hover{
-    @apply bg-red-300 border-red-600 text-white;
+    @apply bg-red-300 border-red-600 text-white transition duration-500;
 }
 .botonBorrarCard:focus{
     @apply outline-none;
@@ -163,7 +163,7 @@ select:focus {
 }
 
 .botonIconEditCard:hover{
-    @apply border-orange-500 bg-yellow-400 text-white;
+    @apply border-orange-500 bg-yellow-400 text-white transition duration-500;
 }
 .botonIconEditCard:focus{
     @apply outline-none;
@@ -174,10 +174,66 @@ select:focus {
 }
 
 .botonIconMas:hover{
-    @apply border-blue-500 bg-blue-300 text-white;
+    @apply border-blue-500 bg-blue-300 text-white transition duration-500;
 }
 .botonIconMas:focus{
     @apply outline-none;
+}
+
+.botonEnviarPDF{
+    @apply bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md inline-flex items-center;
+}
+.botonEnviarPDF:hover{
+    @apply border-green-800 bg-green-500 text-white transition duration-500;
+}
+.botonEnviarPDF:focus{
+    @apply outline-none;
+}
+.botonBajar{
+    @apply rounded-full shadow-md inline-flex items-center;
+}
+.botonBajar:hover{
+    @apply border-gray-800 bg-gray-200 text-white transition duration-500;
+}
+.botonBajar:focus{
+    @apply outline-none;
+}
+
+.botonDescargar{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-blue-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonDescargar:hover{
+    @apply border-blue-800 bg-blue-300 text-white transition duration-500;
+}
+.botonDescargar:focus{
+    @apply outline-none;
+}
+
+.botonSubir{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-green-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonSubir:hover{
+    @apply border-green-800 bg-green-300 text-white;
+}
+.botonSubir:focus{
+    @apply outline-none;
+}
+
+.botonBajar{
+    @apply rounded-full shadow-md inline-flex items-center;
+}
+.botonBajar:hover{
+    @apply border-gray-800 bg-gray-200 text-white;
+}
+.botonBajar:focus{
+    @apply outline-none;
+}
+
+.animacion{
+    @apply transition duration-500 ease-in-out; 
+}
+.animacion:hover{
+    @apply transform -translate-y-1 scale-110;
 }
 
 @tailwind components;

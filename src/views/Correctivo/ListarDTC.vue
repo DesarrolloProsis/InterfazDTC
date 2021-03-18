@@ -1,85 +1,18 @@
   <template>
-  <div >
+  <div id="container">
     <Nav></Nav>
     <div class="relative mb-16 " >
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-      <div class="mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3" :class="{ 'pointer-events-none': modal}">      
-        <div class="grid gap-4 grid-cols-1 border-2 shadow-lg">
-          <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:inline-block">
-            <!--/////////////////////////////////////////////////////////////////////
-                ////                         FILTRO TRAMO                        ////
-                ////////////////////////////////////////////////////////////////////-->
-<!--             <div class="m-3" v-if="false">
-              <p class="font-bold sm:text-sm mb-5 sm:text-center">Selecciones el Tramo</p>
-                <select class="w-full sm:w-full" type="text">
-                  <option disabled value="">Selecionar...</option>                                               
-                </select>
-            </div> -->
-          <!--/////////////////////////////////////////////////////////////////
-              ////                         FILTRO PLAZA                       ////
-              ////////////////////////////////////////////////////////////////////-->
-            <div class="m-3">
-              <p class="font-bold sm:text-sm mb-5">Seleccione la Plaza</p>
-                <select v-model="plazaFiltro" class="w-full" type="text">
-                  <option value="">Selecionar...</option>     
-                  <option v-for="(item, index) in plazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option>                
-                </select>
-            </div>  
-            <!--/////////////////////////////////////////////////////////////////
-                ////                         FILTRO FECHA                        ////
-                ////////////////////////////////////////////////////////////////////-->        
-            <div class="m-3">
-              <p class="font-bold mb-5 sm:text-sm">Seleccione una fecha</p>
-              <input v-model="fechaFiltro" class="border w-full" type="date"/>
-              <span class="block text-xs text-gray-600">*Fecha de Siniestro</span>
-            </div>
-            <!--/////////////////////////////////////////////////////////////////////
-                ////                         FILTRO REFERENCIA                   ////
-                ////////////////////////////////////////////////////////////////////-->
-            <div class="m-3">
-              <p class="font-bold sm:text-sm mb-5">Escriba la Referencia</p>
-              <input v-model="referenciaFiltro" class="border w-full text-center" placeholder="PM-000000"/>
-            </div>  
-              <!--////////////////////////////////////////////////////////////////////
-                  ////                         FILTRO ESTATUS                     ////
-                  ////////////////////////////////////////////////////////////////////-->          
-            <div class="m-3">
-              <p class="font-bold mb-5 sm:text-sm">Status DTC</p>
-              <select v-model="statusFiltro" class="w-full" type="text">
-                  <option value="">Selecionar...</option>     
-                  <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
-              </select>                  
-            </div>
-          </div>
-          <!--/////////////////////////////////////////////////////////////////
-              ////                  BOTONES FILTROS                        ////
-              /////////////////////////////////////////////////////////////////--> 
-          <div class="flex justify-center">
-            <div class="w-1/4 sm:w-0">
-            </div>
-            <div class="w-1/4 m-3 sm:w-1/2 sm:ml-5">
-              <div>
-                <button @click.prevent="limpiar_filtros" class="w-full mt-5 botonIconLimpiar mx-auto sm:w-32">
-                    <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
-                    <span>Limpiar</span>
-                  </button>
-              </div>   
-            </div>
-            <div class="w-1/4 m-3 sm:w-1/2">
-              <div>
-                <button @click.prevent="filtro_Dtc" class="w-full mt-5 botonIconBuscar mx-auto sm:w-32">
-                    <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
-                    <span>Buscar</span>
-                  </button>
-              </div>
-            </div>
-            <div class="w-1/4 sm:w-0">
-            </div>
-        </div>
-        </div>
-      </div>   
+        <HeaderGenerico 
+            @limpiar-filtros="limpiar_filtros" 
+            @filtrar-dtc="filtro_dtc" 
+            :titulo="'DTC Pendientes'" 
+            :dtcVista="'pendientes'" 
+            :tipo="'DTC'" 
+            :listaStatus="statusValidos">
+        </HeaderGenerico>
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -142,14 +75,13 @@
         ////                      MODAL CONFIRMAR GMMEP                 ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalFirma" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl">
-          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+        <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
             <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
-            <div class="justify-center flex mt-5">
+            <div class="mt-5 text-center">
               <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
-              <button @click="agregar_autorizacion_gmmep(false)" class="botonIconBorrarCard">No</button>
+              <button @click="modalFirma = false" class="botonIconCancelar">No</button>
             </div>
-          </div>
+          
         </div>
         </div>
         <!--/////////////////////////////////////////////////////////////////
@@ -158,7 +90,7 @@
         <div class="sticky inset-0">
         <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
           <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
-          <div class="justify-center flex mt-5">
+          <div class="mt-5 text-center">
             <button @click="borrar(true)" class="botonIconCrear">Si</button>
             <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
           </div>
@@ -237,7 +169,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full mb-48">
+      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">
         <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
           <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
             <CardListDTC
@@ -252,10 +184,10 @@
           </div>                 
         </div>
       </div>
-      <div v-if="moreCard" class="relative  mb-64">          
-        <div class="flex absolute inset-x-0 bottom-0 justify-center">            
-            <img src="https://media.giphy.com/media/hWZBZjMMuMl7sWe0x8/giphy.gif"  class="h-40 w-40" />            
-        </div>          
+      <div class="text-center" v-if="moreCard != false">       
+        <button @click="cargar_mas" class="botonBajar animate-bounce">
+          <img src="../../assets/img/abajo.png"  width="60" height="60" />
+        </button>          
       </div>
     </div>
   </div>
@@ -266,65 +198,70 @@ import Nav from "../../components/Navbar";
 import ServicePDfReporte from '../../services/ReportesPDFService'
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
-const API = process.env.VUE_APP_URL_API_PRODUCCION
+import HeaderGenerico from '../../components/Header/HeaderGenerico'
 import EventBus from "../../services/EventBus.js";
 import Carrusel from "../../components/Carrusel";
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
+import CookiesService from '../../services/CookiesService'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   data() {
     return {
-      infoDTC: [],
-      fechaFiltro: "",
-      referenciaFiltro: "",
-      modal: false,
-      modalEliminar: false,
-      modalEdit: false,
-      refNum: "",    
-      tipoUsuario: '',
-      dtcEdit: {},
+      infoDTC: [], 
+      lista_dtc: [],       
+      plazasValidas: [], 
+      //catalogos
+      statusValidos: [],
       descripciones: [],
-      plazasValidas: [],
-      plazaFiltro: '',
-      statusFiltro: '',
-      statusEdit: '',
-      motivoCambioStatus: '',
-      modalFirma: false,
+      //data modals          
+      modal: false,
+      //carrusel  
+      carruselModal: false, 
+      arrayImagenesCarrusel: [], 
+      //eliminar  
+      modalEliminar: false,
+      //loading
       modalLoading: false,
-      modalCambiarStatus: false,
-      lista_dtc: [],
-      moreCard: true,
-      carruselModal: false,
-      arrayImagenesCarrusel: [],
-      listaStatus: [],
+      //firma
+      modalFirma: false,
+      //status
+      modalCambiarStatus: false,      
+      motivoCambioStatus: '', 
+      //edit
+      modalEdit: false,
+      statusEdit: '',
+      dtcEdit: {}, 
+      //otros
+      refNum: "",    
+      tipoUsuario: '',                                                             
+      moreCard: true,                  
       filtroVista: false
     };
   },
   components: {
     Nav,
     CardListDTC,
-    Carrusel
+    Carrusel,
+    HeaderGenerico,
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
 created(){
-    EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
-      this.arrayImagenesCarrusel = arrayImagenes
-      this.carruselModal = true
-      this.modal = true
-      console.log(this.arrayImagenesCarrusel)
-    });
-    //console.log('hola')
+  EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
+    this.arrayImagenesCarrusel = arrayImagenes
+    this.carruselModal = true
+    this.modal = true      
+  });    
 },
 beforeMount: async function () {
-  this.filtroVista = this.$route.name == 'ConcentradoDTC' ? true : false
-  this.descripciones = await this.$store.getters["DTC/getListaDescriptions"];
-  this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);
-  console.log(this.infoDTC)  
-  this.tipoUsuario = await this.$store.getters['Login/getTypeUser'];
-  console.log(this.tipoUsuario)
+  this.filtroVista = false
+  this.descripciones = await this.$store.state.DTC.listaDescriptions
+  this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);   
+  this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
-  let todasPlazas = await  this.$store.state.Login.listaPlazas//this.$store.getters['Login/getListaPlazas']  
+  //Lista Plaza Validas
+  let todasPlazas = await  this.$store.state.Login.listaPlazas
   for(let plaza of todasPlazas){      
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
@@ -332,26 +269,31 @@ beforeMount: async function () {
       }
   }
   this.plazasValidas = listaPlazasValias  
+  //Lista Status Validos
   let statusLista = this.$store.state.DTC.dtcStatus
   for(let i of [1,2,3,4]){
     if(this.infoDTC.some(item => item.statusId == i)){
-        this.listaStatus.push(statusLista.find(status => status.id == i))
+        this.statusValidos.push(statusLista.find(status => status.id == i))
     }
-  }     
-  for(let i = 0; i <= 3; i++){
+  }  
+  for(let i = 0; i <= 5; i++){
       if(i < this.infoDTC.length)
         this.lista_dtc.push(this.infoDTC[i])
       else 
         this.moreCard = false                
-  }    
+  }
+      
   this.scroll_infinito()
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  cerrarModal: function(){
+    this.modalFirma = false
+  },
   borrar: async  function (value) {  
-      let userId = this.$store.getters['Login/getUserForDTC']         
+      let userId = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']         
       let obj = { "refNum": this.refNum, "userId": userId.idUser }    
       if (value) {
         this.infoDTC = []        
@@ -361,7 +303,7 @@ methods: {
         await this.$store.dispatch("DTC/BORRAR_DTC",obj);                                                                                
         this.menosMas = true
         this.showmenosMas = false,        
-        this.$notify.default({
+        this.$notify.success({
           title: "Ok!",
           msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
           position: "bottom right",
@@ -371,15 +313,14 @@ methods: {
           },
         });
       }
-      await this.$store.dispatch("Header/buscarListaUnique");
-      await this.$store.dispatch('DTC/buscarListaDTC', userId)            
-      this.infoDTC = await this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista) 
+      await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+      await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', userId)            
+      this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista) 
       this.infoDTC.forEach((element, index) => {
         if(index < 3)
           this.lista_dtc.push(element) 
       });
-      this.refNum = "";
-      
+      this.refNum = "";      
   },
   confimaBorrar: function (refNum) {
       this.refNum = refNum;
@@ -425,18 +366,19 @@ methods: {
             if(item === null){
               item = ''
             }
-          }           
-          console.log(objEdit)                       
+          }                                           
           let editar_dtc_promise = new Promise((resolve , reject) => {
-            Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/getReferenceSquareActual']}`, objEdit)
+            Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit, CookiesService.obtener_bearer_token())
             .then(() =>{                                                             
-              this.$store.dispatch("Header/buscarListaUnique");
-              let info = this.$store.getters['Login/getUserForDTC']
+              this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+              let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
               this.modal = false  
-              this.$store.dispatch('DTC/buscarListaDTC', info)               
+              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)               
               resolve('ok')                     
             })
             .catch((ex) => {
+              if(ex.response.status == 401)
+                CookiesService.token_no_autorizado()
               reject(ex)
               this.$notify.error({
               title: "ups!",
@@ -476,19 +418,15 @@ methods: {
     }    
   },
   limpiar_filtros: async function() {     
-      let info = this.$store.getters['Login/getUserForDTC']  
+      let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
       this.modalLoading = true
       this.moreCard = true     
       this.modal = true
-      this.$store.dispatch('DTC/buscarListaDTC', info)            
+      this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)            
       this.infoDTC = []    
       this.lista_dtc = []      
       await this.$nextTick().then(() => {             
-        this.infoDTC = this.$store.getters["DTC/getlistaInfoDTC"](this.filtroVista);  
-        this.fechaFiltro = "";
-        this.referenciaFiltro = "";            
-        this.plazaFiltro = ""
-        this.statusFiltro = ""   
+        this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                         
         this.infoDTC.forEach((element, index) => {
           if(index < 3)
             this.lista_dtc.push(element) 
@@ -501,21 +439,20 @@ methods: {
   },
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
-    let pdf_sellado_promise = new Promise((resolve, reject) => {
-      console.log(value.file)
-      Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file)                   
-        .then((response) => {
-          console.log(response)
-          Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-          .then((response) => { 
-              console.log(response)
+    let pdf_sellado_promise = new Promise((resolve, reject) => {    
+      Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file, CookiesService.obtener_bearer_token())                   
+        .then(() => {          
+          Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, CookiesService.obtener_bearer_token())
+          .then(() => {               
               resolve('ok')                
-              let info = this.$store.getters['Login/getUserForDTC']  
-              this.$store.dispatch('DTC/buscarListaDTC', info)   
+              let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
               this.limpiar_filtros()                                                                                         
           })                                  
         })
         .catch((ex) => {
+          if(ex.response.status == 401)
+            CookiesService.token_no_autorizado()
           reject(ex)                          
           this.$notify.error({
             title: "ups!",
@@ -534,7 +471,7 @@ methods: {
         this.limpiar_filtros()
         this.$notify.success({
             title: "Ok!",
-            msg: `Se subio el archivo correctamente.`,
+            msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
             position: "bottom right",
             styles: {
               height: 100,
@@ -545,12 +482,11 @@ methods: {
       .catch((err) =>  console.log(err))    
     }, 3000);                                                                                   
   },
-  filtro_Dtc: async function () { 
-    if(this.plazaFiltro != '' || this.fechaFiltro != '' || this.referenciaFiltro != '' || this.statusFiltro != ''){
+  filtro_dtc: async function (objFiltros) {     
+    if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            
       this.infoDTC = []
       this.lista_dtc = []         
-      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, this.plazaFiltro, this.fechaFiltro, this.referenciaFiltro, this.statusFiltro, true)          
-      console.log(dtcFiltrados)
+      let dtcFiltrados = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltros.plazaFiltro, objFiltros.fechaFiltro, objFiltros.referenciaFiltro, objFiltros.statusFiltro, true)                
       this.$nextTick().then(async () => {
           this.moreCard = true            
           this.infoDTC = dtcFiltrados
@@ -579,14 +515,16 @@ methods: {
       this.modalLoading = true
       this.modalFirma = false    
       let agregar_firma_promise = new Promise((resolve, reject) => {              
-        Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
+        Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`, CookiesService.obtener_bearer_token())
         .then(() => {           
-          let info = this.$store.getters['Login/getUserForDTC']  
-          this.$store.dispatch('DTC/buscarListaDTC', info)                 
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
           this.refNum = ''     
           resolve('ok')         
         })
         .catch((ex) => {   
+          if(ex.response.status == 401)
+            CookiesService.token_no_autorizado()
           reject(ex)                     
           this.$notify.error({
             title: "ups!",
@@ -615,9 +553,8 @@ methods: {
         }).catch((err) => console.log(err))
       }, 3000)
     }
-    else if(value === false){
-        this.referenciaFiltro = this.refNum
-        this.filtro_Dtc()
+    else if(value === false){        
+        this.limpiar_filtros()
         this.modalFirma = false
         this.refNum = ''
     }
@@ -629,31 +566,30 @@ methods: {
   editar_status_dtc(info){
     this.modalCambiarStatus = true
     this.refNum = info
-    this.modal = true
-    console.log(info)
+    this.modal = true    
   },
   actualizar_dtc_status: function(){
     let actualizar_status = new Promise((resolve, reject) => {
-      let user = this.$store.getters['Login/getUserForDTC']
+      let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
       this.modalCambiarStatus = false
       let objeActualizado = {
         "ReferenceNumber": this.refNum,
         "StatusId": parseInt(this.statusEdit),
         "UserId": user.idUser,
         "Comment": this.motivoCambioStatus,
-      }
-      console.log(objeActualizado)
-      Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)    
-      .then(response => {
-        console.log(response)
+      }      
+      Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())    
+      .then(() => {        
         this.refNum = ''
         this.statusEdit = ''
         this.motivoCambioStatus = ''   
-        let info = this.$store.getters['Login/getUserForDTC']  
-        this.$store.dispatch('DTC/buscarListaDTC', info)           
+        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
         resolve('ok')                     
       })
       .catch(Ex => {
+        if(Ex.response.status == 401)
+          CookiesService.token_no_autorizado()
         reject('mal')
         console.log(Ex);
       });
@@ -674,36 +610,34 @@ methods: {
       .catch((err) =>  console.log(err))    
     }, 1000); 
   },
+
+  cargar_mas(){
+    let pos = document.documentElement.offsetHeight
+    let index = this.lista_dtc.length
+            for(let i = index; i <= index + 5; i++){
+              if(i < this.infoDTC.length){
+                this.lista_dtc.push(this.infoDTC[i])
+                window.scrollTo(0, pos)         
+              }else 
+                this.moreCard = false                
+            }            
+  },
   scroll_infinito(){
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
         if (bottomOfWindow) {
-          // Do something, anything!     
-          setTimeout(() => {     
+          // Do something, anything!                   
             let index = this.lista_dtc.length
-            for(let i = index; i <= index + 3; i++){
-              if(i < this.infoDTC.length)
+            for(let i = index; i <= index + 5; i++){
+              if(i < this.infoDTC.length){
                 this.lista_dtc.push(this.infoDTC[i])
-              else 
+                //bottomOfWindow.scrollto = bottomOfWindow.scrollHeight;
+              }else 
                 this.moreCard = false                
-            }                             
-            },1000)        
+            }                                               
         }    
     };
   }
-},
-/////////////////////////////////////////////////////////////////////
-////                          COMPUTADOS                         ////
-/////////////////////////////////////////////////////////////////////
-computed: {
-  validaFecha: function () {
-      if (this.fechaFiltro != "") return true;
-      else return false;
-  },
-  validaReferencia: function () {
-      if (this.referenciaFiltro != "") return true;
-      else return false;
-  },
 },
 };
 </script>

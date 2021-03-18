@@ -1,72 +1,36 @@
 import Axios from "axios"
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
   listaHeaders: [],
   datosSinester: {},
-  referenceNum: '',
+  headerSeleccionado: {},
+  referenciaDtc: '',
   observaciones: '',
   diagnostico: '',
   listaUnique: [],
-  insertHeaderComplete: false,
-  PLAZAELEGIDA: 0
+  insertHeaderComplete: false,  
+  convenioActual: {}
 };
-const getters = {
-  getDatosSinester: () => {
-    return { ...state.datosSinester, 'diagnostico': state.diagnostico, 'observaciones': state.observaciones }
-  },
-  getHeaders: () => {
-    if (state.listaHeaders.length > 0) {
-      return {
-        agrement: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],
-        managerName: state.listaHeaders[state.PLAZAELEGIDA]["managerName"],
-        position: state.listaHeaders[state.PLAZAELEGIDA]["position"],
-        mail: state.listaHeaders[state.PLAZAELEGIDA]["mail"],
-        plaza: state.listaHeaders[state.PLAZAELEGIDA]["plaza"],
-        nombre: state.listaHeaders[state.PLAZAELEGIDA]["nombre"],
-        agremmentInfoId: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"],
-        userId: state.listaHeaders[state.PLAZAELEGIDA]["userId"],
-        regionalCoordination: state.listaHeaders[state.PLAZAELEGIDA]["regionalCoordination"],
-        referenceSquare: state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"],
-        adminName: state.listaHeaders[state.PLAZAELEGIDA]["adminName"],
-        adminMail: state.listaHeaders[state.PLAZAELEGIDA]["adminMail"]
-      };
-    } else return state.listaHeaders;
-  },
-  getConvenioPlaza: () => {
-    if (state.listaHeaders.length > 0) {
-      let numPlaza = ''
-      if(state.listaHeaders[state.PLAZAELEGIDA]["referenceSquare"] == "TM"){
-          numPlaza = state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 4)
-      }
-      else{
-        numPlaza = state.listaHeaders[state.PLAZAELEGIDA]["plaza"].substr(0, 3)
-      }
-      return {
-        id: null,
-        numPlaza: numPlaza,
-        numConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agrement"],        
-        idConvenio: state.listaHeaders[state.PLAZAELEGIDA]["agremmentInfoId"]
-      };
-    } else return state.listaHeaders;
-  },
-  getreferenceNum: () => state.referenceNum,
-  getUniqueNoSinester: (state) => (num) => {
+const getters = { 
+  GET_HEADER_SELECCIONADO: () => state.headerSeleccionado,
+  GET_CONVENIO_PLAZA: () => state.convenioActual,  
+  GET_UNIQUE_SINESTER_NUMBER: (state) => (num) => {
     return state.listaUnique.every(item => {
       return item.sinisterNumber != num
     })
   },
-  getUniqueNoReport: (state) => (num) => {
+  GET_UNIQUE_REPORT_NUMBER: (state) => (num) => {
     return state.listaUnique.every(item => {
       return item.reportNumber != num
     })
-  },
-  getUSERSELECT: (state) => state.PLAZAELEGIDA,
-  getInsertHeaderComplete: () => state.insertHeaderComplete,
-  getDiagnostico: () => state.diagnostico,
-  getFechaSiniestro: () => state.datosSinester.SinisterDate
+  },  
+  getInsertHeaderComplete: () => state.insertHeaderComplete,    
 };
 const mutations = {
+  HEADER_SELECCIONADO_MUTATION: (state, value) => state.headerSeleccionado = value,
+  CONVENIO_ACTUAL_MUTATION: (state, value) => state.convenioActual = value,
   clearDatosSinesterMutation: (state) => {
     state.datosSinester = {}
     state.descripcion = ''
@@ -75,14 +39,13 @@ const mutations = {
   cleanOut: (state) => {
     state.listaHeaders = []
     state.listaUnique = []
-    state.referenceNum = ''
+    state.referenciaDtc = ''
   },
-  insertHeaderCompleteMutation: (state, value) => state.insertHeaderComplete = value,
-  PLAZAELEGIDAMUTATION: (state,value) => state.PLAZAELEGIDA = value,
-  datosSinesterMutation: (state, value) => state.datosSinester = value,
-  referenceNumMutation: (state, value) => state.referenceNum = value,
-  listaHeadersMutation: (state, value) => state.listaHeaders = value,
-  listaUniqueMutation: (state, value) => state.listaUnique = value,
+  insertHeaderCompleteMutation: (state, value) => state.insertHeaderComplete = value,  
+  DATOS_SINESTER_MUTATION: (state, value) => state.datosSinester = value,
+  REFERENCIA_DTC_MUTATION: (state, value) => state.referenciaDtc = value,
+  LISTA_HEADERS_MUTATION: (state, value) => state.listaHeaders = value,
+  LISTA_UNIQUE_MUTATION: (state, value) => state.listaUnique = value,
   OBSERVACION_MUTATION: (state, value) => state.observaciones = value,
   DIAGNOSTICO_MUTATION: (state, value) => state.diagnostico = value,
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
@@ -92,45 +55,40 @@ const mutations = {
       state.listaUnique.splice(index, 1)
     }    
   },
-  PLAZAELEGIDAFINDMUTATION: (state, value) => {         
-    let index = state.listaHeaders.findIndex(item => item.referenceSquare == value)    
-    if(index != -1){
-      state.PLAZAELEGIDA = index
-    }
-  }
 };
 const actions = {
-  async buscarReferencia({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/getReferenceSquareActual']}/${value}`)    
-      .then(response => {
-        console.log(response)
+  async BUSCAR_REFERENCIA_DTC_VALIDA({ commit, rootGetters }, value) {    
+    await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`, CookiesService.obtener_bearer_token())    
+      .then(response => {        
         if (response.data.result.length == 1) {          
-          commit("referenceNumMutation", response.data.result[0].referenceNumber);
+          commit("REFERENCIA_DTC_MUTATION", response.data.result[0].referenceNumber);
         }
         if(response.data.result.length > 1){
-          commit("referenceNumMutation", response.data.result);
+          commit("REFERENCIA_DTC_MUTATION", response.data.result);
         }
       })
       .catch(Ex => {
         console.log(Ex);
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
-  async buscarListaUnique({ commit, rootGetters }) {
-    await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/getReferenceSquareActual']}`)
+  async BUSCAR_LISTA_UNIQUE({ commit, rootGetters }) {
+    await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, CookiesService.obtener_bearer_token())
       .then(response => {
         if (response.data.message) {
-          commit("listaUniqueMutation", response.data.result);
+          commit("LISTA_UNIQUE_MUTATION", response.data.result);
         }
       })
       .catch(Ex => {
         console.log(Ex);
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   },
-  //Consulta API Crear Carril
-  async crearHeaders({ state, commit, rootGetters }, value) {      
-
+  async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {      
     let newObject = {
-      ReferenceNumber: state.referenceNum,
+      ReferenceNumber: state.referenciaDtc,
       SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
       ReportNumber: state.datosSinester.ReportNumber,
       SinisterDate: state.datosSinester.SinisterDate,
@@ -141,15 +99,14 @@ const actions = {
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.diagnostico,
       Observation: state.observaciones == null ? '' : state.observaciones,
-      UserId: value.datosUser.userId,
-      AgremmentInfoId: value.datosUser.agremmentInfoId,
+      UserId: value.header.userId,
+      AgremmentInfoId: value.header.agremmentInfoId,
       flag: value.flag,
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
-      SquareId: value.datosUser.plaza.slice(0,3)
-    }      
-    console.log(newObject)         
-    await Axios.post(`${API}/dtcData/${rootGetters['Login/getReferenceSquareActual']}`, newObject)
+      SquareId: value.header.plaza.slice(0,3)
+    }                
+    await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
       .then(response => {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)
@@ -157,6 +114,8 @@ const actions = {
       })
       .catch(Ex => {
         console.log(Ex);
+        if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
       });
   }
 };

@@ -14,6 +14,8 @@ import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
+import ServiceCookies from '../services/CookiesService'
+import CookiesService from '../services/CookiesService'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -21,6 +23,7 @@ const routes = [
     name: 'login',
     component: Login,
     beforeEnter: async function (to, from, next) {
+      localStorage.clear()
       store.commit('DTC/cleanOut')
       store.commit('Header/cleanOut')
       store.commit('Login/cleanOut')
@@ -63,7 +66,7 @@ const routes = [
     name: 'Configuracion',
     component: Configuracion,
     beforeEnter: async function (to, from, next) {
-      let user = store.getters['Login/getUserForDTC']
+      let user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
       let params = {
         Id: user.idUser,
         Square: user.numPlaza
@@ -73,12 +76,16 @@ const routes = [
     }
   },
   {
+    path: '/EncargadosPlaza',
+    name: 'Encargados',
+    component: () => import('../views/Correctivo/EncargadosPlaza')
+  },
+  {
     path: '/Inventario',
     name: 'Inventario',
     component: Inventario,
     beforeEnter: async function (to, from, next) {
-      let plaza = store.getters['Header/getConvenioPlaza']
-      await store.dispatch('Refacciones/FULL_COMPONETES', plaza)
+      await ServiceCookies.actualizar_plaza()            
       next()
     }
   },
@@ -87,29 +94,43 @@ const routes = [
     name: 'ConcentradoDTC',
     component: () => import('../views/Correctivo/ConcentradoDTC'),
     beforeEnter: async function (to, from, next) {
-      let info = store.getters['Login/getUserForDTC']      
-      await store.dispatch('DTC/buscarListaDTC', info)
+      let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
       next()
     }
   },
   {
-    path: '/ConcentradoDetallesDTC',
-    name:'ConcentradoDetallesDTC',
-    component: () => import('../views/Correctivo/ConcentradoDetallesDTC')
+    path: '/ConcentradoFichas',
+    name:'ConccentradoFichas',
+    component: () => import('../views/Correctivo/ConcentradoFichas')
   },
-
+  {
+    path: '/DiagnosticoDeFalla',
+    name: '/DiagnosticoDeFalla',
+    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
+  },
+  {
+    path: '/FichaTecnicaDeFalla',
+    name: 'FichaTecnicaDeFalla',
+    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
+  },
   {
     path: '/Pruebas',
     name: 'Pruebas',
     component: () => import('../views/Correctivo/Pruebas')
   },
   {
+    path: '/SesionExpirada',
+    name: 'SesionExpirada',
+    component: () => import('../views/SesionExpirada')
+  },
+  {
     path: '/ListarDtc',
     name: 'ListarDtc',
     component: ListarDTC,
     beforeEnter: async function (to, from, next) {
-      let info = store.getters['Login/getUserForDTC']      
-      await store.dispatch('DTC/buscarListaDTC', info)
+      let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
       store.commit("DTC/LIMPIAR_IMAGENES_FULL");
       next()
     }
@@ -119,9 +140,9 @@ const routes = [
     name: 'InventarioDetalle',
     component: InventarioDetalle,
     beforeEnter: async function (to, from, next) {
-      let plaza = store.getters['Header/getConvenioPlaza']
-      await store.dispatch('Refacciones/buscarComponentesInventario', plaza)
-      await store.dispatch('Refacciones/buscarUbicacionGeneralInventario')
+      let plaza = store.getters['Header/GET_CONVENIO_PLAZA']
+      await store.dispatch('Refacciones/BUSCAR_COMPONETES_INVENTARIO', plaza)
+      await store.dispatch('Refacciones/BUSCAR_UBICACION_GENERAL_INVENTARIO')
       next()
     }
   },  
@@ -133,7 +154,7 @@ const routes = [
       {
         path: 'TablaActividades',
         component: () => import('../views/Preventivo/TablaActividades.vue'),
-        beforeEnter: async function(to,from,next){
+        beforeEnter: async function(to,from,next){          
           let result = await servicioActividades.filtrar_actividades_mensuales(undefined, undefined, false)                    
           to.params.cargaInicial = result                             
           next()
@@ -142,8 +163,7 @@ const routes = [
       {
         path: 'FormularioReporte',
         component: () => import('../views/Preventivo/FormularioReporte.vue'),
-        beforeEnter: async function(to, from, next) {
-          console.log(!to.query.edicion)
+        beforeEnter: async function(to, from, next) {          
           if(!to.query.edicion == true)
             await store.dispatch('Actividades/OBTENER_LISTA_ACTIVIDADES_CHECK', to.query.header)                    
           next()          
@@ -168,12 +188,21 @@ const routes = [
   }
 ]
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.name == 'login' || to.name == 'register') next()
-  else if (to.name !== 'login' && store.getters['Login/getUserLogeado']) next()
-  else next({ name: 'login' })
+  else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
+  else {
+    let resultToken = await CookiesService.cache_token()
+    setTimeout(() => {
+      if(resultToken)
+        next()  
+      else
+        router.push('/')    
+    },2000)
+    
+  }
 })
-
 export default router

@@ -4,20 +4,57 @@ import store from '../store/index'
 import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
 import Axios from 'axios'
+import CookiesService from '../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     sinfirma: 1,
     firmado: 2,
     sellado: 3
 })
+/*
+function descargarArchivo(file, nombreArchivo) {    
+     alert()
+    //creamos un FileReader para leer el Blob
+    var reader = new FileReader();
+    //Definimos la función que manejará el archivo
+    //una vez haya terminado de leerlo
+    reader.onload = function(event) {
+        console.log(event)
+    }
+    reader.onload = function (event) {
+
+        console.log(event)
+        //Usaremos un link para iniciar la descarga
+        var save = document.createElement('a');
+        save.href = event.target.result;
+        save.target = '_blank';
+        //Truco: así le damos el nombre al archivo
+        save.download = nombreArchivo || 'archivo.pdf';
+        var clicEvent = new MouseEvent('click', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': true
+        });        
+        save.dispatchEvent(clicEvent);
+        //Y liberamos recursos...
+        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    };
+    //Leemos el blob y esperamos a que dispare el evento "load"
+    reader.readAsDataURL(file);
+  
+}
+*/
 function xml_hhtp_request(urlTopdf,namePdf){
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
-    oReq.responseType = "blob";         
+    oReq.responseType = "blob";  
+    let token = CookiesService.obtener_bearer_token('pdf')
+    oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
     oReq.onload = function () {         
     var file = new Blob([oReq.response], {
         type: "application/pdf",
-    });    
+    });   
+    //window.open(urlTopdf, namePdf); 
     saveAs(file, namePdf);
     };
     oReq.send();   
@@ -47,72 +84,111 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
     let user = {}
     if(userSup == undefined)
-        user = store.getters['Login/getUserForDTC']
+        user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
-
     let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;          
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
 }
-async function crear_referencia(sinisterDate, referenceSquare) {
-    sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
-    let datesplit =  sinisterDate.split("-");
-    console.log(datesplit)
-    let diaActual = parseInt(datesplit[2]);
-    let mesActual = parseInt(datesplit[1]);
-    let yearActual = parseInt(datesplit[0]);
-    let diaCorriente = 0;
-    let newYear = parseInt(sinisterDate.substr(2, 2));
-    diaCorriente = diaActual;
-    for (let i = 1; i < mesActual; i++) {
-        diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+async function crear_referencia(sinisterDate, referenceSquare,bandera) {
+    if(bandera != true)
+    {
+        sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
+        let datesplit =  sinisterDate.split("-");        
+        let diaActual = parseInt(datesplit[2]);
+        let mesActual = parseInt(datesplit[1]);
+        let yearActual = parseInt(datesplit[0]);
+        let diaCorriente = 0;
+        let newYear = parseInt(sinisterDate.substr(2, 2));
+        diaCorriente = diaActual;
+        for (let i = 1; i < mesActual; i++) {
+            diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+        }
+        let nomPlaza = referenceSquare;
+        let autoCompleteDias;
+        if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+        else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+        else autoCompleteDias = diaCorriente.toString();
+        let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
+        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
+        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+        return await store.state.Header.referenciaDtc
     }
-    let nomPlaza = referenceSquare;
-    let autoCompleteDias;
-    if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
-    else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
-    else autoCompleteDias = diaCorriente.toString();
-    let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
-    await store.commit("Header/referenceNumMutation", ReferenceNumber);
-    await store.dispatch("Header/buscarReferencia", ReferenceNumber);    
-    return await store.getters["Header/getreferenceNum"];        
+    else{
+        sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
+        let datesplit =  sinisterDate.split("-");
+        console.log(datesplit)
+        let diaActual = parseInt(datesplit[2]);
+        let mesActual = parseInt(datesplit[1]);
+        let yearActual = parseInt(datesplit[0]);
+        let diaCorriente = 0;
+        let newYear = parseInt(sinisterDate.substr(2, 2));
+        diaCorriente = diaActual;
+        for (let i = 1; i < mesActual; i++) {
+            diaCorriente += parseInt(new Date( yearActual, i, 0).getDate());
+        }
+        let nomPlaza = referenceSquare;
+        let autoCompleteDias;
+        if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
+        else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
+        else autoCompleteDias = diaCorriente.toString();
+        let ReferenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
+        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
+        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+        return await store.state.Header.referenciaDtc
+    }
 }
-async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){       
-    fechaActividad = fechaActividad.split('/')
+async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){   
+    fechaActividad = fechaActividad.split('/')                   
+    let diaCorriente = 0;    
+    diaCorriente = parseInt(fechaActividad[0]);
+    for (let i = 1; i < parseInt(fechaActividad[1]); i++) {
+        diaCorriente += parseInt(new Date(parseInt(fechaActividad[2]), i, 0).getDate());
+    }         
     let tiporeferencia = tipoReferencia != 'Semanal' 
         ? tipoReferencia.slice(0,2)
         : tipoReferencia.slice(0,1)
+    console.log(tipoReferencia)
     let referenciaNueva = 
         numeroReferencia + '-' + 'MP' + 
         tiporeferencia + 
-        fechaActividad[0] + '-' + 
+        diaCorriente + 
+        fechaActividad[2].slice(2) + '-' + 
         carril.slice(0,3)
     return referenciaNueva.toUpperCase()
 }
 const TIPOSENCABEZADOREPORTECARRIL = [
-    { frecuencia: 1, encabezado:  6 },
-    { frecuencia: 2, encabezado:  7 },
-    { frecuencia: 3, encabezado:  8 },
-    { frecuencia: 4, encabezado:  9 },
-    { frecuencia: 5, encabezado:  10 },    
+    { frecuencia: 1, encabezado:  1, tipoCarril: false },
+    { frecuencia: 2, encabezado:  2, tipoCarril: false },
+    { frecuencia: 3, encabezado:  3, tipoCarril: false },
+    { frecuencia: 4, encabezado:  4, tipoCarril: false },
+    { frecuencia: 5, encabezado:  5, tipoCarril: false },    
+    { frecuencia: 1, encabezado:  6, tipoCarril: true },
+    { frecuencia: 2, encabezado:  7, tipoCarril: true },
+    { frecuencia: 3, encabezado:  8, tipoCarril: true },
+    { frecuencia: 4, encabezado:  9, tipoCarril: true },
+    { frecuencia: 5, encabezado:  10, tipoCarril: true },        
 ]
-function frecuencia_id_to_encabezado_id(fecuenciaId){
-    return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(fecuenciaId)).encabezado
+function frecuencia_id_to_encabezado_id(frecuenciaId, tipo){ 
+    if(tipo == 'carril')
+        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(frecuenciaId) && item.tipoCarril == true).encabezado
+    else
+        return TIPOSENCABEZADOREPORTECARRIL.find(item => item.frecuencia == parseInt(frecuenciaId) && item.tipoCarril == false).encabezado
 }
-function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado){
+async function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezado, tipoEncabezadoLane){    
     let clavePlaza = referenceNumber.split('-')[0]
-    let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado)}/${referenceNumber}`       
-    let namePdf = referenceNumber + ' ' + 'Preventivo' 
+    let urlTopdf = `${API}/MantenimientoPdf/${clavePlaza}/${frecuencia_id_to_encabezado_id(tipoEncabezado, tipoEncabezadoLane)}/${referenceNumber}`       
+    let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)    
 }
-function generar_pdf_fotografico_preventivo(referenceNumber, lane){
-    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`)
+async function generar_pdf_fotografico_preventivo(referenceNumber, lane){    
+    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
     .then((response) => {    
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]
-            let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane}`       
-            let namePdf = referenceNumber + ' ' + 'Preventivo' 
+            let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane.split('-')[0]}`       
+            let namePdf = 'ReporteFotografica' + '-' + referenceNumber
             xml_hhtp_request(urlTopdf, namePdf)    
         }
     })
@@ -120,11 +196,18 @@ function generar_pdf_fotografico_preventivo(referenceNumber, lane){
         console.log(Ex);                    
     });    
 }
+function generar__pdf_calendario_escaneado(año, mes){
+    let clavePlaza = store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
+    let urlTopdf = `${API}/Calendario/GetPdfSellado/${clavePlaza}/${año}/${mes}`
+    let namePdf = clavePlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
+    xml_hhtp_request(urlTopdf, namePdf) 
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
     crear_referencia_calendario,
     generar_pdf_calendario,
     generar_pdf_actividades_preventivo,
-    generar_pdf_fotografico_preventivo    
+    generar_pdf_fotografico_preventivo,
+    generar__pdf_calendario_escaneado    
 }

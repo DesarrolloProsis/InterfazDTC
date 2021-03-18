@@ -2,16 +2,16 @@
   <div>
     <nav class="flex justify-between bg-blue-900 p-3" id="nav">
       <div class="text-lg">
-        <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl">
+        <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl animacion">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio
         </router-link>     
       </div>
       <div class="flex sm:mt-4">        
-        <p class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{nameUser}}</p>
+        <p class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{ nombre_usuario }}</p>
         <router-link
           to="/"
-          class="inline-block ml-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-black hover:bg-red-700"
+          class="inline-block ml-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-white hover:bg-red-700 animacion"
         >Salir</router-link>
       </div>
     </nav>
@@ -25,12 +25,12 @@ export default {
     return {
       nameUser: "",
     };
-  },
-
-  beforeMount: function () {
-    let header = this.$store.getters["Header/getHeaders"];
-    this.nameUser = header.nombre;
-  },
+  },    
+  computed:{
+    nombre_usuario(){
+      return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
+    }
+  }
 };
 </script>
 <style >

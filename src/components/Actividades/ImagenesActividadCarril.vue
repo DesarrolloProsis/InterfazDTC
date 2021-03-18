@@ -3,8 +3,8 @@
         <p class="text-center font-bold text-xl text-gray-800 mb-5">Imagenes</p>          
         <div class=" inline-flex h-40 border border-gray-800 w-full">
             <div class="w-2/3 grid grid-cols-2 p-2 gap-4 overflow-auto">                                                                                                                
-                <div class="relative border" v-for="(item, key) in arrayImagenes" :key="key">
-                    <span @click="eliminar_imagen(item, key)" class="absolute border rounded-full top-0 right-0">
+                <div class="relative border" v-for="(item) in arrayImagenes" :key="item.name">
+                    <span @click="eliminar_imagen(item.name)" class="absolute border rounded-full top-0 right-0">
                         <img  src="../../assets/img/closeCircle.png" class="w-4 cursor-pointer " />
                     </span>   
                     <div class="p-2">      
@@ -15,12 +15,13 @@
             </div>
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center">
                 <div class="">
-                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 ">
-                    <img src="../../assets/img/more.png" class="p-5 w-auto h-32" alt/>
-                    <span class="text-gray-500 text-sm">Agregar imagenes</span>
+                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0">
+                    <img src="../../assets/img/more.png" class="p-5 ml-6 w-auto h-32" alt/>
+                    <span class="text-sm text-gray-500 mb-0">Agregar imagenes</span>
                 </div>
             </div>
         </div>
+        <span class="text-gray-500 text-sm">{{ num }}/36 (Máximo 36 fotografías)</span>
     </div>
 </template>
 
@@ -28,13 +29,14 @@
 import Axios from 'axios'
 import ServiceImagenes from '../../services/ImagenesService'
 import EventBus from "../../services/EventBus.js";
+import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     props:{
         referenceNumber: {
             type: String,
             default: () => ''
-        }
+        },
     },
     data(){
         return{
@@ -46,70 +48,112 @@ export default {
             this.enviar_imagen(referenceNumber)
         });
     },
+    destroyed(){
+        this.arrayImagenes = []
+    },
     beforeMount() {        
         setTimeout(() => {
-            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
-                .then((response) => {      
-                    if(response.status != 404){
+            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
+                .then((response) => {                          
+                    if(response.status != 404){  
+                        console.log(response.data)
+                        let newArrayImg = []                      
                         response.data.forEach(item => {
-                            this.arrayImagenes.push({
+                            newArrayImg.push({
                                 "name": item, 
                                 "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
                             })
-                        })                                       
+                        })
+                        this.arrayImagenes = newArrayImg                                       
                     }    
                 })
                 .catch(Ex => {                    
-                    console.log(Ex);                    
+                    console.log(Ex);    
+                    if(Ex.response.status == 401)
+                        CookiesService.token_no_autorizado()               
             });
         }, 1000)
     },
+    computed:{
+        num (){
+            return this.arrayImagenes.length
+        }
+    },
     methods: {
-        recibir_imagenes: async function (e){                                    
-            this.listaActividadesarrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)                           
+        recibir_imagenes: async function (e){  
+            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
         },
-        enviar_imagen: async function(referenceNumber){
-            for(let imagenes of this.arrayImagenes){
-                let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)
-                let formData = new FormData();
-                formData.append("image", imgagen);
-                await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${referenceNumber.split('-')[0]}/${referenceNumber}`,formData)
-                    .then((response) => {     
-                        console.log(response)                                                                                      
-                    })
-                    .catch(Ex => {                    
-                        console.log(Ex);                    
-                });   
-            }                     
+        enviar_imagen: async function(objReporte){  
+            console.log(objReporte)  
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
+            if(boolValidacion){                           
+                let contador = 0                          
+                for(let imagenes of this.arrayImagenes){                
+                    if(imagenes.name.split('_')[0] != this.referenceNumber){          
+                        contador++         
+                        let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
+                        let formData = new FormData();
+                        formData.append("image", imgagen);
+                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
+                            .then(() => {                                                                                                            
+                            })
+                            .catch(error => {                                                      
+                                if(error.response.status == 401)
+                                    CookiesService.token_no_autorizado()
+                        });                       
+                    }                      
+                }
+                this.$notify.success({
+                    title: "Ok!",
+                    msg: `SE INSERTARON ${contador}.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                }); 
+            }
+            this.$emit('ocutar-modal-loading', objReporte)                     
         },
-        eliminar_imagen(item, key){
+        eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                
-                if(item.imgbase.length < 200){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
-                        .then((response) => {     
-                            console.log(response)                                                                                      
+                if(nombreImagen.split('_')[0] == this.referenceNumber){
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                        .then(() => {                                                                 
+/*                           this.$notify.success({
+                                title: "Ok!",
+                                msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
+                                position: "bottom right",
+                                styles: {
+                                    height: 100,
+                                    width: 500,
+                                },
+                            });  */ 
+                            console.log('Se borró')                                                                               
                         })
                         .catch(Ex => {                    
                             console.log(Ex);                    
+                            if(Ex.response.status == 401)
+                                CookiesService.token_no_autorizado()
                     });  
-                } 
-                this.$nextTick(() => {
-                    this.arrayImagenes.splice(key,1)
-                    let arrayCache = { ...this.arrayImagenes }
+                }        
+                this.$nextTick(() => {                                     
+                    let arrayIMG = this.arrayImagenes.filter(imagen => imagen.name != nombreImagen)
                     this.arrayImagenes = []
-                    this.arrayImagenes = arrayCache
-                })
+                    this.arrayImagenes = arrayIMG                    
+                })               
             }
             else{
                 this.arrayImagenes = []
-                if(item.imgbase.length < 200){
-                Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/TLA/${this.referenceNumber}/${item.name}`)
-                    .then((response) => {     
-                        console.log(response)                                                                                      
-                    })
-                    .catch(Ex => {                    
-                        console.log(Ex);                    
-                    });  
+                if(nombreImagen.split('_')[0] == this.referenceNumber){
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                        .then(() => {                                                                                                              
+                        })
+                        .catch(Ex => {                    
+                            console.log(Ex);  
+                            if(Ex.response.status == 401)
+                                CookiesService.token_no_autorizado()
+                        });  
                 } 
             }
         }

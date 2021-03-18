@@ -11,7 +11,7 @@
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
                 <div class="border-gray-800 border-2 p-5 pt-0">
-                    <h1 class="mt-5 border-purple-800">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel Carril` }}</h1>            
+                    <h1 class="mt-5 border-purple-800">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel ${tituloUbicacion}` }}</h1>            
                 </div>
             </div>
         </div>
@@ -137,6 +137,7 @@ data() {
         fechaCambio: '',
         motivoCambioFecha: '',
         limite: 300,
+        tituloUbicacion: ''
     };
 },
 props: {
@@ -152,7 +153,8 @@ props: {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function() {    
+beforeMount: async function() {   
+    this.tituloUbicacion = this.header.capufeLaneNum == '0000' ? 'Plaza' : 'Carril' 
     this.horaInicio = this.$route.query.horas.horaInicio
     this.horaFin = this.$route.query.horas.horaFin
 },
@@ -168,61 +170,65 @@ computed:{
 ////                       METODOS                               ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-modalCambiarFecha: function (){
-        this.showModal = true                    
-},
-botoncambiar_modal: async function (){
-    if(this.fechaCambio !='' && this.motivoCambioFecha != ''){        
-        let toDay = new Date()
-        let fecha = new Date(this.fechaCambio)        
-        fecha.setDate(fecha.getDate())
-        if( fecha >= toDay){
+    modalCambiarFecha: function (){
+            this.showModal = true                    
+    },
+    botoncambiar_modal: async function (){
+        if(this.fechaCambio !='' && this.motivoCambioFecha != ''){        
+            let toDay = new Date()
+            let mest = toDay.getMonth()
+            mest = mest + 1;
+            console.log(mest)
+            let fecha = new Date(this.fechaCambio)
+            let mes = fecha.getMonth()
+            mes = mes + 1;
+            console.log(mes)
+            fecha.setDate(fecha.getDate())
+            if( mes > mest || mes < mest){
+                this.$notify.warning({
+                title: "Ops!! ",
+                msg: "FECHA INVALIDA",
+                position: "bottom right",
+                styles: {
+                        height: 100,
+                        width: 500,
+                        },
+                    });
+                this.fechaCambio = ''    
+            }
+            else {
+                this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")                
+                let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre).refereciaPlaza                                         
+                let referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName, this.fechaCambio ,this.header.lane)
+                this.$emit('guarar-log-fecha', {
+                    fecha: this.fechaCambio,
+                    motivo: this.motivoCambioFecha,
+                    ref: referenceNumber 
+                })            
+                this.header.day = this.fechaCambio                
+                this.showModal = false
+                this.fechaCambio = ''
+                this.motivoCambioFecha = ''                       
+            }
+        }
+        else
+        {
             this.$notify.warning({
-            title: "Ops!! ",
-            msg: "FECHA INVALIDA",
+            title: "* Son datos obligatorios",
+            msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
             position: "bottom right",
             styles: {
-                    height: 100,
-                    width: 500,
-                    },
-                });
-            this.fechaCambio = ''    
-        }
-        else {
-            this.fechaCambio = moment(this.fechaCambio, "YYYY-MM-DD").format("DD/MM/YYYY")
-                //let refPlaza = await this.$store.getters['Login/getReferenceSquareActual']    
-            let refPlaza = await this.$store.getters['Login/getReferenceSquareNombre'](this.header.plazaNombre).referenceSquare 
-            console.log(refPlaza)                                       
-            let referenceNumber = await ServicesPDF.crear_referencia_calendario(refPlaza,this.header.frequencyName, this.fechaCambio ,this.header.lane)
-            this.$emit('guarar-log-fecha', {
-                fecha: this.fechaCambio,
-                motivo: this.motivoCambioFecha,
-                ref: referenceNumber 
-            })            
-            this.header.day = this.fechaCambio                
-            this.showModal = false
-            this.fechaCambio = ''
-            this.motivoCambioFecha = ''                       
-        }
+                height: 100,
+                width: 500,
+                },
+            });
+        }0
+    },
+    botoncancelar_modal: function (){
+        this.showModal = false
+        this.fechaCambio = ''
+        this.motivoCambioFecha = ''
     }
-    else
-    {
-        this.$notify.warning({
-        title: "* Son datos obligatorios",
-        msg: "NO SE SELECCIONÓ ALGUNO DE LOS DATOS NECESARIOS",
-        position: "bottom right",
-        styles: {
-            height: 100,
-            width: 500,
-            },
-        });
-    }
-},
-botoncancelar_modal: function (){
-    this.showModal = false
-    this.fechaCambio = ''
-    this.motivoCambioFecha = ''
-}
 },
 /////////////////////////////////////////////////////////////////////
 ////                       Watcher                               ////

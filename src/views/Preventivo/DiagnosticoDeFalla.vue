@@ -135,9 +135,6 @@ methods:{
                 });
         }
     },
-    insertar_ficha_falla(){
-
-    },
     insertar_diagnostico_falla(){
         let userIdPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
         let administradorId = this.$store.state.Login.plazaSelecionada.administradorId

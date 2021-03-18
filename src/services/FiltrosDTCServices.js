@@ -1,7 +1,12 @@
 import store from "../store/index"
 import moment from "moment";
-async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha){         
-    let listaCompleta  = await store.getters["DTC/getlistaInfoDTC"](filtroVista); 
+async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status, banderafecha, listaOpcional){         
+    let listaCompleta  = []
+    if(listaOpcional == undefined)
+        listaCompleta = await store.getters["DTC/GET_LISTA_DTC"](filtroVista);
+    else
+        listaCompleta = listaOpcional
+        
     let listaFiltrada = []  
     //Si filtra por plaza, fecha y referencia
     if (numPlaza != "" && fecha != "" && referenceNumber != ""){
@@ -31,14 +36,13 @@ async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status
     else if (referenceNumber != "" && numPlaza == "" && fecha == "") {     
         listaFiltrada = filtro_referencia(listaCompleta,referenceNumber)
     }
-    
     if(status != undefined && status != '')
         if(listaFiltrada.length == 0)
             return listaCompleta.filter(dtc => dtc.statusId == status)
         else
             return listaFiltrada.filter(dtc => dtc.statusId == status)
     else
-        return  listaFiltrada
+        return  listaFiltrada      
 }
 function filtro_plaza (listaDTC, numPlaza, tipoDTC) {
     let listaFiltrada = []
@@ -75,12 +79,7 @@ function filtro_referencia (listaDTC,referenceNumber) {
         }
     return newArray
 }
-
 function filtrar_calendario_historico(listaCalendario, numTramo, numPlaza, año, mes){
-    console.log(listaCalendario)
-    console.log(numTramo)
-    console.log(numPlaza)
-    console.log(año)
     let listaCompleta = listaCalendario
     let listaFiltrada = []     
     if(numTramo != ''){
