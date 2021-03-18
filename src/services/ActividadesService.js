@@ -1,7 +1,7 @@
 import store from '../store/index'
 import moment from "moment";
 
-async function filtrar_actividades_mensuales(mes, año, tipoCalendario){        
+async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril){        
     let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let nombrePlaza = store.state.Login.plazaSelecionada.plazaNombre    
     store.dispatch('Refacciones/BUSCAR_CARRILES',user.numPlaza)
@@ -16,17 +16,31 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario){
         "month": mes,
         "year": año,
     }
-    await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi)   
+    await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
     let listaActidadesTipo = tipoCalendario === false 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-        : eventos_calendario_formato(objApi)        
+        : eventos_calendario_formato(objApi)      
+        
+    console.log(listaActidadesTipo)
+    if (status != undefined){
+        listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
+        console.log(listaActidadesTipo)
+    }
+    if (carril != undefined){
+        //console.log(item.lane.split('-'))
+        listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
+    }
+/*     if (ref != undefined){
+        listaActidadesTipo = listaActidadesTipo.filter(item => item.referenceNumber == ref)
+    }  */
+    console.log(listaActidadesTipo)
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,
         comentario: store.state.Actividades.comentarioMensual, 
         plazaSelect: user.numPlaza,
         mes: mes,
-        año: año,        
+        año: año,         
     }    
     return obj
 }

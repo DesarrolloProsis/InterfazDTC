@@ -107,13 +107,55 @@
                 </div>                
             </div>             
         </div>
-    </div> 
+    </div>
+    <!--///////////////////////////////////////////////////////////////////
+    ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
+    ///////////////////////////////////////////////////////////////////-->
+    <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols" >
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3" >
+                <div class="mt-4">
+                    <!--<span>Plaza de Cobro:</span>
+                    <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'filtro'" :forma="'diagnostico'"></SelectPlaza>-->
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                </div>
+            <div class=" m-3">
+                <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
+                <input v-model="fechaFiltro" class="border w-40 sm:w-full" type="date"/>
+                <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
+            </div>
+            <div class="m-3">
+                <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
+                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
+            </div> 
+            <div class="m-3">
+                    <p class="font-bold sm:text-sm mb-2 sm:text-center">Ubicación (Carril):</p>
+                    <select class="" v-model="ubicacion" type="text">
+                        <option value="">Selecionar...</option>
+                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                    </select>
+                
+            </div>     
+        </div>
+        <!-- ////////////////////////////////////////////////////////////////////
+        ///                    BOTONES DE NAVEGACION  DIAGNOSTICO           ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="mt-1 mb-4 text-center">
+            <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar">
+                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
+                <span>Limpiar</span>
+            </button>
+            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar">
+                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
 </div>
 </template>
 
 <script>
 import EventBus from '../../services/EventBus'
-
 import SelectPlaza from '../Header/SelectPlaza'
 
 export default {
@@ -146,7 +188,7 @@ export default {
             default: () => []
         }
     },
-    /////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
     /////////////////////////////////////////////////////////////////////
     data: function (){
@@ -160,22 +202,36 @@ export default {
             plazaFiltro: '',
             fechaFiltro: '',
             referenciaFiltro: '',
-            statusFiltro: ''
+            statusFiltro: '',
+            //data Diagnostico/Ficha
+            ubicacion: '',
+            plazaSeleccionada:"",
         }
     },
     /////////////////////////////////////////////////////////////////////
     ////                       CICLOS DE VIDA                        ////
     /////////////////////////////////////////////////////////////////////
     beforeMount: function () {
-    
+    this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
+    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+    },
+    computed:{
+        carriles_plaza(){
+        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+        },
     },
     /////////////////////////////////////////////////////////////////////
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
+        async cambiar_plaza(numeroPlaza) {  
+        this.plazaSeleccionada = numeroPlaza 
+        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){
-            this.plazaFiltro = value
+            this.plazaFiltro = value 
+            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
         },
         //Metodos Para Inventario
         cancelar_filtro_inventario: function(){
