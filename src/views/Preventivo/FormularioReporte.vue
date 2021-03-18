@@ -230,7 +230,7 @@ methods:{
             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})  
         }, 2000);                      
     },
-    async crear_header_reporte(){          
+    async crear_header_reporte(){        
         let validarActividades = this.listaActividades.every((actividad) => parseInt(actividad.jobStatus) != 0 )          
         //DAtos Para Insertar ACtividades                                                         
         let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                        

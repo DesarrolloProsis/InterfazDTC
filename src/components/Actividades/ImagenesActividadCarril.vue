@@ -83,10 +83,9 @@ export default {
         recibir_imagenes: async function (e){  
             this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
         },
-        enviar_imagen: async function(objReporte){  
-            console.log(objReporte)  
-            let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
-            if(boolValidacion){                           
+        enviar_imagen: async function(objReporte){    
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
+            if(boolValidacion){           
                 let contador = 0                          
                 for(let imagenes of this.arrayImagenes){                
                     if(imagenes.name.split('_')[0] != this.referenceNumber){          
