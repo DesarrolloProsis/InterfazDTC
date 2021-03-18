@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div :class="{'mb-69': typeUser != 1}" class="flex justify-center p-4">
+        <div class="flex justify-center p-4">
             <div class="mt-5">
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
@@ -18,10 +18,10 @@
                             <th class="w-64 border-2 border-gray-800">Plaza</th>
                             <th class="w-48 border-2 border-gray-800">Acciones</th>
                         </tr>
-                        <tr class="h-12 text-gray-900 text-sm sm:text-xs">
-                            <td class="text-center border-2 border-gray-800"></td>
-                            <td class="text-center border-2 border-gray-800"></td>
-                            <td class="text-center border-2 border-gray-800 break-all"></td>
+                        <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_encargados" :key="key">
+                            <td class="text-center border-2 border-gray-800">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
+                            <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
+                            <td class="text-center border-2 border-gray-800 break-all">{{ item.squareName }}</td>
                             <td class="text-center border-2 border-gray-800">
                                 <button
                                     @click="editarUsuario(item)"
@@ -53,7 +53,10 @@
     </div>
 </template>
 <script>
+import Axios from 'axios';
 import Nav from "../../components/Navbar";
+import CookiesService from '../../services/CookiesService'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "EncargadosDePlaza",
@@ -65,5 +68,15 @@ export default {
             lista_encargados: []
         }
     },
+    beforeMount: function (){
+        Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
+        .then((response)=>{
+            console.log(response.data)
+            this.lista_encargados = response.data.result
+        }).catch((Ex)=>{
+            if(Ex.response.status == 401)
+                CookiesService.token_no_autorizado()
+        })
+    }
 }
 </script>
