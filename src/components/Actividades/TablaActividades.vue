@@ -37,7 +37,7 @@
                                             <option value="12">Diciembre</option>
                                         </select>
                                     </div>
-                                    <div class="inline-flex mb-4 mt-4 -ml-6 sm:-ml-4">
+                                    <div class="inline-flex mb-4 mt-4 -ml-2 sm:-ml-5">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año:</p>
                                         <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
@@ -46,7 +46,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="inline-flex">
+                                <!-- <div class="inline-flex">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
                                     <select class="ml-2" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
@@ -64,7 +64,7 @@
                                 <div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Referencia:</p>
                                     <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
-                                </div>
+                                </div> -->
                             </div>                           
                         </div>                          
                     </div>
@@ -84,15 +84,15 @@
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                           BOTON  BUSCAR                      ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <div class=" sm:flex mb-4 ml-6 mt-12">
+                        <div class="text-center sm:flex mb-4 -ml-16 mt-12">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>
                             </button>
-                            <button @click="limpiar_filtros" class="botonIconLimpiar">
+                            <!-- <button @click="limpiar_filtros" class="botonIconLimpiar">
                                 <img src="../../assets/img/escoba.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Limpiar Filtro *</span>
-                            </button>
+                            </button> -->
                         </div>                                   
                     </div>
                     
@@ -224,7 +224,7 @@ methods: {
         })
     },
     filtrar_actividades_mensuales: async function(){ 
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
             this.$nextTick().then(() => {
                 this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
                 this.plazaNombre = actualizar.plazaNombre,
