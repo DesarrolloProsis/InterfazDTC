@@ -150,7 +150,7 @@ methods:{
             updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
         }
         console.log(objDiagnostico)
-        Axios.post(`${API}/DiagosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
+        Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
             .then((response) => {
                 console.log(response)
                 let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
@@ -161,7 +161,7 @@ methods:{
                     newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
                 })
-                Axios.post(`${API}/DiagosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carrilesInsertDiagnostic, CookiesService.obtener_bearer_token())
+                Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carrilesInsertDiagnostic, CookiesService.obtener_bearer_token())
                     .then((response) => {
                         console.log(response)                        
                         this.$router.push('/FichaTecnicaDeFalla')
