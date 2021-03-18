@@ -37,7 +37,7 @@
                                             <option value="12">Diciembre</option>
                                         </select>
                                     </div>
-                                    <div class="inline-flex mb-4 mt-4 -ml-8 sm:-ml-4">
+                                    <div class="inline-flex mb-4 mt-4 -ml-6 sm:-ml-4">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año:</p>
                                         <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
@@ -47,14 +47,14 @@
                                     </div>
                                 </div>
                                 <div class="inline-flex">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril):</p>
+                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
                                     <select class="ml-2" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select>
                                 </div> 
                                 <div class="inline-flex mb-4 mt-4 ml-2 sm:-ml-4">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status:</p>
+                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status *:</p>
                                     <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                         <option value="">Selecionar...</option>
                                         <option :value=true>Concluido</option>
@@ -91,7 +91,7 @@
                             </button>
                             <button @click="limpiar_filtros" class="botonIconLimpiar">
                                 <img src="../../assets/img/escoba.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
-                                <span class="text-xs">Limpiar Filtro</span>
+                                <span class="text-xs">Limpiar Filtro *</span>
                             </button>
                         </div>                                   
                     </div>
@@ -223,19 +223,22 @@ methods: {
             this.plazaSelect = actualizar.plazaSelect           
         })
     },
-    filtrar_actividades_mensuales: async function(){                
-        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
-        this.$nextTick().then(() => {
-            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-            this.plazaNombre = actualizar.plazaNombre,
-            this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect           
-        })
+    filtrar_actividades_mensuales: async function(){ 
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
+            this.$nextTick().then(() => {
+                this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                this.plazaNombre = actualizar.plazaNombre,
+                this.comentario = actualizar.comentario,
+                this.plazaSelect = actualizar.plazaSelect           
+            })
+        
+        
     },  
     cambiar_plaza(numeroPlaza){     
         this.plazaSelect = numeroPlaza
         this.listaActividadesMensuales = []
         this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect)
+        this.limpiar_filtros()
     },
     reporte_pdf: async function(item){          
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']

@@ -30,9 +30,9 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         //console.log(item.lane.split('-'))
         listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
     }
-    if (ref != undefined){
+/*     if (ref != undefined){
         listaActidadesTipo = listaActidadesTipo.filter(item => item.referenceNumber == ref)
-    }
+    }  */
     console.log(listaActidadesTipo)
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,

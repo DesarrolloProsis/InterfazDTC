@@ -26,15 +26,14 @@
             <div class="w-1/2">                
                 <p class="text-center font-bold text-xl text-gray-800 mb-5">Observaciones</p>          
                 <textarea
+                    id="obs"
                     v-model="observaciones"
-                    v-validate="'max:300'"
-                    :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
                     class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
                     placeholder="jane@example.com"
                     name="Observaciones"
                     v-bind:maxlength="limite"
+                    onkeyup=check()
                 />
-                <p class="text-xs">{{ errors.first("Observaciones") }}</p>
                 <span class="text-xs text-gray-500">{{ restante }}/300</span>
             </div>
         <!--/////////////////////////////////////////////////////////////////
@@ -48,7 +47,11 @@
         ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
                 <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600': modalLoading}">
-                    <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                    <span class="h-20 w-3 hover:hidden">
+                        <span class="animate-ping absolute inline-flex h-10 w-10 rounded-full ml-20 bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 ml-24 mt-4 bg-green-400"></span>
+                    </span>
+                    <img src="../../assets/img/add.png" class="mr-2 -ml-4" width="35" height="35" />
                     <span>Crear</span>
                 </button>
             </div>
@@ -56,6 +59,7 @@
     </div>
 </template>
 <script>
+
 import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 import TablaActividadesCarril from '../../components/Actividades/TablaActividadesCarril'
 import ImagenesActividadCarril from '../../components/Actividades/ImagenesActividadCarril'
@@ -82,7 +86,8 @@ export default {
             limite: 300,
             objetoLogDate: {},
             reporteInsert: true,
-            modalLoading: false
+            modalLoading: false,
+            letras: 0
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -164,6 +169,11 @@ export default {
     computed:{
     restante(){
         //return this.limite - this.motivoCambioFecha.length
+        let letras = this.observaciones.length
+        if(letras == 100){
+            letras == 0
+            document.getElementById("obs").value+='\n'; 
+        }
         return  this.observaciones.length
     }
 },
@@ -172,6 +182,7 @@ export default {
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+
     guardar_log_fecha(item){
         this.objetoLogDate = item
         this.referenceNumber = item.ref
