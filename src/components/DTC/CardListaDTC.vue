@@ -40,7 +40,7 @@
             ////                       SUBIR PDF SELLADO                      ////
             ///////////////////////////////////////////////////////////////////// -->        
         <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
-          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario" >
+          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
               <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado"/>
               <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
