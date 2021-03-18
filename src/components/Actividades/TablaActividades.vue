@@ -61,10 +61,10 @@
                                         <option :value=false>Inconcluso</option>                                        
                                     </select>
                                 </div>
-                                <div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
+                                <!--<div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Referencia:</p>
                                     <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
-                                </div>
+                                </div>-->
                             </div>                           
                         </div>                          
                     </div>
