@@ -16,13 +16,13 @@
                             <th class="w-64 border-2 border-gray-800">Nombre</th>
                             <th class="w-56 border-2 border-gray-800">Correo</th>
                             <th class="w-64 border-2 border-gray-800">Plaza</th>
-                            <th class="w-48 border-2 border-gray-800">Acciones</th>
+                            <th class="w-48 border-2 border-gray-800 hidden">Acciones</th>
                         </tr>
                         <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_encargados" :key="key">
                             <td class="text-center border-2 border-gray-800">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
                             <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
                             <td class="text-center border-2 border-gray-800 break-all">{{ item.squareName }}</td>
-                            <td class="text-center border-2 border-gray-800">
+                            <td class="text-center border-2 border-gray-800 hidden">
                                 <button
                                     class="botonIconActualizar"
                                     >
