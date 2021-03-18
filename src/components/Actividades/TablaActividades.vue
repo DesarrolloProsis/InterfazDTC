@@ -5,20 +5,17 @@
                 <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
             </div> -->
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
-                <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES</h1>
-                <div class="grid grid-cols-2 sm:inline-block mt-3">
+                <h1 class=" text-3xl sm:text-2xl font-bold text-center">Tabla de Actividades del mes {{ mes }} del {{ año }}</h1>
+                <div class="grid grid-cols-1 sm:inline-block mt-3">
                     <div class="sm:w-full">
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p> 
+                        <!-- <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p>  -->
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
-                            <div class=" sm:w-full sm:ml-3">
-                                <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p>
-                                <div class=" inline-flex w-64 mt-3 sm:w-auto justify-center sm:-ml-1 -ml-8 mb-4">                                
+                            <div class="grid grid-cols-4 sm:w-full sm:ml-3">
+                                <!-- <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p> -->                          
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
-                                </div>
-                                <div class="grid grid-cols-2">
                                     <div class=" inline-flex mb-4 mt-4 -ml-4">
                                         <p class="text-sm sm:text-sm text-gray-900 ml-3 mr-2">Mes:</p>                                
                                         <select v-model="mes" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
@@ -38,53 +35,35 @@
                                         </select>
                                     </div>
                                     <div class="inline-flex mb-4 mt-4 -ml-6 sm:-ml-4">
-                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Año:</p>
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 ">Año:</p>
                                         <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
                                             <option value="2020">2020</option>
                                             <option value="2021">2021</option>                                        
                                         </select>
                                     </div>
-                                </div>
-                                <div class="inline-flex">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
-                                    <select class="ml-2" v-model="ubicacion" type="text">
-                                        <option value="">Selecionar...</option>
-                                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                                    </select>
-                                </div> 
-                                <div class="inline-flex mb-4 mt-4 ml-2 sm:-ml-4">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status *:</p>
-                                    <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
-                                        <option value="">Selecionar...</option>
-                                        <option :value=true>Concluido</option>
-                                        <option :value=false>Inconcluso</option>                                        
-                                    </select>
-                                </div>
-                                <div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Referencia:</p>
-                                    <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
-                                </div>
+                                    <div class="inline-flex mb-4 mt-4 -ml-6 sm:-ml-4">
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
+                                        <select class="ml-2" v-model="ubicacion" type="text">
+                                            <option value="">Selecionar...</option>
+                                            <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                                        </select>
+                                    </div> 
+                                    <div class="inline-flex mb-4 mt-4 ml-2 sm:-ml-4">
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status *:</p>
+                                        <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
+                                            <option value="">Selecionar...</option>
+                                            <option :value=true>Concluido</option>
+                                            <option :value=false>Inconcluso</option>                                        
+                                        </select>
+                                    </div>
+                                    <!-- <div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Referencia:</p>
+                                        <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
+                                </div> -->
                             </div>                           
-                        </div>                          
-                    </div>
-                    <!--//////////////////////////////////////////////////////////////////////
-                    ////                       COMENTARIO                             ////
-                    ////////////////////////////////////////////////////////////////////-->
-                    <div>
-                        <div class="sm:w-full justify-start sm:mt-3 mr-10  sm:mb-2 mt-0 inline-block sm:p-1 w-69">
-                            <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
-                            <!-- <p>{{ comentario }}</p> -->
-                            <textarea
-                            v-model="comentario"
-                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-300 rounded-lg px-2 py-2 h-32 w-full"
-                            readonly
-                            />
                         </div>
-                        <!--//////////////////////////////////////////////////////////////////////
-                        ////                           BOTON  BUSCAR                      ////
-                        ////////////////////////////////////////////////////////////////////-->
-                        <div class=" sm:flex mb-4 ml-6 mt-12">
+                        <div class="text-center sm:flex mb-4 ml-6 mt-12">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>
@@ -93,8 +72,22 @@
                                 <img src="../../assets/img/escoba.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Limpiar Filtro *</span>
                             </button>
-                        </div>                                   
+                        </div>                          
                     </div>
+                    <!--//////////////////////////////////////////////////////////////////////
+                    ////                       COMENTARIO                             ////
+                    ////////////////////////////////////////////////////////////////////-->
+                    <!--<div>
+                        <div class="sm:w-full justify-start sm:mt-3 mr-10  sm:mb-2 mt-0 inline-block sm:p-1 w-69">
+                            <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
+                            <p>{{ comentario }}</p> 
+                            <textarea
+                            v-model="comentario"
+                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-300 rounded-lg px-2 py-2 h-32 w-full"
+                            readonly
+                            />
+                        </div>
+                    </div>-->
                     
                 </div> 
             </div>
