@@ -11,7 +11,7 @@ npm run build<template>
                     </p>
                 </div>
                 <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.21</p>
+                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.22</p>
                 </div>
             </div>                                
         </div>        
