@@ -24,7 +24,6 @@
                             <td class="text-center border-2 border-gray-800 break-all">{{ item.squareName }}</td>
                             <td class="text-center border-2 border-gray-800">
                                 <button
-                                    @click="editarUsuario(item)"
                                     class="botonIconActualizar"
                                     >
                                     <img
@@ -35,7 +34,7 @@
                                     />
                                     <span class="text-xs sm:hidden">Editar</span>
                                 </button>
-                                <button class="botonIconLimpiar m-2">
+                                <button class="botonIconLimpiar m-2" @click="confimaBorrar()">
                                     <img
                                         src="../../assets/img/bin.png"
                                         class="mr-2 sm:m-1"
@@ -47,6 +46,18 @@
                             </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+            <!--/////////////////////////////////////////////////////////////////
+            ////                      MODAL ELIMINAR                         ////
+            ////////////////////////////////////////////////////////////////////-->
+            <div class="absolute">
+                <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar al encargado de plaza?</p>
+                    <div class="mt-5 text-center">
+                        <button class="botonIconCrear">Si</button>
+                        <button @click="modalEliminar = false" class="botonIconCancelar">No</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,9 +74,10 @@ export default {
     components:{
         Nav
     },
-    data: function (){
+    data (){
         return{
-            lista_encargados: []
+            lista_encargados: [],
+            modalEliminar: false,
         }
     },
     beforeMount: function (){
@@ -77,6 +89,11 @@ export default {
             if(Ex.response.status == 401)
                 CookiesService.token_no_autorizado()
         })
-    }
+    },
+    methods:{
+        confimaBorrar: function () {
+            this.modalEliminar = true;
+        },
+    },
 }
 </script>
