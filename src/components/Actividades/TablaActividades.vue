@@ -17,7 +17,7 @@
                                 <!-- <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p> -->                          
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
                                     <div class="mb-4 ml-20">
-                                        <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1">Mes:</p>                                
+                                        <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Mes:</p>                                
                                         <select v-model="mes" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
                                             <option value="1">Enero</option>
@@ -35,7 +35,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-4 ml-20">
-                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 mr-2 ">Año:</p>
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 mr-2 font-bold">Año:</p>
                                         <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
                                             <option value="2020">2020</option>
@@ -43,24 +43,24 @@
                                         </select>
                                     </div>
                                     <div class="mb-4 ml-32">
-                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Carril *:</p>
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1 font-bold">Carril *:</p>
                                         <select class="w-32" v-model="ubicacion" type="text">
                                             <option value="">Selecionar...</option>
                                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                         </select>    
                                     </div> 
                                     <div class="mb-4">
-                                        <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1">Status *:</p>
+                                        <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status *:</p>
                                         <select v-model="status" class="w-48 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option value="">Selecionar...</option>
                                             <option :value=true>Concluido</option>
                                             <option :value=false>Inconcluso</option>                                        
                                         </select>
                                     </div>
-                                    <!-- <div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
+                                    <div class="mb-4 ml-20 font-bold">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Referencia:</p>
                                         <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
-                                </div> -->
+                                    </div>
                             </div>                           
                         </div>
                         <div class="text-center sm:flex mb-4 ml-6 mt-2">
@@ -221,7 +221,7 @@ methods: {
         })
     },
     filtrar_actividades_mensuales: async function(){ 
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.ref)        
             this.$nextTick().then(() => {
                 this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
                 this.plazaNombre = actualizar.plazaNombre,
