@@ -1,5 +1,7 @@
 import store from '../store/index'
 import router from '../router/index'
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 function formato_cookies_usuario(loginSesion, tipoUsuario){    
     let plazasUsuario = loginSesion.cookie.map(item => {
         return {
@@ -98,6 +100,18 @@ function obtener_bearer_token(tokenPDF){
         return tokenData.token
     }
 }
+function refrescar_bearer_token(){
+    localStorage.removeItem('token')
+    let userId = store.getters['Login/GET_USEER_ID_PLAZA_ID'].idUser
+    Axios.get(`${API}/Login/Refresh`,{ userId: userId})
+        .then((response) => {
+            console.log(response.data)
+            localStorage.setItem('token', JSON.stringify(response.data.result))
+        })  
+        .catch((error) => {
+            console.log(error)
+        })
+}
 async function cache_token(){
     let datosUserCookies = JSON.parse(localStorage.getItem('cookiesUser'))
     let headerUser = JSON.parse(localStorage.getItem('listaHeaderUser'))   
@@ -123,5 +137,6 @@ export default{
     actualizar_plaza,
     obtener_bearer_token,
     token_no_autorizado,
-    cache_token
+    cache_token,
+    refrescar_bearer_token
 }

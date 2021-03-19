@@ -369,7 +369,8 @@ methods: {
           }                                           
           let editar_dtc_promise = new Promise((resolve , reject) => {
             Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit, CookiesService.obtener_bearer_token())
-            .then(() =>{                                                             
+            .then(() =>{    
+              CookiesService.refrescar_bearer_token()                                                         
               this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
               this.modal = false  
@@ -443,11 +444,12 @@ methods: {
       Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file, CookiesService.obtener_bearer_token())                   
         .then(() => {          
           Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, CookiesService.obtener_bearer_token())
-          .then(() => {               
-              resolve('ok')                
+          .then(() => {  
+              CookiesService.refrescar_bearer_token()                           
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
-              this.limpiar_filtros()                                                                                         
+              this.limpiar_filtros()                              
+              resolve('ok')                                                                           
           })                                  
         })
         .catch((ex) => {
@@ -516,7 +518,8 @@ methods: {
       this.modalFirma = false    
       let agregar_firma_promise = new Promise((resolve, reject) => {              
         Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`, CookiesService.obtener_bearer_token())
-        .then(() => {           
+        .then(() => {      
+          CookiesService.refrescar_bearer_token()      
           let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
           this.refNum = ''     
@@ -579,7 +582,8 @@ methods: {
         "Comment": this.motivoCambioStatus,
       }      
       Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())    
-      .then(() => {        
+      .then(() => {      
+        CookiesService.refrescar_bearer_token()   
         this.refNum = ''
         this.statusEdit = ''
         this.motivoCambioStatus = ''   

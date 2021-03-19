@@ -14,7 +14,8 @@ const mutations = {
 const actions = {
     async Consulta_Users({commit}, value){      
         await Axios.post(`${API}/User/consulta`,value, CookiesService.obtener_bearer_token())
-            .then(response => {                              
+            .then(response => {    
+              CookiesService.refrescar_bearer_token()                          
               commit("USUARIOS_MUTATION", response.data.result);              
             })
             .catch(Ex => {
@@ -26,7 +27,9 @@ const actions = {
     async Update_User({commit}, value){
         commit        
         await Axios.put(`${API}/User/update`,value, CookiesService.obtener_bearer_token())
-            .then(() => {})
+            .then(() => {
+              CookiesService.refrescar_bearer_token()
+            })
             .catch(Ex => {
               console.log(Ex);
               if(Ex.response.status == 401)
@@ -36,7 +39,8 @@ const actions = {
     async BorrarUser({commit}, value){
         commit                
         await Axios.put(`${API}/User/delete`,value, CookiesService.obtener_bearer_token())
-            .then(() => {                                          
+            .then(() => {  
+              CookiesService.refrescar_bearer_token()                                        
             })
             .catch(Ex => {
               console.log(Ex);
@@ -47,7 +51,9 @@ const actions = {
     async NuevoUser({commit}, value){
         commit        
         await Axios.post(`${API}/user/nuevo`,value, CookiesService.obtener_bearer_token())
-            .then(() => {})
+            .then(() => {
+              CookiesService.refrescar_bearer_token()
+            })
             .catch(Ex => {
               console.log(Ex);
               if(Ex.response.status == 401)
@@ -57,7 +63,9 @@ const actions = {
     async UPDATE_PASSWORD({commit}, value){
       commit            
       await Axios.put(`${API}/User/newPassword`,value, CookiesService.obtener_bearer_token())
-          .then(() => {})
+          .then(() => {
+            CookiesService.refrescar_bearer_token()
+          })
           .catch(Ex => {
             console.log(Ex);
             if(Ex.response.status == 401)

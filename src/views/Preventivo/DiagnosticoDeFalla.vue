@@ -155,8 +155,8 @@ methods:{
         }
         console.log(objDiagnostico)
         Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
-            .then((response) => {
-                console.log(response)
+            .then(() => {
+                CookiesService.refrescar_bearer_token() 
                 let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                     let newCarril = {}
                     newCarril["referenceNumber"] = objDiagnostico.referenceNumber

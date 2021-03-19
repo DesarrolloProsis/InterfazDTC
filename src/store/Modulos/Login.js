@@ -50,6 +50,7 @@ const actions = {
   async BUSCAR_HEADER_OTRO_TECNICO({ commit }, value) {
     await Axios.get(`${API}/login/buscarHeaderTec/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
+        CookiesService.refrescar_bearer_token()
         commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
       .catch(error => {
@@ -61,6 +62,7 @@ const actions = {
   async BUSCAR_TECNICOS_PLAZA({ commit }, value) {
     await Axios.get(`${API}/login/buscarTec/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
+        CookiesService.refrescar_bearer_token()
         commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
       .catch(error => {
@@ -104,7 +106,8 @@ const actions = {
   //CONULTA PARA LISTAR LAS PLAZAS
   async BUSCAR_PLAZAS({ commit }) {                    
     await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
-      .then(response => {        
+      .then(response => {  
+        CookiesService.refrescar_bearer_token()      
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(error => {        

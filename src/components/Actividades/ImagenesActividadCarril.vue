@@ -55,7 +55,8 @@ export default {
     beforeMount() {        
         setTimeout(() => {
             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
-                .then((response) => {                          
+                .then((response) => {   
+                    CookiesService.refrescar_bearer_token()                       
                     if(response.status != 404){  
                         console.log(response.data)
                         let newArrayImg = []                      
@@ -95,7 +96,8 @@ export default {
                         let formData = new FormData();
                         formData.append("image", imgagen);
                         await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-                            .then(() => {                                                                                                            
+                            .then(() => {     
+                                CookiesService.refrescar_bearer_token()                                                                                                       
                             })
                             .catch(error => {                                                      
                                 if(error.response.status == 401)
@@ -112,16 +114,7 @@ export default {
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
-/*                           this.$notify.success({
-                                title: "Ok!",
-                                msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
-                                position: "bottom right",
-                                styles: {
-                                    height: 100,
-                                    width: 500,
-                                },
-                            });  */ 
-                            console.log('Se borró')                                                                               
+                            CookiesService.refrescar_bearer_token()                                                                        
                         })
                         .catch(Ex => {                    
                             console.log(Ex);                    
@@ -139,7 +132,8 @@ export default {
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
-                        .then(() => {                                                                                                              
+                        .then(() => {      
+                            CookiesService.refrescar_bearer_token()                                                                                                        
                         })
                         .catch(Ex => {                    
                             console.log(Ex);  

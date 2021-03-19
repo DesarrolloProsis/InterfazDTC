@@ -226,12 +226,11 @@ export default {
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
             Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${idPlazaUser.idUser}`, formFile, CookiesService.obtener_bearer_token())
-                .then((response) => {               
-                    console.log(response)
+                .then(() => {   
+                    CookiesService.refrescar_bearer_token()                                
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false
-                    this.$emit("actualizar-actividad", idPlazaUser.numPlaza);
-                    //this.calendarioEscaneado = true               
+                    this.$emit("actualizar-actividad", idPlazaUser.numPlaza);                              
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,

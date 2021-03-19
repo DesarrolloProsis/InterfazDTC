@@ -206,7 +206,8 @@ methods:{
 abrirCarrusel : async function (item){  
   this.dtcImg = item
   await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
-    .then((response) => {              
+    .then((response) => {   
+        CookiesService.refrescar_bearer_token()           
         if(response.status != 404){                 
           if(response.data.length > 0){
             let array = response.data.map(imgData => {
@@ -253,6 +254,7 @@ editar_status_dtc: function (){
       //Evento post que llama a la api 
     Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
       .then(() => {        
+        CookiesService.refrescar_bearer_token()
         this.statusEdit = ''
         this.motivoCambio = ''   
         let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
