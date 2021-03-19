@@ -56,6 +56,16 @@ export default {
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = this.edicion ==  0 ? true : false
+        }
+        else if(this.tipo == 'tipoPlazaSelect'){   
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = false
+        }
+        else if(this.tipo == 'editDTC'){   
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
             this.boolCambiarPlaza = true
         }
         else if(this.tipo != 'filtro'){
