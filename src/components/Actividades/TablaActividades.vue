@@ -257,8 +257,7 @@ methods: {
         });                 
     },  
     editar_reporte_carril: async function(item){        
-        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']             
-        console.log(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)       
+        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
         await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
         .then((response) => {      
             CookiesService.refrescar_bearer_token()            

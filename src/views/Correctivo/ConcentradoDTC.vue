@@ -186,8 +186,7 @@ beforeMount: function () {
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
         listaPlazasValias.push(plaza)        
-      }
-      console.log(listaPlazasValias)
+      }      
       return listaPlazasValias
   }
 },
@@ -248,24 +247,22 @@ editar_status_dtc: function (){
         "StatusId": parseInt(this.statusEdit),
         "UserId": user.idUser,
         "Comment": this.motivoCambio,
-      }    
-    console.log(objeActualizado)
-    if( this.statusEdit != '' && this.motivoCambio != ''){
-      //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
-      .then(() => {        
-        CookiesService.refrescar_bearer_token()
-        this.statusEdit = ''
-        this.motivoCambio = ''   
-        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
-        this.modalCambiarStatus = false                                
-      })
-      .catch(error => {
-        if(error.response.status == 401)
-            CookiesService.token_no_autorizado()
-        console.log(error);
-      });
+      }        
+    if( this.statusEdit != '' && this.motivoCambio != ''){      
+      Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
+        .then(() => {        
+          CookiesService.refrescar_bearer_token()
+          this.statusEdit = ''
+          this.motivoCambio = ''   
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+          this.modalCambiarStatus = false                                
+        })
+        .catch(error => {
+          if(error.response.status == 401)
+              CookiesService.token_no_autorizado()
+          console.log(error);
+        });
     }
     else {
           this.$notify.warning({

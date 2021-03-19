@@ -104,8 +104,7 @@ function refrescar_bearer_token(){
     localStorage.removeItem('token')
     let userId = store.getters['Login/GET_USEER_ID_PLAZA_ID'].idUser
     Axios.get(`${API}/Login/Refresh`,{ userId: userId})
-        .then((response) => {
-            console.log(response.data)
+        .then((response) => {            
             localStorage.setItem('token', JSON.stringify(response.data.result))
         })  
         .catch((error) => {

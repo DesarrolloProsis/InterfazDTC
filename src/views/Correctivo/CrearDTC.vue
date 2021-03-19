@@ -229,8 +229,7 @@ methods: {
         };
         await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-        if (insertDmg) {
-          console.log('Los componentes se insertaron correctamente')
+        if (insertDmg) {          
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               this.referenciaDtc, 

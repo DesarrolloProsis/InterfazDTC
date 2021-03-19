@@ -44,8 +44,7 @@ export default {
         }
     },
     created(){
-        EventBus.$on("guardar_imagenes", referenceNumber => {        
-            console.log(referenceNumber)                                  
+        EventBus.$on("guardar_imagenes", referenceNumber => {                                                      
             this.enviar_imagen(referenceNumber)
         });
     },
@@ -57,8 +56,7 @@ export default {
             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
                 .then((response) => {   
                     CookiesService.refrescar_bearer_token()                       
-                    if(response.status != 404){  
-                        console.log(response.data)
+                    if(response.status != 404){                          
                         let newArrayImg = []                      
                         response.data.forEach(item => {
                             newArrayImg.push({
@@ -88,10 +86,10 @@ export default {
         enviar_imagen: async function(value){    
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != value.referenceNumber) 
             if(boolValidacion){           
-                let contador = 0                          
+                //let contador = 0                          
                 for(let imagenes of this.arrayImagenes){                
                     if(imagenes.name.split('_')[0] != value.referenceNumber){          
-                        contador++         
+                        //contador++         
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
@@ -104,8 +102,7 @@ export default {
                                     CookiesService.token_no_autorizado()
                         });                       
                     }                      
-                }
-                console.log(contador)
+                }                
             }              
             this.$emit('ocutar-modal-loading',value)                   
         },

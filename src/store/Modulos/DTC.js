@@ -113,7 +113,7 @@ const actions = {
         }
       })
       .catch(Ex => {
-        console.log('ERROR!!! ' + Ex);
+        console.log(Ex);
         if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
       });
@@ -220,7 +220,7 @@ const actions = {
         }
       })
       .catch(Ex => {
-        console.log('ERROR!!! ' + Ex);
+        console.log(Ex);
         if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
       });

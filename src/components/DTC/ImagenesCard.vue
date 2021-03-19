@@ -229,7 +229,7 @@ export default {
               .catch((ex) => {
                 if(ex.response.status == 401)
                   CookiesService.token_no_autorizado()
-                console.log("error al eliminar");
+                                  
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
@@ -305,8 +305,7 @@ export default {
           CookiesService.refrescar_bearer_token()
           array_nombre_imagenes = response.data;
         })
-        .catch((error) => {
-          console.log("error en el actuzaliacion");
+        .catch((error) => {          
           if(error.response.status == 401)
             CookiesService.token_no_autorizado()
         });

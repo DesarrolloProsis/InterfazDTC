@@ -314,8 +314,7 @@ methods:{
                                             width: 500,
                                         },
                                     });
-                                }
-                                console.log('SE INSERTARON TODAS LAS ACTIVIDADES.')
+                                }                                
                                 /* this.$notify.success({
                                     title: "Ok!",
                                     msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,

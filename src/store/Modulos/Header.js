@@ -107,8 +107,7 @@ const actions = {
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
       SquareId: value.header.plaza.slice(0,3)
-    }   
-    console.log(newObject)             
+    }                 
     await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
       .then(response => {
         CookiesService.refrescar_bearer_token()

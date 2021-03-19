@@ -118,8 +118,7 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
     }
     else{
         sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
-        let datesplit =  sinisterDate.split("-");
-        console.log(datesplit)
+        let datesplit =  sinisterDate.split("-");        
         let diaActual = parseInt(datesplit[2]);
         let mesActual = parseInt(datesplit[1]);
         let yearActual = parseInt(datesplit[0]);
@@ -150,7 +149,7 @@ async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fec
     let tiporeferencia = tipoReferencia != 'Semanal' 
         ? tipoReferencia.slice(0,2)
         : tipoReferencia.slice(0,1)
-    console.log(tipoReferencia)
+            
     let referenciaNueva = 
         numeroReferencia + '-' + 'MP' + 
         tiporeferencia + 
