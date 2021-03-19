@@ -46,7 +46,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!-- <div class="inline-flex">
+                                 <div class="inline-flex">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
                                     <select class="ml-2" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
@@ -61,7 +61,7 @@
                                         <option :value=false>Inconcluso</option>                                        
                                     </select>
                                 </div>
-                                <div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
+                                <!--<div class="inline-flex mb-4 mt-4 -ml-4 sm:-ml-4">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Referencia:</p>
                                     <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
                                 </div> -->
@@ -224,7 +224,7 @@ methods: {
         })
     },
     filtrar_actividades_mensuales: async function(){ 
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane)        
             this.$nextTick().then(() => {
                 this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
                 this.plazaNombre = actualizar.plazaNombre,
