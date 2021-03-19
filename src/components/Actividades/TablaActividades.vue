@@ -5,7 +5,7 @@
                 <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
             </div> -->
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
-                <h1 class=" text-3xl sm:text-2xl font-bold text-center">Tabla de Actividades del mes {{ mesNombre }} del {{ año }}</h1>
+                <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 sm:inline-block mt-3">
                     <div class="sm:w-full">
                         <!--//////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@
                                             <option value="12">Diciembre</option>
                                         </select>
                                     </div>
-                                    <div class="mb-4 ml-16">
+                                    <div class="mb-4 ml-20">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 mr-2 ">Año:</p>
                                         <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
@@ -42,16 +42,16 @@
                                             <option value="2021">2021</option>                                        
                                         </select>
                                     </div>
-                                    <div class="mb-4 ml-16">
-                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
-                                        <select class="" v-model="ubicacion" type="text">
+                                    <div class="mb-4 ml-32">
+                                        <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Carril *:</p>
+                                        <select class="w-32" v-model="ubicacion" type="text">
                                             <option value="">Selecionar...</option>
                                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                         </select>    
                                     </div> 
-                                    <div class="inline-flex mb-4 mt-4 ml-2 sm:-ml-4">
+                                    <div class="mb-4">
                                         <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1">Status *:</p>
-                                        <select v-model="status" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
+                                        <select v-model="status" class="w-48 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option value="">Selecionar...</option>
                                             <option :value=true>Concluido</option>
                                             <option :value=false>Inconcluso</option>                                        
@@ -63,7 +63,7 @@
                                 </div> -->
                             </div>                           
                         </div>
-                        <div class="text-center sm:flex mb-4 ml-6 mt-12">
+                        <div class="text-center sm:flex mb-4 ml-6 mt-2">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>

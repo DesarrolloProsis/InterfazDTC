@@ -23,8 +23,8 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         
     console.log(listaActidadesTipo)
     if ((status != '') && (status != undefined)){
-        alert(status)
-        console.log(status != '')
+/*         alert(status)
+        console.log(status != '') */
         listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
         console.log(listaActidadesTipo)
     }
