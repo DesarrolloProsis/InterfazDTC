@@ -53,7 +53,7 @@
             placeholder
           />
           <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
-          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
+<!--           <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
           <input
             v-validate="'uniqueReport'"
             v-model="datosSinester.ReportNumber"
@@ -62,7 +62,7 @@
             type="text"
             name="NoReporte"
           />
-          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p> -->
         </div>      
         <div class="pr-2">
           <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
