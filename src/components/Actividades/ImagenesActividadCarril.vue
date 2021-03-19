@@ -107,8 +107,10 @@ export default {
                         }); 
                     }  
                 }
-            }  
-            this.$emit('ocutar-modal-loading',value)                   
+            }
+            setTimeout(() => {
+                this.$emit('ocutar-modal-loading',value) 
+            },2000)                    
         },
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                
