@@ -46,7 +46,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                 <div class="inline-flex">
+                                <div class="inline-flex">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
                                     <select class="ml-2" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
@@ -84,15 +84,15 @@
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                           BOTON  BUSCAR                      ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <div class="text-center sm:flex mb-4 -ml-16 mt-12">
+                        <div class="text-center sm:flex mb-4 -ml-20 mt-12">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>
                             </button>
-                            <!-- <button @click="limpiar_filtros" class="botonIconLimpiar">
+                            <button @click="limpiar_filtros" class="botonIconLimpiar">
                                 <img src="../../assets/img/escoba.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Limpiar Filtro *</span>
-                            </button> -->
+                            </button> 
                         </div>                                   
                     </div>
                     
