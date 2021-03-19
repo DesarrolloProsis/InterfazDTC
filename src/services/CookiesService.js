@@ -1,7 +1,7 @@
 import store from '../store/index'
 import router from '../router/index'
-import Axios from 'axios'
-const API = process.env.VUE_APP_URL_API_PRODUCCION
+//import Axios from 'axios'
+//const API = process.env.VUE_APP_URL_API_PRODUCCION
 function formato_cookies_usuario(loginSesion, tipoUsuario){    
     let plazasUsuario = loginSesion.cookie.map(item => {
         return {
@@ -101,15 +101,17 @@ function obtener_bearer_token(tokenPDF){
     }
 }
 function refrescar_bearer_token(){
-    localStorage.removeItem('token')
+    //localStorage.removeItem('token')
     let userId = store.getters['Login/GET_USEER_ID_PLAZA_ID'].idUser
-    Axios.get(`${API}/Login/Refresh`,{ userId: userId})
-        .then((response) => {            
-            localStorage.setItem('token', JSON.stringify(response.data.result))
-        })  
-        .catch((error) => {
-            console.log(error)
-        })
+    console.log(userId)
+    // Axios.get(`${API}/Login/Refresh`,{ userId: userId})
+    //     .then((response) => {      
+    //         console.log(response)      
+    //         localStorage.setItem('token', JSON.stringify(response.data.result))
+    //     })  
+    //     .catch((error) => {
+    //         console.log(error)
+    //     })
 }
 async function cache_token(){
     let datosUserCookies = JSON.parse(localStorage.getItem('cookiesUser'))
