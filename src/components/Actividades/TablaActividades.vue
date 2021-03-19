@@ -5,7 +5,7 @@
                 <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
             </div> -->
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
-                <h1 class=" text-3xl sm:text-2xl font-bold text-center">Tabla de Actividades del mes {{ mes }} del {{ año }}</h1>
+                <h1 class=" text-3xl sm:text-2xl font-bold text-center">Tabla de Actividades del mes {{ mesNombre }} del {{ año }}</h1>
                 <div class="grid grid-cols-1 sm:inline-block mt-3">
                     <div class="sm:w-full">
                         <!--//////////////////////////////////////////////////////////////////////
@@ -177,20 +177,23 @@ export default {
             mes: '',
             comentario: '',
             ubicacion: '',
-            status:'',
+            status: undefined,
             ref:'',
+            mesNombre: ''
         }
     },
 /////////////////////////////////////////////////////////////////////
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function(){           
+beforeMount: async function(){  
+    
     this.listaPlazas = await this.$store.state.Login.cookiesUser.plazasUsuario
     let cargaInicial = this.$route.params.cargaInicial
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
     this.plazaNombre = cargaInicial.plazaNombre
     this.comentario = cargaInicial.comentario     
     this.mes = cargaInicial.mes
+    this.mesNombre = cargaInicial.mesNombre
     this.año = cargaInicial.año
     this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)               
@@ -213,7 +216,8 @@ methods: {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
             this.plazaNombre = actualizar.plazaNombre,
             this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect           
+            this.plazaSelect = actualizar.plazaSelect  
+            this.mesNombre = actualizar.mesNombre         
         })
     },
     filtrar_actividades_mensuales: async function(){ 
@@ -223,6 +227,7 @@ methods: {
                 this.plazaNombre = actualizar.plazaNombre,
                 this.comentario = actualizar.comentario,
                 this.plazaSelect = actualizar.plazaSelect           
+                this.mesNombre = actualizar.mesNombre
             })
         
         

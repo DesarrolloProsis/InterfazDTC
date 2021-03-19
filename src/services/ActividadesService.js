@@ -22,7 +22,9 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         : eventos_calendario_formato(objApi)      
         
     console.log(listaActidadesTipo)
-    if (status != undefined){
+    if ((status != '') && (status != undefined)){
+        alert(status)
+        console.log(status != '')
         listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
         console.log(listaActidadesTipo)
     }
@@ -40,7 +42,8 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         comentario: store.state.Actividades.comentarioMensual, 
         plazaSelect: user.numPlaza,
         mes: mes,
-        año: año,         
+        año: año,
+        mesNombre: numero_to_nombre(mes)         
     }    
     return obj
 }
