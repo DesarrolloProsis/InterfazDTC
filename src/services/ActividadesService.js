@@ -21,7 +21,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
         : eventos_calendario_formato(objApi)      
             
-    if ((status != '') && (status != undefined)){
+    if (status != undefined){
         /*alert(status)
         console.log(status != '') */
         listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)        
