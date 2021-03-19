@@ -364,7 +364,8 @@ export default {
     },
     validar_calendario_escaneado(){
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}`, CookiesService.obtener_bearer_token())
+      let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${idPlazaUser.idUser}`, CookiesService.obtener_bearer_token())
       .then((response) => {
         console.log(response)
         this.calendarioEscaneado = true
