@@ -143,6 +143,7 @@ export default {
         
         await Axios.get(`${API}/Mantenimiento/Bitacora`, CookiesService.obtener_bearer_token())
         .then((response) => { 
+            CookiesService.refrescar_bearer_token() 
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  
             this.todasPlazas =  this.$store.state.Login.listaPlazas//this.$store.getters['Login/getListaPlazas']  

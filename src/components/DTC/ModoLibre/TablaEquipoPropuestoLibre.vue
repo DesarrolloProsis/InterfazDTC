@@ -491,17 +491,11 @@ export default {
         .validateAll()
         .then((item) => {
           if (item) {            
-            if (this.bool_editar) {
-              console.log("editar");
+            if (this.bool_editar) {              
               this.infoRow[this.index_editar].marca = this.marca;
               this.infoRow[this.index_editar].modelo = this.modelo;
-              this.infoRow[
-                this.index_editar
-              ].precioUnitario = this.precioUnitario;
-              this.infoRow[this.index_editar].precioTotal = (
-                this.precioUnitario *
-                parseInt(this.infoRow[this.index_editar].cantidad)
-              ).toString();
+              this.infoRow[this.index_editar].precioUnitario = this.precioUnitario;
+              this.infoRow[this.index_editar].precioTotal = (this.precioUnitario * parseInt(this.infoRow[this.index_editar].cantidad)).toString();
               this.modal = false;
               this.index_editar = "";
               this.bool_editar = false;
@@ -515,9 +509,7 @@ export default {
                 marca: this.marca,
                 modelo: this.modelo,
                 precioUnitario: this.precioUnitario,
-                precioTotal: (
-                  this.precioUnitario * parseInt(this.info_confirmar.cantidad)
-                ).toString(),
+                precioTotal: (this.precioUnitario * parseInt(this.info_confirmar.cantidad)).toString(),
               };
               this.marca = "";
               this.modelo = "";

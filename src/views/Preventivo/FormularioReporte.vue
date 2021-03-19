@@ -274,9 +274,10 @@ methods:{
                         this.modalLoading = true                                                                                                       
                         Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte, CookiesService.obtener_bearer_token())
                         .then(() => { 
-                            console.log(arrayJob)                             
+                            CookiesService.refrescar_bearer_token() 
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                             .then(() => {  
+                                CookiesService.refrescar_bearer_token() 
                                 if(this.objetoLogDate.fecha != ''){                                    
                                     let refPlaza = this.referenceNumber.split('-')[0]
                                     let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -288,7 +289,8 @@ methods:{
                                         comment: this.objetoLogDate.motivo
                                     }
                                     Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
-                                        .then(() => {                                                                                                                                   
+                                        .then(() => {   
+                                            CookiesService.refrescar_bearer_token()                                                                                                                                 
                                         }).catch(Ex => {      
                                             if(Ex.response.status == 401)
                                                 CookiesService.token_no_autorizado()
@@ -312,8 +314,7 @@ methods:{
                                             width: 500,
                                         },
                                     });
-                                }
-                                console.log('SE INSERTARON TODAS LAS ACTIVIDADES.')
+                                }                                
                                 /* this.$notify.success({
                                     title: "Ok!",
                                     msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
@@ -338,10 +339,11 @@ methods:{
                 else {  
                     this.modalLoading = true
                     Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`,headerReporte, CookiesService.obtener_bearer_token())
-                        .then(() => {     
+                        .then(() => { 
+                            CookiesService.refrescar_bearer_token()     
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                                 .then(() => {                             
-                                    //Envio Imagenes y Generacion de Reportes    
+                                    CookiesService.refrescar_bearer_token()  
                                     let objImg = {
                                         referenceNumber: this.referenceNumber,
                                         frecuenciaId : this.header.frequencyId,

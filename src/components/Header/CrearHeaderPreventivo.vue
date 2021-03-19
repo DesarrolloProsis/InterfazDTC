@@ -177,12 +177,10 @@ methods:{
         if(this.fechaCambio !='' && this.motivoCambioFecha != ''){        
             let toDay = new Date()
             let mest = toDay.getMonth()
-            mest = mest + 1;
-            console.log(mest)
+            mest = mest + 1;            
             let fecha = new Date(this.fechaCambio)
             let mes = fecha.getMonth()
-            mes = mes + 1;
-            console.log(mes)
+            mes = mes + 1;            
             fecha.setDate(fecha.getDate())
             if( mes > mest || mes < mest){
                 this.$notify.warning({

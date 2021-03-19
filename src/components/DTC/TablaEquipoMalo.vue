@@ -777,8 +777,7 @@ methods: {
         let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
         newObject["attachedId"] = this.updtComp.attachedId;
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
-        newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
-        console.log(newObject)
+        newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;        
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
