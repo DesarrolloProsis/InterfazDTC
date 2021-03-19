@@ -66,6 +66,11 @@ export default {
         else if(this.tipo == 'tipoPlazaSelect'){   
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = false
+        }
+        else if(this.tipo == 'editDTC'){   
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
             this.boolCambiarPlaza = true
         }
         else if(this.tipo != 'filtro'){

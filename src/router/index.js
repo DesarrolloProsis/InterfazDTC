@@ -76,6 +76,11 @@ const routes = [
     }
   },
   {
+    path: '/EncargadosPlaza',
+    name: 'Encargados',
+    component: () => import('../views/Correctivo/EncargadosPlaza')
+  },
+  {
     path: '/Inventario',
     name: 'Inventario',
     component: Inventario,
@@ -95,13 +100,18 @@ const routes = [
     }
   },
   {
-    path: '/ConcentradoDetallesDTC',
-    name:'ConcentradoDetallesDTC',
-    component: () => import('../views/Correctivo/ConcentradoDetallesDTC')
+    path: '/ConcentradoFichas',
+    name:'ConccentradoFichas',
+    component: () => import('../views/Correctivo/ConcentradoFichas')
   },
   {
     path: '/DiagnosticoDeFalla',
     name: '/DiagnosticoDeFalla',
+    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
+  },
+  {
+    path: '/FichaTecnicaDeFalla',
+    name: 'FichaTecnicaDeFalla',
     component: () => import('../views/Preventivo/DiagnosticoDeFalla')
   },
   {

@@ -35,23 +35,29 @@
                             <span>Crear</span>
                         </button>
                     </div>
-                    <div class="flex-col justify-center h-12 w-full mt-5 hidden" >
-                        <div class="flex justify-center" v-if="pdfSelladoBool == false">
-                                <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-auto h-12 absolute" multiple/>
-                                    <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
-                                <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                <span>Subir Escaneado</span>
+                    <div class="flex-col justify-center h-12 w-full mt-5 " >
+                        <div v-if="calendarioEscaneado">
+                            <button @click="obtener_escaneado_calendario" class="botonIconDescargar mb-1 sm:mt-2">
+                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
+                                    <span class="text-xs sm:hidden">Descargar Calendario Escaneado</span>
                             </button>
-                        </div>                        
-                        <div class="grid grid-cols-2" v-else>
-                            <div class="inline-flex">
-                                <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
-                                <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
-                                <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
-                                <button @click="pdfSelladoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
-                            </div>            
                         </div>
-                    </div> -->
+                        <div v-else>
+                            <div  class="grid grid-cols-2" v-if="escaneadoBool"> 
+                                <div class="inline-flex">
+                                    <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
+                                    <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
+                                    <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                                    <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                                </div>                                
+                            </div>                        
+                            <div v-else class=" justify-center botonIconCancelar">
+                                <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>                   
+                                    <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
+                                    <span>Subir Escaneado</span>                                                             
+                            </div>
+                        </div>
+                    </div>
                     </div>          
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
@@ -105,6 +111,7 @@ import SelectPlaza from '../Header/SelectPlaza'
 import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import Axios from "axios";
+import ReportesPDFService from '../../services/ReportesPDFService'
 
 export default {
     components:{
@@ -126,15 +133,21 @@ export default {
         numeroActividades: {
             type: Number,
             default: () => 0
+        },
+        calendarioEscaneado: {
+            type: Boolean,
+            default: () => false
         }
     },
     data(){
         return {                        
             limite:500,
-            calendarEscaneado: '',
-            pdfEscBool: false  , 
-            pdfSelladoBool: false         
+            calendarEscaneado: null,      
+            escaneadoBool: false                  
         }
+    },
+    beforeMount(){
+
     },
     destroyed(){        
         if(this.comentario == '' && this.numeroActividades > 0){
@@ -164,7 +177,7 @@ export default {
     },    
     methods: {
         cambiar_plaza(numeroPlaza){                  
-            this.$emit("actualizar-actividad", numeroPlaza);            
+            this.$emit("actualizar-actividad", numeroPlaza);
         },
         generar_pdf(){           
             this.$emit('generar-pdf', this.comentario)
@@ -173,10 +186,10 @@ export default {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
             else {
-                this.pdfSelladoBool = true
+                this.escaneadoBool = true
                 for (let item of files) {        
                 if(this.crearImage(item) == false)
-                    this.pdfSelladoBool = false
+                    this.escaneadoBool = false
                 }        
             }
         },
@@ -208,13 +221,17 @@ export default {
         },
         enviar_calendario_escaneado(){
             let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)            
-            let numeroPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+            let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
-            Axios.post(`${API}/calendario/CalendarioEscaneado/${numeroPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
+            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
                 .then((response) => {               
                     console.log(response)
-                    this.pdfSelladoBool= false
+                    this.escaneadoBool = false
+                    this.calendarioEscaneado = false
+                    let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
+                    this.$emit("actualizar-actividad", numPlaza);
+                    //this.calendarioEscaneado = true               
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
@@ -244,6 +261,9 @@ export default {
         }
             return new File([u8arr], fileName + '.pdf', { type: mime });
         }, 
+        obtener_escaneado_calendario(){
+            ReportesPDFService.generar__pdf_calendario_escaneado(this.año, this.mes)
+        }
 },
     computed:{
         restante(){

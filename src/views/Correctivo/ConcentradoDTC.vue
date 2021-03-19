@@ -14,9 +14,9 @@
             </div>
           </div>
         </div>
-        <!--/////////////////////////////////////////////////////////////////////
-        /////                    FILTROS DE NAVEGACION                      ////
-        ////////////////////////////////////////////////////////////////////-->   
+      <!--/////////////////////////////////////////////////////////////////////
+      /////                    FILTROS DE NAVEGACION                      ////
+      ////////////////////////////////////////////////////////////////////-->   
       <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'Autorizado GMMEP'" :tipo="'DTC'"></HeaderGenerico>       
       <!--////////////////////////////////////////////////////////////////////
       ////                      MODAL CAMBIAR STATUS                   //////
@@ -71,7 +71,7 @@
                     <th class="cabeceraTable">Fecha de Falla</th>
                     <th class="cabeceraTable">Fotografias</th>
                     <th class="cabeceraTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Status</th>
-                    <th class="cabeceraTable">Descargar</th>
+                    <th class="cabeceraTable">PDF</th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -102,34 +102,27 @@
                   </td>
                   <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
                     <div>
-                      <button 
-                        class="botonIconBuscar"
-                        @click="abrir_modal_editar(item)">
-                        Cambiar Status
-                      </button>
+                      <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Status</button>
                     </div>
                   </td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
                   <div v-if="tipoUsuario != 8">
-                    <button
-                        @click="descargar_PDF(item,2)"
-                        class="botonIconBorrarCard mr-2">
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard mr-2">
                         <img src="../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button
-                        v-if="item.statusId >= 3"
-                        @click="descargar_PDF(item,3)"
-                        class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400 hover:text-black': item.escaneadobool }" :disabled=" item.escaneadobool ">
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400 hover:text-black': item.escaneadobool  }" :disabled=" item.escaneadobool ">
                         <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
+                    <!--<button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool != 1 }">
+                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                        <span class="text-xs sm:hidden">Subir Sellado</span>
+                    </button>-->
                   </div>
                   <div v-else>
-                    <button
-                      @click="descargar_PDF(item,1)"
-                      class="botonIconBorrarCard mr-2">
+                    <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
                       <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                       <span class="text-xs sm:hidden w-24">Sin Firma</span>
                     </button>
@@ -255,10 +248,10 @@ editar_status_dtc: function (){
         "UserId": user.idUser,
         "Comment": this.motivoCambio,
       }    
-    if( this.statusEdit != '' && this.motivoCambio != '')
-    {
+    console.log(objeActualizado)
+    if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())    
+    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
       .then(() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   
@@ -272,7 +265,7 @@ editar_status_dtc: function (){
         console.log(error);
       });
     }
-    else{
+    else {
           this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA LLENADO LOS CAMPOS.`,

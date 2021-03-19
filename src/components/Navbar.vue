@@ -11,7 +11,7 @@
         <p class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{ nombre_usuario }}</p>
         <router-link
           to="/"
-          class="inline-block ml-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-black hover:bg-red-700"
+          class="inline-block ml-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-white hover:bg-red-700"
         >Salir</router-link>
       </div>
     </nav>

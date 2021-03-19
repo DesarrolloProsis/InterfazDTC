@@ -11,6 +11,39 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     firmado: 2,
     sellado: 3
 })
+/*
+function descargarArchivo(file, nombreArchivo) {    
+     alert()
+    //creamos un FileReader para leer el Blob
+    var reader = new FileReader();
+    //Definimos la función que manejará el archivo
+    //una vez haya terminado de leerlo
+    reader.onload = function(event) {
+        console.log(event)
+    }
+    reader.onload = function (event) {
+
+        console.log(event)
+        //Usaremos un link para iniciar la descarga
+        var save = document.createElement('a');
+        save.href = event.target.result;
+        save.target = '_blank';
+        //Truco: así le damos el nombre al archivo
+        save.download = nombreArchivo || 'archivo.pdf';
+        var clicEvent = new MouseEvent('click', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': true
+        });        
+        save.dispatchEvent(clicEvent);
+        //Y liberamos recursos...
+        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    };
+    //Leemos el blob y esperamos a que dispare el evento "load"
+    reader.readAsDataURL(file);
+  
+}
+*/
 function xml_hhtp_request(urlTopdf,namePdf){
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
@@ -20,7 +53,8 @@ function xml_hhtp_request(urlTopdf,namePdf){
     oReq.onload = function () {         
     var file = new Blob([oReq.response], {
         type: "application/pdf",
-    });    
+    });   
+    //window.open(urlTopdf, namePdf); 
     saveAs(file, namePdf);
     };
     oReq.send();   
@@ -53,7 +87,6 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
         user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
-
     let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;          
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
@@ -163,11 +196,18 @@ async function generar_pdf_fotografico_preventivo(referenceNumber, lane){
         console.log(Ex);                    
     });    
 }
+function generar__pdf_calendario_escaneado(año, mes){
+    let clavePlaza = store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
+    let urlTopdf = `${API}/Calendario/GetPdfSellado/${clavePlaza}/${año}/${mes}`
+    let namePdf = clavePlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
+    xml_hhtp_request(urlTopdf, namePdf) 
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
     crear_referencia_calendario,
     generar_pdf_calendario,
     generar_pdf_actividades_preventivo,
-    generar_pdf_fotografico_preventivo    
+    generar_pdf_fotografico_preventivo,
+    generar__pdf_calendario_escaneado    
 }
