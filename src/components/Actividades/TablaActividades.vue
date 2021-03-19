@@ -13,10 +13,10 @@
                         ////////////////////////////////////////////////////////////////////-->
                         <!-- <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p>  -->
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
-                            <div class="grid grid-cols-4 sm:w-full sm:ml-3">
+                            <div class="grid grid-cols-4 sm:w-full sm:ml-3 sm:grid grid-cols-2">
                                 <!-- <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p> -->                          
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
-                                    <div class=" inline-flex mb-4 mt-4 -ml-4">
+                                    <div class=" inline-flex mb-4 ml-4 mt-6 text-center">
                                         <p class="text-sm sm:text-sm text-gray-900 ml-3 mr-2">Mes:</p>                                
                                         <select v-model="mes" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
@@ -34,7 +34,7 @@
                                             <option value="12">Diciembre</option>
                                         </select>
                                     </div>
-                                    <div class="inline-flex mb-4 mt-4 -ml-6 sm:-ml-4">
+                                    <div class="inline-flex mb-4 mt-6 ml-4 sm:-ml-4">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 ">Año:</p>
                                         <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
                                             <option disabled value>Selecionar...</option>
@@ -42,12 +42,15 @@
                                             <option value="2021">2021</option>                                        
                                         </select>
                                     </div>
-                                    <div class="inline-flex mb-4 mt-4 -ml-6 sm:-ml-4">
+                                    <div class="inline-flex mb-4 mt-4 ml-8 grid grid-cols-1">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1">Ubicación (Carril) *:</p>
-                                        <select class="ml-2" v-model="ubicacion" type="text">
+                                        <div>
+                                            <select class="ml-2" v-model="ubicacion" type="text">
                                             <option value="">Selecionar...</option>
                                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                                        </select>
+                                        </select>    
+                                        </div>
+                                        
                                     </div> 
                                     <div class="inline-flex mb-4 mt-4 ml-2 sm:-ml-4">
                                         <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2">Status *:</p>
