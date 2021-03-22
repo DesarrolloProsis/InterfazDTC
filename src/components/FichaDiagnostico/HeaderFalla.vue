@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="ml-5">   
-                <div class="mt-6 w-full grid grid-cols-2 ">
+                <div class="mt-6 w-full grid grid-cols-3 ">
                     <div class="mr-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
@@ -195,8 +195,9 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                </div> 
-            </div>
+                    <ImagenesFichaDiagnostico :tipo="'Ficha'"></ImagenesFichaDiagnostico>
+                </div>                 
+            </div>            
         </div>
         
     </div>
