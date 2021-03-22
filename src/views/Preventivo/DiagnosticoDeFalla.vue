@@ -156,22 +156,26 @@ methods:{
                 let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                     let newCarril = {}
                     newCarril["referenceNumber"] = objDiagnostico.referenceNumber
-                    newCarril["capufeLaneNum"] = carril.capufeLaneNum
+                    newCarril["capuLaneNum"] = carril.capufeLaneNum
                     newCarril["idGare"] = carril.idGare
                     newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
                 })
-                Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carrilesInsertDiagnostic, CookiesService.obtener_bearer_token())
-                    .then((response) => {
-                        console.log(response)                        
-                        this.$router.push('/FichaTecnicaDeFalla')
-                        this.type = "FICHA";   
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                        if(error.response.status == 401)
-                            CookiesService.token_no_autorizado()
-                    })                                           
+                
+                carrilesInsertDiagnostic.forEach(carril => {      
+                    console.log(carril)                              
+                    Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril, CookiesService.obtener_bearer_token())
+                        .then((response) => {
+                            console.log(response)                        
+                            this.$router.push('/FichaTecnicaDeFalla')
+                            this.type = "FICHA";   
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                            if(error.response.status == 401)
+                                CookiesService.token_no_autorizado()
+                        })    
+                });                                       
                 
             })
             .catch((error) => {

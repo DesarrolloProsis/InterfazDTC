@@ -39,7 +39,7 @@
           <a class="hover:text-blue-900 cursor-pointer" @click="registar_nuevo_usuario">Registrarse</a>
           <a class="hover:text-blue-900 cursor-pointer" @click="contraseña_perdida">¿Olvidaste tu constraseña?</a>
         </div>
-      </div>
+      </div>      
     </div>
     <!-- //////////////////////////////////////////////////////////////////
     ////                  MODAL INGRESAR POR OTRO                     ////
@@ -75,7 +75,7 @@
 <script>
 import ServiceCookies from '../services/CookiesService'
 export default {
-  name: "Login",
+  name: "Login",  
   data() {
     return {
       modal: false,

@@ -20,15 +20,11 @@
                         <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
                     </div>
                 </div>
-                <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
+                <div class="mt-5 grid sm:grid grid-cols-2">
                     <div>
                         <span class="mr-20 sm:mr-0">Ubicación:</span>
                     </div>
-                    <div class="-ml-66 sm:ml-0">
-                        <!-- <select class="w-56 sm:w-20" :disabled="blockInput" v-model="datosDiagnostico.ubicacion" type="text">
-                            <option value="">Selecionar...</option>
-                            <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                        </select> -->
+                    <div class="-ml-66 sm:ml-0">                  
                         <multiselect
                             :disabled="blockInput"
                             v-model="datosDiagnostico.ubicacion"  
@@ -38,8 +34,7 @@
                             :hideSelected="false"
                             placeholder="Selecciona..."
                             :options="carriles_plaza"
-                            :multiple="true"
-              
+                            :multiple="true"              
                         >
                             <template slot="selection" slot-scope="{ values, isOpen }">
                                 <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
@@ -105,43 +100,48 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA TRES                           ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 w-full grid grid-cols-2 ">
-                <div class=" mr-10">
-                    <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
-                    <textarea
-                        v-model="datosDiagnostico.descripcionFalla"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                        placeholder="jane@example.com"
-                        name="Observaciones"
-                        v-bind:maxlength="limite"
-                    />
-                    <span class="text-gray-500">{{ restante_desc }}/300</span>
-                </div>
-                <div class="mr-10">
-                    <span class="">DIAGNOSTICO DE LA FALLA REPORTADA:</span>
-                    <textarea
-                        v-model="datosDiagnostico.diagnosticoFalla"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                        placeholder="jane@example.com"
-                        name="Observaciones"
-                        v-bind:maxlength="limite"
-                    />
-                    <span class="text-gray-500">{{ restante_diag }}/300</span>
-                </div>
-                <div class="mt-5 mr-10">
-                    <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
-                    <textarea
-                        v-model="datosDiagnostico.causaFalla"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                        placeholder="jane@example.com"
-                        name="CausaDeLaFalla"
-                        v-bind:maxlength="limite"
-                    />
-                    <span class="text-gray-500">{{ restante_causa }}/300</span>
+            <div class="mt-6 w-full grid grid-cols-2">
+                <div>
+                    <div class=" mr-10">
+                        <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
+                        <textarea
+                            v-model="datosDiagnostico.descripcionFalla"
+                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+                            placeholder="jane@example.com"
+                            name="Observaciones"
+                            v-bind:maxlength="limite"
+                        />
+                        <span class="text-gray-500">{{ restante_desc }}/300</span>
+                    </div>
+                    <div class="mr-10">
+                        <span class="">DIAGNOSTICO DE LA FALLA REPORTADA:</span>
+                        <textarea
+                            v-model="datosDiagnostico.diagnosticoFalla"
+                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+                            placeholder="jane@example.com"
+                            name="Observaciones"
+                            v-bind:maxlength="limite"
+                        />
+                        <span class="text-gray-500">{{ restante_diag }}/300</span>
+                    </div>         
                 </div>
                 <!-- /////////////////////////////////////////////////////////////////////
                 ////                         IMAGENES                             ////
                 ///////////////////////////////////////////////////////////////////// -->
+                <div>
+                    <div class="mt-5 mr-10">
+                        <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
+                        <textarea
+                            v-model="datosDiagnostico.causaFalla"
+                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+                            placeholder="jane@example.com"
+                            name="CausaDeLaFalla"
+                            v-bind:maxlength="limite"
+                        />
+                        <span class="text-gray-500">{{ restante_causa }}/300</span>
+                    </div>
+                    <ImagenesFichaDiagnostico :tipo="'Ficha'"></ImagenesFichaDiagnostico>
+                </div>
             </div>
         </div>
         <!-- /////////////////////////////////////////////////////////////////////
@@ -198,6 +198,7 @@
                 </div> 
             </div>
         </div>
+        
     </div>
 </template>
 
@@ -205,6 +206,7 @@
 import SelectPlaza from '../../components/Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService';
 import moment from "moment";
+import ImagenesFichaDiagnostico from '../ImagenesGenericas'
 import Multiselect from "vue-multiselect";
 export default {
 name: "Diagnostico",
@@ -216,7 +218,8 @@ props:{
 },
 components:{
     SelectPlaza,
-    Multiselect
+    Multiselect,
+    ImagenesFichaDiagnostico    
 },
 ///////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
@@ -314,10 +317,10 @@ methods:{
         }
     },
     label_multi_select(value){            
-      if(value != 'Sin Actividad')
-        return value.lane
-      else 
-        return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
+        if(value != 'Sin Actividad')
+            return value.lane
+        else 
+            return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
     }
 }
 }
