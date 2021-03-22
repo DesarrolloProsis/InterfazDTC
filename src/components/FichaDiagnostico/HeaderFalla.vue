@@ -8,11 +8,11 @@
             /////                           FILA UNO                            ////
             ////////////////////////////////////////////////////////////////////--> 
             <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
-                <div class="grid grid-cols-2 sm:grid grid-cols-1 md:grid grid-cols-1">
+                <div class="grid grid-cols-2 sm:grid md:grid">
                     <span class="">No. De Reporte:</span>
                     <p class="-ml-66 sm:ml-0 sm:w-24">{{ datosDiagnostico.referenceNumber }}</p>
                 </div>
-                <div class="mt-5 grid grid-cols-2 sm:grid grid-cols-2">
+                <div class="mt-5 grid grid-cols-2 sm:grid">
                     <div>
                         <span>Plaza de Cobro:</span>
                     </div>
@@ -148,11 +148,11 @@
         ////                            FICHA                             ///////
         //////////////////////////////////////////////////////////////////// -->
         <div v-if="tipo == 'FICHA'"> 
-            <div class="grid grid-cols-2 ml-5">
+            <div class="grid sm:grid-cols-1 grid-cols-2 ml-5">
                 <div class="">
                     <span>TIPO DE FALLA:</span>
                 </div>
-                <div class="grid grid-cols-3 -ml-69">
+                <div class="grid grid-cols-3 sm:grid-cols-1 sm:mx-auto -ml-69">
                     <div class="text-center">
                         <p>POR OPERACIÓN</p>
                         
@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="ml-5">   
-                <div class="mt-6 w-full grid grid-cols-3 ">
+                <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-3 ">
                     <div class="mr-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea

@@ -52,7 +52,7 @@ export default {
     data (){
         return{    
             datosHeader: {},      
-            type:"FICHA"
+            type:"DIAG"
         }
     },
 
@@ -158,7 +158,7 @@ methods:{
                     newCarril["referenceNumber"] = objDiagnostico.referenceNumber
                     newCarril["capuLaneNum"] = carril.capufeLaneNum
                     newCarril["idGare"] = carril.idGare
-                    newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
+                    newCarril["addFlag"] = 1 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
                 })
                 
