@@ -1,7 +1,7 @@
 import store from '../store/index'
 import moment from "moment";
 
-async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril){        
+async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){        
     let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let nombrePlaza = store.state.Login.plazaSelecionada.plazaNombre    
     store.dispatch('Refacciones/BUSCAR_CARRILES',user.numPlaza)
@@ -23,6 +23,8 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         
     console.log(listaActidadesTipo)
     if (status != undefined){
+/*         alert(status)
+        console.log(status != '') */
         listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
         console.log(listaActidadesTipo)
     }
@@ -30,9 +32,9 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         //console.log(item.lane.split('-'))
         listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
     }
-/*     if (ref != undefined){
+    if ((ref != '') && (ref != undefined)){
         listaActidadesTipo = listaActidadesTipo.filter(item => item.referenceNumber == ref)
-    }  */
+    } 
     console.log(listaActidadesTipo)
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
@@ -40,7 +42,8 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         comentario: store.state.Actividades.comentarioMensual, 
         plazaSelect: user.numPlaza,
         mes: mes,
-        año: año,         
+        año: año,
+        mesNombre: numero_to_nombre(mes)         
     }    
     return obj
 }
