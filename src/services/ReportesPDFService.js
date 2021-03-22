@@ -200,7 +200,7 @@ async function generar_pdf_fotografico_preventivo(referenceNumber, lane){
 }
 function generar_pdf_calendario_escaneado(año, mes){
     let clavePlaza = store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
-    let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+    let idPlazaUser = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let urlTopdf = `${API}/Calendario/GetPdfSellado/${clavePlaza}/${año}/${mes}/${idPlazaUser.idUser}`
     let namePdf = clavePlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
     xml_hhtp_request(urlTopdf, namePdf) 
