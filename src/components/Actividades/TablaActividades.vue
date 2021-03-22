@@ -208,9 +208,9 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 methods: {
     limpiar_filtros : async function(){
-        this.ubicacion = ""
-        this.status = ""
-        this.ref = ""
+        this.ubicacion = ''
+        this.status = undefined
+        this.ref = ''
         let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
