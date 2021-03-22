@@ -47,7 +47,8 @@ const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)                         
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
-            .then((response) => {                               
+            .then((response) => {           
+                CookiesService.refrescar_bearer_token()                    
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
             .catch(Ex => {
@@ -59,7 +60,8 @@ const actions = {
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
         await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
-            .then((response) => {                                  
+            .then((response) => {   
+                CookiesService.refrescar_bearer_token()                               
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
             })
@@ -72,15 +74,15 @@ const actions = {
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                           
         await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`, CookiesService.obtener_bearer_token())
-        .then((response) => {   
+        .then((response) => {
+            CookiesService.refrescar_bearer_token()   
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1
                 return actividad
             })                                       
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
-        .catch(error => {
-            console.log(error.response)
+        .catch(error => {            
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
             if(error.response.status == 401)
                 CookiesService.token_no_autorizado()

@@ -121,9 +121,7 @@ methods:{
                 },
             });
         }
-        else{
-            //alert('faltan campos')
-            console.log('falnta llenar campos')
+        else{                        
             this.$notify.warning({
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS.`,
@@ -152,11 +150,10 @@ methods:{
             causeFailure: this.datosHeader.causaFalla,
             adminSquareId: administradorId,
             updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
-        }
-        console.log(objDiagnostico)
+        }        
         Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
-            .then((response) => {
-                console.log(response)
+            .then(() => {
+                CookiesService.refrescar_bearer_token() 
                 let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                     let newCarril = {}
                     newCarril["referenceNumber"] = objDiagnostico.referenceNumber
@@ -166,8 +163,8 @@ methods:{
                     return newCarril
                 })
                 Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carrilesInsertDiagnostic, CookiesService.obtener_bearer_token())
-                    .then((response) => {
-                        console.log(response)                        
+                    .then(() => {
+                        CookiesService.refrescar_bearer_token()                                              
                         this.$router.push('/FichaTecnicaDeFalla')
                         this.type = "FICHA";   
                     })

@@ -258,13 +258,10 @@ export default {
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )        
-      console.log(actividadInsert)   
-      console.log(`${API}/Calendario/Actividad/${refPlaza}`)
-      console.log(CookiesService.obtener_bearer_token())
-
+      )                          
       await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
-        .then(async () => {                 
+        .then(async () => {     
+            CookiesService.refrescar_bearer_token()            
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
         .catch(Ex => {            
@@ -309,7 +306,8 @@ export default {
           Year: this.año
         }                
         Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario, CookiesService.obtener_bearer_token())
-        .then(() => {                              
+        .then(() => {  
+          CookiesService.refrescar_bearer_token()                            
           ServicePDF.generar_pdf_calendario(refPlaza, {
               mes: this.mes,
               año: this.año
@@ -336,7 +334,8 @@ export default {
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
-        .then(async () => {                 
+        .then(async () => {  
+            CookiesService.refrescar_bearer_token()               
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
               this.modalActividades = false
@@ -366,8 +365,8 @@ export default {
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
       let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
       Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${idPlazaUser.idUser}`, CookiesService.obtener_bearer_token())
-      .then((response) => {
-        console.log(response)
+      .then(() => {
+        CookiesService.refrescar_bearer_token()        
         this.calendarioEscaneado = true
       })
       .catch((error) => {

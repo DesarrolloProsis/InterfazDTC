@@ -85,6 +85,7 @@ const actions = {
   async BUSCAR_DESCRIPCIONES_DTC({ commit, rootGetters }) {
     await Axios.get(`${API}/typedescriptions/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, CookiesService.obtener_bearer_token())
       .then(response => {
+        CookiesService.refrescar_bearer_token()
         commit("LISTA_DESCRIPCIONES_MUTATION", response.data.result);
       })
       .catch(Ex => {
@@ -105,20 +106,22 @@ const actions = {
       }
     }              
     await Axios.post(`${API}/requestedComponent/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.flagCreate}`, arrayDmg, CookiesService.obtener_bearer_token())
-      .then(response => {      
+      .then(response => {  
+        CookiesService.refrescar_bearer_token()    
         if (response.status == 200) {
           commit('insertDmgCompleteMutation', true)
         }
       })
       .catch(Ex => {
-        console.log('ERROR!!! ' + Ex);
+        console.log(Ex);
         if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
       });
   },
   async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idUser}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
-      .then(response => {                      
+      .then(response => {  
+        CookiesService.refrescar_bearer_token()                    
         commit("LISTA_DTC_MUTATION", response.data.result);
       })
       .catch(Ex => {
@@ -131,6 +134,7 @@ const actions = {
   async BUSCAR_TABLA_CARDS({ commit, rootGetters }, value) {            
     await Axios.get(`${API}/dtcData/TableForm/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
+        CookiesService.refrescar_bearer_token()
         if (response.data.result != null)
           commit("TABLA_DTC_CARDS_MUTATION", response.data.result);
         else
@@ -146,8 +150,8 @@ const actions = {
   async BORRAR_DTC({ commit, rootGetters }, value) {    
     await Axios.delete(`${API}/dtcData/Delete/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.refNum}/${value.userId}`, CookiesService.obtener_bearer_token())
       .then(() => {
-        commit("BORRAR_DTC_MUTATION", value)
-        commit
+        CookiesService.refrescar_bearer_token()
+        commit("BORRAR_DTC_MUTATION", value)        
       })
       .catch(Ex => {
         console.log(Ex);
@@ -158,6 +162,7 @@ const actions = {
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/EditInfo/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
+        CookiesService.refrescar_bearer_token()
         commit("COMPONENTES_EDIT", response.data.result)
       })
       .catch(Ex => {
@@ -169,6 +174,7 @@ const actions = {
   async COMPONENT_EDIT_OPEN({ commit, rootGetters }, value) {
     await Axios.get(`${API}/dtcData/EditInfo/Open/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`, CookiesService.obtener_bearer_token())
       .then(response => {
+        CookiesService.refrescar_bearer_token()
         commit("COMPONENTES_EDIT", response.data.result)
       })
       .catch(Ex => {
@@ -208,12 +214,13 @@ const actions = {
     }    
     await Axios.post(`${API}/requestedComponent/Open/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.flagCreate}`, arrayDmg, CookiesService.obtener_bearer_token())
       .then(response => {
+        CookiesService.refrescar_bearer_token()
         if (response.status == 201) {
           commit('insertDmgCompleteMutation', true)
         }
       })
       .catch(Ex => {
-        console.log('ERROR!!! ' + Ex);
+        console.log(Ex);
         if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
       });

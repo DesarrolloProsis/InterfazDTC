@@ -46,50 +46,45 @@ export default {
     },
     methods:{
     validar_horas(){
-    if(this.horaInicio != '' && this.horaFin != ''){
-        let horaISplite = this.horaInicio.split(':')            
-        let horaFSplite = this.horaFin.split(':')            
-        let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-        let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-        if(dateInicio < dateFin){                
-            return true
+        if(this.horaInicio != '' && this.horaFin != ''){
+            let horaISplite = this.horaInicio.split(':')            
+            let horaFSplite = this.horaFin.split(':')            
+            let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+            let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+            if(dateInicio < dateFin){                
+                return true
+            }
+            else{            
+                return false
+            }
         }
-        else{
-            console.log('LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN')
-            return false
-        }
-    }
-    else{     
-            console.log('FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO')               
+        else {                 
             return false    
         }
     },
     crearDiagnostico (){
-
-        if( this.fecha!='' && this.validar_horas() == true)
-        {
-                this.$notify.success({
-                    title: "Ok!",
-                    msg: `SE GENERÓ CORRECTAMENTE EL DIAGNOSTICO.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                        },
-                    });
-        }    
-            else{
-                this.$notify.warning({
-                    title: "Ups!",
-                    msg: `NO SE HA LLENADO LOS CAMPOS CORRECTAMENTE O ESTAN INCOMPLETOS.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
+        if( this.fecha!='' && this.validar_horas() == true) {
+            this.$notify.success({
+                title: "Ok!",
+                msg: `SE GENERÓ CORRECTAMENTE EL DIAGNOSTICO.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
                     },
-                });
-            }
-        
+            });
+        }    
+        else{
+            this.$notify.warning({
+                title: "Ups!",
+                msg: `NO SE HA LLENADO LOS CAMPOS CORRECTAMENTE O ESTAN INCOMPLETOS.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                },
+            });
+        }        
 
     },
     },

@@ -213,11 +213,10 @@ export default {
           for (let eliminar of this.eliminar_name) {
             Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`, CookiesService.obtener_bearer_token())
               .then(() => {
-                if(eliminar)
-                {
+                CookiesService.refrescar_bearer_token()
+                if(eliminar){
                   this.$notify.error({
-                  title: "ups!",
-                  //msg: ex,
+                  title: "ups!",                  
                   msg: 'IMAGENES ELIMINADAS',
                   position: "bottom right",
                   styles: {
@@ -230,7 +229,7 @@ export default {
               .catch((ex) => {
                 if(ex.response.status == 401)
                   CookiesService.token_no_autorizado()
-                console.log("error al eliminar");
+                                  
                 reject("mal");
                 this.$notify.error({
                   title: "ups!",
@@ -259,7 +258,8 @@ export default {
             formData.append("plaza", nombre_plaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
             await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-              .then(() => {                            
+              .then(() => {    
+                CookiesService.refrescar_bearer_token()                        
                 this.$notify.success({
                   title: "Ok!",
                   msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
@@ -302,10 +302,10 @@ export default {
       this.imgbase64 = [];
       await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
         .then((response) => {          
+          CookiesService.refrescar_bearer_token()
           array_nombre_imagenes = response.data;
         })
-        .catch((error) => {
-          console.log("error en el actuzaliacion");
+        .catch((error) => {          
           if(error.response.status == 401)
             CookiesService.token_no_autorizado()
         });

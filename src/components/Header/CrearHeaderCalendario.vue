@@ -221,18 +221,16 @@ export default {
         },
         enviar_calendario_escaneado(){
             let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)            
-            let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+            let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza            
             let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
             Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${idPlazaUser.idUser}`, formFile, CookiesService.obtener_bearer_token())
-                .then((response) => {               
-                    console.log(response)
+                .then(() => {   
+                    CookiesService.refrescar_bearer_token()                                
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false
-                    let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
-                    this.$emit("actualizar-actividad", numPlaza);
-                    //this.calendarioEscaneado = true               
+                    this.$emit("actualizar-actividad", idPlazaUser.numPlaza);                              
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
@@ -263,7 +261,7 @@ export default {
             return new File([u8arr], fileName + '.pdf', { type: mime });
         }, 
         obtener_escaneado_calendario(){
-            ReportesPDFService.generar__pdf_calendario_escaneado(this.año, this.mes)
+            ReportesPDFService.generar_pdf_calendario_escaneado(this.año, this.mes)
         }
 },
     computed:{

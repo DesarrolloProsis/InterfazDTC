@@ -58,6 +58,7 @@ function xml_hhtp_request(urlTopdf,namePdf){
     saveAs(file, namePdf);
     };
     oReq.send();   
+    CookiesService.refrescar_bearer_token()
 }
 function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     let clavePlaza = numeroReferencia.split('-')[0]
@@ -87,7 +88,7 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
         user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
-    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;          
+    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}/${user.idUser}`;          
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
 }
@@ -117,8 +118,7 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
     }
     else{
         sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
-        let datesplit =  sinisterDate.split("-");
-        console.log(datesplit)
+        let datesplit =  sinisterDate.split("-");        
         let diaActual = parseInt(datesplit[2]);
         let mesActual = parseInt(datesplit[1]);
         let yearActual = parseInt(datesplit[0]);
@@ -149,7 +149,7 @@ async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fec
     let tiporeferencia = tipoReferencia != 'Semanal' 
         ? tipoReferencia.slice(0,2)
         : tipoReferencia.slice(0,1)
-    console.log(tipoReferencia)
+            
     let referenciaNueva = 
         numeroReferencia + '-' + 'MP' + 
         tiporeferencia + 
@@ -185,6 +185,7 @@ async function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezad
 async function generar_pdf_fotografico_preventivo(referenceNumber, lane){    
     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
     .then((response) => {    
+        CookiesService.refrescar_bearer_token()
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]
             let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane.split('-')[0]}`       
@@ -196,7 +197,7 @@ async function generar_pdf_fotografico_preventivo(referenceNumber, lane){
         console.log(Ex);                    
     });    
 }
-function generar__pdf_calendario_escaneado(año, mes){
+function generar_pdf_calendario_escaneado(año, mes){
     let clavePlaza = store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
     let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let urlTopdf = `${API}/Calendario/GetPdfSellado/${clavePlaza}/${año}/${mes}/${idPlazaUser.idUser}`
@@ -210,5 +211,5 @@ export default {
     generar_pdf_calendario,
     generar_pdf_actividades_preventivo,
     generar_pdf_fotografico_preventivo,
-    generar__pdf_calendario_escaneado    
+    generar_pdf_calendario_escaneado    
 }

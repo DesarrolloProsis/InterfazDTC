@@ -290,8 +290,7 @@ created:  function (){
     ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.headerEdit.referenceSquare)
     EventBus.$on("validar_header", async () => {
       await this.$validator.validateAll().then((item) => {
-        if(item == false){
-          console.log('Falto llenar campo')
+        if(item == false){          
 /*           this.errors.items.map((error) => {            
             this.$notify.warning({
               title: "Ups!",

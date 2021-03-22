@@ -44,8 +44,7 @@ export default {
         }
     },
     created(){
-        EventBus.$on("guardar_imagenes", referenceNumber => {        
-            console.log(referenceNumber)                                  
+        EventBus.$on("guardar_imagenes", referenceNumber => {                                                      
             this.enviar_imagen(referenceNumber)
         });
     },
@@ -55,9 +54,9 @@ export default {
     beforeMount() {        
         setTimeout(() => {
             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
-                .then((response) => {                          
-                    if(response.status != 404){  
-                        console.log(response.data)
+                .then((response) => {   
+                    CookiesService.refrescar_bearer_token()                       
+                    if(response.status != 404){                          
                         let newArrayImg = []                      
                         response.data.forEach(item => {
                             newArrayImg.push({
@@ -87,23 +86,23 @@ export default {
         enviar_imagen: async function(value){    
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != value.referenceNumber) 
             if(boolValidacion){           
-                let contador = 0                          
+                //let contador = 0                          
                 for(let imagenes of this.arrayImagenes){                
                     if(imagenes.name.split('_')[0] != value.referenceNumber){          
-                        contador++         
+                        //contador++         
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
                         await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-                            .then(() => {                                                                                                            
+                            .then(() => {     
+                                CookiesService.refrescar_bearer_token()                                                                                                       
                             })
                             .catch(error => {                                                      
                                 if(error.response.status == 401)
                                     CookiesService.token_no_autorizado()
                         });                       
                     }                      
-                }
-                console.log(contador)
+                }                
             }              
             this.$emit('ocutar-modal-loading',value)                   
         },
@@ -112,16 +111,7 @@ export default {
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
-/*                           this.$notify.success({
-                                title: "Ok!",
-                                msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
-                                position: "bottom right",
-                                styles: {
-                                    height: 100,
-                                    width: 500,
-                                },
-                            });  */ 
-                            console.log('Se borró')                                                                               
+                            CookiesService.refrescar_bearer_token()                                                                        
                         })
                         .catch(Ex => {                    
                             console.log(Ex);                    
@@ -139,7 +129,8 @@ export default {
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
-                        .then(() => {                                                                                                              
+                        .then(() => {      
+                            CookiesService.refrescar_bearer_token()                                                                                                        
                         })
                         .catch(Ex => {                    
                             console.log(Ex);  
