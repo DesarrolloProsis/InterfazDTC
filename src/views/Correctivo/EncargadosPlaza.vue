@@ -63,6 +63,16 @@
             <div class="">
                 <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
                     <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Editar Usuario</p>
+                    <div>
+                        <p>Nombre</p>
+                        <input type="text" name="" id="">
+                        <p>Apellido Paterno</p>
+                        <input type="text" name="" id="">
+                        <p>Apellido Materno</p>
+                        <input type="text" name="" id="">
+                        <p>Apellido Plaza</p>
+                        <input type="text" name="" id="">
+                    </div>
                     <div class="mt-5 text-center">
                         <button class="botonIconCrear">Si</button>
                         <button @click="modalEditar = false" class="botonIconCancelar">No</button>
