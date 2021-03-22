@@ -1,7 +1,7 @@
 <template>
     <div>
-        <p class="text-center font-bold text-xl text-gray-800 mb-5">Imagenes</p>          
-        <div class=" inline-flex h-40 border border-gray-800 w-full">
+        <p class="text-center font-bold text-xl text-gray-800 mb-5 sm:-ml-32">Imagenes</p>          
+        <div class=" inline-flex h-40 border border-gray-800 w-full sm:h-32">
             <div class="w-2/3 grid grid-cols-2 p-2 gap-4 overflow-auto">                                                                                                                
                 <div class="relative border" v-for="(item) in arrayImagenes" :key="item.name">
                     <span @click="eliminar_imagen(item.name)" class="absolute border rounded-full top-0 right-0">
@@ -16,12 +16,12 @@
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center">
                 <div class="">
                     <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0">
-                    <img src="../../assets/img/more.png" class="p-5 ml-6 w-auto h-32" alt/>
-                    <span class="text-sm text-gray-500 mb-0">Agregar imagenes</span>
+                    <img src="../../assets/img/more.png" class="p-5 ml-6 w-auto h-32 sm:h-24 sm:ml-0 sm:mb-0 sm:p-1 sm:mt-4" alt/>
+                    <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
                 </div>
             </div>
         </div>
-        <span class="text-gray-500 text-sm">{{ num }}/36 (Máximo 36 fotografías)</span>
+        <span class="text-gray-500 text-sm sm:-mt-6">{{ num }}/36 (Máximo 36 fotografías)</span>
     </div>
 </template>
 
