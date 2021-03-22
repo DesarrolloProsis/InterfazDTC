@@ -51,7 +51,7 @@
                         <span class="animate-ping absolute inline-flex h-10 w-10 rounded-full ml-20 bg-green-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 ml-24 mt-4 bg-green-400"></span>
                     </span> -->
-                    <img src="../../assets/img/add.png" class="mr-2 -ml-4" width="35" height="35" />
+                    <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>
             </div>
