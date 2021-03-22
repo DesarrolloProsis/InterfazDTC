@@ -16,15 +16,15 @@
                             <th class="w-64 border-2 border-gray-800">Nombre</th>
                             <th class="w-56 border-2 border-gray-800">Correo</th>
                             <th class="w-64 border-2 border-gray-800">Plaza</th>
-                            <th class="w-48 border-2 border-gray-800 hidden">Acciones</th>
+                            <th class="w-48 border-2 border-gray-800">Acciones</th>
                         </tr>
                         <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_encargados" :key="key">
                             <td class="text-center border-2 border-gray-800">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
                             <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
                             <td class="text-center border-2 border-gray-800 break-all">{{ item.squareName }}</td>
-                            <td class="text-center border-2 border-gray-800 hidden">
+                            <td class="text-center border-2 border-gray-800">
                                 <button
-                                    class="botonIconActualizar"
+                                    class="botonIconActualizar" @click="editarUsuario()"
                                     >
                                     <img
                                         src="../../assets/img/pencil.png"
@@ -51,12 +51,21 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                      MODAL ELIMINAR                         ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="absolute">
+            <div class="">
                 <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar al encargado de plaza?</p>
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a </p>
                     <div class="mt-5 text-center">
                         <button class="botonIconCrear">Si</button>
                         <button @click="modalEliminar = false" class="botonIconCancelar">No</button>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Editar Usuario</p>
+                    <div class="mt-5 text-center">
+                        <button class="botonIconCrear">Si</button>
+                        <button @click="modalEditar = false" class="botonIconCancelar">No</button>
                     </div>
                 </div>
             </div>
@@ -78,6 +87,7 @@ export default {
         return{
             lista_encargados: [],
             modalEliminar: false,
+            modalEditar: false,
         }
     },
     beforeMount: function (){
@@ -91,9 +101,12 @@ export default {
         })
     },
     methods:{
-        confimaBorrar: function () {
+        confimaBorrar () {
             this.modalEliminar = true;
         },
+        editarUsuario () {
+            this.modalEditar = true;
+        }
     },
 }
 </script>

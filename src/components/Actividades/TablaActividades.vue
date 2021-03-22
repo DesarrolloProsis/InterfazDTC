@@ -221,6 +221,7 @@ methods: {
         })
     },
     filtrar_actividades_mensuales: async function(){ 
+        if(this.status || this.ubicacion.lane || this.ref !=''){
             let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.ref)        
             this.$nextTick().then(() => {
                 this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
@@ -229,8 +230,17 @@ methods: {
                 this.plazaSelect = actualizar.plazaSelect           
                 this.mesNombre = actualizar.mesNombre
             })
-        
-        
+        }else{
+            this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE HAN LLENADO CAMPOS PARA FILTRAR.`,
+            position: "bottom right",
+            styles: {
+                height: 100,
+                width: 500,
+                },
+            });
+        }      
     },  
     cambiar_plaza(numeroPlaza){     
         this.plazaSelect = numeroPlaza
