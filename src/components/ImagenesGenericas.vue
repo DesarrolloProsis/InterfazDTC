@@ -48,8 +48,8 @@ export default {
         }
     },
     created(){
-        EventBus.$on("guardar_imagenes", referenceNumber => {                                          
-            this.enviar_imagen(referenceNumber)
+        EventBus.$on("guardar_imagenes", objImagenes => {                                          
+            this.enviar_imagenes(objImagenes)
         });
     },
     destroyed(){
@@ -87,19 +87,22 @@ export default {
         recibir_imagenes: async function (e){  
             this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
         },
-        enviar_imagen: async function(objReporte){  
-            console.log(objReporte)  
+        enviar_imagenes: async function(objReporte){                       
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
-            if(boolValidacion){                           
-                let contador = 0                          
+            if(boolValidacion){                                           
+                let contador = 0     
+                let rutaInsertImagenes = this.tipo == 'Actividades'
+                ? `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                : `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                 for(let imagenes of this.arrayImagenes){                
                     if(imagenes.name.split('_')[0] != this.referenceNumber){          
                         contador++         
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
-                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-                            .then(() => {                                                                                                            
+                        await Axios.post(rutaInsertImagenes, formData, CookiesService.obtener_bearer_token())
+                            .then((response) => {   
+                                console.log(response)                                                                                                         
                             })
                             .catch(error => {                                                      
                                 if(error.response.status == 401)
@@ -117,14 +120,15 @@ export default {
                     },
                 }); 
             }
-            this.$emit('ocutar-modal-loading', objReporte)                     
+            if(this.tipo == 'Actividades')
+                this.$emit('ocutar-modal-loading', objReporte)                     
         },
-        eliminar_imagen(nombreImagen){                
+        eliminar_imagenes(nombreImagen){                
             if(this.arrayImagenes.length > 1){                
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
-/*                           this.$notify.success({
+                            this.$notify.success({
                                 title: "Ok!",
                                 msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
                                 position: "bottom right",
@@ -132,7 +136,7 @@ export default {
                                     height: 100,
                                     width: 500,
                                 },
-                            });  */ 
+                            });
                             console.log('Se borró')                                                                               
                         })
                         .catch(Ex => {                    

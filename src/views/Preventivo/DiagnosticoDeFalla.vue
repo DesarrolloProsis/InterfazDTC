@@ -32,8 +32,8 @@ import Nav from "../../components/Navbar";
 import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
 import Axios from 'axios';
 import CookiesService from '../../services/CookiesService';
+import EventBus from '../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
 export default {
     name: "Diagnostico",
     components: {
@@ -166,9 +166,10 @@ methods:{
                     console.log(carril)                              
                     Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril, CookiesService.obtener_bearer_token())
                         .then((response) => {
-                            console.log(response)                        
-                            this.$router.push('/FichaTecnicaDeFalla')
-                            this.type = "FICHA";   
+                            console.log(response)       
+                            EventBus.$emit('guardar_imagenes')                 
+                            //this.$router.push('/FichaTecnicaDeFalla')
+                            //this.type = "FICHA";   
                         })
                         .catch((error) => {
                             console.log(error)
