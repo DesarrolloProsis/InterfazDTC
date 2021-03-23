@@ -22,7 +22,7 @@
                             <td class="text-center border-2 border-gray-800">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
                             <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
                             <td class="text-center border-2 border-gray-800 break-all">{{ item.squareName }}</td>
-                            <td class="text-center border-2 border-gray-800">
+                            <td class="text-center border-2 border-gray-800" >
                                 <button
                                     class="botonIconActualizar" @click="editarUsuario()"
                                     >
@@ -34,7 +34,7 @@
                                     />
                                     <span class="text-xs sm:hidden">Editar</span>
                                 </button>
-                                <button class="botonIconLimpiar m-2" @click="confimaBorrar()">
+                                <button class="botonIconLimpiar m-2" @click="confimaBorrar(item)">
                                     <img
                                         src="../../assets/img/bin.png"
                                         class="mr-2 sm:m-1"
@@ -53,7 +53,7 @@
             ////////////////////////////////////////////////////////////////////-->
             <div class="">
                 <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a </p>
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a {{ infoDelate.name }}</p>
                     <div class="mt-5 text-center">
                         <button class="botonIconCrear">Si</button>
                         <button @click="modalEliminar = false" class="botonIconCancelar">No</button>
@@ -74,8 +74,8 @@
                         <input type="text" name="" id="">
                     </div>
                     <div class="mt-5 text-center">
-                        <button class="botonIconCrear">Si</button>
-                        <button @click="modalEditar = false" class="botonIconCancelar">No</button>
+                        <button class="botonIconCrear">Guardar</button>
+                        <button @click="modalEditar = false" class="botonIconCancelar">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -98,6 +98,8 @@ export default {
             lista_encargados: [],
             modalEliminar: false,
             modalEditar: false,
+            boolBorrar: false,
+            infoDelate:{}
         }
     },
     beforeMount: function (){
@@ -111,8 +113,10 @@ export default {
         })
     },
     methods:{
-        confimaBorrar () {
+        confimaBorrar (item) {
+            this.infoDelate = item
             this.modalEliminar = true;
+            
         },
         editarUsuario () {
             this.modalEditar = true;
