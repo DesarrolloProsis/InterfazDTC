@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <span class="text-gray-500 text-sm">{{ num }}/36 (Máximo 36 fotografías)</span>
+        <span class="text-gray-500 text-sm sm:-mt-6">{{ num }}/36 (Máximo 36 fotografías)</span>
     </div>
 </template>
 
