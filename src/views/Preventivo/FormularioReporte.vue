@@ -62,7 +62,7 @@
 
 import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 import TablaActividadesCarril from '../../components/Actividades/TablaActividadesCarril'
-import ImagenesActividadCarril from '../../components/Actividades/ImagenesActividadCarril'
+import ImagenesActividadCarril from '../../components/ImagenesGenericas'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
