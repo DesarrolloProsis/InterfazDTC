@@ -15,7 +15,7 @@
             </div>
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center rounded-lg">
                 <div class="">
-                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0">
+                    <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer">
                     <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32" alt/>
                     <span class="text-sm text-gray-500 mb-0">Agregar imagenes</span>
                 </div>
