@@ -262,7 +262,6 @@ beforeMount: function(){
         delete this.datosDiagnostico["causaFalla"]
         this.blockInput = true
     }
-    
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
