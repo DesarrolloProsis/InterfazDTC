@@ -140,7 +140,7 @@
                         />
                         <span class="text-gray-500">{{ restante_causa }}/300</span>
                     </div>
-                    <ImagenesFichaDiagnostico :tipo="'Ficha'" :referenceNumber="datosDiagnostico.referenceNumber"></ImagenesFichaDiagnostico>
+                    <ImagenesFichaDiagnostico :tipo="'Diagnostico'" :referenceNumber="datosDiagnostico.referenceNumber"></ImagenesFichaDiagnostico>
                 </div>
             </div>
         </div>

@@ -91,9 +91,15 @@ export default {
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
             if(boolValidacion){                                           
                 let contador = 0     
-                let rutaInsertImagenes = this.tipo == 'Actividades'
-                ? `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                : `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                let rutaInsertImagenes = ''
+                if(this.tipo == 'Actividades')
+                    rutaInsertImagenes = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                else{
+                    if(this.tipo == 'Diagnostico')
+                        rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                    else
+                        rutaInsertImagenes = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                }                
                 for(let imagenes of this.arrayImagenes){                
                     if(imagenes.name.split('_')[0] != this.referenceNumber){          
                         contador++         
