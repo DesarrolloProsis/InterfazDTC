@@ -16,7 +16,7 @@
                     <div class="mb-10 ml-12 sm:mb-6">
                         <div>
                             <button @click="enviar_header_diagnostico" class="botonIconCrear">
-                                <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Crear</span>
                             </button>
                         </div>
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
-import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
+import Nav from "../../../components/Navbar";
+import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import Axios from 'axios';
-import CookiesService from '../../services/CookiesService';
-import EventBus from '../../services/EventBus'
+import CookiesService from '../../../services/CookiesService';
+import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -169,7 +169,7 @@ methods:{
                             console.log(response)       
                             EventBus.$emit('guardar_imagenes')                 
                             //this.$router.push('/FichaTecnicaDeFalla')
-                            //this.type = "FICHA";   
+                            this.type = "FICHA";   
                         })
                         .catch((error) => {
                             console.log(error)

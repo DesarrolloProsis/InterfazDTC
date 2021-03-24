@@ -52,7 +52,7 @@
             </router-link>
           </div>          
           <div class="border-black border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
-            <router-link to="/DiagnosticoDeFalla" class="text-center">
+            <router-link to="/Correctivo/PreDTC/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/evidencia.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Reeporte Mensual</h1>
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">de Actividades</h1>
