@@ -9,7 +9,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="type" @actualizar-header="actualizar_header"></HeaderFalla>
+                    <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header"></HeaderFalla>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -51,8 +51,7 @@ export default {
     /////////////////////////////////////////////////////////////////////
     data (){
         return{    
-            datosHeader: {},      
-            type:"DIAG"
+            datosHeader: {},                  
         }
     },
 
@@ -64,17 +63,11 @@ methods:{
         this.datosHeader = header
     },
     validar_horas(){
-                let horaISplite = this.datosHeader.horaInicio.split(':')            
-                let horaFSplite = this.datosHeader.horaFin.split(':')            
-                let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-                let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-                if(dateInicio < dateFin){                
-                    return true
-                }
-                else {
-                    return false
-                } 
-                
+        let horaISplite = this.datosHeader.horaInicio.split(':')            
+        let horaFSplite = this.datosHeader.horaFin.split(':')            
+        let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+        let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+        return dateInicio < dateFin ? true : false                             
     },
     enviar_header_diagnostico(){    
         let llavesHeader = Object.keys(this.datosHeader)            

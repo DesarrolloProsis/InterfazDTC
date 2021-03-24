@@ -158,8 +158,8 @@ methods:{
                             console.log(response)       
                             EventBus.$emit('guardar_imagenes')                 
                             this.$router.push({
-                                path: '/Correctivo/PreDTC/DiagnosticoDeFalla',
-                                query: this.datosHeader
+                                path: 'FichaTecnicaDeFalla',
+                                query: { data: this.datosHeader }
                             })                            
                         })
                         .catch((error) => {

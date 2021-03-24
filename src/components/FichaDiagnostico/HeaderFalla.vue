@@ -154,17 +154,16 @@
                 </div>
                 <div class="grid grid-cols-3 sm:grid-cols-1 sm:mx-auto -ml-69">
                     <div class="text-center">
-                        <p>POR OPERACIÓN</p>
-                        
-                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox">
+                        <p>POR OPERACIÓN</p>                        
+                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" :disabled="blockCheckBox[0]">
                     </div>
                     <div class="text-center">
                         <p>POR SINIESTRO</p>
-                        <input type="checkbox">
+                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" :disabled="blockCheckBox[1]">
                     </div>
                     <div class="text-center">
                         <p>POR FIN DE VIDA ÚTIL</p>
-                        <input type="checkbox">
+                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" :disabled="blockCheckBox[2]">
                     </div>
                 </div>
             </div>
@@ -247,14 +246,23 @@ data(){
         plazaSeleccionada:"",
         arraySelect:{},
         type:"DIAG",
-        blockInput: false
+        blockInput: false,
+        blockCheckBox: [false, false, false]
     }
 },
-beforeMount: function(){           
+beforeMount: function(){       
     this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-    this.$emit('actualizar-header', this.datosDiagnostico)
+    this.$emit('actualizar-header', this.datosDiagnostico)    
+    if(this.$route.query.data != undefined){
+        console.log(this.$route.query.data)
+        this.datosDiagnostico = this.$route.query.data        
+        delete this.datosDiagnostico["diagnosticoFalla"]
+        delete this.datosDiagnostico["causaFalla"]
+        this.blockInput = true
+    }
+    
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
@@ -295,7 +303,15 @@ watch:{
         },
     },
 },
-methods:{    
+methods:{  
+    bloquear_checboxes(tipo){        
+        if(tipo == 1)
+            this.blockCheckBox = [true, false, false]        
+        if(tipo == 2)
+            this.blockCheckBox = [false, true, false]
+        if(tipo == 3)
+            this.blockCheckBox = [false, false, true]    
+    },
     crear_referencia: async function () {      
         let _arrayReference  = await ServiceReportePDF.crear_referencia(
             moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
