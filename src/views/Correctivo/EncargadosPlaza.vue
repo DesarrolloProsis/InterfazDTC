@@ -22,9 +22,9 @@
                             <td class="text-center border-2 border-gray-800">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
                             <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
                             <td class="text-center border-2 border-gray-800 break-all">{{ item.squareName }}</td>
-                            <td class="text-center border-2 border-gray-800">
+                            <td class="text-center border-2 border-gray-800" >
                                 <button
-                                    class="botonIconActualizar" @click="editarUsuario()"
+                                    class="botonIconActualizar" @click="editarUsuario(item)"
                                     >
                                     <img
                                         src="../../assets/img/pencil.png"
@@ -34,7 +34,7 @@
                                     />
                                     <span class="text-xs sm:hidden">Editar</span>
                                 </button>
-                                <button class="botonIconLimpiar m-2" @click="confimaBorrar()">
+                                <button class="botonIconLimpiar m-2" @click="confimaBorrar(item)">
                                     <img
                                         src="../../assets/img/bin.png"
                                         class="mr-2 sm:m-1"
@@ -53,7 +53,7 @@
             ////////////////////////////////////////////////////////////////////-->
             <div class="">
                 <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a </p>
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a {{ `${infoDelate.name} ${infoDelate.lastName1} ${infoDelate.lastName2}` }}</p>
                     <div class="mt-5 text-center">
                         <button class="botonIconCrear">Si</button>
                         <button @click="modalEliminar = false" class="botonIconCancelar">No</button>
@@ -62,20 +62,20 @@
             </div>
             <div class="">
                 <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Editar Usuario</p>
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Editar Encargado de Plaza</p>
                     <div>
-                        <p>Nombre</p>
-                        <input type="text" name="" id="">
-                        <p>Apellido Paterno</p>
-                        <input type="text" name="" id="">
-                        <p>Apellido Materno</p>
-                        <input type="text" name="" id="">
-                        <p>Apellido Plaza</p>
-                        <input type="text" name="" id="">
+                        <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white" v-model="editUser.name">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-1">Apellido Paterno</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white" v-model="editUser.lastName1">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-1">Apellido Materno</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white" v-model="editUser.lastName2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-1">Plaza</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white" v-model="editUser.plaza">
                     </div>
                     <div class="mt-5 text-center">
-                        <button class="botonIconCrear">Si</button>
-                        <button @click="modalEditar = false" class="botonIconCancelar">No</button>
+                        <button class="botonIconBuscar">Guardar</button>
+                        <button @click="modalEditar = false" class="botonIconCancelar">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -98,6 +98,15 @@ export default {
             lista_encargados: [],
             modalEliminar: false,
             modalEditar: false,
+            boolBorrar: false,
+            infoDelate:{},
+            editUser:{
+                userId:'',
+                name:'',
+                lastName1:'',
+                lastName2:'',
+                plaza:''
+            }
         }
     },
     beforeMount: function (){
@@ -111,10 +120,17 @@ export default {
         })
     },
     methods:{
-        confimaBorrar () {
+        confimaBorrar (item) {
+            this.infoDelate = item
             this.modalEliminar = true;
+            
         },
-        editarUsuario () {
+        editarUsuario (item) {
+            this.editUser.userId = item.adminSquareId
+            this.editUser.name = item.name
+            this.editUser.lastName1 = item.lastName1
+            this.editUser.lastName2 = item.lastName2
+            this.editUser.plaza = item.squareName
             this.modalEditar = true;
         }
     },
