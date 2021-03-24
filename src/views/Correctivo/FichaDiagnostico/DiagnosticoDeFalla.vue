@@ -9,7 +9,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="type" @actualizar-header="actualizar_header"></HeaderFalla>
+                    <HeaderFalla :tipo="'DIAG'" @actualizar-header="actualizar_header"></HeaderFalla>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -51,8 +51,7 @@ export default {
     /////////////////////////////////////////////////////////////////////
     data (){
         return{    
-            datosHeader: {},      
-            type:"DIAG"
+            datosHeader: {},                  
         }
     },
 
@@ -64,17 +63,11 @@ methods:{
         this.datosHeader = header
     },
     validar_horas(){
-                let horaISplite = this.datosHeader.horaInicio.split(':')            
-                let horaFSplite = this.datosHeader.horaFin.split(':')            
-                let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-                let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-                if(dateInicio < dateFin){                
-                    return true
-                }
-                else {
-                    return false
-                } 
-                
+        let horaISplite = this.datosHeader.horaInicio.split(':')            
+        let horaFSplite = this.datosHeader.horaFin.split(':')            
+        let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+        let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+        return dateInicio < dateFin ? true : false                   
     },
     enviar_header_diagnostico(){    
         let llavesHeader = Object.keys(this.datosHeader)            
@@ -117,9 +110,7 @@ methods:{
                 },
             });
         }
-        else{
-            //alert('faltan campos')
-            console.log('falnta llenar campos')
+        else{                        
             this.$notify.warning({
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS.`,
@@ -148,8 +139,7 @@ methods:{
             causeFailure: this.datosHeader.causaFalla,
             adminSquareId: administradorId,
             updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
-        }
-        console.log(objDiagnostico)
+        }        
         Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
             .then((response) => {
                 console.log(response)
@@ -160,16 +150,17 @@ methods:{
                     newCarril["idGare"] = carril.idGare
                     newCarril["addFlag"] = 1 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
-                })
-                
+                })                
                 carrilesInsertDiagnostic.forEach(carril => {      
                     console.log(carril)                              
                     Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril, CookiesService.obtener_bearer_token())
                         .then((response) => {
                             console.log(response)       
                             EventBus.$emit('guardar_imagenes')                 
-                            //this.$router.push('/FichaTecnicaDeFalla')
-                            this.type = "FICHA";   
+                            this.$router.push({
+                                path: '/Correctivo/PreDTC/DiagnosticoDeFalla',
+                                query: this.datosHeader
+                            })                            
                         })
                         .catch((error) => {
                             console.log(error)
@@ -185,13 +176,6 @@ methods:{
                 console.log(error)
             })         
     }
-
-
 },
-
 }
 </script>
-
-<style>
-
-</style>
