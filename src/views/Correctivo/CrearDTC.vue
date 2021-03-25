@@ -222,48 +222,19 @@ methods: {
             });  
           }
         }
-/*         this.$notify.success({
-          title: "Ok!",
-          msg: `DTC CON REFERENCIA ${this.referenciaDtc} CREADO CORRECTAMENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        }); */
         let value_insert = {
           refNum: this.referenciaDtc,
           flagCreate: this.flagCreate,
         };
         await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-        if (insertDmg) {
-          console.log('Los componentes se insertaron correctamente')
-/*          this.$notify.success({
-            title: "Ok!",
-            msg: `LOS COMPONENTES SE INSERTARON CORRECTAMENTE.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          }); */
+        if (insertDmg) {  
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               this.referenciaDtc, 
               status, 
               true
-            ) 
-              console.log('Creado el reporte')       
-/*            this.$notify.success({
-              title: "Ok!",
-              msg: `CREANDO EL REPORTE ${this.refNum}.`,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            }); */
+            )                   
           }
           await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);

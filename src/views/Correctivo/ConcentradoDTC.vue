@@ -186,8 +186,7 @@ beforeMount: function () {
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
         listaPlazasValias.push(plaza)        
-      }
-      console.log(listaPlazasValias)
+      }      
       return listaPlazasValias
   }
 },
@@ -247,8 +246,7 @@ editar_status_dtc: function (){
         "StatusId": parseInt(this.statusEdit),
         "UserId": user.idUser,
         "Comment": this.motivoCambio,
-      }    
-    console.log(objeActualizado)
+      }        
     if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
     Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  

@@ -112,9 +112,7 @@ export default {
                         }            
                 }                  
             }
-            else{
-                //alert('faltan campos')
-                console.log('falnta llenar campos')
+            else{                                
                 this.$notify.warning({
                         title: "Ups!",
                         msg: `FALTA LLENAR CAMPOS.`,

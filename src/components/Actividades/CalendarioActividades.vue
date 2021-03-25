@@ -251,29 +251,22 @@ export default {
       )      
       this.events.push(objActividad)           
       this.modalAgreagrActividad = false
-      this.laneSelect = []            
-      //Mandar a la DB     
+      this.laneSelect = []                  
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       let actividadInsert = ServiceActividades.objeto_actividad_insertar(
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )        
-      console.log(actividadInsert)   
-      console.log(`${API}/Calendario/Actividad/${refPlaza}`)
-      console.log(CookiesService.obtener_bearer_token())
-
+      )                          
       await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
-        .catch(Ex => {            
-            console.log(Ex);
-            if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        .catch(error => {                        
+            if(error.response.status == 401)
+              CookiesService.token_no_autorizado()
         });
-      this.actividadSelect = ''
-      
+      this.actividadSelect = ''      
     },
     label_multi_select(value){            
       if(value != 'Sin Actividad')
@@ -365,8 +358,7 @@ export default {
     validar_calendario_escaneado(){
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
       Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}`, CookiesService.obtener_bearer_token())
-      .then((response) => {
-        console.log(response)
+      .then(() => {        
         this.calendarioEscaneado = true
       })
       .catch((error) => {

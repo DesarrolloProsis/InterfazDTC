@@ -60,8 +60,7 @@ export default {
         setTimeout(() => {
             Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
                 .then((response) => {                          
-                    if(response.status != 404){  
-                        console.log(response.data)
+                    if(response.status != 404){                          
                         let newArrayImg = []                      
                         response.data.forEach(item => {
                             newArrayImg.push({
@@ -108,8 +107,7 @@ export default {
                         let formData = new FormData();
                         formData.append("image", imgagen);
                         await Axios.post(rutaInsertImagenes, formData, CookiesService.obtener_bearer_token())
-                            .then((response) => {   
-                                console.log(response)                                                                                                         
+                            .then(() => {                                   
                             })
                             .catch(error => {                                                      
                                 if(error.response.status == 401)
@@ -143,12 +141,10 @@ export default {
                                     height: 100,
                                     width: 500,
                                 },
-                            });
-                            console.log('Se borró')                                                                               
+                            });                                                                                                           
                         })
-                        .catch(Ex => {                    
-                            console.log(Ex);                    
-                            if(Ex.response.status == 401)
+                        .catch(error => {                                                                 
+                            if(error.response.status == 401)
                                 CookiesService.token_no_autorizado()
                     });  
                 }        

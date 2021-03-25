@@ -1,7 +1,9 @@
 <template>
     <div class="mb-64">
         <Nav></Nav> 
-        <router-view></router-view>       
+        <transition name="fade"> 
+            <router-view></router-view>    
+        </transition>   
     </div>    
 </template>
 <script>

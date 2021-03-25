@@ -11,39 +11,6 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     firmado: 2,
     sellado: 3
 })
-/*
-function descargarArchivo(file, nombreArchivo) {    
-     alert()
-    //creamos un FileReader para leer el Blob
-    var reader = new FileReader();
-    //Definimos la función que manejará el archivo
-    //una vez haya terminado de leerlo
-    reader.onload = function(event) {
-        console.log(event)
-    }
-    reader.onload = function (event) {
-
-        console.log(event)
-        //Usaremos un link para iniciar la descarga
-        var save = document.createElement('a');
-        save.href = event.target.result;
-        save.target = '_blank';
-        //Truco: así le damos el nombre al archivo
-        save.download = nombreArchivo || 'archivo.pdf';
-        var clicEvent = new MouseEvent('click', {
-            'view': window,
-            'bubbles': true,
-            'cancelable': true
-        });        
-        save.dispatchEvent(clicEvent);
-        //Y liberamos recursos...
-        (window.URL || window.webkitURL).revokeObjectURL(save.href);
-    };
-    //Leemos el blob y esperamos a que dispare el evento "load"
-    reader.readAsDataURL(file);
-  
-}
-*/
 function xml_hhtp_request(urlTopdf,namePdf){
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
@@ -117,8 +84,7 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
     }
     else{
         sinisterDate = moment(sinisterDate,"DD-MM-YYYY").format("YYYY-MM-DD")
-        let datesplit =  sinisterDate.split("-");
-        console.log(datesplit)
+        let datesplit =  sinisterDate.split("-");        
         let diaActual = parseInt(datesplit[2]);
         let mesActual = parseInt(datesplit[1]);
         let yearActual = parseInt(datesplit[0]);
@@ -148,8 +114,7 @@ async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fec
     }         
     let tiporeferencia = tipoReferencia != 'Semanal' 
         ? tipoReferencia.slice(0,2)
-        : tipoReferencia.slice(0,1)
-    console.log(tipoReferencia)
+        : tipoReferencia.slice(0,1)    
     let referenciaNueva = 
         numeroReferencia + '-' + 'MP' + 
         tiporeferencia + 

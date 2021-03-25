@@ -145,8 +145,7 @@ methods:{
             updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
         }        
         Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
-            .then((response) => {
-                console.log(response)
+            .then(() => {                
                 let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                     let newCarril = {}
                     newCarril["referenceNumber"] = objDiagnostico.referenceNumber
@@ -155,19 +154,16 @@ methods:{
                     newCarril["addFlag"] = 1 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
                 })                
-                carrilesInsertDiagnostic.forEach(carril => {      
-                    console.log(carril)                              
+                carrilesInsertDiagnostic.forEach(carril => {                                                     
                     Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril, CookiesService.obtener_bearer_token())
-                        .then((response) => {
-                            console.log(response)       
+                        .then(() => {                                 
                             EventBus.$emit('guardar_imagenes')                 
                             this.$router.push({
                                 path: 'FichaTecnicaDeFalla',
                                 query: { data: this.datosHeader }
                             })                            
                         })
-                        .catch((error) => {
-                            console.log(error)
+                        .catch((error) => {                            
                             if(error.response.status == 401)
                                 CookiesService.token_no_autorizado()
                         })    

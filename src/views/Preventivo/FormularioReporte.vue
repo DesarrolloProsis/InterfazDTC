@@ -273,8 +273,7 @@ methods:{
                 if(this.reporteInsert) {     
                         this.modalLoading = true                                                                                                       
                         Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte, CookiesService.obtener_bearer_token())
-                        .then(() => { 
-                            console.log(arrayJob)                             
+                        .then(() => {                                                        
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                             .then(() => {  
                                 if(this.objetoLogDate.fecha != ''){                                    
@@ -312,17 +311,7 @@ methods:{
                                             width: 500,
                                         },
                                     });
-                                }
-                                console.log('SE INSERTARON TODAS LAS ACTIVIDADES.')
-                                /* this.$notify.success({
-                                    title: "Ok!",
-                                    msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
-                                    position: "bottom right",
-                                    styles: {
-                                        height: 100,
-                                        width: 500,
-                                    },
-                                });        */                                                                         
+                                }                                                                                                   
                             })
                             .catch(Ex => {    
                                 if(Ex.response.status == 401)

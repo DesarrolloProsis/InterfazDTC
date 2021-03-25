@@ -110,8 +110,7 @@ const actions = {
           commit('insertDmgCompleteMutation', true)
         }
       })
-      .catch(Ex => {
-        console.log('ERROR!!! ' + Ex);
+      .catch(Ex => {        
         if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
       });
@@ -212,8 +211,7 @@ const actions = {
           commit('insertDmgCompleteMutation', true)
         }
       })
-      .catch(Ex => {
-        console.log('ERROR!!! ' + Ex);
+      .catch(Ex => {        
         if(Ex.response.status == 401)
             CookiesService.token_no_autorizado()
       });

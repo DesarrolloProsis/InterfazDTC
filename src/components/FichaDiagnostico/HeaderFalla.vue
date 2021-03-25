@@ -255,8 +255,7 @@ beforeMount: function(){
     this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
     this.$emit('actualizar-header', this.datosDiagnostico)    
-    if(this.$route.query.data != undefined){
-        console.log(this.$route.query.data)
+    if(this.$route.query.data != undefined){        
         this.datosDiagnostico = this.$route.query.data        
         delete this.datosDiagnostico["diagnosticoFalla"]
         delete this.datosDiagnostico["causaFalla"]

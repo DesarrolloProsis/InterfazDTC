@@ -111,8 +111,7 @@ export default {
     },
     beforeMount: function (){
         Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
-        .then((response)=>{
-            console.log(response.data)
+        .then((response)=>{            
             this.lista_encargados = response.data.result
         }).catch((Ex)=>{
             if(Ex.response.status == 401)
