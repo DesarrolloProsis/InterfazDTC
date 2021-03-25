@@ -53,7 +53,7 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
-            <tbody>
+            <tbody name="table" is="transition-group">  
               <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
                 <td class="cuerpoTable">{{ item.component }}</td>
                 <td class="cuerpoTable">{{ item.lane }}</td>

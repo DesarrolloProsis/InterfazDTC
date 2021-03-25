@@ -11,39 +11,43 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:690px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
-                        <tr class="text-md text-gray-400 font-normal bg-blue-800">
-                            <th class="cabeceraTable">Nombre</th>
-                            <th class="cabeceraTable">Correo</th>
-                            <th class="cabeceraTable">Plaza</th>
-                            <th class="cabeceraTable">Acciones</th>
-                        </tr>
-                        <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_encargados" :key="key">
-                            <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
-                            <td class="cuerpoTable">{{ item.mail }}</td>
-                            <td class="cuerpoTable">{{ item.squareName }}</td>
-                            <td class="cuerpoTable" >
-                                <button
-                                    class="botonIconActualizar" @click="editarUsuario(item)"
-                                    >
-                                    <img
-                                        src="../../assets/img/pencil.png"
-                                        class="mr-2 sm:m-1"
-                                        width="15"
-                                        height="15"
-                                    />
-                                    <span class="text-xs sm:hidden">Editar</span>
-                                </button>
-                                <button class="botonIconLimpiar" @click="confimaBorrar(item)">
-                                    <img
-                                        src="../../assets/img/bin.png"
-                                        class="mr-2 sm:m-1"
-                                        width="15"
-                                        height="15"
-                                    />
-                                    <span class="text-xs sm:hidden">Borrar</span>
-                                </button>
-                            </td>
-                        </tr>
+                        <thead>
+                            <tr class="text-md text-gray-400 font-normal bg-blue-800">
+                                <th class="cabeceraTable">Nombre</th>
+                                <th class="cabeceraTable">Correo</th>
+                                <th class="cabeceraTable">Plaza</th>
+                                <th class="cabeceraTable">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody name="table" is="transition-group">  
+                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_encargados" :key="key">
+                                <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
+                                <td class="cuerpoTable">{{ item.mail }}</td>
+                                <td class="cuerpoTable">{{ item.squareName }}</td>
+                                <td class="cuerpoTable" >
+                                    <button
+                                        class="botonIconActualizar" @click="editarUsuario(item)"
+                                        >
+                                        <img
+                                            src="../../assets/img/pencil.png"
+                                            class="mr-2 sm:m-1"
+                                            width="15"
+                                            height="15"
+                                        />
+                                        <span class="text-xs sm:hidden">Editar</span>
+                                    </button>
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)">
+                                        <img
+                                            src="../../assets/img/bin.png"
+                                            class="mr-2 sm:m-1"
+                                            width="15"
+                                            height="15"
+                                        />
+                                        <span class="text-xs sm:hidden">Borrar</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

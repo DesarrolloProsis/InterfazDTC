@@ -95,7 +95,7 @@
                     <!--/////////////////////////////////////////////////////////////////
                     ////                          BODY TABLA                          ////
                     ////////////////////////////////////////////////////////////////////-->
-                    <tbody>
+                    <tbody name="table" is="transition-group">                      
                         <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaCalendario" :key="key">                
                             <td class="cuerpoTable">{{ item.squareName }}</td>
                             <td class="cuerpoTable">{{ item.fecha }}</td>                                                                                 

@@ -116,7 +116,7 @@
                     <!--/////////////////////////////////////////////////////////////////
                         ////                           Body TABLA                     ////
                         /////////////////////////////////////////////////////////////////-->
-                        <tbody>
+                        <tbody name="table" is="transition-group">                                                                                        
                             <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
                                 <td class="w-64 cuerpoTable text-center">{{ item.lane }}</td>
                                 <td class="w-64 cuerpoTable text-center">{{ item.referenceNumber }}</td>                                
@@ -150,7 +150,7 @@
                                         </button>                                   
                                     </div>
                                 </td>
-                            </tr>                    
+                            </tr>                                                          
                         </tbody>
                     </table>
                 </div>

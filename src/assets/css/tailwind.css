@@ -250,6 +250,21 @@ select:focus {
         transform: translateX(10px);
         opacity: 0;
     }
+    .list-enter-active, .list-leave-active {
+        transition: all 3s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    .table-enter-active, .table-leave-active {
+        transition: all 2s;
+    }
+    .table-enter, .table-leave-to /* .list-leave-active below version 2.1.8 */ {
+        opacity: 0;        
+        transform: translateY(10px);
+        transition: all 2s
+    }
 }
 
 

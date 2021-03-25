@@ -26,7 +26,7 @@
                         <!--/////////////////////////////////////////////////////////////////
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <tbody>
+                        <tbody name="table" is="transition-group">  
                             <tr class="h-12 text-gray-900 text-sm text-center">                
                                 <td class="cuerpoTable">
                                     <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
