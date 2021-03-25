@@ -11,6 +11,7 @@ import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
+import FichaDiagnostico from '../views/Correctivo/FichaDiagnostico/FichaDiagnosticoInicio'
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
@@ -105,14 +106,21 @@ const routes = [
     component: () => import('../views/Correctivo/ConcentradoFichas')
   },
   {
-    path: '/DiagnosticoDeFalla',
-    name: '/DiagnosticoDeFalla',
-    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
-  },
-  {
-    path: '/FichaTecnicaDeFalla',
-    name: 'FichaTecnicaDeFalla',
-    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
+    path: '/Correctivo/PreDTC',
+    name: 'CorrectivoDTC',
+    component: FichaDiagnostico,
+    children: [
+      {
+        path: 'DiagnosticoDeFalla',
+        name: 'DiagnosticoDeFalla',
+        component: () => import('../views/Correctivo/FichaDiagnostico/DiagnosticoDeFalla')
+      },
+      {
+        path: 'FichaTecnicaDeFalla',
+        name: 'FichaTecnicaDeFalla',
+        component: () => import('../views/Correctivo/FichaDiagnostico/FichaDeFalla')
+      },
+    ]
   },
   {
     path: '/Pruebas',

@@ -51,12 +51,10 @@
                                     <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
                                 </div>                                
                             </div>                        
-                            <div v-else class=" justify-center">
+                            <div v-else class=" justify-center botonIconDescargar">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>
-                                <button @click="enviar_calendario_escaneado" class="botonIconCancelar">
                                     <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                    <span>Subir Escaneado</span>
-                                </button>                                       
+                                    <span>Subir Escaneado</span>                                                                       
                             </div>
                         </div>
                     </div>
@@ -201,7 +199,6 @@ export default {
             reader.onload = (e) => {
             this.$nextTick().then(() => {
                 this.calendarEscaneado = e.target.result.split(',')[1]
-
                 })        
             };
             reader.readAsDataURL(file);   
@@ -232,8 +229,7 @@ export default {
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false
                     let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
-                    this.$emit("actualizar-actividad", numPlaza);
-                    //this.calendarioEscaneado = true               
+                    this.$emit("actualizar-actividad", numPlaza);                    
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
@@ -283,7 +279,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>

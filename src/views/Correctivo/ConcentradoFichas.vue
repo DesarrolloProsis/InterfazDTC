@@ -84,6 +84,9 @@
     </div>
 </template>
 <script>
+/* import Axios from "axios";
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+import CookiesService from '../../services/CookiesService' */
 import Nav from '../../components/Navbar';
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
@@ -93,6 +96,15 @@ export default {
     components:{
         Nav, 
         HeaderGenerico
+    },
+    data (){
+        return {
+            infoFicha:[],
+        }
+    },
+    beforeMount: function (){
+       // Axios.get(`${API}/DiagnosticoFalla/GetFichaTecnica/${item.clavePlaza}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
+
     },
     methods: {
         filtro_dtc: async function (objFiltro) {   

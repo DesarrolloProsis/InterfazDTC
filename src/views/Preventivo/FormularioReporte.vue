@@ -22,13 +22,13 @@
         <!--/////////////////////////////////////////////////////////////////
         ////          TEXT AREA PARA OBSERVACIONES                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-2">
-            <div class="w-1/2">                
-                <p class="text-center font-bold text-xl text-gray-800 mb-5">Observaciones</p>          
+        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1">
+            <div class="w-1/2 sm:w-full sm:-ml-10">                
+                <p class="text-center font-bold text-xl text-gray-800 mb-5 sm:-ml-20">Observaciones</p>          
                 <textarea
                     id="obs"
                     v-model="observaciones"
-                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border sm:h-32 sm:w-66"
                     placeholder="jane@example.com"
                     name="Observaciones"
                     v-bind:maxlength="limite"
@@ -39,19 +39,19 @@
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class=" w-1/2 ml-20">
+            <div class=" w-1/2 ml-20 sm:w-full sm:-ml-10 sm:mt-5">
                 <ImagenesActividadCarril :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
         ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
-                <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600': modalLoading}">
-                    <span class="h-24 w-3 hover:hidden">
+                <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
+<!--                     <span class="h-24 w-3">
                         <span class="animate-ping absolute inline-flex h-10 w-10 rounded-full ml-20 bg-green-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 ml-24 mt-4 bg-green-400"></span>
-                    </span>
-                    <img src="../../assets/img/add.png" class="mr-2 -ml-4" width="35" height="35" />
+                    </span> -->
+                    <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>
             </div>
@@ -62,7 +62,7 @@
 
 import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 import TablaActividadesCarril from '../../components/Actividades/TablaActividadesCarril'
-import ImagenesActividadCarril from '../../components/Actividades/ImagenesActividadCarril'
+import ImagenesActividadCarril from '../../components/ImagenesGenericas'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
