@@ -199,7 +199,6 @@ export default {
             reader.onload = (e) => {
             this.$nextTick().then(() => {
                 this.calendarEscaneado = e.target.result.split(',')[1]
-
                 })        
             };
             reader.readAsDataURL(file);   
@@ -230,8 +229,7 @@ export default {
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false
                     let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
-                    this.$emit("actualizar-actividad", numPlaza);
-                    //this.calendarioEscaneado = true               
+                    this.$emit("actualizar-actividad", numPlaza);                    
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
@@ -281,7 +279,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>

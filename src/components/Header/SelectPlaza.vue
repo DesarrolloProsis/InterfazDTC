@@ -93,7 +93,6 @@ export default {
     computed:{
         ...mapState('Header', ['listaHeaders'])
     }
-
 }
 </script>
 
