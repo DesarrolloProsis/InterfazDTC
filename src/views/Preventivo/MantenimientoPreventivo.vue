@@ -1,14 +1,16 @@
 <template>
-    <div>        
-        <div v-if="$route.params.tipoUsuario == 4">
-            <BotonesAdmin></BotonesAdmin>
-        </div>
-        <div v-else-if="$route.params.tipoUsuario == 7">
-            <BotonesCapufe></BotonesCapufe>
-        </div>
-        <div v-else>
-            <BotonesTecnico></BotonesTecnico>
-        </div> 
+    <div>     
+        <transition name="slide-fade">
+            <div v-if="$route.params.tipoUsuario == 4">
+                <BotonesAdmin></BotonesAdmin>
+            </div>        
+            <div v-else-if="$route.params.tipoUsuario == 7">
+                <BotonesCapufe></BotonesCapufe>
+            </div>        
+            <div v-else>
+                <BotonesTecnico></BotonesTecnico>
+            </div> 
+        </transition>
     </div>
 </template>
 <script>

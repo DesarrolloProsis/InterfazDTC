@@ -1,5 +1,6 @@
 <template>
   <div>    
+    <transition name="slide-fade">
     <div class="flex justify-center mt-10 mb-10 sm:mt-14" v-if="acultarPrimerosBotones">
       <div class>
         <div class="flex sm:grid grid-cols-2">
@@ -20,7 +21,10 @@
         </div>       
       </div>
     </div>
-    <router-view></router-view>
+    </transition>
+    <transition name="slide-fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -38,3 +42,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  body {
+    margin: 0%;
+  }
+
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="flex justify-between bg-blue-900 p-3" id="nav">
+    <nav class="flex justify-between bg-blue-900 p-3" id="nav" v-if="vista_actual != 'login'">
       <div class="text-lg">
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
@@ -29,6 +29,9 @@ export default {
   computed:{
     nombre_usuario(){
       return this.$store.getters["Header/GET_HEADER_SELECCIONADO"].nombre;    
+    },
+    vista_actual(){
+      return this.$route.name
     }
   }
 };

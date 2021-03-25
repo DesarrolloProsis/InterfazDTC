@@ -45,8 +45,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
             convenioSelect,                    
         }
         }
-        catch(error) {
-            alert()
+        catch(error) {            
             console.log(error)
         }
 
