@@ -97,18 +97,20 @@ export default {
                                 width: 500,
                             },
                         });
-                    }                
-                }     
-                this.insertar_diagnostico_falla()                   
-                this.$notify.success({
-                    title: "Ok",
-                    msg: `SE CREO CORRECTAMENTE.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                    },
-                });
+                    }    
+                    else{
+                        this.insertar_ficha_falla()                   
+                            this.$notify.success({
+                                title: "Ok",
+                                msg: `SE CREO CORRECTAMENTE.`,
+                                position: "bottom right",
+                                styles: {
+                                    height: 100,
+                                    width: 500,
+                                },
+                            });
+                        }            
+                }                  
             }
             else{
                 //alert('faltan campos')
@@ -124,7 +126,7 @@ export default {
                     });
             }
         },
-        insertar_diagnostico_falla(){                
+        insertar_ficha_falla(){                
             let objFicha = {
                 referenceNumber: this.datosHeader.referenceNumber,
                 typeFaultId: this.datosHeader.tipoFalla,

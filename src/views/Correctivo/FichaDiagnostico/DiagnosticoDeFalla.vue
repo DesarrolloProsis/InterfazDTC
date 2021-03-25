@@ -98,22 +98,20 @@ methods:{
                             width: 500,
                         },
                     });
-                }                
-            }     
-            if(this.type == "DIAG")
-                this.insertar_diagnostico_falla()                   
-            else
-                this.insertar_diagnostico_falla()
-
-            this.$notify.success({
-                title: "Ok",
-                msg: `SE CREO CORRECTAMENTE.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                },
-            });
+                }   
+                else{
+                    this.insertar_diagnostico_falla()                       
+                    this.$notify.success({
+                        title: "Ok",
+                        msg: `SE CREO CORRECTAMENTE.`,
+                        position: "bottom right",
+                        styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                }             
+            }                 
         }
         else{                        
             this.$notify.warning({
