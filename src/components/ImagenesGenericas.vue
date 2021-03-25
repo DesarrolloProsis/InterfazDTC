@@ -1,7 +1,8 @@
 <template>
-    <div class="mr-10 mt-1">
-        <!--<p class="text-center font-bold text-xl text-gray-800 mb-5">Imagenes</p>          -->
-        <div class=" inline-flex h-40 border border-gray-400 rounded-lg w-full">
+    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0" :class="{'sm:-ml-1': tipo =='Ficha'}">
+        <p class="text-gray-800 mt-2 mb-1 sm:text-sm sm:mb-4"
+        :class="{'sm:ml-1 mt-2 sm:mt-1 sm:-mb-2': tipo =='Ficha'}">IMAGENES</p>          
+        <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}">
             <div class="w-2/3 grid p-2 gap-4 overflow-auto" :class="{'grid-cols-2': tipo == 'Actividades', 'grid-cols-3': tipo == 'Ficha' }">                                                                                                                
                 <div class="relative border" v-for="(item) in arrayImagenes" :key="item.name">
                     <span @click="eliminar_imagen(item.name)" class="absolute border rounded-full top-0 right-0">
@@ -16,12 +17,12 @@
             <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center rounded-lg">
                 <div class="">
                     <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer">
-                    <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32" alt/>
-                    <span class="text-sm text-gray-500 mb-0">Agregar imagenes</span>
+                    <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-16 sm:w-16 ': tipo=='Ficha'}" alt/>
+                    <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
                 </div>
             </div>
         </div>
-        <span class="text-gray-500 text-sm sm:-mt-6">{{ num }}/36 (Máximo 36 fotografías)</span>
+        <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/36 (Máximo 36 fotografías)</span>
     </div>
 </template>
 

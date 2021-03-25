@@ -51,7 +51,8 @@ export default {
     /////////////////////////////////////////////////////////////////////
     data (){
         return{    
-            datosHeader: {},                  
+            datosHeader: {},
+            type: 'DIAG',                 
         }
     },
 
@@ -123,6 +124,7 @@ methods:{
         }
     },
     insertar_diagnostico_falla(){
+        this.type = 'FICHA'
         let userIdPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
         let administradorId = this.$store.state.Login.plazaSelecionada.administradorId
         let objDiagnostico = {

@@ -10,13 +10,13 @@
             <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
                 <div class="grid grid-cols-2 sm:grid md:grid">
                     <span class="">No. De Reporte:</span>
-                    <p class="-ml-66 sm:ml-0 sm:w-24">{{ datosDiagnostico.referenceNumber }}</p>
+                    <p class="-ml-66 sm:-ml-16 sm:w-24">{{ datosDiagnostico.referenceNumber }}</p>
                 </div>
                 <div class="mt-5 grid grid-cols-2 sm:grid">
                     <div>
                         <span>Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-66 sm:ml-0">
+                    <div class="-ml-66 sm:-ml-16">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <div>
                         <span class="mr-20 sm:mr-0">Ubicación:</span>
                     </div>
-                    <div class="-ml-66 sm:ml-0">                  
+                    <div class="-ml-66 sm:-ml-16 sm:w-40">                  
                         <multiselect
                             :disabled="blockInput"
                             v-model="datosDiagnostico.ubicacion"  
@@ -102,7 +102,7 @@
             ////////////////////////////////////////////////////////////////////--> 
             <div class="mt-6 w-full grid grid-cols-2">
                 <div>
-                    <div class=" mr-10">
+                    <div class="mr-10 sm:w-32 sm:mb-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.descripcionFalla"
@@ -113,7 +113,7 @@
                         />
                         <span class="text-gray-500">{{ restante_desc }}/300</span>
                     </div>
-                    <div class="mr-10">
+                    <div class="mr-10 sm:w-32">
                         <span class="">DIAGNOSTICO DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.diagnosticoFalla"
@@ -129,7 +129,7 @@
                 ////                         IMAGENES                             ////
                 ///////////////////////////////////////////////////////////////////// -->
                 <div>
-                    <div class="mt-5 mr-10">
+                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 sm:ml-4">
                         <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.causaFalla"
@@ -152,7 +152,7 @@
                 <div class="">
                     <span>TIPO DE FALLA:</span>
                 </div>
-                <div class="grid grid-cols-3 sm:grid-cols-1 sm:mx-auto -ml-69">
+                <div class="grid grid-cols-3 sm:grid-cols-3 sm:mx-auto -ml-69">
                     <div class="text-center">
                         <p>POR OPERACIÓN</p>                        
                         <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" :disabled="blockCheckBox[0]">
