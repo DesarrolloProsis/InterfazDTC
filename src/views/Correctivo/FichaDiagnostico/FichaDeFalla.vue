@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
@@ -28,16 +27,13 @@
 </template>
 
 <script>
-import Nav from "../../../components/Navbar";
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import Axios from 'axios';
 import CookiesService from '../../../services/CookiesService';
-//import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
-    components: {
-        Nav,        
+    components: {         
         HeaderFalla        
     },
     props:{

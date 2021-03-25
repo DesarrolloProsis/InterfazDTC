@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="flex justify-center p-4">
             <div class="mt-5">
                 <!--///////////////////////////////////////////////////////////////////
@@ -84,15 +83,11 @@
 </template>
 <script>
 import Axios from 'axios';
-import Nav from "../../components/Navbar";
 import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
-    name: "EncargadosDePlaza",
-    components:{
-        Nav
-    },
+    name: "EncargadosDePlaza",  
     data (){
         return{
             lista_encargados: [],

@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <div class="flex justify-center mt-10 mb-10 sm:mt-14" v-if="acultarPrimerosBotones">
       <div class>
         <div class="flex sm:grid grid-cols-2">
@@ -26,12 +25,8 @@
 </template>
 
 <script>
-import Nav from "../components/Navbar";
 export default {
   name: "home",
-  components: {
-    Nav,        
-  },
   data: function(){
     return {
         typeUser: '',   
@@ -40,8 +35,6 @@ export default {
   },
   beforeMount: function(){
     this.typeUser = this.$store.state.Login.cookiesUser.rollId
-  },
-  methods: {
   },
 };
 </script>

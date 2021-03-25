@@ -1,6 +1,5 @@
 <template>
-  <div class="relative">
-    <Nav></Nav>
+  <div class="relative">    
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 py-3 px-3">
         <HeaderGenerico :titulo="'INVENTARIO'" :contadorInventario="listEditados.length"
@@ -100,14 +99,12 @@
 
 <script>
 import { mapState } from "vuex";
-import Nav from "../../components/Navbar";
 import EventBus from "../../services/EventBus.js";
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 
 export default {
   name: "EditarComponente",
-  components: {
-    Nav,
+  components: {    
     HeaderGenerico
   },
   data: function () {

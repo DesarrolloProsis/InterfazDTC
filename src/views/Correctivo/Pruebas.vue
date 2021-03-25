@@ -1,6 +1,5 @@
 <template>
-    <div class="relative">
-        <Nav></Nav>
+    <div class="relative">        
         <button v-on:click="show = !show">
                 Toggle
         </button>
@@ -12,19 +11,12 @@
 
 <script>
 
-import Nav from "../../components/Navbar";
-
 export default {
-    name: "HeaderGenerico",
-    components: {
-    
-    Nav
-    },
+    name: "HeaderGenerico", 
     data (){
         return{
             show: false                        
-        }
-        
+        }        
     },
     methods:{
     }

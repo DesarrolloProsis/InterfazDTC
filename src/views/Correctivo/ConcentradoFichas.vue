@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <!--/////////////////////////////////////////////////////////////////////
@@ -84,17 +83,12 @@
     </div>
 </template>
 <script>
-/* import Axios from "axios";
-const API = process.env.VUE_APP_URL_API_PRODUCCION
-import CookiesService from '../../services/CookiesService' */
-import Nav from '../../components/Navbar';
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 
 export default {
     name: "ConcentradoFichas",
-    components:{
-        Nav, 
+    components:{        
         HeaderGenerico
     },
     data (){

@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <Header
       :descripciones="descripcionHeaders"
       :datosUser="datosUser"      
@@ -96,7 +95,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeaderLibre";
 import saveAs from "file-saver";
 
@@ -105,8 +103,7 @@ export default {
   props: {
     method: { type: Function },
   },
-  components: {
-    Nav,
+  components: {    
     Header,
   },
   data() {

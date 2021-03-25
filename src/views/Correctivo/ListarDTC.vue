@@ -1,6 +1,5 @@
   <template>
-  <div id="container">
-    <Nav></Nav>
+  <div id="container">    
     <div class="relative mb-16 " >
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
@@ -194,7 +193,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import ServicePDfReporte from '../../services/ReportesPDFService'
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
@@ -238,8 +236,7 @@ export default {
       filtroVista: false
     };
   },
-  components: {
-    Nav,
+  components: {    
     CardListDTC,
     Carrusel,
     HeaderGenerico,

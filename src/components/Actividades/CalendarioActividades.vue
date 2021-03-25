@@ -1,7 +1,6 @@
 <template>
 <div class=" static">
-  <div class="relative">
-    <Nav></Nav>
+  <div class="relative">    
     <!--/////////////////////////////////////////////////////////////////
       ////                      MODAL ELIMINAR                         ////
       ////////////////////////////////////////////////////////////////////-->
@@ -111,7 +110,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import VueCal from 'vue-cal'
 import Multiselect from "vue-multiselect";
 import HeaderCalendario from '../Header/CrearHeaderCalendario'
@@ -129,8 +127,7 @@ export default {
   components:{
     VueCal,
     Multiselect,
-    HeaderCalendario,
-    Nav,    
+    HeaderCalendario,    
   },
   data() {
     return{

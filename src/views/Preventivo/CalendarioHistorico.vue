@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3">   
         <!--//////////////////////////////////////////////////////////////////////
             ////                        FILTROS                              ////
@@ -116,17 +115,13 @@
 </template>
 
 <script>
-import Nav from '../../components/Navbar'
 import Axios from 'axios';
 import ServicePDF from '../../services/ReportesPDFService'
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
 import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
-    name: 'CalendarioHistorico',
-    components:{
-        Nav
-    },
+    name: 'CalendarioHistorico', 
     data(){
         return{
             tramoFiltro: '',

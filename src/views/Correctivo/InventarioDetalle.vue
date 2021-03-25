@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <h1 class="text-black text-center text-4xl mt-3 sm:mb-1">Inventario</h1>
     <div class="flex justify-center sm:mb-8" :class="{'pointer-events-none': tipoUsuario == 7}">
       <!--/////////////////////////////////////////////////////////////////
@@ -86,7 +85,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 export default {
   data: function () {
     return {
@@ -115,9 +113,6 @@ export default {
       },
       tipoUsuario: 0
     };
-  },
-  components: {
-    Nav,
   },
 ///////////////////////////////////////////////////////////////////////
 ////                     CICLO DE VIDA                            ////

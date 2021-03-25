@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div v-if="$route.params.tipoUsuario == 4">
             <BotonesAdmin></BotonesAdmin>
         </div>
@@ -13,14 +12,12 @@
     </div>
 </template>
 <script>
-import Nav from "../../components/Navbar";
 import BotonesAdmin from "../../components/Botones/BotonesAdm"
 import BotonesTecnico from "../../components/Botones/BotonesTec"
 import BotonesCapufe from "../../components/Botones/BotonesCapufe"
 export default {
     name: 'Prevntivo',
-    components:{
-        Nav,
+    components:{        
         BotonesAdmin,
         BotonesTecnico,
         BotonesCapufe 

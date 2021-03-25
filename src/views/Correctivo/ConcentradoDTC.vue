@@ -1,6 +1,5 @@
 <template>
-<div>
-    <Nav></Nav>
+<div>    
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
         <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
@@ -140,7 +139,6 @@
 <script>
 import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-import Nav from "../../components/Navbar";
 import moment from "moment";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../services/ReportesPDFService"
@@ -150,8 +148,7 @@ import CookiesService from '../../services/CookiesService'
 
 export default {
   name: "ConcentradoDTC",
-  components: {
-    Nav,    
+  components: {    
     Carrusel,
     HeaderGenerico
   },
