@@ -2,8 +2,10 @@ import store from '../store/index'
 import router from '../router/index'
 //import Axios from 'axios'
 //const API = process.env.VUE_APP_URL_API_PRODUCCION
-function formato_cookies_usuario(loginSesion, tipoUsuario){    
+function formato_cookies_usuario(loginSesion, tipoUsuario){  
+    console.log(loginSesion)  
     let plazasUsuario = loginSesion.cookie.map(item => {
+        console.log(item)
         return {
             refereciaPlaza: item.referenceSquare,
             administradorId: item.adminSquareId,

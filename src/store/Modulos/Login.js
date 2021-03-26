@@ -79,6 +79,7 @@ const actions = {
     }             
     await Axios.post(`${API}/login/ValidUser`,objLogin)
       .then(response => {
+        console.log(response)
         if (response.data.result != null)
           commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));           
         else 
@@ -96,7 +97,8 @@ const actions = {
       flag: false
     }     
     await Axios.post(`${API}/login`,objLogin)
-      .then(response => {        
+      .then(response => {      
+        console.log(response)  
         localStorage.setItem('listaHeaderUser', JSON.stringify(response.data.result))                  
         commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
