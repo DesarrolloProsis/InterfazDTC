@@ -1,17 +1,13 @@
 @tailwind base;
 
 .is_valid {
-
     @apply border;
     @apply border-green-500;
 }
-
 .is_invalid {
-
     @apply border;
     @apply border-red-500;
 }
-
 input {
     @apply bg-gray-200;        
     @apply rounded-lg;
@@ -46,7 +42,6 @@ textarea:hover {
     @apply border-gray-700;
 }
 textarea:focus {
-
     @apply border-gray-300; 
     @apply shadow-none;
     @apply bg-white;
@@ -94,7 +89,6 @@ select:focus {
 .cuerpoTable{
     @apply border-dashed border-t border-gray-200 px-3;
 }
-
 .botonIconCrear{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -104,7 +98,6 @@ select:focus {
 .botonIconCrear:focus{
     @apply outline-none;
 }
-
 .botonIconCancelar{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
@@ -114,7 +107,6 @@ select:focus {
 .botonIconCancelar:focus{
     @apply outline-none;
 }
-
 .botonIconActualizar{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-yellow-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
@@ -124,7 +116,6 @@ select:focus {
 .botonIconActualizar:focus{
     @apply outline-none;
 }
-
 .botonIconDescargar{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
@@ -134,7 +125,6 @@ select:focus {
 .botonIconDescargar:focus{
     @apply outline-none;
 }
-
 .botonIconNext{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -144,7 +134,6 @@ select:focus {
 .botonIconNext:focus{
     @apply outline-none;
 }
-
 .botonIconBorrarCard{
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-red-600 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
@@ -154,29 +143,24 @@ select:focus {
 .botonBorrarCard:focus{
     @apply outline-none;
 }
-
 .botonIconEditCard{
     @apply bg-white tracking-wide text-gray-800 border-b-2 border-yellow-500 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
 }
-
 .botonIconEditCard:hover{
     @apply border-orange-500 bg-yellow-400 text-white transition duration-500;
 }
 .botonIconEditCard:focus{
     @apply outline-none;
 }
-
 .botonIconMas{
     @apply bg-white tracking-wide text-gray-800 border-b-2 border-blue-500 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
 }
-
 .botonIconMas:hover{
     @apply border-blue-500 bg-blue-300 text-white transition duration-500;
 }
 .botonIconMas:focus{
     @apply outline-none;
 }
-
 .botonEnviarPDF{
     @apply bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md inline-flex items-center;
 }
@@ -195,7 +179,6 @@ select:focus {
 .botonBajar:focus{
     @apply outline-none;
 }
-
 .botonDescargar{
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-blue-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
@@ -205,7 +188,6 @@ select:focus {
 .botonDescargar:focus{
     @apply outline-none;
 }
-
 .botonSubir{
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-green-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
@@ -215,7 +197,6 @@ select:focus {
 .botonSubir:focus{
     @apply outline-none;
 }
-
 .botonBajar{
     @apply rounded-full shadow-md inline-flex items-center;
 }
@@ -225,14 +206,12 @@ select:focus {
 .botonBajar:focus{
     @apply outline-none;
 }
-
 .animacion{
     @apply transition duration-500 ease-in-out; 
 }
 .animacion:hover{
     @apply transform -translate-y-1 scale-105;
 }
-
 @tailwind components;
 
 @tailwind utilities;
