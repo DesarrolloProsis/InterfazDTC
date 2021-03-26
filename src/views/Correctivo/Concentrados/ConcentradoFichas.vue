@@ -50,12 +50,12 @@
                                     <div>
                                         <button
                                             class="botonSubir mr-5">
-                                            <img src="../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Subir</span>
                                         </button>
                                         <button
                                             class="botonDescargar">
-                                            <img src="../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
                                     </div>
@@ -64,12 +64,12 @@
                                     <div>
                                         <button
                                             class="botonSubir mr-5">
-                                            <img src="../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Subir</span>
                                         </button>
                                         <button
                                             class="botonDescargar">
-                                            <img src="../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
                                     </div>
@@ -83,8 +83,8 @@
     </div>
 </template>
 <script>
-import HeaderGenerico from "../../components/Header/HeaderGenerico";
-import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
+import HeaderGenerico from "../../../components/Header/HeaderGenerico";
+import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
 
 export default {
     name: "ConcentradoFichas",

@@ -79,7 +79,7 @@ const routes = [
   {
     path: '/EncargadosPlaza',
     name: 'Encargados',
-    component: () => import('../views/Correctivo/EncargadosPlaza')
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoEncargadosPlaza')
   },
   {
     path: '/Inventario',
@@ -93,7 +93,7 @@ const routes = [
   {
     path: '/ConcentradoDTC',
     name: 'ConcentradoDTC',
-    component: () => import('../views/Correctivo/ConcentradoDTC'),
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoDTC'),
     beforeEnter: async function (to, from, next) {
       let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
       await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
@@ -103,7 +103,7 @@ const routes = [
   {
     path: '/ConcentradoFichas',
     name:'ConccentradoFichas',
-    component: () => import('../views/Correctivo/ConcentradoFichas')
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoFichas')
   },
   {
     path: '/Correctivo/PreDTC',

@@ -1,5 +1,4 @@
 <template>
-
   <div id="app">   
     <NavBar></NavBar>
     <transition name="slide-fade">       
@@ -11,7 +10,6 @@
 <script>
 import Footer from '../src/components/Footer'
 import NavBar from '../src/components/Navbar'
-
   export default {
     components: {
       Footer,
@@ -24,7 +22,6 @@ import NavBar from '../src/components/Navbar'
         });
       }
     },
-
     methods: {
       async accept() {
         this.showUpgradeUI = false

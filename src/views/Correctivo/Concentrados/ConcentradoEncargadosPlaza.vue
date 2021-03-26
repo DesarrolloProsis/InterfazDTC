@@ -25,24 +25,12 @@
                                 <td class="cuerpoTable">{{ item.mail }}</td>
                                 <td class="cuerpoTable">{{ item.squareName }}</td>
                                 <td class="cuerpoTable" >
-                                    <button
-                                        class="botonIconActualizar" @click="editarUsuario(item)"
-                                        >
-                                        <img
-                                            src="../../assets/img/pencil.png"
-                                            class="mr-2 sm:m-1"
-                                            width="15"
-                                            height="15"
-                                        />
+                                    <button class="botonIconActualizar" @click="editarUsuario(item)">
+                                        <img src="../../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
                                     <button class="botonIconLimpiar" @click="confimaBorrar(item)">
-                                        <img
-                                            src="../../assets/img/bin.png"
-                                            class="mr-2 sm:m-1"
-                                            width="15"
-                                            height="15"
-                                        />
+                                        <img src="../../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                                         <span class="text-xs sm:hidden">Borrar</span>
                                     </button>
                                 </td>
@@ -70,7 +58,7 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
                         <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400" v-model="editUser.name">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Paterno</p>
-                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 border-gray-400 mt-2" v-model="editUser.lastName1">
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.lastName1">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
                         <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.lastName2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
@@ -87,7 +75,7 @@
 </template>
 <script>
 import Axios from 'axios';
-import CookiesService from '../../services/CookiesService'
+import CookiesService from '../../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {

@@ -1,17 +1,13 @@
 <template>
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
-            <!-- <div class="flex justify-center mt-2">
-                <h1 class=" text-3xl sm:text-2xl font-bold">TABLA DE ACTIVIDADES</h1>
-            </div> -->
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
                 <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 mt-3">
                     <div class="grid grid-cols-1">
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
-                        ////////////////////////////////////////////////////////////////////-->
-                        <!-- <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p>  -->
+                        ////////////////////////////////////////////////////////////////////-->                        
                         <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1">
                             <div class="ml-2 md:hidden lg:hidden xl:hidden">
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
