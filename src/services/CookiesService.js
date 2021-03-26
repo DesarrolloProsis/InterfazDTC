@@ -48,7 +48,6 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         catch(error) {            
             console.log(error)
         }
-
     }
     else if(plazaSelect == undefined){        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario
