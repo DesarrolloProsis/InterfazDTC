@@ -88,7 +88,7 @@ const actions = {
             CookiesService.token_no_autorizado()
       });
   },
-  async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {      
+  async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {          
     let newObject = {
       ReferenceNumber: state.referenciaDtc,
       SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
@@ -106,7 +106,8 @@ const actions = {
       flag: value.flag,
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
-      SquareId: value.header.plaza.slice(0,3)
+      SquareId: value.header.plaza.slice(0,3),
+      adminId: value.adminIdPlaza
     }                 
     await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
       .then(response => {

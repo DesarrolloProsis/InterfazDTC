@@ -189,12 +189,14 @@ methods: {
   crearDTCTecnico: async function (status) {
       await EventBus.$emit("validar_header");
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
-      let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];      
+      let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];     
+      let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
       await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
         header: header,
         status: status,
         flag: this.flagCreate,
-        openFlag: false
+        openFlag: false,
+        adminIdPlaza: adminId
       });
       let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
       if (insertHeader) {

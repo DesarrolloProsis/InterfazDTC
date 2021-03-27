@@ -90,7 +90,7 @@ const actions = {
       });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
-  async INICIAR_SESION_LOGIN({ commit }, value) {   
+  async INICIAR_SESION_LOGIN({ commit, state }, value) {   
     let objLogin = {
       username: value.User,
       password: value.Password,
@@ -99,8 +99,16 @@ const actions = {
     await Axios.post(`${API}/login`,objLogin)
       .then(response => {      
         console.log(response)  
-        localStorage.setItem('listaHeaderUser', JSON.stringify(response.data.result))                  
-        commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
+        localStorage.setItem('listaHeaderUser', JSON.stringify(response.data.result))     
+        let arrayPlazaUser = state.cookiesUser.plazasUsuario
+          
+        let arrayHeaderFormat = response.data.result.map((header, index) => {
+          return {
+              ...header,
+              administradorId: arrayPlazaUser[index].administradorId
+          }
+        })                        
+        commit("LISTA_HEADER_PLAZA_USER_MUTATION", arrayHeaderFormat)                
       })
       .catch(() => {                
       });

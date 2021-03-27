@@ -10,7 +10,8 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
             refereciaPlaza: item.referenceSquare,
             administradorId: item.adminSquareId,
             numeroPlaza: item.squareCatalogId,
-            plazaNombre: item.squareName
+            plazaNombre: item.squareName,
+            plazaAdminNombre: item.plazaAdministrador
         }
     })    
     let rollNombre = tipoUsuario.find(tipoUser => tipoUser.id == loginSesion.cookie[0].rollId).nombre
@@ -28,8 +29,8 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
     return cookies 
 }
 async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia){    
-    if(soloReferencia != undefined){        
-        try{        
+    if(soloReferencia != undefined){  
+        //Ediciio para el dtc y le tenmeos que pedir parametro que adminId                    
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
         listaHeaders = store.state.Header.listaHeaders        
         let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia)             
@@ -47,18 +48,13 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         return {
             plazaSelect,
             convenioSelect,                    
-        }
-        }
-        catch(error) {
-            alert()
-            console.log(error)
-        }
+        }   
     }
     else if(plazaSelect == undefined){        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario
         listaHeaders = store.state.Header.listaHeaders        
         let plazaSelect = listaPlazas[0]           
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza)
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.administradorId == plazaSelect.administradorId)
         await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
@@ -76,7 +72,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
     }
     else{
         store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)  
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza)                                         
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.administradorId == plazaSelect.administradorId)                                         
         let objConvenio = {
             id: null,
             numPlaza: plazaSelect.numeroPlaza,
