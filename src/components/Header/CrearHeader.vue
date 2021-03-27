@@ -243,6 +243,10 @@ export default {
     headerEdit: {
       type: Object,
       default: () => {},
+    },
+    datosUser: {
+      type: Object,
+      default: () => {}
     }     
   },
   components: {
@@ -287,7 +291,8 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 created:  function (){    
-    ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.headerEdit.referenceSquare)
+    console.log(this.datosUser)
+    ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.headerEdit.referenceSquare, this.datosUser.administradorId)
     EventBus.$on("validar_header", async () => {
       await this.$validator.validateAll().then((item) => {
         if(item == false){          

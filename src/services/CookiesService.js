@@ -28,13 +28,13 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
     localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
     return cookies 
 }
-async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia){    
+async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){    
     if(soloReferencia != undefined){  
         //Ediciio para el dtc y le tenmeos que pedir parametro que adminId                    
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
         listaHeaders = store.state.Header.listaHeaders        
         let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia)             
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia)        
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.administradorId == adminId)        
         await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,

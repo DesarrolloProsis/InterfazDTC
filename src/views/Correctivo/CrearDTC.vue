@@ -163,8 +163,9 @@ beforeMount: async function() {
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;         
       Axios.get(`${API}/dtcData/${this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"]}/${this.headerEdit.referenceNumber}`, CookiesService.obtener_bearer_token())
-        .then(response => {    
-          CookiesService.refrescar_bearer_token()      
+        .then(response => {   
+          alert() 
+          //CookiesService.refrescar_bearer_token()                
           this.datosUser = response.data.result[0]
         })
         .catch(Ex => {
