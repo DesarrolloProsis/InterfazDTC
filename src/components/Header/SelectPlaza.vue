@@ -40,7 +40,6 @@ export default {
             type: Number,
             default: () => 0
         },
-
     },
     data(){ 
         return{
@@ -102,7 +101,15 @@ export default {
         }
     },
     computed:{
-        ...mapState('Header', ['listaHeaders'])
+        ...mapState({
+            Header: state => state.Header.listaHeaders,
+            selectPlazaState: state => state.Login.plazaSelecionada
+        })
+    },
+    watch: {
+        selectPlazaState(newValue){
+            this.plazaSelect = newValue
+        }
     }
 
 }
