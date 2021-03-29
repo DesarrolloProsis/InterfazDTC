@@ -40,7 +40,6 @@ export default {
             type: Number,
             default: () => 0
         },
-
     },
     data(){ 
         return{
@@ -77,7 +76,7 @@ export default {
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
             this.boolCambiarPlaza = true
-            //this.isDtc = true
+            this.isDtc = true
         }
         else if(this.tipo != 'filtro'){
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
@@ -102,7 +101,15 @@ export default {
         }
     },
     computed:{
-        ...mapState('Header', ['listaHeaders'])
+        ...mapState({
+            Header: state => state.Header.listaHeaders,
+            selectPlazaState: state => state.Login.plazaSelecionada
+        })
+    },
+    watch: {
+        selectPlazaState(newValue){
+            this.plazaSelect = newValue
+        }
     }
 
 }
