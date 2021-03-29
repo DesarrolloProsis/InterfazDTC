@@ -1,6 +1,5 @@
   <template>
-  <div id="container">
-    <Nav></Nav>
+  <div id="container">    
     <div class="relative mb-16 " >
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
@@ -168,25 +167,25 @@
         </div>      
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
-      ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">
-        <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-          <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
-            <CardListDTC
-              @borrar-card="confimaBorrar"
-              @editar-card="editar_header_dtc"
-              @editar-status="editar_status_dtc"
-              @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
-              @enviar_pdf_sellado="enviar_pdf_sellado"
-              :plazasValidas="plazasValidas"
-              :infoCard="dtc"              
-            ></CardListDTC>
-          </div>                 
-        </div>
+      /////////////////////////////////////////////////////////dddd///////////-->
+      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">        
+          <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div">
+            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc">
+              <CardListDTC
+                @borrar-card="confimaBorrar"
+                @editar-card="editar_header_dtc"
+                @editar-status="editar_status_dtc"
+                @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
+                @enviar_pdf_sellado="enviar_pdf_sellado"
+                :plazasValidas="plazasValidas"
+                :infoCard="dtc"              
+              ></CardListDTC>
+            </div>   
+          </transition-group>                      
       </div>
       <div class="text-center" v-if="moreCard != false">       
         <button @click="cargar_mas" class="botonBajar animate-bounce">
-          <img src="../../assets/img/abajo.png"  width="60" height="60" />
+          <img src="../../assets/img/abajo.png" class="w-16 h-16 sm:w-12 sm:h-12"  />
         </button>          
       </div>
     </div>
@@ -194,7 +193,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import ServicePDfReporte from '../../services/ReportesPDFService'
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
@@ -238,8 +236,7 @@ export default {
       filtroVista: false
     };
   },
-  components: {
-    Nav,
+  components: {    
     CardListDTC,
     Carrusel,
     HeaderGenerico,
@@ -643,3 +640,14 @@ methods: {
 </script>
 
 <style>
+.list-item {  
+  margin-right: 10px;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+</style>

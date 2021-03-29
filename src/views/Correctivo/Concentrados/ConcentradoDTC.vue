@@ -1,6 +1,5 @@
 <template>
-<div>
-    <Nav></Nav>
+<div>    
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
         <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
@@ -77,7 +76,7 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
-            <tbody>
+            <tbody name="table" is="transition-group">  
                 <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in infoDTC" :key="key">                
                   <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                   <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
@@ -96,7 +95,7 @@
                   <td>
                     <div>
                       <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
-                        <img src="../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
+                        <img src="../../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                       </button>
                     </div>
                   </td>
@@ -109,21 +108,21 @@
                   <!-- <input type="checkbox"> -->
                   <div v-if="tipoUsuario != 8">
                     <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard mr-2">
-                        <img src="../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
                     <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
-                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
                     <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool != 1 }">
-                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Subir Sellado</span>
                     </button>
                   </div>
                   <div v-else>
                     <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
-                      <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <img src="../../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
                       <span class="text-xs sm:hidden w-24">Sin Firma</span>
                     </button>
                   </div>
@@ -140,18 +139,16 @@
 <script>
 import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-import Nav from "../../components/Navbar";
 import moment from "moment";
-import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
-import ServiceReportPDF from "../../services/ReportesPDFService"
-import Carrusel from "../../components/Carrusel";
-import HeaderGenerico from "../../components/Header/HeaderGenerico";
-import CookiesService from '../../services/CookiesService'
+import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
+import ServiceReportPDF from "../../../services/ReportesPDFService"
+import Carrusel from "../../../components/Carrusel";
+import HeaderGenerico from "../../../components/Header/HeaderGenerico";
+import CookiesService from '../../../services/CookiesService'
 
 export default {
   name: "ConcentradoDTC",
-  components: {
-    Nav,    
+  components: {    
     Carrusel,
     HeaderGenerico
   },
@@ -186,8 +183,7 @@ beforeMount: function () {
       if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
         plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
         listaPlazasValias.push(plaza)        
-      }
-      console.log(listaPlazasValias)
+      }      
       return listaPlazasValias
   }
 },
@@ -247,8 +243,7 @@ editar_status_dtc: function (){
         "StatusId": parseInt(this.statusEdit),
         "UserId": user.idUser,
         "Comment": this.motivoCambio,
-      }    
-    console.log(objeActualizado)
+      }        
     if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
     Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  

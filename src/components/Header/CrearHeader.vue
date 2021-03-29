@@ -53,7 +53,7 @@
             placeholder
           />
           <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
-          <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
+<!--           <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
           <input
             v-validate="'uniqueReport'"
             v-model="datosSinester.ReportNumber"
@@ -62,7 +62,7 @@
             type="text"
             name="NoReporte"
           />
-          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
+          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p> -->
         </div>      
         <div class="pr-2">
           <p class="text-md font-semibold mb-1 text-gray-900">Tipo de Descripcion</p>
@@ -157,14 +157,14 @@
       <!-- //////////////////////////////////////////////////////////////////
       ////                   QUINTA  LINEA                              ////
       ///////////////////////////////////////////////////////////////////// -->
-      <div class="text-sm">
-        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="tipoPlazaSelect"></SelectPlaza>
-        <!-- <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
-        <select v-model="plazaSelect" @change="cambiarPlaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
-          <option disabled value>Selecionar...</option>
-          <option v-for="(item, index) in listaPlazas" :value="item.numeroPlaza" :key="index">{{ item.plazaNombre }}</option>
-        </select> -->
+      <div class="text-sm" :class="{'hidden': boolCambiarPlaza == false}">
+        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
         <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span>
+      </div>
+
+      <div class="text-sm" :class="{'hidden': boolCambiarPlaza == true}">
+        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
+        <!-- <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span> -->
       </div>
       <div></div>
       <div class="pr-2">

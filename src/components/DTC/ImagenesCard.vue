@@ -229,12 +229,10 @@ export default {
               })
               .catch((ex) => {
                 if(ex.response.status == 401)
-                  CookiesService.token_no_autorizado()
-                console.log("error al eliminar");
-                reject("mal");
+                  CookiesService.token_no_autorizado()                
+                
                 this.$notify.error({
-                  title: "ups!",
-                  //msg: ex,
+                  title: "ups!",                  
                   msg: 'IMAGENES ELIMINADAS',
                   position: "bottom right",
                   styles: {
@@ -242,6 +240,7 @@ export default {
                     width: 500,
                   },
                 });
+                reject("mal");
               });
           }          
           await this.actualizar_img(nombre_plaza);
@@ -304,8 +303,7 @@ export default {
         .then((response) => {          
           array_nombre_imagenes = response.data;
         })
-        .catch((error) => {
-          console.log("error en el actuzaliacion");
+        .catch((error) => {          
           if(error.response.status == 401)
             CookiesService.token_no_autorizado()
         });

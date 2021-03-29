@@ -79,8 +79,7 @@ const actions = {
             })                                       
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
-        .catch(error => {
-            console.log(error.response)
+        .catch(error => {            
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
             if(error.response.status == 401)
                 CookiesService.token_no_autorizado()

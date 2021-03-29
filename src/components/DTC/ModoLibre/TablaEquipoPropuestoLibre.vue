@@ -491,8 +491,7 @@ export default {
         .validateAll()
         .then((item) => {
           if (item) {            
-            if (this.bool_editar) {
-              console.log("editar");
+            if (this.bool_editar) {              
               this.infoRow[this.index_editar].marca = this.marca;
               this.infoRow[this.index_editar].modelo = this.modelo;
               this.infoRow[

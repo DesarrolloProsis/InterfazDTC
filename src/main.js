@@ -18,10 +18,7 @@ Vue.use(VueFileAgent);
 import VueLazyImage from "vue-lazy-images";
 Vue.use(VueLazyImage)
 //Validaciones en formularios
-Vue.use(VeeValidate, { 
-    classes: false,
-  }); 
-  
+Vue.use(VeeValidate, { classes: false,}); 
 const NoSiniestro = {
   validate(value){
       return store.getters['Header/GET_UNIQUE_SINESTER_NUMBER'](value)
@@ -52,17 +49,15 @@ Validator.extend('uniqueSinester', NoSiniestro)
 Validator.extend('uniqueReport', NoReporte)
 Validator.extend('FechaValidaList',FechaValidaList)
 Validator.localize("es",es);
-
 // Componente Multiselect
 Vue.component('multiselect', Multiselect)
-
 // Notificaciones 
 import VueNotify from 'vuejs-notify'
 Vue.use(VueNotify)
-
-
+//manejor de Solicitudes axios
+import manejo_solicitudes_run from './store/ManejoSolicitudes'
+manejo_solicitudes_run()
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <!-- //////////////////////////////////////////////////////////////////
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
@@ -91,18 +90,13 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700 sm:mb-20" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(1)"
-              class="botonIconBuscar"
-            >
+            <button @click="crearDTCTecnico(1)" class="botonIconBuscar">
               <img src="../../assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
-            <button
-              @click="crearDTCTecnico(2)"
-              class="botonIconCrear"
-            >
+            <button @click="crearDTCTecnico(2)" class="botonIconCrear">
               <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
@@ -114,7 +108,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios'
@@ -126,8 +119,7 @@ export default {
   props: {
     method: { type: Function },
   },
-  components: {
-    Nav,
+  components: {    
     Header,
   },
   data() {
@@ -222,48 +214,19 @@ methods: {
             });  
           }
         }
-/*         this.$notify.success({
-          title: "Ok!",
-          msg: `DTC CON REFERENCIA ${this.referenciaDtc} CREADO CORRECTAMENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        }); */
         let value_insert = {
           refNum: this.referenciaDtc,
           flagCreate: this.flagCreate,
         };
         await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
         let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-        if (insertDmg) {
-          console.log('Los componentes se insertaron correctamente')
-/*          this.$notify.success({
-            title: "Ok!",
-            msg: `LOS COMPONENTES SE INSERTARON CORRECTAMENTE.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          }); */
+        if (insertDmg) {  
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               this.referenciaDtc, 
               status, 
               true
-            ) 
-              console.log('Creado el reporte')       
-/*            this.$notify.success({
-              title: "Ok!",
-              msg: `CREANDO EL REPORTE ${this.refNum}.`,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            }); */
+            )                   
           }
           await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);

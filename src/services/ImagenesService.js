@@ -22,8 +22,7 @@ function obtener_array_imagenes(e, arrayComponete) {
                 crear_imagen(item)
                 contar++
             }                
-        }  
-        console.log(array_imagenes)             
+        }                    
         return array_imagenes
     }
 }

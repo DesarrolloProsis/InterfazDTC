@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
@@ -9,14 +8,14 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="type" @actualizar-header="actualizar_header"></HeaderFalla>
+                    <HeaderFalla :tipo="'DIAG'" @actualizar-header="actualizar_header"></HeaderFalla>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-10 ml-12 sm:mb-6">
                         <div>
                             <button @click="enviar_header_diagnostico" class="botonIconCrear">
-                                <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Crear</span>
                             </button>
                         </div>
@@ -28,16 +27,14 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
-import HeaderFalla from '../../components/FichaDiagnostico/HeaderFalla';
+import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import Axios from 'axios';
-import CookiesService from '../../services/CookiesService';
+import CookiesService from '../../../services/CookiesService';
+import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
 export default {
     name: "Diagnostico",
-    components: {
-        Nav,        
+    components: {        
         HeaderFalla        
     },
     props:{
@@ -51,8 +48,8 @@ export default {
     /////////////////////////////////////////////////////////////////////
     data (){
         return{    
-            datosHeader: {},      
-            type:"DIAG"
+            datosHeader: {},
+            type: 'DIAG',                 
         }
     },
 
@@ -64,17 +61,11 @@ methods:{
         this.datosHeader = header
     },
     validar_horas(){
-                let horaISplite = this.datosHeader.horaInicio.split(':')            
-                let horaFSplite = this.datosHeader.horaFin.split(':')            
-                let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-                let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-                if(dateInicio < dateFin){                
-                    return true
-                }
-                else {
-                    return false
-                } 
-                
+        let horaISplite = this.datosHeader.horaInicio.split(':')            
+        let horaFSplite = this.datosHeader.horaFin.split(':')            
+        let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+        let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+        return dateInicio < dateFin ? true : false                   
     },
     enviar_header_diagnostico(){    
         let llavesHeader = Object.keys(this.datosHeader)            
@@ -104,26 +95,22 @@ methods:{
                             width: 500,
                         },
                     });
-                }                
-            }     
-            if(this.type == "DIAG")
-                this.insertar_diagnostico_falla()                   
-            else
-                this.insertar_diagnostico_falla()
-
-            this.$notify.success({
-                title: "Ok",
-                msg: `SE CREO CORRECTAMENTE.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                },
-            });
+                }   
+                else{
+                    this.insertar_diagnostico_falla()                       
+                    this.$notify.success({
+                        title: "Ok",
+                        msg: `SE CREO CORRECTAMENTE.`,
+                        position: "bottom right",
+                        styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                }             
+            }                 
         }
-        else{
-            //alert('faltan campos')
-            console.log('falnta llenar campos')
+        else{                        
             this.$notify.warning({
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS.`,
@@ -136,6 +123,7 @@ methods:{
         }
     },
     insertar_diagnostico_falla(){
+        this.type = 'FICHA'
         let userIdPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
         let administradorId = this.$store.state.Login.plazaSelecionada.administradorId
         let objDiagnostico = {
@@ -152,30 +140,31 @@ methods:{
             causeFailure: this.datosHeader.causaFalla,
             adminSquareId: administradorId,
             updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
-        }
-        console.log(objDiagnostico)
+        }        
         Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
-            .then((response) => {
-                console.log(response)
+            .then(() => {                
                 let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                     let newCarril = {}
                     newCarril["referenceNumber"] = objDiagnostico.referenceNumber
-                    newCarril["capufeLaneNum"] = carril.capufeLaneNum
+                    newCarril["capuLaneNum"] = carril.capufeLaneNum
                     newCarril["idGare"] = carril.idGare
-                    newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
+                    newCarril["addFlag"] = 1 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
-                })
-                Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carrilesInsertDiagnostic, CookiesService.obtener_bearer_token())
-                    .then((response) => {
-                        console.log(response)                        
-                        this.$router.push('/FichaTecnicaDeFalla')
-                        this.type = "FICHA";   
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                        if(error.response.status == 401)
-                            CookiesService.token_no_autorizado()
-                    })                                           
+                })                
+                carrilesInsertDiagnostic.forEach(carril => {                                                     
+                    Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril, CookiesService.obtener_bearer_token())
+                        .then(() => {                                 
+                            EventBus.$emit('guardar_imagenes')                 
+                            this.$router.push({
+                                path: 'FichaTecnicaDeFalla',
+                                query: { data: this.datosHeader }
+                            })                            
+                        })
+                        .catch((error) => {                            
+                            if(error.response.status == 401)
+                                CookiesService.token_no_autorizado()
+                        })    
+                });                                       
                 
             })
             .catch((error) => {
@@ -184,13 +173,6 @@ methods:{
                 console.log(error)
             })         
     }
-
-
 },
-
 }
 </script>
-
-<style>
-
-</style>

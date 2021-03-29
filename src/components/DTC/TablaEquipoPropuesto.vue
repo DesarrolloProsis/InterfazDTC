@@ -9,67 +9,41 @@
         <!-- ************************************************************** -->
         <div class="inline-flex ">
           <table>
-            <tr class="border text-xs bg-blue-800 text-white">
-              <th class="w-20 border-2 border-gray-800">Partida</th>
-              <th class="w-24 border-2 border-gray-800">Unidad</th>
-              <th class="w-32 xl:w-48 border-2 border-gray-800">Componente</th>
-              <th class="w-24 border-2 border-gray-800">Cantidad</th>
-              <th class="w-24 xl:w-32 border-2 border-gray-800">Marca</th>
-              <th class="w-24 xl:w-32 border-2 border-gray-800">Modelo</th>
-              <th class="w-32 xl:w-48 border-2 border-gray-800">
-                Precio
-                <br />(Unitario Peso)
-              </th>
-              <th class="w-32 xl:w-48 border-2 border-gray-800">
-                Precio
-                <br />(Unitario Dolar)
-              </th>
-              <th class="w-32 xl:w-48 border-2 border-gray-800">
-                Precio Total
-                <br />(Pesos)
-              </th>
-              <th class="w-32 xl:w-40 border-2 border-gray-800">
-                Precio Total
-                <br />(Dolares)
-              </th>
-            </tr>
-            <tr              
-              class="hover:bg-blue-200 text-center text-xs h-12 xl:text-base"
-              v-for="(equipo, index) in listaEquipo"
-              :key="index"
-            >
-              <td class="border">{{ equipo.row1}}</td>
-              <td class="border">{{ equipo.row2.toString() }}</td>
-              <td class="border">{{ equipo.row3.description }}</td>
-              <td class="border">{{ equipo.row4.toString() }}</td>
-              <td class="border">{{ equipo.marcaPropuesta.toString() }}</td>
-              <td class="border">
-                <!-- <p v-for="(item, key) in equipo.modeloRequerido" :key="key" class="text-sm">{{ item }}</p> -->
-                {{ equipo.modeloPropuesto.toString() }}
-              </td>
-              <td
-                class="border"
-              >$ {{ equipo.row14.toLocaleString('en-US') }}</td>
-              <td class="border">{{ '-----' }}</td>
-              <td
-                class="border"
-              >$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
-              <td class="border">{{ '-----' }}</td>
-            </tr>
+            <thead>
+              <tr class="border text-xs bg-blue-800 text-white">
+                <th class="w-20 border-2 border-gray-800">Partida</th>
+                <th class="w-24 border-2 border-gray-800">Unidad</th>
+                <th class="w-32 xl:w-48 border-2 border-gray-800">Componente</th>
+                <th class="w-24 border-2 border-gray-800">Cantidad</th>
+                <th class="w-24 xl:w-32 border-2 border-gray-800">Marca</th>
+                <th class="w-24 xl:w-32 border-2 border-gray-800">Modelo</th>
+                <th class="w-32 xl:w-48 border-2 border-gray-800">Precio<br />(Unitario Peso)</th>
+                <th class="w-32 xl:w-48 border-2 border-gray-800">Precio<br />(Unitario Dolar)</th>
+                <th class="w-32 xl:w-48 border-2 border-gray-800">Precio Total<br />(Pesos)</th>
+                <th class="w-32 xl:w-40 border-2 border-gray-800">Precio Total<br />(Dolares)</th>
+              </tr>
+            </thead>
+            <tbody name="table" is="transition-group">  
+              <tr class="hover:bg-blue-200 text-center text-xs h-12 xl:text-base" v-for="(equipo, index) in listaEquipo" :key="index">
+                <td class="border">{{ equipo.row1}}</td>
+                <td class="border">{{ equipo.row2.toString() }}</td>
+                <td class="border">{{ equipo.row3.description }}</td>
+                <td class="border">{{ equipo.row4.toString() }}</td>
+                <td class="border">{{ equipo.marcaPropuesta.toString() }}</td>
+                <td class="border">{{ equipo.modeloPropuesto.toString() }}</td>
+                <td class="border">$ {{ equipo.row14.toLocaleString('en-US') }}</td>
+                <td class="border">{{ '-----' }}</td>
+                <td class="border">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
+                <td class="border">{{ '-----' }}</td>
+              </tr>
+            </tbody>
           </table>
           <div >
             <tr>
               <th>Diagnostico</th>
             </tr>
             <td>
-              <textarea
-                v-model="diagnostico"
-                v-validate="'max:300'"
-                :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
-                class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6"
-                name="Diagnostico"
-                v-bind:maxlength="limite"
-              />
+              <textarea v-model="diagnostico" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6" name="Diagnostico" v-bind:maxlength="limite"/>
               <span class="text-gray-500 ml-6">{{ restante }}/300</span>
               <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
             </td>
@@ -80,15 +54,8 @@
             <div class="w-1/2 h-6 pl-4">
               <p class="inline">Total: {{ letraMoneda }}</p>
             </div>
-
             <div class="w-1/2 h-6 pl-20">
-              <input
-                v-model="sumatoria"
-                disabled
-                class="md:border border-black w-32"
-                type="text"
-                placeholder="$ 0.00"
-              />
+              <input v-model="sumatoria" disabled class="md:border border-black w-32" type="text" placeholder="$ 0.00"/>
             </div>
           </div>
           <hr />
@@ -132,20 +99,17 @@
             </tr>
           </table>
         </div>
-
         <div>
           <div class="flex p-4">
             <div class="text-xs p-2">
               <p class="inline">Total: {{ letraMoneda | totalLinea }}</p>
             </div>
-
             <div class="p-2">
               <input v-model="sumatoria" disabled class="w-24" type="text" placeholder="$ 0.00" />
             </div>
           </div>
           <hr />
         </div>
-
         <div class="flex justify-center flex-col">
           <div>
             <textarea

@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <div :class="{'mb-69': typeUser != 1}" class="flex justify-center p-4">
       <div class="mt-5">
       <!--///////////////////////////////////////////////////////////////////
@@ -156,8 +155,6 @@
 </template>
 
 <script>
-import Nav from "../components/Navbar";
-
 export default {
   data: function () {
     return {
@@ -179,9 +176,6 @@ export default {
       enviarPassword: false,
       typeUser: true,
     };
-  },
-  components: {
-    Nav,
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
@@ -266,8 +260,7 @@ export default {
             IdUser: this.User.UserId,
             Password: this.User.Password,
           };          
-          if(_UpUser.Password != "***********"){
-              alert('cambie la contraseña')
+          if(_UpUser.Password != "***********"){              
               this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
           }                                                    
           this.$notify.success({

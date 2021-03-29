@@ -33,7 +33,7 @@
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CUERPO DE LA TABLA                          ////
                 ////////////////////////////////////////////////////////////////////-->
-                <tbody>
+                <tbody name="table" is="transition-group">    
                   <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
                     <td class="border border-gray-800">
                       <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
@@ -164,79 +164,79 @@
                         </button>
                       </div>
                     </td>
-                  </tr>
+                  </tr>           
+                </tbody>
                   <!--/////////////////////////////////////////////////////////////////
                     ////           FOOTER DE LA TABLA + PARTIDA                      ////
-                  ////////////////////////////////////////////////////////////////////-->
-                  <tr class="text-center">
-                    <td class="border border-gray-800">{{ "*" }}</td>
-                    <td class="border border-gray-800">{{ datosPrePartida.rowUnidad.toString() }}</td>
-                    <td class="border border-gray-800">
-                      <button @click="modalAgregarComp">
-                        <img
-                          src="../../assets/img/more.png"
-                          width="15"
-                          height="15"
-                        />
-                      </button>
-                      <multiselect
-                          @open="UnClick"                          
-                          @select="update_componente"
-                          v-model="updtComp"
-                          :options="listaComponentes"
-                          :multiple="false"
-                          group-values="secundarios"
-                          group-label="componentePrincipal"
-                          :close-on-select="true"
-                          :group-select="false"
-                          placeholder="Buscar componentes"
-                          track-by="name"
-                          openDirection="below"
-                          class="md:hidden lg:hidden xl:hidden"
-                          label="description"
-                      ><span slot="noResult"></span>
-                      </multiselect>
-                    </td>
-                    <td class="border border-gray-800 w-1">
-                      <template v-if="statusMetro">
-                        <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
-                      </template>
-                      <template v-else>
-                        {{ datosPrePartida.rowCantidad }}
-                      </template>                      
-                    </td>
-                    <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800">
-                      <multiselect
-                          v-model="laneSelect"                                                  
-                          :close-on-select="false"
-                          :clear-on-select="true"
-                          :hideSelected="false"
-                          placeholder="Selecciona..."
-                          :options="listLane"
-                          :multiple="true"
-                          class="md:hidden lg:hidden xl:hidden"
-                        >
-                        <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
-                          <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                  ////////////////////////////////////////////////////////////////////-->      
+                    <tr class="text-center">
+                      <td class="border border-gray-800">{{ "*" }}</td>
+                      <td class="border border-gray-800">{{ datosPrePartida.rowUnidad.toString() }}</td>
+                      <td class="border border-gray-800">
+                        <button @click="modalAgregarComp">
+                          <img
+                            src="../../assets/img/more.png"
+                            width="15"
+                            height="15"
+                          />
+                        </button>
+                        <multiselect
+                            @open="UnClick"                          
+                            @select="update_componente"
+                            v-model="updtComp"
+                            :options="listaComponentes"
+                            :multiple="false"
+                            group-values="secundarios"
+                            group-label="componentePrincipal"
+                            :close-on-select="true"
+                            :group-select="false"
+                            placeholder="Buscar componentes"
+                            track-by="name"
+                            openDirection="below"
+                            class="md:hidden lg:hidden xl:hidden"
+                            label="description"
+                        ><span slot="noResult"></span>
+                        </multiselect>
+                      </td>
+                      <td class="border border-gray-800 w-1">
+                        <template v-if="statusMetro">
+                          <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
                         </template>
-                      </multiselect>
-                    </td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateInstalacion" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateMantenimiento" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowFolioMantenimiento" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800 p-2">
-                      <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24 hidden">
-                        <img src="../../assets/img/more.png" width="20" height="20" />
-                        <span class="text-xs">Agregar Partida</span>
-                      </button>
-                    </td>
+                        <template v-else>
+                          {{ datosPrePartida.rowCantidad }}
+                        </template>                      
+                      </td>
+                      <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
+                      <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="border border-gray-800">
+                        <multiselect
+                            v-model="laneSelect"                                                  
+                            :close-on-select="false"
+                            :clear-on-select="true"
+                            :hideSelected="false"
+                            placeholder="Selecciona..."
+                            :options="listLane"
+                            :multiple="true"
+                            class="md:hidden lg:hidden xl:hidden"
+                          >
+                          <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                          </template>
+                        </multiselect>
+                      </td>
+                      <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateInstalacion" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                      <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateMantenimiento" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                      <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowFolioMantenimiento" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="border border-gray-800 p-2">
+                        <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24 hidden">
+                          <img src="../../assets/img/more.png" width="20" height="20" />
+                          <span class="text-xs">Agregar Partida</span>
+                        </button>
+                      </td>
                   </tr>
-                </tbody>
               </table>
             </div>
           </div>
@@ -777,8 +777,7 @@ methods: {
         let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
         newObject["attachedId"] = this.updtComp.attachedId;
         newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
-        newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;
-        console.log(newObject)
+        newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;        
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.state.Refacciones.listaLane
         this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
