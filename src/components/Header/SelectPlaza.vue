@@ -76,7 +76,7 @@ export default {
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
             this.boolCambiarPlaza = true
-            //this.isDtc = true
+            this.isDtc = true
         }
         else if(this.tipo != 'filtro'){
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
