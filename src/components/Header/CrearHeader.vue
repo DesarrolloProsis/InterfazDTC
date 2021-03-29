@@ -228,7 +228,6 @@ import TablaEquipoMalo from "../DTC/TablaEquipoMalo";
 import ServiceReportePDF from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import SelectPlaza from '../Header/SelectPlaza'
-import ServiceCookies from '../../services/CookiesService'
 import moment from "moment";
 export default {
   name: "CrearHeader",
@@ -290,23 +289,11 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-created:  function (){    
-    console.log(this.datosUser)
-    ServiceCookies.actualizar_plaza(undefined, undefined, undefined,this.headerEdit.referenceSquare, this.datosUser.administradorId)
+created:  function (){            
     EventBus.$on("validar_header", async () => {
       await this.$validator.validateAll().then((item) => {
         if(item == false){          
-/*           this.errors.items.map((error) => {            
-            this.$notify.warning({
-              title: "Ups!",
-              msg: `FALTA LLENAR EL CAMPO ${error.field.toUpperCase()}.`,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-            }); 
-          }) */
+          //
         }
       })
     });
@@ -333,7 +320,7 @@ beforeMount: async function () {
     this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format("YYYY-MM-DD");
     this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format("YYYY-MM-DD");
     this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
-    this.fechaSiniestoEdit = true;
+    this.fechaSiniestoEdit = true;    
   }  
 },
 /////////////////////////////////////////////////////////////////////
