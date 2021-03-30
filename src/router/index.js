@@ -76,6 +76,11 @@ const routes = [
     }
   },
   {
+    path: '/Usuarios',
+    name: 'Usuarios',
+    component: () => import('../views/Correctivo/Usuarios')
+  },
+  {
     path: '/EncargadosPlaza',
     name: 'Encargados',
     component: () => import('../views/Correctivo/EncargadosPlaza')
