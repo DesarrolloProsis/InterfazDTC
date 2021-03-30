@@ -85,17 +85,17 @@
     <!--///////////////////////////////////////////////////////////////////
        ///         FILTROS DE NAVEGACION ENCARGADOS                   ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'ENC'" class="sm:inline-block w-full  border mb-2 shadow-md rounded-lg">
+    <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="sm:w-full ml-32 grid grid-cols-2 text-base sm:text-sm">
-            <div class="sm:w-full ml-5">
+        <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:gird grid-cols-1">
+            <div class="text-center sm:ml-2">
                 <div class="">
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
             </div>
-            <div class="">
+            <div class="text-center sm:ml-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
+                <input class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
         </div>
         <div class="flex justify-center m-5 sm:ml-0">
