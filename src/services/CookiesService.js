@@ -2,10 +2,8 @@ import store from '../store/index'
 import router from '../router/index'
 //import Axios from 'axios'
 //const API = process.env.VUE_APP_URL_API_PRODUCCION
-function formato_cookies_usuario(loginSesion, tipoUsuario){  
-    console.log(loginSesion)  
-    let plazasUsuario = loginSesion.cookie.map(item => {
-        console.log(item)
+function formato_cookies_usuario(loginSesion, tipoUsuario){      
+    let plazasUsuario = loginSesion.cookie.map(item => {        
         return {
             refereciaPlaza: item.referenceSquare,
             administradorId: item.adminSquareId,
@@ -28,16 +26,12 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
     localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
     return cookies 
 }
-async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){    
-    console.log(adminId)
-    console.log(soloReferencia)
+async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){            
     if(soloReferencia != undefined){  
         //Ediciio para el dtc y le tenmeos que pedir parametro que adminId                    
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
-        listaHeaders = store.state.Header.listaHeaders    
-        console.log(listaPlazas)    
-        let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.administradorId == adminId)         
-        console.log(plazaSelect)    
+        listaHeaders = store.state.Header.listaHeaders            
+        let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.administradorId == adminId)                 
         let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.administradorId == adminId)           
         await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
@@ -49,6 +43,8 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
         await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
+        await store.dispatch("Refacciones/buscarComponenteId", objConvenio);
+        console.log('convenio Nuevo')        
         return {
             plazaSelect,
             convenioSelect,                    
@@ -69,6 +65,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
         await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
+        await store.dispatch("Refacciones/buscarComponenteId", objConvenio);
         return {
             plazaSelect,
             convenioSelect,                    
@@ -86,6 +83,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
         await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
+        await store.dispatch("Refacciones/buscarComponenteId", objConvenio);
         return convenioSelect
     }
 }
@@ -104,8 +102,8 @@ function obtener_bearer_token(tokenPDF){
 }
 function refrescar_bearer_token(){
     //localStorage.removeItem('token')
-    let userId = store.getters['Login/GET_USEER_ID_PLAZA_ID'].idUser
-    console.log(userId)
+    //let userId = store.getters['Login/GET_USEER_ID_PLAZA_ID'].idUser
+    //console.log(userId)
     // Axios.get(`${API}/Login/Refresh`,{ userId: userId})
     //     .then((response) => {      
     //         console.log(response)      

@@ -192,6 +192,7 @@ methods: {
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];     
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
+      //Inserta Header
       await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
         header: header,
         status: status,
@@ -199,8 +200,8 @@ methods: {
         openFlag: false,
         adminIdPlaza: adminId
       });
-      let insertHeader = this.$store.getters["Header/getInsertHeaderComplete"];
-      if (insertHeader) {
+      //Valida si se inserto header
+      if (this.$store.getters["Header/getInsertHeaderComplete"]) {
         if(status == 2){
           this.$notify.success({
             title: "Ok!",
@@ -213,8 +214,7 @@ methods: {
           });  
         }
         else{
-          if(status == 1)
-          {
+          if(status == 1){
             this.$notify.success({
             title: "Ok!",
             msg: `DTC CON REFERENCIA ${this.referenciaDtc} GUARDADO CORRECTAMENTE.`,
@@ -226,28 +226,33 @@ methods: {
             });  
           }
         }
-        let value_insert = {
-          refNum: this.referenciaDtc,
-          flagCreate: this.flagCreate,
-        };
-        await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);
-        let insertDmg = this.$store.getters["DTC/getInsertDmgComplete"];
-        if (insertDmg) {          
+        let value_insert = { refNum: this.referenciaDtc, flagCreate: this.flagCreate };
+        await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);        
+        if (this.$store.getters["DTC/getInsertDmgComplete"]) {   
+          if(status == 2) {
+            Axios.get(`${API}/pdf/RefrescarArchivo/${this.referenciaDtc.split('-')[0]}/${this.referenciaDtc}`, CookiesService.obtener_bearer_token())
+            .then((response) => {
+              console.log(response)            
+            })       
+            .catch((error) => {
+              console.log(error)
+            })  
+          }
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               this.referenciaDtc, 
               status, 
               true
-            ) 
-              console.log('Creado el reporte')       
-          }
+            )               
+          }          
           await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);
           await this.$store.commit("Header/insertHeaderCompleteMutation",false);
           await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
           await this.$store.commit("Header/clearDatosSinesterMutation");
           this.$router.push("Home");
-        } else {
+        } 
+        else {
           this.$notify.warning({
             title: "Ups!",
             msg: `NO SE INSERTARON LOS COMPONENTES.`,
@@ -258,7 +263,8 @@ methods: {
             },
           });
         }
-      } else {
+      } 
+      else {
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE CREO EL DTC CON LA REFERENCIA ${this.refNum}.`,

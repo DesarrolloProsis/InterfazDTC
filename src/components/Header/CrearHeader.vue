@@ -281,8 +281,7 @@ export default {
       fecha_validacion: '',
       modalReferencia: false,
       arrayReference: [],
-      referenceSelected: '',
-      headerSelecionado: {},
+      referenceSelected: '',      
       tipoPlazaSelect: '',      
     };
   },
@@ -300,8 +299,7 @@ created:  function (){
 },
 beforeMount: async function () {    
   let f = new Date()
-  this.tipoPlazaSelect = 'insersion'      
-  this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+  this.tipoPlazaSelect = 'insersion'        
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
   this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");  
   let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
@@ -390,8 +388,13 @@ watch: {
       handler(datosSinester) {
         this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
       },
-  }
+  },  
 },
+computed: {
+  headerSelecionado(){
+    return this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+  }
+}
 };
 </script>
 <style scoped>

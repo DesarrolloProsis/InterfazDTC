@@ -374,7 +374,14 @@ methods: {
               this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
               this.modal = false  
-              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)               
+              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)      
+              Axios.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}`, CookiesService.obtener_bearer_token())
+              .then((response) => {
+                console.log(response)
+              })       
+              .catch((error) => {
+                console.log(error)
+              })
               resolve('ok')                     
             })
             .catch((ex) => {
@@ -614,7 +621,6 @@ methods: {
       .catch((err) =>  console.log(err))    
     }, 1000); 
   },
-
   cargar_mas(){
     let pos = document.documentElement.offsetHeight
     let index = this.lista_dtc.length

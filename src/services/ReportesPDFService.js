@@ -70,10 +70,13 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
         namePdf = `DTC-${numeroReferencia}.pdf`; 
     }
     else if(STATUS_REPORTE_CORRECTIVO.firmado === statusId){
+        console.log(crearDTC)
         if(crearDTC == true)
             urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${clavePlaza}`; 
         else    
-            urlTopdf = `${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`; 
+            urlTopdf = `${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`;             
+        
+            console.log(`${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`)
         namePdf = `DTC-${numeroReferencia}-Finalizado.pdf`;        
     } 
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){

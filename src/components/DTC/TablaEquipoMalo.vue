@@ -582,6 +582,7 @@ import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
 import moment from "moment";
+import { mapState } from 'vuex';
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -657,8 +658,7 @@ beforeMount: async function () {
           newObject["attachedId"] = item.attachedId;
           newObject["componentsRelationship"] = item.relationship;
           newObject["componentsRelationshipId"] = item.mainRelationship;                    
-          await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);
-          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];          
+          await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);          
           let array_ubicacion = [];
           let array_carril = [];
           let array_cantidad = [];
@@ -674,13 +674,14 @@ beforeMount: async function () {
           : parseInt(array_cantidad[0])          
           setTimeout(async () => {          
           //AGREGAMOS PARTIDA AL STORE                    
-          let objPartida = Service.obj_partida(
+          let objPartida = await Service.obj_partida(
             array_ubicacion,
-            equipoValid,
+            this.listaRefaccionesValid,
             this.dateSinester,
             item.mainRelationship,
             true,
-            cantidad
+            cantidad,
+            newObject
           );
           await this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
           //COMPLETAMOS ATRIBUTOS QUE FALTAN
@@ -704,7 +705,7 @@ beforeMount: async function () {
           let new_partida = Service.lane_select(
             array_ubicacion,
             key_partidas,
-            equipoValid,
+            this.listaRefaccionesValid,
             this.dateSinester,
             item.mainRelationship,
             true,
@@ -902,9 +903,9 @@ methods: {
   confirmRowTable: async function (index) {
       if (this.updtCompEditar != "") {
         if (this.laneSelectEditar.length > 0) {
-          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
+          //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
-          let objPartida = Service.obj_partida(this.laneSelectEditar,equipoValid,this.dateSinester);
+          let objPartida = await Service.obj_partida(this.laneSelectEditar,this.listaRefaccionesValid, this.dateSinester);
           let objMutation = {
             index: index,
             value: objPartida,
@@ -931,7 +932,7 @@ methods: {
           let new_partida = Service.lane_select(
             this.laneSelectEditar,
             key_partidas,
-            equipoValid,
+            this.listaRefaccionesValid,
             this.dateSinester
           );
           new_partida["row1"] = index + 1;
@@ -989,11 +990,11 @@ methods: {
       let newObject = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       newObject["id"] = this.saveObjectEdiar[2];
       this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      let equipoValid = this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
+      //let equipoValid = this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
       let obj_abort = Service.lane_select(
         lanes,
         key_abort,
-        equipoValid,
+        this.listaRefaccionesValid,
         this.dateSinester
       );
       obj_abort["row3"] = this.saveObjectEdiar[2];
@@ -1008,11 +1009,11 @@ methods: {
   agregarPartida: async function () {
       if (this.updtComp != "") {
         if (this.laneSelect.length > 0) {
-          let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
+          //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
-          let objPartida = Service.obj_partida(
+          let objPartida = await Service.obj_partida(
             this.laneSelect,
-            equipoValid,
+            this.listaRefaccionesValid,
             this.dateSinester,
             this.relationShipPrincipal,
             null,
@@ -1040,7 +1041,7 @@ methods: {
           let new_partida = Service.lane_select(
             this.laneSelect,
             key_partidas,
-            equipoValid,
+            this.listaRefaccionesValid,
             this.dateSinester,
             this.relationShipPrincipal,
             null,
@@ -1101,11 +1102,11 @@ watch: {
         else this.datosPrePartida[propiedades] = [];
       }      
       if (newValue.length > 0) {
-        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
+        //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.datosPrePartida = Service.lane_select(
           newValue,
           this.datosPrePartida,
-          equipoValid,
+          this.equipoValid,
           this.dateSinester,
           this.relationShipPrincipal,
           undefined, 
@@ -1139,19 +1140,24 @@ watch: {
           "rowUpd14",
           "rowUpd15",
         ];
-        let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
+        //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
         this.objectEditar = await Service.lane_select(
           newValue,
           key_updt,
-          equipoValid,
+          this.equipoValid,
           this.dateSinester,
           this.relationShipPrincipal,
           undefined
         );
         this.listLaneEditar = await this.$store.state.Refacciones.listaLane          
-
       }
   },
+},
+computed: {
+    ...mapState({
+        listaRefaccionesValid: state => state.Refacciones.listaRefaccionesValid,
+        convenioActual: state => state.Header.convenioActual
+    })  
 },
 /////////////////////////////////////////////////////////////////////
 ////                          FILTROS                            ////
