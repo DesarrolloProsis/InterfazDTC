@@ -651,6 +651,7 @@ props: {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function () {
     try {
+      console.log('beforeMount tableEquipoMalo')
       let componetesEdit = await this.$store.state.DTC.componetesEdit
       if (JSON.stringify(componetesEdit) != "{}") {                     
         for (const item of componetesEdit.items) { 

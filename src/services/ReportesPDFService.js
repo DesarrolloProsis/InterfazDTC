@@ -11,39 +11,6 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     firmado: 2,
     sellado: 3
 })
-/*
-function descargarArchivo(file, nombreArchivo) {    
-     alert()
-    //creamos un FileReader para leer el Blob
-    var reader = new FileReader();
-    //Definimos la función que manejará el archivo
-    //una vez haya terminado de leerlo
-    reader.onload = function(event) {
-        console.log(event)
-    }
-    reader.onload = function (event) {
-
-        console.log(event)
-        //Usaremos un link para iniciar la descarga
-        var save = document.createElement('a');
-        save.href = event.target.result;
-        save.target = '_blank';
-        //Truco: así le damos el nombre al archivo
-        save.download = nombreArchivo || 'archivo.pdf';
-        var clicEvent = new MouseEvent('click', {
-            'view': window,
-            'bubbles': true,
-            'cancelable': true
-        });        
-        save.dispatchEvent(clicEvent);
-        //Y liberamos recursos...
-        (window.URL || window.webkitURL).revokeObjectURL(save.href);
-    };
-    //Leemos el blob y esperamos a que dispare el evento "load"
-    reader.readAsDataURL(file);
-  
-}
-*/
 function xml_hhtp_request(urlTopdf,namePdf){
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlTopdf, true);    
@@ -69,14 +36,12 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
         urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${clavePlaza}`;
         namePdf = `DTC-${numeroReferencia}.pdf`; 
     }
-    else if(STATUS_REPORTE_CORRECTIVO.firmado === statusId){
-        console.log(crearDTC)
+    else if(STATUS_REPORTE_CORRECTIVO.firmado === statusId){        
         if(crearDTC == true)
             urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${clavePlaza}`; 
         else    
             urlTopdf = `${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`;             
-        
-            console.log(`${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`)
+                                
         namePdf = `DTC-${numeroReferencia}-Finalizado.pdf`;        
     } 
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){

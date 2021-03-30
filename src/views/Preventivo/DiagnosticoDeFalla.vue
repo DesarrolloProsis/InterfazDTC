@@ -161,8 +161,7 @@ methods:{
                     newCarril["idGare"] = carril.idGare
                     newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
-                })
-                console.log(carrilesInsertDiagnostic)
+                })                
                 Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carrilesInsertDiagnostic, CookiesService.obtener_bearer_token())
                     .then(() => {
                         CookiesService.refrescar_bearer_token()                                              

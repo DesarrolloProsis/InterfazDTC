@@ -155,6 +155,9 @@
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
+import CookiesService from '../../services/CookiesService'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+import Axios from 'axios'
 export default {
   props: {
     infoCard: {
@@ -210,15 +213,21 @@ export default {
       this.menosMas = true;
       this.showmenosMas = false;
     },
-    editar_dtc: async function () {      
-      await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber);     
-      this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', 
-        { 
-          numSiniestro: this.infoCard.sinisterNumber,  
-          numReporte: this.infoCard.reportNumber 
-        }
-      )                   
-      
+    editar_dtc: async function () {
+      let datosUser = {}      
+      await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber); 
+      await Axios.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`, CookiesService.obtener_bearer_token())
+        .then(async (response) => {                         
+          console.log(response)          
+          datosUser = response.data.result[0]
+          await CookiesService.actualizar_plaza(undefined, undefined, undefined, datosUser.referenceSquare, datosUser.adminSquareId)          
+        })
+        .catch(Ex => {
+          console.log(Ex);
+          if(Ex.response.status == 401)
+            CookiesService.token_no_autorizado()
+        });      
+      this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', { numSiniestro: this.infoCard.sinisterNumber,  numReporte: this.infoCard.reportNumber })                         
       let datosSinester = {
         ReferenceNumber: "",
         SinisterNumber: "",
@@ -249,6 +258,7 @@ export default {
         path: `/${page}`,
         query: {
           headerInfo: { ...this.infoCard },
+          datosDtc: { ...this.datosUser }
         },
       });
     },

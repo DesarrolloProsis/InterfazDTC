@@ -161,18 +161,8 @@ beforeMount: async function() {
       this.observaciones = this.headerEdit.observation;
       this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
-      this.flagCreate = false;         
-      await Axios.get(`${API}/dtcData/${this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"]}/${this.headerEdit.referenceNumber}`, CookiesService.obtener_bearer_token())
-        .then(async (response) => {                         
-          console.log(response)          
-          this.datosUser = response.data.result[0]
-          await CookiesService.actualizar_plaza(undefined, undefined, undefined,this.headerEdit.referenceSquare, this.datosUser.adminSquareId)          
-        })
-        .catch(Ex => {
-          console.log(Ex);
-          if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
-        });             
+      this.flagCreate = false;        
+      this.datosUser = this.$route.query.datosDtc           
     }
 },
 /////////////////////////////////////////////////////////////////////
@@ -231,8 +221,7 @@ methods: {
         if (this.$store.getters["DTC/getInsertDmgComplete"]) {   
           if(status == 2) {
             Axios.get(`${API}/pdf/RefrescarArchivo/${this.referenciaDtc.split('-')[0]}/${this.referenciaDtc}`, CookiesService.obtener_bearer_token())
-            .then((response) => {
-              console.log(response)            
+            .then(() => {                    
             })       
             .catch((error) => {
               console.log(error)

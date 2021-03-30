@@ -112,8 +112,7 @@ const actions = {
       strMaintenanceDate: value.infoComponentes.fechaUltimoMantenimiento,
       strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento,
       intUserId:rootGetters['Login/GET_USEER_ID_PLAZA_ID'].idUser
-    }   
-    console.log(newObject)       
+    }       
     await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
     .then(() => {  
       CookiesService.refrescar_bearer_token()        

@@ -109,9 +109,10 @@ export default {
     },
     watch: {
         selectPlazaState(newValue){
+            console.log('watch selectPlaza')
             this.plazaSelect = newValue
         },
-        selectHeaderPlaza(newValue){
+        selectHeaderPlaza(newValue){                
             this.convenioSelect = newValue
         }
     }

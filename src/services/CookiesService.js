@@ -42,8 +42,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         }                            
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
-        await store.dispatch("Refacciones/buscarComponenteId", objConvenio);
+        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)        
         console.log('convenio Nuevo')        
         return {
             plazaSelect,
@@ -64,8 +63,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         }                             
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
-        await store.dispatch("Refacciones/buscarComponenteId", objConvenio);
+        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)        
         return {
             plazaSelect,
             convenioSelect,                    
@@ -82,8 +80,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         }                      
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)
-        await store.dispatch("Refacciones/buscarComponenteId", objConvenio);
+        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)        
         return convenioSelect
     }
 }
