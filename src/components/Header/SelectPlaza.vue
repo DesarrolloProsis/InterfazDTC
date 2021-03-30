@@ -103,12 +103,17 @@ export default {
     computed:{
         ...mapState({
             Header: state => state.Header.listaHeaders,
-            selectPlazaState: state => state.Login.plazaSelecionada
+            selectPlazaState: state => state.Login.plazaSelecionada,
+            selectHeaderPlaza: state => state.Header.headerSeleccionado
         })
     },
     watch: {
         selectPlazaState(newValue){
+            console.log('watch selectPlaza')
             this.plazaSelect = newValue
+        },
+        selectHeaderPlaza(newValue){                
+            this.convenioSelect = newValue
         }
     }
 

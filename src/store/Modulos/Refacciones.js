@@ -112,8 +112,7 @@ const actions = {
       strMaintenanceDate: value.infoComponentes.fechaUltimoMantenimiento,
       strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento,
       intUserId:rootGetters['Login/GET_USEER_ID_PLAZA_ID'].idUser
-    }   
-    console.log(newObject)       
+    }       
     await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
     .then(() => {  
       CookiesService.refrescar_bearer_token()        
@@ -137,10 +136,11 @@ const actions = {
       });
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit, rootGetters }, value) {      
+  async buscarComponenteId({ commit, rootGetters }, value) {     
+    console.log(value) 
     await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`, CookiesService.obtener_bearer_token())
-      .then(response => {   
-        CookiesService.refrescar_bearer_token()                         
+      .then(response => {  
+        console.log(response)        
         if(response.data.result != null){
           commit("LISTA_REFACCIONES_VALIDAS_MUTATION", response.data.result.listaFiltro);
           commit("LISTA_LANE_MUTATION", response.data.result.listLane); 

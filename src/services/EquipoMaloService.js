@@ -138,16 +138,16 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         console.log(ex)        
     }  
 }
-function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
-    try{        
-        let newObjectPartida = []
-        for(const lane of laneSelect){            
-            let component = []
+async function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
+    try {               
+        let newObjectPartida = []        
+        for(const lane of laneSelect){                             
+            //objComponeteValidos.forEach(item => console.log(item.tableFolio))              
+            let component = []            
             if(editar == undefined)
-                component = equipoValid.find(comp => comp.lane === lane)
+                component = await equipoValid.find(comp => comp.lane == lane)
             else
-                component = equipoValid.find(comp => comp.tableFolio == lane)                           
-            //let component = equipoValid.find(item => item.lane == lane)                
+                component = await equipoValid.find(comp => comp.tableFolio == lane)                                                      
             let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
             let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");                        
             let fecha_format =  daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                                                   
@@ -174,7 +174,8 @@ function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipa
                 amount: parseInt(cantidad)
             };
             newObjectPartida.push(obj)        
-        }            
+        }        
+        console.log('Return lista')    
         return newObjectPartida
     }
     catch(ex){
