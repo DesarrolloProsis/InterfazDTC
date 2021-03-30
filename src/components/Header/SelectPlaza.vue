@@ -57,9 +57,19 @@ export default {
         });
     },
     beforeMount: async function() {
-        if(this.fullPlazas)
+        if(this.fullPlazas){
             this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario   
-                
+            if(this.tipo == "filtro" || this.tipo == "edicion"){
+                let plazasSinRepetir = []
+                this.listaPlazas.forEach(element => {                                        
+                    if(!plazasSinRepetir.some(item => item.numeroPlaza == element.numeroPlaza)){
+                        console.log('hola')
+                        plazasSinRepetir.push(element)
+                    }
+                });                
+                this.listaPlazas = plazasSinRepetir
+            }
+        }                
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado

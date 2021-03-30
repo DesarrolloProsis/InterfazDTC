@@ -209,8 +209,8 @@ export default {
     ////                       CICLOS DE VIDA                        ////
     /////////////////////////////////////////////////////////////////////
     beforeMount: function () {
-    this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
-    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
+        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
     },
     computed:{
         carriles_plaza(){
@@ -222,8 +222,8 @@ export default {
     /////////////////////////////////////////////////////////////////////
     methods:{
         async cambiar_plaza(numeroPlaza) {  
-        this.plazaSeleccionada = numeroPlaza 
-        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+            this.plazaSeleccionada = numeroPlaza 
+            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){
