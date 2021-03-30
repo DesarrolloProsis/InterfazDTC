@@ -18,7 +18,7 @@
                             <th class="cabeceraTable">Plaza</th>
                             <th class="cabeceraTable">Acciones</th>
                         </tr>
-                        <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_encargados" :key="key">
+                        <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_encargados" :key="key" >
                             <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
                             <td class="cuerpoTable">{{ item.mail }}</td>
                             <td class="cuerpoTable">{{ item.squareName }}</td>
