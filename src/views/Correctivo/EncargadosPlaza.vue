@@ -6,7 +6,8 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <h1 class="text-4xl font-bold text-gray-800 text-center mb-8">Encargados de Plaza</h1>
+                <HeaderGenerico :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
+                <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
@@ -67,12 +68,14 @@
 import Axios from 'axios';
 import Nav from "../../components/Navbar";
 import CookiesService from '../../services/CookiesService'
+import HeaderGenerico from "../../components/Header/HeaderGenerico";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "EncargadosDePlaza",
     components:{
-        Nav
+        Nav,
+        HeaderGenerico
     },
     data (){
         return{

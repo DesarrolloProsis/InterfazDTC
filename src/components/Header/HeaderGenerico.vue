@@ -83,30 +83,27 @@
         </div>     
     </div>    
     <!--///////////////////////////////////////////////////////////////////
-       ///         FILTROS DE NAVEGACION CALENDARIO                   ////         
+       ///         FILTROS DE NAVEGACION ENCARGADOS                   ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'CAL'" class="inline-flex sm:inline-block w-full">
-        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
+    <div v-if="tipo == 'ENC'" class="sm:inline-block w-full  border mb-2 shadow-md rounded-lg">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full ml-32 grid grid-cols-2 text-base sm:text-sm">
             <div class="sm:w-full ml-5">
-                <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1">
-                    <p class="font-bold">Plaza de Cobro:</p>
-                    <select class="w-56 h-6 ml-5 sm:ml-0 sm:mt-2" type="text">
-                        <option disabled value="">Selecionar...</option>     
-                    </select>                             
-                </div>  
-    <!-- /////////////////////////////////////////////////////////////////////
-        ///                    BOTONES DE NAVEGACION                     ////
-       ///                           CALENDARIO                         ////
-      /////////////////////////////////////////////////////////////////////-->        
-                <div class="flex justify-start m-5 sm:ml-0">
-                    <button class="botonIconCrear">
-                        <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
-                        <span>Crear</span>
-                    </button>
+                <div class="">
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
+            </div>
+            <div class="">
+                <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
+                <input class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
             </div>             
         </div>
+        <div class="flex justify-center m-5 sm:ml-0">
+            <button class="botonIconBuscar">
+                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
+                <span>Buscar</span>
+            </button>
+        </div> 
     </div>
     <!--///////////////////////////////////////////////////////////////////
     ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
