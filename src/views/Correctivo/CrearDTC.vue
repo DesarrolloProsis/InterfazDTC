@@ -117,10 +117,7 @@
 import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
-import Axios from 'axios'
 import ServiceReporte from '../../services/ReportesPDFService'
-import CookiesService from '../../services/CookiesService'
-const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "CrearDTC",
   props: {
@@ -218,15 +215,7 @@ methods: {
         }
         let value_insert = { refNum: this.referenciaDtc, flagCreate: this.flagCreate };
         await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);        
-        if (this.$store.getters["DTC/getInsertDmgComplete"]) {   
-          if(status == 2) {
-            Axios.get(`${API}/pdf/RefrescarArchivo/${this.referenciaDtc.split('-')[0]}/${this.referenciaDtc}`, CookiesService.obtener_bearer_token())
-            .then(() => {                    
-            })       
-            .catch((error) => {
-              console.log(error)
-            })  
-          }
+        if (this.$store.getters["DTC/getInsertDmgComplete"]) {           
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               this.referenciaDtc, 
