@@ -71,8 +71,7 @@ export default {
             this.boolCambiarPlaza = false
             this.isDtc = true
         }
-        else if(this.tipo == 'editDTC'){ 
-            console.log('entre :p')  
+        else if(this.tipo == 'editDTC'){             
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
             this.boolCambiarPlaza = true
@@ -108,8 +107,7 @@ export default {
         })
     },
     watch: {
-        selectPlazaState(newValue){
-            console.log('watch selectPlaza')
+        selectPlazaState(newValue){            
             this.plazaSelect = newValue
         },
         selectHeaderPlaza(newValue){                

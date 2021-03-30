@@ -141,8 +141,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
 async function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
     try {               
         let newObjectPartida = []        
-        for(const lane of laneSelect){                             
-            //objComponeteValidos.forEach(item => console.log(item.tableFolio))              
+        for(const lane of laneSelect){                                                      
             let component = []            
             if(editar == undefined)
                 component = await equipoValid.find(comp => comp.lane == lane)
@@ -174,8 +173,7 @@ async function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPr
                 amount: parseInt(cantidad)
             };
             newObjectPartida.push(obj)        
-        }        
-        console.log('Return lista')    
+        }                
         return newObjectPartida
     }
     catch(ex){
