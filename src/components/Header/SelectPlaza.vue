@@ -63,7 +63,7 @@ export default {
                 let plazasSinRepetir = []
                 this.listaPlazas.forEach(element => {                                        
                     if(!plazasSinRepetir.some(item => item.numeroPlaza == element.numeroPlaza)){
-                        console.log('hola')
+                        //console.log('hola')
                         plazasSinRepetir.push(element)
                     }
                 });                
