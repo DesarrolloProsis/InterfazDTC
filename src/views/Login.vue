@@ -219,7 +219,7 @@ export default {
   padding: 0 20px;
   width: 100%;
   height: 50px;
-  background-color: #1c3b7e;
+  background-color: #2c5282;
   border-radius: 25px;
   box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
   -moz-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);

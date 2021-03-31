@@ -7,38 +7,40 @@
           <h6 class=" font-bold text-xl text-gray-800">Equipo Propuesto</h6>
         </div>
         <!-- ************************************************************** -->
-        <div class="inline-flex ">
-          <table>
+        <div class="inline-flex">
+          <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <thead>
               <tr class="border text-xs bg-blue-800 text-white">
-                <th class="w-20 border-2 border-gray-800">Partida</th>
-                <th class="w-24 border-2 border-gray-800">Unidad</th>
-                <th class="w-32 xl:w-48 border-2 border-gray-800">Componente</th>
-                <th class="w-24 border-2 border-gray-800">Cantidad</th>
-                <th class="w-24 xl:w-32 border-2 border-gray-800">Marca</th>
-                <th class="w-24 xl:w-32 border-2 border-gray-800">Modelo</th>
-                <th class="w-32 xl:w-48 border-2 border-gray-800">Precio<br />(Unitario Peso)</th>
-                <th class="w-32 xl:w-48 border-2 border-gray-800">Precio<br />(Unitario Dolar)</th>
-                <th class="w-32 xl:w-48 border-2 border-gray-800">Precio Total<br />(Pesos)</th>
-                <th class="w-32 xl:w-40 border-2 border-gray-800">Precio Total<br />(Dolares)</th>
+                <th class="w-20 cabeceraTable">Partida</th>
+                <th class="w-24 cabeceraTable">Unidad</th>
+                <th class="w-32 xl:w-48 cabeceraTable">Componente</th>
+                <th class="w-24 cabeceraTable">Cantidad</th>
+                <th class="w-24 xl:w-32 cabeceraTable">Marca</th>
+                <th class="w-24 xl:w-32 cabeceraTable">Modelo</th>
+                <th class="w-32 xl:w-48 cabeceraTable">Precio<br />(Unitario Peso)</th>
+                <th class="w-32 xl:w-48 cabeceraTable">Precio<br />(Unitario Dolar)</th>
+                <th class="w-32 xl:w-48 cabeceraTable">Precio Total<br />(Pesos)</th>
+                <th class="w-32 xl:w-40 cabeceraTable">Precio Total<br />(Dolares)</th>
               </tr>
             </thead>
             <tbody name="table" is="transition-group">  
               <tr class="hover:bg-blue-200 text-center text-xs h-12 xl:text-base" v-for="(equipo, index) in listaEquipo" :key="index">
-                <td class="border">{{ equipo.row1}}</td>
-                <td class="border">{{ equipo.row2.toString() }}</td>
-                <td class="border">{{ equipo.row3.description }}</td>
-                <td class="border">{{ equipo.row4.toString() }}</td>
-                <td class="border">{{ equipo.marcaPropuesta.toString() }}</td>
-                <td class="border">{{ equipo.modeloPropuesto.toString() }}</td>
-                <td class="border">$ {{ equipo.row14.toLocaleString('en-US') }}</td>
-                <td class="border">{{ '-----' }}</td>
-                <td class="border">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
-                <td class="border">{{ '-----' }}</td>
+                <td class="cuerpoTable">{{ equipo.row1}}</td>
+                <td class="cuerpoTable">{{ equipo.row2.toString() }}</td>
+                <td class="cuerpoTable">{{ equipo.row3.description }}</td>
+                <td class="cuerpoTable">{{ equipo.row4.toString() }}</td>
+                <td class="cuerpoTable">{{ equipo.marcaPropuesta.toString() }}</td>
+                <td class="cuerpoTable">{{ equipo.modeloPropuesto.toString() }}</td>
+                <td class="cuerpoTable">$ {{ equipo.row14.toLocaleString('en-US') }}</td>
+                <td class="cuerpoTable">{{ '-----' }}</td>
+                <td class="cuerpoTable">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
+                <td class="cuerpoTable">{{ '-----' }}</td>
               </tr>
             </tbody>
           </table>
-          <div >
+          </div>
+          <div>
             <tr>
               <th>Diagnostico</th>
             </tr>
@@ -55,7 +57,7 @@
               <p class="inline">Total: {{ letraMoneda }}</p>
             </div>
             <div class="w-1/2 h-6 pl-20">
-              <input v-model="sumatoria" disabled class="md:border border-black w-32" type="text" placeholder="$ 0.00"/>
+              <input v-model="sumatoria" disabled class="is_valid w-32" type="text" placeholder="$ 0.00"/>
             </div>
           </div>
           <hr />
@@ -68,30 +70,29 @@
         <div class="text-center mb-5">
           <h6 class>Equipo Propuesto</h6>
         </div>
-        <div class="p-4">
-          <table class=" table-fixed border-collapse">
+        <div class="overflow-x bg-white rounded-lg shadow overflow-y-auto sm:text-xs sm:ml-4 sm:mr-4">
+          <table class="border-collapse">
             <tr class=" border-gray-800 bg-blue-800 text-white text-xs text-center">
-              <th class="w-20 border-2 border-gray-800">Partida</th>
-              <th class=" w-48 border-2 border-gray-800">Componente</th>
-              <th class="w-48 border-2 border-gray-800">
+              <th class="w-20 cabeceraTable">Partida</th>
+              <th class="w-48 cabeceraTable">Componente</th>
+              <th class="w-48 cabeceraTable">
                 Precio Total
                 <br />(Pesos)
               </th>
-              <th class="w-40 border-2 border-gray-800">Accion</th>
+              <th class="w-40 cabeceraTable">Accion</th>
             </tr>
-
             <tr
               class="hover:bg-blue-200 text-center text-xs"
               v-for="(equipo, index) in listaEquipo"
               :key="index"
             >
-              <td class="border border-gray-800">{{ equipo.row1}}</td>
-              <td class="border border-gray-800">{{ equipo.row3.description }}</td>
-              <td class="border border-gray-800">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
-              <td class="border border-gray-800">
+              <td class="cuerpoTable">{{ equipo.row1}}</td>
+              <td class="cuerpoTable">{{ equipo.row3.description }}</td>
+              <td class="cuerpoTable">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
+              <td class="cuerpoTable">
                 <button
                   v-on:click.stop.prevent="infoFull(index)"
-                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-blue-700"
+                  class="hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded-lg inline-flex items-center border-b-2 border-blue-700"
                 >
                   <img src="../../assets/img/mas.png" class width="20" height="20" />
                 </button>
@@ -105,7 +106,7 @@
               <p class="inline">Total: {{ letraMoneda | totalLinea }}</p>
             </div>
             <div class="p-2">
-              <input v-model="sumatoria" disabled class="w-24" type="text" placeholder="$ 0.00" />
+              <input v-model="sumatoria" disabled class="w-24 is_valid" type="text" placeholder="$ 0.00" />
             </div>
           </div>
           <hr />
