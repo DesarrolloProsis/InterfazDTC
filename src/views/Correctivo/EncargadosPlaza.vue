@@ -6,7 +6,7 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <HeaderGenerico :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
+                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
                 <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
@@ -22,7 +22,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_encargados" :key="key" 
+                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaencargadosFilrada" :key="key" 
                             :class="{'hidden' : item.statusAdmin != true}">
                                 <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
                                 <td class="cuerpoTable sm:hidden">{{ item.mail }}</td>
@@ -93,6 +93,8 @@ import Axios from 'axios';
 import Nav from "../../components/Navbar";
 import CookiesService from '../../services/CookiesService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import FiltrosServices from "../../services/FiltrosDTCServices";
+import EventBus from "../../services/EventBus"
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -103,7 +105,8 @@ export default {
     },
     data (){
         return{
-            lista_encargados: [],
+            listaencargadosCompleta: [],
+            listaencargadosFilrada:[],
             modalEliminar: false,
             modalEditar: false,
             boolBorrar: false,
@@ -121,19 +124,27 @@ export default {
     beforeMount: function (){
         Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
         .then((response)=>{
-            console.log(response.data)
-            this.lista_encargados = response.data.result
+            //console.log(response.data)
+            this.listaencargadosCompleta = response.data.result
+            this.listaencargadosFilrada = this.listaencargadosCompleta
         }).catch((Ex)=>{
             if(Ex.response.status == 401)
                 CookiesService.token_no_autorizado()
         })
     },
     methods:{
+        filtrar_encargados(value){
+            //console.log(value)
+            this.listaencargadosFilrada = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
+
+        },
+        limpiar_encargados(){
+            this.listaencargadosFilrada = this.listaencargadosCompleta
+            EventBus.$emit('Limpiar-SelectPlaza')
+        },
         confimaBorrar (item) {
             this.infoDelate = item
-            this.modalEliminar = true;
-            
-            
+            this.modalEliminar = true;           
         },
         borrar: function(){
             this.infoDelate.statusAdmin = false

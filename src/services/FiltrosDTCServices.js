@@ -117,8 +117,28 @@ function filtro_mes (listaDTC, mes) {
     let listaFiltrada = listaDTC.filter(dtc => dtc.month == parseInt(mes))
     return listaFiltrada
 }
+function filtro_encargados_plaza (listaEncargados, plaza, nombre){
+    let encargadosFiltrados = []
+    //console.log(listaEncargados)
+    //console.log(plaza)
+    //console.log(nombre)
+    if(plaza != ''){
+        encargadosFiltrados = listaEncargados.filter(encargado => encargado.squareCatalogId == plaza)
+    }
+    if(nombre != ''){
+        encargadosFiltrados = encargadosFiltrados.map(encargado => {
+            let nombreCompleto = `${encargado.name}${encargado.lastName1}${encargado.lastName2}`
+            if(nombreCompleto.toUpperCase().includes(nombre.toUpperCase())){
+                return {...encargado}
+            }
+        })
+    }
+    //console.log(encargadosFiltrados)
+    return encargadosFiltrados
+}
 export default
 {
     filtrarDTC,
-    filtrar_calendario_historico
+    filtrar_calendario_historico,
+    filtro_encargados_plaza
 }

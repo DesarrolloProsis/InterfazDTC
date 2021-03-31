@@ -95,13 +95,17 @@
             </div>
             <div class="text-center sm:ml-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
+                <input v-model="nombreEncargado" class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
         </div>
         <div class="flex justify-center m-5 sm:ml-0">
-            <button class="botonIconBuscar">
+            <button class="botonIconBuscar" @click="filtrar_encargados">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
+            </button>
+            <button class="botonIconBuscar" @click="limpiar_encargados">
+                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
+                <span>Limpiar</span>
             </button>
         </div> 
     </div>
@@ -203,6 +207,8 @@ export default {
             //data Diagnostico/Ficha
             ubicacion: '',
             plazaSeleccionada:"",
+            //data Encargados Plaza
+            nombreEncargado: ""
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -227,6 +233,7 @@ export default {
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){
+           //alert(value)
             this.plazaFiltro = value 
             this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
         },
@@ -259,7 +266,17 @@ export default {
                 'statusFiltro': this.statusFiltro,                
             }
             this.$emit('filtrar-dtc',objFiltro)
-        }
+        },
+        //Metodos Para Encados de Plaza
+        filtrar_encargados: function (){
+            //console.log(this.plazaFiltro)
+            this.$emit('filtrar-encargados',{plaza:this.plazaFiltro,nombre:this.nombreEncargado})
+        },
+        limpiar_encargados: function (){
+            this.$emit('limpiar-encargados')
+            this.nombreEncargado = ""
+            this.plazaSeleccionada = ""
+        },
     },
     watch:{
         buscarPalabraInventario: function(newPalabra){
