@@ -169,7 +169,8 @@
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">        
-          <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div">
+          <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
+          <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
             <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc">
               <CardListDTC
                 @borrar-card="confimaBorrar"
@@ -180,8 +181,9 @@
                 :plazasValidas="plazasValidas"
                 :infoCard="dtc"              
               ></CardListDTC>
-            </div>   
-          </transition-group>                      
+            </div>
+          </div>   
+          <!-- </transition-group>       -->                
       </div>
       <div class="text-center" v-if="moreCard != false">       
         <button @click="cargar_mas" class="botonBajar animate-bounce">

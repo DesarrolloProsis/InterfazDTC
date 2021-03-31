@@ -2,10 +2,10 @@
     <div>
         <div v-if="forma == ''">
             <p class="text-md font-semibold mb-1 text-gray-900 sm:text-sm ">Cambiar Plaza</p>
-            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
+            <p class="input w-48"><select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 border-none" type="text" name="TipoDescripcion">
                 <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">{{ item.plazaNombre }}</option>
-            </select>
+            </select></p>
         </div>
         <div v-if="forma == 'diagnostico'">
             <select v-model="plazaSelect" @change="actualizar_plaza" class="w-48 sm:w-20" type="text" name="TipoDescripcion">

@@ -13,6 +13,9 @@
 .input{
     @apply mt-1 block w-full border-b-2 border-gray-400 bg-gray-100  rounded-xl shadow-lg;
 }
+.pdtcpendientes{
+    @apply font-semibold mb-2;
+}
 input {
     @apply bg-gray-200;        
     @apply rounded-lg;

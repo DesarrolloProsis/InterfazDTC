@@ -13,20 +13,22 @@
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
             <div class=" m-3">
-                <p class="font-semibold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full is_valid" type="date"/>
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una fecha</p>
+                <p class="input w-40"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
-                <p class="font-semibold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Escriba la Referencia</p>
                 <p class="input w-40"><input v-model="referenciaFiltro" class="border-none w-40 text-center sm:w-full" placeholder="PM-000000"/></p>
             </div> 
             <div class="m-3" v-if="dtcVista == 'pendientes'">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Estatus DTC</p>
-                <select v-model="statusFiltro" class="w-full" type="text">
-                    <option value="">Selecionar...</option>     
-                    <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
-                </select>  
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Estatus DTC</p>
+                <p class="input w-40">
+                    <select v-model="statusFiltro" class="w-full border-none" type="text">
+                        <option value="">Selecionar...</option>     
+                        <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
+                    </select>
+                </p>
             </div>     
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
