@@ -52,8 +52,8 @@
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
             <div class="mr-3 sm:mr-1 mt-6">
-                <span class="mr-2">Buscar</span>
-                <input v-model="buscarPalabraInventario" class="bg-white sm:w-full" />
+                <span class="mr-10">Buscar</span>
+                <p class="input w-40"><input v-model="buscarPalabraInventario" class="bg-white sm:w-full border-none w-40" /></p>
             </div>
             <div class="mr-3 mt-6">
                 <span class="mr-2">Ubicación</span>
@@ -63,7 +63,7 @@
                 <span class="mr-4">Componente</span>
                 <input @change="cambiar_orden_inventario('componente')" v-model="boolComponente" class="bg-white" type="checkbox"/>
             </div>
-            <div class="text-sm sm:mt-4">
+            <div class="text-sm sm:mt-4 mt-6">
                 <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
             <div class="mt-2">
