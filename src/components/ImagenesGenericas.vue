@@ -58,7 +58,7 @@ export default {
     },
     beforeMount() {        
         setTimeout(() => {
-            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
+            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
                 .then((response) => {                          
                     if(response.status != 404){                          
                         let newArrayImg = []                      
@@ -106,7 +106,7 @@ export default {
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
-                        await Axios.post(rutaInsertImagenes, formData, CookiesService.obtener_bearer_token())
+                        await Axios.post(rutaInsertImagenes, formData)
                             .then(() => {                                   
                             })
                             .catch(error => {                                                      
@@ -131,7 +131,7 @@ export default {
         eliminar_imagenes(nombreImagen){                
             if(this.arrayImagenes.length > 1){                
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                         .then(() => {                                                                 
                             this.$notify.success({
                                 title: "Ok!",
@@ -157,7 +157,7 @@ export default {
             else{
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                         .then(() => {                                                                                                              
                         })
                         .catch(Ex => {                    

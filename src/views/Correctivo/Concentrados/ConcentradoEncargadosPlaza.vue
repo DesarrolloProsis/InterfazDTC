@@ -97,7 +97,7 @@ export default {
         }
     },
     beforeMount: function (){
-        Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
+        Axios.get(`${API}/SquaresCatalog/Admins`)
         .then((response)=>{            
             this.lista_encargados = response.data.result
         }).catch((Ex)=>{

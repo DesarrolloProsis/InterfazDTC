@@ -272,7 +272,7 @@ methods:{
             if(this.validar_horas()) {                                                 
                 if(this.reporteInsert) {     
                         this.modalLoading = true                                                                                                       
-                        Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte, CookiesService.obtener_bearer_token())
+                        Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte)
                         .then(() => {                                                        
                             Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
                             .then(() => {  

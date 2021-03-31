@@ -46,7 +46,7 @@ const mutations = {
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)                         
-        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
+        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
             .then((response) => {                               
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
@@ -58,7 +58,7 @@ const actions = {
         }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
-        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
+        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
             .then((response) => {                                  
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
@@ -71,7 +71,7 @@ const actions = {
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                           
-        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`, CookiesService.obtener_bearer_token())
+        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`)
         .then((response) => {   
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1

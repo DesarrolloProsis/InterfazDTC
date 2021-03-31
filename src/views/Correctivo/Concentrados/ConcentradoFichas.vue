@@ -97,7 +97,7 @@ export default {
         }
     },
     beforeMount: function (){
-       // Axios.get(`${API}/DiagnosticoFalla/GetFichaTecnica/${item.clavePlaza}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
+       
 
     },
     methods: {

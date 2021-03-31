@@ -136,7 +136,7 @@ export default {
     },
     beforeMount: async function() {
         
-        await Axios.get(`${API}/Mantenimiento/Bitacora`, CookiesService.obtener_bearer_token())
+        await Axios.get(`${API}/Mantenimiento/Bitacora`)
         .then((response) => { 
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  

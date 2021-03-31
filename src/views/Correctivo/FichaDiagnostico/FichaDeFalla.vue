@@ -128,7 +128,7 @@ export default {
                 updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
             }
             console.log(objFicha)
-            Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha, CookiesService.obtener_bearer_token())
+            Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                 .then((response) => {
                     console.log(response)                                                              
                 })
