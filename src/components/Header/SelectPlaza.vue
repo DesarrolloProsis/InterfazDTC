@@ -62,8 +62,7 @@ export default {
             if(this.tipo == "filtro" || this.tipo == "edicion"){
                 let plazasSinRepetir = []
                 this.listaPlazas.forEach(element => {                                        
-                    if(!plazasSinRepetir.some(item => item.numeroPlaza == element.numeroPlaza)){
-                        console.log('hola')
+                    if(!plazasSinRepetir.some(item => item.numeroPlaza == element.numeroPlaza)){                        
                         plazasSinRepetir.push(element)
                     }
                 });                
