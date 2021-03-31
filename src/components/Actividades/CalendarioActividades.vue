@@ -255,7 +255,7 @@ export default {
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
       )                          
-      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
+      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
@@ -298,7 +298,7 @@ export default {
           SquareId: user.numPlaza,
           Year: this.año
         }                
-        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario, CookiesService.obtener_bearer_token())
+        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
         .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {
               mes: this.mes,
@@ -325,7 +325,7 @@ export default {
     },
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
-      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
+      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
         .then(async () => {                 
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
@@ -354,7 +354,7 @@ export default {
     },
     validar_calendario_escaneado(){
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}`, CookiesService.obtener_bearer_token())
+      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}`)
       .then(() => {        
         this.calendarioEscaneado = true
       })

@@ -223,7 +223,7 @@ export default {
             let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
-            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile, CookiesService.obtener_bearer_token())
+            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile)
                 .then(() => {                                   
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false

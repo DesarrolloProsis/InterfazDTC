@@ -201,7 +201,7 @@ computed:{
 methods:{
 abrirCarrusel : async function (item){  
   this.dtcImg = item
-  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
+  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
     .then((response) => {              
         if(response.status != 404){                 
           if(response.data.length > 0){
@@ -246,7 +246,7 @@ editar_status_dtc: function (){
       }        
     if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
+    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
       .then(() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   

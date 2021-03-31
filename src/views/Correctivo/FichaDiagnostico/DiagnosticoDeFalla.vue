@@ -141,7 +141,7 @@ methods:{
             adminSquareId: administradorId,
             updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
         }        
-        Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico, CookiesService.obtener_bearer_token())
+        Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
             .then(() => {                
                 let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                     let newCarril = {}
@@ -152,7 +152,7 @@ methods:{
                     return newCarril
                 })                
                 carrilesInsertDiagnostic.forEach(carril => {                                                     
-                    Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril, CookiesService.obtener_bearer_token())
+                    Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
                         .then(() => {                                 
                             EventBus.$emit('guardar_imagenes')                 
                             this.$router.push({

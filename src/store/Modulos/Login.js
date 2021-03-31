@@ -103,7 +103,7 @@ const actions = {
   },
   //CONULTA PARA LISTAR LAS PLAZAS
   async BUSCAR_PLAZAS({ commit }) {                    
-    await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
+    await Axios.get(`${API}/squaresCatalog`)
       .then(response => {        
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })

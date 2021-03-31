@@ -154,7 +154,7 @@ beforeMount: async function() {
       this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
       this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
       this.flagCreate = false;         
-      Axios.get(`${API}/dtcData/${this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"]}/${this.headerEdit.referenceNumber}`, CookiesService.obtener_bearer_token())
+      Axios.get(`${API}/dtcData/${this.$store.getters["Login/GET_REFERENCIA_ACTUAL_PLAZA"]}/${this.headerEdit.referenceNumber}`)
         .then(response => {          
           this.datosUser = response.data.result[0]
         })

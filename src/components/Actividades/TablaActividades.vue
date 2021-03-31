@@ -250,7 +250,7 @@ methods: {
     reporte_pdf: async function(item){          
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
         .then((response) => {                  
             let referenceNumber = response.data.result.table[0].referenceNumber
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
@@ -264,7 +264,7 @@ methods: {
     },  
     editar_reporte_carril: async function(item){        
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
+        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
         .then((response) => {                  
             let header = response.data.result.table[0]                        
             let actividades = response.data.result.table1                             
