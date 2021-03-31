@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <div class="flex justify-center mt-2 sm:mt-14">
       <div class="grid grid-cols-2"> 
         <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
@@ -23,8 +22,5 @@
 <script>
 export default {
 
-  components: {
-    Nav,
-  },
 }
 </script>
