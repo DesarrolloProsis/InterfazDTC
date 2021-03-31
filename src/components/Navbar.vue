@@ -1,7 +1,7 @@
 <template>
   <div>
-    <nav class="flex justify-between bg-blue-900 p-3" id="nav">
-      <div class="text-lg">
+    <nav class="flex justify-between bg-blue-800 p-3" id="nav">
+      <div class="text-l">
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio
