@@ -1,6 +1,6 @@
 npm run build<template>
     <footer class="fixed inset-x-0 bottom-0">        
-        <div class="w-full px-6 bg-blue-900">                
+        <div class="w-full px-6 bg-blue-800">                
             <div class="inline-flex justify-between  py-3 w-full">
                 <div>
                     <p class="text-xs sm:mt-1 text-blue-400">{{ tipoUsuario }}</p>
