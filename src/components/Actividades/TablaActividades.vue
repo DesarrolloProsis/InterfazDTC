@@ -48,7 +48,7 @@
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select>    
                                 </div> 
-                                <div class="mb-4 sm:-ml-64 sm:mt-20">
+                                <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status *:</p>
                                     <select v-model="status" class="w-48 sm:w-24" type="text" name="TipoDescripcion" >
                                         <option value="">Selecionar...</option>
@@ -56,10 +56,10 @@
                                         <option :value=false>Inconcluso</option>                                        
                                     </select>
                                 </div>
-                                <div class="mb-4 ml-20 font-bold sm:ml-0 sm:w-full">
+                                <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia*:</p>
                                     <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
-                                </div>-->
+                                </div>
                             </div>                           
                         </div>
                         <div class="text-center sm:flex mb-4 ml-16 mt-2 sm:ml-4">
