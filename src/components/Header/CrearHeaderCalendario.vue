@@ -5,12 +5,12 @@
           ////////////////////////////////////////////////////////////////////-->
         <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-10">
             <div class=" w-auto mx-auto flex justify-center">
-                <div class="border-gray-800 w-66 border-2 p-5">
+                <div class="border-gray-800 w-66 border-none p-5">
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
                 </div>
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
-                <div class="border-gray-800 border-2 p-5 pt-0">
+                <div class="border-b-2 border-gray-200 rounded-lg shadow-md p-5 pt-0">
                     <h1 class="mt-5 border-purple-800 w-72 sm:w-full">{{ `Calendario de Actividades` }}</h1>            
                 </div>
             </div>

@@ -17,7 +17,7 @@
                                 <div class="sm:hidden"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza></div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
-                                    <select v-model="mes" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
+                                    <p class="w-32 input ml-16"><select v-model="mes" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="1">Enero</option>
                                         <option value="2">Febrero</option>
@@ -31,34 +31,34 @@
                                         <option value="10">Octubre</option>
                                         <option value="11">Noviembre</option>
                                         <option value="12">Diciembre</option>
-                                    </select>
+                                    </select></p>
                                 </div>
                                 <div class="mb-4 ml-4 sm:mt-4 sm:ml-20">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 mr-2 font-semibold">Año:</p>
-                                    <select v-model="año" class="w-32 sm:w-24" type="text" name="TipoDescripcion" >
+                                    <p class="w-32 input ml-16"><select v-model="año" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>                                        
-                                    </select>
+                                    </select></p>
                                 </div>
                                 <div class="mb-4 ml-5 sm:mt-20 sm:-ml-1">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1 font-bold sm:ml-0">Carril *:</p>
-                                    <select class="w-32" v-model="ubicacion" type="text">
+                                    <p class="w-32 input ml-16"><select class="w-32 border-none" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                                    </select>    
+                                    </select></p>
                                 </div> 
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status *:</p>
-                                    <select v-model="status" class="w-48 sm:w-24" type="text" name="TipoDescripcion" >
+                                    <p class="w-48 input ml-20"><select v-model="status" class="w-48 sm:w-24 border-none" type="text" name="TipoDescripcion" >
                                         <option value="">Selecionar...</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
-                                    </select>
+                                    </select></p>
                                 </div>
                                 <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia*:</p>
-                                    <input type="text" v-model="ref" placeholder="Referencia" class="text-center">
+                                    <input type="text" v-model="ref" placeholder="Referencia" class="text-center input">
                                 </div>
                             </div>                           
                         </div>
