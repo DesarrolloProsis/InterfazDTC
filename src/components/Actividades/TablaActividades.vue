@@ -159,8 +159,6 @@ import ServicioActividades from '../../services/ActividadesService.js'
 import SelectPlaza from '../Header/SelectPlaza'
 import Axios from 'axios'
 import ServiceReportePDF from '../../services/ReportesPDFService'
-import CookiesService from '../../services/CookiesService'
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -256,10 +254,8 @@ methods: {
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
             ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
         })
-        .catch(Ex => {                    
-            console.log(Ex);        
-            if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+        .catch(error => {                    
+            console.log(error)
         });                 
     },  
     editar_reporte_carril: async function(item){        
@@ -282,8 +278,7 @@ methods: {
             });
         })
         .catch(error => {                                
-            if(error.response.status == 401)
-                CookiesService.token_no_autorizado()                         
+            console.log(error)                
         });
     },
     crear_reporte_carril(item){              

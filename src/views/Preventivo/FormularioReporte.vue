@@ -67,7 +67,6 @@ import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
 import moment from "moment";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -274,7 +273,7 @@ methods:{
                         this.modalLoading = true                                                                                                       
                         Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte)
                         .then(() => {                                                        
-                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
+                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob)
                             .then(() => {  
                                 if(this.objetoLogDate.fecha != ''){                                    
                                     let refPlaza = this.referenceNumber.split('-')[0]
@@ -286,12 +285,10 @@ methods:{
                                         referenceNumber: this.referenceNumber,
                                         comment: this.objetoLogDate.motivo
                                     }
-                                    Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
+                                    Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                                         .then(() => {                                                                                                                                   
-                                        }).catch(Ex => {      
-                                            if(Ex.response.status == 401)
-                                                CookiesService.token_no_autorizado()
-                                            console.log(Ex);                                       
+                                        }).catch(error => {      
+                                            console.log(error)                                                                      
                                         })         
                                 } 
                                 let objImg = {
@@ -313,22 +310,19 @@ methods:{
                                     });
                                 }                                                                                                   
                             })
-                            .catch(Ex => {    
-                                if(Ex.response.status == 401)
-                                    CookiesService.token_no_autorizado()                                                                                     
+                            .catch(error => {                                    
+                                console.log(error)                                                                                 
                             })                                                                                                                                    
                         })
-                        .catch(Ex => { 
-                            if(Ex.response.status == 401)
-                                CookiesService.token_no_autorizado()                                           
-                            console.log(Ex);
+                        .catch(error => {                                                                                                  
+                            console.log(error);
                         });                                                                                                                                                                                          
                 }
                 else {  
                     this.modalLoading = true
-                    Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`,headerReporte, CookiesService.obtener_bearer_token())
+                    Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`,headerReporte)
                         .then(() => {     
-                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
+                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob)
                                 .then(() => {                             
                                     //Envio Imagenes y Generacion de Reportes    
                                     let objImg = {
@@ -348,16 +342,12 @@ methods:{
                                         },
                                     });                                                                                
                                 })
-                                .catch(Ex => {    
-                                    console.log(Ex)
-                                    if(Ex.response.status == 401)
-                                        CookiesService.token_no_autorizado()                                                                                     
+                                .catch(error => {    
+                                    console.log(error)                                                                                                                                                     
                                 })
                         })
                         .catch((error) => {
-                            console.log(error)
-                            if(error.response.status == 401)
-                                CookiesService.token_no_autorizado()   
+                            console.log(error)                                                            
                         })                                                           
                 }   
             } 

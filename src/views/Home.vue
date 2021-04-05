@@ -38,7 +38,7 @@ export default {
       }
   },
   beforeMount: function(){
-    this.typeUser = this.$store.state.Login.cookiesUser.rollId
+    this.typeUser = this.$store.state.Login.cookiesUser.rollId    
   },
 };
 </script>

@@ -1,5 +1,4 @@
 import Axios from "axios";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const state = {
   listaRefacciones: [],  
@@ -57,10 +56,8 @@ const actions = {
       
       commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);                  
     });
   },
   async BUSCAR_CARRILES_INVENTARIO({ commit, rootGetters }, value){
@@ -68,10 +65,8 @@ const actions = {
     .then(response => {      
       commit("LISTA_LANE_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);                  
     });
   },
   async BUSCAR_INFO_COMPONENTES_INVENTARIO({ commit, rootGetters }, value){
@@ -79,10 +74,8 @@ const actions = {
     .then(response => {    
       commit("INFO_COMPONENTE_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex); 
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);       
     });
   },
   async BUSCAR_UBICACION_GENERAL_INVENTARIO({ commit, rootGetters }){
@@ -91,10 +84,8 @@ const actions = {
     .then(response => {          
       commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);          
     });
   },
   async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
@@ -114,10 +105,8 @@ const actions = {
     await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
     .then(() => {          
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error)                  
     });
   },
   async BUSCAR_COMPONETES({ commit, rootGetters }, value) {    
@@ -125,10 +114,8 @@ const actions = {
       .then(response => {                
         commit("LISTA_REFACCIONES_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {
+        console.log(error);                    
       });
   },
   //Cosnsulta API Listar Carriles
@@ -144,20 +131,17 @@ const actions = {
             commit("LISTA_LANE_MUTATION", []); 
           }       
       })
-      .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+      .catch(error => {       
+        console.log(error)
       })
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
     await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
-      .then(response => { 
-        console.log(response)                               
+      .then(response => {                               
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
       .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)
       })
   },
   async EDIT_COMPONETE_QUICK({ dispatch, rootGetters }, value){
@@ -166,8 +150,7 @@ const actions = {
         dispatch('FULL_COMPONETES')       
       })
       .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()        
+        console.log(error)                     
       })
   },
   async BUSCAR_CARRILES({ commit }, plaza) {          
@@ -178,8 +161,7 @@ const actions = {
           }                    
       })
       .catch((error) => {          
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)          
       });  
     }
 };

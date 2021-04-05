@@ -73,7 +73,6 @@ import Axios from "axios";
 import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import EventBus from "../../services/EventBus.js";
-import CookiesService from '../../services/CookiesService'
 
 export default {
   name: 'ImgenesCard',
@@ -227,10 +226,8 @@ export default {
                 });
               }
               })
-              .catch((ex) => {
-                if(ex.response.status == 401)
-                  CookiesService.token_no_autorizado()                
-                
+              .catch((error) => {
+                console.log(error)                                           
                 this.$notify.error({
                   title: "ups!",                  
                   msg: 'IMAGENES ELIMINADAS',
@@ -269,13 +266,11 @@ export default {
                   },
                 });
               })
-              .catch((ex) => {    
-                if(ex.response.status == 401)
-                  CookiesService.token_no_autorizado()            
-                reject("mal");
+              .catch((error) => {                    
+                reject(error);
                 this.$notify.error({
                   title: "ups!",
-                  msg: ex,
+                  msg: error,
                   position: "bottom right",
                   styles: {
                     height: 100,
@@ -304,8 +299,7 @@ export default {
           array_nombre_imagenes = response.data;
         })
         .catch((error) => {          
-          if(error.response.status == 401)
-            CookiesService.token_no_autorizado()
+          console.log(error)                              
         });
       let arrayimg = [];
       if (array_nombre_imagenes.length > 0) {

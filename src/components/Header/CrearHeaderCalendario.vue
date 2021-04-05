@@ -108,7 +108,6 @@
 <script>
 import ServiceActividades from '../../services/ActividadesService'
 import SelectPlaza from '../Header/SelectPlaza'
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import Axios from "axios";
 import ReportesPDFService from '../../services/ReportesPDFService'
@@ -145,10 +144,7 @@ export default {
             calendarEscaneado: null,      
             escaneadoBool: false                  
         }
-    },
-    beforeMount(){
-
-    },
+    },    
     destroyed(){        
         if(this.comentario == '' && this.numeroActividades > 0){
             this.$router.push({ path: 'CalendarioActividades' })
@@ -239,10 +235,8 @@ export default {
                         },
                     });                                                                                                     
                 })
-                .catch((ex) => {
-                    console.log(ex)
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
+                .catch((error) => {
+                    console.log(error)                                      
                 })
 
         },

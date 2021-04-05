@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import CookiesService from '../../services/CookiesService'
+//import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
@@ -18,9 +18,7 @@ const actions = {
               commit("USUARIOS_MUTATION", response.data.result);              
             })
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);         
             }); 
     },
     async Update_User({commit}, value){
@@ -28,9 +26,7 @@ const actions = {
         await Axios.put(`${API}/User/update`,value)
             .then(() => {})
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);                              
         }); 
     },
     async BorrarUser({commit}, value){
@@ -39,9 +35,7 @@ const actions = {
             .then(() => {                                          
             })
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);                              
         }); 
     },
     async NuevoUser({commit}, value){
@@ -49,9 +43,7 @@ const actions = {
         await Axios.post(`${API}/user/nuevo`,value)
             .then(() => {})
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);                              
         }); 
     },
     async UPDATE_PASSWORD({commit}, value){
@@ -59,9 +51,7 @@ const actions = {
       await Axios.put(`${API}/User/newPassword`,value)
           .then(() => {})
           .catch(Ex => {
-            console.log(Ex);
-            if(Ex.response.status == 401)
-              CookiesService.token_no_autorizado()
+            console.log(Ex);                        
       }); 
   },
 }
