@@ -14,15 +14,15 @@
           class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-white hover:bg-red-700"
         >Salir</router-link>
         <div class="group inline-block">
-          <button class="outline-none focus:outline-none border px-3 py-1 bg-white rounded-lg flex items-center w-10 mt-1">
+          <button class="outline-none focus:outline-none border px-1 py-1 bg-white rounded-lg flex items-center w-10 mt-1">
             <span>
               <svg
-                class="fill-current h-4 w-4 transform group-hover:-rotate-180
+                class="fill-current h-6 w-8 transform group-hover:-rotate-180
                 transition duration-150 ease-in-out"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                <path d="M9.293 12.95l.707.707L15.6 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
               </svg>
             </span>
           </button>
