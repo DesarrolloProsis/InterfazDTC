@@ -1,12 +1,20 @@
 @tailwind base;
 
 .is_valid {
-    @apply border;
-    @apply border-green-500;
+    @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
 }
 .is_invalid {
     @apply border;
     @apply border-red-500;
+}
+.contenedor {
+    @apply mt-1 block w-full border-2 bg-gray-100 rounded-xl shadow-xl;
+}
+.input{
+    @apply mt-1 block w-full border-b-2 border-gray-400 bg-gray-100  rounded-xl shadow-lg;
+}
+.pdtcpendientes{
+    @apply font-semibold mb-2;
 }
 input {
     @apply bg-gray-200;        
@@ -219,7 +227,7 @@ select:focus {
 
 @layer utilities {
     .slide-fade-enter-active {
-        transition: all .3s ease;
+        transition: all .3s ease ;
     }
     .slide-fade-leave-active {
         transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
@@ -230,7 +238,7 @@ select:focus {
         opacity: 0;
     }
     .list-enter-active, .list-leave-active {
-        transition: all 3s;
+        transition: all 2s;
     }
     .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
         opacity: 0;
@@ -244,6 +252,7 @@ select:focus {
         transform: translateY(10px);
         transition: all 2s
     }
+    
 }
 
 

@@ -6,10 +6,11 @@
       <!-- /////////////////////////////////////////////////////////////////
       ////                          TITULO                              ////
       ///////////////////////////////////////////////////////////////////// -->
-        <div class="box-content p-4 border-2 border-gray-800 xl:w-3/4">
-          <img src="../../assets/img/prosis-logo.jpg" class="xl:h-12 4k:h-12" />
+        <!--<div class="box-content p-4 border-2 border-gray-200 rounded-lg xl:w-3/4">-->
+        <div class="box-content p-4 xl:w-3/4">
+          <img src="../../assets/img/prosis-logo.jpg" class="xl:h-16 4k:h-12 ml-20 shadow-lg rounded-lg sm:ml-1" />
         </div>
-        <div class="border-2 border-gray-800 text-center h-24 text-gray-800 p-0 md:text-lg lg:text-3xl font-extrabold">Dictamen Tecnico y Cotizacion</div>
+        <div class="text-3xl border-b-2 border-gray-200 rounded-lg shadow-md text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-bold p-4 ">Dictamen Tecnico y Cotizacion</div>
         <div class="text-left">
           <br />
           <label class="mr-2 ml-5 text-lg">Referencia:</label>
@@ -25,7 +26,7 @@
         </div>
         <div>
           <br />
-          <div class="border-black border-2 text-lg text-center font-bold">
+          <div class="border-gray-200 rounded-lg shadow-md border-2 text-lg text-center font-bold">
             <h6>En caso de Siniestro</h6>
           </div>
         </div>
@@ -129,14 +130,14 @@
         <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
         <input
           v-model="datosSinester.FailureNumber"
-          class="w-full"
+          class="w-full is_valid"
           type="text"
           placeholder="S/M"
         />
         </div>
         <div class="pr-2">
         <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion:</p>
-        <input disabled="true" class="w-full" type="date" readonly />
+        <input disabled="true" class="w-full is_valid" type="date" readonly />
         </div>
       <!-- //////////////////////////////////////////////////////////////////
       ////                   CUARTA  LINEA                              ////

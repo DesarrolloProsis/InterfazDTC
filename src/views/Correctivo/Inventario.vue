@@ -137,7 +137,7 @@ export default {
     });
   },
   beforeMount: async function () {    
-       let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
+    let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
             console.log(numeroPlaza)            
             await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
