@@ -87,7 +87,7 @@
      ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:gird grid-cols-1">
+        <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
             <div class="text-center sm:ml-2">
                 <div class="">
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
@@ -98,13 +98,13 @@
                 <input v-model="nombreEncargado" class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
         </div>
-        <div class="flex justify-center m-5 sm:ml-0">
+        <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
             <button class="botonIconBuscar" @click="filtrar_encargados">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
             </button>
-            <button class="botonIconBuscar" @click="limpiar_encargados">
-                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
+            <button class="botonIconLimpiar" @click="limpiar_encargados">
+                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
                 <span>Limpiar</span>
             </button>
         </div> 

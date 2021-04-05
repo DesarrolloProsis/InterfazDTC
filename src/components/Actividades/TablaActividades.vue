@@ -13,7 +13,7 @@
                         ////////////////////////////////////////////////////////////////////-->
                         <!-- <p class=" uppercase sm:text-sm sm:w-66 text-lg sm:ml-5 text-center">Actividades del mes {{ mes }} del {{ año }}</p>  -->
                         <div class="pl-10 sm:pl-3 mt-6 inline-flex sm:inline-block">
-                            <div class="grid grid-cols-4 sm:w-full sm:ml-3 sm:grid grid-cols-2 w-full text-center">
+                            <div class="grid grid-cols-4 sm:w-full sm:ml-3 sm:grid-cols-2 w-full text-center">
                                 <!-- <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p> -->                          
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>                            
                                     <div class="mb-4 ml-20">
