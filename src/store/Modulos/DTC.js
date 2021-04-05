@@ -1,6 +1,5 @@
 import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-import CookiesService from '../../services/CookiesService'
 const state = {  
   listaDescriptions: [],
   listaDmg: [],
@@ -87,10 +86,8 @@ const actions = {
       .then(response => {
         commit("LISTA_DESCRIPCIONES_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch((error) => {
+        console.log(error)                    
       });
   },
   //Consulta API Crear DTC
@@ -110,9 +107,8 @@ const actions = {
           commit('insertDmgCompleteMutation', true)
         }
       })
-      .catch(Ex => {        
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {        
+        console.log(error)            
       });
   },
   async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {    
@@ -120,11 +116,9 @@ const actions = {
       .then(response => {                      
         commit("LISTA_DTC_MUTATION", response.data.result);
       })
-      .catch(Ex => {
+      .catch(error => {
         commit("LISTA_DTC_MUTATION", []);
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        console.log(error)                    
       });
   },
   async BUSCAR_TABLA_CARDS({ commit, rootGetters }, value) {            
@@ -135,11 +129,9 @@ const actions = {
         else
           commit("TABLA_DTC_CARDS_MUTATION", []);
       })
-      .catch(Ex => {
+      .catch(error => {
         commit("TABLA_DTC_CARDS_MUTATION", []);
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        console.log(error)                    
       });
   },
   async BORRAR_DTC({ commit, rootGetters }, value) {    
@@ -148,10 +140,8 @@ const actions = {
         commit("BORRAR_DTC_MUTATION", value)
         commit
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {
+        console.log(error);                    
       });
   },
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
@@ -159,10 +149,8 @@ const actions = {
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
-      .catch(Ex => {
-        console.log(Ex); 
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {
+        console.log(error)                    
       });
   },
   async COMPONENT_EDIT_OPEN({ commit, rootGetters }, value) {
@@ -170,10 +158,8 @@ const actions = {
       .then(response => {
         commit("COMPONENTES_EDIT", response.data.result)
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {
+        console.log(error)                    
       });
   },
   async crearDmgLibre({ state, commit, rootGetters }, value) {
@@ -211,9 +197,8 @@ const actions = {
           commit('insertDmgCompleteMutation', true)
         }
       })
-      .catch(Ex => {        
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {        
+        console.log(error)            
       });
   },
 };

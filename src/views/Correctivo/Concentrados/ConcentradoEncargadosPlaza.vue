@@ -75,9 +75,7 @@
 </template>
 <script>
 import Axios from 'axios';
-import CookiesService from '../../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
 export default {
     name: "EncargadosDePlaza",  
     data (){
@@ -102,8 +100,7 @@ export default {
         .then((response)=>{            
             this.lista_encargados = response.data.result
         }).catch((Ex)=>{
-            if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+            console.log(Ex)
         })
     },
     methods:{

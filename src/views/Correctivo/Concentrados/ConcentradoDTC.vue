@@ -144,7 +144,6 @@ import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../../services/ReportesPDFService"
 import Carrusel from "../../../components/Carrusel";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
-import CookiesService from '../../../services/CookiesService'
 
 export default {
   name: "ConcentradoDTC",
@@ -231,8 +230,7 @@ abrirCarrusel : async function (item){
       }                   
     })
     .catch((error) => {   
-      if(error.response.status == 401)
-        CookiesService.token_no_autorizado()       
+      console.log(error)            
     });      
 },
 editar_status_dtc: function (){
@@ -254,9 +252,7 @@ editar_status_dtc: function (){
         this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
         this.modalCambiarStatus = false                                
       })
-      .catch(error => {
-        if(error.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {                    
         console.log(error);
       });
     }

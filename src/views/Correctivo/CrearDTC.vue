@@ -112,7 +112,6 @@ import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios'
 import ServiceReporte from '../../services/ReportesPDFService'
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "CrearDTC",
@@ -158,10 +157,8 @@ beforeMount: async function() {
         .then(response => {          
           this.datosUser = response.data.result[0]
         })
-        .catch(Ex => {
-          console.log(Ex);
-          if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        .catch(error => {
+          console.log(error)                      
         });             
     }
 },

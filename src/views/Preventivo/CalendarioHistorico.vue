@@ -118,7 +118,6 @@
 import Axios from 'axios';
 import ServicePDF from '../../services/ReportesPDFService'
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: 'CalendarioHistorico', 
@@ -147,10 +146,8 @@ export default {
                     this.listaPlazasValidas.push(plaza)        
                 }
             }                                                                                                           
-        }).catch(Ex => {      
-            if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
-            console.log(Ex);                                       
+        }).catch(error => {      
+            console.log(error)            
         })                  
     },
     methods:{

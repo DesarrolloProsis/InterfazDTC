@@ -53,8 +53,7 @@ const actions = {
         commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
       .catch(error => {
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)                  
       });
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
@@ -64,8 +63,7 @@ const actions = {
         commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
       .catch(error => {
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)          
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
@@ -108,18 +106,19 @@ const actions = {
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)
       });
   },
-  async REFRESCAR_TOKEN_USER({ state }){     
-    await Axios.get(`${API}/login/Refresh`, { userId: state.cookiesUser.userId })
-    .then(response => {        
+  async REFRESCAR_TOKEN_USER({ state }){  
+    let objRefresh = {
+      UserId: state.cookiesUser.userId
+    }     
+    await Axios.post(`${API}/login/Refresh`, objRefresh)
+    .then((response) => {        
         console.log(response)   
     })
     .catch(error => {        
-      if(error.response.status == 401)
-        CookiesService.token_no_autorizado()
+      console.log(error.response)            
     });
   }
 };

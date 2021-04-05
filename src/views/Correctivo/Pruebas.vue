@@ -18,6 +18,8 @@ export default {
             show: false                        
         }        
     },
+    beforeMount(){        
+    },
     methods:{
     }
 }

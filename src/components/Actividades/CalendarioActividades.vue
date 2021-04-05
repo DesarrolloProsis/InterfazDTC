@@ -119,8 +119,6 @@ import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
 import moment from "moment";
-import CookiesService from '../../services/CookiesService'
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -260,8 +258,7 @@ export default {
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
         .catch(error => {                        
-            if(error.response.status == 401)
-              CookiesService.token_no_autorizado()
+          console.log(error)                          
         });
       this.actividadSelect = ''      
     },
@@ -305,10 +302,8 @@ export default {
               año: this.año
           })          
         })
-        .catch((ex) => {          
-          console.log(ex);
-          if(ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        .catch((error) => {          
+          console.log(error);                      
         });
       }
       else{        
@@ -337,7 +332,7 @@ export default {
               this.carrilesModal.splice(index,1)               
             }                                                           
         })
-        .catch(Ex => {  
+        .catch(error => {  
           this.$notify.warning({
             title: "Ups!",
             msg: `NO PUEDES BORRAR ESTA ACTIVIDAD YA HAY UN REPORTE GENERADO`,
@@ -347,9 +342,7 @@ export default {
               width: 500,
             },          
           });          
-          console.log(Ex);
-          if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+          console.log(error);                      
         });
     },
     validar_calendario_escaneado(){
@@ -359,10 +352,7 @@ export default {
         this.calendarioEscaneado = true
       })
       .catch((error) => {
-          console.log(error)                    
-          if(error.response.state == 401)
-            CookiesService.token_no_autorizado
-          
+          console.log(error)                                                    
           this.calendarioEscaneado = false
       })
     }

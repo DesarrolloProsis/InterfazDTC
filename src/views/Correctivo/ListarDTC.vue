@@ -202,7 +202,6 @@ import HeaderGenerico from '../../components/Header/HeaderGenerico'
 import EventBus from "../../services/EventBus.js";
 import Carrusel from "../../components/Carrusel";
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   data() {
@@ -375,9 +374,7 @@ methods: {
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)               
               resolve('ok')                     
             })
-            .catch((ex) => {
-              if(ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+            .catch((ex) => {                              
               reject(ex)
               this.$notify.error({
               title: "ups!",
@@ -449,13 +446,11 @@ methods: {
               this.limpiar_filtros()                                                                                         
           })                                  
         })
-        .catch((ex) => {
-          if(ex.response.status == 401)
-            CookiesService.token_no_autorizado()
-          reject(ex)                          
+        .catch((error) => {                      
+          reject(error)                          
           this.$notify.error({
             title: "ups!",
-            msg: ex,
+            msg: error,
             position: "bottom right",
             styles: {
               height: 100,
@@ -521,13 +516,12 @@ methods: {
           this.refNum = ''     
           resolve('ok')         
         })
-        .catch((ex) => {   
-          if(ex.response.status == 401)
-            CookiesService.token_no_autorizado()
-          reject(ex)                     
+        .catch((error) => {   
+                      
+          reject(error)                     
           this.$notify.error({
             title: "ups!",
-            msg: ex,
+            msg: error,
             position: "bottom right",
             styles: {
               height: 100,
@@ -586,11 +580,8 @@ methods: {
         this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
         resolve('ok')                     
       })
-      .catch(Ex => {
-        if(Ex.response.status == 401)
-          CookiesService.token_no_autorizado()
-        reject('mal')
-        console.log(Ex);
+      .catch(error => {                  
+        reject(error)        
       });
     })
     setTimeout(() => {

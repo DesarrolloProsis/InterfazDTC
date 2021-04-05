@@ -30,7 +30,6 @@
 import Axios from 'axios'
 import ServiceImagenes from '../services/ImagenesService'
 import EventBus from "../services/EventBus.js";
-import CookiesService from '../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     props:{
@@ -72,9 +71,7 @@ export default {
                     }    
                 })
                 .catch(Ex => {                    
-                    console.log(Ex);    
-                    if(Ex.response.status == 401)
-                        CookiesService.token_no_autorizado()               
+                    console.log(Ex);                     
             });
         }, 1000)
     },
@@ -110,8 +107,7 @@ export default {
                             .then(() => {                                   
                             })
                             .catch(error => {                                                      
-                                if(error.response.status == 401)
-                                    CookiesService.token_no_autorizado()
+                                console.log(error)                                    
                         });                       
                     }                      
                 }
@@ -144,8 +140,7 @@ export default {
                             });                                                                                                           
                         })
                         .catch(error => {                                                                 
-                            if(error.response.status == 401)
-                                CookiesService.token_no_autorizado()
+                            console.log(error)                                
                     });  
                 }        
                 this.$nextTick(() => {                                     
@@ -160,10 +155,8 @@ export default {
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                         .then(() => {                                                                                                              
                         })
-                        .catch(Ex => {                    
-                            console.log(Ex);  
-                            if(Ex.response.status == 401)
-                                CookiesService.token_no_autorizado()
+                        .catch(error => {                    
+                            console.log(error)
                         });  
                 } 
             }

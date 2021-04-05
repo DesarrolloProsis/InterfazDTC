@@ -1,5 +1,4 @@
 import Axios from "axios"
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
@@ -67,10 +66,8 @@ const actions = {
           commit("REFERENCIA_DTC_MUTATION", response.data.result);
         }
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {
+        console.log(error)                 
       });
   },
   async BUSCAR_LISTA_UNIQUE({ commit, rootGetters }) {
@@ -80,10 +77,8 @@ const actions = {
           commit("LISTA_UNIQUE_MUTATION", response.data.result);
         }
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch((error) => {
+        console.log(error)                    
       });
   },
   async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {      
@@ -112,10 +107,8 @@ const actions = {
           commit('insertHeaderCompleteMutation', true)
         }
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch((error) => {
+        console.log(error)                    
       });
   }
 };

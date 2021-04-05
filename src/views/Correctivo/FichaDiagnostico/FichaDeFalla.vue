@@ -29,7 +29,6 @@
 <script>
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import Axios from 'axios';
-import CookiesService from '../../../services/CookiesService';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -132,9 +131,7 @@ export default {
                 .then((response) => {
                     console.log(response)                                                              
                 })
-                .catch((error) => {
-                    if(error.response.status == 401)
-                        CookiesService.token_no_autorizado()
+                .catch((error) => {                                            
                     console.log(error)
                 })         
         }

@@ -67,7 +67,6 @@ import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
 import moment from "moment";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -288,10 +287,8 @@ methods:{
                                     }
                                     Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                                         .then(() => {                                                                                                                                   
-                                        }).catch(Ex => {      
-                                            if(Ex.response.status == 401)
-                                                CookiesService.token_no_autorizado()
-                                            console.log(Ex);                                       
+                                        }).catch(error => {      
+                                            console.log(error)                                                                      
                                         })         
                                 } 
                                 let objImg = {
@@ -313,15 +310,12 @@ methods:{
                                     });
                                 }                                                                                                   
                             })
-                            .catch(Ex => {    
-                                if(Ex.response.status == 401)
-                                    CookiesService.token_no_autorizado()                                                                                     
+                            .catch(error => {                                    
+                                console.log(error)                                                                                 
                             })                                                                                                                                    
                         })
-                        .catch(Ex => { 
-                            if(Ex.response.status == 401)
-                                CookiesService.token_no_autorizado()                                           
-                            console.log(Ex);
+                        .catch(error => {                                                                                                  
+                            console.log(error);
                         });                                                                                                                                                                                          
                 }
                 else {  
@@ -348,16 +342,12 @@ methods:{
                                         },
                                     });                                                                                
                                 })
-                                .catch(Ex => {    
-                                    console.log(Ex)
-                                    if(Ex.response.status == 401)
-                                        CookiesService.token_no_autorizado()                                                                                     
+                                .catch(error => {    
+                                    console.log(error)                                                                                                                                                     
                                 })
                         })
                         .catch((error) => {
-                            console.log(error)
-                            if(error.response.status == 401)
-                                CookiesService.token_no_autorizado()   
+                            console.log(error)                                                            
                         })                                                           
                 }   
             } 
