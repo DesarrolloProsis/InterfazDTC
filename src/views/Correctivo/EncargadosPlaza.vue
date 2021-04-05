@@ -107,7 +107,7 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
                         <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.lastName2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.plaza">
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.plaza" readonly>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
                         <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.mail" readonly>
                     </div>
