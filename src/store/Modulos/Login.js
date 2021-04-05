@@ -112,6 +112,16 @@ const actions = {
           CookiesService.token_no_autorizado()
       });
   },
+  async REFRESCAR_TOKEN_USER({ state }){     
+    await Axios.get(`${API}/login/Refresh`, { userId: state.cookiesUser.userId })
+    .then(response => {        
+        console.log(response)   
+    })
+    .catch(error => {        
+      if(error.response.status == 401)
+        CookiesService.token_no_autorizado()
+    });
+  }
 };
 export default {
   namespaced: true,

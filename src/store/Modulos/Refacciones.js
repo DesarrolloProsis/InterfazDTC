@@ -151,8 +151,7 @@ const actions = {
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
     await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
-      .then(response => { 
-        console.log(response)                               
+      .then(response => {                               
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
       .catch(error => {        

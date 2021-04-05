@@ -114,7 +114,8 @@ async function cache_token(){
         return false
     }
 }
-function token_no_autorizado(){    
+function token_no_autorizado(){   
+    localStorage.clear()
     router.push('/SesionExpirada')
 }
 export default{

@@ -39,6 +39,7 @@ export default {
   },
   beforeMount: function(){
     this.typeUser = this.$store.state.Login.cookiesUser.rollId
+    this.$store.dispatch('Login/REFRESCAR_TOKEN_USER')
   },
 };
 </script>
