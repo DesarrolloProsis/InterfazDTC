@@ -1,62 +1,119 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="flex justify-center p-4">
-            <div class="mt-5">
+        <div class="flex justify-center">
+            <div class="grid gap-4 grid-cols-1 py-3 px-3" >
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <h1 class="text-4xl font-bold text-gray-800 text-center mb-8">Encargados de Plaza</h1>
+                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
+                <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32">
-                    <table class="border-2 border-gray-800">
-                        <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
-                            <th class="w-64 border-2 border-gray-800">Nombre</th>
-                            <th class="w-56 border-2 border-gray-800">Correo</th>
-                            <th class="w-64 border-2 border-gray-800">Plaza</th>
-                            <th class="w-48 border-2 border-gray-800 hidden">Acciones</th>
-                        </tr>
-                        <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_encargados" :key="key">
-                            <td class="text-center border-2 border-gray-800">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
-                            <td class="text-center border-2 border-gray-800">{{ item.mail }}</td>
-                            <td class="text-center border-2 border-gray-800 break-all">{{ item.squareName }}</td>
-                            <td class="text-center border-2 border-gray-800 hidden">
-                                <button
-                                    class="botonIconActualizar"
-                                    >
-                                    <img
-                                        src="../../assets/img/pencil.png"
-                                        class="mr-2 sm:m-1"
-                                        width="15"
-                                        height="15"
-                                    />
-                                    <span class="text-xs sm:hidden">Editar</span>
-                                </button>
-                                <button class="botonIconLimpiar m-2" @click="confimaBorrar()">
-                                    <img
-                                        src="../../assets/img/bin.png"
-                                        class="mr-2 sm:m-1"
-                                        width="15"
-                                        height="15"
-                                    />
-                                    <span class="text-xs sm:hidden">Borrar</span>
-                                </button>
-                            </td>
-                        </tr>
+                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-10" style="height:600px;">
+                    <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+                        <thead>
+                            <tr class="text-md text-gray-400 font-normal bg-blue-800">
+                                <th class="cabeceraTable">
+                                    <button @click="agregarUsuario()" class="mr-48">+</button>
+                                    <p class="-mt-6">Nombre</p>
+                                </th>
+                                <th class="cabeceraTable sm:hidden">Correo</th>
+                                <th class="cabeceraTable">Plaza</th>
+                                <th class="cabeceraTable">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaencargadosFilrada" :key="key" 
+                            :class="{'hidden' : item.statusAdmin != true}">
+                                <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
+                                <td class="cuerpoTable sm:hidden">{{ item.mail }}</td>
+                                <td class="cuerpoTable">{{ item.squareName }}</td>
+                                <td class="cuerpoTable">
+                                    <button
+                                        class="botonIconActualizar" @click="editarUsuario(item)"
+                                        >
+                                        <img
+                                            src="../../assets/img/pencil.png"
+                                            class="mr-2 sm:m-1"
+                                            width="15"
+                                            height="15"
+                                        />
+                                        <span class="text-xs sm:hidden">Editar</span>
+                                    </button>
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)">
+                                        <img
+                                            src="../../assets/img/bin.png"
+                                            class="mr-2 sm:m-1"
+                                            width="15"
+                                            height="15"
+                                        />
+                                        <span class="text-xs sm:hidden">Borrar</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
+                </div>
+            </div>
+            <!--////////////////////////////////////////////////////////////////////
+            ////                      MODAL AGREGAR                            ////
+            ////////////////////////////////////////////////////////////////////-->
+            <div class="mt-10">
+                <div v-if="modalAgregar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Agregar Encargado de Plaza</p>
+                    <div class="grid grid-cols-2 mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
+                        <input type="text" class="w-full bg-white border-gray-400" v-model="insertAdmin.nombre">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Paterno</p>
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.apellidoP" >
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.apellidoM">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
+                        <Plaza :forma="'diagnostico'" class="mt-2"></Plaza>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.mail">
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button @click="confirmarAgregar()" class="botonIconBuscar">Guardar</button>
+                        <button @click="modalAgregar = false" class="botonIconCancelar">Cancelar</button>
+                    </div>
                 </div>
             </div>
             <!--/////////////////////////////////////////////////////////////////
             ////                      MODAL ELIMINAR                         ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="absolute">
+            <div class="mt-10">
                 <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar al encargado de plaza?</p>
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a {{ `${infoDelate.name} ${infoDelate.lastName1} ${infoDelate.lastName2}` }}</p>
                     <div class="mt-5 text-center">
-                        <button class="botonIconCrear">Si</button>
+                        <button @click="borrar()" class="botonIconCrear">Si</button>
                         <button @click="modalEliminar = false" class="botonIconCancelar">No</button>
+                    </div>
+                </div>
+            </div>
+            <!--////////////////////////////////////////////////////////////////////
+            ////                      MODAL EDITAR                         ////////
+            ////////////////////////////////////////////////////////////////////-->
+            <div class="mt-10">
+                <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Editar Encargado de Plaza</p>
+                    <div class="grid grid-cols-2 mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400" v-model="editUser.name">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Paterno</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.lastName1">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.lastName2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.plaza" readonly>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
+                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.mail" readonly>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>
+                        <button @click="modalEditar = false" class="botonIconCancelar">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -67,32 +124,153 @@
 import Axios from 'axios';
 import Nav from "../../components/Navbar";
 import CookiesService from '../../services/CookiesService'
+import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import FiltrosServices from "../../services/FiltrosDTCServices";
+import EventBus from "../../services/EventBus"
+import Plaza from '../../components/Header/SelectPlaza.vue';
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "EncargadosDePlaza",
     components:{
-        Nav
+        Nav,
+        HeaderGenerico,
+        Plaza
     },
     data (){
         return{
-            lista_encargados: [],
+            listaencargadosCompleta: [],
+            listaencargadosFilrada:[],
             modalEliminar: false,
+            modalEditar: false,
+            modalAgregar: false,
+            infoDelate:{},
+            editUser:{
+                userId:'',
+                name:'',
+                lastName1:'',
+                lastName2:'',
+                plaza:'',
+                plazaId: '',
+                mail:'',
+            },
+            insertAdmin:{
+                nombre:'',
+                apellidoP:'',
+                apellidoM:'',
+                mail:'',
+                status: true
+            }
         }
     },
     beforeMount: function (){
         Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
         .then((response)=>{
-            CookiesService.refrescar_bearer_token()            
-            this.lista_encargados = response.data.result
+            //console.log(response.data)
+            this.listaencargadosCompleta = response.data.result
+            this.listaencargadosFilrada = this.listaencargadosCompleta
         }).catch((Ex)=>{
             if(Ex.response.status == 401)
                 CookiesService.token_no_autorizado()
         })
     },
     methods:{
-        confimaBorrar: function () {
-            this.modalEliminar = true;
+        actualizarFiltro(){
+            Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
+                .then((response)=>{
+                    //console.log(response.data)
+                    this.listaencargadosCompleta = response.data.result
+                    this.listaencargadosFilrada = this.listaencargadosCompleta
+                }).catch((Ex)=>{
+                    if(Ex.response.status == 401)
+                        CookiesService.token_no_autorizado()
+                }) 
+        },
+        filtrar_encargados(value){
+            //console.log(value)
+            this.listaencargadosFilrada = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
+        },
+        limpiar_encargados(){
+            this.listaencargadosFilrada = this.listaencargadosCompleta
+            EventBus.$emit('Limpiar-SelectPlaza')
+        },
+        agregarUsuario (){
+            this.modalAgregar = true
+        },
+        confirmarAgregar (){
+            this.modalAgregar = false
+            let valueAdmin = Object.values(this.insertAdmin)
+            if (valueAdmin.some(item => item == '')){
+                alert('campos vacios')
+            }else{
+                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza
+                console.log(this.insertAdmin)
+                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin, CookiesService.obtener_bearer_token())
+                .then((response) => {
+                    console.log(response)
+                    this.actualizarFiltro()
+                }).catch((ex) => {
+                    console.log(ex)
+                    if(ex.response.status == 404)
+                        CookiesService.token_no_autorizado()
+                })  
+            }
+        },
+        confimaBorrar (item) {
+            this.infoDelate = item
+            //console.log(this.infoDelate)
+            this.modalEliminar = true;           
+        },
+        borrar (){
+            this.modalEliminar = false
+            let objStatusUpdate = {
+                status: false,
+                adminId: this.infoDelate.adminSquareId} 
+                Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate, CookiesService.obtener_bearer_token())
+                .then((response) => {
+                    console.log(response)
+                    this.actualizarFiltro()
+                }).catch((ex) => {
+                    if(ex.response.status == 404)
+                        CookiesService.token_no_autorizado()
+                })      
+        },
+        editarUsuario (item) {
+            this.editUser.userId = item.adminSquareId
+            this.editUser.name = item.name
+            this.editUser.lastName1 = item.lastName1
+            this.editUser.lastName2 = item.lastName2
+            this.editUser.plaza = item.squareName
+            this.editUser.plazaId = item.squareCatalogId
+            this.editUser.mail = item.mail,
+            this.modalEditar = true;
+            console.log(item)
+        },
+        actualizarUsuario (){
+            let valueEdit = Object.values(this.editUser)
+            console.log(valueEdit)
+            if (valueEdit.some(item => item == '')){
+                alert('campos vacios')
+            }else{
+                let objUpdateAdmin = {
+                    nombre: this.editUser.name, 
+                    apellidoP: this.editUser.lastName1, 
+                    apellidoM: this.editUser.lastName2, 
+                    mail: this.editUser.mail, 
+                    plaza: this.editUser.plazaId, 
+                    adminId: this.editUser.userId}
+                console.log(objUpdateAdmin)    
+                Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin, CookiesService.obtener_bearer_token())
+                .then((response) => {
+                    console.log(response)
+                    this.actualizarFiltro()
+                }).catch((ex)=>{
+                    if(ex.response.status == 404)
+                        CookiesService.token_no_autorizado()
+                })
+            }
+            this.modalEditar = false
         },
     },
 }

@@ -83,30 +83,31 @@
         </div>     
     </div>    
     <!--///////////////////////////////////////////////////////////////////
-       ///         FILTROS DE NAVEGACION CALENDARIO                   ////         
+       ///         FILTROS DE NAVEGACION ENCARGADOS                   ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'CAL'" class="inline-flex sm:inline-block w-full">
-        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
-            <div class="sm:w-full ml-5">
-                <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1">
-                    <p class="font-bold">Plaza de Cobro:</p>
-                    <select class="w-56 h-6 ml-5 sm:ml-0 sm:mt-2" type="text">
-                        <option disabled value="">Selecionar...</option>     
-                    </select>                             
-                </div>  
-    <!-- /////////////////////////////////////////////////////////////////////
-        ///                    BOTONES DE NAVEGACION                     ////
-       ///                           CALENDARIO                         ////
-      /////////////////////////////////////////////////////////////////////-->        
-                <div class="flex justify-start m-5 sm:ml-0">
-                    <button class="botonIconCrear">
-                        <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
-                        <span>Crear</span>
-                    </button>
+    <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
+            <div class="text-center sm:ml-2">
+                <div class="">
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
+            </div>
+            <div class="text-center sm:ml-6">
+                <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
+                <input v-model="nombreEncargado" class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
         </div>
+        <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
+            <button class="botonIconBuscar" @click="filtrar_encargados">
+                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
+                <span>Buscar</span>
+            </button>
+            <button class="botonIconLimpiar" @click="limpiar_encargados">
+                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
+                <span>Limpiar</span>
+            </button>
+        </div> 
     </div>
     <!--///////////////////////////////////////////////////////////////////
     ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
@@ -206,6 +207,8 @@ export default {
             //data Diagnostico/Ficha
             ubicacion: '',
             plazaSeleccionada:"",
+            //data Encargados Plaza
+            nombreEncargado: ""
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -230,6 +233,7 @@ export default {
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){
+           //alert(value)
             this.plazaFiltro = value 
             this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
         },
@@ -262,7 +266,17 @@ export default {
                 'statusFiltro': this.statusFiltro,                
             }
             this.$emit('filtrar-dtc',objFiltro)
-        }
+        },
+        //Metodos Para Encados de Plaza
+        filtrar_encargados: function (){
+            //console.log(this.plazaFiltro)
+            this.$emit('filtrar-encargados',{plaza:this.plazaFiltro,nombre:this.nombreEncargado})
+        },
+        limpiar_encargados: function (){
+            this.$emit('limpiar-encargados')
+            this.nombreEncargado = ""
+            this.plazaSeleccionada = ""
+        },
     },
     watch:{
         buscarPalabraInventario: function(newPalabra){

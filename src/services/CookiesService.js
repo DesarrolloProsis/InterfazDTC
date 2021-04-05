@@ -28,6 +28,11 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
 }
 async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){            
     if(soloReferencia != undefined){  
+        console.log(plazaSelect)
+        console.log(listaPlazas)
+        console.log(listaHeaders)
+        console.log(soloReferencia)
+        console.log(adminId)
         //Ediciio para el dtc y le tenmeos que pedir parametro que adminId                    
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
         listaHeaders = store.state.Header.listaHeaders            
