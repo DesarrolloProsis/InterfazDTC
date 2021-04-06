@@ -61,7 +61,6 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
 /*///////////////////////////////////////////////////////////////////////////////*/
 import moment from "moment";   
 function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal, _editar, cantidad){
-    try{        
         let key_Require = []
         let arrayRequire = {}
         if(Array.isArray(keyObjectRequire)){
@@ -75,11 +74,13 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         else{
             arrayRequire = keyObjectRequire
             key_Require = Object.keys(arrayRequire)        
-        }        
+        }  
+        console.log(equipoValid)
+        console.log(key_Require)      
         //Patida
         arrayRequire[key_Require[0]] = []
         //Unidad
-        arrayRequire[key_Require[1]] = equipoValid[0].unity
+        arrayRequire[key_Require[1]] = Array.isArray(equipoValid) == true ? equipoValid[0].unity : []
         //Nombre Componente
         arrayRequire[key_Require[2]] = ""
         //Cantidad
@@ -95,6 +96,8 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
             else{
                 component = equipoValid.find(comp => comp.tableFolio == lane)
             }
+            
+            console.log(component)
             //Marca
             if(arrayRequire[key_Require[4]].includes(component.brand) == false)
                 arrayRequire[key_Require[4]].push(component.brand)
@@ -132,11 +135,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
             //Modelo Requerido
             arrayRequire["modeloPropuesto"] = component.catalogModel   
         }  
-        return arrayRequire  
-    }
-    catch(ex){
-        console.log(ex)        
-    }  
+        return arrayRequire 
 }
 async function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
     try {               

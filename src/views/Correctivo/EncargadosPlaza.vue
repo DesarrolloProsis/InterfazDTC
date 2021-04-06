@@ -14,7 +14,7 @@
                         width="20"
                         height="20"
                     />
-                    <span class="">Editar</span>
+                    <span class="">Agregar Nuevo Encargado</span>
                 </button>
                 <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>
                 <!--///////////////////////////////////////////////////////////////////
@@ -177,20 +177,19 @@ export default {
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
         }).catch((Ex)=>{
-            if(Ex.status == 404)
+            if(Ex.response.status == 401)
                 CookiesService.token_no_autorizado()
         })
-
     },
     methods:{
         actualizarFiltro(){
-            Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
+            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
                 .then((response)=>{
                     //console.log(response.data)
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
                 }).catch((Ex)=>{
-                    if(Ex.response.status == 404)
+                    if(Ex.response.status == 401)
                         CookiesService.token_no_autorizado()
                 }) 
         },
@@ -222,9 +221,9 @@ export default {
                     console.log(response)
                     this.actualizarFiltro()
                 }).catch((ex) => {
-                    console.log(ex)
-                    if(ex.response.status == 404)
+                    if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()
+                    //console.log(ex)
                 })
             }
         },
@@ -243,8 +242,9 @@ export default {
                     console.log(response)
                     this.actualizarFiltro()
                 }).catch((ex) => {
-                    if(ex.response.status == 404)
+                    if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()
+                    console.log(ex)
                 })      
         },
         editarUsuario (item) {
@@ -277,8 +277,9 @@ export default {
                     console.log(response)
                     this.actualizarFiltro()
                 }).catch((ex)=>{
-                    if(ex.response.status == 404)
+                    if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()
+                    console.log(ex)
                 })
             }
             this.modalEditar = false

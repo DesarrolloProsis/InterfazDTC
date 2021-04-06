@@ -4,7 +4,7 @@
             <p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>
             <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
                 <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
-                <option v-for="(item, index) in listaPlazas" :value="item" :key="index" :class="{'hidden' : item.numeroPlaza == 33  }">
+                <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
                 </option>
             </select>
@@ -67,7 +67,9 @@ export default {
     },
     beforeMount: async function() {
         if(this.fullPlazas){
-            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario   
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
+            this.listaPlazas = this.listaPlazas.filter(item => item.statusAdmin == true)
+            console.log(this.listaPlazas)  
             if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
                 let plazasSinRepetir = []
                 this.listaPlazas.forEach(element => {                                        
@@ -77,7 +79,7 @@ export default {
                 });                
                 this.listaPlazas = plazasSinRepetir
             }
-        }                
+        }                   
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
