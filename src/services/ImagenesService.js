@@ -20,7 +20,7 @@ function obtener_array_imagenes(e, arrayComponete) {
                 crear_imagen(item)
                 contar++
             }                
-        }                     
+        }                    
         return array_imagenes
     }
 }

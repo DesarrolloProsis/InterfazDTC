@@ -1,5 +1,4 @@
 import Axios from "axios"
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
@@ -58,9 +57,8 @@ const mutations = {
 };
 const actions = {
   async BUSCAR_REFERENCIA_DTC_VALIDA({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`, CookiesService.obtener_bearer_token())    
-      .then(response => {    
-        CookiesService.refrescar_bearer_token()    
+    await Axios.get(`${API}/dtcdata/BuscarReferencia/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`)
+      .then(response => {        
         if (response.data.result.length == 1) {          
           commit("REFERENCIA_DTC_MUTATION", response.data.result[0].referenceNumber);
         }
@@ -68,24 +66,19 @@ const actions = {
           commit("REFERENCIA_DTC_MUTATION", response.data.result);
         }
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {
+        console.log(error)                 
       });
   },
   async BUSCAR_LISTA_UNIQUE({ commit, rootGetters }) {
-    await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, CookiesService.obtener_bearer_token())
-      .then(response => {
-        CookiesService.refrescar_bearer_token()
+    await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
+      .then(response => {        
         if (response.data.message) {
           commit("LISTA_UNIQUE_MUTATION", response.data.result);
         }
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch((error) => {
+        console.log(error)                    
       });
   },
   async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {         
@@ -106,20 +99,16 @@ const actions = {
       flag: value.flag,
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
-      SquareId: value.header.plaza.slice(0,3),
-      adminId: value.adminIdPlaza
-    }                 
-    await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
-      .then(response => {
-        CookiesService.refrescar_bearer_token()
+      SquareId: value.header.plaza.slice(0,3)
+    }                
+    await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
+      .then(response => {        
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)
         }
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch((error) => {
+        console.log(error)                    
       });
   }
 };

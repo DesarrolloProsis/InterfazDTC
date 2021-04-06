@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3">   
         <!--//////////////////////////////////////////////////////////////////////
             ////                        FILTROS                              ////
@@ -96,7 +95,7 @@
                     <!--/////////////////////////////////////////////////////////////////
                     ////                          BODY TABLA                          ////
                     ////////////////////////////////////////////////////////////////////-->
-                    <tbody>
+                    <tbody name="table" is="transition-group">                      
                         <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaCalendario" :key="key">                
                             <td class="cuerpoTable">{{ item.squareName }}</td>
                             <td class="cuerpoTable">{{ item.fecha }}</td>                                                                                 
@@ -116,17 +115,12 @@
 </template>
 
 <script>
-import Nav from '../../components/Navbar'
 import Axios from 'axios';
 import ServicePDF from '../../services/ReportesPDFService'
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
-    name: 'CalendarioHistorico',
-    components:{
-        Nav
-    },
+    name: 'CalendarioHistorico', 
     data(){
         return{
             tramoFiltro: '',
@@ -141,9 +135,8 @@ export default {
     },
     beforeMount: async function() {
         
-        await Axios.get(`${API}/Mantenimiento/Bitacora`, CookiesService.obtener_bearer_token())
-        .then((response) => { 
-            CookiesService.refrescar_bearer_token() 
+        await Axios.get(`${API}/Mantenimiento/Bitacora`)
+        .then((response) => {             
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  
             this.todasPlazas =  this.$store.state.Login.listaPlazas//this.$store.getters['Login/getListaPlazas']  
@@ -153,10 +146,8 @@ export default {
                     this.listaPlazasValidas.push(plaza)        
                 }
             }                                                                                                           
-        }).catch(Ex => {      
-            if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
-            console.log(Ex);                                       
+        }).catch(error => {      
+            console.log(error)            
         })                  
     },
     methods:{

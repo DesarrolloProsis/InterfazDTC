@@ -1,18 +1,19 @@
 <template>
-
-  <div id="app">          
-    <router-view/>
+  <div id="app">   
+    <NavBar></NavBar>
+    <transition name="slide-fade">       
+      <router-view/>
+    </transition>
     <Footer></Footer>
   </div>
 </template>
-
-
 <script>
 import Footer from '../src/components/Footer'
-
+import NavBar from '../src/components/Navbar'
   export default {
     components: {
-      Footer
+      Footer,
+      NavBar
     },
     created() {
       if (this.$workbox) {
@@ -21,7 +22,6 @@ import Footer from '../src/components/Footer'
         });
       }
     },
-
     methods: {
       async accept() {
         this.showUpgradeUI = false

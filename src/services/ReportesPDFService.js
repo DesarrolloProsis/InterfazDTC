@@ -24,8 +24,7 @@ function xml_hhtp_request(urlTopdf,namePdf){
     //window.open(urlTopdf, namePdf); 
     saveAs(file, namePdf);
     };
-    oReq.send();   
-    CookiesService.refrescar_bearer_token()
+    oReq.send();       
 }
 function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
     let clavePlaza = numeroReferencia.split('-')[0]
@@ -152,9 +151,8 @@ async function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezad
     xml_hhtp_request(urlTopdf, namePdf)    
 }
 async function generar_pdf_fotografico_preventivo(referenceNumber, lane){    
-    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
-    .then((response) => {    
-        CookiesService.refrescar_bearer_token()
+    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`)
+    .then((response) => {            
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]
             let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane.split('-')[0]}`       

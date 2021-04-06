@@ -1,5 +1,4 @@
 import Axios from "axios";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const state = {
   listaRefacciones: [],  
@@ -49,53 +48,44 @@ const mutations = {
 }
 const actions = {
   async BUSCAR_COMPONETES_INVENTARIO({ commit, rootGetters }, value) {
-    commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", []);        
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
-    .then(response => {            
-      CookiesService.refrescar_bearer_token()
+    commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", []);    
+    
+    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
+    .then(response => {      
+      
+      
       commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);                  
     });
   },
   async BUSCAR_CARRILES_INVENTARIO({ commit, rootGetters }, value){
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
-    .then(response => {   
-      CookiesService.refrescar_bearer_token()   
+    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.numPlaza}`)
+    .then(response => {      
       commit("LISTA_LANE_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);                  
     });
   },
   async BUSCAR_INFO_COMPONENTES_INVENTARIO({ commit, rootGetters }, value){
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
-    .then(response => {
-      CookiesService.refrescar_bearer_token()    
+    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
+    .then(response => {    
       commit("INFO_COMPONENTE_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex); 
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);       
     });
   },
   async BUSCAR_UBICACION_GENERAL_INVENTARIO({ commit, rootGetters }){
     commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", []);
-    await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, CookiesService.obtener_bearer_token())
-    .then(response => { 
-      CookiesService.refrescar_bearer_token()   
+    await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
+    .then(response => {          
       commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error);          
     });
   },
   async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
@@ -110,84 +100,68 @@ const actions = {
       strObservation: value.infoComponentes.observaciones,
       intUbicacion: value.infoUbicacionGeneral[0].typeUbicationId,
       strMaintenanceDate: value.infoComponentes.fechaUltimoMantenimiento,
-      strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento,
-      intUserId:rootGetters['Login/GET_USEER_ID_PLAZA_ID'].idUser
-    }       
-    await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject, CookiesService.obtener_bearer_token())
-    .then(() => {  
-      CookiesService.refrescar_bearer_token()        
+      strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento
+    }          
+    await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
+    .then(() => {          
     })
-    .catch(Ex => {
-      console.log(Ex);
-      if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+    .catch(error => {
+      console.log(error)                  
     });
   },
   async BUSCAR_COMPONETES({ commit, rootGetters }, value) {    
-    await Axios.get(`${API}/component/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idConvenio}`, CookiesService.obtener_bearer_token())            
-      .then(response => {  
-        CookiesService.refrescar_bearer_token()              
+    await Axios.get(`${API}/component/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idConvenio}`)            
+      .then(response => {                
         commit("LISTA_REFACCIONES_MUTATION", response.data.result);
       })
-      .catch(Ex => {
-        console.log(Ex);
-        if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+      .catch(error => {
+        console.log(error);                    
       });
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit, rootGetters }, value) {     
-    console.log(value) 
-    await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`, CookiesService.obtener_bearer_token())
-      .then(response => {  
-        console.log(response)        
-        if(response.data.result != null){
-          commit("LISTA_REFACCIONES_VALIDAS_MUTATION", response.data.result.listaFiltro);
-          commit("LISTA_LANE_MUTATION", response.data.result.listLane); 
-        }
-        else{
-          commit("LISTA_REFACCIONES_VALIDAS_MUTATION", []);
-          commit("LISTA_LANE_MUTATION", []); 
-        }       
+  async buscarComponenteId({ commit, rootGetters }, value) {      
+    await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
+      .then(response => {                            
+          if(response.data.result != null){
+            commit("LISTA_REFACCIONES_VALIDAS_MUTATION", response.data.result.listaFiltro);
+            commit("LISTA_LANE_MUTATION", response.data.result.listLane); 
+          }
+          else{
+            commit("LISTA_REFACCIONES_VALIDAS_MUTATION", []);
+            commit("LISTA_LANE_MUTATION", []); 
+          }       
       })
-      .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+      .catch(error => {       
+        console.log(error)
       })
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
-    await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`, CookiesService.obtener_bearer_token())
-      .then(response => { 
-          CookiesService.refrescar_bearer_token()                           
+    await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
+      .then(response => {                               
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
       })
       .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)
       })
   },
   async EDIT_COMPONETE_QUICK({ dispatch, rootGetters }, value){
-    await Axios.put(`${API}/Component/UpdateInventoryList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, value, CookiesService.obtener_bearer_token())
-      .then(() => {       
-        CookiesService.refrescar_bearer_token()               
+    await Axios.put(`${API}/Component/UpdateInventoryList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, value)
+      .then(() => {                      
         dispatch('FULL_COMPONETES')       
       })
       .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()        
+        console.log(error)                     
       })
   },
   async BUSCAR_CARRILES({ commit }, plaza) {          
-    Axios.get(`${API}/squaresCatalog/lanes/${plaza}`, CookiesService.obtener_bearer_token())
-      .then(response => {      
-          CookiesService.refrescar_bearer_token()                
+    Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
+      .then(response => {                      
           if(response.status === 200){            
               commit("CARRILES_MUTATION", response.data.result);                         
           }                    
       })
       .catch((error) => {          
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)          
       });  
     }
 };

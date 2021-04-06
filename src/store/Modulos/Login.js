@@ -49,25 +49,21 @@ const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async BUSCAR_HEADER_OTRO_TECNICO({ commit }, value) {
     await Axios.get(`${API}/login/buscarHeaderTec/${value}`, CookiesService.obtener_bearer_token())
-      .then(response => {
-        CookiesService.refrescar_bearer_token()
+      .then(response => {        
         commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
       .catch(error => {
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)                  
       });
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
   async BUSCAR_TECNICOS_PLAZA({ commit }, value) {
     await Axios.get(`${API}/login/buscarTec/${value}`, CookiesService.obtener_bearer_token())
-      .then(response => {
-        CookiesService.refrescar_bearer_token()
+      .then(response => {        
         commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
       .catch(error => {
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)          
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
@@ -115,16 +111,26 @@ const actions = {
   },
   //CONULTA PARA LISTAR LAS PLAZAS
   async BUSCAR_PLAZAS({ commit }) {                    
-    await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
-      .then(response => {  
-        CookiesService.refrescar_bearer_token()      
+    await Axios.get(`${API}/squaresCatalog`)
+      .then(response => {        
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)
       });
   },
+  async REFRESCAR_TOKEN_USER({ state }){  
+    let objRefresh = {
+      UserId: state.cookiesUser.userId
+    }     
+    await Axios.post(`${API}/login/Refresh`, objRefresh)
+    .then((response) => {        
+        console.log(response)   
+    })
+    .catch(error => {        
+      console.log(error.response)            
+    });
+  }
 };
 export default {
   namespaced: true,

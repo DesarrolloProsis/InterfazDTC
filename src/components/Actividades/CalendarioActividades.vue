@@ -1,7 +1,6 @@
 <template>
 <div class=" static">
-  <div class="relative">
-    <Nav></Nav>
+  <div class="relative">    
     <!--/////////////////////////////////////////////////////////////////
       ////                      MODAL ELIMINAR                         ////
       ////////////////////////////////////////////////////////////////////-->
@@ -111,7 +110,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import VueCal from 'vue-cal'
 import Multiselect from "vue-multiselect";
 import HeaderCalendario from '../Header/CrearHeaderCalendario'
@@ -121,16 +119,13 @@ import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import Axios from 'axios'
 import moment from "moment";
-import CookiesService from '../../services/CookiesService'
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   components:{
     VueCal,
     Multiselect,
-    HeaderCalendario,
-    Nav,    
+    HeaderCalendario,    
   },
   data() {
     return{
@@ -251,26 +246,21 @@ export default {
       )      
       this.events.push(objActividad)           
       this.modalAgreagrActividad = false
-      this.laneSelect = []            
-      //Mandar a la DB     
+      this.laneSelect = []                  
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
       let actividadInsert = ServiceActividades.objeto_actividad_insertar(
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
       )                          
-      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert, CookiesService.obtener_bearer_token())
-        .then(async () => {     
-            CookiesService.refrescar_bearer_token()            
+      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
+        .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
-        .catch(Ex => {            
-            console.log(Ex);
-            if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        .catch(error => {                        
+          console.log(error)                          
         });
-      this.actividadSelect = ''
-      
+      this.actividadSelect = ''      
     },
     label_multi_select(value){            
       if(value != 'Sin Actividad')
@@ -305,18 +295,15 @@ export default {
           SquareId: user.numPlaza,
           Year: this.año
         }                
-        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario, CookiesService.obtener_bearer_token())
-        .then(() => {  
-          CookiesService.refrescar_bearer_token()                            
+        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
+        .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {
               mes: this.mes,
               año: this.año
           })          
         })
-        .catch((ex) => {          
-          console.log(ex);
-          if(ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        .catch((error) => {          
+          console.log(error);                      
         });
       }
       else{        
@@ -333,9 +320,8 @@ export default {
     },
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
-      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`, CookiesService.obtener_bearer_token())
-        .then(async () => {  
-            CookiesService.refrescar_bearer_token()               
+      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
+        .then(async () => {                 
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
               this.modalActividades = false
@@ -346,7 +332,7 @@ export default {
               this.carrilesModal.splice(index,1)               
             }                                                           
         })
-        .catch(Ex => {  
+        .catch(error => {  
           this.$notify.warning({
             title: "Ups!",
             msg: `NO PUEDES BORRAR ESTA ACTIVIDAD YA HAY UN REPORTE GENERADO`,
@@ -356,24 +342,17 @@ export default {
               width: 500,
             },          
           });          
-          console.log(Ex);
-          if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+          console.log(error);                      
         });
     },
     validar_calendario_escaneado(){
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-      let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${idPlazaUser.idUser}`, CookiesService.obtener_bearer_token())
-      .then(() => {
-        CookiesService.refrescar_bearer_token()        
+      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}`)
+      .then(() => {        
         this.calendarioEscaneado = true
       })
       .catch((error) => {
-          console.log(error)                    
-          if(error.response.state == 401)
-            CookiesService.token_no_autorizado
-          
+          console.log(error)                                                    
           this.calendarioEscaneado = false
       })
     }

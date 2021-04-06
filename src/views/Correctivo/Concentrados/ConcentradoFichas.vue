@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <!--/////////////////////////////////////////////////////////////////////
@@ -27,7 +26,7 @@
                         <!--/////////////////////////////////////////////////////////////////
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <tbody>
+                        <tbody name="table" is="transition-group">  
                             <tr class="h-12 text-gray-900 text-sm text-center">                
                                 <td class="cuerpoTable">
                                     <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
@@ -51,12 +50,12 @@
                                     <div>
                                         <button
                                             class="botonSubir mr-5">
-                                            <img src="../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Subir</span>
                                         </button>
                                         <button
                                             class="botonDescargar">
-                                            <img src="../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
                                     </div>
@@ -65,12 +64,12 @@
                                     <div>
                                         <button
                                             class="botonSubir mr-5">
-                                            <img src="../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Subir</span>
                                         </button>
                                         <button
                                             class="botonDescargar">
-                                            <img src="../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
                                     </div>
@@ -84,15 +83,22 @@
     </div>
 </template>
 <script>
-import Nav from '../../components/Navbar';
-import HeaderGenerico from "../../components/Header/HeaderGenerico";
-import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
+import HeaderGenerico from "../../../components/Header/HeaderGenerico";
+import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
 
 export default {
     name: "ConcentradoFichas",
-    components:{
-        Nav, 
+    components:{        
         HeaderGenerico
+    },
+    data (){
+        return {
+            infoFicha:[],
+        }
+    },
+    beforeMount: function (){
+       
+
     },
     methods: {
         filtro_dtc: async function (objFiltro) {   

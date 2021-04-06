@@ -73,7 +73,6 @@ import Axios from "axios";
 import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import EventBus from "../../services/EventBus.js";
-import CookiesService from '../../services/CookiesService'
 
 export default {
   name: 'ImgenesCard',
@@ -211,9 +210,8 @@ export default {
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-            Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`, CookiesService.obtener_bearer_token())
-              .then(() => {
-                CookiesService.refrescar_bearer_token()
+            Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`)
+              .then(() => {                
                 if(eliminar){
                   this.$notify.error({
                   title: "ups!",                  
@@ -226,14 +224,10 @@ export default {
                 });
               }
               })
-              .catch((ex) => {
-                if(ex.response.status == 401)
-                  CookiesService.token_no_autorizado()
-                                  
-                reject("mal");
+              .catch((error) => {
+                console.log(error)                                           
                 this.$notify.error({
-                  title: "ups!",
-                  //msg: ex,
+                  title: "ups!",                  
                   msg: 'IMAGENES ELIMINADAS',
                   position: "bottom right",
                   styles: {
@@ -241,6 +235,7 @@ export default {
                     width: 500,
                   },
                 });
+                reject("mal");
               });
           }          
           await this.actualizar_img(nombre_plaza);
@@ -257,9 +252,8 @@ export default {
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombre_plaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
-            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-              .then(() => {    
-                CookiesService.refrescar_bearer_token()                        
+            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
+              .then(() => {                            
                 this.$notify.success({
                   title: "Ok!",
                   msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
@@ -270,13 +264,11 @@ export default {
                   },
                 });
               })
-              .catch((ex) => {    
-                if(ex.response.status == 401)
-                  CookiesService.token_no_autorizado()            
-                reject("mal");
+              .catch((error) => {                    
+                reject(error);
                 this.$notify.error({
                   title: "ups!",
-                  msg: ex,
+                  msg: error,
                   position: "bottom right",
                   styles: {
                     height: 100,
@@ -300,14 +292,12 @@ export default {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
-        .then((response) => {          
-          CookiesService.refrescar_bearer_token()
+      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+        .then((response) => {                    
           array_nombre_imagenes = response.data;
         })
         .catch((error) => {          
-          if(error.response.status == 401)
-            CookiesService.token_no_autorizado()
+          console.log(error)                              
         });
       let arrayimg = [];
       if (array_nombre_imagenes.length > 0) {

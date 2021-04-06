@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <!-- //////////////////////////////////////////////////////////////////
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
@@ -15,7 +14,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                      FILA NUMERO 1                            ////
     /////////////////////////////////////////////////////////////////////// -->
-        <div class="border border-black">
+        <div class="border border-gray-300 shadow-md rounded-lg">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
             <br />
@@ -38,9 +37,9 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        OBSERVACIONES                         ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="items-center">
+        <div class="items-center ">
           <p class="text-center">
-            <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
+            <span class="text-center font-bold text-xl text-gray-800 border-gray-300 shadow-md rounded-lg">Observaciones</span>
           </p>
           <textarea
             v-model="observaciones"
@@ -57,7 +56,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        FILA NUMERO 2                         ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="border border-black items-center">
+        <div class="border border-gray-300 shadow-md rounded-lg items-center">
           <p style="text-align: center">
             <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
             <br />
@@ -71,7 +70,7 @@
           </p>
         </div>
         <div></div>
-        <div class="border border-black">
+        <div class="border border-gray-300 shadow-md rounded-lg">
           <p style="text-align: center">
             <br />
             <br />
@@ -89,20 +88,15 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                           BOTONES                            ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700 sm:mb-20" style="padding: 3vw;">
+        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(1)"
-              class="botonIconBuscar"
-            >
+            <button @click="crearDTCTecnico(1)" class="botonIconBuscar">
               <img src="../../assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
-            <button
-              @click="crearDTCTecnico(2)"
-              class="botonIconCrear"
-            >
+            <button @click="crearDTCTecnico(2)" class="botonIconCrear">
               <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
@@ -114,7 +108,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
 import ServiceReporte from '../../services/ReportesPDFService'
@@ -123,8 +116,7 @@ export default {
   props: {
     method: { type: Function },
   },
-  components: {
-    Nav,
+  components: {    
     Header,
   },
   data() {

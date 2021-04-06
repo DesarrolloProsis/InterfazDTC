@@ -9,24 +9,26 @@
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
-            <div class="m-3">
+            <div class="mr-4 mt-4">
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
             <div class=" m-3">
-                <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full" type="date"/>
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una fecha</p>
+                <p class="input w-40"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
-                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Escriba la Referencia</p>
+                <p class="input w-40"><input v-model="referenciaFiltro" class="border-none w-40 text-center sm:w-full" placeholder="PM-000000"/></p>
             </div> 
             <div class="m-3" v-if="dtcVista == 'pendientes'">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Estatus DTC</p>
-                <select v-model="statusFiltro" class="w-full" type="text">
-                    <option value="">Selecionar...</option>     
-                    <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
-                </select>  
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Estatus DTC</p>
+                <p class="input w-40">
+                    <select v-model="statusFiltro" class="w-full border-none" type="text">
+                        <option value="">Selecionar...</option>     
+                        <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
+                    </select>
+                </p>
             </div>     
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
@@ -50,8 +52,8 @@
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
             <div class="mr-3 sm:mr-1 mt-6">
-                <span class="mr-2">Buscar</span>
-                <input v-model="buscarPalabraInventario" class="bg-white sm:w-full" />
+                <span class="mr-10">Buscar</span>
+                <p class="input w-40"><input v-model="buscarPalabraInventario" class="bg-white sm:w-full border-none w-40" /></p>
             </div>
             <div class="mr-3 mt-6">
                 <span class="mr-2">Ubicación</span>
@@ -61,7 +63,7 @@
                 <span class="mr-4">Componente</span>
                 <input @change="cambiar_orden_inventario('componente')" v-model="boolComponente" class="bg-white" type="checkbox"/>
             </div>
-            <div class="text-sm sm:mt-4">
+            <div class="text-sm sm:mt-4 mt-6">
                 <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
             <div class="mt-2">

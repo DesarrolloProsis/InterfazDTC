@@ -11,6 +11,7 @@ import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
+import FichaDiagnostico from '../views/Correctivo/FichaDiagnostico/FichaDiagnosticoInicio'
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
@@ -83,7 +84,7 @@ const routes = [
   {
     path: '/EncargadosPlaza',
     name: 'Encargados',
-    component: () => import('../views/Correctivo/EncargadosPlaza')
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoEncargadosPlaza')
   },
   {
     path: '/Inventario',
@@ -97,7 +98,7 @@ const routes = [
   {
     path: '/ConcentradoDTC',
     name: 'ConcentradoDTC',
-    component: () => import('../views/Correctivo/ConcentradoDTC'),
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoDTC'),
     beforeEnter: async function (to, from, next) {
       let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
       await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
@@ -107,17 +108,24 @@ const routes = [
   {
     path: '/ConcentradoFichas',
     name:'ConccentradoFichas',
-    component: () => import('../views/Correctivo/ConcentradoFichas')
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoFichas')
   },
   {
-    path: '/DiagnosticoDeFalla',
-    name: '/DiagnosticoDeFalla',
-    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
-  },
-  {
-    path: '/FichaTecnicaDeFalla',
-    name: 'FichaTecnicaDeFalla',
-    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
+    path: '/Correctivo/PreDTC',
+    name: 'CorrectivoDTC',
+    component: FichaDiagnostico,
+    children: [
+      {
+        path: 'DiagnosticoDeFalla',
+        name: 'DiagnosticoDeFalla',
+        component: () => import('../views/Correctivo/FichaDiagnostico/DiagnosticoDeFalla')
+      },
+      {
+        path: 'FichaTecnicaDeFalla',
+        name: 'FichaTecnicaDeFalla',
+        component: () => import('../views/Correctivo/FichaDiagnostico/FichaDeFalla')
+      },
+    ]
   },
   {
     path: '/Pruebas',

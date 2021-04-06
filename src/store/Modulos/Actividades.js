@@ -1,6 +1,5 @@
 import Axios from 'axios'
 import moment from "moment";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
@@ -46,36 +45,29 @@ const mutations = {
 const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)                         
-        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
-            .then((response) => {           
-                CookiesService.refrescar_bearer_token()                    
+        await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
+            .then((response) => {                               
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
             })
-            .catch(Ex => {
+            .catch(error => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])  
-                console.log(Ex);
-                if(Ex.response.status == 401)
-                    CookiesService.token_no_autorizado()
+                console.log(error)                                                      
         }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
-        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value, CookiesService.obtener_bearer_token())
-            .then((response) => {   
-                CookiesService.refrescar_bearer_token()                               
+        await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
+            .then((response) => {                                  
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
             })
-            .catch(Ex => {
-            console.log(Ex);
-            if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+            .catch((error) => {
+                console.log(error)                                          
             });
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                           
-        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`, CookiesService.obtener_bearer_token())
-        .then((response) => {
-            CookiesService.refrescar_bearer_token()   
+        await Axios.get(`${API}/Calendario/Actividades/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${rolUser}/${value.frequencyId}`)
+        .then((response) => {   
             let actividades = response.data.result.map(actividad => {
                 actividad["jobStatus"] = 1
                 return actividad
@@ -83,9 +75,8 @@ const actions = {
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
         .catch(error => {            
-            commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])   
-            if(error.response.status == 401)
-                CookiesService.token_no_autorizado()
+            console.log(error)
+            commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])                            
         });
     }
 }  

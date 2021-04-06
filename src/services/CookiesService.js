@@ -1,9 +1,10 @@
 import store from '../store/index'
 import router from '../router/index'
-//import Axios from 'axios'
-//const API = process.env.VUE_APP_URL_API_PRODUCCION
-function formato_cookies_usuario(loginSesion, tipoUsuario){      
-    let plazasUsuario = loginSesion.cookie.map(item => {        
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+
+function formato_cookies_usuario(loginSesion, tipoUsuario){    
+    let plazasUsuario = loginSesion.cookie.map(item => {
         return {
             refereciaPlaza: item.referenceSquare,
             administradorId: item.adminSquareId,
@@ -26,18 +27,26 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
     localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
     return cookies 
 }
-async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){            
-    if(soloReferencia != undefined){  
-        console.log(plazaSelect)
-        console.log(listaPlazas)
-        console.log(listaHeaders)
-        console.log(soloReferencia)
-        console.log(adminId)
-        //Ediciio para el dtc y le tenmeos que pedir parametro que adminId                    
+async function refrescar_barer_token(){
+    localStorage.removeItem('token')
+    let objRefresh = { userId: store.state.Login.cookiesUser.userId }     
+    await Axios.post(`${API}/login/Refresh`, objRefresh)
+    .then((response) => {        
+        console.log(response)   
+        localStorage.setItem('token', JSON.stringify(response.data.result))        
+    })
+    .catch(error => {        
+        console.log(error.response) 
+    });
+}
+async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){    
+    if(soloReferencia != undefined){        
+        try{        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
         listaHeaders = store.state.Header.listaHeaders            
         let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.administradorId == adminId)                 
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.administradorId == adminId)           
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.administradorId == adminId)  
+        console.log(convenioSelect)         
         await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
@@ -52,7 +61,11 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         return {
             plazaSelect,
             convenioSelect,                    
-        }   
+        }
+        }
+        catch(error) {            
+            console.log(error)
+        }
     }
     else if(plazaSelect == undefined){        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario
@@ -102,19 +115,6 @@ function obtener_bearer_token(tokenPDF){
         return tokenData.token
     }
 }
-function refrescar_bearer_token(){
-    //localStorage.removeItem('token')
-    //let userId = store.getters['Login/GET_USEER_ID_PLAZA_ID'].idUser
-    //console.log(userId)
-    // Axios.get(`${API}/Login/Refresh`,{ userId: userId})
-    //     .then((response) => {      
-    //         console.log(response)      
-    //         localStorage.setItem('token', JSON.stringify(response.data.result))
-    //     })  
-    //     .catch((error) => {
-    //         console.log(error)
-    //     })
-}
 async function cache_token(){
     let datosUserCookies = JSON.parse(localStorage.getItem('cookiesUser'))
     let headerUser = JSON.parse(localStorage.getItem('listaHeaderUser'))   
@@ -132,7 +132,8 @@ async function cache_token(){
         return false
     }
 }
-function token_no_autorizado(){    
+function token_no_autorizado(){   
+    localStorage.clear()
     router.push('/SesionExpirada')
 }
 export default{
@@ -141,5 +142,5 @@ export default{
     obtener_bearer_token,
     token_no_autorizado,
     cache_token,
-    refrescar_bearer_token
+    refrescar_barer_token
 }

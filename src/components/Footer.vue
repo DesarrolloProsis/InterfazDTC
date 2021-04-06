@@ -1,6 +1,6 @@
 <template>
     <footer class="fixed inset-x-0 bottom-0">        
-        <div class="w-full px-6 bg-blue-900">                
+        <div class="w-full px-6 bg-blue-800">                
             <div class="inline-flex justify-between  py-3 w-full">
                 <div>
                     <p class="text-xs sm:mt-1 text-blue-400">{{ tipoUsuario }}</p>
@@ -11,7 +11,7 @@
                     </p>
                 </div>
                 <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.3.24</p>
+                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.4.0</p>
                 </div>
             </div>                                
         </div>        

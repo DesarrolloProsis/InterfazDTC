@@ -5,12 +5,12 @@
           ////////////////////////////////////////////////////////////////////-->
         <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-10">
             <div class=" w-auto mx-auto flex justify-center">
-                <div class="border-gray-800 w-66 border-2 p-5">
+                <div class="border-gray-800 w-66 border-none p-5">
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
                 </div>
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
-                <div class="border-gray-800 border-2 p-5 pt-0">
+                <div class="border-b-2 border-gray-200 rounded-lg shadow-md p-5 pt-0">
                     <h1 class="mt-5 border-purple-800 w-72 sm:w-full">{{ `Calendario de Actividades` }}</h1>            
                 </div>
             </div>
@@ -51,10 +51,10 @@
                                     <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
                                 </div>                                
                             </div>                        
-                            <div v-else class=" justify-center botonIconCancelar">
-                                <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>                   
+                            <div v-else class=" justify-center botonIconDescargar">
+                                <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>
                                     <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                    <span>Subir Escaneado</span>                                                             
+                                    <span>Subir Escaneado</span>                                                                       
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,6 @@
 <script>
 import ServiceActividades from '../../services/ActividadesService'
 import SelectPlaza from '../Header/SelectPlaza'
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import Axios from "axios";
 import ReportesPDFService from '../../services/ReportesPDFService'
@@ -145,10 +144,7 @@ export default {
             calendarEscaneado: null,      
             escaneadoBool: false                  
         }
-    },
-    beforeMount(){
-
-    },
+    },    
     destroyed(){        
         if(this.comentario == '' && this.numeroActividades > 0){
             this.$router.push({ path: 'CalendarioActividades' })
@@ -199,7 +195,6 @@ export default {
             reader.onload = (e) => {
             this.$nextTick().then(() => {
                 this.calendarEscaneado = e.target.result.split(',')[1]
-
                 })        
             };
             reader.readAsDataURL(file);   
@@ -225,12 +220,12 @@ export default {
             let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
-            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${idPlazaUser.idUser}`, formFile, CookiesService.obtener_bearer_token())
-                .then(() => {   
-                    CookiesService.refrescar_bearer_token()                                
+            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile)
+                .then(() => {                                   
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false
-                    this.$emit("actualizar-actividad", idPlazaUser.numPlaza);                              
+                    let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
+                    this.$emit("actualizar-actividad", numPlaza);                    
                     this.$notify.success({
                     title: "Ok!",
                     msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
@@ -241,10 +236,8 @@ export default {
                         },
                     });                                                                                                     
                 })
-                .catch((ex) => {
-                    console.log(ex)
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
+                .catch((error) => {
+                    console.log(error)                                      
                 })
 
         },
@@ -280,7 +273,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>

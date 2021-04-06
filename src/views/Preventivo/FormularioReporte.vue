@@ -22,13 +22,13 @@
         <!--/////////////////////////////////////////////////////////////////
         ////          TEXT AREA PARA OBSERVACIONES                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-2">
-            <div class="w-1/2">                
-                <p class="text-center font-bold text-xl text-gray-800 mb-5">Observaciones</p>          
+        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1">
+            <div class="w-1/2 sm:w-full sm:-ml-10">                
+                <p class="text-center font-bold text-xl text-gray-800 mb-5 sm:-ml-20">Observaciones</p>          
                 <textarea
                     id="obs"
                     v-model="observaciones"
-                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border sm:h-32 sm:w-66"
                     placeholder="jane@example.com"
                     name="Observaciones"
                     v-bind:maxlength="limite"
@@ -39,18 +39,14 @@
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class=" w-1/2 ml-20">
+            <div class=" w-1/2 ml-20 sm:w-full sm:-ml-10 sm:mt-5">
                 <ImagenesActividadCarril :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
         ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
-                <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 hover:bg-gray-600 hover:text-black cursor-not-allowed': modalLoading}">
-<!--                    <span class="h-24 w-3 hover:hidden">
-                        <span class="animate-ping absolute inline-flex h-10 w-10 rounded-full ml-20 bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 ml-24 mt-4 bg-green-400"></span>
-                    </span> -->
+                <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
                     <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                     <span>Crear</span>
                 </button>
@@ -62,12 +58,11 @@
 
 import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 import TablaActividadesCarril from '../../components/Actividades/TablaActividadesCarril'
-import ImagenesActividadCarril from '../../components/Actividades/ImagenesActividadCarril'
+import ImagenesActividadCarril from '../../components/ImagenesGenericas'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
 import moment from "moment";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -272,12 +267,10 @@ methods:{
             if(this.validar_horas()) {                                                 
                 if(this.reporteInsert) {     
                         this.modalLoading = true                                                                                                       
-                        Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte, CookiesService.obtener_bearer_token())
-                        .then(() => { 
-                            CookiesService.refrescar_bearer_token() 
-                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
-                            .then(() => {  
-                                CookiesService.refrescar_bearer_token() 
+                        Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte)
+                        .then(() => {                                                        
+                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob)
+                            .then(() => {                                  
                                 if(this.objetoLogDate.fecha != ''){                                    
                                     let refPlaza = this.referenceNumber.split('-')[0]
                                     let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -288,13 +281,10 @@ methods:{
                                         referenceNumber: this.referenceNumber,
                                         comment: this.objetoLogDate.motivo
                                     }
-                                    Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
-                                        .then(() => {   
-                                            CookiesService.refrescar_bearer_token()                                                                                                                                 
-                                        }).catch(Ex => {      
-                                            if(Ex.response.status == 401)
-                                                CookiesService.token_no_autorizado()
-                                            console.log(Ex);                                       
+                                    Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
+                                        .then(() => {                                                                                                                                   
+                                        }).catch(error => {      
+                                            console.log(error)                                                                      
                                         })         
                                 } 
                                 let objImg = {
@@ -314,36 +304,22 @@ methods:{
                                             width: 500,
                                         },
                                     });
-                                }                                
-                                /* this.$notify.success({
-                                    title: "Ok!",
-                                    msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
-                                    position: "bottom right",
-                                    styles: {
-                                        height: 100,
-                                        width: 500,
-                                    },
-                                });        */                                                                         
+                                }                                                                                                   
                             })
-                            .catch(Ex => {    
-                                if(Ex.response.status == 401)
-                                    CookiesService.token_no_autorizado()                                                                                     
+                            .catch(error => {                                    
+                                console.log(error)                                                                                 
                             })                                                                                                                                    
                         })
-                        .catch(Ex => { 
-                            if(Ex.response.status == 401)
-                                CookiesService.token_no_autorizado()                                           
-                            console.log(Ex);
+                        .catch(error => {                                                                                                  
+                            console.log(error);
                         });                                                                                                                                                                                          
                 }
                 else {  
                     this.modalLoading = true
-                    Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`,headerReporte, CookiesService.obtener_bearer_token())
-                        .then(() => { 
-                            CookiesService.refrescar_bearer_token()     
-                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
-                                .then(() => {                             
-                                    CookiesService.refrescar_bearer_token()  
+                    Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`,headerReporte)
+                        .then(() => {     
+                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob)
+                                .then(() => {                                                                 
                                     let objImg = {
                                         referenceNumber: this.referenceNumber,
                                         frecuenciaId : this.header.frequencyId,
@@ -361,16 +337,12 @@ methods:{
                                         },
                                     });                                                                                
                                 })
-                                .catch(Ex => {    
-                                    console.log(Ex)
-                                    if(Ex.response.status == 401)
-                                        CookiesService.token_no_autorizado()                                                                                     
+                                .catch(error => {    
+                                    console.log(error)                                                                                                                                                     
                                 })
                         })
                         .catch((error) => {
-                            console.log(error)
-                            if(error.response.status == 401)
-                                CookiesService.token_no_autorizado()   
+                            console.log(error)                                                            
                         })                                                           
                 }   
             } 

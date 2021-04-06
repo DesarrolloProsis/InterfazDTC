@@ -75,7 +75,7 @@
 <script>
 import ServiceCookies from '../services/CookiesService'
 export default {
-  name: "Login",
+  name: "Login",  
   data() {
     return {
       modal: false,
@@ -131,9 +131,8 @@ export default {
       if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {
         await this.$store.dispatch("Login/BUSCAR_PLAZAS");
         this.listaPlazas = await this.$store.state.Login.listaPlazas
-        if (this.datos.checkLog === true) {
-          this.modal = true;
-        } 
+        if (this.datos.checkLog === true)
+          this.modal = true;      
         else {
           await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);
           let dataHeader = await this.$store.state.Login.listaHeaderDtcUser          
@@ -141,12 +140,10 @@ export default {
           await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
           await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
           let userTipo = await this.$store.state.Login.cookiesUser.rollId
-          if(userTipo == 9 || userTipo == 8){
-            this.$router.push("ConcentradoDTC");
-          }                                     
+          if(userTipo == 9 || userTipo == 8)
+            this.$router.push("ConcentradoDTC");                                              
           else            
             this.$router.push("home");
-          
           ServiceCookies.actualizar_plaza()
         }
       } 
@@ -222,7 +219,7 @@ export default {
   padding: 0 20px;
   width: 100%;
   height: 50px;
-  background-color: #1c3b7e;
+  background-color: #2c5282;
   border-radius: 25px;
   box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);
   -moz-box-shadow: 0 10px 30px 0px rgba(90, 180, 233, 0.5);

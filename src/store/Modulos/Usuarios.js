@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import CookiesService from '../../services/CookiesService'
+//import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {
@@ -13,63 +13,45 @@ const mutations = {
 }
 const actions = {
     async Consulta_Users({commit}, value){      
-        await Axios.post(`${API}/User/consulta`,value, CookiesService.obtener_bearer_token())
-            .then(response => {    
-              CookiesService.refrescar_bearer_token()                          
+        await Axios.post(`${API}/User/consulta`,value)
+            .then(response => {                              
               commit("USUARIOS_MUTATION", response.data.result);              
             })
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);         
             }); 
     },
     async Update_User({commit}, value){
         commit        
-        await Axios.put(`${API}/User/update`,value, CookiesService.obtener_bearer_token())
-            .then(() => {
-              CookiesService.refrescar_bearer_token()
-            })
+        await Axios.put(`${API}/User/update`,value)
+            .then(() => {})
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);                              
         }); 
     },
     async BorrarUser({commit}, value){
         commit                
-        await Axios.put(`${API}/User/delete`,value, CookiesService.obtener_bearer_token())
-            .then(() => {  
-              CookiesService.refrescar_bearer_token()                                        
+        await Axios.put(`${API}/User/delete`,value)
+            .then(() => {                                          
             })
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);                              
         }); 
     },
     async NuevoUser({commit}, value){
         commit        
-        await Axios.post(`${API}/user/nuevo`,value, CookiesService.obtener_bearer_token())
-            .then(() => {
-              CookiesService.refrescar_bearer_token()
-            })
+        await Axios.post(`${API}/user/nuevo`,value)
+            .then(() => {})
             .catch(Ex => {
-              console.log(Ex);
-              if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+              console.log(Ex);                              
         }); 
     },
     async UPDATE_PASSWORD({commit}, value){
       commit            
-      await Axios.put(`${API}/User/newPassword`,value, CookiesService.obtener_bearer_token())
-          .then(() => {
-            CookiesService.refrescar_bearer_token()
-          })
+      await Axios.put(`${API}/User/newPassword`,value)
+          .then(() => {})
           .catch(Ex => {
-            console.log(Ex);
-            if(Ex.response.status == 401)
-              CookiesService.token_no_autorizado()
+            console.log(Ex);                        
       }); 
   },
 }

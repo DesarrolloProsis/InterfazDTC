@@ -16,7 +16,13 @@
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
                                 <th class="cabeceraTable">
-                                    <button @click="agregarUsuario()" class="mr-48">+</button>
+                                    <button @click="agregarUsuario()" class="mr-48">
+                                        <img
+                                            src="../../assets/img/plus.png"
+                                            class="mr-2 sm:m-1"
+                                            width="20"
+                                            height="20"
+                                        /></button>
                                     <p class="-mt-6">Nombre</p>
                                 </th>
                                 <th class="cabeceraTable sm:hidden">Correo</th>
@@ -71,7 +77,7 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.apellidoM">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <Plaza :forma="'diagnostico'" class="mt-2"></Plaza>
+                        <SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.mail">
                     </div>
@@ -127,7 +133,7 @@ import CookiesService from '../../services/CookiesService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import FiltrosServices from "../../services/FiltrosDTCServices";
 import EventBus from "../../services/EventBus"
-import Plaza from '../../components/Header/SelectPlaza.vue';
+import SelectPlaza from '../../components/Header/SelectPlaza';
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -136,12 +142,13 @@ export default {
     components:{
         Nav,
         HeaderGenerico,
-        Plaza
+        SelectPlaza
     },
     data (){
         return{
             listaencargadosCompleta: [],
             listaencargadosFilrada:[],
+            listaUs:[],
             modalEliminar: false,
             modalEditar: false,
             modalAgregar: false,
@@ -165,15 +172,16 @@ export default {
         }
     },
     beforeMount: function (){
+    
         Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
         .then((response)=>{
-            //console.log(response.data)
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
         }).catch((Ex)=>{
-            if(Ex.response.status == 401)
+            if(Ex.status == 404)
                 CookiesService.token_no_autorizado()
         })
+
     },
     methods:{
         actualizarFiltro(){
@@ -183,7 +191,7 @@ export default {
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
                 }).catch((Ex)=>{
-                    if(Ex.response.status == 401)
+                    if(Ex.response.status == 404)
                         CookiesService.token_no_autorizado()
                 }) 
         },
@@ -197,6 +205,10 @@ export default {
         },
         agregarUsuario (){
             this.modalAgregar = true
+            this.insertAdmin.nombre = ''
+            this.insertAdmin.apellidoP = ''
+            this.insertAdmin.apellidoM = ''
+            this.insertAdmin.mail = ''
         },
         confirmarAgregar (){
             this.modalAgregar = false
@@ -214,7 +226,7 @@ export default {
                     console.log(ex)
                     if(ex.response.status == 404)
                         CookiesService.token_no_autorizado()
-                })  
+                })
             }
         },
         confimaBorrar (item) {

@@ -24,7 +24,7 @@
                 <!--///////////////////////////////////////////////////////////////////
                     ////                           Body TABLA                     ////
                     /////////////////////////////////////////////////////////////////-->
-                    <tbody>
+                    <tbody name="table" is="transition-group">       
                         <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividades" :key="key"> 
                             <td class="w-66 text-center border-2 border-gray-800">{{ item.equipo }}</td>   
                             <td class="w-66 text-center border-2 border-gray-800">{{ item.componente }}</td>                                                         
@@ -42,7 +42,7 @@
                                 </select>
                             </td>
                         </tr>                    
-                    </tbody>
+                    </tbody>                    
                 </table>
             </div>
         </div>
