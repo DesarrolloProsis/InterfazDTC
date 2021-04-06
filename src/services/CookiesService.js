@@ -10,6 +10,7 @@ function formato_cookies_usuario(loginSesion, tipoUsuario){
             numeroPlaza: item.squareCatalogId,
             plazaNombre: item.squareName,
             plazaAdminNombre: item.plazaAdministrador
+            
         }
     })    
     let rollNombre = tipoUsuario.find(tipoUser => tipoUser.id == loginSesion.cookie[0].rollId).nombre
