@@ -109,6 +109,7 @@
                 <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
                 <span>Limpiar</span>
             </button>
+
         </div> 
     </div>
     <!--///////////////////////////////////////////////////////////////////

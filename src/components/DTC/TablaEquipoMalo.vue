@@ -1112,10 +1112,11 @@ watch: {
           undefined, 
           newValue.length         
         );
+        //console.log(this.datosPrePartida)
         if(this.datosPrePartida.rowUnidad == 'METRO'){
           this.statusMetro = true
         }
-      }
+      }  
   },
   laneSelectEditar: async function (newValue) {
       for (const propiedades in this.objectEditar) {

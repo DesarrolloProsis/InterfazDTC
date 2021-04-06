@@ -7,24 +7,24 @@
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
                 <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
+                <button @click="agregarUsuario()" class=" botonIconBuscar relative justify-center mb-6 -mt-4">
+                    <img
+                        src="../../assets/img/plus.png"
+                        class="mr-2 sm:m-1"
+                        width="20"
+                        height="20"
+                    />
+                    <span class="">Agregar Nuevo Encargado</span>
+                </button>
                 <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-10" style="height:600px;">
+                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-10 -mt-8" style="height:550px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
-                                <th class="cabeceraTable">
-                                    <button @click="agregarUsuario()" class="mr-48">
-                                        <img
-                                            src="../../assets/img/plus.png"
-                                            class="mr-2 sm:m-1"
-                                            width="20"
-                                            height="20"
-                                        /></button>
-                                    <p class="-mt-6">Nombre</p>
-                                </th>
+                                <th class="cabeceraTable">Nombre</th>
                                 <th class="cabeceraTable sm:hidden">Correo</th>
                                 <th class="cabeceraTable">Plaza</th>
                                 <th class="cabeceraTable">Acciones</th>
@@ -172,8 +172,7 @@ export default {
         }
     },
     beforeMount: function (){
-    
-        Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
+        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
@@ -184,7 +183,7 @@ export default {
     },
     methods:{
         actualizarFiltro(){
-            Axios.get(`${API}/SquaresCatalog/Admins`, CookiesService.obtener_bearer_token())
+            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
                 .then((response)=>{
                     //console.log(response.data)
                     this.listaencargadosCompleta = response.data.result
@@ -222,9 +221,9 @@ export default {
                     console.log(response)
                     this.actualizarFiltro()
                 }).catch((ex) => {
-                    console.log(ex)
-                    if(ex.response.status == 404)
+                    if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()
+                    //console.log(ex)
                 })
             }
         },
@@ -243,8 +242,9 @@ export default {
                     console.log(response)
                     this.actualizarFiltro()
                 }).catch((ex) => {
-                    if(ex.response.status == 404)
+                    if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()
+                    console.log(ex)
                 })      
         },
         editarUsuario (item) {
@@ -277,8 +277,9 @@ export default {
                     console.log(response)
                     this.actualizarFiltro()
                 }).catch((ex)=>{
-                    if(ex.response.status == 404)
+                    if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()
+                    console.log(ex)
                 })
             }
             this.modalEditar = false

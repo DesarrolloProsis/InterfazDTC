@@ -121,19 +121,21 @@ function filtro_encargados_plaza (listaEncargados, plaza, nombre){
     let encargadosFiltrados = []
     //console.log(listaEncargados)
     //console.log(plaza)
-    //console.log(nombre)
+    //console.log(nombre.length)
     if(plaza != ''){
         encargadosFiltrados = listaEncargados.filter(encargado => encargado.squareCatalogId == plaza)
     }
-    if(nombre != ''){
-        encargadosFiltrados = encargadosFiltrados.map(encargado => {
-            let nombreCompleto = `${encargado.name}${encargado.lastName1}${encargado.lastName2}`
+    if(nombre != '' || nombre > 0){
+        let array_encargados = []
+        encargadosFiltrados = encargadosFiltrados.length == 0 ? listaEncargados : encargadosFiltrados
+        for(let nueva of encargadosFiltrados){
+        let nombreCompleto = `${nueva.name} ${nueva.lastName1} ${nueva.lastName2}`  
             if(nombreCompleto.toUpperCase().includes(nombre.toUpperCase())){
-                return {...encargado}
+                array_encargados.push(nueva)
             }
-        })
+        }
+        encargadosFiltrados = array_encargados
     }
-    //console.log(encargadosFiltrados)
     return encargadosFiltrados
 }
 export default

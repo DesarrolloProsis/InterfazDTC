@@ -9,6 +9,15 @@
                 </option>
             </select>
         </div>
+        <div v-if="forma == 'encargado'">
+            <!--<p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>-->
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
+                <option :disabled="tipo == 'insercion'" value>Selecionar...</option>
+                <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
+                    {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
+                </option>
+            </select>
+        </div>
         <div v-if="forma == 'diagnostico'">
             <select v-model="plazaSelect" @change="actualizar_plaza" class="w-48 sm:w-20" type="text" name="TipoDescripcion">
                 <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
@@ -58,8 +67,10 @@ export default {
     },
     beforeMount: async function() {
         if(this.fullPlazas){
-            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario   
-            if(this.tipo == "filtro" || this.tipo == "edicion"){
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
+            this.listaPlazas = this.listaPlazas.filter(item => item.statusAdmin == true)
+            console.log(this.listaPlazas)  
+            if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
                 let plazasSinRepetir = []
                 this.listaPlazas.forEach(element => {                                        
                     if(!plazasSinRepetir.some(item => item.numeroPlaza == element.numeroPlaza)){                        
@@ -68,7 +79,7 @@ export default {
                 });                
                 this.listaPlazas = plazasSinRepetir
             }
-        }                
+        }                   
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
@@ -90,7 +101,7 @@ export default {
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
             this.plazaSelect = plazaSelect
             this.convenioSelect = convenioSelect
-            this.boolCambiarPlaza = false 
+            this.boolCambiarPlaza = false
         }        
     },
     methods:{    
