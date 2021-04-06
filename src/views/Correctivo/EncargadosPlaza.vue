@@ -177,9 +177,8 @@ export default {
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
-        }).catch((Ex)=>{
-            if(Ex.status == 404)
-                CookiesService.token_no_autorizado()
+        }).catch((error)=>{
+            console.log(error)
         })
 
     },
