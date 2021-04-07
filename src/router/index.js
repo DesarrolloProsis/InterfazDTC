@@ -15,7 +15,6 @@ import FichaDiagnostico from '../views/Correctivo/FichaDiagnostico/FichaDiagnost
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
-//import ServiceCookies from '../services/CookiesService'
 import CookiesService from '../services/CookiesService'
 Vue.use(VueRouter)
 const routes = [
@@ -84,7 +83,7 @@ const routes = [
   {
     path: '/EncargadosPlaza',
     name: 'Encargados',
-    component: () => import('../views/Correctivo/Concentrados/ConcentradoEncargadosPlaza')
+    component: () => import('../views/Correctivo/EncargadosPlaza')
   },
   {
     path: '/Inventario',

@@ -1,12 +1,11 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3" >
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
+                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'ENC'" :tipo="'ENC'"></HeaderGenerico>
                 <button @click="agregarUsuario()" class=" botonIconBuscar relative justify-center mb-6 -mt-4">
                     <img
                         src="../../assets/img/plus.png"
@@ -128,19 +127,16 @@
 </template>
 <script>
 import Axios from 'axios';
-import Nav from "../../components/Navbar";
 import CookiesService from '../../services/CookiesService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import FiltrosServices from "../../services/FiltrosDTCServices";
 import EventBus from "../../services/EventBus"
 import SelectPlaza from '../../components/Header/SelectPlaza';
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "EncargadosDePlaza",
-    components:{
-        Nav,
+    components:{        
         HeaderGenerico,
         SelectPlaza
     },
@@ -172,7 +168,7 @@ export default {
         }
     },
     beforeMount: function (){
-        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
+        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
@@ -183,7 +179,7 @@ export default {
     },
     methods:{
         actualizarFiltro(){
-            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
+            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
                 .then((response)=>{
                     //console.log(response.data)
                     this.listaencargadosCompleta = response.data.result
@@ -237,7 +233,7 @@ export default {
             let objStatusUpdate = {
                 status: false,
                 adminId: this.infoDelate.adminSquareId} 
-                Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate, CookiesService.obtener_bearer_token())
+                Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate)
                 .then((response) => {
                     console.log(response)
                     this.actualizarFiltro()
@@ -272,7 +268,7 @@ export default {
                     plaza: this.editUser.plazaId, 
                     adminId: this.editUser.userId}
                 console.log(objUpdateAdmin)    
-                Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin, CookiesService.obtener_bearer_token())
+                Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then((response) => {
                     console.log(response)
                     this.actualizarFiltro()
