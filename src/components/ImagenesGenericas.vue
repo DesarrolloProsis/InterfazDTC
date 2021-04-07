@@ -70,8 +70,8 @@ export default {
                         this.arrayImagenes = newArrayImg                                       
                     }    
                 })
-                .catch(Ex => {                    
-                    console.log(Ex);                     
+                .catch(error => {                    
+                    console.log(error);                     
             });
         }, 1000)
     },

@@ -1,8 +1,8 @@
 <template>
     <div>
         <div v-if="forma == ''">
-            <p class="text-md font-semibold mb-1 text-gray-900 sm:text-sm ">Cambiar Plaza</p>
-            <p class="input w-48"><select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 border-none" type="text" name="TipoDescripcion">
+            <p class="text-md font-bold mb-1 mt-1 text-gray-900">Cambiar Plaza</p>
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
                 <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
@@ -120,11 +120,7 @@ export default {
         }
     },
     computed:{
-        ...mapState({
-            Header: state => state.Header.listaHeaders,
-            selectPlazaState: state => state.Login.plazaSelecionada,
-            selectHeaderPlaza: state => state.Header.headerSeleccionado
-        })
+        ...mapState('Header', ['listaHeaders'])
     },
     watch: {
         selectPlazaState(newValue){            

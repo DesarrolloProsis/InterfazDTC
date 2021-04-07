@@ -1111,8 +1111,7 @@ watch: {
           this.relationShipPrincipal,
           undefined, 
           newValue.length         
-        );
-        //console.log(this.datosPrePartida)
+        );        
         if(this.datosPrePartida.rowUnidad == 'METRO'){
           this.statusMetro = true
         }

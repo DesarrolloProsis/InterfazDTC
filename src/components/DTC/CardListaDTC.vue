@@ -221,10 +221,8 @@ export default {
           datosUser = response.data.result[0]
           await CookiesService.actualizar_plaza(undefined, undefined, undefined, datosUser.referenceSquare, datosUser.adminSquareId)          
         })
-        .catch(Ex => {
-          console.log(Ex);
-          if(Ex.response.status == 401)
-            CookiesService.token_no_autorizado()
+        .catch(error => {
+          console.log(error);                      
         });      
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', { numSiniestro: this.infoCard.sinisterNumber,  numReporte: this.infoCard.reportNumber })                         
       let datosSinester = {

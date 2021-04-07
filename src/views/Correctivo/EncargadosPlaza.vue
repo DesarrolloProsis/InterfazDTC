@@ -184,9 +184,8 @@ export default {
                     //console.log(response.data)
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
-                }).catch((Ex)=>{
-                    if(Ex.response.status == 404)
-                        CookiesService.token_no_autorizado()
+                }).catch((error)=>{
+                    console.log(error)                        
                 }) 
         },
         filtrar_encargados(value){
@@ -216,10 +215,8 @@ export default {
                 .then((response) => {
                     console.log(response)
                     this.actualizarFiltro()
-                }).catch((ex) => {
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
-                    //console.log(ex)
+                }).catch((error) => {
+                    console.log(error)                    
                 })
             }
         },
@@ -237,10 +234,8 @@ export default {
                 .then((response) => {
                     console.log(response)
                     this.actualizarFiltro()
-                }).catch((ex) => {
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
-                    console.log(ex)
+                }).catch((error) => {
+                    console.log(error)                                            
                 })      
         },
         editarUsuario (item) {
@@ -272,10 +267,8 @@ export default {
                 .then((response) => {
                     console.log(response)
                     this.actualizarFiltro()
-                }).catch((ex)=>{
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
-                    console.log(ex)
+                }).catch((error)=>{
+                    console.log(error)                                            
                 })
             }
             this.modalEditar = false

@@ -271,8 +271,7 @@ export default {
             this.$emit('filtrar-dtc',objFiltro)
         },
         //Metodos Para Encados de Plaza
-        filtrar_encargados: function (){
-            //console.log(this.plazaFiltro)
+        filtrar_encargados: function (){            
             this.$emit('filtrar-encargados',{plaza:this.plazaFiltro,nombre:this.nombreEncargado})
         },
         limpiar_encargados: function (){
