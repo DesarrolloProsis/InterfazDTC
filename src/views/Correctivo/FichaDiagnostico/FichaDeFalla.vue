@@ -114,8 +114,7 @@ export default {
                     });
             }
         },
-        insertar_ficha_falla(){    
-            this.$router.push('/NuevoDtc')                                                                       
+        insertar_ficha_falla(){                
             let objFicha = {
                 referenceNumber: this.datosHeader.referenceNumber,
                 typeFaultId: this.datosHeader.tipoFalla,

@@ -3,12 +3,18 @@
     <transition name="slide-fade"> 
     <div class="flex justify-center mt-2 sm:mt-14" v-if="tipoBotones">
       <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
-          <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
+          <!-- <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/NuevoDtc" class="text-center">
               <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Nuevo DTC</h1>
             </router-link>
-          </div>
+          </div> -->
+          <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
+            <router-link to="/Correctivo/PreDTC/DiagnosticoDeFalla" class="text-center">
+              <img src="../../assets/img/document.png" height="200" width="200" class="m-10 sm:m-1" />
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Diagnostico de Fallas</h1>              
+            </router-link>
+          </div>   
           <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/ListarDTC" class="text-center">
               <img src="../../assets/img/to-do.png" height="200" width="200" class="m-10 sm:m-1"/>
@@ -27,12 +33,12 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Inventario Plaza</h1>
             </router-link>
           </div>
-          <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
+          <!-- <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
               <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Configuración</h1>
             </router-link>
-          </div>      
+          </div>       -->
       </div>
     </div>
     <div class="flex justify-center mt-2 sm:mt-14" v-else>
@@ -51,13 +57,13 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Mantenimiento</h1>
             </router-link>
           </div>          
-          <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
+          <!-- <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Correctivo/PreDTC/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/document.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Reeporte Mensual</h1>
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">de Actividades</h1>
             </router-link>
-          </div>                
+          </div>                 -->
       </div>
     </div>
     </transition>
