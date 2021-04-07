@@ -35,12 +35,6 @@ export default {
     name: "Diagnostico",
     components: {        
         HeaderFalla        
-    },
-    props:{
-        tipo:{
-            type: String,
-            default: () => ''
-        } 
     }, 
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////

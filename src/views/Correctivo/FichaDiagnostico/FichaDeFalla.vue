@@ -3,7 +3,7 @@
         <div class="justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-if="this.type == 'DIAG' ">Diagnostico de Falla</h1>
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-if="type == 'DIAG'">Diagnostico de Falla</h1>
                     <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-else>Ficha Técnica de Atención</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
@@ -35,18 +35,13 @@ export default {
     components: {         
         HeaderFalla        
     },
-    props:{
-        tipo:{
-            type: String,
-            default: () => ''
-        } 
-    }, 
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
     /////////////////////////////////////////////////////////////////////
     data (){
         return{    
-            datosHeader: {},                  
+            datosHeader: {},    
+            type: 'DIAGNOSTICO'              
         }
     },
 
@@ -119,7 +114,8 @@ export default {
                     });
             }
         },
-        insertar_ficha_falla(){                
+        insertar_ficha_falla(){    
+            this.$router.push('/NuevoDtc')                                                                       
             let objFicha = {
                 referenceNumber: this.datosHeader.referenceNumber,
                 typeFaultId: this.datosHeader.tipoFalla,
@@ -129,7 +125,9 @@ export default {
             console.log(objFicha)
             Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                 .then((response) => {
-                    console.log(response)                                                              
+                    console.log(response)   
+                    if(objFicha.tipoFalla > 0)
+                        this.$route.push('/NuevoDtc')                                                           
                 })
                 .catch((error) => {                                            
                     console.log(error)

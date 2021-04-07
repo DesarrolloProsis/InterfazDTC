@@ -17,7 +17,7 @@
                         <span>Plaza de Cobro:</span>
                     </div>
                     <div class="-ml-66 sm:-ml-16">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza"  :fullPlazas="true" :tipo="'edicion'" :forma="'diagnostico'"></SelectPlaza>
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
                 </div>
                 <div class="mt-5 grid sm:grid grid-cols-2">

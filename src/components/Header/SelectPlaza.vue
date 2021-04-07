@@ -68,8 +68,7 @@ export default {
     beforeMount: async function() {
         if(this.fullPlazas){
             this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
-            this.listaPlazas = this.listaPlazas.filter(item => item.statusAdmin == true)
-            console.log(this.listaPlazas)  
+            this.listaPlazas = this.listaPlazas.filter(item => item.statusAdmin == true)            
             if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
                 let plazasSinRepetir = []
                 this.listaPlazas.forEach(element => {                                        
