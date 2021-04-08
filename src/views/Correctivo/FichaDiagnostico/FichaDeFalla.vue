@@ -126,7 +126,9 @@ export default {
                 .then((response) => {
                     console.log(response)   
                     if(objFicha.tipoFalla > 0)
-                        this.$route.push('/NuevoDtc')                                                           
+                        this.$route.push('/NuevoDtc')     
+                    else
+                        this.$route.push('/Home')                                                      
                 })
                 .catch((error) => {                                            
                     console.log(error)
