@@ -222,14 +222,12 @@ export default {
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
                 }).catch((ex) => {
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
-                    //console.log(ex)
+                    console.log(ex)
                 })
             }
         },
         actualziar_header_plazas(){
-            let userId = this.$store.Login.cookiesUser.userId
+            let userId = this.$store.state.Login.cookiesUser.userId
             console.log(userId)
             //plazas 
             Axios.post(`${API}/login/Cookie`, { userId: userId })
@@ -249,7 +247,8 @@ export default {
                 //Header Lista LArga 
                 Axios.post(`${API}/login/LoginInfo`, { userId: userId })
                 .then((response) => {
-                    this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.resul.loginList)
+                    console.log(response)
+                    this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
                     this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)
                     console.log(response)
                 })               
