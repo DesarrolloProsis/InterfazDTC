@@ -270,6 +270,7 @@ export default {
                 Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate, CookiesService.obtener_bearer_token())
                 .then((response) => {
                     console.log(response)
+                    this.actualziar_header_plazas()
                     this.actualizarFiltro()
                 }).catch((ex) => {
                     if(ex.response.status == 401)

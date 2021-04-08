@@ -77,13 +77,13 @@
             <br />
             <br />
             <br />
-            <span style="font-weight: bold">{{ datosUser.adminName }}</span>
+            <span style="font-weight: bold">{{ headerSelecionado.adminName }}</span>
           </p>
           <hr />
           <p style="text-align: center">
             <span>Administrador Plaza de Cobro</span>
             <br />
-            <span>{{ datosUser.adminMail }}</span>
+            <span>{{ headerSelecionado.adminMail }}</span>
           </p>
         </div>
     <!-- //////////////////////////////////////////////////////////////////
@@ -168,6 +168,10 @@ beforeMount: async function() {
 computed:{
   restante(){
     return this.observaciones.length
+  },
+    headerSelecionado(){
+    //console.log(this.$store.getters["Header/GET_HEADER_SELECCIONADO"])
+    return this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
   }
 },
 /////////////////////////////////////////////////////////////////////
