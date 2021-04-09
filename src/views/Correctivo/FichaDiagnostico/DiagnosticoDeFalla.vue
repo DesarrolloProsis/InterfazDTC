@@ -28,6 +28,7 @@
 
 <script>
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
+import ServiceReporte from '../../../services/ReportesPDFService'
 import Axios from 'axios';
 import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -147,7 +148,8 @@ methods:{
                 carrilesInsertDiagnostic.forEach(carril => {                                                     
                     Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
                         .then(() => {                                 
-                            EventBus.$emit('guardar_imagenes')                 
+                            EventBus.$emit('guardar_imagenes') 
+                            ServiceReporte.generar_pdf_diagnostico_falla(objDiagnostico.referenceNumber)                
                             this.$router.push({
                                 path: 'FichaTecnicaDeFalla',
                                 query: { data: this.datosHeader }

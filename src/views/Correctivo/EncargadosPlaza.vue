@@ -180,8 +180,7 @@ export default {
     methods:{
         actualizarFiltro(){
             Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
-                .then((response)=>{
-                    //console.log(response.data)
+                .then((response)=>{                    
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
                 }).catch((error)=>{
@@ -189,7 +188,6 @@ export default {
                 }) 
         },
         filtrar_encargados(value){
-            //console.log(value)
             this.listaencargadosFilrada = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
         },
         limpiar_encargados(){
@@ -204,30 +202,34 @@ export default {
             this.insertAdmin.mail = ''
         },
         confirmarAgregar (){
-            this.modalAgregar = false
             let valueAdmin = Object.values(this.insertAdmin)
             if (valueAdmin.some(item => item == '')){
-                alert('campos vacios')
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NO SE HA LLEADO ALGUNO DE LOS CAMPOS`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
             }else{
-                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza
-                console.log(this.insertAdmin)
+                this.modalAgregar = false
+                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                
                 Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin, CookiesService.obtener_bearer_token())
-                .then((response) => {
-                    console.log(response)
+                .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
                 }).catch((error) => {
-                    console.log(error)                    
+                    console.log(error)
                 })
             }
         },
         actualziar_header_plazas(){
-            let userId = this.$store.Login.cookiesUser.userId
-            console.log(userId)
+            let userId = this.$store.state.Login.cookiesUser.userId            
             //plazas 
             Axios.post(`${API}/login/Cookie`, { userId: userId })
-            .then((response) => {     
-                console.log(response)
+            .then((response) => {                     
                 let plazasUsuario =  response.data.result.cookie.map(item => {        
                     return {
                         refereciaPlaza: item.referenceSquare,
@@ -241,10 +243,9 @@ export default {
                 this.$store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION',plazasUsuario)
                 //Header Lista LArga 
                 Axios.post(`${API}/login/LoginInfo`, { userId: userId })
-                .then((response) => {
-                    this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.resul.loginList)
-                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)
-                    console.log(response)
+                .then((response) => {                    
+                    this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
+                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)                    
                 })               
             }) 
             .catch((error) => {
@@ -252,8 +253,7 @@ export default {
             })
         },
         confimaBorrar (item) {
-            this.infoDelate = item
-            //console.log(this.infoDelate)
+            this.infoDelate = item            
             this.modalEliminar = true;           
         },
         borrar (){
@@ -262,8 +262,8 @@ export default {
                 status: false,
                 adminId: this.infoDelate.adminSquareId} 
                 Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate)
-                .then((response) => {
-                    console.log(response)
+                .then(() => {                    
+                    this.actualziar_header_plazas()
                     this.actualizarFiltro()
                 }).catch((error) => {
                     console.log(error)                                            
@@ -277,12 +277,10 @@ export default {
             this.editUser.plaza = item.squareName
             this.editUser.plazaId = item.squareCatalogId
             this.editUser.mail = item.mail,
-            this.modalEditar = true;
-            console.log(item)
+            this.modalEditar = true;            
         },
         actualizarUsuario (){
-            let valueEdit = Object.values(this.editUser)
-            console.log(valueEdit)
+            let valueEdit = Object.values(this.editUser)            
             if (valueEdit.some(item => item == '')){
                 alert('campos vacios')
             }else{
@@ -292,11 +290,9 @@ export default {
                     apellidoM: this.editUser.lastName2, 
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
-                    adminId: this.editUser.userId}
-                console.log(objUpdateAdmin)    
+                    adminId: this.editUser.userId}                 
                 Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
-                .then((response) => {
-                    console.log(response)
+                .then(() => {                    
                     this.actualizarFiltro()
                 }).catch((error)=>{
                     console.log(error)                                            

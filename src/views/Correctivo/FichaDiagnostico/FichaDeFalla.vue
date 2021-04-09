@@ -29,6 +29,7 @@
 <script>
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import Axios from 'axios';
+import ServiceReporte from '../../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -120,11 +121,10 @@ export default {
                 typeFaultId: this.datosHeader.tipoFalla,
                 intervention: this.datosHeader.solucionFalla,
                 updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
-            }
-            console.log(objFicha)
+            }            
             Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
-                .then((response) => {
-                    console.log(response)   
+                .then(() => { 
+                    ServiceReporte.generar_pdf_ficha_falla(objFicha.referenceNumber)                   
                     if(objFicha.tipoFalla > 0)
                         this.$route.push('/NuevoDtc')     
                     else

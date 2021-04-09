@@ -219,7 +219,8 @@ export default {
       await Axios.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`, CookiesService.obtener_bearer_token())
         .then(async (response) => {                                      
           datosUser = response.data.result[0]
-          await CookiesService.actualizar_plaza(undefined, undefined, undefined, datosUser.referenceSquare, datosUser.adminSquareId)          
+          console.log(datosUser)
+          //await CookiesService.actualizar_plaza(undefined, undefined, undefined, datosUser.referenceSquare, datosUser.adminSquareId)          
         })
         .catch(error => {
           console.log(error);                      

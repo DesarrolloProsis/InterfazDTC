@@ -74,9 +74,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         else{
             arrayRequire = keyObjectRequire
             key_Require = Object.keys(arrayRequire)        
-        }  
-        console.log(equipoValid)
-        console.log(key_Require)      
+        }                  
         //Patida
         arrayRequire[key_Require[0]] = []
         //Unidad
@@ -95,9 +93,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
                 component = equipoValid.find(comp => comp.lane === lane)
             else{
                 component = equipoValid.find(comp => comp.tableFolio == lane)
-            }
-            
-            console.log(component)
+            }                        
             //Marca
             if(arrayRequire[key_Require[4]].includes(component.brand) == false)
                 arrayRequire[key_Require[4]].push(component.brand)

@@ -55,8 +55,7 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
         user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
-    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;          
-    console.log(urlTopdf)
+    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;              
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
 }
@@ -171,6 +170,18 @@ function generar_pdf_calendario_escaneado(año, mes){
     let namePdf = clavePlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
     xml_hhtp_request(urlTopdf, namePdf) 
 }
+function generar_pdf_diagnostico_falla(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')
+    let urlTopdf = `${API}/DiagnosticoFalla/${clavePlaza}/${referenceNumber}`
+    let namePdf = clavePlaza + '-DF'
+    xml_hhtp_request(urlTopdf, namePdf)        
+}
+function generar_pdf_ficha_falla(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')
+    let urlTopdf = `${API}/FichaTecnicaAtencion/${clavePlaza}/${referenceNumber}`
+    let namePdf = clavePlaza + '-DF'
+    xml_hhtp_request(urlTopdf, namePdf)        
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
@@ -178,5 +189,7 @@ export default {
     generar_pdf_calendario,
     generar_pdf_actividades_preventivo,
     generar_pdf_fotografico_preventivo,
-    generar_pdf_calendario_escaneado    
+    generar_pdf_calendario_escaneado,
+    generar_pdf_diagnostico_falla,
+    generar_pdf_ficha_falla    
 }

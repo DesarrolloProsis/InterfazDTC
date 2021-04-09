@@ -119,7 +119,7 @@ const actions = {
         console.log(response)   
     })
     .catch(error => {        
-      console.log(error.response)            
+      console.log(error)            
     });
   }
 };

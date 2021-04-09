@@ -118,10 +118,7 @@ function filtro_mes (listaDTC, mes) {
     return listaFiltrada
 }
 function filtro_encargados_plaza (listaEncargados, plaza, nombre){
-    let encargadosFiltrados = []
-    //console.log(listaEncargados)
-    //console.log(plaza)
-    //console.log(nombre.length)
+    let encargadosFiltrados = [] 
     if(plaza != ''){
         encargadosFiltrados = listaEncargados.filter(encargado => encargado.squareCatalogId == plaza)
     }

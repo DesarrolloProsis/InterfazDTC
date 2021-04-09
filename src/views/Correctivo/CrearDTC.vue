@@ -76,13 +76,13 @@
             <br />
             <br />
             <br />
-            <span style="font-weight: bold">{{ datosUser.adminName }}</span>
+            <span style="font-weight: bold">{{ headerSelecionado.adminName }}</span>
           </p>
           <hr />
           <p style="text-align: center">
             <span>Administrador Plaza de Cobro</span>
             <br />
-            <span>{{ datosUser.adminMail }}</span>
+            <span>{{ headerSelecionado.adminMail }}</span>
           </p>
         </div>
     <!-- //////////////////////////////////////////////////////////////////
@@ -141,7 +141,7 @@ created(){
         this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     });
 },
-beforeMount: async function() {    
+beforeMount: async function() {   
     this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
     this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     this.flagCreate = true;
@@ -160,6 +160,9 @@ beforeMount: async function() {
 computed:{
   restante(){
     return this.observaciones.length
+  },
+    headerSelecionado(){    
+    return this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
   }
 },
 /////////////////////////////////////////////////////////////////////
@@ -169,7 +172,7 @@ methods: {
   crearDTCTecnico: async function (status) {
       await EventBus.$emit("validar_header");
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
-      let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];     
+      let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
       //Inserta Header
       await this.$store.dispatch("Header/CREAR_HEADER_DTC", {

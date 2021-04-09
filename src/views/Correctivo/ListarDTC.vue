@@ -372,20 +372,20 @@ methods: {
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
               this.modal = false  
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)      
-              Axios.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}`, CookiesService.obtener_bearer_token())
-              .then((response) => {
-                console.log(response)
+              Axios.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}`)
+              .then(() => {
+                
               })       
               .catch((error) => {
                 console.log(error)
               })
               resolve('ok')                     
             })
-            .catch((ex) => {                              
-              reject(ex)
+            .catch((error) => {                              
+              reject(error)
               this.$notify.error({
               title: "ups!",
-              msg: console.log(ex),
+              msg: error,
               position: "bottom right",
               styles: {
                 height: 100,
@@ -409,7 +409,7 @@ methods: {
               });
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, true)
             })
-            .catch((err) =>  console.log(err))    
+            .catch((error) =>  console.log(error))    
           }, 3000);    
         } 
       })       
@@ -481,7 +481,7 @@ methods: {
             },
         });  
       })
-      .catch((err) =>  console.log(err))    
+      .catch((error) =>  console.log(error))    
     }, 3000);                                                                                   
   },
   filtro_dtc: async function (objFiltros) {     
@@ -551,7 +551,7 @@ methods: {
               width: 500,
             },
           });         
-        }).catch((err) => console.log(err))
+        }).catch((error) => console.log(error))
       }, 3000)
     }
     else if(value === false){        
@@ -605,7 +605,7 @@ methods: {
               },
         });  
       })
-      .catch((err) =>  console.log(err))    
+      .catch((error) =>  console.log(error))    
     }, 1000); 
   },
   cargar_mas(){

@@ -34,20 +34,18 @@ function formato_cookies_usuario(loginSesion){
     })
     .catch((error) => {
         console.log(error)
-    })
-    console.log(cookies)
+    })    
     return cookies 
 }
 async function refrescar_barer_token(){
     localStorage.removeItem('token')
     let objRefresh = { userId: store.state.Login.cookiesUser.userId }     
     await Axios.post(`${API}/login/Refresh`, objRefresh)
-    .then((response) => {        
-        console.log(response)   
+    .then((response) => {                
         localStorage.setItem('token', JSON.stringify(response.data.result))        
     })
     .catch(error => {        
-        console.log(error.response) 
+        console.log(error) 
     });
 }
 async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){    
@@ -57,7 +55,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         listaHeaders = store.state.Header.listaHeaders            
         let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.adminSquareId == adminId)                 
         let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.adminSquareId == adminId)           
-        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
+        await store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
             numPlaza: plazaSelect.numeroPlaza,
@@ -66,8 +64,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         }                            
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)        
-        console.log('convenio Nuevo')        
+        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                
         return {
             plazaSelect,
             convenioSelect,                    

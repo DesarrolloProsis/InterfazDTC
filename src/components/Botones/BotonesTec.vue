@@ -33,12 +33,12 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Inventario Plaza</h1>
             </router-link>
           </div>
-          <!-- <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
-            <router-link to="/Configuracion" class="text-center cursor-pointer">
+          <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
+            <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
               <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Configuración</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Concentrado Diagnostico</h1>
             </router-link>
-          </div>       -->
+          </div>      
       </div>
     </div>
     <div class="flex justify-center mt-2 sm:mt-14" v-else>

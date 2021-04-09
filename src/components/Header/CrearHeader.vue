@@ -391,7 +391,7 @@ watch: {
   },  
 },
 computed: {
-  headerSelecionado(){
+  headerSelecionado(){    
     return this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
   }
 }

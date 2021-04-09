@@ -26,8 +26,7 @@ export default function manejor_solicitudes_run(){
             Axios.defaults.headers.common['Authorization'] = CookiesService.obtener_bearer_token().headers.Authorization   
             return Axios(requestOriginal)
         }
-        else if(error.response.status == 400){
-            console.log('bad')
+        else if(error.response.status == 400){            
             console.log(error.response)
             return Promise.reject(error)
         }

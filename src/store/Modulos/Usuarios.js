@@ -17,16 +17,16 @@ const actions = {
             .then(response => {                              
               commit("USUARIOS_MUTATION", response.data.result);              
             })
-            .catch(Ex => {
-              console.log(Ex);         
+            .catch(error => {
+              console.log(error);         
             }); 
     },
     async Update_User({commit}, value){
         commit        
         await Axios.put(`${API}/User/update`,value)
             .then(() => {})
-            .catch(Ex => {
-              console.log(Ex);                              
+            .catch(error => {
+              console.log(error);                              
         }); 
     },
     async BorrarUser({commit}, value){
@@ -34,24 +34,24 @@ const actions = {
         await Axios.put(`${API}/User/delete`,value)
             .then(() => {                                          
             })
-            .catch(Ex => {
-              console.log(Ex);                              
+            .catch(error => {
+              console.log(error);                              
         }); 
     },
     async NuevoUser({commit}, value){
         commit        
         await Axios.post(`${API}/user/nuevo`,value)
             .then(() => {})
-            .catch(Ex => {
-              console.log(Ex);                              
+            .catch(error => {
+              console.log(error);                              
         }); 
     },
     async UPDATE_PASSWORD({commit}, value){
       commit            
       await Axios.put(`${API}/User/newPassword`,value)
           .then(() => {})
-          .catch(Ex => {
-            console.log(Ex);                        
+          .catch(error => {
+            console.log(error);                        
       }); 
   },
 }
