@@ -3,10 +3,10 @@ function obtener_array_imagenes(e, arrayComponete) {
     let array_imagenes = arrayComponete
     const crear_imagen = function(file){        
         var reader = new FileReader();
-        reader.onload = (e) => {            
+        reader.onload = (e) => {
             let obj = {
                 imgbase: e.target.result.split(",")[1],
-                name: file.name.substr(-15),
+                name: file.name.substr(-20),
             };            
             console.log(obj.name)
             array_imagenes.push(obj);            
