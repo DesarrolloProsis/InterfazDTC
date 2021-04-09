@@ -129,7 +129,8 @@ export default {
     ingresar_inicio: async function () {      
       await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);
       console.log('login inicio espera...')    
-      setTimeout(async () => {                   
+      setTimeout(async () => {    
+        console.log(this.$store.getters["Login/GET_USER_IS_LOGIN"])
       if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {        
         await this.$store.dispatch("Login/BUSCAR_PLAZAS");
         this.listaPlazas = await this.$store.state.Login.listaPlazas
@@ -163,7 +164,7 @@ export default {
           },
         });
       }
-      }, 500)
+      }, 2000)
     },
   },
 };

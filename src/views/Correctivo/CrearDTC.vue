@@ -224,7 +224,8 @@ methods: {
             ServiceReporte.generar_pdf_correctivo(
               this.referenciaDtc, 
               status, 
-              true
+              true,
+              adminId              
             )               
           }          
           await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
