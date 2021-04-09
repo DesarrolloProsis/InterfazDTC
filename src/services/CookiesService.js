@@ -51,7 +51,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         listaHeaders = store.state.Header.listaHeaders            
         let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.adminSquareId == adminId)                 
         let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.adminSquareId == adminId)           
-        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
+        await store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
             numPlaza: plazaSelect.numeroPlaza,

@@ -209,11 +209,19 @@ export default {
             this.insertAdmin.mail = ''
         },
         confirmarAgregar (){
-            this.modalAgregar = false
             let valueAdmin = Object.values(this.insertAdmin)
             if (valueAdmin.some(item => item == '')){
-                alert('campos vacios')
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NO SE HA LLEADO ALGUNO DE LOS CAMPOS`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
             }else{
+                this.modalAgregar = false
                 this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza
                 console.log(this.insertAdmin)
                 Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin, CookiesService.obtener_bearer_token())
