@@ -214,11 +214,42 @@ export default {
                 Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin, CookiesService.obtener_bearer_token())
                 .then((response) => {
                     console.log(response)
+                    this.actualziar_header_plazas()
                     this.actualizarFiltro()
                 }).catch((error) => {
                     console.log(error)                    
                 })
             }
+        },
+        actualziar_header_plazas(){
+            let userId = this.$store.Login.cookiesUser.userId
+            console.log(userId)
+            //plazas 
+            Axios.post(`${API}/login/Cookie`, { userId: userId })
+            .then((response) => {     
+                console.log(response)
+                let plazasUsuario =  response.data.result.cookie.map(item => {        
+                    return {
+                        refereciaPlaza: item.referenceSquare,
+                        administradorId: item.adminSquareId,
+                        numeroPlaza: item.squareCatalogId,
+                        plazaNombre: item.squareName,
+                        plazaAdminNombre: item.plazaAdministrador,
+                        statusAdmin: item.statusAdmin
+                    }
+                })  
+                this.$store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION',plazasUsuario)
+                //Header Lista LArga 
+                Axios.post(`${API}/login/LoginInfo`, { userId: userId })
+                .then((response) => {
+                    this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.resul.loginList)
+                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)
+                    console.log(response)
+                })               
+            }) 
+            .catch((error) => {
+                console.log(error)
+            })
         },
         confimaBorrar (item) {
             this.infoDelate = item

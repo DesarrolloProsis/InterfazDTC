@@ -38,6 +38,7 @@ const mutations = {
   LISTA_PLAZAS_MUTATION: (state, value) => state.listaPlazas = value,
   COOKIES_USER_MUTATION: (state, value) => state.cookiesUser = value,
   LISTA_TECNICOS_MUTATION: (state, value) => state.listaTec = value,
+  LISTA_PLAZAS_USUARIO_COOKIES_MUTATION: (state, value) => state.cookiesUser.plazasUsuario = value,  
   cleanOut: (state) => {
     state.listaHeaderDtcUser = []
     state.listaPlazas = []
@@ -86,25 +87,15 @@ const actions = {
       });
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
-  async INICIAR_SESION_LOGIN({ commit, state }, value) {   
+  async INICIAR_SESION_LOGIN({ commit }, value) {   
     let objLogin = {
       username: value.User,
-      password: value.Password,
-      flag: false
+      password: value.Password,      
     }     
     await Axios.post(`${API}/login`,objLogin)
       .then(response => {      
-        console.log(response)  
-        localStorage.setItem('listaHeaderUser', JSON.stringify(response.data.result))     
-        let arrayPlazaUser = state.cookiesUser.plazasUsuario
-          
-        let arrayHeaderFormat = response.data.result.map((header, index) => {
-          return {
-              ...header,
-              administradorId: arrayPlazaUser[index].administradorId
-          }
-        })                        
-        commit("LISTA_HEADER_PLAZA_USER_MUTATION", arrayHeaderFormat)                
+        console.log(response)          
+        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))                                               
       })
       .catch(() => {                
       });

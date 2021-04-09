@@ -1,31 +1,41 @@
 import store from '../store/index'
 import router from '../router/index'
 import Axios from 'axios'
+//import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
-function formato_cookies_usuario(loginSesion, tipoUsuario){    
-    let plazasUsuario = loginSesion.cookie.map(item => {
-        return {
-            refereciaPlaza: item.referenceSquare,
-            administradorId: item.adminSquareId,
-            numeroPlaza: item.squareCatalogId,
-            plazaNombre: item.squareName,
-            plazaAdminNombre: item.plazaAdministrador,
-            statusAdmin: item.statusAdmin
-        }
-    })    
-    let rollNombre = tipoUsuario.find(tipoUser => tipoUser.id == loginSesion.cookie[0].rollId).nombre
-    let userValido = plazasUsuario.length > 0 ? true : false
-    let cookies = {
-        rollId: loginSesion.cookie[0].rollId,
-        nombreRoll: rollNombre,
-        userId: loginSesion.cookie[0].userId,
-        plazasUsuario: plazasUsuario,
-        registrado: userValido
-    }        
-    localStorage.clear()    
-    localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
-    localStorage.setItem('token', JSON.stringify(loginSesion.userToken)) 
+function formato_cookies_usuario(loginSesion){       
+    let cookies = {}
+    let tokenUser = {}
+    Axios.post(`${API}/login/Cookie`, { userId: loginSesion.userId })
+    .then((response) => {         
+        let plazasUsuario =  response.data.result.cookie.map(item => {        
+            return {
+                refereciaPlaza: item.referenceSquare,
+                administradorId: item.adminSquareId,
+                numeroPlaza: item.squareCatalogId,
+                plazaNombre: item.squareName,
+                plazaAdminNombre: item.plazaAdministrador,
+                statusAdmin: item.statusAdmin
+            }
+        })          
+        tokenUser = response.data.result.userToken
+        cookies['plazasUsuario'] = plazasUsuario
+        cookies['rollId'] = loginSesion.rolId
+        cookies['nombreRoll'] = loginSesion.rolDescription
+        cookies['userId'] = loginSesion.userId 
+        cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false  
+        Axios.post(`${API}/login/LoginInfo`, { userId: loginSesion.userId })
+        .then((response) => {                  
+            store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList) 
+        })                       
+        localStorage.clear()    
+        localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
+        localStorage.setItem('token', JSON.stringify(tokenUser)) 
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+    console.log(cookies)
     return cookies 
 }
 async function refrescar_barer_token(){
@@ -45,8 +55,8 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         try{        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
         listaHeaders = store.state.Header.listaHeaders            
-        let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.administradorId == adminId)                 
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.administradorId == adminId)                
+        let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.adminSquareId == adminId)                 
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.adminSquareId == adminId)           
         await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
@@ -71,7 +81,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario
         listaHeaders = store.state.Header.listaHeaders        
         let plazaSelect = listaPlazas[0]           
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.administradorId == plazaSelect.administradorId)
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.adminSquareId == plazaSelect.administradorId)
         await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
@@ -89,7 +99,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
     }
     else{
         store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)  
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.administradorId == plazaSelect.administradorId)                                         
+        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.adminSquareId == plazaSelect.administradorId)                                         
         let objConvenio = {
             id: null,
             numPlaza: plazaSelect.numeroPlaza,
