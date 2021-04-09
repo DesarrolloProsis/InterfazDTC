@@ -6,8 +6,9 @@ function obtener_array_imagenes(e, arrayComponete) {
         reader.onload = (e) => {            
             let obj = {
                 imgbase: e.target.result.split(",")[1],
-                name: file.name,
+                name: file.name.substr(-15),
             };            
+            console.log(obj.name)
             array_imagenes.push(obj);            
         };
         reader.readAsDataURL(file);
