@@ -116,7 +116,7 @@
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
                         <!--<SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza>-->
-                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.plaza" readonly>
+                        <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly>
                     </div>
                     <div class="mt-5 text-center">
                         <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>
