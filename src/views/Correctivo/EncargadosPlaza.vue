@@ -48,7 +48,7 @@
                                         />
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
-                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)">
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="typeUser == 7 || typeUser == 10">
                                         <img
                                             src="../../assets/img/bin.png"
                                             class="mr-2 sm:m-1"
@@ -173,6 +173,7 @@ export default {
         }
     },
     beforeMount: function (){
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId
         Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
@@ -214,7 +215,7 @@ export default {
             if (valueAdmin.some(item => item == '')){
                 this.$notify.warning({
                     title: "Ups!",
-                    msg: `NO SE HA LLEADO ALGUNO DE LOS CAMPOS`,
+                    msg: `NO SE HAN LLEADO ALGUNO DE LOS CAMPOS`,
                     position: "bottom right",
                     styles: {
                         height: 100,
