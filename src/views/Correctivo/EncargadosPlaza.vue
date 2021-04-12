@@ -216,7 +216,7 @@ export default {
             if (valueAdmin.some(item => item == '')){
                 this.$notify.warning({
                     title: "Ups!",
-                    msg: `NO SE HAN LLEADO ALGUNO DE LOS CAMPOS`,
+                    msg: `NO SE HA LLEADO ALGUNO DE LOS CAMPOS`,
                     position: "bottom right",
                     styles: {
                         height: 100,
@@ -304,7 +304,15 @@ export default {
             let valueEdit = Object.values(this.editUser)
             console.log(valueEdit)
             if (valueEdit.some(item => item == '')){
-                alert('campos vacios')
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NO SE HAN LLEADO ALGUNO DE LOS CAMPOS`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
             }else{
                 let objUpdateAdmin = {
                     nombre: this.editUser.name, 
@@ -325,8 +333,8 @@ export default {
                         CookiesService.token_no_autorizado()
                     console.log(ex)
                 })
-            }
-            this.modalEditar = false
+                this.modalEditar = false
+            } 
         },
     },
 }
