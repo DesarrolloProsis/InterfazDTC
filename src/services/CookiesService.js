@@ -24,13 +24,14 @@ function formato_cookies_usuario(loginSesion){
         cookies['nombreRoll'] = loginSesion.rolDescription
         cookies['userId'] = loginSesion.userId 
         cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false  
+        localStorage.clear()    
+        localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
+        localStorage.setItem('token', JSON.stringify(tokenUser))         
+        store.dispatch("Login/BUSCAR_PLAZAS");
         Axios.post(`${API}/login/LoginInfo`, { userId: loginSesion.userId })
         .then((response) => {                  
             store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList) 
-        })                       
-        localStorage.clear()    
-        localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
-        localStorage.setItem('token', JSON.stringify(tokenUser)) 
+        })                             
     })
     .catch((error) => {
         console.log(error)
@@ -112,6 +113,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
 function obtener_bearer_token(tokenPDF){
     if(tokenPDF == undefined) {
         let tokenData = JSON.parse(localStorage.getItem('token'))    
+        console.log(tokenData)
         let config = {
             headers: { Authorization: `Bearer ${tokenData.token}` }
         };

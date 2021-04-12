@@ -19,11 +19,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {  
     computed: {
-        tipoUsuario(){
-            return this.$store.state.Login.cookiesUser.nombreRoll     
-        }
+        ...mapState({
+            tipoUsuario: state => state.Login.cookiesUser.nombreRoll
+        })
     }
 }
 </script>

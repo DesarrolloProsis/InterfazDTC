@@ -126,9 +126,9 @@ export default {
                 .then(() => { 
                     ServiceReporte.generar_pdf_ficha_falla(objFicha.referenceNumber)                   
                     if(objFicha.tipoFalla > 0)
-                        this.$route.push('/NuevoDtc')     
+                        this.$router    .push('/NuevoDtc')     
                     else
-                        this.$route.push('/Home')                                                      
+                        this.$router.push('/Home')                                                      
                 })
                 .catch((error) => {                                            
                     console.log(error)

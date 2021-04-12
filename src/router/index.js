@@ -203,18 +203,16 @@ const router = new VueRouter({
   mode: 'history',
   routes
 })
+
 router.beforeEach(async (to, from, next) => {
   if (to.name == 'login' || to.name == 'register') next()
   else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
   else {
-    let resultToken = await CookiesService.cache_token()
-    setTimeout(() => {
+    let resultToken = await CookiesService.cache_token()    
       if(resultToken)
         next()  
       else
-        router.push('/')    
-    },2000)
-    
+        router.push('/')            
   }
 })
 export default router

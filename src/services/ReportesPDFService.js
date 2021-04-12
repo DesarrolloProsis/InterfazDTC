@@ -25,11 +25,6 @@ function xml_hhtp_request(urlTopdf,namePdf){
     };
     oReq.send();       
 }
-<<<<<<< HEAD
-function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
-    let clavePlaza = numeroReferencia.split('-')[0]
-    //var oReq = new XMLHttpRequest();    
-=======
 async function obtener_admin_id(referenceNumber){
     let id = ''
     await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
@@ -43,7 +38,6 @@ async function obtener_admin_id(referenceNumber){
 }
 async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
     let clavePlaza = numeroReferencia.split('-')[0]    
->>>>>>> 8a2cb8b4c747e4c84b86677638a08e00ba4ebf94
     let urlTopdf = ''
     let namePdf = ''
     if(adminId == undefined){

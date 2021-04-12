@@ -129,7 +129,6 @@ export default {
       }
     },
     ingresar_inicio: async function () {      
-<<<<<<< HEAD
       await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);      
       setTimeout(async () => {                   
         if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {        
@@ -150,18 +149,6 @@ export default {
               this.$router.push("home");
             ServiceCookies.actualizar_plaza()
           }
-=======
-      await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);
-      this.cargando = true
-      console.log('login inicio espera...')    
-      setTimeout(async () => {    
-        console.log(this.$store.getters["Login/GET_USER_IS_LOGIN"])
-      if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {        
-        await this.$store.dispatch("Login/BUSCAR_PLAZAS");
-        this.listaPlazas = await this.$store.state.Login.listaPlazas
-        if (this.datos.checkLog === true) {
-          this.modal = true;
->>>>>>> 8a2cb8b4c747e4c84b86677638a08e00ba4ebf94
         } 
         else {
           this.$notify.error({

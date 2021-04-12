@@ -28,7 +28,7 @@ const getters = {
       idUser: state.cookiesUser.userId
     }
   },  
-  GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
+  GET_USER_IS_LOGIN: () => state.cookiesUser.registrado  == undefined ? false : state.cookiesUser.registrado,
   GET_REFERENCIA_ACTUAL_PLAZA: () => state.plazaSelecionada.refereciaPlaza,
   GET_REFERENCIA_PLAZA_TO_NOMBRE: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
   GET_TIPO_USUARIO: () => state.cookiesUser.rollId,    
@@ -95,7 +95,8 @@ const actions = {
     await Axios.post(`${API}/login`,objLogin)
       .then(response => {      
         console.log(response)          
-        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))                                               
+        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))    
+        console.log('se hizo el commit')                                           
       })
       .catch(() => {                
       });
@@ -104,6 +105,7 @@ const actions = {
   async BUSCAR_PLAZAS({ commit }) {                    
     await Axios.get(`${API}/squaresCatalog`)
       .then(response => {        
+        console.log(response)
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(error => {        

@@ -181,7 +181,8 @@ export default {
     methods:{
         actualizarFiltro(){
             Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
-                .then((response)=>{                    
+                .then((response)=>{      
+                    console.log(response)              
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
                 }).catch((error)=>{
@@ -291,7 +292,8 @@ export default {
                     apellidoM: this.editUser.lastName2, 
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
-                    adminId: this.editUser.userId}                 
+                    adminId: this.editUser.userId}
+                console.log(objUpdateAdmin)                 
                 Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
