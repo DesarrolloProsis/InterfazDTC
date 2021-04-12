@@ -48,7 +48,7 @@
                                         />
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
-                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="typeUser == 7 || typeUser == 10">
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="typeUser == 4 || typeUser == 10">
                                         <img
                                             src="../../assets/img/bin.png"
                                             class="mr-2 sm:m-1"
