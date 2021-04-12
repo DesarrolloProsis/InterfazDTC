@@ -47,7 +47,7 @@
                                         />
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
-                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)">
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="typeUser == 4 || typeUser == 10">
                                         <img
                                             src="../../assets/img/bin.png"
                                             class="mr-2 sm:m-1"
@@ -115,7 +115,7 @@
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
                         <!--<SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza>-->
-                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.plaza" readonly>
+                        <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly>
                     </div>
                     <div class="mt-5 text-center">
                         <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>
@@ -169,7 +169,9 @@ export default {
         }
     },
     beforeMount: function (){
-        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId
+        console.log(this.typeUser)
+        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
@@ -284,7 +286,15 @@ export default {
         actualizarUsuario (){
             let valueEdit = Object.values(this.editUser)            
             if (valueEdit.some(item => item == '')){
-                alert('campos vacios')
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NO SE HA LLEADO ALGUNO DE LOS CAMPOS`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
             }else{
                 let objUpdateAdmin = {
                     nombre: this.editUser.name, 
@@ -297,11 +307,15 @@ export default {
                 Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
-                }).catch((error)=>{
-                    console.log(error)                                            
+                    this.actualziar_header_plazas()
+                    console.log(objUpdateAdmin)
+                }).catch((ex)=>{
+                    if(ex.response.status == 401)
+                        CookiesService.token_no_autorizado()
+                    console.log(ex)
                 })
-            }
-            this.modalEditar = false
+                this.modalEditar = false
+            } 
         },
     },
 }
