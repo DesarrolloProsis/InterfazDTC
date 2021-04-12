@@ -17,7 +17,7 @@
     @apply font-semibold mb-2;
 }
 input {
-    @apply bg-gray-200;        
+    @apply bg-gray-100;        
     @apply rounded-lg;
     @apply outline-none;
     @apply border-gray-600;   
@@ -28,7 +28,7 @@ input {
 input:hover {      
     @apply bg-white;   
     @apply border-gray-300;
-    @apply border-gray-700;
+    @apply border-gray-600;
 }
 input:focus {
     @apply border-gray-300; 
@@ -219,6 +219,14 @@ select:focus {
 }
 .animacion:hover{
     @apply transform -translate-y-1 scale-105;
+}
+.ph-center-observaciones::-webkit-input-placeholder {
+    text-align: center;
+    line-height: 100px;/* Centrado vertical */
+}
+.ph-center::-webkit-input-placeholder {
+    text-align: center;
+    line-height: 50px;/* Centrado vertical */
 }
 @tailwind components;
 

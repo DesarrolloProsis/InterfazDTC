@@ -2,7 +2,7 @@
     <div>
         <div v-if="forma == ''">
             <p class="text-md font-bold mb-1 mt-1 text-gray-900">Cambiar Plaza</p>
-            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
                 <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}

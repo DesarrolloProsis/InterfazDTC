@@ -38,7 +38,7 @@
           <div>
           </div>
         </div>
-        <div class="justify-end  flex sm:grid grid-cols-1 mt-5">
+        <div class="justify-center ml-8 sm:grid grid-cols-1 mt-5">
           <button @click="agregar_actividad_dia" class="botonIconCrear sm:mb-2">Aceptar</button>
           <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar sm:w-full sm:ml-0">Cancelar</button>
         </div>
@@ -55,15 +55,15 @@
             <h1 class="mt-5">{{ fechaModal | formatModal }}</h1>
         </div>
         <div>
-            <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border" v-for="(item, key) in this.carrilesModal" :key="key" >
+            <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border-b-2 rounded-lg" v-for="(item, key) in this.carrilesModal" :key="key" >
                 <p class="w-full text-grey-darkest">{{`Lane: ${item.lane} IdGare: ${item.idGare} CapufeNum: ${item.capufeLaneNum}`}}</p>                
                 <button @click="borrar_carril_evento(item, key)" class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-medium bg-red-500 text-gray-800  hover:bg-red-400">
-                  <img src="../../assets/img/bin.png" class="mr-2" width="12" height="1"/>
+                  <img src="../../assets/img/bin.png" class="" width="14" height="1"/>
                 </button>
             </div>          
         </div>    
         </div>
-        <div class="justify-end flex mt-5">
+        <div class="justify-center flex mt-5">
           <!-- <button @click="(modal = false, modalActividades = false)" class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button> -->
           <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar">Cancelar</button>
         </div>

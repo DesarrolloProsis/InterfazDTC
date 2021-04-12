@@ -5,7 +5,7 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'ENC'" :tipo="'ENC'"></HeaderGenerico>
+                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
                 <button @click="agregarUsuario()" class=" botonIconBuscar relative justify-center mb-6 -mt-4">
                     <img
                         src="../../assets/img/plus.png"

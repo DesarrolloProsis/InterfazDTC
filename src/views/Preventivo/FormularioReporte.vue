@@ -28,7 +28,7 @@
                 <textarea
                     id="obs"
                     v-model="observaciones"
-                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border sm:h-32 sm:w-66"
+                    class="block container mx-auto py-4 mb-0 h-40 is_valid placeholder-gray-500 ph-center-observaciones sm:h-32 sm:w-66"
                     placeholder="jane@example.com"
                     name="Observaciones"
                     v-bind:maxlength="limite"
@@ -39,7 +39,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class=" w-1/2 ml-20 sm:w-full sm:-ml-10 sm:mt-5">
+            <div class=" w-1/2 ml-20 sm:w-full sm:-ml-10 sm:mt-5 mt-6">
                 <ImagenesActividadCarril :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////

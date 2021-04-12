@@ -45,7 +45,12 @@
               <th>Diagnostico</th>
             </tr>
             <td>
-              <textarea v-model="diagnostico" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6" name="Diagnostico" v-bind:maxlength="limite"/>
+              <textarea v-model="diagnostico" v-validate="'max:300'" 
+              :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" 
+              class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6 ph-center"
+              placeholder="Diagnostico de Equipo Dañado" 
+              name="Diagnostico" 
+              v-bind:maxlength="limite"/>
               <span class="text-gray-500 ml-6">{{ restante }}/300</span>
               <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
             </td>

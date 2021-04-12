@@ -10,8 +10,8 @@
                 </div>
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
-                <div class="border-b-2 border-gray-200 rounded-lg shadow-md p-5 pt-0">
-                    <h1 class="mt-5 border-purple-800 w-72 sm:w-full">{{ `Calendario de Actividades` }}</h1>            
+                <div class="border-gray-200 p-5 pt-0">
+                    <h1 class="mt-5 border-purple-800 w-72 sm:w-full font-bold">{{ `Calendario de Actividades` }}</h1>            
                 </div>
             </div>
         </div>
@@ -82,23 +82,33 @@
                 <p class=" font-bold">Codigo de Colores:</p>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Semanal</p>
-                    <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center">Verde</div>
+                    <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1">Verde</p>
+                    </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Mensual</p>
-                    <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center">Rojo</div>
+                    <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1">Rojo</p>
+                    </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Trimestral</p>
-                    <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center">Azul</div>
+                    <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1">Azul</p>
+                    </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Semestral</p>
-                    <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center">Rosa</div>
+                    <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1">Rosa</p>
+                    </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Anual</p>
-                    <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center">Naranja</div>
+                    <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1">NARANJA</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,7 +227,7 @@ export default {
         enviar_calendario_escaneado(){
             let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)            
             let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza            
-            let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+            //let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
             Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile)

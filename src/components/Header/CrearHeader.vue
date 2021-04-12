@@ -8,9 +8,9 @@
       ///////////////////////////////////////////////////////////////////// -->
         <!--<div class="box-content p-4 border-2 border-gray-200 rounded-lg xl:w-3/4">-->
         <div class="box-content p-4 xl:w-3/4">
-          <img src="../../assets/img/prosis-logo.jpg" class="xl:h-16 4k:h-12 ml-20 shadow-lg rounded-lg sm:ml-1" />
+          <img src="../../assets/img/prosis-logo.jpg" class="xl:h-16 4k:h-12 ml-20 sm:ml-1" />
         </div>
-        <div class="text-3xl border-b-2 border-gray-200 rounded-lg shadow-md text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-bold p-4 ">Dictamen Tecnico y Cotizacion</div>
+        <div class="text-3xl text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-bold p-4 ">Dictamen Tecnico y Cotizacion</div>
         <div class="text-left">
           <br />
           <label class="mr-2 ml-5 text-lg">Referencia:</label>
@@ -26,7 +26,7 @@
         </div>
         <div>
           <br />
-          <div class="border-gray-200 rounded-lg shadow-md border-2 text-lg text-center font-bold">
+          <div class="text-xl text-center font-bold">
             <h6>En caso de Siniestro</h6>
           </div>
         </div>
@@ -51,7 +51,6 @@
             class="w-full"
             type="text"
             name="NoSiniestro"
-            placeholder
           />
           <p class="w-1/2 text-red-600 text-xs">{{ errors.first("NoSiniestro") }}</p>
 <!--           <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>

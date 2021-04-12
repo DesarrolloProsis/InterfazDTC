@@ -39,14 +39,14 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="items-center ">
           <p class="text-center">
-            <span class="text-center font-bold text-xl text-gray-800 border-gray-300 shadow-md rounded-lg">Observaciones</span>
+            <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
           </p>
           <textarea
             v-model="observaciones"
             v-validate="'max:300'"
             :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-            placeholder="jane@example.com"
+            class="rounded-lg py-4 mb-0 h-40 placeholder-gray-500 ph-center-observaciones"
+            placeholder="Indica las observaciones necesarias del siniestro"
             name="Observaciones"
             v-bind:maxlength="limite"
           />

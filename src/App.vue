@@ -1,9 +1,9 @@
 <template>
   <div id="app">   
     <NavBar></NavBar>
-    <transition name="slide-fade">       
+    <!-- <transition name="slide-fade">  -->      
       <router-view/>
-    </transition>
+    <!-- </transition> -->
     <Footer></Footer>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="slide-fade"> 
+    <!-- <transition name="slide-fade">  -->
     <div class="flex justify-center mt-2 sm:mt-14" v-if="tipoBotones">
       <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
           <!-- <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
@@ -35,8 +35,14 @@
           </div>
           <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
-              <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1" />
+              <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Concentrado Diagnostico</h1>
+            </router-link>
+          </div>
+          <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
+            <router-link to="/Configuracion" class="text-center cursor-pointer">
+              <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1"/>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Configuración</h1>
             </router-link>
           </div>      
       </div>
@@ -66,7 +72,7 @@
           </div>                 -->
       </div>
     </div>
-    </transition>
+    <!-- </transition> -->
   </div>
 </template>
 <script>

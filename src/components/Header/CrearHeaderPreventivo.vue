@@ -5,13 +5,13 @@
           ////////////////////////////////////////////////////////////////////-->
         <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-10">
             <div class=" w-auto mx-auto flex justify-center">
-                <div class="border-gray-800 w-66 border-2 p-5">
+                <div class="w-66 p-5">
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
                 </div>
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
-                <div class="border-gray-800 border-2 p-5 pt-0">
-                    <h1 class="mt-5 border-purple-800">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel ${tituloUbicacion}` }}</h1>            
+                <div class="p-5 pt-0">
+                    <h1 class="mt-5 font-bold text-3xl">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel ${tituloUbicacion}` }}</h1>            
                 </div>
             </div>
         </div>
@@ -42,11 +42,11 @@
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Inicio:</p>
-                        <input v-model="horaInicio" class="ml-5 w-40" type="time">
+                        <input v-model="horaInicio" class="ml-5 w-40 is_valid" type="time">
                     </div>
                     <div class="flex justify-start m-5">
                         <p class="font-bold">Hora Fin:</p>
-                        <input v-model="horaFin" class="ml-5 w-40" type="time">
+                        <input v-model="horaFin" class="ml-10 w-40 is_valid" type="time">
                     </div>
                 </div>
             </div>
@@ -57,19 +57,27 @@
                 <p class=" font-bold">Estatus Equipo:</p>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Operando en optimas condiciones</p>
-                    <div class="bg-green-500 border-gray-800 border w-16 h-6 ml-3 text-center">Ok</div>
+                    <div class="bg-green-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1 text-white">Ok</p>
+                    </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Equipo con Daño Fisico y/o Vandalizado</p>
-                    <div class="bg-yellow-500 border-gray-800 border w-16 h-6 ml-3 text-center">Dañado</div>
+                    <div class="bg-yellow-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1 text-white">Dañado</p>
+                    </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>No aplica por garantia con el fabricante</p>
-                    <div class="bg-orange-500 border-gray-800 border w-16 h-6 ml-3 text-center">No Aplica</div>
+                    <div class="bg-orange-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid">
+                        <p class="mt-1 text-white">No Aplica</p>
+                    </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>No Existe Equipo (Vandalizado)</p>
-                    <div class="bg-red-500 border-gray-800 border w-16 h-6 ml-3 text-center">No Existe</div>
+                    <div class="bg-red-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid">
+                        <p class="mt-1 text-white">No Existe</p>
+                    </div>
                 </div>
             </div>
         </div>

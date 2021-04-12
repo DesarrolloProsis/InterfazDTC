@@ -12,11 +12,11 @@
                     ////////////////////////////////////////////////////////////////////-->
                     <thead>
                         <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800"> 
-                            <th class="w-64 border-2 border-gray-800">Equipo</th>               
-                            <th class="w-64 border-2 border-gray-800">Componente</th> 
-                            <th class="w-64 border-2 border-gray-800">Actividad</th>                             
-                            <th class="w-64 border-2 border-gray-800">Ubicacion</th>                                                                                          
-                            <th class="w-64 border-2 border-gray-800">
+                            <th class="w-64 cabeceraTable">Equipo</th>               
+                            <th class="w-64 cabeceraTable">Componente</th> 
+                            <th class="w-64 cabeceraTable">Actividad</th>                             
+                            <th class="w-64 cabeceraTable">Ubicacion</th>                                                                                          
+                            <th class="w-64 cabeceraTable">
                                 <p>Acciones</p>                                    
                             </th>                
                         </tr>
@@ -26,11 +26,11 @@
                     /////////////////////////////////////////////////////////////////-->
                     <tbody name="table" is="transition-group">       
                         <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividades" :key="key"> 
-                            <td class="w-66 text-center border-2 border-gray-800">{{ item.equipo }}</td>   
-                            <td class="w-66 text-center border-2 border-gray-800">{{ item.componente }}</td>                                                         
-                            <td class="w-66 text-center border-2 border-gray-800">{{ item.actividades }}</td>   
-                            <td class="w-66 text-center border-2 border-gray-800">{{ item.ubicacion }}</td>                                                                                
-                            <td class="w-66 text-center border-2 border-gray-800" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
+                            <td class="w-66 cuerpoTable">{{ item.equipo }}</td>   
+                            <td class="w-66 cuerpoTable">{{ item.componente }}</td>                                                         
+                            <td class="w-66 cuerpoTable">{{ item.actividades }}</td>   
+                            <td class="w-66 cuerpoTable">{{ item.ubicacion }}</td>                                                                                
+                            <td class="w-66 cuerpoTable text-center" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
                                 <!-- <span class="text-sm text-blue-700">Finalizada</span>
                                 <input v-model="actividadFinalizada" class="ml-1 h-2w-2 rounded-lg" type="checkbox" />         -->
                                 <select v-model="item.jobStatus" class="w-32 text-md text-gray-800 border-gray-900" >
