@@ -306,7 +306,7 @@ export default {
             if (valueEdit.some(item => item == '')){
                 this.$notify.warning({
                     title: "Ups!",
-                    msg: `NO SE HAN LLEADO ALGUNO DE LOS CAMPOS`,
+                    msg: `NO SE HA LLEADO ALGUNO DE LOS CAMPOS`,
                     position: "bottom right",
                     styles: {
                         height: 100,
