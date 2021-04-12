@@ -26,18 +26,18 @@ function xml_hhtp_request(urlTopdf,namePdf){
     };
     oReq.send();       
 }
-function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC){
+function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
     let clavePlaza = numeroReferencia.split('-')[0]
     //var oReq = new XMLHttpRequest();    
     let urlTopdf = ''
     let namePdf = ''
     if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
-        urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${clavePlaza}`;
+        urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${adminId}`;
         namePdf = `DTC-${numeroReferencia}.pdf`; 
     }
     else if(STATUS_REPORTE_CORRECTIVO.firmado === statusId){        
         if(crearDTC == true)
-            urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${clavePlaza}`; 
+            urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${adminId}`; 
         else    
             urlTopdf = `${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`;             
                                 

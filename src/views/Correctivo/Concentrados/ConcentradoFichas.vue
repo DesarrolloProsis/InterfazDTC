@@ -84,8 +84,6 @@
 </template>
 <script>
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
-import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
-
 export default {
     name: "ConcentradoFichas",
     components:{        
@@ -100,32 +98,7 @@ export default {
        
 
     },
-    methods: {
-        filtro_dtc: async function (objFiltro) {   
-            if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
-                let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
-                this.$nextTick().then(() => {      
-                    this.infoDTC = listaFiltrada            
-                }) 
-            }  
-            else{
-            this.$notify.warning({
-                title: "Ups!",
-                msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                    },
-                });
-            }
-        },
-        limpiar_filtros: function() {             
-        this.modalLoading = true                            
-        this.$nextTick().then(() => {             
-            this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
-            })           
-        },  
+    methods: {       
     },
 }
 </script>
