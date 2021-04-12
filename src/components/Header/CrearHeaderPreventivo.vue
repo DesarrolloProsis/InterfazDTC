@@ -82,7 +82,7 @@
                     <p class="text-gray-900 font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
                     <div>
                         <div class="mt-5 sm:grid grid-cols-1">
-                            <div class="flex justify-start grid grid-cols-2">
+                            <div class="justify-start grid grid-cols-2">
                                 <p class=" font-bold">Fecha Original:</p>                        
                                 <p class="ml-5 text-center">{{ header.day }}</p> 
                             </div> 

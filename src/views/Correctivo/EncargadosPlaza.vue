@@ -106,15 +106,16 @@
                     <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Editar Encargado de Plaza</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
-                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400" v-model="editUser.name">
+                        <input type="text" class="w-full bg-white border-gray-400" v-model="editUser.name">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Paterno</p>
-                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.lastName1">
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.lastName1">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
-                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.lastName2">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.plaza" readonly>
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.lastName2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
-                        <input type="text" class="w-full bg-gray-300 focus:bg-white border-gray-400 mt-2" v-model="editUser.mail" readonly>
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.mail">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
+                        <!--<SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza>-->
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.plaza" readonly>
                     </div>
                     <div class="mt-5 text-center">
                         <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>

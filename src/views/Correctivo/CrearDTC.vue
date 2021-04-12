@@ -212,7 +212,12 @@ methods: {
         await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);        
         if (this.$store.getters["DTC/getInsertDmgComplete"]) {           
           if (status == 2) {
-            ServiceReporte.generar_pdf_correctivo(this.referenciaDtc, status, true, adminId)               
+            ServiceReporte.generar_pdf_correctivo(
+              this.referenciaDtc, 
+              status, 
+              true,
+              adminId              
+            )               
           }          
           await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           await this.$store.commit("DTC/insertDmgCompleteMutation", false);

@@ -20,17 +20,36 @@ function xml_hhtp_request(urlTopdf,namePdf){
     oReq.onload = function () {         
     var file = new Blob([oReq.response], {
         type: "application/pdf",
-    });   
-    //window.open(urlTopdf, namePdf); 
+    });       
     saveAs(file, namePdf);
     };
     oReq.send();       
 }
+<<<<<<< HEAD
 function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
     let clavePlaza = numeroReferencia.split('-')[0]
     //var oReq = new XMLHttpRequest();    
+=======
+async function obtener_admin_id(referenceNumber){
+    let id = ''
+    await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
+    .then(async (response) => {                                              
+        id = response.data.result[0].adminSquareId        
+    })
+    .catch((error) => {
+        console.log(error)
+    })  
+    return id  
+}
+async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
+    let clavePlaza = numeroReferencia.split('-')[0]    
+>>>>>>> 8a2cb8b4c747e4c84b86677638a08e00ba4ebf94
     let urlTopdf = ''
     let namePdf = ''
+    if(adminId == undefined){
+        adminId = await obtener_admin_id(numeroReferencia)
+    }
+    console.log(adminId)
     if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
         urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${adminId}`;
         namePdf = `DTC-${numeroReferencia}.pdf`; 
@@ -39,14 +58,15 @@ function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
         if(crearDTC == true)
             urlTopdf = `${API}/pdf/FirmarReporte/${clavePlaza}/${numeroReferencia}/${adminId}`; 
         else    
-            urlTopdf = `${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}`;             
+            urlTopdf = `${API}/pdf/GetPdfFirmado/${clavePlaza}/${numeroReferencia}/${adminId}`;             
                                 
         namePdf = `DTC-${numeroReferencia}-Finalizado.pdf`;        
     } 
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){
         urlTopdf = `${API}/pdf/GetPdfSellado/${clavePlaza}/${numeroReferencia}`;
         namePdf = `DTC-${numeroReferencia}-Sellado.pdf`;  
-    }     
+    }  
+    console.log(urlTopdf)   
     xml_hhtp_request(urlTopdf, namePdf)                          
 }
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
