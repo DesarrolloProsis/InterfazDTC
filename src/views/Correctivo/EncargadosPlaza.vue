@@ -316,6 +316,8 @@ export default {
                 .then((response) => {
                     console.log(response)
                     this.actualizarFiltro()
+                    this.actualziar_header_plazas()
+                    console.log(objUpdateAdmin)
                 }).catch((ex)=>{
                     if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()
