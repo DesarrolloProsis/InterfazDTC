@@ -174,6 +174,7 @@ export default {
     },
     beforeMount: function (){
         this.typeUser = this.$store.state.Login.cookiesUser.rollId
+        console.log(this.typeUser)
         Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
