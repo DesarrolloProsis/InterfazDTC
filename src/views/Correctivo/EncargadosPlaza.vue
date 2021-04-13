@@ -114,8 +114,8 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <!--<SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza>-->
-                        <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly>
+                        <SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>
+                        <!-- <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly> -->
                     </div>
                     <div class="mt-5 text-center">
                         <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>
@@ -169,8 +169,7 @@ export default {
         }
     },
     beforeMount: function (){
-        this.typeUser = this.$store.state.Login.cookiesUser.rollId
-        console.log(this.typeUser)
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId        
         Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
@@ -274,14 +273,16 @@ export default {
                 })      
         },
         editarUsuario (item) {
+            console.log(item)
+            CookiesService.actualizar_plaza(undefined, undefined, undefined, undefined,item.adminSquareId)
             this.editUser.userId = item.adminSquareId
             this.editUser.name = item.name
             this.editUser.lastName1 = item.lastName1
             this.editUser.lastName2 = item.lastName2
             this.editUser.plaza = item.squareName
             this.editUser.plazaId = item.squareCatalogId
-            this.editUser.mail = item.mail,
-            this.modalEditar = true;            
+            this.editUser.mail = item.mail,            
+            this.modalEditar = true;                              
         },
         actualizarUsuario (){
             let valueEdit = Object.values(this.editUser)            
@@ -302,13 +303,11 @@ export default {
                     apellidoM: this.editUser.lastName2, 
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
-                    adminId: this.editUser.userId}
-                console.log(objUpdateAdmin)                 
+                    adminId: this.editUser.userId}                              
                 Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
-                    this.actualziar_header_plazas()
-                    console.log(objUpdateAdmin)
+                    this.actualziar_header_plazas()                    
                 }).catch((ex)=>{
                     if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()

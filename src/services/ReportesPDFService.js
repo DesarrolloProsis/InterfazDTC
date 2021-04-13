@@ -42,8 +42,7 @@ async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, admi
     let namePdf = ''
     if(adminId == undefined){
         adminId = await obtener_admin_id(numeroReferencia)
-    }
-    console.log(adminId)
+    }    
     if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
         urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${adminId}`;
         namePdf = `DTC-${numeroReferencia}.pdf`; 
@@ -59,8 +58,7 @@ async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, admi
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){
         urlTopdf = `${API}/pdf/GetPdfSellado/${clavePlaza}/${numeroReferencia}`;
         namePdf = `DTC-${numeroReferencia}-Sellado.pdf`;  
-    }  
-    console.log(urlTopdf)   
+    }      
     xml_hhtp_request(urlTopdf, namePdf)                          
 }
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
