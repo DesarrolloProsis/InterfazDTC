@@ -248,7 +248,9 @@ export default {
                 Axios.post(`${API}/login/LoginInfo`, { userId: userId })
                 .then((response) => {                    
                     this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
-                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)                    
+                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)      
+                    let cookiesUser = this.$store.state.Login.cookiesUser
+                    localStorage.setItem('cookiesUser', JSON.stringify(cookiesUser))              
                 })               
             }) 
             .catch((error) => {
