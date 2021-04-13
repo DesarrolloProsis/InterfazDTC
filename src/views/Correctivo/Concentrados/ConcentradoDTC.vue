@@ -119,31 +119,27 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
-                    <div v-if="item.statusId >= 3 && item.escaneadobool == true">
-                      <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5">
-                        <div class="flex justify-center" v-if=" item.escaneadobool == true ">
+                    <div v-if="item.escaneadobool">                    
+                      <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="pdfSelladoBool">
+                        <div class="flex justify-center">
                           <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado($event, key)"/>
                           <img src="../../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
                           <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
+                        </div>                   
+                      </div>
+                      <div class="grid grid-cols-2" v-else>
+                        <div class="inline-flex">
+                          <img src="../../../assets/img/pdf.png" class="w-6 h-8 m-2 opacity-75" alt/>    
+                          <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
                         </div>
-                        <div class="grid grid-cols-2" v-else>
-                          <div class="inline-flex">
-                            <img src="../../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
-                            <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
-                          </div>
-                          <div class="inline-flex">
-                            <button @click="item.escaneadobool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
-                            <button @click="status_dtc_sellado" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
-                          </div>            
-                        </div>
+                        <div class="inline-flex">
+                          <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                          <button @click="status_dtc_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                        </div>            
                       </div>
                     </div>
-
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard hidden" :class="{'hidden': item.escaneadobool != 1 }">
-                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
-                        <span class="text-xs sm:hidden">Subir Sellados</span>
-                    </button>
-                  </div>
+                  </div>                                 
+                  
                   <div v-else>
                     <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
                       <img src="../../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
@@ -169,6 +165,7 @@ import ServiceReportPDF from "../../../services/ReportesPDFService"
 import Carrusel from "../../../components/Carrusel";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 
+
 export default {
   name: "ConcentradoDTC",
   components: {    
@@ -191,7 +188,7 @@ data: function (){
       carruselModal: false,
       dtcImg: {},
       arrayImagenesCarrusel: [],
-      pdfSelladoBool: false,
+      pdfSelladoBool: true,
       pdfSellado:'',
     }
   },
@@ -320,14 +317,18 @@ limpiar_filtros: function() {
   })           
 },
 recibir_pdf_sellado(e, index) { 
-  console.log(index)                 
+  console.log(index)               
   var files = e.target.files || e.dataTransfer.files;
   if (!files.length) return;
-  else {
-    //this.infoDtc[index] = true
+  else {  
     for (let item of files) {        
-      if(this.crearImage(item) == false)
-        console.log(this.infoDTC[index])
+      if(this.crearImage(item)){
+        console.log(this.infoDTC[index].confirmpdf)
+        this.$nextTick().then(() => {
+          this.pdfSelladoBool = false
+          this.infoDTC[index].confirmpdf = true   
+        })
+      }
     }        
   }
 },
@@ -360,15 +361,32 @@ crearImage(file) {
     return false
   }         
 },
-status_dtc_sellado(){                      
+base64ToFile(dataurl, fileName) {                    
+    let url = "data:text/pdf;base64," + dataurl;  
+    var arr = url.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName + '.pdf', { type: mime });
+},
+status_dtc_sellado(index){
+  console.log(index)                      
   let formData = new FormData();
   let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
   formData.append("file", file);     
   let obj = {
-    referenceNumber: this.item.referenceNumber,
+    referenceNumber: this.infoDTC[index].referenceNumber,
     file: formData
   }
-  this.pdfSelladoBool = false
+  this.infoDTC[index].escaneadobool = false
+  let lista = this.infoDTC
+  this.infoDTC = []
+  this.infoDTC = lista
+  console.log(this.infoDTC[index].escaneadobool)
   this.$emit("enviar_pdf_sellado", obj);      
 },
 },

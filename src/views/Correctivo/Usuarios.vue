@@ -261,7 +261,7 @@ export default {
             Password: this.User.Password,
           };          
           if(_UpUser.Password != "***********"){
-              alert('cambie la contraseña')
+              //alert('cambie la contraseña')
               this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
           }                                                    
           this.$notify.success({

@@ -30,11 +30,14 @@ const getters = {
           else  
             item.dtcView.imgbool = true
 
-          if(item.pdfExists)
+          if(item.pdfExists){
             item.dtcView.escaneadobool = false
-          else
+            item.dtcView.confirmpdf = true
+          }
+          else{
             item.dtcView.escaneadobool = true
-
+            item.dtcView.confirmpdf = false
+          }
           return item.dtcView          
         })     
     }

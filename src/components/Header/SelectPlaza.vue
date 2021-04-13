@@ -97,7 +97,7 @@ export default {
             this.isDtc = true
         }        
         else if(this.tipo == 'insercion'){
-            alert('filtro')
+            //alert('filtro')
             let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
             this.plazaSelect = plazaSelect
             this.convenioSelect = convenioSelect

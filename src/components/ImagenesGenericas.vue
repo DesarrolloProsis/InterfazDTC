@@ -124,8 +124,9 @@ export default {
             if(this.tipo == 'Actividades')
                 this.$emit('ocutar-modal-loading', objReporte)                     
         },
-        eliminar_imagenes(nombreImagen){                
-            if(this.arrayImagenes.length > 1){                
+        eliminar_imagen(nombreImagen){                
+            if(this.arrayImagenes.length > 1){ 
+                //console.log(nombreImagen)               
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                         .then(() => {                                                                 
