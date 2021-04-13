@@ -234,8 +234,7 @@ export default {
             this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
         },
         //Metodos Internos Componente
-        actualizar_plaza_filtro(value){
-           //alert(value)
+        actualizar_plaza_filtro(value){           
             this.plazaFiltro = value 
             this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
         },
