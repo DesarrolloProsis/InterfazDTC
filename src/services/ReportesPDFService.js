@@ -27,7 +27,7 @@ function xml_hhtp_request(urlTopdf,namePdf){
 }
 async function obtener_admin_id(referenceNumber){
     let id = ''
-    await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
+    await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`)
     .then(async (response) => {                                              
         id = response.data.result[0].adminSquareId        
     })

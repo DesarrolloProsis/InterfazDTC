@@ -170,7 +170,7 @@ export default {
     },
     beforeMount: function (){
         this.typeUser = this.$store.state.Login.cookiesUser.rollId        
-        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
+        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
@@ -219,7 +219,7 @@ export default {
             }else{
                 this.modalAgregar = false
                 this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                
-                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin, CookiesService.obtener_bearer_token())
+                Axios.post(`${API}/SquaresCatalog/InsertAdmin`)
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
