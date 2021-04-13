@@ -5,7 +5,7 @@
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
-                <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
+                <HeaderGenerico :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <!--/////////////////////////////////////////////////////////////////
@@ -27,48 +27,24 @@
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
                         <tbody name="table" is="transition-group">  
-                            <tr class="h-12 text-gray-900 text-sm text-center">                
+                            <tr v-for="(item, key) in infoFichasFalla" :key="key" class="h-12 text-gray-900 text-sm text-center">                
+                                <td class="cuerpoTable">{{ item.referenceNumber }}</td>
+                                <td class="cuerpoTable">{{ item.squareName }}</td>
+                                <td class="cuerpoTable">{{ item.diagnosisDate }}</td>
+                                <td class="cuerpoTable">{{ item.lanes }}</td>
+                                <td class="cuerpoTable">{{ item.failuerNumber }}</td>
+                                <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
                                 <td class="cuerpoTable">
-                                    <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
-                                </td>
-                                <td class="cuerpoTable">
-                                    <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
-                                </td>
-                                <td class="cuerpoTable">
-                                    <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
-                                </td>
-                                <td class="cuerpoTable">
-                                    <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
-                                </td>
-                                <td class="cuerpoTable">
-                                    <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
-                                </td>
-                                <td class="cuerpoTable">
-                                    <input class="text-center border-0 shadow-none" type="text" placeholder="Sin Información" readonly/>
-                                </td>
-                                <td class="cuerpoTable">
-                                    <div>
-                                        <button
-                                            class="botonSubir mr-5">
-                                            <img src="../../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Subir</span>
-                                        </button>
-                                        <button
-                                            class="botonDescargar">
+                                    <div>                        
+                                        <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar">
                                             <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
                                     </div>
                                 </td>
                                 <td class="cuerpoTable">
-                                    <div>
-                                        <button
-                                            class="botonSubir mr-5">
-                                            <img src="../../../assets/img/subir.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Subir</span>
-                                        </button>
-                                        <button
-                                            class="botonDescargar">
+                                    <div>                                      
+                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar">
                                             <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
@@ -84,6 +60,9 @@
 </template>
 <script>
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+import ServiceReporte from '../../../services/ReportesPDFService'
 export default {
     name: "ConcentradoFichas",
     components:{        
@@ -91,14 +70,27 @@ export default {
     },
     data (){
         return {
-            infoFicha:[],
+            infoFichasFalla:[],
         }
     },
     beforeMount: function (){
-       
-
+        let userId = this.$store.state.Login.cookiesUser.userId
+        Axios.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
+        .then((response) => {
+            this.infoFichasFalla = response.data.result
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     },
     methods: {       
+        imprimir_pdf_diagnostico(referenceNumber){
+            ServiceReporte.generar_pdf_diagnostico_falla(referenceNumber)
+        },
+        imprimir_pdf_ficha(referenceNumber){
+            ServiceReporte.generar_pdf_ficha_falla(referenceNumber)
+        }
+
     },
 }
 </script>
