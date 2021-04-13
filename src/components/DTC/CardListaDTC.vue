@@ -155,7 +155,6 @@
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import Axios from 'axios'
 export default {
@@ -216,7 +215,7 @@ export default {
     editar_dtc: async function () {
       let datosUser = {}      
       await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber); 
-      await Axios.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`, CookiesService.obtener_bearer_token())
+      await Axios.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`)
         .then(async (response) => {                                      
           datosUser = response.data.result[0]          
           console.log(datosUser)

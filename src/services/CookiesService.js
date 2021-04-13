@@ -1,7 +1,6 @@
 import store from '../store/index'
 import router from '../router/index'
 import Axios from 'axios'
-//import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 function formato_cookies_usuario(loginSesion){       
     let cookies = {}
@@ -145,10 +144,14 @@ function obtener_bearer_token(tokenPDF){
         return tokenData.token
     }
 }
-async function cache_token(){
-    let datosUserCookies = JSON.parse(localStorage.getItem('cookiesUser'))
-    let headerUser = JSON.parse(localStorage.getItem('listaHeaderUser'))   
-    if(datosUserCookies != null && headerUser != null){ 
+async function cache_token(){    
+    let datosUserCookies = JSON.parse(localStorage.getItem('cookiesUser'))        
+    let headerUser = {}   
+    await Axios.post(`${API}/login/LoginInfo`, { userId: datosUserCookies.userId })
+    .then((response) => {                  
+        headerUser = response.data.result.loginList
+    })    
+    if(datosUserCookies != null){         
         await store.commit('Login/COOKIES_USER_MUTATION', datosUserCookies)    
         await store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION', headerUser)
         await store.commit('Header/LISTA_HEADERS_MUTATION', headerUser)    

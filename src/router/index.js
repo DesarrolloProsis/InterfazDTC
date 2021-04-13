@@ -209,6 +209,7 @@ router.beforeEach(async (to, from, next) => {
   else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
   else {
     let resultToken = await CookiesService.cache_token()    
+    console.log(resultToken)
       if(resultToken)
         next()  
       else

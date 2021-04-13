@@ -142,23 +142,24 @@ methods:{
                     newCarril["referenceNumber"] = objDiagnostico.referenceNumber
                     newCarril["capuLaneNum"] = carril.capufeLaneNum
                     newCarril["idGare"] = carril.idGare
-                    newCarril["addFlag"] = 1 // 0 -> Insertar || 1 -> actualizar
+                    newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
                     return newCarril
                 })                
                 carrilesInsertDiagnostic.forEach(carril => {                                                     
                     Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                        .then(() => {                                 
-                            EventBus.$emit('guardar_imagenes') 
-                            ServiceReporte.generar_pdf_diagnostico_falla(objDiagnostico.referenceNumber)                
-                            this.$router.push({
-                                path: 'FichaTecnicaDeFalla',
-                                query: { data: this.datosHeader }
-                            })                            
+                        .then((response) => {         
+                            console.log(response)                                                                              
                         })
                         .catch((error) => {                            
                             console.log(error)                                
                         })    
-                });                                       
+                }); 
+                EventBus.$emit('guardar_imagenes') 
+                ServiceReporte.generar_pdf_diagnostico_falla(objDiagnostico.referenceNumber)                
+                this.$router.push({
+                    path: 'FichaTecnicaDeFalla',
+                    query: { data: this.datosHeader }
+                })                                       
                 
             })
             .catch((error) => {                                    

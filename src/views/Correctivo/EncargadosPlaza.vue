@@ -170,7 +170,7 @@ export default {
     },
     beforeMount: function (){
         this.typeUser = this.$store.state.Login.cookiesUser.rollId        
-        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
+        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
@@ -219,7 +219,7 @@ export default {
             }else{
                 this.modalAgregar = false
                 this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                
-                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin, CookiesService.obtener_bearer_token())
+                Axios.post(`${API}/SquaresCatalog/InsertAdmin`)
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
@@ -248,7 +248,9 @@ export default {
                 Axios.post(`${API}/login/LoginInfo`, { userId: userId })
                 .then((response) => {                    
                     this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
-                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)                    
+                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)      
+                    let cookiesUser = this.$store.state.Login.cookiesUser
+                    localStorage.setItem('cookiesUser', JSON.stringify(cookiesUser))              
                 })               
             }) 
             .catch((error) => {
