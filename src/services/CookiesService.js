@@ -49,9 +49,15 @@ async function refrescar_barer_token(){
         console.log(error) 
     });
 }
-async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){    
-    if(soloReferencia != undefined){        
-        try{        
+async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){  
+    console.log({
+        plazaSelect,
+        listaPlazas,
+        listaHeaders,
+        soloReferencia,
+        adminId
+    })          
+    if(soloReferencia != undefined){       
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
         listaHeaders = store.state.Header.listaHeaders            
         let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.adminSquareId == adminId)                 
@@ -69,12 +75,28 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         return {
             plazaSelect,
             convenioSelect,                    
-        }
-        }
-        catch(error) {            
-            console.log(error)
-        }
-    }
+        }       
+    }  
+    else if(adminId != undefined){              
+        listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
+        listaHeaders = store.state.Header.listaHeaders                    
+        let plazaSelect = listaPlazas.find(plaza => plaza.administradorId == adminId)                 
+        let convenioSelect = listaHeaders.find(header => header.adminSquareId == adminId)                       
+        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
+        let objConvenio = {
+            id: null,
+            numPlaza: plazaSelect.numeroPlaza,
+            numConvenio: convenioSelect.agrement,
+            idConvenio: convenioSelect.agremmentInfoId,
+        }                                
+        await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
+        await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
+        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                
+        return {
+            plazaSelect,
+            convenioSelect,                    
+        }       
+    }  
     else if(plazaSelect == undefined){        
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario
         listaHeaders = store.state.Header.listaHeaders        
@@ -112,8 +134,7 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
 }
 function obtener_bearer_token(tokenPDF){
     if(tokenPDF == undefined) {
-        let tokenData = JSON.parse(localStorage.getItem('token'))    
-        console.log(tokenData)
+        let tokenData = JSON.parse(localStorage.getItem('token'))            
         let config = {
             headers: { Authorization: `Bearer ${tokenData.token}` }
         };

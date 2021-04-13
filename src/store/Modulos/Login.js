@@ -93,10 +93,8 @@ const actions = {
       password: value.Password,      
     }     
     await Axios.post(`${API}/login`,objLogin)
-      .then(response => {      
-        console.log(response)          
-        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))    
-        console.log('se hizo el commit')                                           
+      .then(response => {              
+        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))                                                 
       })
       .catch(() => {                
       });
