@@ -228,6 +228,12 @@ select:focus {
     text-align: center;
     line-height: 50px;/* Centrado vertical */
 }
+.fechaDiag {
+    @apply border-none bg-gray-100  rounded-xl shadow-lg;
+}
+.inputDiag{
+    @apply bg-white border-none w-full
+}
 @tailwind components;
 
 @tailwind utilities;

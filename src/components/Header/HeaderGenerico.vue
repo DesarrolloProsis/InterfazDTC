@@ -124,16 +124,16 @@
                 </div>
             <div class=" m-3">
                 <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full" type="date"/>
+                <input v-model="fechaFiltro" class="border w-40 sm:w-full is_valid" type="date"/>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
                 <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
-                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full" placeholder="PM-000000"/>
+                <input v-model="referenciaFiltro" class="border w-40 text-center sm:w-full is_valid" placeholder="PM-000000"/>
             </div> 
             <div class="m-3">
                     <p class="font-bold sm:text-sm mb-2 sm:text-center">Ubicación (Carril):</p>
-                    <select class="" v-model="ubicacion" type="text">
+                    <select class="is_valid" v-model="ubicacion" type="text">
                         <option value="">Selecionar...</option>
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select>

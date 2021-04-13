@@ -49,7 +49,7 @@
             <div class="mt-6 ml-65 sm:ml-4">
                 <div>
                     <span class="">Fecha:</span>
-                    <input class="ml-16 bg-white border-gray-400" 
+                    <input class="ml-16 fechaDiag" 
                     type="date" 
                     :disabled="blockInput"
                     v-model="datosDiagnostico.fechaDiagnostico"
@@ -57,11 +57,11 @@
                 </div>
                 <div class="mt-5">
                     <span class="">Hora INICIO:</span>
-                    <input :disabled="blockInput" class="ml-4 bg-white border-gray-400 mr-4 sm:ml-8" type="time" v-model="datosDiagnostico.horaInicio"/>
+                    <input :disabled="blockInput" class="ml-4 fechaDiag mr-4 sm:ml-8" type="time" v-model="datosDiagnostico.horaInicio"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora FIN:</span>
-                    <input :disabled="blockInput" class="ml-10 bg-white border-gray-400 sm:ml-12" type="time" v-model="datosDiagnostico.horaFin"/>
+                    <input :disabled="blockInput" class="ml-10 fechaDiag sm:ml-12" type="time" v-model="datosDiagnostico.horaFin"/>
                 </div>
             </div>
         </div>    
@@ -83,10 +83,10 @@
             </div>
             <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
                 <div class="-ml-69 sm:-ml-16">
-                    <input :disabled="blockInput" class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.folioFalla" />
+                    <input :disabled="blockInput" class="inputDiag text-center" v-model="datosDiagnostico.folioFalla" />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
-                    <input :disabled="blockInput" class="bg-white border-gray-400 w-full text-center" v-model="datosDiagnostico.numeroReporte"  />
+                    <input :disabled="blockInput" class="inputDiag text-center" v-model="datosDiagnostico.numeroReporte"  />
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
                     <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
@@ -106,8 +106,8 @@
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.descripcionFalla"
-                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                            placeholder="jane@example.com"
+                            class="mx-auto is_valid py-4 mb-0 h-40 ph-center-observaciones"
+                            placeholder="Descripción de la Falla Reportada"
                             name="Observaciones"
                             v-bind:maxlength="limite"
                         />
@@ -117,8 +117,8 @@
                         <span class="">DIAGNOSTICO DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.diagnosticoFalla"
-                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                            placeholder="jane@example.com"
+                            class="mx-auto is_valid py-4 mb-0 h-40 ph-center-observaciones"
+                            placeholder="Diagnostico de la Falla Reportada"
                             name="Observaciones"
                             v-bind:maxlength="limite"
                         />
@@ -133,8 +133,8 @@
                         <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.causaFalla"
-                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                            placeholder="jane@example.com"
+                            class="mx-auto is_valid py-4 mb-0 h-40 ph-center-observaciones"
+                            placeholder="Causa de la Falla Reportada"
                             name="CausaDeLaFalla"
                             v-bind:maxlength="limite"
                         />
@@ -173,7 +173,7 @@
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.descripcionFalla"
-                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
+                            class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones"
                             placeholder="jane@example.com"
                             name="Observaciones"
                             v-bind:maxlength="limite"
@@ -184,8 +184,8 @@
                         <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.solucionFalla"
-                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                            placeholder="jane@example.com"
+                            class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones"
+                            placeholder="Intervencion Realizada"
                             name="Observaciones"
                             v-bind:maxlength="limite"
                         />

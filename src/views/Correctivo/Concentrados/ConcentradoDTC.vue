@@ -115,10 +115,34 @@
                         <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool != 1 }">
+
+                    <!-- /////////////////////////////////////////////////////////////////////
+                    ////                       SUBIR PDF SELLADO                      ////
+                    ///////////////////////////////////////////////////////////////////// -->        
+                    <div v-if="item.statusId >= 3 && item.escaneadobool == true">
+                      <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5">
+                        <div class="flex justify-center" v-if=" item.escaneadobool == true ">
+                          <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado($event, key)"/>
+                          <img src="../../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
+                          <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
+                        </div>
+                        <div class="grid grid-cols-2" v-else>
+                          <div class="inline-flex">
+                            <img src="../../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
+                            <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
+                          </div>
+                          <div class="inline-flex">
+                            <button @click="item.escaneadobool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                            <button @click="status_dtc_sellado" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                          </div>            
+                        </div>
+                      </div>
+                    </div>
+
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard hidden" :class="{'hidden': item.escaneadobool != 1 }">
                         <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
-                        <span class="text-xs sm:hidden">Subir Sellado</span>
-                    </button>-->
+                        <span class="text-xs sm:hidden">Subir Sellados</span>
+                    </button>
                   </div>
                   <div v-else>
                     <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
@@ -166,7 +190,9 @@ data: function (){
       limite:300,
       carruselModal: false,
       dtcImg: {},
-      arrayImagenesCarrusel: []
+      arrayImagenesCarrusel: [],
+      pdfSelladoBool: false,
+      pdfSellado:'',
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -176,15 +202,7 @@ beforeMount: function () {
   this.filtroVista = true
   this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
   this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-  let listaPlazasValias = []
-  let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
-  for(let plaza of todasPlazas){      
-      if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
-        plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
-        listaPlazasValias.push(plaza)        
-      }      
-      return listaPlazasValias
-  }
+
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -300,6 +318,58 @@ limpiar_filtros: function() {
   this.$nextTick().then(() => {             
     this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
   })           
+},
+recibir_pdf_sellado(e, index) { 
+  console.log(index)                 
+  var files = e.target.files || e.dataTransfer.files;
+  if (!files.length) return;
+  else {
+    //this.infoDtc[index] = true
+    for (let item of files) {        
+      if(this.crearImage(item) == false)
+        console.log(this.infoDTC[index])
+    }        
+  }
+},
+crearImage(file) {
+  console.log(file)
+  if(file.type.split('/')[1] == 'pdf'){
+    var reader = new FileReader(); 
+    reader.onload = (e) => {
+      this.$nextTick().then(() => {
+        this.pdfSellado = {
+          imgbase: e.target.result.split(',')[1],
+          name: file.name,
+        };
+      })        
+    };
+    reader.readAsDataURL(file);   
+    return true
+  }
+  else{
+    this.$notify.warning({
+      title: "Ups!",
+      msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+      position: "bottom right",
+      styles: {
+        height: 100,
+        width: 500,
+      },          
+    });
+    this.pdfSellado = {}
+    return false
+  }         
+},
+status_dtc_sellado(){                      
+  let formData = new FormData();
+  let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
+  formData.append("file", file);     
+  let obj = {
+    referenceNumber: this.item.referenceNumber,
+    file: formData
+  }
+  this.pdfSelladoBool = false
+  this.$emit("enviar_pdf_sellado", obj);      
 },
 },
 
