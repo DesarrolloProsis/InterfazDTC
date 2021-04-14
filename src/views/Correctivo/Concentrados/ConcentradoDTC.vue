@@ -195,10 +195,17 @@ data: function (){
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
+mounted(){ 
+console.log(this.$el)
+},
+
 beforeMount: function () {
   this.filtroVista = true
   this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
   this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
+  console.log(this.$el)
+  console.log(this.$data)
+  console.log(this.$options.data)
 
 },
 /////////////////////////////////////////////////////////////////////
@@ -327,6 +334,9 @@ recibir_pdf_sellado(e, index) {
         this.$nextTick().then(() => {
           this.pdfSelladoBool = false
           this.infoDTC[index].confirmpdf = true   
+          let nuevoItem = this.infoDTC[index]
+          console.log(nuevoItem)
+          
         })
       }
     }        
