@@ -99,7 +99,8 @@ const actions = {
       flag: value.flag,
       DTCStatus: value.status,
       OpenFlag: value.openFlag,
-      SquareId: value.header.plaza.slice(0,3)
+      SquareId: value.header.plaza.slice(0,3),
+      adminId: value.adminIdPlaza
     }                
     await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
       .then(response => {        

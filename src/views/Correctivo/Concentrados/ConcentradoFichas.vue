@@ -5,7 +5,7 @@
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
-                <HeaderGenerico :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
+                <HeaderGenerico @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" @limpiar-concentrado-diagnostico="limpiar_filtros" :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <!--/////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
                         <tbody name="table" is="transition-group">  
-                            <tr v-for="(item, key) in infoFichasFalla" :key="key" class="h-12 text-gray-900 text-sm text-center">                
+                            <tr v-for="(item, key) in infoFichasFallaFiltrada" :key="key" class="h-12 text-gray-900 text-sm text-center">                
                                 <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                                 <td class="cuerpoTable">{{ item.squareName }}</td>
                                 <td class="cuerpoTable">{{ item.diagnosisDate }}</td>
@@ -63,6 +63,7 @@ import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
+import ServiceFiltros from '../../../services/FiltrosDTCServices'
 export default {
     name: "ConcentradoFichas",
     components:{        
@@ -70,14 +71,16 @@ export default {
     },
     data (){
         return {
-            infoFichasFalla:[],
+            infoFichasFallaCompleta:[],
+            infoFichasFallaFiltrada: []
         }
     },
     beforeMount: function (){
         let userId = this.$store.state.Login.cookiesUser.userId
         Axios.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
-            this.infoFichasFalla = response.data.result
+            this.infoFichasFallaCompleta = response.data.result
+            this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
         })
         .catch((error) => {
             console.log(error)
@@ -89,6 +92,13 @@ export default {
         },
         imprimir_pdf_ficha(referenceNumber){
             ServiceReporte.generar_pdf_ficha_falla(referenceNumber)
+        },
+        filtrar_concentrado_diagnostico(objFiltro){
+            console.log(objFiltro)
+            ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
+        },
+        limpiar_filtros(){
+
         }
 
     },
