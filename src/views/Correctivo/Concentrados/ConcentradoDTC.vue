@@ -111,7 +111,7 @@
                         <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400 hover:text-black': item.escaneadobool  }" :disabled=" item.escaneadobool ">
                         <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
@@ -119,7 +119,7 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
-                    <div v-if="item.escaneadobool">                    
+<!--                     <div v-if="item.escaneadobool">                    
                       <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="pdfSelladoBool">
                         <div class="flex justify-center">
                           <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado($event, key)"/>
@@ -137,7 +137,7 @@
                           <button @click="status_dtc_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
                         </div>            
                       </div>
-                    </div>
+                    </div> -->
                   </div>                                 
                   
                   <div v-else>
@@ -195,17 +195,17 @@ data: function (){
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-mounted(){ 
+/* mounted(){ 
 console.log(this.$el)
-},
+}, */
 
 beforeMount: function () {
   this.filtroVista = true
   this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
   this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-  console.log(this.$el)
+/*   console.log(this.$el)
   console.log(this.$data)
-  console.log(this.$options.data)
+  console.log(this.$options.data) */
 
 },
 /////////////////////////////////////////////////////////////////////
@@ -323,7 +323,7 @@ limpiar_filtros: function() {
     this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
   })           
 },
-recibir_pdf_sellado(e, index) { 
+/* recibir_pdf_sellado(e, index) { 
   console.log(index)               
   var files = e.target.files || e.dataTransfer.files;
   if (!files.length) return;
@@ -398,7 +398,7 @@ status_dtc_sellado(index){
   this.infoDTC = lista
   console.log(this.infoDTC[index].escaneadobool)
   this.$emit("enviar_pdf_sellado", obj);      
-},
+}, */
 },
 
 /////////////////////////////////////////////////////////////////////

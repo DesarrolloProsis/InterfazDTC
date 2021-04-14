@@ -218,8 +218,9 @@ export default {
                 });
             }else{
                 this.modalAgregar = false
-                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                
-                Axios.post(`${API}/SquaresCatalog/InsertAdmin`)
+                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza
+                console.log(this.insertAdmin)                
+                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()

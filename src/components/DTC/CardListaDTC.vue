@@ -155,6 +155,7 @@
 import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
+import CookiesService from "../../services/CookiesService"
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import Axios from 'axios'
 export default {
@@ -219,7 +220,7 @@ export default {
         .then(async (response) => {                                      
           datosUser = response.data.result[0]          
           console.log(datosUser)
-          //await CookiesService.actualizar_plaza(undefined, undefined, undefined, datosUser.referenceSquare, datosUser.adminSquareId)          
+          await CookiesService.actualizar_plaza(undefined, undefined, undefined, datosUser.referenceSquare, datosUser.adminSquareId)          
         })
         .catch(error => {
           console.log(error);                      
