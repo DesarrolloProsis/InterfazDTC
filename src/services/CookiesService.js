@@ -48,10 +48,12 @@ async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloRefe
         console.log(adminId)
         //Ediciio para el dtc y le tenmeos que pedir parametro que adminId                    
         listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
-        listaHeaders = store.state.Header.listaHeaders            
-        let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.adminSquareId == adminId)                 
+        listaHeaders = store.state.Header.listaHeaders 
+        console.log(listaPlazas)
+        console.log(listaHeaders)           
+        let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.administradorId == adminId)                 
         let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.adminSquareId == adminId)           
-        await store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION', plazaSelect)                                                
+        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = {
             id: null,
             numPlaza: plazaSelect.numeroPlaza,
