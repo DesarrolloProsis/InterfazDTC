@@ -107,7 +107,8 @@ export default {
             this.$emit('ocutar-modal-loading',value)                   
         },
         eliminar_imagen(nombreImagen){                
-            if(this.arrayImagenes.length > 1){                
+            if(this.arrayImagenes.length > 1){  
+                console.log(nombreImagen)              
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
@@ -128,6 +129,7 @@ export default {
             else{
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
+                    console.log(nombreImagen)
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {      
                             CookiesService.refrescar_bearer_token()                                                                                                        
