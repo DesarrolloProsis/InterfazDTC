@@ -144,11 +144,11 @@
         ///                    BOTONES DE NAVEGACION  DIAGNOSTICO           ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 text-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar">
+            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonIconLimpiar">
                 <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
                 <span>Limpiar</span>
             </button>
-            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar">
+            <button @click="filtar_concentrado_diagnostico_falla" class="w-32 botonIconBuscar">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
                 <span>Buscar</span>
             </button>
@@ -277,6 +277,18 @@ export default {
             this.nombreEncargado = ""
             this.plazaSeleccionada = ""
         },
+        //Metodos Concentrado de Diagnostico Falla
+        limpiar_filtros_diagnostico_falla: function(){
+            this.$emit('limpiar-concentrado-diagnostico')
+        },
+        filtar_concentrado_diagnostico_falla: function(){            
+            this.$emit('filtrar-concentrado-diagnostico', {
+                nombrePlaza: this.plazaSeleccionada,
+                fecha: this.fechaFiltro,
+                numeroReferencia: this.referenciaFiltro,
+                ubicacion: this.ubicacion
+            })
+        }
     },
     watch:{
         buscarPalabraInventario: function(newPalabra){
