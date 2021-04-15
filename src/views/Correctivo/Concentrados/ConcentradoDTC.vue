@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:500px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -267,12 +267,13 @@ editar_status_dtc: function (){
     if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
     Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
-      .then(() => {        
+      .then(async() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   
-        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
-        this.modalCambiarStatus = false                                
+        let info = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+        await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+        this.modalCambiarStatus = false
+        this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                              
       })
       .catch(error => {                    
         console.log(error);
