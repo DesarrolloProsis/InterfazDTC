@@ -106,12 +106,12 @@
                   </td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
-                  <div v-if="tipoUsuario != 8">
-                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard mr-2">
+                  <div class="grid grid-cols-2 justify-center" v-if="tipoUsuario != 8">
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard  w-24">
                         <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400 hover:text-black': item.escaneadobool  }" :disabled=" item.escaneadobool ">
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard w-24 " :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
                         <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
@@ -120,20 +120,20 @@
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
                     <div v-if="item.escaneadobool">                    
-                      <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="!item.confirmpdf">
-                        <div class="flex justify-center">
-                          <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado($event, key)"/>
-                          <img src="../../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
-                          <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
+                      <button class="mt-1" v-if="!item.confirmpdf">
+                        <div class="flex justify-center botonIconSellado">
+                          <input type="file" class="opacity-0 w-auto h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
+                          <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
+                          <p class="text-xs mt-1">Subir Sellado</p>
                         </div>                   
-                      </div>
-                      <div class="grid grid-cols-2" v-else>
-                        <div class="inline-flex">
-                          <img src="../../../assets/img/pdf.png" class="w-6 h-8 m-2 opacity-75" alt/>    
-                          <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
+                      </button>
+                      <div class="grid grid-cols-1" v-else>
+                        <div class="grid grid-cols-1">
+                        <img src="../../../assets/img/pdf.png" class="w-4 h-4 ml-24 opacity-75" alt/>     
+                        <p class="ml-2 mr-4 text-sm">{{ pdfSellado.name }}</p>
                         </div>
-                        <div class="inline-flex">
-                          <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                        <div class="inline-flex ml-6">
+                          <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar -ml-2 h-10 text-sm justify-center px-1">Cancelar</button>
                           <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
                         </div>            
                       </div>
@@ -190,6 +190,7 @@ data: function (){
       arrayImagenesCarrusel: [],
       pdfSelladoBool: true,
       pdfSellado:'',
+      bandera:false
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -390,13 +391,12 @@ enviar_pdf_sellado(index){
   formData.append("file", file);     
   let obj = {
     referenceNumber: this.infoDTC[index].referenceNumber,
-    file: formData
+    file: formData,
   }
   this.infoDTC[index].escaneadobool = false        
   this.infoDTC.splice(index, 1, Object.assign(this.infoDTC[index]))  
-
   let pdf_sellado_promise = new Promise((resolve, reject) => {    
-  Axios.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`, obj.file)
+  Axios.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}/${false}`, obj.file)
     .then(() => {          
       Axios.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
       .then(() => {                         
