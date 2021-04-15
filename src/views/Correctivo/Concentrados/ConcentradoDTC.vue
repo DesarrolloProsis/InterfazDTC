@@ -119,8 +119,8 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
-<!--                     <div v-if="item.escaneadobool">                    
-                      <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="pdfSelladoBool">
+                    <div v-if="item.escaneadobool">                    
+                      <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="!item.confirmpdf">
                         <div class="flex justify-center">
                           <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado($event, key)"/>
                           <img src="../../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
@@ -134,10 +134,10 @@
                         </div>
                         <div class="inline-flex">
                           <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
-                          <button @click="status_dtc_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                          <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
                         </div>            
                       </div>
-                    </div> -->
+                    </div>
                   </div>                                 
                   
                   <div v-else>
@@ -323,7 +323,7 @@ limpiar_filtros: function() {
     this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
   })           
 },
-/* recibir_pdf_sellado(e, index) { 
+recibir_pdf_sellado(e, index) { 
   console.log(index)               
   var files = e.target.files || e.dataTransfer.files;
   if (!files.length) return;
@@ -333,9 +333,8 @@ limpiar_filtros: function() {
         console.log(this.infoDTC[index].confirmpdf)
         this.$nextTick().then(() => {
           this.pdfSelladoBool = false
-          this.infoDTC[index].confirmpdf = true   
-          let nuevoItem = this.infoDTC[index]
-          console.log(nuevoItem)
+          this.infoDTC[index].confirmpdf = true             
+          this.infoDTC.splice(index, 1 ,  Object.assign(this.infoDTC[index]))          
           
         })
       }
@@ -383,7 +382,7 @@ base64ToFile(dataurl, fileName) {
   }
   return new File([u8arr], fileName + '.pdf', { type: mime });
 },
-status_dtc_sellado(index){
+enviar_pdf_sellado(index){
   console.log(index)                      
   let formData = new FormData();
   let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
@@ -392,13 +391,49 @@ status_dtc_sellado(index){
     referenceNumber: this.infoDTC[index].referenceNumber,
     file: formData
   }
-  this.infoDTC[index].escaneadobool = false
-  let lista = this.infoDTC
-  this.infoDTC = []
-  this.infoDTC = lista
-  console.log(this.infoDTC[index].escaneadobool)
-  this.$emit("enviar_pdf_sellado", obj);      
-}, */
+  this.infoDTC[index].escaneadobool = false        
+  this.infoDTC.splice(index, 1, Object.assign(this.infoDTC[index]))  
+
+  let pdf_sellado_promise = new Promise((resolve, reject) => {    
+  Axios.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`, obj.file)
+    .then(() => {          
+      Axios.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
+      .then(() => {                         
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                                     
+          resolve('ok')                                                                           
+      })                                  
+    })
+    .catch((error) => {                      
+      reject(error)                          
+      this.$notify.error({
+        title: "ups!",
+        msg: error,
+        position: "bottom right",
+        styles: {
+          height: 100,
+          width: 500,
+        },
+      });        
+    });              
+  })
+    setTimeout(() => {
+      pdf_sellado_promise.then(() => {  
+        this.modalLoading = false                  
+        this.limpiar_filtros()
+        this.$notify.success({
+            title: "Ok!",
+            msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+        });  
+      })
+      .catch((error) =>  console.log(error))    
+    }, 3000);      
+},
 },
 
 /////////////////////////////////////////////////////////////////////
