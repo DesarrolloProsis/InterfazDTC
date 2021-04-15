@@ -128,11 +128,11 @@
                         </div>                   
                       </button>
                       <div class="grid grid-cols-1" v-else>
-                        <div class="grid grid-cols-1">
-                        <img src="../../../assets/img/pdf.png" class="w-4 h-4 ml-24 opacity-75" alt/>     
-                        <p class="ml-2 mr-4 text-sm">{{ pdfSellado.name }}</p>
+                        <div class="grid grid-cols-2">
+                        <img src="../../../assets/img/pdf.png" class="w-4 h-4 -ml-4 opacity-75" alt/>     
+                        <p class="-ml-32 text-sm">{{ pdfSellado.name }}</p>
                         </div>
-                        <div class="inline-flex ml-6">
+                        <div class="grid grid-cols-2 -ml-10">
                           <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar -ml-2 h-10 text-sm justify-center px-1">Cancelar</button>
                           <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
                         </div>            

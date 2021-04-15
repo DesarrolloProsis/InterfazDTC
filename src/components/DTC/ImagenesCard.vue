@@ -254,7 +254,7 @@ export default {
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
             await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
               .then(() => {                            
-                this.$notify.success({
+                /* this.$notify.success({
                   title: "Ok!",
                   msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
                   position: "bottom right",
@@ -262,11 +262,12 @@ export default {
                     height: 100,
                     width: 500,
                   },
-                });
+                }); */
+                console.log('SE INSERTO CORRECTAMENTE LAS IMAGENES.')
               })
               .catch((error) => {                    
                 reject(error);
-                this.$notify.error({
+              /*  this.$notify.error({
                   title: "ups!",
                   msg: error,
                   position: "bottom right",
@@ -274,7 +275,8 @@ export default {
                     height: 100,
                     width: 500,
                   },
-                });
+                }); */
+                console.log(error)
               });
             }
           }          
@@ -285,6 +287,27 @@ export default {
           resolve("ok");
         }
       });
+      if(agregar_promise){
+        this.$notify.success({
+                  title: "Ok!",
+                  msg: `SE INSERTO CORRECTAMENTE LAS IMAGENES.`,
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+      }else{
+        this.$notify.error({
+                  title: "ups!",
+                  msg:`OCURRIO UN ERROR AL INSERTAR LAS IMAGENES.`,
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+      }
       Promise.all([agregar_promise, eliminar_promise]);
     },
     actualizar_img: async function (nombre_plaza) {
