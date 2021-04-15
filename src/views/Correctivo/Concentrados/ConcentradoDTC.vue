@@ -393,7 +393,6 @@ enviar_pdf_sellado(index){
   }
   this.infoDTC[index].escaneadobool = false        
   this.infoDTC.splice(index, 1, Object.assign(this.infoDTC[index]))  
-
   let pdf_sellado_promise = new Promise((resolve, reject) => {    
   Axios.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`, obj.file)
     .then(() => {          
