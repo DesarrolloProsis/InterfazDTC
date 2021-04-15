@@ -90,8 +90,8 @@
     <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
-            <div class="text-center sm:ml-2">
-                <div class="">
+            <div class="sm:ml-2">
+                <div class="ml-32">
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
             </div>

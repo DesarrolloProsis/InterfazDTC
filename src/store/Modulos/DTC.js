@@ -32,11 +32,11 @@ const getters = {
 
           if(item.pdfExists){
             item.dtcView.escaneadobool = false
-            item.dtcView.confirmpdf = true
+            //item.dtcView.confirmpdf = true
           }
           else{
             item.dtcView.escaneadobool = true
-            item.dtcView.confirmpdf = false
+            //item.dtcView.confirmpdf = false
           }
           return item.dtcView          
         })     
