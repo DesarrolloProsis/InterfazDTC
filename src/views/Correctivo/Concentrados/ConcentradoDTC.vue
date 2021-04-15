@@ -179,7 +179,7 @@ export default {
 data: function (){
     return {      
       infoDTC:[],            
-      filtroVista: false,
+      filtroVista: true,
       modalCambiarStatus: false,
       dtcEdit: {},
       motivoCambio:"",
