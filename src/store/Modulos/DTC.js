@@ -21,7 +21,9 @@ const state = {
 const getters = {  
   getInsertDmgComplete: () => state.insertDmgComplete,
   GET_LISTA_DTC: () => (tipoVista) => {
-    if(tipoVista){      
+    if(tipoVista){
+      let lista = state.listaInfoDTC.filter(item => item.dtcView.statusId == 4)
+      console.log(lista)      
       return state.listaInfoDTC
         .filter(dtc => dtc.dtcView.statusId == 4)
         .map((item) => {
