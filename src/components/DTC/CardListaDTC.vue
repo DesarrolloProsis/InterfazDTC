@@ -220,7 +220,7 @@ export default {
         .then(async (response) => {                                      
           datosUser = response.data.result[0]          
           console.log(datosUser)
-          await CookiesService.actualizar_plaza(undefined, undefined, undefined, datosUser.referenceSquare, datosUser.adminSquareId)          
+          await CookiesService.actualizar_plaza(datosUser.adminSquareId)          
         })
         .catch(error => {
           console.log(error);                      

@@ -48,88 +48,35 @@ async function refrescar_barer_token(){
         console.log(error) 
     });
 }
-async function actualizar_plaza(plazaSelect, listaPlazas, listaHeaders, soloReferencia, adminId){  
-    console.log({
-        plazaSelect,
-        listaPlazas,
-        listaHeaders,
-        soloReferencia,
-        adminId
-    })          
-    if(soloReferencia != undefined){       
-        listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
-        listaHeaders = store.state.Header.listaHeaders            
-        let plazaSelect = listaPlazas.find(plaza => plaza.refereciaPlaza == soloReferencia && plaza.administradorId == adminId)                 
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == soloReferencia && header.adminSquareId == adminId)           
-        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
-        let objConvenio = {
-            id: null,
-            numPlaza: plazaSelect.numeroPlaza,
-            numConvenio: convenioSelect.agrement,
-            idConvenio: convenioSelect.agremmentInfoId,
-        }                            
-        await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
-        await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                
-        return {
-            plazaSelect,
-            convenioSelect,                    
-        }       
-    }  
-    else if(adminId != undefined){              
-        listaPlazas = store.state.Login.cookiesUser.plazasUsuario        
-        listaHeaders = store.state.Header.listaHeaders                    
-        let plazaSelect = listaPlazas.find(plaza => plaza.administradorId == adminId)                 
-        let convenioSelect = listaHeaders.find(header => header.adminSquareId == adminId)                       
-        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
-        let objConvenio = {
-            id: null,
-            numPlaza: plazaSelect.numeroPlaza,
-            numConvenio: convenioSelect.agrement,
-            idConvenio: convenioSelect.agremmentInfoId,
-        }                                
-        await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
-        await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                
-        return {
-            plazaSelect,
-            convenioSelect,                    
-        }       
-    }  
-    else if(plazaSelect == undefined){        
-        listaPlazas = store.state.Login.cookiesUser.plazasUsuario
-        listaHeaders = store.state.Header.listaHeaders        
-        let plazaSelect = listaPlazas[0]           
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.adminSquareId == plazaSelect.administradorId)
-        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
-        let objConvenio = {
-            id: null,
-            numPlaza: plazaSelect.numeroPlaza,
-            numConvenio: convenioSelect.agrement,
-            idConvenio: convenioSelect.agremmentInfoId,
-        }                             
-        await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
-        await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)        
-        return {
-            plazaSelect,
-            convenioSelect,                    
+async function actualizar_plaza(adminId){  
+    let clousere_actualizar = async (adminId, tipoFiltro)  => {        
+        const listaPlazas = store.state.Login.cookiesUser.plazasUsuario
+        const listaHeaders = store.state.Header.listaHeaders        
+        let plazaSelect = {}
+        let convenioSelect = {}
+        switch (tipoFiltro) {
+            case 1:
+                plazaSelect = listaPlazas.find(plaza => plaza.administradorId == adminId)                 
+                convenioSelect = listaHeaders.find(header => header.adminSquareId == adminId)                   
+                break;
+            case 2:
+                plazaSelect = listaPlazas[0]           
+                convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.adminSquareId == plazaSelect.administradorId)
+                break;      
+            default:
+                break;
         }
-    }
-    else{
-        store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)  
-        let convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.adminSquareId == plazaSelect.administradorId)                                         
-        let objConvenio = {
-            id: null,
-            numPlaza: plazaSelect.numeroPlaza,
-            numConvenio: convenioSelect.agrement,
-            idConvenio: convenioSelect.agremmentInfoId,
-        }                      
+        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
+        let objConvenio = { id: null, numPlaza: plazaSelect.numeroPlaza, numConvenio: convenioSelect.agrement, idConvenio: convenioSelect.agremmentInfoId }  
         await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)        
-        return convenioSelect
-    }
+        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                     
+        return { plazaSelect, convenioSelect } 
+    }    
+    if(adminId != undefined)
+        return clousere_actualizar(adminId, 1)       
+    else if(adminId == undefined)
+        return clousere_actualizar(adminId, 2)         
 }
 function obtener_bearer_token(tokenPDF){
     if(tokenPDF == undefined) {

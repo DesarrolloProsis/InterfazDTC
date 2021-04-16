@@ -275,9 +275,8 @@ export default {
                     console.log(error)                                            
                 })      
         },
-        editarUsuario (item) {
-            console.log(item)
-            CookiesService.actualizar_plaza(undefined, undefined, undefined, undefined,item.adminSquareId)
+        editarUsuario (item) {            
+            CookiesService.actualizar_plaza(item.adminSquareId)
             this.editUser.userId = item.adminSquareId
             this.editUser.name = item.name
             this.editUser.lastName1 = item.lastName1

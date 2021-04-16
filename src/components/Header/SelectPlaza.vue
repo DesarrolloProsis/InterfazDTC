@@ -97,7 +97,7 @@ export default {
             this.isDtc = true
         }        
         else if(this.tipo == 'insercion'){            
-            let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
+            let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza()    
             this.plazaSelect = plazaSelect
             this.convenioSelect = convenioSelect
             this.boolCambiarPlaza = false
@@ -107,7 +107,7 @@ export default {
         actualizar_plaza: async function(){   
             if(this.plazaSelect != ''){
                 if(this.tipo != 'filtro'){                                           
-                    this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect, this.listaPlazas, this.listaHeaders)
+                    this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect.administradorId).convenioSelect
                     EventBus.$emit('ACTUALIZAR_INVENTARIO')
                 }
                 this.$emit('actualizar-plaza', this.plazaSelect.numeroPlaza)   

@@ -5,7 +5,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
 const state = {
   listaHeaderDtcUser: null,
   listaPlazas: [],
-  cookiesUser: {},
+  cookiesUser: { nombreRoll: ''},
   listaTec: [],
   plazaSelecionada: {},  
   tipoUsuario: [
@@ -42,7 +42,7 @@ const mutations = {
   cleanOut: (state) => {
     state.listaHeaderDtcUser = []
     state.listaPlazas = []
-    state.cookiesUser = []
+    state.cookiesUser = { nombreRoll: '' }
   },
   LISTA_HEADER_PLAZA_USER_MUTATION: (state, value) => state.listaHeaderDtcUser = value,  
 };

@@ -89,8 +89,7 @@ const routes = [
     path: '/Inventario',
     name: 'Inventario',
     component: Inventario,
-    beforeEnter:  function (to, from, next) {
-      //await ServiceCookies.actualizar_plaza()            
+    beforeEnter:  function (to, from, next) {          
       next()
     }
   },
