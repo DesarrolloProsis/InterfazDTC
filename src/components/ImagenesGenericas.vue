@@ -1,7 +1,7 @@
 <template>
     <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0" :class="{'sm:-ml-1': tipo =='Ficha'}">
         <p class="text-gray-800 mt-2 mb-1 sm:text-sm sm:mb-4"
-        :class="{'sm:ml-1 mt-2 sm:mt-1 sm:-mb-2': tipo =='Ficha'}">IMAGENES</p>          
+        :class="{'sm:ml-1 mt-2 sm:mt-1 sm:-mb-2': tipo =='Ficha'}">IMAGENE</p>          
         <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}">
             <div class="w-2/3 grid p-2 gap-4 overflow-auto" :class="{'grid-cols-2': tipo == 'Actividades', 'grid-cols-3': tipo == 'Ficha' }">                                                                                                                
                 <div class="relative border" v-for="(item) in arrayImagenes" :key="item.name">
@@ -111,7 +111,7 @@ export default {
                         });                       
                     }                      
                 }
-                this.$notify.success({
+                /* this.$notify.success({
                     title: "Ok!",
                     msg: `SE INSERTARON ${contador}.`,
                     position: "bottom right",
@@ -119,7 +119,9 @@ export default {
                         height: 100,
                         width: 500,
                     },
-                }); 
+                });  */
+                console.log('SE INSERTARON ABAJO')
+                console.log(contador)
             }
             if(this.tipo == 'Actividades')
                 this.$emit('ocutar-modal-loading', objReporte)                     
