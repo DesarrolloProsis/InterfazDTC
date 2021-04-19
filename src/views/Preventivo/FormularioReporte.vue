@@ -39,16 +39,33 @@
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
             <div class=" w-1/2 ml-20 sm:w-full sm:-ml-10 sm:mt-5 mt-6">
-                <ImagenesActividadCarril :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
+                <ImagenesActividadCarril :reporteDataInsertada="reporteInsertado" :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
         ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
-                <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
-                    <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                    <span>Crear</span>
-                </button>
+            <!-- reportInsert equivalente a usar route.params.tipoVista == 'crear o editar' -->
+                <div v-if="reporteInsert">
+                    <div v-if="!reporteInsertado">
+                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
+                            <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <span>Crear Reporte Actividades</span>                    
+                        </button>
+                    </div>
+                    <div v-else>
+                        <button :disabled="modalLoading" @click="crear_header_reporte(false)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
+                            <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <span>Crear Reporte Fotografico</span>                    
+                        </button>
+                    </div>
+                </div>
+                <div v-else>
+                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
+                        <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                        <span>Actualizar Reportes</span>                    
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -82,7 +99,7 @@ export default {
             reporteInsert: true,
             modalLoading: false,
             letras: 0,
-            objEmitImgGenerica: {}
+            reporteInsertado: false
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -96,7 +113,7 @@ export default {
             this.horaFin = newHora           
         });
     },
-    beforeMount: async function(){        
+    beforeMount: async function(){                
         if(!this.$route.query.edicion == true){              
             this.reporteInsert = true          
             this.header = this.$route.query.header 
@@ -121,7 +138,7 @@ export default {
                 setTimeout(() => {
                     this.$router.push({ path:'/ReportesMantenimiento/TablaActividades' })
                 }, 300);  
-            }                    
+            }                                 
         }
         else{                      
             this.reporteInsert = false                           
@@ -155,7 +172,8 @@ export default {
                 })
             })
             this.listaActividades = array_actividades
-            this.referenceNumber = headerCompuesto.referenceNumber            
+            this.referenceNumber = headerCompuesto.referenceNumber 
+            this.reporteInsertado = true                     
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -232,7 +250,7 @@ methods:{
             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})              
         }, 2000);                      
     },
-    async crear_header_reporte(){                                                      
+    async crear_header_reporte(value){                                                      
         if(this.validar_horas()) {                                                               
             this.modalLoading = true   
             let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                        
@@ -280,8 +298,16 @@ methods:{
                                 console.log(error)                                                                      
                             })         
                     }                                                                                              
-                    if(this.reporteInsert){                               
-                        EventBus.$emit('insertar-todas-actividades')                            
+                    if(this.reporteInsert){  
+                        //true insertar header actividades Reprote
+                        if(value) {
+                            EventBus.$emit('insertar-todas-actividades')
+                            this.reporteInsertado = true    
+                        }
+                        //false insertar o  no reporte fotograficos
+                        else {
+                            this.ocultar_modal_loading()
+                        }                                                
                         this.$notify.success({
                             title: "Ok!",
                             msg: `SE GENERARON LOS REPORTES CORRECTAMENTE.`,
@@ -290,7 +316,7 @@ methods:{
                                 height: 100,
                                 width: 500,
                             },
-                        });
+                        });                        
                     }
                     else{                                                
                         this.$notify.success({
@@ -302,8 +328,9 @@ methods:{
                                 width: 500,
                             },
                         });
+                        this.ocultar_modal_loading()
                     }                                                                                                   
-                    this.ocultar_modal_loading()
+                    
             })
             .catch(error => {                                                                                                  
                 console.log(error);
