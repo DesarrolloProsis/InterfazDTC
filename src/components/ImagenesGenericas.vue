@@ -104,13 +104,13 @@ export default {
     },
     methods: {
         recibir_imagenes: async function (e){  
-            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)  
-            console.log(this.arrayImagenes)
-            await this.enviar_imagenes()
+            //this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)  
+            console.log(this.arrayImagenes)            
+            await this.enviar_imagenes(e)
             this.cargandoImagen = true            
             this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
             this.expires_in = this.seconds;
-            this._setInterval()                   
+            this._setInterval()                               
         },
         _setInterval: function() {
             this.interval = setInterval(() => {
@@ -127,7 +127,9 @@ export default {
                 }
             }, 1000);
         },
-        enviar_imagenes: async function(){                                   
+        enviar_imagenes: async function(value){     
+            console.log(value.target.files)
+            console.log(this.arrayImagenes.length)                              
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
             if(boolValidacion){                  
                 let contador = 0     
@@ -139,21 +141,24 @@ export default {
                         rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                     else
                         rutaInsertImagenes = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                }                
-                for(let imagenes of this.arrayImagenes){                
-                    if(imagenes.name.split('_')[0] != this.referenceNumber){          
+                }  
+                this.arrayImagenes.forEach((item) => console.log(item))              
+                for(let imagenes of value.target.files){            
+                    //console.log(imagenes)    
+                    //if(imagenes.name.split('_')[0] != this.referenceNumber){          
                         //contador++         
-                        let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
+                        //let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
-                        formData.append("image", imgagen);
+                        formData.append("image", imagenes);
                         await Axios.post(rutaInsertImagenes, formData)
                             .then((response) => {                                   
-                                console.log(response)
+                                console.log(response.data)
+                                this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data,this.arrayImagenes)
                             })
                             .catch(error => {                                                      
                                 console.log(error)                                    
                         });                       
-                    }                      
+                    //}                      
                 }                
                 console.log(contador)
             }                 
