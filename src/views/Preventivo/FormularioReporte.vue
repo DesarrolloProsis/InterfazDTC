@@ -82,7 +82,8 @@ export default {
             objetoLogDate: {},
             reporteInsert: true,
             modalLoading: false,
-            letras: 0
+            letras: 0,
+            objEmitImgGenerica: {}
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -217,12 +218,21 @@ methods:{
                 return false    
             }
     },
-    ocultar_modal_loading(objReporte) {       
+    ocultar_modal_loading() {       
         this.modalLoading = false
+        let tipoEncabezadoLane = this.header.capufeLaneNum != '0000' ? 'carril' : undefined
+        let objImg = {
+            referenceNumber: this.referenceNumber,
+            frecuenciaId : this.header.frequencyId,
+            tipoEncabezadoLane: tipoEncabezadoLane,
+            lane: this.header.lane
+        } 
         setTimeout(async () => {
-            await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
-            await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)
+            console.log(this.objEmitImgGenerica)
+            await ServiceReporte.generar_pdf_actividades_preventivo(objImg.referenceNumber, objImg.frecuenciaId, objImg.tipoEncabezadoLane)
+            await ServiceReporte.generar_pdf_fotografico_preventivo(objImg.referenceNumber, objImg.lane)
             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})  
+            //this.objEmitImgGenerica = {}
         }, 2000);                      
     },
     async crear_header_reporte(){        
@@ -292,8 +302,10 @@ methods:{
                                     frecuenciaId : this.header.frequencyId,
                                     tipoEncabezadoLane: tipoEncabezadoLane,
                                     lane: this.header.lane
-                                }                                                                     
+                                }      
+                                console.log(objImg)                                                                                          
                                 EventBus.$emit("guardar_imagenes", objImg)                                                   
+                                this.objEmitImgGenerica = objImg     
                                 if(this.reporteInsert == true){                               
                                     this.$notify.success({
                                         title: "Ok!",
@@ -325,8 +337,10 @@ methods:{
                                         frecuenciaId : this.header.frequencyId,
                                         tipoEncabezadoLane: tipoEncabezadoLane,
                                         lane: this.header.lane
-                                    }                                      
+                                    }   
+                                    console.log(objImg)                                     
                                     EventBus.$emit("guardar_imagenes", objImg);                                   
+                                    this.objEmitImgGenerica = objImg
                                     this.$notify.success({
                                         title: "Ok!",
                                         msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,

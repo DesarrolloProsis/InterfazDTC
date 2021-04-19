@@ -1,14 +1,14 @@
 <template>
-    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0" :class="{'sm:-ml-1': tipo =='Ficha'}">
+    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full" :class="{'sm:-ml-1': tipo =='Ficha'}">        
         <p class="text-gray-800 mt-2 mb-1 sm:text-sm sm:mb-4"
         :class="{'sm:ml-1 mt-2 sm:mt-1 sm:-mb-2': tipo =='Ficha'}">IMAGENE</p>          
-        <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}">
+        <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}" v-if="!cargandoImagen">
             <div class="w-2/3 grid p-2 gap-4 overflow-auto" :class="{'grid-cols-2': tipo == 'Actividades', 'grid-cols-3': tipo == 'Ficha' }">                                                                                                                
-                <div class="relative border" v-for="(item) in arrayImagenes" :key="item.name">
+                <div class="relative border " v-for="(item) in arrayImagenes" :key="item.name">
                     <span @click="eliminar_imagen(item.name)" class="absolute border rounded-full top-0 right-0">
                         <img  src="../assets/img/closeCircle.png" class="w-4 cursor-pointer " />
                     </span>   
-                    <div class="p-2 mx-auto">      
+                    <div class="p-2 mx-aut">      
                         <lazy-image v-if="item.imgbase.length < 200" :src="`${item.imgbase}`" :img-class="['w-32', 'h-32']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"/>     
                         <lazy-image v-else :src="`data:image/jpeg;base64,${item.imgbase}`" :img-class="['w-32', 'h-32']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif"/>
                     </div>
@@ -22,7 +22,15 @@
                 </div>
             </div>
         </div>
-        <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/36 (Máximo 36 fotografías)</span>
+        <div class=" text-center font-serif text-xs h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}" v-else>
+            <div class="mt-5">                
+                <div class="p-10">
+                    <p class="mb-2">Cargando imagen</p>
+                    <BarraProgreso :color="'blue'" :percentage="progress" ></BarraProgreso>
+                </div>
+            </div>
+        </div>
+        <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/36 (Máximo 36 fotografías)</span>     
     </div>
 </template>
 
@@ -30,7 +38,9 @@
 import Axios from 'axios'
 import ServiceImagenes from '../services/ImagenesService'
 import EventBus from "../services/EventBus.js";
+import BarraProgreso from '../components/BarraProgreso'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import moment from 'moment'
 export default {
     props:{
         referenceNumber: {
@@ -42,18 +52,30 @@ export default {
             default: () => 'Actividades'
         }
     },
+    components: {
+        BarraProgreso
+    },
     data(){
         return{
-            arrayImagenes: []
+            arrayImagenes: [],
+            cargandoImagen: false,
+            progress: 20,
+            //Imagene Timer
+            seconds: 6,
+            countdown: 5,
+            expires_in: null,
+            interval: null,
         }
     },
     created(){
-        EventBus.$on("guardar_imagenes", objImagenes => {                                          
-            this.enviar_imagenes(objImagenes)
+        EventBus.$on("guardar_imagenes", objImagenes => { 
+            console.log(objImagenes)                                         
+            //this.enviar_imagenes(objImagenes)
         });
     },
     destroyed(){
-        this.arrayImagenes = []
+        this.arrayImagenes = []           
+        clearInterval(this.interval);            
     },
     beforeMount() {        
         setTimeout(() => {
@@ -82,11 +104,32 @@ export default {
     },
     methods: {
         recibir_imagenes: async function (e){  
-            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
+            this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)  
+            console.log(this.arrayImagenes)
+            await this.enviar_imagenes()
+            this.cargandoImagen = true            
+            this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
+            this.expires_in = this.seconds;
+            this._setInterval()                   
         },
-        enviar_imagenes: async function(objReporte){                       
-            let boolValidacion = this.arrayImagenes.some(item => item.name.split('_')[0] != this.referenceNumber) 
-            if(boolValidacion){                                           
+        _setInterval: function() {
+            this.interval = setInterval(() => {
+                if(this.expires_in === 1){
+                    this.progress = 20
+                    this.cargandoImagen = false
+                }
+                else if (this.expires_in === 0) {                    
+                    clearInterval(this.interval);
+                } else {
+                    this.expires_in -= 1;
+                    this.progress += 15
+                    this.countdown = moment.utc(this.expires_in * 1000).subtract(1, 'seconds').format('HH:mm:ss');
+                }
+            }, 1000);
+        },
+        enviar_imagenes: async function(){                                   
+            let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
+            if(boolValidacion){                  
                 let contador = 0     
                 let rutaInsertImagenes = ''
                 if(this.tipo == 'Actividades')
@@ -104,27 +147,16 @@ export default {
                         let formData = new FormData();
                         formData.append("image", imgagen);
                         await Axios.post(rutaInsertImagenes, formData)
-                            .then(() => {                                   
+                            .then((response) => {                                   
+                                console.log(response)
                             })
                             .catch(error => {                                                      
                                 console.log(error)                                    
                         });                       
                     }                      
-                }
-                /* this.$notify.success({
-                    title: "Ok!",
-                    msg: `SE INSERTARON ${contador}.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                    },
-                });  */
-                console.log('SE INSERTARON ABAJO')
+                }                
                 console.log(contador)
-            }
-            if(this.tipo == 'Actividades')
-                this.$emit('ocutar-modal-loading', objReporte)                     
+            }                 
         },
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){ 
