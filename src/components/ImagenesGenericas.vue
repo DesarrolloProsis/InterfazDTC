@@ -41,6 +41,7 @@ import EventBus from "../services/EventBus.js";
 import BarraProgreso from '../components/BarraProgreso'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import moment from 'moment'
+
 export default {
     props:{
         referenceNumber: {
@@ -103,9 +104,7 @@ export default {
         }
     },
     methods: {
-        recibir_imagenes: async function (e){  
-            //this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)  
-            console.log(this.arrayImagenes)            
+        recibir_imagenes: async function (e){                      
             await this.enviar_imagenes(e)
             this.cargandoImagen = true            
             this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
@@ -127,11 +126,11 @@ export default {
                 }
             }, 1000);
         },
-        enviar_imagenes: async function(value){     
-            console.log(value.target.files)
-            console.log(this.arrayImagenes.length)                              
+        enviar_imagenes: async function(value){                                       
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
-            if(boolValidacion){                  
+            console.log(boolValidacion)
+            if(boolValidacion == true || this.arrayImagenes.length == 0){  
+                alert()                
                 let contador = 0     
                 let rutaInsertImagenes = ''
                 if(this.tipo == 'Actividades')

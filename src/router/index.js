@@ -172,7 +172,7 @@ const routes = [
         }      
       },      
       {
-        path: 'FormularioReporte',
+        path: ':tipoVista/FormularioReporte',
         component: () => import('../views/Preventivo/FormularioReporte.vue'),
         beforeEnter: async function(to, from, next) {          
           if(!to.query.edicion == true)

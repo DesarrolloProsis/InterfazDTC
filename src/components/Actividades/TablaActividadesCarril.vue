@@ -30,10 +30,8 @@
                             <td class="w-66 cuerpoTable">{{ item.componente }}</td>                                                         
                             <td class="w-66 cuerpoTable">{{ item.actividades }}</td>   
                             <td class="w-66 cuerpoTable">{{ item.ubicacion }}</td>                                                                                
-                            <td class="w-66 cuerpoTable text-center" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">
-                                <!-- <span class="text-sm text-blue-700">Finalizada</span>
-                                <input v-model="actividadFinalizada" class="ml-1 h-2w-2 rounded-lg" type="checkbox" />         -->
-                                <select v-model="item.jobStatus" class="w-32 text-md text-gray-800 border-gray-900" >
+                            <td class="w-66 cuerpoTable text-center" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">                                                                
+                                <select v-model="item.jobStatus" @change="actualizar_actividad(item)" class="w-32 text-md text-gray-800 border-gray-900" >
                                     <option value="0">Seleccione...</option>
                                     <option class="bg-green-500" value="1">Ok</option>
                                     <option class="bg-yellow-500" value="2">Dañado</option>
@@ -50,6 +48,9 @@
 </div>
 </template>
 <script>
+import Axios from 'axios';
+import EventBus from "../../services/EventBus.js";
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: 'TablaActividadesCarril',
     props: {
@@ -60,14 +61,68 @@ export default {
         referenceNumber: {
             type: String,
             default: () => ''
+        },
+        calendarioId:{
+            type: Number,
+            default: () => null
         }
     },
     data(){
         return{
             scrollBool: '',
-            actividadFinalizada: ''
+            reporteNuevo: true,         
         }
     },
+    created(){
+        EventBus.$on('insertar-todas-actividades', () => {
+            this.insertar_actividades_nuevas()
+        })
+    },
+    beforeMount(){
+        this.$route.params.tipoVista == 'editar' 
+            ? this.reporteNuevo = false 
+            : this.reporteNuevo = true 
+    },
+    methods:{
+        insertar_actividades_nuevas(){
+            if(this.reporteNuevo){                
+                let arrayJob = []
+                this.listaActividades.forEach((item) => {
+                    arrayJob.push({
+                        referenceNumber: this.referenceNumber,
+                        componentJob: parseInt(item.idJob),
+                        jobStatus: parseInt(item.jobStatus),
+                        flagUpdate: this.reporteNuevo 
+                    }) 
+                })
+                Axios.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
+                .then((response) => {               
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })                                
+            } 
+        },
+        actualizar_actividad(item){
+            if(!this.reporteNuevo){                
+                let arrayJob = []
+                arrayJob.push({
+                    referenceNumber: this.referenceNumber,
+                    componentJob: parseInt(item.idJob),
+                    jobStatus: parseInt(item.jobStatus),
+                    flagUpdate: this.reporteNuevo 
+                }) 
+                Axios.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
+                .then((response) => {               
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })                                
+            }            
+        }
+    }
 
 }
 </script>

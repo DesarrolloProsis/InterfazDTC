@@ -265,7 +265,7 @@ methods: {
             let header = response.data.result.table[0]                        
             let actividades = response.data.result.table1                             
             this.$router.push({
-                path: `FormularioReporte`,
+                path: `editar/FormularioReporte`,
                 query: {
                     headerCompuesto: { ...header, ...item},
                     actividades: actividades,
@@ -284,7 +284,7 @@ methods: {
     crear_reporte_carril(item){              
         item["plazaNombre"] = this.plazaNombre                
         this.$router.push({ 
-            path: 'FormularioReporte',
+            path: 'crear/FormularioReporte',
             query: {
                 'header': item,                
             }
