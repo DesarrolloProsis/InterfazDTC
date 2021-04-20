@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:500px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16" style="height:500px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -106,13 +106,13 @@
                   </td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
-                  <div class="grid grid-cols-2 justify-center" v-if="tipoUsuario != 8">
-                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard  w-24">
-                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                  <div class="grid grid-cols-2 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard  w-24 sm:w-10 sm:ml-8">
+                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard w-24 " :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
-                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard w-24 sm:w-10 sm:ml-8" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
+                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
 

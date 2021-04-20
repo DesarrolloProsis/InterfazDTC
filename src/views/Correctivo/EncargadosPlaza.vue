@@ -47,7 +47,7 @@
                                         />
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
-                                    <button class="botonIconLimpiar hidden" @click="confimaBorrar(item)">
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="rollId == 4 || rollId == 7 || rollId == 10">
                                         <img
                                             src="../../assets/img/bin.png"
                                             class="mr-2 sm:m-1"
@@ -139,7 +139,8 @@ export default {
     name: "EncargadosDePlaza",
     components:{        
         HeaderGenerico,
-        SelectPlaza
+        SelectPlaza,
+
     },
     data (){
         return{
@@ -165,7 +166,8 @@ export default {
                 apellidoM:'',
                 mail:'',
                 status: true
-            }
+            },
+            rollId: this.$store.state.Login.cookiesUser.rollId
         }
     },
     beforeMount: function (){
