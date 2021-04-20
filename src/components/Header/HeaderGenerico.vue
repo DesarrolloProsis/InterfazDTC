@@ -6,7 +6,7 @@
      ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'DTC'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
-        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
             <div class="mr-4 mt-4">
@@ -34,7 +34,7 @@
     <!-- ////////////////////////////////////////////////////////////////////
         ///                    BOTONES DE NAVEGACION  DTC               ////
        ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-4 text-center">
+        <div class="-mt-1 mb-4 text-center">
             <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar">
                 <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
                 <span>Limpiar</span>
@@ -48,8 +48,8 @@
     <!--///////////////////////////////////////////////////////////////////
        ///              FILTROS DE NAVEGACION INVENTARIO               ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'INV'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
-        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+    <div v-if="tipo == 'INV'" class="mt-1 -mb-8 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
+        <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10">Buscar</span>
@@ -73,7 +73,7 @@
     <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
        ////////////////////////////////////////////////////////////////////-->
-        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
+        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-5 mr-5 sm:inline-flex">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard ml-4 mr-4">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:m-0" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>

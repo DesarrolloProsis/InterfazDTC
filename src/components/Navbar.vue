@@ -22,7 +22,7 @@
             <router-link to="/NuevoDtc"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rol_usuario == '1'">Nuevo DTC</li></router-link>
             <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rol_usuario == '1'">DTC Pendiente</li></router-link>
             <router-link to="/CalendarioActividades"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rol_usuario == '1'">Calendario</li></router-link>
-            <router-link to="/Usuarios"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rol_usuario == '1'">Configuración</li></router-link>
+            <router-link to="/Configuracion"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rol_usuario == '1'">Configuración</li></router-link>
             <!--Admin-->
             <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rol_usuario == '4'">Revisar DTC</li></router-link>
             <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rol_usuario == '4'">Auto. GMMEP</li></router-link>

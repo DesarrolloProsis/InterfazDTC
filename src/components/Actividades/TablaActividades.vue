@@ -3,7 +3,7 @@
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
                 <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
-                <div class="grid grid-cols-1 mt-3">
+                <div class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
@@ -14,7 +14,7 @@
                             </div>
                             <div class="grid grid-cols-4 sm:w-full sm:ml-3  w-full xl:text-center">
                                 <!-- <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p> -->           
-                                <div class="sm:hidden"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza></div>                                                    
+                                <div class="sm:hidden -mt-2"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza></div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
                                     <p class="w-32 input ml-16"><select v-model="mes" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
@@ -93,11 +93,11 @@
             <div class="sm:m-2 sm:w-full sm:ml-1">
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
                     <!--//////////////////////////////////////////////////////////////////////
-                        ////                           TABLA                             ////
-                        ////////////////////////////////////////////////////////////////////-->
+                    ////                           TABLA                             ////////
+                    ////////////////////////////////////////////////////////////////////-->
                     <table class="border-collapse bg-white table-striped relative">
-                        <!--/////////////////////////////////////////////////////////////////
-                        ////                           HEADER TABLA                      ////
+                        <!--////////////////////////////////////////////////////////////////////
+                        ////                           HEADER TABLA                      //////
                         ////////////////////////////////////////////////////////////////////-->
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">                
@@ -109,9 +109,9 @@
                                 <th class="w-64 cabeceraTable">Acciones</th>                
                             </tr>
                         </thead>
-                    <!--/////////////////////////////////////////////////////////////////
-                        ////                           Body TABLA                     ////
-                        /////////////////////////////////////////////////////////////////-->
+                    <!--/////////////////////////////////////////////////////////////////////
+                    ////                           Body TABLA                     //////////
+                    /////////////////////////////////////////////////////////////////////-->
                         <tbody name="table" is="transition-group">                                                                                        
                             <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
                                 <td class="w-64 cuerpoTable text-center">{{ item.lane }}</td>

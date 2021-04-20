@@ -8,7 +8,7 @@
       ///////////////////////////////////////////////////////////////////// -->
         <!--<div class="box-content p-4 border-2 border-gray-200 rounded-lg xl:w-3/4">-->
         <div class="box-content p-4 xl:w-3/4">
-          <img src="../../assets/img/prosis-logo.jpg" class="xl:h-16 4k:h-12 ml-20 sm:ml-1" />
+          <img src="../../assets/img/prosis-logo.jpg" class="xl:h-16 4k:h-12 xl:ml-20 lg:ml-1 md:ml-1 sm:ml-1 " />
         </div>
         <div class="text-3xl text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-bold p-4 ">Dictamen Tecnico y Cotizacion</div>
         <div class="text-left">
