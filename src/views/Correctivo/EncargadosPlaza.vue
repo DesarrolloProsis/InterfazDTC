@@ -114,8 +114,8 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>
-                        <!-- <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly> -->
+                        <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
+                        <input type="text" class="w-full bg-white hover:bg-white hover:border-none focus:bg-white border-none shadow-none mt-2" v-model="editUser.plaza" readonly>
                     </div>
                     <div class="mt-5 text-center">
                         <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>
