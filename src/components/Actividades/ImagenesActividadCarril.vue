@@ -83,7 +83,8 @@ export default {
         recibir_imagenes: async function (e){  
             this.arrayImagenes =  await ServiceImagenes.obtener_array_imagenes(e, this.arrayImagenes)         
         },
-        enviar_imagen: async function(value){    
+        enviar_imagen: async function(value){  
+            alert()  
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != value.referenceNumber) 
             if(boolValidacion){           
                 //let contador = 0                          
@@ -93,11 +94,14 @@ export default {
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);
+                        console.log(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
                         await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-                            .then(() => {     
-                                CookiesService.refrescar_bearer_token()                                                                                                       
+                            .then((response) => {
+                                console.log(response)     
+                                //CookiesService.refrescar_bearer_token()                                                                                                       
                             })
-                            .catch(error => {                                                      
+                            .catch(error => {  
+                                console.log(error)                                                    
                                 if(error.response.status == 401)
                                     CookiesService.token_no_autorizado()
                         });                       
