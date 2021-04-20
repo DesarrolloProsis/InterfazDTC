@@ -27,6 +27,17 @@
             <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '4'">Revisar DTC</li></router-link>
             <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '4'">Auto. GMMEP</li></router-link>
             <router-link to="/CalendarioHistorico"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '4'">Calendario Historico</li></router-link>
+            <!-- CAPUFE -->
+            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Revisar DTC</li></router-link>
+            <router-link to="/Inventario"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Inventario</li></router-link>
+            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Auto. GMMEP</li></router-link>
+            <router-link to="/CalendarioHistorico"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Calendario Historico</li></router-link>
+            <!-- Desarrollo -->
+            <router-link to="/NuevoDtc"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Nuevo DTC</li></router-link>
+            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">DTC Pendiente</li></router-link>
+            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Auto. GMMEP</li></router-link>
+            <router-link to="/Inventario"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Inventario</li></router-link>
+            <router-link to="/Configuracion"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Configuración</li></router-link>
           </ul>
         </div>
         <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-white hover:bg-red-700">Salir</router-link>
