@@ -278,11 +278,23 @@ methods:{
                 Observations: this.observaciones,   
                 CalendarId: parseInt(this.header.calendarId)     
             }     
-            console.log(headerReporte)                                                                                                                            
-            Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`, headerReporte)
+            console.log(headerReporte) 
+            let banderaInsertar = false
+            if(this.reporteInsert){
+                if(value){
+                    banderaInsertar = true
+                }
+                else{
+                    banderaInsertar = false
+                }
+            }   
+            else banderaInsertar = false
+            
+            Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/${banderaInsertar}`, headerReporte)
             .then((response) => {                                                                                                       
                     console.log(response)
-                    if(this.objetoLogDate.fecha != ''){                                    
+                    if(this.objetoLogDate.fecha != ''){   
+                        console.log(this.objetoLogDate)                                 
                         let refPlaza = this.referenceNumber.split('-')[0]
                         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
                         let dateLog = {
@@ -298,13 +310,12 @@ methods:{
                                 console.log(error)                                                                      
                             })         
                     }                                                                                              
-                    if(this.reporteInsert){  
-                        //true insertar header actividades Reprote
+                    if(this.reporteInsert){                          
                         if(value) {
                             EventBus.$emit('insertar-todas-actividades')
+                            this.modalLoading = false
                             this.reporteInsertado = true    
-                        }
-                        //false insertar o  no reporte fotograficos
+                        }                        
                         else {
                             this.ocultar_modal_loading()
                         }                                                
@@ -329,8 +340,7 @@ methods:{
                             },
                         });
                         this.ocultar_modal_loading()
-                    }                                                                                                   
-                    
+                    }                                                                                                                       
             })
             .catch(error => {                                                                                                  
                 console.log(error);

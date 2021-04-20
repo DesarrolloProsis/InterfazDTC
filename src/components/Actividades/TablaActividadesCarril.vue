@@ -85,7 +85,7 @@ export default {
     },
     methods:{
         insertar_actividades_nuevas(){
-            if(this.reporteNuevo){                
+            if(this.reporteNuevo){                      
                 let arrayJob = []
                 this.listaActividades.forEach((item) => {
                     arrayJob.push({
