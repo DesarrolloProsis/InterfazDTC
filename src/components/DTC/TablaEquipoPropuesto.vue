@@ -47,11 +47,11 @@
             <td>
               <textarea v-model="diagnostico" v-validate="'max:300'" 
               :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" 
-              class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6 ph-center"
+              class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6 ph-center mb-1"
               placeholder="Diagnostico de Equipo Dañado" 
               name="Diagnostico" 
               v-bind:maxlength="limite"/>
-              <span class="text-gray-500 ml-6">{{ restante }}/300</span>
+              <span class="text-gray-500 ml-48">{{ restante }}/300</span>
               <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
             </td>
           </div>
@@ -62,7 +62,7 @@
               <p class="inline">Total: {{ letraMoneda }}</p>
             </div>
             <div class="w-1/2 h-6 pl-20">
-              <input v-model="sumatoria" disabled class="is_valid w-32" type="text" placeholder="$ 0.00"/>
+              <input v-model="sumatoria" disabled class="border-none shadow-none w-32" type="text" placeholder="$ 0.00"/>
             </div>
           </div>
           <hr />

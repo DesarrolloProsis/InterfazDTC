@@ -137,8 +137,7 @@ export default {
         enviar_imagenes: async function(value){                                       
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
             console.log(boolValidacion)
-            if(boolValidacion == true || this.arrayImagenes.length == 0){  
-                alert()                
+            if(boolValidacion == true || this.arrayImagenes.length == 0){                                
                 let contador = 0     
                 let rutaInsertImagenes = ''
                 if(this.tipo == 'Actividades')

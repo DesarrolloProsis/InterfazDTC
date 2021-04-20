@@ -126,7 +126,7 @@
                       <div v-if="equipo.rowUp">
                         <button
                     v-on:click.stop.prevent="deleteItem(index)"
-                    class="botonIconBorrarCard"
+                    class="botonIconBorrarCard w-20"
                   >
                     <img
                       src="../../assets/img/bin.png"

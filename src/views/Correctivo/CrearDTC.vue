@@ -45,12 +45,12 @@
             v-model="observaciones"
             v-validate="'max:300'"
             :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-            class="rounded-lg py-4 mb-0 h-40 placeholder-gray-500 ph-center-observaciones"
+            class="rounded-lg py-4 mb-1 h-40 placeholder-gray-500 ph-center-observaciones"
             placeholder="Indica las observaciones necesarias del siniestro"
             name="Observaciones"
             v-bind:maxlength="limite"
           />
-          <span class="text-gray-500">{{ restante }}/300</span>
+          <span class="text-gray-500 ml-64">{{ restante }}/300</span>
           <p class="text-xs">{{ errors.first("Observaciones") }}</p>
         </div>
     <!-- //////////////////////////////////////////////////////////////////
