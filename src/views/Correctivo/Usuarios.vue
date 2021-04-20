@@ -10,18 +10,18 @@
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32">
-          <table class="border-2 border-gray-800">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
-                <th class="w-64 border-2 border-gray-800">Nombre</th>
-                <th class="w-56 border-2 border-gray-800">Tipo de Usuario</th>
-                <th class="w-64 border-2 border-gray-800">Correo</th>
-                <th class="w-48 border-2 border-gray-800">Acciones</th>
+                <th class="w-64 cabeceraTable">Nombre</th>
+                <th class="w-56 cabeceraTable">Tipo de Usuario</th>
+                <th class="w-64 cabeceraTable">Correo</th>
+                <th class="w-48 cabeceraTable">Acciones</th>
               </tr>
               <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios" :key="key">
-                <td class="text-center border-2 border-gray-800">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
-                <td class="text-center border-2 border-gray-800">{{ item.roll }}</td>
-                <td class="text-center border-2 border-gray-800 break-all">{{ item.mail }}</td>
-                <td class="text-center border-2 border-gray-800">
+                <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
+                <td class="cuerpoTable text-center">{{ item.roll }}</td>
+                <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
+                <td class="cuerpoTable text-center">
                   <button
                     @click="editarUsuario(item)"
                     class="botonIconActualizar"

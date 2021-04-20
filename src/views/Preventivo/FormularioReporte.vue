@@ -29,7 +29,7 @@
                     id="obs"
                     v-model="observaciones"
                     class="block container mx-auto py-4 mb-0 h-40 is_valid placeholder-gray-500 ph-center-observaciones sm:h-32 sm:w-66"
-                    placeholder="jane@example.com"
+                    placeholder="Observaciones del Mantenimiento Preventivo"
                     name="Observaciones"
                     v-bind:maxlength="limite"                    
                 />
@@ -48,20 +48,20 @@
             <!-- reportInsert equivalente a usar route.params.tipoVista == 'crear o editar' -->
                 <div v-if="reporteInsert">
                     <div v-if="!reporteInsertado">
-                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
+                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                             <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Crear Reporte Actividades</span>                    
                         </button>
                     </div>
                     <div v-else>
-                        <button :disabled="modalLoading" @click="crear_header_reporte(false)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
+                        <button :disabled="modalLoading" @click="crear_header_reporte(false)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                             <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Crear Reporte Fotografico</span>                    
                         </button>
                     </div>
                 </div>
                 <div v-else>
-                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 cursor-not-allowed': modalLoading}" :disable=" modalLoading ">
+                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Actualizar Reportes</span>                    
                     </button>
