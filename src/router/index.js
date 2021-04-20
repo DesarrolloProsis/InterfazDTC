@@ -11,10 +11,10 @@ import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
 import CrearDtcLibre from '../views/Correctivo/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
+import FichaDiagnostico from '../views/Correctivo/FichaDiagnostico/FichaDiagnosticoInicio'
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
-//import ServiceCookies from '../services/CookiesService'
 import CookiesService from '../services/CookiesService'
 Vue.use(VueRouter)
 const routes = [
@@ -89,15 +89,14 @@ const routes = [
     path: '/Inventario',
     name: 'Inventario',
     component: Inventario,
-    beforeEnter:  function (to, from, next) {
-      //await ServiceCookies.actualizar_plaza()            
+    beforeEnter:  function (to, from, next) {          
       next()
     }
   },
   {
     path: '/ConcentradoDTC',
     name: 'ConcentradoDTC',
-    component: () => import('../views/Correctivo/ConcentradoDTC'),
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoDTC'),
     beforeEnter: async function (to, from, next) {
       let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
       await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
@@ -107,17 +106,24 @@ const routes = [
   {
     path: '/ConcentradoFichas',
     name:'ConccentradoFichas',
-    component: () => import('../views/Correctivo/ConcentradoFichas')
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoFichas')
   },
   {
-    path: '/DiagnosticoDeFalla',
-    name: '/DiagnosticoDeFalla',
-    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
-  },
-  {
-    path: '/FichaTecnicaDeFalla',
-    name: 'FichaTecnicaDeFalla',
-    component: () => import('../views/Preventivo/DiagnosticoDeFalla')
+    path: '/Correctivo/PreDTC',
+    name: 'CorrectivoDTC',
+    component: FichaDiagnostico,
+    children: [
+      {
+        path: 'DiagnosticoDeFalla',
+        name: 'DiagnosticoDeFalla',
+        component: () => import('../views/Correctivo/FichaDiagnostico/DiagnosticoDeFalla')
+      },
+      {
+        path: 'FichaTecnicaDeFalla',
+        name: 'FichaTecnicaDeFalla',
+        component: () => import('../views/Correctivo/FichaDiagnostico/FichaDeFalla')
+      },
+    ]
   },
   {
     path: '/Pruebas',
@@ -166,7 +172,7 @@ const routes = [
         }      
       },      
       {
-        path: 'FormularioReporte',
+        path: ':tipoVista/FormularioReporte',
         component: () => import('../views/Preventivo/FormularioReporte.vue'),
         beforeEnter: async function(to, from, next) {          
           if(!to.query.edicion == true)
@@ -196,18 +202,17 @@ const router = new VueRouter({
   mode: 'history',
   routes
 })
+
 router.beforeEach(async (to, from, next) => {
   if (to.name == 'login' || to.name == 'register') next()
   else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
   else {
-    let resultToken = await CookiesService.cache_token()
-    setTimeout(() => {
+    let resultToken = await CookiesService.cache_token()    
+    console.log(resultToken)
       if(resultToken)
         next()  
       else
-        router.push('/')    
-    },2000)
-    
+        router.push('/')            
   }
 })
 export default router

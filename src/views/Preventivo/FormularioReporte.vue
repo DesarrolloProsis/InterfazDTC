@@ -18,42 +18,54 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                    TABLA DE ACTIVIDADES JOB                   ////
         ////////////////////////////////////////////////////////////////////-->
-        <TablaActividadesCarril :listaActividades="listaActividades" :referenceNumber="referenceNumber"></TablaActividadesCarril>
+        <TablaActividadesCarril :listaActividades="listaActividades" :calendarioId="header.calendarId" :referenceNumber="referenceNumber"></TablaActividadesCarril>
         <!--/////////////////////////////////////////////////////////////////
         ////          TEXT AREA PARA OBSERVACIONES                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-2">
-            <div class="w-1/2">                
-                <p class="text-center font-bold text-xl text-gray-800 mb-5">Observaciones</p>          
+        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1">
+            <div class="w-1/2 sm:w-full sm:-ml-10">                
+                <p class="text-center font-bold text-xl text-gray-800 mb-5 sm:-ml-20">Observaciones</p>          
                 <textarea
                     id="obs"
                     v-model="observaciones"
-                    class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-                    placeholder="jane@example.com"
+                    class="block container mx-auto py-4 mb-0 h-40 is_valid placeholder-gray-500 ph-center-observaciones sm:h-32 sm:w-66"
+                    placeholder="Observaciones del Mantenimiento Preventivo"
                     name="Observaciones"
-                    v-bind:maxlength="limite"
-                    onkeyup=check()
+                    v-bind:maxlength="limite"                    
                 />
                 <span class="text-xs text-gray-500">{{ restante }}/300</span>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class=" w-1/2 ml-20">
-                <ImagenesActividadCarril :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
+            <div class=" w-1/2 ml-20 sm:w-full sm:-ml-10 sm:mt-5 mt-6">
+                <ImagenesActividadCarril :reporteDataInsertada="reporteInsertado" :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
         ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
-                <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-32" :class="{'bg-gray-600 hover:bg-gray-600 hover:text-black cursor-not-allowed': modalLoading}">
-<!--                    <span class="h-24 w-3 hover:hidden">
-                        <span class="animate-ping absolute inline-flex h-10 w-10 rounded-full ml-20 bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 ml-24 mt-4 bg-green-400"></span>
-                    </span> -->
-                    <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                    <span>Crear</span>
-                </button>
+            <!-- reportInsert equivalente a usar route.params.tipoVista == 'crear o editar' -->
+                <div v-if="reporteInsert">
+                    <div v-if="!reporteInsertado">
+                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                            <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <span>Crear Reporte Actividades</span>                    
+                        </button>
+                    </div>
+                    <div v-else>
+                        <button :disabled="modalLoading" @click="crear_header_reporte(false)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                            <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <span>Crear Reporte Fotografico</span>                    
+                        </button>
+                    </div>
+                </div>
+                <div v-else>
+                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                        <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                        <span>Actualizar Reportes</span>                    
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -62,12 +74,11 @@
 
 import HeaderPreventivo from '../../components/Header/CrearHeaderPreventivo'
 import TablaActividadesCarril from '../../components/Actividades/TablaActividadesCarril'
-import ImagenesActividadCarril from '../../components/Actividades/ImagenesActividadCarril'
+import ImagenesActividadCarril from '../../components/ImagenesGenericas'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import Axios from 'axios';
 import moment from "moment";
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -87,7 +98,8 @@ export default {
             objetoLogDate: {},
             reporteInsert: true,
             modalLoading: false,
-            letras: 0
+            letras: 0,
+            reporteInsertado: false
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -101,7 +113,7 @@ export default {
             this.horaFin = newHora           
         });
     },
-    beforeMount: async function(){        
+    beforeMount: async function(){                
         if(!this.$route.query.edicion == true){              
             this.reporteInsert = true          
             this.header = this.$route.query.header 
@@ -126,7 +138,7 @@ export default {
                 setTimeout(() => {
                     this.$router.push({ path:'/ReportesMantenimiento/TablaActividades' })
                 }, 300);  
-            }                    
+            }                                 
         }
         else{                      
             this.reporteInsert = false                           
@@ -160,7 +172,8 @@ export default {
                 })
             })
             this.listaActividades = array_actividades
-            this.referenceNumber = headerCompuesto.referenceNumber            
+            this.referenceNumber = headerCompuesto.referenceNumber 
+            this.reporteInsertado = true                     
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -222,170 +235,107 @@ methods:{
                 return false    
             }
     },
-    ocultar_modal_loading(objReporte) {       
+    ocultar_modal_loading() {       
         this.modalLoading = false
-        setTimeout(async () => {
-            await ServiceReporte.generar_pdf_actividades_preventivo(objReporte.referenceNumber, objReporte.frecuenciaId, objReporte.tipoEncabezadoLane)
-            await ServiceReporte.generar_pdf_fotografico_preventivo(objReporte.referenceNumber, objReporte.lane)
-            this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})  
+        let tipoEncabezadoLane = this.header.capufeLaneNum != '0000' ? 'carril' : undefined
+        let objImg = {
+            referenceNumber: this.referenceNumber,
+            frecuenciaId : this.header.frequencyId,
+            tipoEncabezadoLane: tipoEncabezadoLane,
+            lane: this.header.lane
+        } 
+        setTimeout(async () => {            
+            await ServiceReporte.generar_pdf_actividades_preventivo(objImg.referenceNumber, objImg.frecuenciaId, objImg.tipoEncabezadoLane)
+            await ServiceReporte.generar_pdf_fotografico_preventivo(objImg.referenceNumber, objImg.lane)
+            this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})              
         }, 2000);                      
     },
-    async crear_header_reporte(){        
-        let validarActividades = this.listaActividades.every((actividad) => parseInt(actividad.jobStatus) != 0 )          
-        //DAtos Para Insertar ACtividades                                                         
-        let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                        
-        let arrayJob = []       
-        this.listaActividades.forEach(async (item) => {    
-            arrayJob.push({
-                    ReferenceNumber: this.referenceNumber,
-                    ComponentJob: parseInt(item.idJob),
-                    JobStatus: parseInt(item.jobStatus),
-                    flagUpdate: this.reporteInsert 
-            })    
-        });
-        //Datos PAra insertar HeaderREportData            
-        let user =  this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']                    
-        let fechaInsercion = ''
-        if(JSON.stringify(this.objetoLogDate) != '{}'){
-            let fechaAyuda = this.objetoLogDate.fecha.split('/')            
-            fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1] - 1, fechaAyuda[0])
-        }
-        else{
-            let fechaAyuda = this.header.day.split('/')
-            fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1] - 1, fechaAyuda[0])
-        }                                       
-        let headerReporte = {
-            ReferenceNumber: this.referenceNumber,
-            SquareId: refPlaza.numeroPlaza,
-            CapufeLaneNum: this.header.capufeLaneNum,
-            IdGare: this.header.idGare,
-            UserId: user.idUser,
-            AdminSquare: refPlaza.administradorId,
-            ReportDate: fechaInsercion,
-            Start: this.horaInicio,
-            End: this.horaFin,
-            Observations: this.observaciones,   
-            CalendarId: parseInt(this.header.calendarId)     
-        }               
-        let tipoEncabezadoLane = headerReporte.CapufeLaneNum != '0000' ? 'carril' : undefined
-        if(validarActividades){            
-            if(this.validar_horas()) {                                                 
-                if(this.reporteInsert) {     
-                        this.modalLoading = true                                                                                                       
-                        Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/false`,headerReporte, CookiesService.obtener_bearer_token())
-                        .then(() => { 
-                            CookiesService.refrescar_bearer_token() 
-                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
-                            .then(() => {  
-                                CookiesService.refrescar_bearer_token() 
-                                if(this.objetoLogDate.fecha != ''){                                    
-                                    let refPlaza = this.referenceNumber.split('-')[0]
-                                    let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-                                    let dateLog = {
-                                        calendarId: parseInt(this.header.calendarId)     ,
-                                        date: this.objetoLogDate.fecha,
-                                        userId: user.idUser,
-                                        referenceNumber: this.referenceNumber,
-                                        comment: this.objetoLogDate.motivo
-                                    }
-                                    Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog, CookiesService.obtener_bearer_token())
-                                        .then(() => {   
-                                            CookiesService.refrescar_bearer_token()                                                                                                                                 
-                                        }).catch(Ex => {      
-                                            if(Ex.response.status == 401)
-                                                CookiesService.token_no_autorizado()
-                                            console.log(Ex);                                       
-                                        })         
-                                } 
-                                let objImg = {
-                                    referenceNumber: this.referenceNumber,
-                                    frecuenciaId : this.header.frequencyId,
-                                    tipoEncabezadoLane: tipoEncabezadoLane,
-                                    lane: this.header.lane
-                                }                                                                     
-                                EventBus.$emit("guardar_imagenes", objImg)                                                   
-                                if(this.reporteInsert == true){                               
-                                    this.$notify.success({
-                                        title: "Ok!",
-                                        msg: `SE GENERARON LOS REPORTES CORRECTAMENTE.`,
-                                        position: "bottom right",
-                                        styles: {
-                                            height: 100,
-                                            width: 500,
-                                        },
-                                    });
-                                }                                
-                                /* this.$notify.success({
-                                    title: "Ok!",
-                                    msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
-                                    position: "bottom right",
-                                    styles: {
-                                        height: 100,
-                                        width: 500,
-                                    },
-                                });        */                                                                         
-                            })
-                            .catch(Ex => {    
-                                if(Ex.response.status == 401)
-                                    CookiesService.token_no_autorizado()                                                                                     
-                            })                                                                                                                                    
-                        })
-                        .catch(Ex => { 
-                            if(Ex.response.status == 401)
-                                CookiesService.token_no_autorizado()                                           
-                            console.log(Ex);
-                        });                                                                                                                                                                                          
-                }
-                else {  
-                    this.modalLoading = true
-                    Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`,headerReporte, CookiesService.obtener_bearer_token())
-                        .then(() => { 
-                            CookiesService.refrescar_bearer_token()     
-                            Axios.post(`${API}/Calendario/CalendarReportActivities/${refPlaza.refereciaPlaza}/${this.header.calendarId}`, arrayJob, CookiesService.obtener_bearer_token())
-                                .then(() => {                             
-                                    CookiesService.refrescar_bearer_token()  
-                                    let objImg = {
-                                        referenceNumber: this.referenceNumber,
-                                        frecuenciaId : this.header.frequencyId,
-                                        tipoEncabezadoLane: tipoEncabezadoLane,
-                                        lane: this.header.lane
-                                    }                                      
-                                    EventBus.$emit("guardar_imagenes", objImg);                                   
-                                    this.$notify.success({
-                                        title: "Ok!",
-                                        msg: `SE INSERTARON TODAS LAS ACTIVIDADES.`,
-                                        position: "bottom right",
-                                        styles: {
-                                            height: 100,
-                                            width: 500,
-                                        },
-                                    });                                                                                
-                                })
-                                .catch(Ex => {    
-                                    console.log(Ex)
-                                    if(Ex.response.status == 401)
-                                        CookiesService.token_no_autorizado()                                                                                     
-                                })
-                        })
-                        .catch((error) => {
-                            console.log(error)
-                            if(error.response.status == 401)
-                                CookiesService.token_no_autorizado()   
-                        })                                                           
-                }   
-            } 
-        }
-        else{
-            this.$notify.warning({
-                title: "Ups!",
-                msg: `FALTAN ESTATUS EN ACTIVIDADES.`,
-                position: "bottom right",
-                styles: {
-                    height: 100,
-                    width: 500,
-                },
-            });
-        }            
+    async crear_header_reporte(value){                                                      
+        if(this.validar_horas()) {                                                               
+            this.modalLoading = true   
+            let refPlaza =  this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.header.plazaNombre)                        
+            //Datos PAra insertar HeaderREportData            
+            let user =  this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']                    
+            let fechaInsercion = ''
+            if(JSON.stringify(this.objetoLogDate) != '{}'){
+                let fechaAyuda = this.objetoLogDate.fecha.split('/')            
+                fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1] - 1, fechaAyuda[0])
+            }
+            else{
+                let fechaAyuda = this.header.day.split('/')
+                fechaInsercion = new Date(fechaAyuda[2], fechaAyuda[1] - 1, fechaAyuda[0])
+            }                                       
+            let headerReporte = {
+                ReferenceNumber: this.referenceNumber,
+                SquareId: refPlaza.numeroPlaza,
+                CapufeLaneNum: this.header.capufeLaneNum,
+                IdGare: this.header.idGare,
+                UserId: user.idUser,
+                AdminSquare: refPlaza.administradorId,
+                ReportDate: fechaInsercion,
+                Start: this.horaInicio,
+                End: this.horaFin,
+                Observations: this.observaciones,   
+                CalendarId: parseInt(this.header.calendarId)     
+            }     
+            console.log(headerReporte)                                                                                                                            
+            Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/true`, headerReporte)
+            .then((response) => {                                                                                                       
+                    console.log(response)
+                    if(this.objetoLogDate.fecha != ''){                                    
+                        let refPlaza = this.referenceNumber.split('-')[0]
+                        let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+                        let dateLog = {
+                            calendarId: parseInt(this.header.calendarId)     ,
+                            date: this.objetoLogDate.fecha,
+                            userId: user.idUser,
+                            referenceNumber: this.referenceNumber,
+                            comment: this.objetoLogDate.motivo
+                        }
+                        Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
+                            .then(() => {                                                                                                                                   
+                            }).catch(error => {      
+                                console.log(error)                                                                      
+                            })         
+                    }                                                                                              
+                    if(this.reporteInsert){  
+                        //true insertar header actividades Reprote
+                        if(value) {
+                            EventBus.$emit('insertar-todas-actividades')
+                            this.reporteInsertado = true    
+                        }
+                        //false insertar o  no reporte fotograficos
+                        else {
+                            this.ocultar_modal_loading()
+                        }                                                
+                        this.$notify.success({
+                            title: "Ok!",
+                            msg: `SE GENERARON LOS REPORTES CORRECTAMENTE.`,
+                            position: "bottom right",
+                            styles: {
+                                height: 100,
+                                width: 500,
+                            },
+                        });                        
+                    }
+                    else{                                                
+                        this.$notify.success({
+                            title: "Ok!",
+                            msg: `SE ACTUALIZARON LAS ACTIVIDADES.`,
+                            position: "bottom right",
+                            styles: {
+                                height: 100,
+                                width: 500,
+                            },
+                        });
+                        this.ocultar_modal_loading()
+                    }                                                                                                   
+                    
+            })
+            .catch(error => {                                                                                                  
+                console.log(error);
+            });                                                                                                                                                                                                    
+        }                   
     }    
 }
 

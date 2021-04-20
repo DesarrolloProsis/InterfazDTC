@@ -2,7 +2,7 @@
     <div>
         <div v-if="forma == ''">
             <p class="text-md font-bold mb-1 mt-1 text-gray-900">Cambiar Plaza</p>
-            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
                 <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
@@ -11,7 +11,7 @@
         </div>
         <div v-if="forma == 'encargado'">
             <!--<p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>-->
-            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48" type="text" name="TipoDescripcion">
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
                 <option :disabled="tipo == 'insercion'" value>Selecionar...</option>
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
@@ -68,8 +68,7 @@ export default {
     beforeMount: async function() {
         if(this.fullPlazas){
             this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
-            this.listaPlazas = this.listaPlazas.filter(item => item.statusAdmin == true)
-            console.log(this.listaPlazas)  
+            this.listaPlazas = this.listaPlazas.filter(item => item.statusAdmin == true)            
             if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
                 let plazasSinRepetir = []
                 this.listaPlazas.forEach(element => {                                        
@@ -96,9 +95,9 @@ export default {
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
             this.boolCambiarPlaza = true
             this.isDtc = true
-        }
-        else if(this.tipo != 'filtro'){
-            let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza(undefined, this.listaPlazas, this.listaHeaders)    
+        }        
+        else if(this.tipo == 'insercion'){            
+            let { plazaSelect, convenioSelect } = await  ServiceCookies.actualizar_plaza()    
             this.plazaSelect = plazaSelect
             this.convenioSelect = convenioSelect
             this.boolCambiarPlaza = false
@@ -108,7 +107,7 @@ export default {
         actualizar_plaza: async function(){   
             if(this.plazaSelect != ''){
                 if(this.tipo != 'filtro'){                                           
-                    this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect, this.listaPlazas, this.listaHeaders)
+                    this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect.administradorId).convenioSelect
                     EventBus.$emit('ACTUALIZAR_INVENTARIO')
                 }
                 this.$emit('actualizar-plaza', this.plazaSelect.numeroPlaza)   
@@ -122,6 +121,14 @@ export default {
     computed:{
         ...mapState('Header', ['listaHeaders'])
     },
+    watch: {
+        selectPlazaState(newValue){            
+            this.plazaSelect = newValue
+        },
+        selectHeaderPlaza(newValue){                
+            this.convenioSelect = newValue
+        }
+    }
 }
 </script>
 

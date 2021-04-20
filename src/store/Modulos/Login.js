@@ -5,7 +5,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
 const state = {
   listaHeaderDtcUser: null,
   listaPlazas: [],
-  cookiesUser: {},
+  cookiesUser: { nombreRoll: ''},
   listaTec: [],
   plazaSelecionada: {},  
   tipoUsuario: [
@@ -28,7 +28,7 @@ const getters = {
       idUser: state.cookiesUser.userId
     }
   },  
-  GET_USER_IS_LOGIN: () => state.cookiesUser.registrado,
+  GET_USER_IS_LOGIN: () => state.cookiesUser.registrado  == undefined ? false : state.cookiesUser.registrado,
   GET_REFERENCIA_ACTUAL_PLAZA: () => state.plazaSelecionada.refereciaPlaza,
   GET_REFERENCIA_PLAZA_TO_NOMBRE: (state) => (nombrePlaza) =>  state.cookiesUser.plazasUsuario.find(item => item.plazaNombre ==  nombrePlaza),
   GET_TIPO_USUARIO: () => state.cookiesUser.rollId,    
@@ -42,7 +42,7 @@ const mutations = {
   cleanOut: (state) => {
     state.listaHeaderDtcUser = []
     state.listaPlazas = []
-    state.cookiesUser = []
+    state.cookiesUser = { nombreRoll: '' }
   },
   LISTA_HEADER_PLAZA_USER_MUTATION: (state, value) => state.listaHeaderDtcUser = value,  
 };
@@ -50,25 +50,21 @@ const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
   async BUSCAR_HEADER_OTRO_TECNICO({ commit }, value) {
     await Axios.get(`${API}/login/buscarHeaderTec/${value}`, CookiesService.obtener_bearer_token())
-      .then(response => {
-        CookiesService.refrescar_bearer_token()
+      .then(response => {        
         commit("LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result);
       })
       .catch(error => {
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)                  
       });
   },
   //CONSULTA PARA LISTAR TODOS LO TECNICOS DE UNA PLAZA
   async BUSCAR_TECNICOS_PLAZA({ commit }, value) {
     await Axios.get(`${API}/login/buscarTec/${value}`, CookiesService.obtener_bearer_token())
-      .then(response => {
-        CookiesService.refrescar_bearer_token()
+      .then(response => {        
         commit("LISTA_TECNICOS_MUTATION", response.data.result);
       })
       .catch(error => {
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)          
       });
   },
   //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
@@ -97,25 +93,35 @@ const actions = {
       password: value.Password,      
     }     
     await Axios.post(`${API}/login`,objLogin)
-      .then(response => {      
-        console.log(response)          
-        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))                                               
+      .then(response => {              
+        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))                                                 
       })
       .catch(() => {                
       });
   },
   //CONULTA PARA LISTAR LAS PLAZAS
   async BUSCAR_PLAZAS({ commit }) {                    
-    await Axios.get(`${API}/squaresCatalog`, CookiesService.obtener_bearer_token())
-      .then(response => {  
-        CookiesService.refrescar_bearer_token()      
+    await Axios.get(`${API}/squaresCatalog`)
+      .then(response => {        
+        console.log(response)
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(error => {        
-        if(error.response.status == 401)
-          CookiesService.token_no_autorizado()
+        console.log(error)
       });
   },
+  async REFRESCAR_TOKEN_USER({ state }){  
+    let objRefresh = {
+      UserId: state.cookiesUser.userId
+    }     
+    await Axios.post(`${API}/login/Refresh`, objRefresh)
+    .then((response) => {        
+        console.log(response)   
+    })
+    .catch(error => {        
+      console.log(error)            
+    });
+  }
 };
 export default {
   namespaced: true,

@@ -1,3 +1,4 @@
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 function obtener_array_imagenes(e, arrayComponete) {
     let contar = arrayComponete.length
     let array_imagenes = arrayComponete
@@ -7,8 +8,7 @@ function obtener_array_imagenes(e, arrayComponete) {
             let obj = {
                 imgbase: e.target.result.split(",")[1],
                 name: file.name.substr(-20),
-            };            
-            console.log(obj.name)
+            };                        
             array_imagenes.push(obj);            
         };
         reader.readAsDataURL(file);
@@ -21,9 +21,17 @@ function obtener_array_imagenes(e, arrayComponete) {
                 crear_imagen(item)
                 contar++
             }                
-        }                     
+        }                    
         return array_imagenes
     }
+}
+function obtener_array_imagenes_agregadas(urlLocal, arrayComponete){
+    let paramsSplit = urlLocal.split('\\')
+    arrayComponete.push({
+        imgbase: `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`,
+        name: ''
+    })
+    return arrayComponete
 }
 function base64_to_file(dataurl, fileName) {    
     let url = "data:image/jpeg;base64," + dataurl;      
@@ -39,5 +47,6 @@ function base64_to_file(dataurl, fileName) {
 }
 export default {
     obtener_array_imagenes,
+    obtener_array_imagenes_agregadas,
     base64_to_file
 }

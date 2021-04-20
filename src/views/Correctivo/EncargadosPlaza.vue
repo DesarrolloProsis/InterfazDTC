@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <Nav></Nav>
+    <div>        
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3" >
                 <!--///////////////////////////////////////////////////////////////////
@@ -48,7 +47,7 @@
                                         />
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
-                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="typeUser == 4 || typeUser == 10">
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)">
                                         <img
                                             src="../../assets/img/bin.png"
                                             class="mr-2 sm:m-1"
@@ -115,8 +114,8 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <!--<SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza>-->
-                        <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly>
+                        <SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>
+                        <!-- <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly> -->
                     </div>
                     <div class="mt-5 text-center">
                         <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>
@@ -129,19 +128,16 @@
 </template>
 <script>
 import Axios from 'axios';
-import Nav from "../../components/Navbar";
 import CookiesService from '../../services/CookiesService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import FiltrosServices from "../../services/FiltrosDTCServices";
 import EventBus from "../../services/EventBus"
 import SelectPlaza from '../../components/Header/SelectPlaza';
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "EncargadosDePlaza",
-    components:{
-        Nav,
+    components:{        
         HeaderGenerico,
         SelectPlaza
     },
@@ -173,31 +169,28 @@ export default {
         }
     },
     beforeMount: function (){
-        this.typeUser = this.$store.state.Login.cookiesUser.rollId
-        console.log(this.typeUser)
-        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId        
+        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
-        }).catch((Ex)=>{
-            if(Ex.response.status == 401)
-                CookiesService.token_no_autorizado()
+        }).catch((error)=>{
+            console.log(error)
         })
+
     },
     methods:{
         actualizarFiltro(){
-            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`, CookiesService.obtener_bearer_token())
-                .then((response)=>{
-                    //console.log(response.data)
+            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
+                .then((response)=>{      
+                    console.log(response)              
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
-                }).catch((Ex)=>{
-                    if(Ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
+                }).catch((error)=>{
+                    console.log(error)                        
                 }) 
         },
         filtrar_encargados(value){
-            //console.log(value)
             this.listaencargadosFilrada = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
         },
         limpiar_encargados(){
@@ -226,24 +219,21 @@ export default {
             }else{
                 this.modalAgregar = false
                 this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza
-                console.log(this.insertAdmin)
-                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin, CookiesService.obtener_bearer_token())
-                .then((response) => {
-                    console.log(response)
+                console.log(this.insertAdmin)                
+                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
+                .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
-                }).catch((ex) => {
-                    console.log(ex)
+                }).catch((error) => {
+                    console.log(error)
                 })
             }
         },
         actualziar_header_plazas(){
-            let userId = this.$store.state.Login.cookiesUser.userId
-            console.log(userId)
+            let userId = this.$store.state.Login.cookiesUser.userId            
             //plazas 
             Axios.post(`${API}/login/Cookie`, { userId: userId })
-            .then((response) => {     
-                console.log(response)
+            .then((response) => {                     
                 let plazasUsuario =  response.data.result.cookie.map(item => {        
                     return {
                         refereciaPlaza: item.referenceSquare,
@@ -257,11 +247,11 @@ export default {
                 this.$store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION',plazasUsuario)
                 //Header Lista LArga 
                 Axios.post(`${API}/login/LoginInfo`, { userId: userId })
-                .then((response) => {
-                    console.log(response)
+                .then((response) => {                    
                     this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
-                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)
-                    console.log(response)
+                    this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)      
+                    let cookiesUser = this.$store.state.Login.cookiesUser
+                    localStorage.setItem('cookiesUser', JSON.stringify(cookiesUser))              
                 })               
             }) 
             .catch((error) => {
@@ -269,8 +259,7 @@ export default {
             })
         },
         confimaBorrar (item) {
-            this.infoDelate = item
-            //console.log(this.infoDelate)
+            this.infoDelate = item            
             this.modalEliminar = true;           
         },
         borrar (){
@@ -278,31 +267,27 @@ export default {
             let objStatusUpdate = {
                 status: false,
                 adminId: this.infoDelate.adminSquareId} 
-                Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate, CookiesService.obtener_bearer_token())
-                .then((response) => {
-                    console.log(response)
+                Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate)
+                .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
-                }).catch((ex) => {
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
-                    console.log(ex)
+                }).catch((error) => {
+                    console.log(error)                                            
                 })      
         },
-        editarUsuario (item) {
+        editarUsuario (item) {            
+            CookiesService.actualizar_plaza(item.adminSquareId)
             this.editUser.userId = item.adminSquareId
             this.editUser.name = item.name
             this.editUser.lastName1 = item.lastName1
             this.editUser.lastName2 = item.lastName2
             this.editUser.plaza = item.squareName
             this.editUser.plazaId = item.squareCatalogId
-            this.editUser.mail = item.mail,
-            this.modalEditar = true;
-            console.log(item)
+            this.editUser.mail = item.mail,            
+            this.modalEditar = true;                              
         },
         actualizarUsuario (){
-            let valueEdit = Object.values(this.editUser)
-            console.log(valueEdit)
+            let valueEdit = Object.values(this.editUser)            
             if (valueEdit.some(item => item == '')){
                 this.$notify.warning({
                     title: "Ups!",
@@ -320,14 +305,11 @@ export default {
                     apellidoM: this.editUser.lastName2, 
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
-                    adminId: this.editUser.userId}
-                console.log(objUpdateAdmin)    
-                Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin, CookiesService.obtener_bearer_token())
-                .then((response) => {
-                    console.log(response)
+                    adminId: this.editUser.userId}                              
+                Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
+                .then(() => {                    
                     this.actualizarFiltro()
-                    this.actualziar_header_plazas()
-                    console.log(objUpdateAdmin)
+                    this.actualziar_header_plazas()                    
                 }).catch((ex)=>{
                     if(ex.response.status == 401)
                         CookiesService.token_no_autorizado()

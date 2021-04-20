@@ -118,10 +118,7 @@ function filtro_mes (listaDTC, mes) {
     return listaFiltrada
 }
 function filtro_encargados_plaza (listaEncargados, plaza, nombre){
-    let encargadosFiltrados = []
-    //console.log(listaEncargados)
-    //console.log(plaza)
-    //console.log(nombre.length)
+    let encargadosFiltrados = [] 
     if(plaza != ''){
         encargadosFiltrados = listaEncargados.filter(encargado => encargado.squareCatalogId == plaza)
     }
@@ -138,9 +135,23 @@ function filtro_encargados_plaza (listaEncargados, plaza, nombre){
     }
     return encargadosFiltrados
 }
-export default
-{
+function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){
+    console.log({
+        listaDiagnostico,
+        plaza: objFiltro.plaza,
+        fecha: objFiltro.fecha,
+        numeroReferencia: objFiltro.numeroReferencia,
+        ubicacion: objFiltro.ubicacion
+    })
+    let listaFiltrada = []
+
+    return listaFiltrada
+
+
+}
+export default {
     filtrarDTC,
     filtrar_calendario_historico,
-    filtro_encargados_plaza
+    filtro_encargados_plaza,
+    filtros_concentrado_diagnostico
 }

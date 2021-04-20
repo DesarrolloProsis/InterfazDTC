@@ -14,36 +14,36 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
                   <tr class="text-sm text-gray-400 font-normal bg-blue-800">
-                    <th class="px-1 border-2 border-gray-800">Partida</th>
-                    <th class="px-1 border-2 border-gray-800 w-16">Unidad</th>
-                    <th class="px-4 text-red-600 border-2 border-gray-800">Componente</th>
-                    <th class="px-4 text-red-600 border-2 border-gray-800">Cantidad</th>
-                    <th class="px-4 border-2 border-gray-800 xl:w-32">Marca</th>
-                    <th class="px-4 border-2 border-gray-800 xl:w-32">Modelo</th>
-                    <th class="px-4 border-2 border-gray-800 xl:w-32">Numero de Serie</th>
-                    <th class="px-4 border-2 border-gray-800 text-red-600">Ubicacion<br />(carril/cuerpo)</th>
-                    <th class="px-4 border-2 border-gray-800">Fecha de Instalacion</th>
-                    <th class="px-4 border-2 border-gray-800">Fecha<br />(Ultimo Mantenimiento)</th>
-                    <th class="px-4 border-2 border-gray-800">Folio<br />(Ultimo Mantenimiento)</th>
-                    <th class="px-12 border-2 border-gray-800">Real</th>
-                    <th class="px-1 border-2 border-gray-800 w-20">Fabricante</th>
-                    <th class="px-4 border-2 border-gray-800">Acciones</th>
+                    <th class="cabeceraTable">Partida</th>
+                    <th class="cabeceraTable">Unidad</th>
+                    <th class="text-red-600 cabeceraTable">Componente</th>
+                    <th class="text-red-600 cabeceraTable">Cantidad</th>
+                    <th class="cabeceraTable xl:w-32">Marca</th>
+                    <th class="cabeceraTable xl:w-32">Modelo</th>
+                    <th class="cabeceraTable xl:w-32">Numero de Serie</th>
+                    <th class="cabeceraTable text-red-600">Ubicacion<br />(carril/cuerpo)</th>
+                    <th class="cabeceraTable">Fecha de Instalacion</th>
+                    <th class="cabeceraTable">Fecha<br />(Ultimo Mantenimiento)</th>
+                    <th class="cabeceraTable">Folio<br />(Ultimo Mantenimiento)</th>
+                    <th class="cabeceraTable">Real</th>
+                    <th class="cabeceraTable w-20">Fabricante</th>
+                    <th class="cabeceraTable">Acciones</th>
                   </tr>
                 </thead>
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CUERPO DE LA TABLA                          ////
                 ////////////////////////////////////////////////////////////////////-->
-                <tbody>
+                <tbody name="table" is="transition-group">    
                   <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
                       <div v-else>{{ objectEditar.rowUpd1 }}</div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
                       <div v-else>{{ objectEditar.rowUpd2 }}</div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                       <!--<div v-else>
                         <multiselect
@@ -65,25 +65,25 @@
                       </div>-->
                       <div v-else></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
                       <div v-else>{{ objectEditar.rowUpd4 }}</div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
                       </div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
                       </div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
                       <!-- <div v-else>
                         <multiselect
@@ -102,27 +102,27 @@
                       </div> -->
                       <div v-else></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row9" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd9" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row10" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd10" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row11" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd11" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row12" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd12" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd13" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="border border-gray-800 pb-2">
+                    <td class="cuerpoTable pb-2">
                       <div v-if="equipo.rowUp">
                         <button
                     v-on:click.stop.prevent="deleteItem(index)"
@@ -164,79 +164,79 @@
                         </button>
                       </div>
                     </td>
-                  </tr>
+                  </tr>           
+                </tbody>
                   <!--/////////////////////////////////////////////////////////////////
                     ////           FOOTER DE LA TABLA + PARTIDA                      ////
-                  ////////////////////////////////////////////////////////////////////-->
-                  <tr class="text-center">
-                    <td class="border border-gray-800">{{ "*" }}</td>
-                    <td class="border border-gray-800">{{ datosPrePartida.rowUnidad.toString() }}</td>
-                    <td class="border border-gray-800">
-                      <button @click="modalAgregarComp">
-                        <img
-                          src="../../assets/img/more.png"
-                          width="15"
-                          height="15"
-                        />
-                      </button>
-                      <multiselect
-                          @open="UnClick"                          
-                          @select="update_componente"
-                          v-model="updtComp"
-                          :options="listaComponentes"
-                          :multiple="false"
-                          group-values="secundarios"
-                          group-label="componentePrincipal"
-                          :close-on-select="true"
-                          :group-select="false"
-                          placeholder="Buscar componentes"
-                          track-by="name"
-                          openDirection="below"
-                          class="md:hidden lg:hidden xl:hidden"
-                          label="description"
-                      ><span slot="noResult"></span>
-                      </multiselect>
-                    </td>
-                    <td class="border border-gray-800 w-1">
-                      <template v-if="statusMetro">
-                        <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
-                      </template>
-                      <template v-else>
-                        {{ datosPrePartida.rowCantidad }}
-                      </template>                      
-                    </td>
-                    <td class="border border-gray-800">{{ datosPrePartida.rowMarca.toString() }}</td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800">
-                      <multiselect
-                          v-model="laneSelect"                                                  
-                          :close-on-select="false"
-                          :clear-on-select="true"
-                          :hideSelected="false"
-                          placeholder="Selecciona..."
-                          :options="listLane"
-                          :multiple="true"
-                          class="md:hidden lg:hidden xl:hidden"
-                        >
-                        <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
-                          <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                  ////////////////////////////////////////////////////////////////////-->      
+                    <tr class="text-center">
+                      <td class="cuerpoTable">{{ "*" }}</td>
+                      <td class="cuerpoTable">{{ datosPrePartida.rowUnidad.toString() }}</td>
+                      <td class="cuerpoTable">
+                        <button @click="modalAgregarComp">
+                          <img
+                            src="../../assets/img/more.png"
+                            width="15"
+                            height="15"
+                          />
+                        </button>
+                        <multiselect
+                            @open="UnClick"                          
+                            @select="update_componente"
+                            v-model="updtComp"
+                            :options="listaComponentes"
+                            :multiple="false"
+                            group-values="secundarios"
+                            group-label="componentePrincipal"
+                            :close-on-select="true"
+                            :group-select="false"
+                            placeholder="Buscar componentes"
+                            track-by="name"
+                            openDirection="below"
+                            class="md:hidden lg:hidden xl:hidden"
+                            label="description"
+                        ><span slot="noResult"></span>
+                        </multiselect>
+                      </td>
+                      <td class="cuerpoTable w-1">
+                        <template v-if="statusMetro">
+                          <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
                         </template>
-                      </multiselect>
-                    </td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateInstalacion" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateMantenimiento" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowFolioMantenimiento" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
-                    <td class="border border-gray-800 p-2">
-                      <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24 hidden">
-                        <img src="../../assets/img/more.png" width="20" height="20" />
-                        <span class="text-xs">Agregar Partida</span>
-                      </button>
-                    </td>
+                        <template v-else>
+                          {{ datosPrePartida.rowCantidad }}
+                        </template>                      
+                      </td>
+                      <td class="cuerpoTable">{{ datosPrePartida.rowMarca.toString() }}</td>
+                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable">
+                        <multiselect
+                            v-model="laneSelect"                                                  
+                            :close-on-select="false"
+                            :clear-on-select="true"
+                            :hideSelected="false"
+                            placeholder="Selecciona..."
+                            :options="listLane"
+                            :multiple="true"
+                            class="md:hidden lg:hidden xl:hidden"
+                          >
+                          <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                          </template>
+                        </multiselect>
+                      </td>
+                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateInstalacion" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateMantenimiento" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowFolioMantenimiento" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable p-2">
+                        <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24 hidden">
+                          <img src="../../assets/img/more.png" width="20" height="20" />
+                          <span class="text-xs">Agregar Partida</span>
+                        </button>
+                      </td>
                   </tr>
-                </tbody>
               </table>
             </div>
           </div>
@@ -254,18 +254,18 @@
         </div>
         <div class="flex justify-center">
           <div class="grid gap-4 grid-cols-1">
-            <div class="sm:text-xs" :class="{ 'overflow-x-auto': scrollBool}">
-              <table class="border-collapse">
+            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:text-xs" :class="{ 'overflow-x-auto': scrollBool}">
+              <table class="border-collapse ">
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                 CABECERA DE LA TABLA                       ///////
                 ////                       PEQUEÑA                              ///////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
                   <tr class="border text-xs bg-blue-800 text-white">
-                    <th class="w-20 border-2 border-gray-800">Partida</th>
-                    <th class="w-48 border-2 border-gray-800 text-red-600">Componente</th>
-                    <th class="w-48 border-2 border-gray-800 text-red-600">Ubicacion<br />(carril/cuerpo)</th>
-                    <th class="w-48 border-2 border-gray-800">Acciones</th>
+                    <th class="w-20 cabeceraTable">Partida</th>
+                    <th class="w-48 cabeceraTable text-red-600">Componente</th>
+                    <th class="w-48 cabeceraTable text-red-600">Ubicacion<br />(carril/cuerpo)</th>
+                    <th class="w-48 cabeceraTable">Acciones</th>
                   </tr>
                 </thead>
                 <!--//////////////////////////////////////////////////////////////////
@@ -273,11 +273,11 @@
                  /////////////////////////////////////////////////////////////////-->
                 <tbody>
                   <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
-                    <td class="border border-gray-800 text-sm">
+                    <td class="cuerpoTable text-sm">
                       <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
                       <div v-else>{{ objectEditar.rowUpd1 }}</div>
                     </td>
-                    <td class="border border-gray-800 text-sm">
+                    <td class="cuerpoTable text-sm">
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
 <!--                       <div v-else>
                         <multiselect
@@ -301,7 +301,7 @@
                       </div> -->
                       <div v-else></div>
                     </td>
-                    <td class="border border-gray-800 text-sm">
+                    <td class="cuerpoTable text-sm">
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
 <!--                       <div v-else>
                         <multiselect
@@ -328,7 +328,7 @@
                       </div> -->
                       <div v-else></div>
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable0">
                       <div v-if="equipo.rowUp">
                         <button
                         v-on:click.stop.prevent="deleteItem(index)"
@@ -389,8 +389,8 @@
                   ////           FOOTER DE LA TABLA + PARTIDA                      //////
                   ////////////////////////////////////////////////////////////////////-->
                   <tr class="text-center">
-                    <td class="border border-gray-800">{{ "*" }}</td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">{{ "*" }}</td>
+                    <td class="cuerpoTable">
                       <button @click="modalAgregarComp">
                         <img src="../../assets/img/more.png" width="20" height="20" />
                       </button>
@@ -415,7 +415,7 @@
                         >
                       </multiselect>                
                     </td>
-                    <td class="border border-gray-800">
+                    <td class="cuerpoTable">
                       <multiselect
                         v-model="laneSelect"
                         @open="scrollBool = false"                        
@@ -433,7 +433,7 @@
                         </template>
                       </multiselect>
                     </td>
-                    <td class="border border-gray-800 p-3">
+                    <td class="cuerpoTable p-3">
                       <button
                         v-on:click.stop.prevent="agregarPartida()"
                         class="botonIconCrear hidden"
@@ -458,54 +458,54 @@
       ////              MODAL INFORMACION CELULAR                     ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="flex flex-col p-5" v-if="modal">
-        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
+        <div class="text-xs text-center contenedor z-40">
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Componete</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Componete</p>
               <p>{{ objectModal.row3.description }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Carriles</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Carriles</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row8" :key="id">{{ item | formatPlaza }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Marca</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Marca</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row5" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Numero Serie</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Numero Serie</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row7" :key="id">{{ item }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Modelo</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Modelo</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row6" :key="id">{{ item }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Folio</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Folio</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row11" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Fecha de Instalacion</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha de Instalacion</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row9" :key="id">{{ item | formatDate }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Fecha Ultimo Mantenimiento</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha Ultimo Mantenimiento</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row10" :key="id">{{ item | formatDate }}</p>
             </div>
             <div class="w-24 m-1">
               <p></p>
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Tiempo de Vida Real</p>
+              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Tiempo de Vida Real</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row12" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="flex justify-end">
             <button
               v-on:click.stop.prevent="(modal = false), (objectModal = {})"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+              class="hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded-lg inline-flex items-center border-b-2 border-red-700 m-2"
             >
               <img
                 src="../../assets/img/cerrar.png"
@@ -1111,8 +1111,7 @@ watch: {
           this.relationShipPrincipal,
           undefined, 
           newValue.length         
-        );
-        //console.log(this.datosPrePartida)
+        );        
         if(this.datosPrePartida.rowUnidad == 'METRO'){
           this.statusMetro = true
         }

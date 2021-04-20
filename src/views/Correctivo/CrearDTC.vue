@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nav></Nav>
+  <div>    
     <!-- //////////////////////////////////////////////////////////////////
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
@@ -15,7 +14,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                      FILA NUMERO 1                            ////
     /////////////////////////////////////////////////////////////////////// -->
-        <div class="border border-black">
+        <div class="border border-gray-300 shadow-md rounded-lg">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
             <br />
@@ -38,7 +37,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        OBSERVACIONES                         ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="items-center">
+        <div class="items-center ">
           <p class="text-center">
             <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
           </p>
@@ -46,8 +45,8 @@
             v-model="observaciones"
             v-validate="'max:300'"
             :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-40 placeholder-gray-500 border"
-            placeholder="jane@example.com"
+            class="rounded-lg py-4 mb-0 h-40 placeholder-gray-500 ph-center-observaciones"
+            placeholder="Indica las observaciones necesarias del siniestro"
             name="Observaciones"
             v-bind:maxlength="limite"
           />
@@ -57,7 +56,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        FILA NUMERO 2                         ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="border border-black items-center">
+        <div class="border border-gray-300 shadow-md rounded-lg items-center">
           <p style="text-align: center">
             <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
             <br />
@@ -71,7 +70,7 @@
           </p>
         </div>
         <div></div>
-        <div class="border border-black">
+        <div class="border border-gray-300 shadow-md rounded-lg">
           <p style="text-align: center">
             <br />
             <br />
@@ -89,20 +88,15 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                           BOTONES                            ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-700 sm:mb-20" style="padding: 3vw;">
+        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(1)"
-              class="botonIconBuscar"
-            >
+            <button @click="crearDTCTecnico(1)" class="botonIconBuscar">
               <img src="../../assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
-            <button
-              @click="crearDTCTecnico(2)"
-              class="botonIconCrear"
-            >
+            <button @click="crearDTCTecnico(2)" class="botonIconCrear">
               <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
@@ -114,7 +108,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import Header from "../../components/Header/CrearHeader";
 import EventBus from "../../services/EventBus.js";
 import ServiceReporte from '../../services/ReportesPDFService'
@@ -123,8 +116,7 @@ export default {
   props: {
     method: { type: Function },
   },
-  components: {
-    Nav,
+  components: {    
     Header,
   },
   data() {
@@ -169,8 +161,7 @@ computed:{
   restante(){
     return this.observaciones.length
   },
-    headerSelecionado(){
-    //console.log(this.$store.getters["Header/GET_HEADER_SELECCIONADO"])
+    headerSelecionado(){    
     return this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
   }
 },

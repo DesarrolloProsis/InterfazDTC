@@ -1,19 +1,25 @@
 @tailwind base;
-
-.is_valid {
-
-    @apply border;
-    @apply border-green-500;
+.is_validPlaza {
+    @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
 }
-
+.is_valid {
+    @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
+}
 .is_invalid {
-
     @apply border;
     @apply border-red-500;
 }
-
+.contenedor {
+    @apply mt-1 block w-full border-2 bg-gray-100 rounded-xl shadow-xl;
+}
+.input{
+    @apply mt-1 block w-full border-b-2 border-gray-400 bg-gray-100  rounded-xl shadow-lg;
+}
+.pdtcpendientes{
+    @apply font-semibold mb-2;
+}
 input {
-    @apply bg-gray-200;        
+    @apply bg-gray-100;        
     @apply rounded-lg;
     @apply outline-none;
     @apply border-gray-600;   
@@ -24,7 +30,7 @@ input {
 input:hover {      
     @apply bg-white;   
     @apply border-gray-300;
-    @apply border-gray-700;
+    @apply border-gray-600;
 }
 input:focus {
     @apply border-gray-300; 
@@ -46,7 +52,6 @@ textarea:hover {
     @apply border-gray-700;
 }
 textarea:focus {
-
     @apply border-gray-300; 
     @apply shadow-none;
     @apply bg-white;
@@ -79,7 +84,6 @@ select:focus {
 .botonIconLimpiar:focus{
     @apply outline-none;
 }
-
 .botonIconBuscar{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -89,15 +93,12 @@ select:focus {
 .botonIconBuscar:focus{
     @apply outline-none;
 }
-
 .cabeceraTable{
     @apply py-2 px-3 top-0 border-b border-gray-200 bg-blue-800;
 }
-
 .cuerpoTable{
     @apply border-dashed border-t border-gray-200 px-3;
 }
-
 .botonIconCrear{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -107,7 +108,21 @@ select:focus {
 .botonIconCrear:focus{
     @apply outline-none;
 }
-
+.botonIconSellado{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-1 px-1 inline-flex items-center;
+}
+.botonIconSellado:hover{
+    @apply border-red-800 bg-red-500 text-white transition duration-500;
+}
+.botonIconSellado:focus{
+    @apply outline-none;
+}
+.botonDeshabilitado{
+    @apply bg-gray-600 tracking-wide font-bold rounded border-b-2 border-black shadow-md py-1 px-1 inline-flex items-center cursor-not-allowed;
+}
+.botonDeshabilitado:hover{
+    @apply bg-gray-600 text-black transition duration-500;
+}
 .botonIconCancelar{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
@@ -117,17 +132,15 @@ select:focus {
 .botonIconCancelar:focus{
     @apply outline-none;
 }
-
 .botonIconActualizar{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-yellow-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconActualizar:hover{
-    @apply border-orange-500 bg-yellow-400 text-white transition duration-500;
+    @apply border-orange-500 bg-yellow-400 text-black transition duration-500;
 }
 .botonIconActualizar:focus{
     @apply outline-none;
 }
-
 .botonIconDescargar{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
@@ -137,7 +150,6 @@ select:focus {
 .botonIconDescargar:focus{
     @apply outline-none;
 }
-
 .botonIconNext{
     @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -147,7 +159,6 @@ select:focus {
 .botonIconNext:focus{
     @apply outline-none;
 }
-
 .botonIconBorrarCard{
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-red-600 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
@@ -157,29 +168,24 @@ select:focus {
 .botonBorrarCard:focus{
     @apply outline-none;
 }
-
 .botonIconEditCard{
     @apply bg-white tracking-wide text-gray-800 border-b-2 border-yellow-500 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
 }
-
 .botonIconEditCard:hover{
     @apply border-orange-500 bg-yellow-400 text-white transition duration-500;
 }
 .botonIconEditCard:focus{
     @apply outline-none;
 }
-
 .botonIconMas{
     @apply bg-white tracking-wide text-gray-800 border-b-2 border-blue-500 shadow-md text-xs font-bold py-2 px-2 rounded inline-flex items-center mt-1;
 }
-
 .botonIconMas:hover{
     @apply border-blue-500 bg-blue-300 text-white transition duration-500;
 }
 .botonIconMas:focus{
     @apply outline-none;
 }
-
 .botonEnviarPDF{
     @apply bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md inline-flex items-center;
 }
@@ -198,7 +204,6 @@ select:focus {
 .botonBajar:focus{
     @apply outline-none;
 }
-
 .botonDescargar{
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-blue-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
@@ -208,17 +213,15 @@ select:focus {
 .botonDescargar:focus{
     @apply outline-none;
 }
-
 .botonSubir{
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-green-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
 .botonSubir:hover{
-    @apply border-green-800 bg-green-300 text-white;
+    @apply border-green-800 bg-green-300 text-white transition duration-500;
 }
 .botonSubir:focus{
     @apply outline-none;
 }
-
 .botonBajar{
     @apply rounded-full shadow-md inline-flex items-center;
 }
@@ -228,17 +231,59 @@ select:focus {
 .botonBajar:focus{
     @apply outline-none;
 }
-
 .animacion{
     @apply transition duration-500 ease-in-out; 
 }
 .animacion:hover{
     @apply transform -translate-y-1 scale-105;
 }
-
+.ph-center-observaciones::-webkit-input-placeholder {
+    text-align: center;
+    line-height: 100px;/* Centrado vertical */
+}
+.ph-center::-webkit-input-placeholder {
+    text-align: center;
+    line-height: 50px;/* Centrado vertical */
+}
+.fechaDiag {
+    @apply border-none bg-gray-100  rounded-xl shadow-lg;
+}
+.inputDiag{
+    @apply bg-white border-none w-full
+}
 @tailwind components;
 
 @tailwind utilities;
         
+
+@layer utilities {
+    .slide-fade-enter-active {
+        transition: all .3s ease ;
+    }
+    .slide-fade-leave-active {
+        transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+    .list-enter-active, .list-leave-active {
+        transition: all 2s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    .table-enter-active, .table-leave-active {
+        transition: all 2s;
+    }
+    .table-enter, .table-leave-to /* .list-leave-active below version 2.1.8 */ {
+        opacity: 0;        
+        transform: translateY(10px);
+        transition: all 2s
+    }
+    
+}
 
 

@@ -21,15 +21,15 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
         : eventos_calendario_formato(objApi)      
             
-    if (status != undefined){                
+    if (status != undefined){
         listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)        
     }
     if (carril != undefined){        
         listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
-    } 
+    }
     if ((ref != '') && (ref != undefined)){
         listaActidadesTipo = listaActidadesTipo.filter(item => item.referenceNumber == ref)
-    }   
+    }     
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,
@@ -37,7 +37,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         plazaSelect: user.numPlaza,
         mes: mes,
         año: año,
-        mesNombre: numero_to_nombre(mes),           
+        mesNombre: numero_to_nombre(mes)         
     }    
     return obj
 }

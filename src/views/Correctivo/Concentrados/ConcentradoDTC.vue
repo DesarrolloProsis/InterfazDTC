@@ -1,6 +1,5 @@
 <template>
-<div>
-    <Nav></Nav>
+<div>    
     <div class="flex justify-center">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
         <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
@@ -54,7 +53,7 @@
           </div>
         </div>
       </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:500px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -77,7 +76,7 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
-            <tbody>
+            <tbody name="table" is="transition-group">  
                 <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in infoDTC" :key="key">                
                   <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                   <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
@@ -96,7 +95,7 @@
                   <td>
                     <div>
                       <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
-                        <img src="../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
+                        <img src="../../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                       </button>
                     </div>
                   </td>
@@ -107,23 +106,43 @@
                   </td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
-                  <div v-if="tipoUsuario != 8">
-                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard mr-2">
-                        <img src="../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                  <div class="grid grid-cols-2 justify-center" v-if="tipoUsuario != 8">
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard  w-24">
+                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'bg-gray-400 hover:bg-gray-400 hover:text-black': item.escaneadobool  }" :disabled=" item.escaneadobool ">
-                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard w-24 " :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
+                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
-                    <!--<button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard" :class="{'hidden': item.escaneadobool != 1 }">
-                        <img src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0" width="15" height="15" />
-                        <span class="text-xs sm:hidden">Subir Sellado</span>
-                    </button>-->
-                  </div>
+
+                    <!-- /////////////////////////////////////////////////////////////////////
+                    ////                       SUBIR PDF SELLADO                      ////
+                    ///////////////////////////////////////////////////////////////////// -->        
+                    <div v-if="item.escaneadobool">                    
+                      <button class="mt-1" v-if="!item.confirmpdf">
+                        <div class="flex justify-center botonIconSellado">
+                          <input type="file" class="opacity-0 w-auto h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
+                          <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
+                          <p class="text-xs mt-1">Subir Sellado</p>
+                        </div>                   
+                      </button>
+                      <div class="grid grid-cols-1" v-else>
+                        <div class="grid grid-cols-2">
+                        <img src="../../../assets/img/pdf.png" class="w-4 h-4 -ml-4 opacity-75" alt/>     
+                        <p class="-ml-32 text-sm">{{ pdfSellado.name }}</p>
+                        </div>
+                        <div class="grid grid-cols-2 -ml-10">
+                          <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar -ml-2 h-10 text-sm justify-center px-1">Cancelar</button>
+                          <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                        </div>            
+                      </div>
+                    </div>
+                  </div>                                 
+                  
                   <div v-else>
                     <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
-                      <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <img src="../../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
                       <span class="text-xs sm:hidden w-24">Sin Firma</span>
                     </button>
                   </div>
@@ -140,18 +159,16 @@
 <script>
 import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-import Nav from "../../components/Navbar";
 import moment from "moment";
-import ServiceFiltrosDTC from "../../services/FiltrosDTCServices"
-import ServiceReportPDF from "../../services/ReportesPDFService"
-import Carrusel from "../../components/Carrusel";
-import HeaderGenerico from "../../components/Header/HeaderGenerico";
-import CookiesService from '../../services/CookiesService'
+import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
+import ServiceReportPDF from "../../../services/ReportesPDFService"
+import Carrusel from "../../../components/Carrusel";
+import HeaderGenerico from "../../../components/Header/HeaderGenerico";
+
 
 export default {
   name: "ConcentradoDTC",
-  components: {
-    Nav,    
+  components: {    
     Carrusel,
     HeaderGenerico
   },
@@ -162,7 +179,7 @@ export default {
 data: function (){
     return {      
       infoDTC:[],            
-      filtroVista: false,
+      filtroVista: true,
       modalCambiarStatus: false,
       dtcEdit: {},
       motivoCambio:"",
@@ -170,25 +187,27 @@ data: function (){
       limite:300,
       carruselModal: false,
       dtcImg: {},
-      arrayImagenesCarrusel: []
+      arrayImagenesCarrusel: [],
+      pdfSelladoBool: true,
+      pdfSellado:'',
+      bandera:false
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
+/* mounted(){ 
+console.log(this.$el)
+}, */
+
 beforeMount: function () {
   this.filtroVista = true
   this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
   this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-  let listaPlazasValias = []
-  let todasPlazas = this.$store.state.Login.listaPlazas //this.$store.getters['Login/getListaPlazas']  
-  for(let plaza of todasPlazas){      
-      if(this.infoDTC.some(dtc => dtc.squareCatalogId == plaza.squareCatalogId)){
-        plaza["referenceSquare"] = this.infoDTC.find(dtc2 => dtc2.squareCatalogId == plaza.squareCatalogId).referenceSquare
-        listaPlazasValias.push(plaza)        
-      }      
-      return listaPlazasValias
-  }
+/*   console.log(this.$el)
+  console.log(this.$data)
+  console.log(this.$options.data) */
+
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -204,9 +223,8 @@ computed:{
 methods:{
 abrirCarrusel : async function (item){  
   this.dtcImg = item
-  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`, CookiesService.obtener_bearer_token())
-    .then((response) => {   
-        CookiesService.refrescar_bearer_token()           
+  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+    .then((response) => {              
         if(response.status != 404){                 
           if(response.data.length > 0){
             let array = response.data.map(imgData => {
@@ -235,8 +253,7 @@ abrirCarrusel : async function (item){
       }                   
     })
     .catch((error) => {   
-      if(error.response.status == 401)
-        CookiesService.token_no_autorizado()       
+      console.log(error)            
     });      
 },
 editar_status_dtc: function (){
@@ -248,21 +265,20 @@ editar_status_dtc: function (){
         "UserId": user.idUser,
         "Comment": this.motivoCambio,
       }        
-    if( this.statusEdit != '' && this.motivoCambio != ''){      
-      Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())  
-        .then(() => {        
-          CookiesService.refrescar_bearer_token()
-          this.statusEdit = ''
-          this.motivoCambio = ''   
-          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
-          this.modalCambiarStatus = false                                
-        })
-        .catch(error => {
-          if(error.response.status == 401)
-              CookiesService.token_no_autorizado()
-          console.log(error);
-        });
+    if( this.statusEdit != '' && this.motivoCambio != ''){
+      //Evento post que llama a la api 
+    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
+      .then(async() => {        
+        this.statusEdit = ''
+        this.motivoCambio = ''   
+        let info = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+        await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+        this.modalCambiarStatus = false
+        this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                              
+      })
+      .catch(error => {                    
+        console.log(error);
+      });
     }
     else {
           this.$notify.warning({
@@ -308,6 +324,116 @@ limpiar_filtros: function() {
   this.$nextTick().then(() => {             
     this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
   })           
+},
+recibir_pdf_sellado(e, index) { 
+  console.log(index)               
+  var files = e.target.files || e.dataTransfer.files;
+  if (!files.length) return;
+  else {  
+    for (let item of files) {        
+      if(this.crearImage(item)){
+        console.log(this.infoDTC[index].confirmpdf)
+        this.$nextTick().then(() => {
+          this.pdfSelladoBool = false
+          this.infoDTC[index].confirmpdf = true             
+          this.infoDTC.splice(index, 1 ,  Object.assign(this.infoDTC[index]))          
+          
+        })
+      }
+    }        
+  }
+},
+crearImage(file) {
+  console.log(file)
+  if(file.type.split('/')[1] == 'pdf'){
+    var reader = new FileReader(); 
+    reader.onload = (e) => {
+      this.$nextTick().then(() => {
+        this.pdfSellado = {
+          imgbase: e.target.result.split(',')[1],
+          name: file.name,
+        };
+      })        
+    };
+    reader.readAsDataURL(file);   
+    return true
+  }
+  else{
+    this.$notify.warning({
+      title: "Ups!",
+      msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+      position: "bottom right",
+      styles: {
+        height: 100,
+        width: 500,
+      },          
+    });
+    this.pdfSellado = {}
+    return false
+  }         
+},
+base64ToFile(dataurl, fileName) {                    
+    let url = "data:text/pdf;base64," + dataurl;  
+    var arr = url.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName + '.pdf', { type: mime });
+},
+enviar_pdf_sellado(index){
+  console.log(index)                      
+  let formData = new FormData();
+  let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
+  formData.append("file", file);     
+  let obj = {
+    referenceNumber: this.infoDTC[index].referenceNumber,
+    file: formData,
+  }
+  this.infoDTC[index].escaneadobool = false        
+  this.infoDTC.splice(index, 1, Object.assign(this.infoDTC[index]))  
+  let pdf_sellado_promise = new Promise((resolve, reject) => {    
+  Axios.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}/${false}`, obj.file)
+    .then(() => {          
+      Axios.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
+      .then(() => {                         
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                                     
+          resolve('ok')                                                                           
+      })                                  
+    })
+    .catch((error) => {                      
+      reject(error)                          
+      this.$notify.error({
+        title: "ups!",
+        msg: error,
+        position: "bottom right",
+        styles: {
+          height: 100,
+          width: 500,
+        },
+      });        
+    });              
+  })
+    setTimeout(() => {
+      pdf_sellado_promise.then(() => {  
+        this.modalLoading = false                  
+        this.limpiar_filtros()
+        this.$notify.success({
+            title: "Ok!",
+            msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+        });  
+      })
+      .catch((error) =>  console.log(error))    
+    }, 3000);      
 },
 },
 

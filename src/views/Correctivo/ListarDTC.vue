@@ -1,6 +1,5 @@
   <template>
-  <div id="container">
-    <Nav></Nav>
+  <div id="container">    
     <div class="relative mb-16 " >
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
@@ -88,13 +87,13 @@
         ////                      MODAL ELIMINAR                         ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-          <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
-          <div class="mt-5 text-center">
-            <button @click="borrar(true)" class="botonIconCrear">Si</button>
-            <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
+          <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+            <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
+            <div class="mt-5 text-center">
+              <button @click="borrar(true)" class="botonIconCrear">Si</button>
+              <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
+            </div>
           </div>
-        </div>
         </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL EDITAR DTC                       ////
@@ -168,25 +167,27 @@
         </div>      
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
-      ////////////////////////////////////////////////////////////////////-->
-      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">
-        <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-          <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 " v-for="(dtc, index) in lista_dtc" :key="index">
-            <CardListDTC
-              @borrar-card="confimaBorrar"
-              @editar-card="editar_header_dtc"
-              @editar-status="editar_status_dtc"
-              @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
-              @enviar_pdf_sellado="enviar_pdf_sellado"
-              :plazasValidas="plazasValidas"
-              :infoCard="dtc"              
-            ></CardListDTC>
-          </div>                 
-        </div>
+      /////////////////////////////////////////////////////////dddd///////////-->
+      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">        
+          <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
+          <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
+            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc">
+              <CardListDTC
+                @borrar-card="confimaBorrar"
+                @editar-card="editar_header_dtc"
+                @editar-status="editar_status_dtc"
+                @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
+                @enviar_pdf_sellado="enviar_pdf_sellado"
+                :plazasValidas="plazasValidas"
+                :infoCard="dtc"              
+              ></CardListDTC>
+            </div>
+          </div>   
+          <!-- </transition-group>       -->                
       </div>
       <div class="text-center" v-if="moreCard != false">       
         <button @click="cargar_mas" class="botonBajar animate-bounce">
-          <img src="../../assets/img/abajo.png"  width="60" height="60" />
+          <img src="../../assets/img/abajo.png" class="w-16 h-16 sm:w-12 sm:h-12"  />
         </button>          
       </div>
     </div>
@@ -194,7 +195,6 @@
 </template>
 
 <script>
-import Nav from "../../components/Navbar";
 import ServicePDfReporte from '../../services/ReportesPDFService'
 import CardListDTC from "../../components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
@@ -202,7 +202,6 @@ import HeaderGenerico from '../../components/Header/HeaderGenerico'
 import EventBus from "../../services/EventBus.js";
 import Carrusel from "../../components/Carrusel";
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
-import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   data() {
@@ -238,8 +237,7 @@ export default {
       filtroVista: false
     };
   },
-  components: {
-    Nav,
+  components: {    
     CardListDTC,
     Carrusel,
     HeaderGenerico,
@@ -368,29 +366,26 @@ methods: {
             }
           }                                           
           let editar_dtc_promise = new Promise((resolve , reject) => {
-            Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit, CookiesService.obtener_bearer_token())
-            .then(() =>{    
-              CookiesService.refrescar_bearer_token()                                                         
+            Axios.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit)
+            .then(() =>{                                                             
               this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
               this.modal = false  
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)      
-              Axios.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}`, CookiesService.obtener_bearer_token())
-              .then((response) => {
-                console.log(response)
+              Axios.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}`)
+              .then(() => {
+                
               })       
               .catch((error) => {
                 console.log(error)
               })
               resolve('ok')                     
             })
-            .catch((ex) => {
-              if(ex.response.status == 401)
-                CookiesService.token_no_autorizado()
-              reject(ex)
+            .catch((error) => {                              
+              reject(error)
               this.$notify.error({
               title: "ups!",
-              msg: console.log(ex),
+              msg: error,
               position: "bottom right",
               styles: {
                 height: 100,
@@ -414,7 +409,7 @@ methods: {
               });
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, true)
             })
-            .catch((err) =>  console.log(err))    
+            .catch((error) =>  console.log(error))    
           }, 3000);    
         } 
       })       
@@ -448,24 +443,22 @@ methods: {
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
     let pdf_sellado_promise = new Promise((resolve, reject) => {    
-      Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, value.file, CookiesService.obtener_bearer_token())                   
+      Axios.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}/${true}`, value.file)
         .then(() => {          
-          Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`, CookiesService.obtener_bearer_token())
-          .then(() => {  
-              CookiesService.refrescar_bearer_token()                           
+          Axios.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
+          .then(() => {               
+              resolve('ok')                
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
               this.limpiar_filtros()                              
               resolve('ok')                                                                           
           })                                  
         })
-        .catch((ex) => {
-          if(ex.response.status == 401)
-            CookiesService.token_no_autorizado()
-          reject(ex)                          
+        .catch((error) => {                      
+          reject(error)                          
           this.$notify.error({
             title: "ups!",
-            msg: ex,
+            msg: error,
             position: "bottom right",
             styles: {
               height: 100,
@@ -488,7 +481,7 @@ methods: {
             },
         });  
       })
-      .catch((err) =>  console.log(err))    
+      .catch((error) =>  console.log(error))    
     }, 3000);                                                                                   
   },
   filtro_dtc: async function (objFiltros) {     
@@ -524,21 +517,19 @@ methods: {
       this.modalLoading = true
       this.modalFirma = false    
       let agregar_firma_promise = new Promise((resolve, reject) => {              
-        Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`, CookiesService.obtener_bearer_token())
-        .then(() => {      
-          CookiesService.refrescar_bearer_token()      
+        Axios.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
+        .then(() => {           
           let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
           this.refNum = ''     
           resolve('ok')         
         })
-        .catch((ex) => {   
-          if(ex.response.status == 401)
-            CookiesService.token_no_autorizado()
-          reject(ex)                     
+        .catch((error) => {   
+                      
+          reject(error)                     
           this.$notify.error({
             title: "ups!",
-            msg: ex,
+            msg: error,
             position: "bottom right",
             styles: {
               height: 100,
@@ -560,7 +551,7 @@ methods: {
               width: 500,
             },
           });         
-        }).catch((err) => console.log(err))
+        }).catch((error) => console.log(error))
       }, 3000)
     }
     else if(value === false){        
@@ -588,9 +579,8 @@ methods: {
         "UserId": user.idUser,
         "Comment": this.motivoCambioStatus,
       }      
-      Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado, CookiesService.obtener_bearer_token())    
-      .then(() => {      
-        CookiesService.refrescar_bearer_token()   
+      Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)
+      .then(() => {        
         this.refNum = ''
         this.statusEdit = ''
         this.motivoCambioStatus = ''   
@@ -598,11 +588,8 @@ methods: {
         this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
         resolve('ok')                     
       })
-      .catch(Ex => {
-        if(Ex.response.status == 401)
-          CookiesService.token_no_autorizado()
-        reject('mal')
-        console.log(Ex);
+      .catch(error => {                  
+        reject(error)        
       });
     })
     setTimeout(() => {
@@ -618,7 +605,7 @@ methods: {
               },
         });  
       })
-      .catch((err) =>  console.log(err))    
+      .catch((error) =>  console.log(error))    
     }, 1000); 
   },
   cargar_mas(){
@@ -653,3 +640,14 @@ methods: {
 </script>
 
 <style>
+.list-item {  
+  margin-right: 10px;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+</style>

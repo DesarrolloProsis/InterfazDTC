@@ -23,12 +23,11 @@ function xml_hhtp_request(urlTopdf,namePdf){
     });       
     saveAs(file, namePdf);
     };
-    oReq.send();   
-    CookiesService.refrescar_bearer_token()
+    oReq.send();       
 }
 async function obtener_admin_id(referenceNumber){
     let id = ''
-    await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
+    await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`)
     .then(async (response) => {                                              
         id = response.data.result[0].adminSquareId        
     })
@@ -43,8 +42,7 @@ async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, admi
     let namePdf = ''
     if(adminId == undefined){
         adminId = await obtener_admin_id(numeroReferencia)
-    }
-    console.log(adminId)
+    }    
     if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
         urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${adminId}`;
         namePdf = `DTC-${numeroReferencia}.pdf`; 
@@ -60,8 +58,7 @@ async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, admi
     if(STATUS_REPORTE_CORRECTIVO.sellado === statusId){
         urlTopdf = `${API}/pdf/GetPdfSellado/${clavePlaza}/${numeroReferencia}`;
         namePdf = `DTC-${numeroReferencia}-Sellado.pdf`;  
-    }  
-    console.log(urlTopdf)   
+    }      
     xml_hhtp_request(urlTopdf, namePdf)                          
 }
 function generar_pdf_calendario(referenceSquare, fecha, userSup){
@@ -70,8 +67,7 @@ function generar_pdf_calendario(referenceSquare, fecha, userSup){
         user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
     else
         user = userSup
-    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;          
-    console.log(urlTopdf)
+    let urlTopdf = `${API}/Calendario/Mantenimiento/${referenceSquare}/${fecha.mes}/${fecha.año}/${user.idUser}/${user.numPlaza}`;              
     let namePdf = `REPORTE-${SeriviceActividades.numero_to_nombre(fecha.mes)}.pdf`;
     xml_hhtp_request(urlTopdf, namePdf)           
 }
@@ -166,9 +162,8 @@ async function generar_pdf_actividades_preventivo(referenceNumber, tipoEncabezad
     xml_hhtp_request(urlTopdf, namePdf)    
 }
 async function generar_pdf_fotografico_preventivo(referenceNumber, lane){    
-    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`, CookiesService.obtener_bearer_token())
-    .then((response) => {    
-        CookiesService.refrescar_bearer_token()
+    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${referenceNumber.split('-')[0]}/${referenceNumber}`)
+    .then((response) => {            
         if(response.data.length > 0){
             let clavePlaza = referenceNumber.split('-')[0]
             let urlTopdf = `${API}/ReporteFotografico/Reporte/${clavePlaza}/${referenceNumber}/${lane.split('-')[0]}`       
@@ -187,6 +182,19 @@ function generar_pdf_calendario_escaneado(año, mes){
     let namePdf = clavePlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
     xml_hhtp_request(urlTopdf, namePdf) 
 }
+function generar_pdf_diagnostico_falla(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/DiagnosticoFalla/${clavePlaza}/${referenceNumber}`
+    let namePdf = referenceNumber + '-DF'
+    xml_hhtp_request(urlTopdf, namePdf)        
+}
+function generar_pdf_ficha_falla(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')[0]
+    console.log(clavePlaza)
+    let urlTopdf = `${API}/FichaTecnicaAtencion/${clavePlaza}/${referenceNumber}`
+    let namePdf = referenceNumber + '-DF'
+    xml_hhtp_request(urlTopdf, namePdf)        
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
@@ -194,5 +202,7 @@ export default {
     generar_pdf_calendario,
     generar_pdf_actividades_preventivo,
     generar_pdf_fotografico_preventivo,
-    generar_pdf_calendario_escaneado    
+    generar_pdf_calendario_escaneado,
+    generar_pdf_diagnostico_falla,
+    generar_pdf_ficha_falla    
 }
