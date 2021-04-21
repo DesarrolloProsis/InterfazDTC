@@ -13,6 +13,18 @@
             </div>
           </div>
         </div>
+        <!--/////////////////////////////////////////////////////////////////////
+        ////                         MODAL CARRUSEL                        /////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="relative inset-0">
+          <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-34 justify-center absolute inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
+            <AgregarImg></AgregarImg>
+            <div class="justify-center flex mt-5">
+              <button class="botonIconCrear m-4">Subir</button>
+              <button @click="subirImgModal = false" class="botonIconCancelar m-4">Cancelar</button>
+            </div>
+          </div>
+        </div>
       <!--/////////////////////////////////////////////////////////////////////
       /////                    FILTROS DE NAVEGACION                      ////
       ////////////////////////////////////////////////////////////////////-->   
@@ -94,8 +106,11 @@
                   <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
                   <td>
                     <div>
-                      <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
+                      <button @click="abrirCarrusel(item)" class="botonIconCrear" v-if="!item.imgbool" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
                         <img src="../../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
+                      </button>
+                      <button @click="abrirSubir(item)" class="botonIconCrear" v-else >
+                        <img src="../../../assets/img/more.png" class="justify-center" width="15" height="15"/>
                       </button>
                     </div>
                   </td>
@@ -164,13 +179,14 @@ import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
 import ServiceReportPDF from "../../../services/ReportesPDFService"
 import Carrusel from "../../../components/Carrusel";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
-
+import AgregarImg from "../../../components/ImagenesGenericas"
 
 export default {
   name: "ConcentradoDTC",
   components: {    
     Carrusel,
-    HeaderGenerico
+    HeaderGenerico,
+    AgregarImg
   },
 
 /////////////////////////////////////////////////////////////////////
@@ -190,7 +206,8 @@ data: function (){
       arrayImagenesCarrusel: [],
       pdfSelladoBool: true,
       pdfSellado:'',
-      bandera:false
+      bandera:false,
+      subirImgModal: false,
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -221,6 +238,9 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+abrirSubir: function () {
+  this.subirImgModal = true
+},
 abrirCarrusel : async function (item){  
   this.dtcImg = item
   await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)

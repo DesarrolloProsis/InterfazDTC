@@ -39,7 +39,7 @@
                 </div>
                 <div class="w-1/3 border-2 relative border-gray-600 bg-gray-300 inline-block border-dashed text-center rounded-lg">
                     <button class="bg-gray-300" :disabled="reporteDataInsertada">
-                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-16 sm:w-16 ': tipo=='Ficha'}" alt/>
+                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12"/>
                         <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
                     </button>
                 </div>
