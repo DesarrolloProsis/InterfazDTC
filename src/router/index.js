@@ -109,7 +109,7 @@ const routes = [
     component: () => import('../views/Correctivo/Concentrados/ConcentradoFichas')
   },
   {
-    path: '/Correctivo/PreDTC',
+    path: '/Correctivo/PreDTC/:tipoVista',
     name: 'CorrectivoDTC',
     component: FichaDiagnostico,
     children: [

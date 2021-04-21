@@ -139,8 +139,7 @@
                             v-bind:maxlength="limite"
                         />
                         <span class="text-gray-500">{{ restante_causa }}/300</span>
-                    </div>
-                    <ImagenesFichaDiagnostico :tipo="'Diagnostico'" :referenceNumber="datosDiagnostico.referenceNumber"></ImagenesFichaDiagnostico>
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -190,11 +189,7 @@
                             v-bind:maxlength="limite"
                         />
                         <span class="text-gray-500">{{ restante_sol }}/300</span>
-                    </div>
-                    <!-- /////////////////////////////////////////////////////////////////////
-                    ////                         IMAGENES                             ////
-                    ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :tipo="'Ficha'" :referenceNumber="datosDiagnostico.referenceNumber"></ImagenesFichaDiagnostico>
+                    </div>                                  
                 </div>                 
             </div>            
         </div>
@@ -206,7 +201,6 @@
 import SelectPlaza from '../../components/Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService';
 import moment from "moment";
-import ImagenesFichaDiagnostico from '../ImagenesGenericas'
 import Multiselect from "vue-multiselect";
 export default {
 name: "Diagnostico",
@@ -214,12 +208,15 @@ props:{
     tipo: {
         type: String,
         default: () => ''
+    },
+    reporteInsertado: {
+        type: Boolean,
+        default: () => false
     } 
 },
 components:{
     SelectPlaza,
-    Multiselect,
-    ImagenesFichaDiagnostico    
+    Multiselect,    
 },
 ///////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////

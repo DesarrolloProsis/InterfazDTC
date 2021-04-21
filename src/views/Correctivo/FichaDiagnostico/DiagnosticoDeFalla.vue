@@ -8,15 +8,33 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="'DIAG'" @actualizar-header="actualizar_header"></HeaderFalla>
+                    <HeaderFalla :tipo="'DIAG'" :reporteInsertado="reporteInsertado" @actualizar-header="actualizar_header"></HeaderFalla>
+                <!-- /////////////////////////////////////////////////////////////////////
+                    ////                         IMAGENES                             ////
+                    ///////////////////////////////////////////////////////////////////// -->
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-10 ml-12 sm:mb-6">
-                        <div>
+                        <div v-if="$route.params.tipoVista == 'Crear'">
+                            <div v-if="!reporteInsertado">
+                                <button @click="enviar_header_diagnostico(true)" class="botonIconCrear">
+                                    <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                    <span>Enviar Informacion Reporte</span>
+                                </button>
+                            </div>
+                            <div v-else>
+                                <button @click="enviar_header_diagnostico(false)" class="botonIconCrear">
+                                    <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                    <span>Imprimir Reporte</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-else>
                             <button @click="enviar_header_diagnostico" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                <span>Crear</span>
+                                <span>Actualizar Reporte</span>
                             </button>
                         </div>
                     </div>    
@@ -29,13 +47,14 @@
 <script>
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
+import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 import Axios from 'axios';
-import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
     components: {        
-        HeaderFalla        
+        HeaderFalla,
+        ImagenesFichaDiagnostico        
     }, 
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
@@ -43,7 +62,8 @@ export default {
     data (){
         return{    
             datosHeader: {},
-            type: 'DIAG',                 
+            type: 'DIAG',
+            reporteInsertado: false                 
         }
     },
 
@@ -61,7 +81,8 @@ methods:{
         let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
         return dateInicio < dateFin ? true : false                   
     },
-    enviar_header_diagnostico(){    
+    enviar_header_diagnostico(value){        
+        this.reporteInsertado = true
         let llavesHeader = Object.keys(this.datosHeader)            
         if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
@@ -91,7 +112,7 @@ methods:{
                     });
                 }   
                 else{
-                    this.insertar_diagnostico_falla()                       
+                    this.insertar_diagnostico_falla(value)                       
                     this.$notify.success({
                         title: "Ok",
                         msg: `SE CREO CORRECTAMENTE.`,
@@ -116,55 +137,58 @@ methods:{
                 });
         }
     },
-    insertar_diagnostico_falla(){
-        this.type = 'FICHA'
-        let userIdPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-        let administradorId = this.$store.state.Login.plazaSelecionada.administradorId
-        let objDiagnostico = {
-            referenceNumber: this.datosHeader.referenceNumber,
-            squareId: userIdPlaza.numPlaza,
-            diagnosisDate: this.datosHeader.fechaDiagnostico,
-            start: this.datosHeader.horaInicio,
-            end: this.datosHeader.horaFin,
-            sinisterNumber: this.datosHeader.numeroReporte,
-            failureNumber: this.datosHeader.folioFalla,
-            userId: userIdPlaza.idUser,
-            failureDescription: this.datosHeader.descripcionFalla,
-            failureDiagnosis: this.datosHeader.diagnosticoFalla,
-            causeFailure: this.datosHeader.causaFalla,
-            adminSquareId: administradorId,
-            updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
-        }        
-        Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
-            .then(() => {                
-                let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
-                    let newCarril = {}
-                    newCarril["referenceNumber"] = objDiagnostico.referenceNumber
-                    newCarril["capuLaneNum"] = carril.capufeLaneNum
-                    newCarril["idGare"] = carril.idGare
-                    newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
-                    return newCarril
-                })                
-                carrilesInsertDiagnostic.forEach(carril => {                                                     
-                    Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                        .then((response) => {         
-                            console.log(response)                                                                              
-                        })
-                        .catch((error) => {                            
-                            console.log(error)                                
-                        })    
-                }); 
-                EventBus.$emit('guardar_imagenes') 
-                ServiceReporte.generar_pdf_diagnostico_falla(objDiagnostico.referenceNumber)                
-                this.$router.push({
-                    path: 'FichaTecnicaDeFalla',
-                    query: { data: this.datosHeader }
-                })                                       
-                
-            })
-            .catch((error) => {                                    
-                console.log(error)
-            })         
+    insertar_diagnostico_falla(value){                
+        if(value){
+            let userIdPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+            let administradorId = this.$store.state.Login.plazaSelecionada.administradorId
+            let objDiagnostico = {
+                referenceNumber: this.datosHeader.referenceNumber,
+                squareId: userIdPlaza.numPlaza,
+                diagnosisDate: this.datosHeader.fechaDiagnostico,
+                start: this.datosHeader.horaInicio,
+                end: this.datosHeader.horaFin,
+                sinisterNumber: this.datosHeader.numeroReporte,
+                failureNumber: this.datosHeader.folioFalla,
+                userId: userIdPlaza.idUser,
+                failureDescription: this.datosHeader.descripcionFalla,
+                failureDiagnosis: this.datosHeader.diagnosticoFalla,
+                causeFailure: this.datosHeader.causaFalla,
+                adminSquareId: administradorId,
+                updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
+            }        
+            Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
+                .then(() => {                
+                    let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
+                        let newCarril = {}
+                        newCarril["referenceNumber"] = objDiagnostico.referenceNumber
+                        newCarril["capuLaneNum"] = carril.capufeLaneNum
+                        newCarril["idGare"] = carril.idGare
+                        newCarril["addFlag"] = 0 // 0 -> Insertar || 1 -> actualizar
+                        return newCarril
+                    })                
+                    carrilesInsertDiagnostic.forEach(carril => {                                                     
+                        Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
+                            .then((response) => {         
+                                console.log(response)                                                                              
+                            })
+                            .catch((error) => {                            
+                                console.log(error)                                
+                            })    
+                    });                                                    
+                    
+                })
+                .catch((error) => {                                    
+                    console.log(error)
+                })  
+        }
+        else{
+            this.type = 'FICHA' 
+            ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)              
+            this.$router.push({
+                path: 'FichaTecnicaDeFalla',
+                query: { data: this.datosHeader }
+            }) 
+        }       
     }
 },
 }

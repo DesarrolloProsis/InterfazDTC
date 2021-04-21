@@ -277,8 +277,7 @@ methods:{
                 End: this.horaFin,
                 Observations: this.observaciones,   
                 CalendarId: parseInt(this.header.calendarId)     
-            }     
-            console.log(headerReporte) 
+            }                 
             let banderaInsertar = false
             if(this.reporteInsert){
                 if(value){
