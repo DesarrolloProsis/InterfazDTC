@@ -12,19 +12,19 @@
                 <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="''"></ImagenesFichaDiagnostico>
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-10 ml-12 sm:mb-6">
                         <div v-if="$route.params.tipoVista == 'Crear'">
-                            <div>
+                            <div v-if="!reporteInsertado">
                                 <button @click="enviar_header_ficha(true)" class="botonIconCrear">
                                     <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                     <span>Enviar Informacion Reporte</span>
                                 </button>
                             </div>
-                            <div>
+                            <div v-else>
                                 <button @click="enviar_header_ficha(false)" class="botonIconCrear">
                                     <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                     <span>Imprimir Reporte</span>
@@ -62,10 +62,10 @@ export default {
     data (){
         return{    
             datosHeader: {},    
-            type: 'DIAGNOSTICO'              
+            type: 'DIAGNOSTICO',
+            reporteInsertado: false              
         }
     },
-
     /////////////////////////////////////////////////////////////////////
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
@@ -144,14 +144,15 @@ export default {
                     updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
                 }            
                 Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
-                    .then(() => {                                                                    
+                    .then(() => {             
+                        this.reporteInsertado = true                                                       
                     })
                     .catch((error) => {                                            
                         console.log(error)
                     })  
             }
             else{                
-                ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber7)                   
+                ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
                 if(this.datosHeader.tipoFalla > 0)
                     this.$router    .push('/NuevoDtc')     
                 else

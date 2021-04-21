@@ -96,25 +96,27 @@ export default {
         this.arrayImagenes = []           
         clearInterval(this.interval);            
     },
-    beforeMount() {        
-        setTimeout(() => {
-            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
-                .then((response) => {                          
-                    if(response.status != 404){                          
-                        let newArrayImg = []                      
-                        response.data.forEach(item => {
-                            newArrayImg.push({
-                                "name": item, 
-                                "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+    beforeMount() {       
+        if(this.referenceNumber != '') {
+            setTimeout(() => {            
+                Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+                    .then((response) => {                          
+                        if(response.status != 404){                          
+                            let newArrayImg = []                      
+                            response.data.forEach(item => {
+                                newArrayImg.push({
+                                    "name": item, 
+                                    "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+                                })
                             })
-                        })
-                        this.arrayImagenes = newArrayImg                                       
-                    }    
-                })
-                .catch(error => {                    
-                    console.log(error);                     
-            });
-        }, 1000)
+                            this.arrayImagenes = newArrayImg                                       
+                        }    
+                    })
+                    .catch(error => {                    
+                        console.log(error);                     
+                });
+            }, 1000)
+        }
     },
     computed:{
         num (){
@@ -168,7 +170,7 @@ export default {
                         formData.append("image", imagenes);
                         await Axios.post(rutaInsertImagenes, formData)
                             .then((response) => {                                   
-                                console.log(response.data)
+                                console.log(response)
                                 this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data,this.arrayImagenes)
                             })
                             .catch(error => {                                                      
