@@ -9,15 +9,33 @@
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
                     <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header"></HeaderFalla>
+                <!-- /////////////////////////////////////////////////////////////////////
+                    ////                         IMAGENES                             ////
+                    ///////////////////////////////////////////////////////////////////// -->
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="''"></ImagenesFichaDiagnostico>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-10 ml-12 sm:mb-6">
-                        <div>
+                        <div v-if="$route.params.tipoVista == 'Crear'">
+                            <div>
+                                <button @click="enviar_header_ficha(true)" class="botonIconCrear">
+                                    <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                    <span>Enviar Informacion Reporte</span>
+                                </button>
+                            </div>
+                            <div>
+                                <button @click="enviar_header_ficha(false)" class="botonIconCrear">
+                                    <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                    <span>Imprimir Reporte</span>
+                                </button>                                
+                            </div>
+                        </div>
+                        <div v-else>
                             <button @click="enviar_header_ficha" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                <span>Crear</span>
-                            </button>
+                                <span>Actualizar Reporte</span>
+                            </button>                            
                         </div>
                     </div>    
                 </div>  
@@ -29,12 +47,14 @@
 <script>
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import Axios from 'axios';
+import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 import ServiceReporte from '../../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
     components: {         
-        HeaderFalla        
+        HeaderFalla,
+        ImagenesFichaDiagnostico        
     },
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
@@ -60,7 +80,7 @@ export default {
             let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
             return dateInicio < dateFin ? true : false                             
         },
-        enviar_header_ficha(){    
+        enviar_header_ficha(value){    
             let llavesHeader = Object.keys(this.datosHeader)            
             if(llavesHeader.length == 10){            
                 let valueHeader = Object.values(this.datosHeader)
@@ -90,7 +110,7 @@ export default {
                         });
                     }    
                     else{
-                        this.insertar_ficha_falla()                   
+                        this.insertar_ficha_falla(value)                   
                             this.$notify.success({
                                 title: "Ok",
                                 msg: `SE CREO CORRECTAMENTE.`,
@@ -115,24 +135,28 @@ export default {
                     });
             }
         },
-        insertar_ficha_falla(){                
-            let objFicha = {
-                referenceNumber: this.datosHeader.referenceNumber,
-                typeFaultId: this.datosHeader.tipoFalla,
-                intervention: this.datosHeader.solucionFalla,
-                updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
-            }            
-            Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
-                .then(() => { 
-                    ServiceReporte.generar_pdf_ficha_falla(objFicha.referenceNumber)                   
-                    if(objFicha.tipoFalla > 0)
-                        this.$router    .push('/NuevoDtc')     
-                    else
-                        this.$router.push('/Home')                                                      
-                })
-                .catch((error) => {                                            
-                    console.log(error)
-                })         
+        insertar_ficha_falla(value){
+            if(value){
+                let objFicha = {
+                    referenceNumber: this.datosHeader.referenceNumber,
+                    typeFaultId: this.datosHeader.tipoFalla,
+                    intervention: this.datosHeader.solucionFalla,
+                    updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
+                }            
+                Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
+                    .then(() => {                                                                    
+                    })
+                    .catch((error) => {                                            
+                        console.log(error)
+                    })  
+            }
+            else{                
+                ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber7)                   
+                if(this.datosHeader.tipoFalla > 0)
+                    this.$router    .push('/NuevoDtc')     
+                else
+                    this.$router.push('/Home')   
+            }
         }
     },
 }

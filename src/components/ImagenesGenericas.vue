@@ -78,8 +78,8 @@ export default {
         }
     },
     created(){
-        EventBus.$on("guardar_imagenes", objImagenes => { 
-            console.log(objImagenes)                                                     
+        EventBus.$on("debloquear_imagenes", () => { 
+            this.reporteDataInsertada = true                                                
         });
     },
     destroyed(){
