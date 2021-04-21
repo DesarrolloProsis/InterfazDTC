@@ -17,7 +17,7 @@
                 </div>
                 <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center rounded-lg">
                     <div class="">
-                        <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer">
+                        <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer" >
                         <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-16 sm:w-16 ': tipo=='Ficha'}" alt/>
                         <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
                     </div>
@@ -34,7 +34,17 @@
             <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/36 (Máximo 36 fotografías)</span>     
         </div> 
         <div v-else>
-            <p class="mt-5 text-4xl font-extrabold text-center text-red-700">Primero debe crear el reporte</p>
+            <button class="inline-flex h-40 border border-gray-400 bg-gray-300 rounded-lg w-full sm:w-32" :class="{'bg-gray-400' : reporteDataInsertada}">
+                <div class="w-2/3 grid p-2 gap-4 overflow-auto bg-gray-300">                                                                                                                
+                </div>
+                <div class="w-1/3 border-2 relative border-gray-600 bg-gray-300 inline-block border-dashed text-center rounded-lg">
+                    <button class="bg-gray-300" :disabled="reporteDataInsertada">
+                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-16 sm:w-16 ': tipo=='Ficha'}" alt/>
+                        <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
+                    </button>
+                </div>
+            </button>
+            <p class="-mt-1 text-1xl  text-red-700">Primero debe crear el reporte</p>
         </div>       
     </div>
 </template>

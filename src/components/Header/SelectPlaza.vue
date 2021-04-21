@@ -3,7 +3,7 @@
         <div v-if="forma == ''">
             <p class="text-md font-bold mb-1 mt-1 text-gray-900">Cambiar Plaza</p>
             <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
-                <option :disabled="tipo != 'filtro'" value>Selecionar...</option>
+                <!-- <option :disabled="tipo != 'filtro'" value>Selecionar...</option> -->
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
                 </option>
@@ -12,7 +12,7 @@
         <div v-if="forma == 'encargado'">
             <!--<p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>-->
             <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
-                <option :disabled="tipo == 'insercion'" value>Selecionar...</option>
+                <!-- <option :disabled="tipo == 'insercion'" value>Selecionar...</option> -->
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
                 </option>
