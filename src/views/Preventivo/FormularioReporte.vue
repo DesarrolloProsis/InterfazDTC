@@ -48,21 +48,21 @@
             <!-- reportInsert equivalente a usar route.params.tipoVista == 'crear o editar' -->
                 <div v-if="reporteInsert">
                     <div v-if="!reporteInsertado">
-                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonCrearReport h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                             <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Crear Reporte Actividades</span>                    
                         </button>
                     </div>
                     <div v-else>
-                        <button :disabled="modalLoading" @click="crear_header_reporte(false)" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
-                            <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                        <button :disabled="modalLoading" @click="crear_header_reporte(false)" class="mt-32 sm:mt-8 botonCrearFoto h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                            <img src="../../assets/img/camara-fotografica.png" class="mr-2" width="35" height="35" />
                             <span>Crear Reporte Fotografico</span>                    
                         </button>
                     </div>
                 </div>
                 <div v-else>
-                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconCrear h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
-                        <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconActualizar h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                        <img src="../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                         <span>Actualizar Reportes</span>                    
                     </button>
                 </div>
