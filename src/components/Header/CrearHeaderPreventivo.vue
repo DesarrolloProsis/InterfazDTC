@@ -57,25 +57,25 @@
                 <p class=" font-bold">Estatus Equipo:</p>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Operando en optimas condiciones</p>
-                    <div class="bg-green-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
-                        <p class="mt-1 text-white">Ok</p>
+                    <div class="bg-green-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid -mt-1">
+                        <p class="mt-1 mb-1 text-white">Ok</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>Equipo con Daño Fisico y/o Vandalizado</p>
-                    <div class="bg-yellow-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-yellow-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid -mt-1">
                         <p class="mt-1 text-white">Dañado</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>No aplica por garantia con el fabricante</p>
-                    <div class="bg-orange-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid">
+                    <div class="bg-orange-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid">
                         <p class="mt-1 text-white">No Aplica</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p>No Existe Equipo (Vandalizado)</p>
-                    <div class="bg-red-500 border-gray-800 border w-16 h-6 ml-3 text-center is_valid">
+                    <div class="bg-red-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid">
                         <p class="mt-1 text-white">No Existe</p>
                     </div>
                 </div>

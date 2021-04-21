@@ -47,7 +47,7 @@
                                         />
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
-                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)">
+                                    <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="rollId == 4 || rollId == 7 || rollId == 10">
                                         <img
                                             src="../../assets/img/bin.png"
                                             class="mr-2 sm:m-1"
@@ -114,8 +114,8 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>
-                        <!-- <input type="text" class="w-full bg-gray-400 hover:bg-gray-400 hover:border-gray-400 focus:bg-gray-400 border-gray-400 mt-2" v-model="editUser.plaza" readonly> -->
+                        <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
+                        <input type="text" class="w-full bg-white hover:bg-white hover:border-none focus:bg-white border-none shadow-none mt-2" v-model="editUser.plaza" readonly>
                     </div>
                     <div class="mt-5 text-center">
                         <button @click="actualizarUsuario" class="botonIconBuscar">Guardar</button>
@@ -139,7 +139,8 @@ export default {
     name: "EncargadosDePlaza",
     components:{        
         HeaderGenerico,
-        SelectPlaza
+        SelectPlaza,
+
     },
     data (){
         return{
@@ -165,7 +166,8 @@ export default {
                 apellidoM:'',
                 mail:'',
                 status: true
-            }
+            },
+            rollId: this.$store.state.Login.cookiesUser.rollId
         }
     },
     beforeMount: function (){
