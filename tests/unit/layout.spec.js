@@ -18,8 +18,8 @@ const store = new Vuex.Store({
     }
   }
 })
-describe("ComponentWithVuex", () => {
-  it("renders a username using a real Vuex store", () => {
+describe("Componentes Layout", () => {
+  it("NavBar.vue", () => {
     const wrapper = mount(NavBar, { 
       store, 
       localVue 
