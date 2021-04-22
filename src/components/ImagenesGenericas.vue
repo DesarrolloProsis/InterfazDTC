@@ -53,7 +53,6 @@
 <script>
 import Axios from 'axios'
 import ServiceImagenes from '../services/ImagenesService'
-import EventBus from "../services/EventBus.js";
 import BarraProgreso from '../components/BarraProgreso'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import moment from 'moment'
@@ -89,9 +88,7 @@ export default {
         }
     },
     created(){
-        EventBus.$on("debloquear_imagenes", () => { 
-            this.reporteDataInsertada = true                                                
-        });
+
     },
     destroyed(){
         this.arrayImagenes = []           
@@ -149,37 +146,38 @@ export default {
         },
         enviar_imagenes: async function(value){                                       
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
-            console.log(boolValidacion)
-            if(boolValidacion == true || this.arrayImagenes.length == 0){                                
-                let contador = 0     
-                let rutaInsertImagenes = ''
-                if(this.tipo == 'Actividades')
+            let objGetImagen = ''
+            if(boolValidacion == true || this.arrayImagenes.length == 0){                                                 
+                let rutaInsertImagenes = {}
+                if(this.tipo == 'Actividades'){
                     rutaInsertImagenes = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                    objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/MantenimientoPreventivo/Images`, tipo: 1 }
+                }
                 else{
-                    if(this.tipo == 'Diagnostico')
+                    if(this.tipo == 'Diagnostico'){
                         rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                    else
+                        objGetImagen = { rutaGetImagen: `${API}/DiagnosticoFalla/Images`, tipo: 2 }
+                    }
+                    else{
                         rutaInsertImagenes = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        objGetImagen = { rutaGetImagen: `${API}/FichaTecnicaAtencion/Images`, tipo: 3 }
+                    }
                 }  
                 this.arrayImagenes.forEach((item) => console.log(item))              
                 for(let imagenes of value.target.files){            
-                    //console.log(imagenes)    
-                    //if(imagenes.name.split('_')[0] != this.referenceNumber){          
-                        //contador++         
-                        //let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
+                        console.log(imagenes)                            
                         let formData = new FormData();
                         formData.append("image", imagenes);
                         await Axios.post(rutaInsertImagenes, formData)
                             .then((response) => {                                   
                                 console.log(response)
-                                this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data,this.arrayImagenes)
+                                this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
                             })
                             .catch(error => {                                                      
                                 console.log(error)                                    
                         });                       
                     //}                      
-                }                
-                console.log(contador)
+                }                                
             }                 
         },
         eliminar_imagen(nombreImagen){                

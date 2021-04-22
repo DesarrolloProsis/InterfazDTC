@@ -81,8 +81,7 @@ methods:{
         let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
         return dateInicio < dateFin ? true : false                   
     },
-    enviar_header_diagnostico(value){        
-        this.reporteInsertado = true
+    enviar_header_diagnostico(value){                
         let llavesHeader = Object.keys(this.datosHeader)            
         if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
@@ -174,7 +173,8 @@ methods:{
                             .catch((error) => {                            
                                 console.log(error)                                
                             })    
-                    });                                                    
+                    }); 
+                    this.reporteInsertado = true                                                   
                     
                 })
                 .catch((error) => {                                    
