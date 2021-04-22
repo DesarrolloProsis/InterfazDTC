@@ -16,6 +16,7 @@ module.exports = {
     },
     extend: {
       spacing: {
+        '63': '17rem',
         '64': '16rem',
         '65': '17.5rem',
         '66': '20rem',          
@@ -23,6 +24,7 @@ module.exports = {
         '69': '29rem',
         '72': '31rem',
         '73': '34rem',
+        '78': '59rem',
         '80': '95rem',
         
       }      

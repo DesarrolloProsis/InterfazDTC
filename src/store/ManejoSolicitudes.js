@@ -25,6 +25,7 @@ export default function manejor_solicitudes_run(){
             requestOriginal._retry = true
             CookiesService.refrescar_barer_token()
             //Axios.defaults.headers.common['Authorization'] = CookiesService.obtener_bearer_token().headers.Authorization   
+            //console.log('regrese la solicitud ')
             //return Axios(requestOriginal)
             return Promise.reject(error)
         }

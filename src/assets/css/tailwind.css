@@ -93,6 +93,15 @@ select:focus {
 .botonIconBuscar:focus{
     @apply outline-none;
 }
+.botonCrearFoto{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
+}
+.botonCrearFoto:hover{
+    @apply border-blue-600 bg-blue-400 text-white transition duration-500;
+}
+.botonCrearFoto:focus{
+    @apply outline-none;
+}
 .cabeceraTable{
     @apply py-2 px-3 top-0 border-b border-gray-200 bg-blue-800;
 }
@@ -106,6 +115,15 @@ select:focus {
     @apply border-green-500 bg-green-500 text-white transition duration-500;
 }
 .botonIconCrear:focus{
+    @apply outline-none;
+}
+.botonCrearReport{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
+}
+.botonCrearReport:hover{
+    @apply border-green-500 bg-green-400 text-white transition duration-500;
+}
+.botonCrearReport:focus{
     @apply outline-none;
 }
 .botonIconSellado{

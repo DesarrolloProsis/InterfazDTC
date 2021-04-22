@@ -1,14 +1,15 @@
 <template>
   <div>
-    <nav class="flex justify-between bg-blue-800 p-3" id="nav" v-if="$route.name != 'login'">
+    <nav class="flex justify-between bg-blue-800 p-3" id="nav" v-if="$route != undefined && $route.name != 'login'">
       <div class="text-lg">
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio          
         </router-link>     
       </div>
+      <div class="rollUsuario">{{ rollUsuario }}</div>
       <div class="flex sm:mt-4">        
-        <p class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{ usuario.nombre }}</p>
+        <p v-if="usuario" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{ usuario.nombre }}</p>
         <div class="group inline-block">
           <button class="bg-white rounded-lg flex items-center w-10 mt-3 ml-4 mr-0">
             <span>

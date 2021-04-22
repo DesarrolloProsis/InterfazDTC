@@ -62,7 +62,7 @@
                 </div>
                 <div v-else>
                     <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconActualizar h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
-                        <img src="../../assets/img/document.png" class="mr-2" width="35" height="35" />
+                        <img src="../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                         <span>Actualizar Reportes</span>                    
                     </button>
                 </div>
@@ -277,8 +277,7 @@ methods:{
                 End: this.horaFin,
                 Observations: this.observaciones,   
                 CalendarId: parseInt(this.header.calendarId)     
-            }     
-            console.log(headerReporte) 
+            }                 
             let banderaInsertar = false
             if(this.reporteInsert){
                 if(value){

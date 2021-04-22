@@ -1,4 +1,3 @@
-const API = process.env.VUE_APP_URL_API_PRODUCCION
 function obtener_array_imagenes(e, arrayComponete) {
     let contar = arrayComponete.length
     let array_imagenes = arrayComponete
@@ -25,11 +24,22 @@ function obtener_array_imagenes(e, arrayComponete) {
         return array_imagenes
     }
 }
-function obtener_array_imagenes_agregadas(urlLocal, arrayComponete){
+function obtener_array_imagenes_agregadas(urlLocal, arrayComponete, objGetImage){
     let paramsSplit = urlLocal.split('\\')
+    console.log(paramsSplit)
+    let url = ''
+    if(objGetImage.tipo == 1){
+        url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+    }
+    else if(objGetImage.tipo == 2){
+        url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+    }
+    else{
+        url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+    }
     arrayComponete.push({
-        imgbase: `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`,
-        name: ''
+        imgbase: url,
+        name: paramsSplit[6]
     })
     return arrayComponete
 }
