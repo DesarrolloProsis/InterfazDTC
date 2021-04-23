@@ -781,7 +781,7 @@ methods: {
         newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;        
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLane = await this.$store.state.Refacciones.listaLane
-        this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
+        this.relationShipPrincipal = this.updtComp.componentsRelationship;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
           this.$notify.warning({
@@ -822,7 +822,7 @@ methods: {
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.state.Refacciones.listaLane
-        this.relationShipPrincipal = this.updtComp.componentsRelationshipId;
+        this.relationShipPrincipal = this.updtComp.componentsRelationship;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
           this.$notify.warning({
