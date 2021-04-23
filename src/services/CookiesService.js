@@ -21,20 +21,21 @@ function formato_cookies_usuario(loginSesion){
         cookies['plazasUsuario'] = plazasUsuario
         cookies['rollId'] = loginSesion.rolId
         cookies['nombreRoll'] = loginSesion.rolDescription
-        cookies['userId'] = loginSesion.userId 
-        cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false  
-        localStorage.clear()    
-        localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
-        localStorage.setItem('token', JSON.stringify(tokenUser))         
+        cookies['userId'] = loginSesion.userId         
+        cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false               
         store.dispatch("Login/BUSCAR_PLAZAS");
         Axios.post(`${API}/login/LoginInfo`, { userId: loginSesion.userId })
-        .then((response) => {                  
-            store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList) 
+        .then((response) => {            
+            cookies['nombreUsuario'] = response.data.result.loginList[0].nombre
+            store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList)             
         })                             
     })
     .catch((error) => {
         console.log(error)
     })    
+    localStorage.clear()    
+    localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
+    localStorage.setItem('token', JSON.stringify(tokenUser))  
     return cookies 
 }
 async function refrescar_barer_token(){

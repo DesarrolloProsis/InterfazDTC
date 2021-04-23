@@ -30,7 +30,7 @@
                             <tr v-for="(item, key) in infoFichasFallaFiltrada" :key="key" class="h-12 text-gray-900 text-sm text-center">                
                                 <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                                 <td class="cuerpoTable">{{ item.squareName }}</td>
-                                <td class="cuerpoTable">{{ item.diagnosisDate }}</td>
+                                <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) }}</td>
                                 <td class="cuerpoTable">{{ item.lanes }}</td>
                                 <td class="cuerpoTable">{{ item.failuerNumber }}</td>
                                 <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
@@ -83,7 +83,7 @@ export default {
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
         })
         .catch((error) => {
-            console.log(error.response)
+            console.log(error)            
         })
     },
     methods: {       
@@ -95,12 +95,12 @@ export default {
         },
         filtrar_concentrado_diagnostico(objFiltro){
             console.log(objFiltro)
-            ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
+            this.infoFichasFallaFiltrada = []
+            this.infoFichasFallaFiltrada = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
         },
         limpiar_filtros(){
-
+            this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
         }
-
     },
 }
 </script>

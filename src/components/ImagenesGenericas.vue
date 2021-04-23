@@ -162,15 +162,12 @@ export default {
                         rutaInsertImagenes = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/FichaTecnicaAtencion/Images`, tipo: 3 }
                     }
-                }  
-                this.arrayImagenes.forEach((item) => console.log(item))              
-                for(let imagenes of value.target.files){            
-                        console.log(imagenes)                            
+                }                             
+                for(let imagenes of value.target.files){                                                              
                         let formData = new FormData();
                         formData.append("image", imagenes);
                         await Axios.post(rutaInsertImagenes, formData)
-                            .then((response) => {                                   
-                                console.log(response)
+                            .then((response) => {                                                                   
                                 this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
                             })
                             .catch(error => {                                                      
@@ -181,8 +178,7 @@ export default {
             }                 
         },
         eliminar_imagen(nombreImagen){                
-            if(this.arrayImagenes.length > 1){ 
-                //console.log(nombreImagen)               
+            if(this.arrayImagenes.length > 1){                 
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                         .then(() => {                                                                 

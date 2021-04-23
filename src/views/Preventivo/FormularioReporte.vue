@@ -292,8 +292,7 @@ methods:{
             Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/${banderaInsertar}`, headerReporte)
             .then((response) => {                                                                                                       
                     console.log(response)
-                    if(this.objetoLogDate.fecha != ''){   
-                        console.log(this.objetoLogDate)                                 
+                    if(this.objetoLogDate.fecha != ''){                                                          
                         let refPlaza = this.referenceNumber.split('-')[0]
                         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
                         let dateLog = {

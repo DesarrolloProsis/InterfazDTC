@@ -11,13 +11,13 @@ async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status
     //Si filtra por plaza, fecha y referencia
     if (numPlaza != "" && fecha != "" && referenceNumber != ""){
         listaFiltrada = filtro_plaza(listaCompleta, numPlaza, true)
-        listaFiltrada = filtro_fecha( listaFiltrada, fecha, banderafecha)
+        listaFiltrada = filtro_fecha_dtc( listaFiltrada, fecha, banderafecha)
         listaFiltrada = filtro_referencia(listaFiltrada,referenceNumber)
     }
     //Si filtra por plaza y fecha
     else if (numPlaza != "" && fecha != ""){   
         listaFiltrada = filtro_plaza(listaCompleta, numPlaza, true)
-        listaFiltrada = filtro_fecha( listaFiltrada, fecha, banderafecha)
+        listaFiltrada = filtro_fecha_dtc( listaFiltrada, fecha, banderafecha)
     }
     //Si filtra por  plaza y referencia
     else if (referenceNumber != "" && numPlaza != "") {     
@@ -30,7 +30,7 @@ async function filtrarDTC (filtroVista, numPlaza, fecha, referenceNumber, status
     }
     //Si filtra solo por la fecha
     else if (fecha != "" && numPlaza == "" && referenceNumber == "") {    
-        listaFiltrada = filtro_fecha(listaCompleta, fecha, banderafecha)
+        listaFiltrada = filtro_fecha_dtc(listaCompleta, fecha, banderafecha)
     }
     //Si filtra solo por la Referencia
     else if (referenceNumber != "" && numPlaza == "" && fecha == "") {     
@@ -53,7 +53,7 @@ function filtro_plaza (listaDTC, numPlaza, tipoDTC) {
 
     return listaFiltrada
 }
-function  filtro_fecha (listaDTC, fecha, sinisterOrdElab) {
+function  filtro_fecha_dtc (listaDTC, fecha, sinisterOrdElab) {
     let formatFecha = moment(fecha).format("DD/MM/YYYY");
     let newArray = [];
     for (let item of listaDTC) {
@@ -143,11 +143,31 @@ function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){
         numeroReferencia: objFiltro.numeroReferencia,
         ubicacion: objFiltro.ubicacion
     })
+    console.log(listaDiagnostico[0].diagnosisDate.slice(0,10))
     let listaFiltrada = []
-
+    if(objFiltro.plaza != ''){
+        listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareId == objFiltro.plaza)
+    }
+    if(objFiltro.numeroReferencia != ''){
+        if(listaFiltrada.length == 0)
+            listaFiltrada = listaDiagnostico.filter(ficha => ficha.referenceNumber.includes(objFiltro.numeroReferencia))
+        else
+            listaFiltrada = listaFiltrada.filter(ficha => ficha.referenceNumber.includes(objFiltro.numeroReferencia))
+    }
+    if(objFiltro.fecha != '' ){
+        if(listaFiltrada.length == 0)
+            listaFiltrada = listaDiagnostico.filter(ficha => ficha.diagnosisDate.slice(0,10) == objFiltro.fecha)
+        else
+            listaFiltrada = listaFiltrada.filter(ficha => ficha.diagnosisDate.slice(0,10) == objFiltro.fecha)
+    }
+    if(objFiltro.ubicacion != ''){
+        if(listaFiltrada.length == 0)
+            listaFiltrada = listaDiagnostico.filter(ficha => ficha.lanes.split(',').includes(objFiltro.ubicacion.lane))
+        else
+            listaFiltrada = listaFiltrada.filter(ficha => ficha.lanes.split(',').includes(objFiltro.ubicacion.lane))
+    }
+    
     return listaFiltrada
-
-
 }
 export default {
     filtrarDTC,
