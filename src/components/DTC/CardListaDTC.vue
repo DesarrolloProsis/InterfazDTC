@@ -218,8 +218,7 @@ export default {
       await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber); 
       await Axios.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`)
         .then(async (response) => {                                      
-          datosUser = response.data.result[0]          
-          console.log(datosUser)
+          datosUser = response.data.result[0]                    
           await CookiesService.actualizar_plaza(datosUser.adminSquareId)          
         })
         .catch(error => {
