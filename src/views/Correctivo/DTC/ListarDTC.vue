@@ -187,7 +187,7 @@
       </div>
       <div class="text-center" v-if="moreCard != false">       
         <button @click="cargar_mas" class="botonBajar animate-bounce">
-          <img src="../../assets/img/abajo.png" class="w-16 h-16 sm:w-12 sm:h-12"  />
+          <img src="@/assets/img/abajo.png" class="w-16 h-16 sm:w-12 sm:h-12"  />
         </button>          
       </div>
     </div>
@@ -195,13 +195,13 @@
 </template>
 
 <script>
-import ServicePDfReporte from '../../services/ReportesPDFService'
-import CardListDTC from "../../components/DTC/CardListaDTC.vue";
+import ServicePDfReporte from '@/services/ReportesPDFService'
+import CardListDTC from "@/components/DTC/CardListaDTC.vue";
 import Axios from 'axios';
-import HeaderGenerico from '../../components/Header/HeaderGenerico'
-import EventBus from "../../services/EventBus.js";
-import Carrusel from "../../components/Carrusel";
-import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
+import HeaderGenerico from '@/components/Header/HeaderGenerico'
+import EventBus from "@/services/EventBus.js";
+import Carrusel from "@/components/Carrusel";
+import ServiceFiltrosDTC from '@/services/FiltrosDTCServices'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   data() {

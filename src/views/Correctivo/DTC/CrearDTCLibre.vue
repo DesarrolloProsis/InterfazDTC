@@ -76,7 +76,7 @@
             <button @click="crearDTCTecnico(1)"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16"
             >
-              <img src="../../assets/img/save.png" class="mr-2" width="50" height="50"/>
+              <img src="@/assets/img/save.png" class="mr-2" width="50" height="50"/>
               <span>Guardar</span>
             </button>
           </div>
@@ -84,7 +84,7 @@
             <button @click="crearDTCTecnico(2)"
               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center border border-blue-700 h-16 w-32"
             >
-              <img src="../../assets/img/add.png" class="mr-2" width="35" height="35"/>
+              <img src="@/assets/img/add.png" class="mr-2" width="35" height="35"/>
               <span>Crear</span>
             </button>
           </div>
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import Header from "../../components/Header/CrearHeaderLibre";
+import Header from "@/components/Header/CrearHeaderLibre";
 import saveAs from "file-saver";
 
 export default {

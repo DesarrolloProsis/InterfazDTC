@@ -91,13 +91,13 @@
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="crearDTCTecnico(1)" class="botonIconBuscar">
-              <img src="../../assets/img/save.png" class="mr-2" width="35" height="35" />
+              <img src="@/assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
             <button @click="crearDTCTecnico(2)" class="botonIconCrear">
-              <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+              <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
           </div>
@@ -108,9 +108,9 @@
 </template>
 
 <script>
-import Header from "../../components/Header/CrearHeader";
-import EventBus from "../../services/EventBus.js";
-import ServiceReporte from '../../services/ReportesPDFService'
+import Header from "@/components/Header/CrearHeader";
+import EventBus from "@/services/EventBus.js";
+import ServiceReporte from '@/services/ReportesPDFService'
 export default {
   name: "CrearDTC",
   props: {

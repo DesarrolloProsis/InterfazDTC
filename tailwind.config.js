@@ -25,15 +25,11 @@ module.exports = {
         '72': '31rem',
         '73': '34rem',
         '78': '59rem',
-        '80': '95rem',
-        
+        '80': '95rem',        
       }      
     }
   },
-  variants: {
-
-    
-
+  variants: {    
   },
   plugins: []
 }
