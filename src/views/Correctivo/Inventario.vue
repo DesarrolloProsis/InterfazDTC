@@ -113,9 +113,8 @@ export default {
       buscarPalabra: "",
       arrayPaginacion: [],
       listComponent: [],
-      listEditados: [],
-      boolUbicacion: true,
-      boolComponente: false,            
+      listEditados: [],      
+      objCheckoBox: {},      
       tipoUsuario: 0,
       disableInputs: false,
       modalLoading: false
@@ -213,7 +212,7 @@ export default {
         this.arrayPaginacion = new_array;
       }
     },
-    cambiar_ordern_inventario: function (orden) {
+    cambiar_ordern_inventario: function (orden) {      
       if (orden == "ubicacion") { 
         this.full_Component.sort((a, b) => {
           if (a.lane < b.lane) return -1;
@@ -296,8 +295,9 @@ export default {
       this.cambiar_pagina(1);
       this.listEditados = [];
     },    
-    guardar_palabra_busqueda: function(palabra){
-      this.buscarPalabra = palabra
+    guardar_palabra_busqueda: function(objFiltroPalabra){
+      this.objCheckoBox = objFiltroPalabra.tipo
+      this.buscarPalabra = objFiltroPalabra.newPalabra
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -305,17 +305,17 @@ export default {
 /////////////////////////////////////////////////////////////////////
   watch: {
     buscarPalabra: function (newValue) {
-      this.buscarPalabra.toUpperCase();      
+      this.buscarPalabra.toUpperCase();            
       if (newValue != "") {
         let array_filtrado = [];
-        if (this.boolUbicacion) {
+        if (this.objCheckoBox.ubicacion) {          
           for (const item of this.full_Component) {
             if (item.lane.toUpperCase().includes(newValue.toUpperCase())) {
               array_filtrado.push(item);
             }
           }
         }
-        if (this.boolComponente) {
+        if (this.objCheckoBox.componente) {
           for (const item of this.full_Component) {
             if (item.component.toUpperCase().includes(newValue.toUpperCase())) {
               array_filtrado.push(item);

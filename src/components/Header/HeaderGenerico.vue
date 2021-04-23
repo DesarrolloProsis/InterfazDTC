@@ -292,7 +292,11 @@ export default {
     },
     watch:{
         buscarPalabraInventario: function(newPalabra){
-            this.$emit('filtra-palabra', newPalabra)
+            let objFiltrarPalabra = {
+                newPalabra,
+                tipo: { ubicacion: this.boolUbicacion, componente: this.boolComponente }
+            }
+            this.$emit('filtra-palabra', objFiltrarPalabra)
         }
     }
 }
