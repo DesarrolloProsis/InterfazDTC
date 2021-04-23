@@ -83,7 +83,7 @@ export default {
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
         })
         .catch((error) => {
-            console.log(error.response)
+            console.log(error)            
         })
     },
     methods: {       

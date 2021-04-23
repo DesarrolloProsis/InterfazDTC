@@ -6,10 +6,9 @@
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio          
         </router-link>     
-      </div>
-      <div class="rollUsuario">{{ rollUsuario }}</div>
+      </div>      
       <div class="flex sm:mt-4">        
-        <p v-if="usuario" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{ usuario.nombre }}</p>
+        <p v-if="nombreUsuario != undefined" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{ nombreUsuario }}</p>
         <div class="group inline-block">
           <button class="bg-white rounded-lg flex items-center w-10 mt-3 ml-4 mr-0">
             <span>
@@ -20,25 +19,25 @@
           </button>
           <ul class="bg-white border rounded-lg transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top min-w-32 -ml-16">
             <!--Técnicos -->
-            <router-link to="/NuevoDtc"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '1'">Nuevo DTC</li></router-link>
-            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '1'">DTC Pendiente</li></router-link>
-            <router-link to="/CalendarioActividades"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '1'">Calendario</li></router-link>
-            <router-link to="/Configuracion"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '1'">Configuración</li></router-link>
+            <router-link to="/NuevoDtc"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '1'">Nuevo DTC</li></router-link>
+            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '1'">DTC Pendiente</li></router-link>
+            <router-link to="/CalendarioActividades"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '1'">Calendario</li></router-link>
+            <router-link to="/Configuracion"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '1'">Configuración</li></router-link> 
             <!--Admin-->
-            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '4'">Revisar DTC</li></router-link>
-            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '4'">Auto. GMMEP</li></router-link>
-            <router-link to="/CalendarioHistorico"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '4'">Calendario Historico</li></router-link>
-            <!-- CAPUFE -->
-            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Revisar DTC</li></router-link>
-            <router-link to="/Inventario"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Inventario</li></router-link>
-            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Auto. GMMEP</li></router-link>
-            <router-link to="/CalendarioHistorico"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '7'">Calendario Historico</li></router-link>
+            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '4'">Revisar DTC</li></router-link>
+            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '4'">Auto. GMMEP</li></router-link>
+            <router-link to="/CalendarioHistorico"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '4'">Calendario Historico</li></router-link>
+            <!-- CAPUFE -->            
+            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '7'">Revisar DTC</li></router-link>
+            <router-link to="/Inventario"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '7'">Inventario</li></router-link>
+            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '7'">Auto. GMMEP</li></router-link>
+            <router-link to="/CalendarioHistorico"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '7'">Calendario Historico</li></router-link>
             <!-- Desarrollo -->
-            <router-link to="/NuevoDtc"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Nuevo DTC</li></router-link>
-            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">DTC Pendiente</li></router-link>
-            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Auto. GMMEP</li></router-link>
-            <router-link to="/Inventario"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Inventario</li></router-link>
-            <router-link to="/Configuracion"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="cookiesUser.rollId == '10'">Configuración</li></router-link>
+            <router-link to="/NuevoDtc"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '10'">Nuevo DTC</li></router-link>
+            <router-link to="/ListarDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '10'">DTC Pendiente</li></router-link>
+            <router-link to="/ConcentradoDTC"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '10'">Auto. GMMEP</li></router-link>
+            <router-link to="/Inventario"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '10'">Inventario</li></router-link>
+            <router-link to="/Configuracion"><li class="rounded-sm px-3 py-1 hover:bg-gray-100" v-if="rollUsuario == '10'">Configuración</li></router-link>
           </ul>
         </div>
         <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-white hover:bg-red-700">Salir</router-link>
@@ -47,19 +46,23 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import { mapState } from 'vuex'
 export default {
   name: 'NavBar',
   data(){
     return{
-      rollUsuario: this.$store.state.Login.cookiesUser.rollId
+      //rollUsuario: this.$store.state.Login.cookiesUser.rollId,
+      //nombreUsuario: this.$store.state.Login.cookiesUser.nombreUsuario
     }
-  },    
+  }, 
   computed:{
-    ...mapGetters({ usuario: 'Header/GET_HEADER_SELECCIONADO' }), 
-    ...mapState('Login',['cookiesUser'])           
-  }
+    rollUsuario(){
+      return this.$store.state.Login.cookiesUser.rollId
+    },
+    nombreUsuario(){
+      return this.$store.state.Login.cookiesUser.nombreUsuario
+    }
+
+  }     
 };
 </script>
 <style >

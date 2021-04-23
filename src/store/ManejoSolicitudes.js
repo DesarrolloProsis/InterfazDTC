@@ -14,8 +14,7 @@ export default function manejor_solicitudes_run(){
     })      
     Axios.interceptors.response.use((response) => {        
         return response
-    },(error) => {
-        console.log(error)
+    },(error) => {        
         let requestOriginal = error.config
         if(error.response.status === 401 && requestOriginal.url.includes('login/refresh')){
             CookiesService.token_no_autorizado()            
@@ -29,8 +28,7 @@ export default function manejor_solicitudes_run(){
             //return Axios(requestOriginal)
             return Promise.reject(error)
         }
-        else if(error.response.status == 400){                        
-            console.log(error.response)
+        else if(error.response.status == 404){                                                
             return Promise.reject(error)
         }
                 
