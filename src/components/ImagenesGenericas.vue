@@ -153,6 +153,10 @@ export default {
                     rutaInsertImagenes = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                     objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/MantenimientoPreventivo/Images`, tipo: 1 }
                 }
+                else if (this.tipo == 'ConcentradoDTC'){
+                        rutaInsertImagenes = `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}
+                }
                 else{
                     if(this.tipo == 'Diagnostico'){
                         rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
@@ -165,7 +169,15 @@ export default {
                 }                             
                 for(let imagenes of value.target.files){                                                              
                         let formData = new FormData();
-                        formData.append("image", imagenes);
+                        if(this.tipo != 'ConcentradoDTC')
+                            formData.append("image", imagenes);
+                        else{
+                            let objPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.refereciaPlaza = this.referenceNumber.split('-')[0])
+                            console.log(objPlaza)
+                            formData.append("id", this.referenceNumber);
+                            formData.append("plaza", objPlaza.plazaNombre);
+                            formData.append("image",imagenes);  
+                        }
                         await Axios.post(rutaInsertImagenes, formData)
                             .then((response) => {                                                                   
                                 this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)

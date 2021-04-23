@@ -206,7 +206,7 @@ export default {
       this.cargarImagen = true;
     },
     uploadFiles: async function () {
-      let nombre_plaza = this.$store.state.Login.plazaSelecionada.plazaNombre
+      let nombrePlaza = this.$store.state.Login.plazaSelecionada.plazaNombre
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
@@ -238,7 +238,7 @@ export default {
                 reject("mal");
               });
           }          
-          await this.actualizar_img(nombre_plaza);
+          await this.actualizar_img(nombrePlaza);
           resolve("ok");
         } else {          
           resolve("ok");
@@ -250,8 +250,9 @@ export default {
             if(item.name.split('_')[0] != this.referenceNumber)      {      
             let formData = new FormData();
             formData.append("id", this.referenceNumber);
-            formData.append("plaza", nombre_plaza);
-            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));            
+            formData.append("plaza", nombrePlaza);
+            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));
+            console.log(nombrePlaza)            
             await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
               .then(() => {                            
             
@@ -262,7 +263,7 @@ export default {
               });
             }
           }          
-          await this.actualizar_img(nombre_plaza);
+          await this.actualizar_img(nombrePlaza);
           resolve("ok");
         } else {          
           this.cargarImagen = false;
@@ -292,8 +293,8 @@ export default {
       }
       Promise.all([agregar_promise, eliminar_promise]);
     },
-    actualizar_img: async function (nombre_plaza) {
-      console.log(nombre_plaza)
+    actualizar_img: async function (nombrePlaza) {
+      console.log(nombrePlaza)
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];

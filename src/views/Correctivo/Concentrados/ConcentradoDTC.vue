@@ -18,7 +18,7 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="relative inset-0">
           <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-34 justify-center absolute inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
-            <AgregarImg></AgregarImg>
+            <AgregarImg :reporteDataInsertada="true" :tipo="'ConcentradoDTC'" :referenceNumber="datosImg.referenceNumber"></AgregarImg>
             <div class="justify-center flex mt-5">
               <button class="botonIconCrear m-4">Subir</button>
               <button @click="subirImgModal = false" class="botonIconCancelar m-4">Cancelar</button>
@@ -208,6 +208,7 @@ data: function (){
       pdfSellado:'',
       bandera:false,
       subirImgModal: false,
+      datosImg:{}
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -230,8 +231,11 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-abrirSubir: function () {
+abrirSubir: function (item) {
   this.subirImgModal = true
+  console.log(item)
+  this.datosImg = item
+
 },
 abrirCarrusel : async function (item){  
   this.dtcImg = item

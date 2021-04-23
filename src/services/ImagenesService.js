@@ -34,6 +34,9 @@ function obtener_array_imagenes_agregadas(urlLocal, arrayComponete, objGetImage)
     else if(objGetImage.tipo == 2){
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
     }
+    else if(objGetImage.tipo == 3){
+        url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+    }
     else{
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
     }
