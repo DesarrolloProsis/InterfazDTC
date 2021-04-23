@@ -94,8 +94,7 @@ export default {
                         jobStatus: parseInt(item.jobStatus),
                         flagUpdate: this.reporteNuevo 
                     }) 
-                })
-                console.log(arrayJob)
+                })                
                 Axios.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
                 .then((response) => {               
                     console.log(response)

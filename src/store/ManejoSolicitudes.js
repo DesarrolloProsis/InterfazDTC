@@ -23,8 +23,7 @@ export default function manejor_solicitudes_run(){
         else if(error.response.status == 401 && !requestOriginal._retry){
             requestOriginal._retry = true
             CookiesService.refrescar_barer_token()
-            //Axios.defaults.headers.common['Authorization'] = CookiesService.obtener_bearer_token().headers.Authorization   
-            //console.log('regrese la solicitud ')
+            //Axios.defaults.headers.common['Authorization'] = CookiesService.obtener_bearer_token().headers.Authorization               
             //return Axios(requestOriginal)
             return Promise.reject(error)
         }

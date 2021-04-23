@@ -213,18 +213,10 @@ data: function (){
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-/* mounted(){ 
-console.log(this.$el)
-}, */
-
 beforeMount: function () {
   this.filtroVista = true
   this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
   this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-/*   console.log(this.$el)
-  console.log(this.$data)
-  console.log(this.$options.data) */
-
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -351,8 +343,7 @@ recibir_pdf_sellado(e, index) {
   if (!files.length) return;
   else {  
     for (let item of files) {        
-      if(this.crearImage(item)){
-        console.log(this.infoDTC[index].confirmpdf)
+      if(this.crearImage(item)){        
         this.$nextTick().then(() => {
           this.pdfSelladoBool = false
           this.infoDTC[index].confirmpdf = true             
