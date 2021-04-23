@@ -20,8 +20,8 @@
           <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-34 justify-center absolute inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
             <AgregarImg :reporteDataInsertada="true" :tipo="'ConcentradoDTC'" :referenceNumber="datosImg.referenceNumber"></AgregarImg>
             <div class="justify-center flex mt-5">
-              <button class="botonIconCrear m-4">Subir</button>
-              <button @click="subirImgModal = false" class="botonIconCancelar m-4">Cancelar</button>
+              <button @click="subirImg" class="botonIconCrear m-4">Subir</button>
+              <button @click="subirImgModal = false" class="botonIconCancelar m-4">Cerrar</button>
             </div>
           </div>
         </div>
@@ -233,9 +233,13 @@ computed:{
 methods:{
 abrirSubir: function (item) {
   this.subirImgModal = true
-  console.log(item)
   this.datosImg = item
-
+},
+subirImg: async function (){
+  this.subirImgModal = false
+  let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+  await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista)
 },
 abrirCarrusel : async function (item){  
   this.dtcImg = item
