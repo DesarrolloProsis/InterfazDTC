@@ -6,6 +6,15 @@
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8">Lista de Usuarios</h1>
+        <button class="w-full botonIconBuscar relative justify-center mb-1 -mt-4">
+          <img
+              src="../../assets/img/plus.png"
+              class="mr-2 sm:m-1"
+              width="20"
+              height="20"
+          />
+          <span class="">Agregar Nuevo Encargado</span>
+        </button>
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->

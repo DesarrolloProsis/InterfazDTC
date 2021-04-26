@@ -3,7 +3,7 @@
         <div class="justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-if="this.type == 'DIAG' ">Diagnostico de Falla</h1>
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-if="this.type == 'DIAG' ">Diagnóstico de Falla</h1>
                     <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-else>Ficha Técnica de Atención</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
@@ -12,7 +12,7 @@
                 <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Diag'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -21,20 +21,20 @@
                             <div v-if="!reporteInsertado">
                                 <button @click="enviar_header_diagnostico(true)" class="botonIconCrear">
                                     <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                    <span>Enviar Informacion Reporte</span>
+                                    <span>Enviar Informacion del Diagnóstico</span>
                                 </button>
                             </div>
                             <div v-else>
                                 <button @click="enviar_header_diagnostico(false)" class="botonIconCrear">
                                     <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                    <span>Imprimir Reporte</span>
+                                    <span>Imprimir Diagnóstico</span>
                                 </button>
                             </div>
                         </div>
                         <div v-else>
                             <button @click="enviar_header_diagnostico" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                <span>Actualizar Reporte</span>
+                                <span>Actualizar Diagnóstico</span>
                             </button>
                         </div>
                     </div>    
