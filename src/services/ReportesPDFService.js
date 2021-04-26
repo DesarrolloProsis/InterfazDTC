@@ -185,14 +185,14 @@ function generar_pdf_calendario_escaneado(año, mes){
 function generar_pdf_diagnostico_falla(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]
     let urlTopdf = `${API}/DiagnosticoFalla/${clavePlaza}/${referenceNumber}`
-    let namePdf = referenceNumber + '-DF'
+    let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)        
 }
 function generar_pdf_ficha_falla(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]
     console.log(clavePlaza)
     let urlTopdf = `${API}/FichaTecnicaAtencion/${clavePlaza}/${referenceNumber}`
-    let namePdf = referenceNumber + '-DF'
+    let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)        
 }
 export default {

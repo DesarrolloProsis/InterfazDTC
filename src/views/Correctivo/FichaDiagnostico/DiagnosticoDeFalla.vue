@@ -16,7 +16,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-10 ml-12 sm:mb-6 sm:ml-1 sm:mt-4">
+                    <div class="mb-10 -mt-24 ml-79 sm:mb-6 sm:ml-1 sm:mt-4">
                         <div v-if="$route.params.tipoVista == 'Crear'">
                             <div v-if="!reporteInsertado">
                                 <button @click="enviar_header_diagnostico(true)" class="botonIconCrear">
@@ -27,7 +27,7 @@
                             <div v-else>
                                 <button @click="enviar_header_diagnostico(false)" class="botonIconCrear">
                                     <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                    <span>Imprimir Diagnóstico</span>
+                                    <span>Generar Diagnóstico</span>
                                 </button>
                             </div>
                         </div>

@@ -16,25 +16,25 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-10 ml-12 sm:mb-6">
+                    <div class="-mt-24 ml-79 sm:mb-6">
                         <div v-if="$route.params.tipoVista == 'Crear'">
                             <div v-if="!reporteInsertado">
                                 <button @click="enviar_header_ficha(true)" class="botonIconCrear">
                                     <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                    <span>Enviar Informacion Reporte</span>
+                                    <span>Enviar Informacion de Ficha</span>
                                 </button>
                             </div>
                             <div v-else>
                                 <button @click="enviar_header_ficha(false)" class="botonIconCrear">
                                     <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                    <span>Imprimir Reporte</span>
+                                    <span>Descargar Ficha</span>
                                 </button>                                
                             </div>
                         </div>
                         <div v-else>
                             <button @click="enviar_header_ficha" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                <span>Actualizar Reporte</span>
+                                <span>Actualizar Ficha</span>
                             </button>                            
                         </div>
                     </div>    

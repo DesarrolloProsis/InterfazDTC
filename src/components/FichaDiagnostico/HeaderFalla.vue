@@ -100,8 +100,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA TRES                           ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 w-full grid grid-cols-2">
-                <div>
+            <div class="mt-6 w-full grid grid-cols-3">
                     <div class="mr-10 sm:w-32 sm:mb-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
@@ -123,12 +122,7 @@
                             v-bind:maxlength="limite"
                         />
                         <span class="text-gray-500">{{ restante_diag }}/300</span>
-                    </div>         
-                </div>
-                <!-- /////////////////////////////////////////////////////////////////////
-                ////                         IMAGENES                             ////
-                ///////////////////////////////////////////////////////////////////// -->
-                <div>
+                    </div> 
                     <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 sm:ml-4">
                         <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                         <textarea
@@ -139,7 +133,12 @@
                             v-bind:maxlength="limite"
                         />
                         <span class="text-gray-500">{{ restante_causa }}/300</span>
-                    </div>                    
+                    </div>         
+                
+                <!-- /////////////////////////////////////////////////////////////////////
+                ////                         IMAGENES                             ////
+                ///////////////////////////////////////////////////////////////////// -->
+                <div>                   
                 </div>
             </div>
         </div>
@@ -167,7 +166,7 @@
                 </div>
             </div>
             <div class="ml-5">   
-                <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-3 ">
+                <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-2">
                     <div class="mr-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea

@@ -1,8 +1,8 @@
 <template>
     <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full" :class="{'sm:-ml-1': tipo =='Diag'}">        
         <p class="text-gray-800 mt-2 mb-1 sm:text-sm sm:mb-4"
-        :class="{'sm:ml-48 sm:-mt-65 sm:mb-2 ml-78 -mt-64 -mb-1 lg:ml-73': tipo =='Diag'}">IMAGENE</p>
-        <div v-if="reporteDataInsertada" :class="{'w-1/3 ml-78 sm:ml-48 lg:ml-73' : tipo == 'Diag'}">
+        :class="{'sm:ml-48 sm:-mt-65 sm:mb-2 ml-5 -mb-1 mt-4 lg:ml-73': tipo =='Diag'}">IMAGENE</p>
+        <div v-if="reporteDataInsertada" :class="{'w-1/3 ml-5 sm:ml-48 lg:ml-73' : tipo == 'Diag'}">
             <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Diag'}" v-if="!cargandoImagen">
                 <div class="w-2/3 grid p-2 gap-4 overflow-auto" :class="{'grid-cols-2': tipo == 'Actividades', 'grid-cols-3': tipo == 'Diag' }">                                                                                                                
                     <div class="relative border " v-for="(item) in arrayImagenes" :key="item.name">
@@ -33,7 +33,7 @@
             </div>
             <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/36 (Máximo 36 fotografías)</span>     
         </div> 
-        <div v-else :class="{'w-1/3 ml-78 sm:ml-48 lg:ml-73' : tipo == 'Diag'}">
+        <div v-else :class="{'w-1/3 ml-5 sm:ml-48 lg:ml-73' : tipo == 'Diag'}">
             <button class="inline-flex h-40 border border-gray-400 bg-gray-300 rounded-lg w-full sm:w-32" :class="{'bg-gray-400' : reporteDataInsertada}">
                 <div class="w-2/3 grid p-2 gap-4 overflow-auto bg-gray-300">                                                                                                                
                 </div>
@@ -44,7 +44,7 @@
                     </button>
                 </div>
             </button>
-            <p class="-mt-1 text-1xl sm:text-sm  text-red-700" v-if="tipo == 'Diag'">Primero debe enviar la información del Reporte</p>
+            <p class="-mt-1 text-1xl sm:text-sm  text-red-700" v-if="tipo == 'Diag'" :class="{'text-center mb-4' :tipo == 'Diag'}">Primero debe enviar la información del Reporte</p>
             <p class="mt-1 text-1xl text-center text-red-700" v-else>Para agregar imagenes primero debe crear el reporte</p>
         </div>       
     </div>
