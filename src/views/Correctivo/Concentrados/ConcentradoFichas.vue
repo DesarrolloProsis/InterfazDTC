@@ -21,6 +21,7 @@
                                 <th class="cabeceraTable">Folio de Siniestro</th>
                                 <th class="cabeceraTable">Diagnostico</th>
                                 <th class="cabeceraTable">Ficha</th>
+                                <th class="cabeceraTable">Accion</th>
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////
@@ -42,10 +43,18 @@
                                         </button>
                                     </div>
                                 </td>
+                                    <td class="cuerpoTable">
+                                    <div>                        
+                                        <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar">
+                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <span>Editar</span>
+                                        </button>
+                                    </div>
+                                </td>
                                 <td class="cuerpoTable">
                                     <div>                                      
-                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar">
-                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonIconActualizar">
+                                            <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
                                     </div>
