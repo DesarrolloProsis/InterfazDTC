@@ -3,7 +3,7 @@
 <div class="shadow-2xl bg-gray-300">
 	<div class="relative  w-full">
             <span @click="cerrar_carrusel" class="absolute  top-0 right-0">
-                <img  src="../assets/img/closeCircle.png" class=" w-8 cursor-pointer " />
+                <img  src="../assets/img/close.png" class=" w-8 cursor-pointer " />
             </span>     
             <div class="inline-flex w-full">
                 <div class="my-auto absolute mt-48 ml-6 sm:ml-0">
