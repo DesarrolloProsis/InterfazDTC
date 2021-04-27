@@ -39,8 +39,11 @@
           </table>
         </div>
       </div>
+        <!--/////////////////////////////////////////////////////////////////////
+        ////                     MODAL AGREGAR USUARIO                      ////
+        ////////////////////////////////////////////////////////////////////-->
       <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Editar Encargado de Plaza</p>
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Agregar Usuario</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
                         <input v-model="objUsuarioNuevo.nombre" type="text" class="w-full bg-white border-gray-400">
@@ -51,7 +54,7 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
                         <input v-model="objUsuarioNuevo.correo" type="text" class="w-full bg-white border-gray-400 mt-2" >
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tipo Usuario</p>
-                        <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full">
+                        <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2">
                           <option disabled value>Selecionar...</option>     
                           <option v-for="(item, key) in listaTiposUsuario" :key="key">{{ item.nombre }}</option>                                                                         
                         </select>
@@ -65,7 +68,7 @@
                           placeholder="Selecciona..."
                           :options="listaPlazas"
                           track-by="squareCatalogId"
-                          class=" shadow-md hover:border-gray-700"
+                          class=" shadow-md hover:border-gray-700 mt-2"
                           :multiple="true"
                         >   
                           <template slot="selection" slot-scope="{ values, search, isOpen }">
@@ -82,7 +85,7 @@
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex -mr-10 -mt-6">
             <button @click="limpiar_usuario">
-              <img src="../../assets/img/cerrar.png" class="mr-2" width="25" height="25" />
+              <img src="../../assets/img/close.png" class="mr-2" width="25" height="25" />
             </button>
           </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -101,6 +104,10 @@
               <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Paterno</p>
               <input v-model="User.LastName2" class="w-full is_valid" type="text" />
             </div>
+            <div class="mt-3">
+              <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
+              <input v-model="User.Mail" class="w-full is_valid" type="text" />
+            </div>
             <div class="mt-8 flex justify-center">
               <button @click="modal_Part = true" class="botonIconNext">
                 <img src="../../assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
@@ -114,7 +121,7 @@
           <div class="mt-2 inset-x-0 bg-white w-66 sm:w-64 mx-auto px-10 py-5 -mb-5" v-else>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
-              <select v-if="!typeUser" v-model="User.Roll" class="w-full">
+              <select v-if="!typeUser" v-model="User.Roll" class="w-full is_valid">
                 <option value="1">Tecnico</option>
               </select>
               <select v-else v-model="User.Roll" class="w-full is_valid">
@@ -130,20 +137,22 @@
             </div>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-              <input v-model="User.RePassword" class="w-full" :disabled="enviarPassword"/>
+              <input v-model="User.RePassword" class="w-full is_valid" :disabled="enviarPassword"/>
             </div>
-            <div class="flex justify-center mt-5">
-              <button @click="modal_Part = false" class="botonIconNext">
-                <img src="../../assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
-                <span class="text-xs">Regresar</span>
-              </button>
-            </div>
-            <div class="flex justify-center mt-5 ">
-              <button @click="confirmar" class=" mt-4 botonIconBuscar">
-                <img src="../../assets/img/save.png" class="mr-5" width="25" height="25"/>
-                <span class="text-xs">Guardar</span>
-              </button>
-            </div>
+            <div class="grid grid-cols-2">  
+              <div class="flex justify-center mt-5 mr-10">
+                <button @click="modal_Part = false" class="mt-4 botonIconNext">
+                  <img src="../../assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
+                  <span class="text-xs mr-4">Regresar</span>
+                </button>
+              </div>
+              <div class="flex justify-center mt-5 ml-10">
+                <button @click="confirmar" class=" mt-4 botonIconBuscar">
+                  <img src="../../assets/img/save.png" class="mr-5" width="25" height="25"/>
+                  <span class="text-xs mr-5">Guardar</span>
+                </button>
+              </div>
+            </div> 
           </div>
         </div>
       </div>
