@@ -45,17 +45,17 @@
                                 </td>
                                     <td class="cuerpoTable">
                                     <div>                        
-                                        <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar">
+                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar">
                                             <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Editar</span>
+                                            <span>Descargar</span>
                                         </button>
                                     </div>
                                 </td>
                                 <td class="cuerpoTable">
                                     <div>                                      
-                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonIconActualizar">
+                                        <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
                                             <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Descargar</span>
+                                            <span>Editar</span>
                                         </button>
                                     </div>
                                 </td>
@@ -109,6 +109,9 @@ export default {
         },
         limpiar_filtros(){
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+        },
+        editar_diagnostico_falla(item){
+            this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
         }
     },
 }

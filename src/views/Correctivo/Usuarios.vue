@@ -6,13 +6,8 @@
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8">Lista de Usuarios</h1>
-        <button class="w-full botonIconBuscar relative justify-center mb-1 -mt-4">
-          <img
-              src="../../assets/img/plus.png"
-              class="mr-2 sm:m-1"
-              width="20"
-              height="20"
-          />
+        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1 -mt-4">
+          <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Encargado</span>
         </button>
       <!--///////////////////////////////////////////////////////////////////
@@ -31,29 +26,12 @@
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
                 <td class="cuerpoTable text-center">
-                  <button
-                    @click="editarUsuario(item)"
-                    class="botonIconActualizar"
-                  >
-                    <img
-                      src="../../assets/img/pencil.png"
-                      class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
-                    />
+                  <button @click="editarUsuario(item)" class="botonIconActualizar">
+                    <img src="../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Editar</span>
                   </button>
-                  <button
-                    v-if="typeUser"
-                    @click="borrar_usuario(item)"
-                    class="botonIconLimpiar m-2"
-                  >
-                    <img
-                      src="../../assets/img/bin.png"
-                      class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
-                    />
+                  <button v-if="typeUser" @click="borrar_usuario(item)" class="botonIconLimpiar m-2">
+                    <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Borrar</span>
                   </button>
                 </td>
@@ -61,16 +39,50 @@
           </table>
         </div>
       </div>
+      <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Editar Encargado de Plaza</p>
+                    <div class="grid grid-cols-2 mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
+                        <input v-model="objUsuarioNuevo.nombre" type="text" class="w-full bg-white border-gray-400">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Paterno</p>
+                        <input v-model="objUsuarioNuevo.apellidoM" type="text" class="w-full bg-white border-gray-400 mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
+                        <input v-model="objUsuarioNuevo.apellidoP" type="text" class="w-full bg-white border-gray-400 mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
+                        <input v-model="objUsuarioNuevo.correo" type="text" class="w-full bg-white border-gray-400 mt-2" >
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tipo Usuario</p>
+                        <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full">
+                          <option disabled value>Selecionar...</option>     
+                          <option v-for="(item, key) in listaTiposUsuario" :key="key">{{ item.nombre }}</option>                                                                         
+                        </select>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>                        
+                        <multiselect 
+                          v-model="objUsuarioNuevo.plazas"                                                                                                                                                             
+                          :custom-label="label_multi_select"                          
+                          :close-on-select="false"
+                          :clear-on-select="true"
+                          :hideSelected="false"
+                          placeholder="Selecciona..."
+                          :options="listaPlazas"
+                          track-by="squareCatalogId"
+                          class=" shadow-md hover:border-gray-700"
+                          :multiple="true"
+                        >   
+                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
+                          </template>   
+                        </multiselect>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button class="botonIconBuscar">Guardar</button>
+                        <button @click="modalEditar = false" class="botonIconCancelar">Cancelar</button>
+                    </div>
+                </div>
       <div class="flex absolute justify-center inset-x-0 mt-24">
         <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex">
             <button @click="limpiar_usuario">
-              <img
-                  src="../../assets/img/cerrar.png"
-                  class="mr-2"
-                  width="25"
-                  height="25"
-                />
+              <img src="../../assets/img/cerrar.png" class="mr-2" width="25" height="25" />
             </button>
           </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -90,16 +102,8 @@
               <input v-model="User.LastName2" class="w-full" type="text" />
             </div>
             <div class="mt-8 flex justify-center">
-              <button
-                @click="modal_Part = true"
-                class="botonIconNext"
-              >
-                <img
-                  src="../../assets/img/rehacer.png"
-                  class="mr-2"
-                  width="25"
-                  height="25"
-                />
+              <button @click="modal_Part = true" class="botonIconNext">
+                <img src="../../assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
                 <span class="text-xs">Siguiente</span>
               </button>
             </div>
@@ -129,30 +133,14 @@
               <input v-model="User.RePassword" class="w-full" :disabled="enviarPassword"/>
             </div>
             <div class="flex justify-center mt-5">
-              <button
-                @click="modal_Part = false"
-                class="botonIconNext"
-              >
-                <img
-                  src="../../assets/img/deshacer.png"
-                  class="mr-4"
-                  width="25"
-                  height="25"
-                />
+              <button @click="modal_Part = false" class="botonIconNext">
+                <img src="../../assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
                 <span class="text-xs">Regresar</span>
               </button>
             </div>
             <div class="flex justify-center mt-5 ">
-              <button
-                @click="confirmar"
-                class=" mt-4 botonIconBuscar"
-              >
-                <img
-                  src="../../assets/img/save.png"
-                  class="mr-5"
-                  width="25"
-                  height="25"
-                />
+              <button @click="confirmar" class=" mt-4 botonIconBuscar">
+                <img src="../../assets/img/save.png" class="mr-5" width="25" height="25"/>
                 <span class="text-xs">Guardar</span>
               </button>
             </div>
@@ -164,7 +152,11 @@
 </template>
 
 <script>
+import Multiselect from "vue-multiselect";
 export default {
+  components: {
+    Multiselect
+  },
   data: function () {
     return {
       lista_Usuarios: [],
@@ -184,6 +176,17 @@ export default {
       disablePass: false,
       enviarPassword: false,
       typeUser: true,
+      //Metodos Nuevos
+      modalEditar: false,
+      objUsuarioNuevo:{
+        nobre: '',
+        apellidoM: '',
+        apellidoP: '',
+        correo: '',
+        tipoUsuario: '',
+        plazas: []
+      }
+      
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -297,6 +300,18 @@ export default {
         });
       }
     },
+    label_multi_select(value){          
+      if(value != 'Sin Actividad')
+        return `${value.squareCatalogId} ${value.squareName}`  
+    },
   },
+  computed: {
+    listaTiposUsuario(){
+      return this.$store.state.Login.tipoUsuario
+    },
+    listaPlazas(){
+      return this.$store.state.Login.listaPlazas
+    }
+  }
 };
 </script>
