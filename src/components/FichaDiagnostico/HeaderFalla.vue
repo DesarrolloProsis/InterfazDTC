@@ -100,7 +100,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA TRES                           ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 w-full grid grid-cols-3">
+            <div class="mt-6 w-full grid grid-cols-3 sm:grid-cols-2">
                     <div class="mr-10 sm:w-32 sm:mb-10">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea

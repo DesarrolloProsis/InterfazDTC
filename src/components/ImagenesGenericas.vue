@@ -1,7 +1,7 @@
 <template>
     <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full" :class="{'sm:-ml-1': tipo =='Diag'}">        
         <p class="text-gray-800 mt-2 mb-1 sm:text-sm sm:mb-4"
-        :class="{'sm:ml-48 sm:-mt-65 sm:mb-2 ml-5 -mb-1 mt-4 lg:ml-73': tipo =='Diag'}">IMAGENE</p>
+        :class="{'sm:ml-48 sm:-mt-66 sm:mb-2 ml-5 -mb-1 mt-4 lg:ml-73': tipo =='Diag', 'sm:mt-2' : tipo == 'Ficha'}">IMAGENE</p>
         <div v-if="reporteDataInsertada" :class="{'w-1/3 ml-5 sm:ml-48 lg:ml-73' : tipo == 'Diag'}">
             <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Diag'}" v-if="!cargandoImagen">
                 <div class="w-2/3 grid p-2 gap-4 overflow-auto" :class="{'grid-cols-2': tipo == 'Actividades', 'grid-cols-3': tipo == 'Diag' }">                                                                                                                

@@ -9,7 +9,7 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Nuevo DTC</h1>
             </router-link>
           </div>
-          <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion hidden">
+          <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Correctivo/PreDTC/Crear/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/document.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Diagnstico de Fallas</h1>              

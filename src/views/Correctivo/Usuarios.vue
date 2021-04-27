@@ -18,7 +18,7 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32">
+        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:500px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable">Nombre</th>
@@ -62,8 +62,8 @@
         </div>
       </div>
       <div class="flex absolute justify-center inset-x-0 mt-24">
-        <div v-if="modal" class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
-          <div class="justify-end flex">
+        <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
+          <div class="justify-end flex -mr-10 -mt-6">
             <button @click="limpiar_usuario">
               <img
                   src="../../assets/img/cerrar.png"
@@ -76,20 +76,24 @@
           <!--/////////////////////////////////////////////////////////////////
           ////                  MODAL PRIMERA PARTE                        ////
           ////////////////////////////////////////////////////////////////////-->
-          <div class="mt-3" v-if="!modal_Part">
+          <div class="mt-3 inset-x-0 bg-white w-66 sm:w-64 mx-auto px-10 py-5" v-if="!modal_Part">
             <div class>
               <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
-              <input v-model="User.Name" class="w-full" type="text" />
+              <input v-model="User.Name" class="w-full is_valid" type="text" />
             </div>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Materno</p>
-              <input v-model="User.LastName1" class="w-full" type="text" name="NoReporte"/>
+              <input v-model="User.LastName1" class="w-full is_valid" type="text" name="NoReporte"/>
             </div>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Apellido Paterno</p>
-              <input v-model="User.LastName2" class="w-full" type="text" />
+              <input v-model="User.LastName2" class="w-full is_valid" type="text" />
             </div>
-            <div class="mt-8 flex justify-center">
+            <div class="mt-3">
+              <p class="text-sm mb-1 font-semibold text-gray-700">Correo</p>
+              <input v-model="User.Mail" class="w-full is_valid" type="text" />
+            </div>
+            <div class="mt-8 flex justify-center -mb-6">
               <button
                 @click="modal_Part = true"
                 class="botonIconNext"
@@ -107,13 +111,13 @@
           <!--/////////////////////////////////////////////////////////////////
           ////                  MODAL SEGUNDA PARTE                        ////
           ////////////////////////////////////////////////////////////////////-->
-          <div class="mt-2" v-else>
+          <div class="mt-2 inset-x-0 bg-white w-66 sm:w-64 mx-auto px-10 py-5 -mb-5" v-else>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>
               <select v-if="!typeUser" v-model="User.Roll" class="w-full">
                 <option value="1">Tecnico</option>
               </select>
-              <select v-else v-model="User.Roll" class="w-full">
+              <select v-else v-model="User.Roll" class="w-full is_valid">
                 <option disabled value>Selecionar...</option>
                 <option value="1">Tecnico</option>
                 <option value="2">Administrador</option>
@@ -122,39 +126,41 @@
             </div>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-              <input v-model="User.Password" class="w-full" :disabled="enviarPassword"/>
+              <input v-model="User.Password" class="w-full is_valid" :disabled="enviarPassword"/>
             </div>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña</p>
-              <input v-model="User.RePassword" class="w-full" :disabled="enviarPassword"/>
+              <input v-model="User.RePassword" class="w-full is_valid" :disabled="enviarPassword"/>
             </div>
-            <div class="flex justify-center mt-5">
-              <button
-                @click="modal_Part = false"
-                class="botonIconNext"
-              >
-                <img
-                  src="../../assets/img/deshacer.png"
-                  class="mr-4"
-                  width="25"
-                  height="25"
-                />
-                <span class="text-xs">Regresar</span>
-              </button>
-            </div>
-            <div class="flex justify-center mt-5 ">
-              <button
-                @click="confirmar"
-                class=" mt-4 botonIconBuscar"
-              >
-                <img
-                  src="../../assets/img/save.png"
-                  class="mr-5"
-                  width="25"
-                  height="25"
-                />
-                <span class="text-xs">Guardar</span>
-              </button>
+            <div class="grid grid-cols-2">  
+              <div class="flex justify-center mt-5 mr-6">
+                <button
+                  @click="modal_Part = false"
+                  class="botonIconNext"
+                >
+                  <img
+                    src="../../assets/img/deshacer.png"
+                    class="mr-4"
+                    width="25"
+                    height="25"
+                  />
+                  <span class="text-xs mr-4">Regresar</span>
+                </button>
+              </div>
+              <div class="flex justify-center mt-5 ml-6">
+                <button
+                  @click="confirmar"
+                  class=" mt-4 botonIconBuscar"
+                >
+                  <img
+                    src="../../assets/img/save.png"
+                    class="mr-5"
+                    width="25"
+                    height="25"
+                  />
+                  <span class="text-xs mr-4">Guardar</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
