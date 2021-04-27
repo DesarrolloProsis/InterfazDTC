@@ -7,7 +7,7 @@
         ////                         MODAL CARRUSEL                        /////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-63">          
+          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
             <div class="justify-center text-center block">            
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
