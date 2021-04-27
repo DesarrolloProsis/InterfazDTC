@@ -240,17 +240,36 @@ data(){
         blockCheckBox: [false, false, false]
     }
 },
-beforeMount: function(){       
-    this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
-    this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-    this.$emit('actualizar-header', this.datosDiagnostico)    
-    if(this.$route.query.data != undefined){        
-        this.datosDiagnostico = this.$route.query.data        
-        delete this.datosDiagnostico["diagnosticoFalla"]
-        delete this.datosDiagnostico["causaFalla"]
-        this.blockInput = true
+beforeMount: function(){  
+    if(this.$route.params.tipoVista != 'Crear'){
+        let paramRoute = this.$route.query.item      
+        this.plazaSeleccionada = paramRoute.squareId
+        let fecha = moment(paramRoute.diagnosisDate).format('YYYY-MM-DD')    
+        this.datosDiagnostico = {
+            referenceNumber: paramRoute.referenceNumber,
+            ubicacion: null,
+            fechaDiagnostico: fecha,
+            horaInicio: '',
+            horaFin: '',
+            folioFalla: paramRoute.failuerNumber,
+            numeroReporte: paramRoute.siniesterNumber,
+            descripcionFalla: paramRoute.failureDescription,
+            diagnosticoFalla:paramRoute.failureDiagnosis,
+            causaFalla:paramRoute.causeFailure
+        }
     }
+    else{
+        this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
+        this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.$emit('actualizar-header', this.datosDiagnostico)          
+        if(this.$route.query.data != undefined){        
+            this.datosDiagnostico = this.$route.query.data        
+            delete this.datosDiagnostico["diagnosticoFalla"]
+            delete this.datosDiagnostico["causaFalla"]
+            this.blockInput = true
+        }
+    }       
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
