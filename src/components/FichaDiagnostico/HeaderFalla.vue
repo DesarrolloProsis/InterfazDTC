@@ -229,7 +229,6 @@ data(){
             diagnosticoFalla:'',
             causaFalla:''
         },
-        solucion:'',
         listaPlazas: [],
         arrayReference: [],
         headerSelecionado: {},
@@ -291,7 +290,9 @@ computed:{
         return this.datosDiagnostico.causaFalla.length
     },
     restante_sol(){
-        return this.solucion.length
+        if(this.datosDiagnostico.solucionFalla != undefined)
+            return this.datosDiagnostico.solucionFalla.length
+        return 0
     },
 },
 watch:{
