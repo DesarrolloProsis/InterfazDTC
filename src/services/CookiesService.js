@@ -49,8 +49,8 @@ async function refrescar_barer_token(){
         console.log(error) 
     });
 }
-async function actualizar_plaza(adminId){  
-    let clousere_actualizar = async (adminId, tipoFiltro)  => {        
+async function actualizar_plaza(adminId, numeroPlaza){  
+    let clousere_actualizar = async (adminId, numPlaza, tipoFiltro)  => {        
         const listaPlazas = store.state.Login.cookiesUser.plazasUsuario
         const listaHeaders = store.state.Header.listaHeaders        
         let plazaSelect = {}
@@ -63,7 +63,10 @@ async function actualizar_plaza(adminId){
             case 2:
                 plazaSelect = listaPlazas[0]           
                 convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.adminSquareId == plazaSelect.administradorId)
-                break;      
+                break;   
+            case 3:
+                plazaSelect = listaPlazas.find(plaza => plaza.numeroPlaza == numPlaza) 
+                break;  
             default:
                 break;
         }
@@ -75,9 +78,12 @@ async function actualizar_plaza(adminId){
         return { plazaSelect, convenioSelect } 
     }    
     if(adminId != undefined)
-        return clousere_actualizar(adminId, 1)       
+        return clousere_actualizar(adminId, undefined, 1)       
     else if(adminId == undefined)
-        return clousere_actualizar(adminId, 2)         
+        if(numeroPlaza != undefined)
+            return clousere_actualizar(adminId, undefined, 2)
+        else
+            return clousere_actualizar(adminId, undefined, 3)         
 }
 function obtener_bearer_token(tokenPDF){
     if(tokenPDF == undefined) {
