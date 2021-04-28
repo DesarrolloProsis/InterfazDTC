@@ -48,12 +48,6 @@
 <script>
 export default {
   name: 'NavBar',
-  data(){
-    return{
-      //rollUsuario: this.$store.state.Login.cookiesUser.rollId,
-      //nombreUsuario: this.$store.state.Login.cookiesUser.nombreUsuario
-    }
-  }, 
   computed:{
     rollUsuario(){
       return this.$store.state.Login.cookiesUser.rollId

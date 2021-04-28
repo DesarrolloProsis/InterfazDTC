@@ -25,8 +25,7 @@ function obtener_array_imagenes(e, arrayComponete) {
     }
 }
 function obtener_array_imagenes_agregadas(urlLocal, arrayComponete, objGetImage){
-    let paramsSplit = urlLocal.split('\\')
-    console.log(paramsSplit)
+    let paramsSplit = urlLocal.split('\\')    
     let url = ''
     if(objGetImage.tipo == 1){
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`

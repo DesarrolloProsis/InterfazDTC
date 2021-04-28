@@ -26,7 +26,7 @@ describe("Componentes Layout", () => {
     })
     console.log(wrapper.vm.$data)
     //expect(wrapper.vm.$data.rollUsuario).toBe(7)
-    //expect(wrapper.vm.$data.nombreUsuario).toBe("Luis Eduardo Emiliano Torres")        
+    expect(wrapper.text()).toBe("Luis Eduardo Emiliano Torres")        
   })
 })
 

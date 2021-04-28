@@ -66,7 +66,12 @@ export default {
             reporteInsertado: false                 
         }
     },
+    beforeMount(){
 
+        if(this.$route.params.tipoVista == 'Editar'){
+            this.reporteInsertado = true
+        }
+    },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////

@@ -88,6 +88,7 @@ export default {
         let userId = this.$store.state.Login.cookiesUser.userId
         Axios.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
+            console.log(response)
             this.infoFichasFallaCompleta = response.data.result
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
         })

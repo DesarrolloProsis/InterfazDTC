@@ -63,7 +63,7 @@ async function actualizar_plaza(adminId){
             case 2:
                 plazaSelect = listaPlazas[0]           
                 convenioSelect = listaHeaders.find(header => header.referenceSquare == plazaSelect.refereciaPlaza && header.adminSquareId == plazaSelect.administradorId)
-                break;      
+                break;     
             default:
                 break;
         }
@@ -76,8 +76,8 @@ async function actualizar_plaza(adminId){
     }    
     if(adminId != undefined)
         return clousere_actualizar(adminId, 1)       
-    else if(adminId == undefined)
-        return clousere_actualizar(adminId, 2)         
+    else if(adminId == undefined)        
+        return clousere_actualizar(adminId, 2)        
 }
 function obtener_bearer_token(tokenPDF){
     if(tokenPDF == undefined) {
