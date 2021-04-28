@@ -2,32 +2,32 @@
   <div>
     <div class="flex w-full sm:hidden md:hidden lg:show xl:show">
       <div>
-        <div class="text-center mb-5">
+        <div class="text-center mb-5 font-titulo">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <div class="flex justify-center p-8">
           <div class="grid gap-4 grid-cols-1">
             <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24">
-              <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+              <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped font-titulo">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="text-sm text-gray-400 font-normal bg-blue-800">
-                    <th class="cabeceraTable">Partida</th>
-                    <th class="cabeceraTable">Unidad</th>
-                    <th class="text-red-600 cabeceraTable">Componente</th>
-                    <th class="text-red-600 cabeceraTable">Cantidad</th>
-                    <th class="cabeceraTable xl:w-32">Marca</th>
-                    <th class="cabeceraTable xl:w-32">Modelo</th>
-                    <th class="cabeceraTable xl:w-32">Numero de Serie</th>
-                    <th class="cabeceraTable text-red-600">Ubicacion<br />(carril/cuerpo)</th>
-                    <th class="cabeceraTable">Fecha de Instalacion</th>
-                    <th class="cabeceraTable">Fecha<br />(Ultimo Mantenimiento)</th>
-                    <th class="cabeceraTable">Folio<br />(Ultimo Mantenimiento)</th>
-                    <th class="cabeceraTable">Real</th>
-                    <th class="cabeceraTable w-20">Fabricante</th>
-                    <th class="cabeceraTable">Acciones</th>
+                  <tr class="text-sm text-gray-400 bg-blue-800">
+                    <th class="cabeceraTable font-medium">Partida</th>
+                    <th class="cabeceraTable font-medium">Unidad</th>
+                    <th class="text-red-600 font-medium cabeceraTable">Componente</th>
+                    <th class="text-red-600 font-medium cabeceraTable">Cantidad</th>
+                    <th class="cabeceraTable font-medium xl:w-32">Marca</th>
+                    <th class="cabeceraTable font-medium xl:w-32">Modelo</th>
+                    <th class="cabeceraTable font-medium xl:w-32">Numero de Serie</th>
+                    <th class="cabeceraTable font-medium text-red-600">Ubicacion<br />(carril/cuerpo)</th>
+                    <th class="cabeceraTable font-medium">Fecha de Instalacion</th>
+                    <th class="cabeceraTable font-medium">Fecha<br />(Ultimo Mantenimiento)</th>
+                    <th class="cabeceraTable font-medium">Folio<br />(Ultimo Mantenimiento)</th>
+                    <th class="cabeceraTable font-medium">Real</th>
+                    <th class="cabeceraTable font-medium w-20">Fabricante</th>
+                    <th class="cabeceraTable font-medium">Acciones</th>
                   </tr>
                 </thead>
                 <!--/////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@
                       <div v-if="equipo.rowUp">
                         <button
                     v-on:click.stop.prevent="deleteItem(index)"
-                    class="botonIconBorrarCard w-20"
+                    class="botonIconBorrarCard font-boton w-20"
                   >
                     <img
                       src="../../assets/img/bin.png"
@@ -134,7 +134,7 @@
                       width="15"
                       height="15"
                     />
-                    <span>Borrar</span>
+                    <span class="">Borrar</span>
                         </button>         
                       </div>
                       <div v-else>
@@ -249,23 +249,23 @@
     ////////////////////////////////////////////////////////////////////-->
     <div class="flex justify-center lg:hidden xl:hidden">
       <div class="p-4" :class="{ hidden: modal }">
-        <div class="text-center mb-5">
+        <div class="text-center mb-5 font-titulo">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <div class="flex justify-center">
           <div class="grid gap-4 grid-cols-1">
             <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:text-xs" :class="{ 'overflow-x-auto': scrollBool}">
-              <table class="border-collapse ">
+              <table class="border-collapse font-titulo">
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                 CABECERA DE LA TABLA                       ///////
                 ////                       PEQUEÑA                              ///////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
                   <tr class="border text-xs bg-blue-800 text-white">
-                    <th class="w-20 cabeceraTable">Partida</th>
-                    <th class="w-48 cabeceraTable text-red-600">Componente</th>
-                    <th class="w-48 cabeceraTable text-red-600">Ubicacion<br />(carril/cuerpo)</th>
-                    <th class="w-48 cabeceraTable">Acciones</th>
+                    <th class="w-20 cabeceraTable font-medium">Partida</th>
+                    <th class="w-48 cabeceraTable font-medium text-red-600">Componente</th>
+                    <th class="w-48 cabeceraTable font-medium text-red-600">Ubicacion<br />(carril/cuerpo)</th>
+                    <th class="w-48 cabeceraTable font-medium">Acciones</th>
                   </tr>
                 </thead>
                 <!--//////////////////////////////////////////////////////////////////
@@ -457,52 +457,52 @@
       <!--/////////////////////////////////////////////////////////////////
       ////              MODAL INFORMACION CELULAR                     ////
       ////////////////////////////////////////////////////////////////////-->
-      <div class="flex flex-col p-5" v-if="modal">
+      <div class="flex flex-col p-5 font-titulo" v-if="modal">
         <div class="text-xs text-center contenedor z-40">
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Componete</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Componete</p>
               <p>{{ objectModal.row3.description }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Carriles</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Carriles</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row8" :key="id">{{ item | formatPlaza }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Marca</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Marca</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row5" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Numero Serie</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Numero Serie</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row7" :key="id">{{ item }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Modelo</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Modelo</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row6" :key="id">{{ item }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Folio</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Folio</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row11" :key="id">{{ item }}</p>
             </div>
           </div>
           <div class="inline-flex m-2">
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha de Instalacion</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha de Instalacion</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row9" :key="id">{{ item | formatDate }}</p>
             </div>
             <div class="w-24 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha Ultimo Mantenimiento</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha Ultimo Mantenimiento</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row10" :key="id">{{ item | formatDate }}</p>
             </div>
             <div class="w-24 m-1">
               <p></p>
-              <p class="mb-3 font-bold text-gray-800 border-b-2 border-blue-800 rounded-lg">Tiempo de Vida Real</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Tiempo de Vida Real</p>
               <p class="border-b-2" v-for="(item, id) in objectModal.row12" :key="id">{{ item }}</p>
             </div>
           </div>
-          <div class="flex justify-end">
+          <div class="flex justify-end font-boton">
             <button
               v-on:click.stop.prevent="(modal = false), (objectModal = {})"
               class="hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded-lg inline-flex items-center border-b-2 border-red-700 m-2"
@@ -522,7 +522,7 @@
         <!--//////////////////////////////////////////////////////////////////
         ////                         MODAL AGREGAR COMPONENTE            ////
         //////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
+        <div class="sticky inset-0 font-titulo">
             <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-80 mx-auto px-2">
                 <div class="rounded-lg border bg-white border-gray-700 px-4 py-10 shadow-2xl">
                   <!--////////////////////////////////////////////////////////////////////
@@ -569,7 +569,7 @@
                         <button  
                         v-on:click.stop.prevent="agregarPartida()"
                         class="botonIconCrear m-6">Agregar</button>
-                        <button @click="botoncancelar_modal" class="botonIconCancelar m-6">Cancelar</button>
+                        <button @click="botoncancelar_modal" class="botonIconCancelar font-boton m-6">Cancelar</button>
                     </div>
                 </div>
             </div>

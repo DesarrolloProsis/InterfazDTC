@@ -9,43 +9,43 @@
           <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/NuevoDtc" class="text-center">
               <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Nuevo DTC</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Nuevo DTC</h1>
             </router-link>
           </div>
           <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Correctivo/PreDTC/Crear/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/document.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Diagnstico de Fallas</h1>              
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Diagnstico de Fallas</h1>              
             </router-link>
           </div>   
           <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/ListarDTC" class="text-center">
               <img src="../../assets/img/to-do.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">DTC Pendientes</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">DTC Pendientes</h1>
             </router-link>
           </div>
           <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/ConcentradoDTC" class="text-center">
               <img src="../../assets/img/terminado.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Autorizado GMMEP</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Autorizado GMMEP</h1>
             </router-link>
           </div>
           <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Inventario" class="text-center cursor-pointer">
               <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Inventario Plaza</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
             </router-link>
           </div>
           <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion ">
             <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
               <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Concentrado Diagnóstico</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado Diagnóstico</h1>
             </router-link>
           </div>
           <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
               <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Configuración</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Configuración</h1>
             </router-link>
           </div>      
       </div>
