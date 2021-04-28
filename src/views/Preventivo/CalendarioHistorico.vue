@@ -7,13 +7,13 @@
             <div class="grid grid-cols justify-center mt-10" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
                 <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
                     <div>   
-                        <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Bitacora de Visitas de Mantenimiento Equipos De Peaje</h1>     
+                        <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold">Bitacora de Visitas de Mantenimiento Equipos De Peaje</h1>     
                     </div>
                     <div class="flex sm:inline-block justify-center"> 
                     <!--/////////////////////////////////////////////////////////////////////
                         ////                         FILTRO TRAMO                        ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <div class="m-3">
+                        <div class="m-3 font-titulo">
                         <p class="font-bold sm:text-sm mb-5 tex-2xl">Selecciones el Tramo</p>
                             <select v-model="tramoFiltro" @change="tramo_cascada" class="w-full" type="text">
                                 <option value="">Selecionar...</option>  
@@ -24,7 +24,7 @@
                         <!--/////////////////////////////////////////////////////////////////
                             ////                         FILTRO PLAZA                       ////
                             ////////////////////////////////////////////////////////////////////-->
-                        <div class="m-3">
+                        <div class="m-3 font-titulo">
                             <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
                             <select v-model="plazaFiltro" class="w-full" type="text">
                                 <option value="">Selecionar...</option>     
@@ -34,7 +34,7 @@
                         <!--/////////////////////////////////////////////////////////////////
                             ////                         FILTRO FECHA                        ////
                             ////////////////////////////////////////////////////////////////////-->        
-                        <div class="m-3">                            
+                        <div class="m-3 font-titulo">                            
                             <p class="font-bold sm:text-sm mb-5">Seleccione el Año</p>
                             <select v-model="añoFiltro" class="w-full" type="text">
                                 <option value="">Selecionar...</option>     
@@ -45,7 +45,7 @@
                         <!--/////////////////////////////////////////////////////////////////////
                             ////                         FILTRO REFERENCIA                   ////
                             ////////////////////////////////////////////////////////////////////-->
-                        <div class="m-3">
+                        <div class="m-3 font-titulo">
                             <p class="font-bold mb-5 sm:text-sm">Seleccione el Mes</p>
                             <select v-model="mesFiltro" class="w-full" type="text">
                                 <option value="">Selecionar...</option>     
@@ -68,11 +68,11 @@
                         ////                  BOTONES FILTROS                        ////
                         /////////////////////////////////////////////////////////////////-->
                     <div class="m-3 text-center">
-                        <button @click.prevent="limpiar_filtros" class="botonIconLimpiar">
+                        <button @click.prevent="limpiar_filtros" class="botonIconLimpiar font-boton">
                             <img src="../../assets/img/bin.png" class="mr-2" width="20" height="2"/>
                             <span>Limpiar</span>
                         </button>
-                        <button @click.prevent="filtros_calendario()" class="botonIconBuscar">
+                        <button @click.prevent="filtros_calendario()" class="botonIconBuscar font-boton">
                             <img src="../../assets/img/lupa.png" class="mr-2" width="20" height="2"/>
                             <span>Buscar</span>
                         </button>
@@ -85,11 +85,11 @@
                     ////                           HEADER TABLA                      ////
                     ////////////////////////////////////////////////////////////////////-->
                     <thead>
-                        <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                            <th class="cabeceraTable w-64">Plaza</th>
-                            <th class="cabeceraTable w-64">Fecha</th>
-                            <th class="cabeceraTable w-64">Tecnico</th>                                                                                    
-                            <th class="cabeceraTable w-64">Acciones</th>
+                        <tr class="text-md text-gray-400 bg-blue-800 font-titulo">                
+                            <th class="cabeceraTable font-medium w-64">Plaza</th>
+                            <th class="cabeceraTable font-medium w-64">Fecha</th>
+                            <th class="cabeceraTable font-medium w-64">Tecnico</th>                                                                                    
+                            <th class="cabeceraTable font-medium w-64">Acciones</th>
                         </tr>
                     </thead>
                     <!--/////////////////////////////////////////////////////////////////
@@ -97,10 +97,10 @@
                     ////////////////////////////////////////////////////////////////////-->
                     <tbody name="table" is="transition-group">                      
                         <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaCalendario" :key="key">                
-                            <td class="cuerpoTable">{{ item.squareName }}</td>
-                            <td class="cuerpoTable">{{ item.fecha }}</td>                                                                                 
-                            <td class="cuerpoTable">{{ item.nombre  }}</td>
-                            <td class="cuerpoTable">
+                            <td class="cuerpoTable font-titulo font-normal">{{ item.squareName }}</td>
+                            <td class="cuerpoTable font-titulo font-normal">{{ item.fecha }}</td>                                                                                 
+                            <td class="cuerpoTable font-titulo font-normal">{{ item.nombre  }}</td>
+                            <td class="cuerpoTable font-titulo font-normal">
                                 <button @click="reporte_pdf(item)" class="botonIconDescargar">
                                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                                         <span class="text-xs sm:hidden">Descargar</span>
