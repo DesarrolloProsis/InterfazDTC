@@ -4,7 +4,7 @@
     <!--///////////////////////////////////////////////////////////////////
        ///                    FILTROS DE NAVEGACION   DTC             ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'DTC'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols" 
+    <div v-if="tipo == 'DTC'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
         <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
@@ -35,13 +35,13 @@
         ///                    BOTONES DE NAVEGACION  DTC               ////
        ////////////////////////////////////////////////////////////////////-->
         <div class="-mt-1 mb-4 text-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar">
-                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
+            <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar font-boton">
+                <img src="../../assets/img/escoba.png" class="" width="25" height="2"/>
                 <span>Limpiar</span>
             </button>
-            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar">
-                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
-                <span>Buscar</span>
+            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton ">
+                <img src="../../assets/img/lupa.png" class="" width="25" height="2"/>
+                <span >Buscar</span>
             </button>
         </div>
     </div>
