@@ -5,20 +5,20 @@
                 <div class="flex">     
                     <div class="botonPrincipal sm:m-4 sm:p-3 animacion" v-if="tipoUsuario == 7">
                         <router-link to="/ListarDTC" class="text-center cursor-pointer">
-                            <img src="../../assets/img/perfiles.png" height="200" width="200" class="m-10 sm:m-1" />
-                            <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Revisar DTC</h1>
+                            <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1" />
+                            <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Revisar DTC</h1>
                         </router-link>                       
                     </div> 
                     <div class="botonPrincipal m-8 sm:m-4 sm:p-3  animacion" v-if="tipoUsuario == 7">
                         <router-link to="/Inventario" class="text-center cursor-pointer">
-                            <img src="../../assets/img/inventario.png" height="200" width="200" class="m-10 sm:m-1"/>
-                            <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Inventario Plaza</h1>
+                            <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/>
+                            <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
                         </router-link>
                     </div>  
                     <div class="botonPrincipal m-8 sm:m-4 sm:p-3 animacion"  v-if="tipoUsuario == 8 || tipoUsuario == 7">
                         <router-link to="/ConcentradoDTC" class="text-center">
-                            <img src="../../assets/img/DtcFinalizado.png" height="200" width="200" class="m-10 sm:m-1"/>
-                            <h1 class="text-gray-900 text-xl sm:text-sm font-black font-mono">Autorizado GMMEP</h1>
+                            <img src="../../assets/img/terminado.png" height="200" width="200" class="m-10 sm:m-1"/>
+                            <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Autorizado GMMEP</h1>
                         </router-link>
                     </div>             
                 </div>
