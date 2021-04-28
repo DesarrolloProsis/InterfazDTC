@@ -2,7 +2,8 @@
 import Vuex from 'vuex'
 import NavBar from '../../src/components/Navbar.vue'
 import { mount, createLocalVue } from "@vue/test-utils"
-
+//Se importa para obtener etiquetas router-link
+import { RouterLinkStub } from '@vue/test-utils';
 const localVue = createLocalVue()
 localVue.use(Vuex)
 const store = new Vuex.Store({
@@ -18,15 +19,35 @@ const store = new Vuex.Store({
     }
   }
 })
+const $route = {
+  path: '/home',
+  params: {
+    item: {
+      msg: 'Hola Mundo!!'
+    }
+  }
+}
 describe("Componentes Layout", () => {
-  it("NavBar.vue", () => {
-    const wrapper = mount(NavBar, { 
-      store,     
-      localVue 
-    })
-    console.log(wrapper.vm.$data)
-    //expect(wrapper.vm.$data.rollUsuario).toBe(7)
-    expect(wrapper.text()).toBe("Luis Eduardo Emiliano Torres")        
+  it("NavBar.vue --- Mostrar NavBar", () => {
+    const wrapper = mount(NavBar, { mocks:{ $route}, store, localVue, stubs: { RouterLink: RouterLinkStub }})    
+    if(wrapper.vm.$route.path != '/')
+      expect(wrapper.find('#navBarShow').exists()).toBe(true)      
+    else
+      expect(wrapper.find('#navBarShow').exists()).toBe(true)       
+  })
+  it("NavBar.vue --- Mostrar Usuario", () => {    
+    const wrapper = mount(NavBar, { mocks:{ $route}, store, localVue, stubs: { RouterLink: RouterLinkStub }})    
+    if(wrapper.vm.$route.path != '/')
+      expect(wrapper.find('#testNombreUsuario').text()).toBe('Bienvenido: Luis Eduardo Emiliano Torres')
+    else
+      expect(wrapper.find('#navBarShow').exists()).toBe(true)    
+  })
+  it("NavBar.vue --- Lista Acceso Rapido", () => {    
+    const wrapper = mount(NavBar, { mocks:{ $route}, store, localVue, stubs: { RouterLink: RouterLinkStub }})    
+    if(wrapper.vm.$route.path != '/')
+      expect(wrapper.find('#testListaAccesoRapido').element.childElementCount).toBe(4)    
+    else
+    expect(wrapper.find('#testListaAccesoRapido').element.childElementCount).toBe(0)
   })
 })
 

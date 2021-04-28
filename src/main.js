@@ -11,6 +11,9 @@ import './registerServiceWorker'
 import moment from "moment";
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
+//Rputer
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 //Img
 import VueFileAgent from 'vue-file-agent';
 Vue.use(VueFileAgent);
