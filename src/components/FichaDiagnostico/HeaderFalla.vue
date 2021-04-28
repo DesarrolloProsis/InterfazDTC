@@ -195,6 +195,7 @@ import SelectPlaza from '../../components/Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService';
 import moment from "moment";
 import Multiselect from "vue-multiselect";
+import CookiesService from '../../services/CookiesService';
 export default {
 name: "Diagnostico",
 props:{
@@ -239,14 +240,23 @@ data(){
         blockCheckBox: [false, false, false]
     }
 },
-beforeMount: function(){  
-    if(this.$route.params.tipoVista != 'Crear'){
-        let paramRoute = this.$route.query.item      
-        this.plazaSeleccionada = paramRoute.squareId
+beforeMount: async function(){  
+    if(this.$route.params.tipoVista != 'Crear'){        
+        let paramRoute = this.$route.query.item         
+        let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
+        this.plazaSeleccionada = plazaSelect.numeroPlaza;
+        this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        let todosCarriles = await this.$store.getters["Refacciones/GET_CARRILES_STATE"];          
+        let ubicacion = paramRoute.lanes
+            .split(',')
+            .map(carril => {                        
+                return todosCarriles.find(item => item.lane == carril)                        
+        })                        
         let fecha = moment(paramRoute.diagnosisDate).format('YYYY-MM-DD')    
         this.datosDiagnostico = {
             referenceNumber: paramRoute.referenceNumber,
-            ubicacion: null,
+            ubicacion: ubicacion,
             fechaDiagnostico: fecha,
             horaInicio: paramRoute.start,
             horaFin: paramRoute.end,

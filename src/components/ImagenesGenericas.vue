@@ -95,18 +95,34 @@ export default {
         clearInterval(this.interval);            
     },
     beforeMount() {       
-        if(this.referenceNumber != '') {
-            setTimeout(() => {            
-                Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+        
+        
+            setTimeout(() => {   
+                let urlImgPaths = ''                         
+                if(this.tipo == 'Actividades')
+                    urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                else if(this.tipo == 'Diag'){
+                    let referenceRoute = this.$route.query.item.referenceNumber        
+                    urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+                }
+                Axios.get(urlImgPaths)
                     .then((response) => {                          
+                        console.log(response.data)
+                        let urlImgDescarga = ''
+                        if(this.tipo == 'Actividades')
+                            urlImgDescarga = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        else if(this.tipo == 'Diag'){
+                            urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        }
                         if(response.status != 404){                          
                             let newArrayImg = []                      
                             response.data.forEach(item => {
                                 newArrayImg.push({
                                     "name": item, 
-                                    "imgbase": `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+                                    "imgbase": `${urlImgDescarga}/${item}`
                                 })
                             })
+
                             this.arrayImagenes = newArrayImg                                       
                         }    
                     })
@@ -114,7 +130,7 @@ export default {
                         console.log(error);                     
                 });
             }, 1000)
-        }
+        
     },
     computed:{
         num (){

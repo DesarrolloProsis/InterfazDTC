@@ -135,15 +135,7 @@ function filtro_encargados_plaza (listaEncargados, plaza, nombre){
     }
     return encargadosFiltrados
 }
-function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){
-    console.log({
-        listaDiagnostico,
-        plaza: objFiltro.plaza,
-        fecha: objFiltro.fecha,
-        numeroReferencia: objFiltro.numeroReferencia,
-        ubicacion: objFiltro.ubicacion
-    })
-    console.log(listaDiagnostico[0].diagnosisDate.slice(0,10))
+function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){        
     let listaFiltrada = []
     if(objFiltro.plaza != ''){
         listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareId == objFiltro.plaza)

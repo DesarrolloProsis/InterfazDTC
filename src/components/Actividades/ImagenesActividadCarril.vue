@@ -93,12 +93,10 @@ export default {
                         //contador++         
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
-                        formData.append("image", imgagen);
-                        console.log(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
+                        formData.append("image", imgagen);                        
                         await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                             .then((response) => {
-                                console.log(response)     
-                                //CookiesService.refrescar_bearer_token()                                                                                                       
+                                console.log(response)                                     
                             })
                             .catch(error => {  
                                 console.log(error)                                                    
@@ -111,8 +109,7 @@ export default {
             this.$emit('ocutar-modal-loading',value)                   
         },
         eliminar_imagen(nombreImagen){                
-            if(this.arrayImagenes.length > 1){  
-                console.log(nombreImagen)              
+            if(this.arrayImagenes.length > 1){                              
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 

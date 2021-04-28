@@ -189,8 +189,7 @@ function generar_pdf_diagnostico_falla(referenceNumber){
     xml_hhtp_request(urlTopdf, namePdf)        
 }
 function generar_pdf_ficha_falla(referenceNumber){
-    let clavePlaza = referenceNumber.split('-')[0]
-    console.log(clavePlaza)
+    let clavePlaza = referenceNumber.split('-')[0]    
     let urlTopdf = `${API}/FichaTecnicaAtencion/${clavePlaza}/${referenceNumber}`
     let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)        
