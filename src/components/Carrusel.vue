@@ -6,7 +6,7 @@
                 <img  src="../assets/img/close.png" class=" w-8 cursor-pointer " />
             </span>     
             <div class="inline-flex w-full">
-                <div class="my-auto absolute mt-48 ml-6 sm:ml-0">
+                <div class="my-auto absolute mt-48 ml-6 sm:ml-0" :class="{'hidden' : total <= 1}">
                     <button @click="cambiar_imagen('anterior')">
                         <img src="../assets/img/anterior.png" class="w-24 opacity-50" alt />
                     </button>
@@ -14,12 +14,13 @@
                 <div class="block h-69 w-full text-white text-5xl text-center">           
                     <lazy-image v-if="cambiarImagenBool" :src="arrayImagenes.array_img[index_imagen_actual].image" :img-class="['w-full', 'h-69', ' rounded-xl', '']" placeholder="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" />          
                 </div>
-                <div class="my-auto absolute mt-48 ml-73 sm:ml-64">
+                <div class="my-auto absolute mt-48 ml-73 sm:ml-64" :class="{'hidden' : total <= 1}">
                     <button @click="cambiar_imagen('siguiente')">
                         <img src="../assets/img/siguiente.png" class="w-24 opacity-50 " alt />
                     </button>
                 </div>
             </div>
+            <span >{{ posicion }}/{{ total }}</span>
     </div>
 </div>
 </template>
@@ -36,10 +37,19 @@ export default {
         return{
             index_imagen_actual: 0,
             cambiarImagenBool: true,
+            contador: 0,
         }
     },
     beforeMount(){        
-    },  
+    }, 
+    computed:{
+        total(){
+            return this.arrayImagenes.array_img.length
+        },
+        posicion(){
+            return  this.index_imagen_actual + 1
+        },
+    },
     methods:{
         cerrar_carrusel(){
             this.$emit('cerrar-modal-carrusel')
@@ -63,8 +73,6 @@ export default {
             })
         }
     }
-
-
 }
 </script>
 
