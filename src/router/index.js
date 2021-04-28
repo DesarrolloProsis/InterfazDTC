@@ -1,4 +1,4 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index'
 import Home from '../views/Home.vue'
@@ -16,7 +16,7 @@ import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
 import CookiesService from '../services/CookiesService'
-Vue.use(VueRouter)
+// Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
