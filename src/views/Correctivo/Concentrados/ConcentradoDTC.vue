@@ -126,14 +126,13 @@
                   <!-- <input type="checkbox"> -->
                   <div class="grid grid-cols-2 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
                     <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard  w-24 sm:w-10 sm:ml-8 mr-2">
-                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0 sm:ml-1" width="15" height="15" />
+                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
                     <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard w-24 sm:w-10 sm:ml-8" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
-                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0 sm:ml-1" width="15" height="15" />
+                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
-
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
@@ -173,7 +172,6 @@
     </div> 
 </div>
 </template>
-
 <script>
 import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -191,7 +189,6 @@ export default {
     HeaderGenerico,
     AgregarImg
   },
-
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
 /////////////////////////////////////////////////////////////////////

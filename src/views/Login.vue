@@ -5,7 +5,7 @@
         ////                 FORMULARIO PRINCIPAL                         ////
         ///////////////////////////////////////////////////////////////////// -->
       <div :class="{ 'blur-content': modal }">
-        <p class="text-center text-black font-sans text-4xl">Bienvenido</p>
+        <p class="text-center text-black font-titulo font-medium text-4xl">Bienvenido</p>
         <div>
           <div class="flex">
             <img src="../assets/img/loginIcon.png" class="w-64 h-64 mx-auto" />
@@ -14,12 +14,12 @@
         <br />
         <div class="mt-10">
           <div class="mb-5">
-            <input @keyup.enter="ingresar_inicio()"  v-validate="'required'" v-model="datos.User" class="w-full h-8" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
+            <input @keyup.enter="ingresar_inicio()"  v-validate="'required'" v-model="datos.User" class="w-full h-8 font-titulo font-normal" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
             <span class="text-red-600 text-xs">{{ errors.first("Usuario") }}</span>
           </div>
           <div class="mb-5">
             <div class="w-full inline-flex relative">
-              <input @keyup.enter="ingresar_inicio()" placeholder=" Contraseña" class="w-full h-8" v-validate="'required'" :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}" :type="tipoInput" name="Contraseña" v-model="datos.Password" />
+              <input @keyup.enter="ingresar_inicio()" placeholder=" Contraseña" class="w-full h-8 font-titulo font-normal" v-validate="'required'" :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}" :type="tipoInput" name="Contraseña" v-model="datos.Password" />
               <span class="absolute right-0 mt-2 mr-2 cursor-pointer" @click="tipoInput == 'password' ? tipoInput = 'text' : tipoInput = 'password'">
                 <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
                 <img v-else src="../assets/img/notvisibility.png" class="w-5" />

@@ -22,7 +22,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////          TEXT AREA PARA OBSERVACIONES                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1">
+        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1 font-titulo">
             <div class="w-1/2 sm:w-full sm:-ml-10">                
                 <p class="text-center font-bold text-xl text-gray-800 mb-5 sm:-ml-20">Observaciones</p>          
                 <textarea
@@ -48,7 +48,7 @@
             <!-- reportInsert equivalente a usar route.params.tipoVista == 'crear o editar' -->
                 <div v-if="reporteInsert">
                     <div v-if="!reporteInsertado">
-                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonCrearReport h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                        <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonCrearReporte h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                             <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Crear Reporte Actividades</span>                    
                         </button>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconActualizar h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconActualizar font-black h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                         <img src="../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                         <span>Actualizar Reportes</span>                    
                     </button>

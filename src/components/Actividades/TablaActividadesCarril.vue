@@ -12,13 +12,11 @@
                     ////////////////////////////////////////////////////////////////////-->
                     <thead>
                         <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800"> 
-                            <th class="w-64 cabeceraTable">Equipo</th>               
-                            <th class="w-64 cabeceraTable">Componente</th> 
-                            <th class="w-64 cabeceraTable">Actividad</th>                             
-                            <th class="w-64 cabeceraTable">Ubicacion</th>                                                                                          
-                            <th class="w-64 cabeceraTable">
-                                <p>Acciones</p>                                    
-                            </th>                
+                            <th class="w-64 cabeceraTable font-titulo font-medium">Equipo</th>               
+                            <th class="w-64 cabeceraTable font-titulo font-medium">Componente</th> 
+                            <th class="w-64 cabeceraTable font-titulo font-medium">Actividad</th>                             
+                            <th class="w-64 cabeceraTable font-titulo font-medium">Ubicacion</th>                                                                                          
+                            <th class="w-64 cabeceraTable font-titulo font-medium"><p>Acciones</p></th>                
                         </tr>
                     </thead>
                 <!--///////////////////////////////////////////////////////////////////
@@ -26,12 +24,12 @@
                     /////////////////////////////////////////////////////////////////-->
                     <tbody name="table" is="transition-group">       
                         <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividades" :key="key"> 
-                            <td class="w-66 cuerpoTable">{{ item.equipo }}</td>   
-                            <td class="w-66 cuerpoTable">{{ item.componente }}</td>                                                         
-                            <td class="w-66 cuerpoTable">{{ item.actividades }}</td>   
-                            <td class="w-66 cuerpoTable">{{ item.ubicacion }}</td>                                                                                
-                            <td class="w-66 cuerpoTable text-center" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">                                                                
-                                <select v-model="item.jobStatus" @change="actualizar_actividad(item)" class="w-32 text-md text-gray-800 border-gray-900" >
+                            <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.equipo }}</td>   
+                            <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.componente }}</td>                                                         
+                            <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.actividades }}</td>   
+                            <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.ubicacion }}</td>                                                                                
+                            <td class="w-66 cuerpoTable font-titulo font-normal text-center" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">                                                                
+                                <select v-model="item.jobStatus" @change="actualizar_actividad(item)" class="w-32 text-md text-gray-800 border-gray-900 " >
                                     <option value="0">Seleccione...</option>
                                     <option class="bg-green-500" value="1">Ok</option>
                                     <option class="bg-yellow-500" value="2">Dañado</option>

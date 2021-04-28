@@ -11,7 +11,7 @@
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
                 <div class="border-gray-200 p-5 pt-0">
-                    <h1 class="mt-5 border-purple-800 w-72 sm:w-full font-bold">{{ `Calendario de Actividades` }}</h1>            
+                    <h1 class="mt-5 border-purple-800 w-72 sm:w-full font-titulo font-bold">{{ `Calendario de Actividades` }}</h1>            
                 </div>
             </div>
         </div>
@@ -22,8 +22,8 @@
             <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
                     <div class="flex justify-starts m-5">
-                        <p class=" font-bold">Correspondiente al mes de:</p>
-                        <h2 class="ml-5">{{ `${mesNombre} del ${año}` }}</h2>
+                        <p class="font-titulo font-semibold">Correspondiente al mes de:</p>
+                        <h2 class="ml-5 font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>                    
                     <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'insercion'"></SelectPlaza>                                                    
@@ -32,7 +32,7 @@
                     <div class="flex justify-start m-5">
                         <button @click="generar_pdf" class="botonIconCrear">
                             <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
-                            <span>Crear</span>
+                            <span class="">Crear</span>
                         </button>
                     </div>
                     <div class="flex-col justify-center h-12 w-full mt-5 " >
@@ -61,12 +61,12 @@
                     </div>          
                 </div>
                 <div class=" w-1/2 sm:w-full p-8 sm:p-2">
-                    <span class="text-center font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
+                    <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
                     <textarea
                         v-model="comentario"
                         v-validate="'max:500|required'"
                         :class="{ 'is_valid': !errors.first('comentario'), 'is_invalid': errors.first('comentario')}"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border sm:mt-2 sm:mb-1"
+                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border sm:mt-2 sm:mb-1 font-titulo"
                         placeholder="jane@example.com"
                         name="comentario"
                         v-bind:maxlength="limite"
@@ -79,35 +79,35 @@
               ////                     COLUMNA INDICACIONES                    ////
               ////////////////////////////////////////////////////////////////////-->
             <div class="w-1/4 sm:w-full uppercase text-xs p-10 sm:p-5">
-                <p class=" font-bold">Codigo de Colores:</p>
+                <p class="font-titulo font-semibold">Codigo de Colores:</p>
                 <div class="flex justify-between mt-2 ml-2">
-                    <p>Semanal</p>
+                    <p class="font-titulo">Semanal</p>
                     <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
-                        <p class="mt-1">Verde</p>
+                        <p class="mt-1 font-titulo">Verde</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
-                    <p>Mensual</p>
+                    <p class="font-titulo">Mensual</p>
                     <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
-                        <p class="mt-1">Rojo</p>
+                        <p class="mt-1 font-titulo">Rojo</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
-                    <p>Trimestral</p>
+                    <p class="font-titulo">Trimestral</p>
                     <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
-                        <p class="mt-1">Azul</p>
+                        <p class="mt-1 font-titulo">Azul</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
-                    <p>Semestral</p>
+                    <p class="font-titulo">Semestral</p>
                     <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
-                        <p class="mt-1">Rosa</p>
+                        <p class="mt-1 font-titulo">Rosa</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
-                    <p>Anual</p>
+                    <p class="font-titulo">Anual</p>
                     <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
-                        <p class="mt-1">NARANJA</p>
+                        <p class="mt-1 font-titulo">NARANJA</p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,10 @@
 module.exports = {
   
   theme: {
+    fontFamily: {
+      titulo: ['IBM Plex Sans'],
+      boton: ['Montserrat'],
+    },
     purge: [
       './src/**/*.html',
       './src/**/*.vue',

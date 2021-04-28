@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+
 @tailwind base;
 .is_validPlaza {
     @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
@@ -76,7 +79,7 @@ select:focus {
     @apply bg-white;
 }
 .botonIconLimpiar{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconLimpiar:hover{
     @apply border-red-600 bg-red-500 text-white transition duration-500;
@@ -85,7 +88,7 @@ select:focus {
     @apply outline-none;
 }
 .botonIconBuscar{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonIconBuscar:hover{
     @apply border-blue-600 bg-blue-500 text-white transition duration-500;
@@ -94,7 +97,7 @@ select:focus {
     @apply outline-none;
 }
 .botonCrearFoto{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonCrearFoto:hover{
     @apply border-blue-600 bg-blue-400 text-white transition duration-500;
@@ -109,7 +112,7 @@ select:focus {
     @apply border-dashed border-t border-gray-200 px-3;
 }
 .botonIconCrear{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
+    @apply bg-white tracking-wide text-gray-800 font-boton font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonIconCrear:hover{
     @apply border-green-500 bg-green-500 text-white transition duration-500;
@@ -118,7 +121,7 @@ select:focus {
     @apply outline-none;
 }
 .botonCrearReport{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonCrearReport:hover{
     @apply border-green-500 bg-green-400 text-white transition duration-500;
@@ -142,7 +145,7 @@ select:focus {
     @apply bg-gray-600 text-black transition duration-500;
 }
 .botonIconCancelar{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconCancelar:hover{
     @apply border-red-800 bg-red-500 text-white transition duration-500;
@@ -151,16 +154,16 @@ select:focus {
     @apply outline-none;
 }
 .botonIconActualizar{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-yellow-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+    @apply bg-white tracking-wide text-black font-boton font-bold rounded border-b-2 border-yellow-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconActualizar:hover{
-    @apply border-orange-500 bg-yellow-400 text-black transition duration-500;
+    @apply border-orange-500 bg-yellow-300 text-black transition duration-500;
 }
 .botonIconActualizar:focus{
     @apply outline-none;
 }
 .botonIconDescargar{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+    @apply bg-white tracking-wide text-black font-boton font-bold rounded border-b-2 border-red-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonIconDescargar:hover{
     @apply border-red-600 bg-red-300 text-white transition duration-500;
@@ -278,17 +281,17 @@ select:focus {
 .botonBajar:focus{
     @apply outline-none;
 }
-.botonCrearReport{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
+.botonCrearReporte{
+    @apply bg-white tracking-wide text-gray-800 font-boton font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
-.botonCrearReport:hover{
+.botonCrearReporte:hover{
     @apply border-green-500 bg-green-400 text-white transition duration-500;
 }
-.botonCrearReport:focus{
+.botonCrearReporte:focus{
     @apply outline-none;
 }
 .botonCrearFoto{
-    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
+    @apply bg-white tracking-wide text-gray-800 font-boton font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonCrearFoto:hover{
     @apply border-blue-600 bg-blue-400 text-white transition duration-500;
