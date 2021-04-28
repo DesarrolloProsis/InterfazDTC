@@ -32,8 +32,8 @@
                             </div>
                         </div>
                         <div v-else>
-                            <button @click="enviar_header_diagnostico" class="botonIconCrear">
-                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <button @click="enviar_header_diagnostico" class="botonIconActualizar">
+                                <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                                 <span>Actualizar Diagnóstico</span>
                             </button>
                         </div>

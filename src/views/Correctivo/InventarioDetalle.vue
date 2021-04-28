@@ -1,5 +1,5 @@
 <template>
-  <div>    
+  <div class="font-titulo">    
     <h1 class="text-black text-center text-4xl mt-3 sm:mb-1">Inventario</h1>
     <div class="flex justify-center sm:mb-8" :class="{'pointer-events-none': tipoUsuario == 7}">
       <!--/////////////////////////////////////////////////////////////////
@@ -17,21 +17,21 @@
           </div>
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Marca</p>
-            <input v-model="objDatos.marca" class="w-64 sm:w-32" type="text" placeholder="Marca" />
+            <input v-model="objDatos.marca" class="w-64 is_valid sm:w-32" type="text" placeholder="Marca" />
           </div>
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Modelo</p>
-            <input v-model="objDatos.modelo" class="w-64 sm:w-32" type="text" placeholder="Modelo" />
+            <input v-model="objDatos.modelo" class="w-64 is_valid sm:w-32" type="text" placeholder="Modelo" />
           </div>
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Numero de Serie</p>
-            <input v-model="objDatos.numSerie" class="w-64 sm:w-32" type="text" placeholder="Numero de Serie"/>
+            <input v-model="objDatos.numSerie" class="w-64 is_valid sm:w-32" type="text" placeholder="Numero de Serie"/>
           </div>        
           <div class="m-5 sm:mr-0">
             <p class="mb-1">Observacion</p>
             <textarea
               v-model="objDatos.observaciones"
-              class="appearance-none block bg-grey-lighter text-grey-darker border border-gray-600 rounded-lg h-20 w-64 sm:w-32"
+              class="appearance-none block bg-grey-lighter text-grey-darker border border-gray-600 rounded-lg h-20 w-64 sm:w-32 is_valid"
               type="text"
               placeholder="Observaciones"
             />
@@ -43,27 +43,27 @@
         <div class="m-10 mt-3 sm:m-1 sm:text-sm text-base font-light text-gray-900 sm:mb-6" >
           <div class="m-5 sm:ml-10">
             <p class="mb-1">Fecha de Instalacion</p>
-            <input v-model="objDatos.fechaInstalacion" class="w-64 sm:w-32" type="date" />
+            <input v-model="objDatos.fechaInstalacion" class="w-64 sm:w-32 is_valid" type="date" onkeydown="return false" />
           </div>
           <div class="m-5 sm:ml-10">
             <p class="mb-1">Fecha Ultimo Mantenimiento</p>
-            <input v-model="objDatos.fechaUltimoMantenimiento" class="w-64 sm:w-32" type="date" />
+            <input v-model="objDatos.fechaUltimoMantenimiento" class="w-64 sm:w-32 is_valid" type="date" onkeydown="return false"/>
           </div>
           <div class="m-5 sm:ml-10">
             <p>Folio Ultimo Mantenimiento</p>
-            <input v-model="objDatos.folioUltimoMantenimiento" class="w-64 sm:w-32" type="text" placeholder="Folio Mantenimiento"/>
+            <input v-model="objDatos.folioUltimoMantenimiento" class="w-64 sm:w-32 is_valid" type="text" placeholder="Folio Mantenimiento"/>
           </div>
           <div class="m-5 sm:ml-10">
             <p class="mb-1">No. Inventario CAPUFE</p>
-            <input v-model="objDatos.numInventarioCapufe" class="w-64 sm:w-32" type="text" placeholder="Numero Inventario Capufe"/>
+            <input v-model="objDatos.numInventarioCapufe" class="w-64 sm:w-32 is_valid" type="text" placeholder="Numero Inventario Capufe"/>
           </div>
           <div class="m-5 sm:ml-10">
             <p class="mb-1">No. Inventario Prosis</p>
-            <input v-model="objDatos.numInventarioProsis" placeholder="Numero Inventario" class="w-64 sm:w-32" type="text"/>
+            <input v-model="objDatos.numInventarioProsis" placeholder="Numero Inventario" class="w-64 sm:w-32 is_valid" type="text"/>
           </div>
           <div class="m-5 sm:ml-10">
             <p class="mb-1">Ubicacion</p>
-            <select v-model="objDatos.ubicacionGeneral" class="w-64 sm:w-32">
+            <select v-model="objDatos.ubicacionGeneral" class="w-64 sm:w-32 is_valid">
               <option disabled value>Selecionar...</option>
               <option
                 v-for="(item, index) in listaUbicacionGeneral"
@@ -73,7 +73,7 @@
             </select>
           </div>
           <div class="flex justify-center mt-5 sm:ml-5 sm:text-xs" v-if="tipoUsuario != 7">
-            <button @click.prevent="actualizar_componente" class="botonIconBuscar sm:w-32">
+            <button @click.prevent="actualizar_componente" class="botonIconBuscar font-boton sm:w-32">
               <img src="../../assets/img/save.png" class="mr-2" width="25" height="2" />
               <span>Guardar Cambios</span>
             </button>

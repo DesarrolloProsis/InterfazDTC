@@ -48,7 +48,7 @@
     <!--///////////////////////////////////////////////////////////////////
        ///              FILTROS DE NAVEGACION INVENTARIO               ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'INV'" class="mt-1 -mb-8 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols">
+    <div v-if="tipo == 'INV'" class="mt-1 -mb-8 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
             <div class="mr-3 sm:mr-1 mt-6">
@@ -74,11 +74,11 @@
         ///                         BOTONES inventario               ////
        ////////////////////////////////////////////////////////////////////-->
         <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-5 mr-5 sm:inline-flex">
-            <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard ml-4 mr-4">
+            <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:m-0" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
             </button>
-            <button @click="actualizar_inventario" class="w-32 botonIconNext">
+            <button @click="actualizar_inventario" class="w-32 botonIconNext font-boton">
                 <img src="../../assets/img/save.png" class="mr-2 sm:mr-0" width="25" height="25" />
                 <span class="text-xs">Guardar</span>
             </button>
@@ -87,7 +87,7 @@
     <!--///////////////////////////////////////////////////////////////////
        ///         FILTROS DE NAVEGACION ENCARGADOS                   ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg">
+    <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
             <div class="sm:ml-2">
@@ -101,11 +101,11 @@
             </div>             
         </div>
         <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
-            <button class="botonIconBuscar" @click="filtrar_encargados">
+            <button class="botonIconBuscar font-boton" @click="filtrar_encargados">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
             </button>
-            <button class="botonIconLimpiar" @click="limpiar_encargados">
+            <button class="botonIconLimpiar font-boton" @click="limpiar_encargados">
                 <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
                 <span>Limpiar</span>
             </button>
@@ -114,7 +114,7 @@
     <!--///////////////////////////////////////////////////////////////////
     ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
     ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols" >
+    <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" >
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3" >
                 <div class="mt-4">                                        
@@ -141,12 +141,12 @@
         ///                    BOTONES DE NAVEGACION  DIAGNOSTICO           ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 text-center">
-            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonIconLimpiar">
-                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="2"/>
+            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonIconLimpiar font-boton">
+                <img src="../../assets/img/escoba.png" class="" width="25" height="2"/>
                 <span>Limpiar</span>
             </button>
-            <button @click="filtar_concentrado_diagnostico_falla" class="w-32 botonIconBuscar">
-                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="2"/>
+            <button @click="filtar_concentrado_diagnostico_falla" class="w-32 botonIconBuscar font-boton">
+                <img src="../../assets/img/lupa.png" class="" width="25" height="2"/>
                 <span>Buscar</span>
             </button>
         </div>

@@ -11,15 +11,15 @@
           <!--////////////////////////////////////////////////////////////////////
           ////                           MODAL INVENTARIO                  //////
           ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
+        <div class="sticky inset-0 font-titulo">
           <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC</p>
             <div>
               Maquetarias lo que falta
             </div>
             <div class="justify-center flex mt-5">
-              <button class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600">Si</button>
-              <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700">No</button>
+              <button class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600 font-boton">Si</button>
+              <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700 font-boton">No</button>
             </div>
           </div>
         </div>  
@@ -34,20 +34,20 @@
             </div>
           </div>
         </div>
-        <div class="overflow-x-auto sm:m-2 sm:text-xs rounded-lg shadow">
+        <div class="overflow-x-auto sm:m-2 sm:text-xs rounded-lg shadow font-titulo">
           <table class="border-collapse  table-fixed">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead>
               <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                <th class="cabeceraTable">Componete</th>
-                <th class="cabeceraTable">Ubicación</th>
-                <th class="cabeceraTable">Numero Serie</th>
-                <th class="cabeceraTable">Fecha Instalacion</th>
-                <th class="cabeceraTable">Fecha Mantenimiento</th>
-                <th class="cabeceraTable">Folio Mantenimiento</th>
-                <th class="cabeceraTable">Acciones</th>
+                <th class="cabeceraTable font-medium">Componete</th>
+                <th class="cabeceraTable font-medium">Ubicación</th>
+                <th class="cabeceraTable font-medium">Numero Serie</th>
+                <th class="cabeceraTable font-medium">Fecha Instalacion</th>
+                <th class="cabeceraTable font-medium">Fecha Mantenimiento</th>
+                <th class="cabeceraTable font-medium">Folio Mantenimiento</th>
+                <th class="cabeceraTable font-medium">Acciones</th>
               </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -58,16 +58,16 @@
                 <td class="cuerpoTable">{{ item.component }}</td>
                 <td class="cuerpoTable">{{ item.lane }}</td>
                 <td class="cuerpoTable">
-                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
+                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
                 </td>
                 <td class="cuerpoTable">
-                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date" onkeydown="return false"/>
+                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date" onkeydown="return false"/>
                 </td>
                 <td class="cuerpoTable">
-                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date" onkeydown="return false"/>
+                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date" onkeydown="return false"/>
                 </td>
                 <td class="cuerpoTable">
-                  <input :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
+                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
                 </td>
                 <td class="cuerpoTable">
                   <button @click="mostrar_mas(item)" class="botonIconCrear">
