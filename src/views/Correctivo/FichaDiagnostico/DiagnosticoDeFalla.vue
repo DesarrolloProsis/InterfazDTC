@@ -146,7 +146,7 @@ methods:{
         if(value){
             let userIdPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
             let administradorId = this.$store.state.Login.plazaSelecionada.administradorId
-            let flagUpdate = this.$route.params.tipoVista == 'Editar' ? 1 : 0
+            let flagUpdate = this.$route.params.tipoVista == 'Editar' ? 0 : 1
             let objDiagnostico = {
                 referenceNumber: this.datosHeader.referenceNumber,
                 squareId: userIdPlaza.numPlaza,
@@ -160,7 +160,7 @@ methods:{
                 failureDiagnosis: this.datosHeader.diagnosticoFalla,
                 causeFailure: this.datosHeader.causaFalla,
                 adminSquareId: administradorId,
-                updateFlag: flagUpdate // 0 -> Insertar || 1 -> actualizar
+                updateFlag: flagUpdate // 1 -> Insertar || 0 -> editar
             }        
             Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
                 .then(() => {                
@@ -169,26 +169,36 @@ methods:{
                         newCarril["referenceNumber"] = objDiagnostico.referenceNumber
                         newCarril["capuLaneNum"] = carril.capufeLaneNum
                         newCarril["idGare"] = carril.idGare
-                        newCarril["addFlag"] = flagUpdate // 0 -> Insertar || 1 -> actualizar
+                        newCarril["addFlag"] = 1 // 1 -> Insertar || 0 -> Borrar
                         return newCarril
-                    })                
-                    carrilesInsertDiagnostic.forEach(carril => {                                                     
-                        Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                            .then((response) => {         
-                                console.log(response) 
-                                if(this.$route.params.tipoVista == 'Editar'){
-                                    this.type = 'FICHA' 
-                                    ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)              
-                                    this.$router.push({
-                                        path: 'FichaTecnicaDeFalla',
-                                        query: { data: this.datosHeader }
-                                    }) 
-                                }
-                            })
-                            .catch((error) => {                            
-                                console.log(error)                                
-                            })    
-                    }); 
+                    })       
+                    let borrarDatos = { ...carrilesInsertDiagnostic[0] }
+                    borrarDatos["addFlag"] = 0
+                    console.log(borrarDatos)
+                    Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, borrarDatos)
+                    .then((response) =>{
+                        console.log(response)
+                        carrilesInsertDiagnostic.forEach(carril => {                                                     
+                            Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
+                                .then((response) => {         
+                                    console.log(response) 
+                                    if(this.$route.params.tipoVista == 'Editar'){
+                                        this.type = 'FICHA' 
+                                        ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)              
+                                        this.$router.push({
+                                            path: 'FichaTecnicaDeFalla',
+                                            query: { data: this.datosHeader }
+                                        }) 
+                                    }
+                                })
+                                .catch((error) => {                            
+                                    console.log(error)                                
+                                })    
+                        }); 
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
                     this.reporteInsertado = true                                                   
                     
                 })

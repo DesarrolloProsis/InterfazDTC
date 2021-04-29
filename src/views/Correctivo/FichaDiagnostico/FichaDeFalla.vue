@@ -149,7 +149,7 @@ export default {
                     referenceNumber: this.datosHeader.referenceNumber,
                     typeFaultId: this.datosHeader.tipoFalla,
                     intervention: this.datosHeader.solucionFalla,
-                    updateFlag: flagInsert // 0 -> Insertar || 1 -> actualizar
+                    updateFlag: flagInsert // 1 -> Insertar || 0 -> actualizar
                 }            
                 Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then(() => {             

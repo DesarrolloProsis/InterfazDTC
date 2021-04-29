@@ -3,7 +3,7 @@
         <div class="w-full px-6 bg-blue-800">                
             <div class="inline-flex justify-between  py-3 w-full">
                 <div>
-                    <p class="text-xs sm:mt-1 text-blue-400">{{ cookiesUser.nombreRoll }}</p>
+                    <p v-if="nombreRolll == undefined" class="text-xs sm:mt-1 text-blue-400">{{ nombreRolll }}</p>
                 </div>
                 <div class="w-full ml-16 sm:ml-0 text-center">
                     <p class="text-sm text-white font-titulo">
@@ -17,12 +17,12 @@
         </div>        
     </footer>
 </template>
-
 <script>
-import { mapState } from 'vuex'
 export default {  
     computed:{
-        ...mapState('Login',['cookiesUser']) 
+        nombreRolll(){
+            return this.$store.state.Login.cookiesUser.nombreRoll
+        }
     }   
 }
 </script>
