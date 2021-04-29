@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <div :class="{'mb-69': typeUser != 1}" class="flex justify-center p-4">
+    <div :class="{'mb-69': typeUser != 1}" class="flex justify-center p-4 font-titulo">
       <div class="mt-5">
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
@@ -16,10 +16,10 @@
         <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:500px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
-                <th class="w-64 cabeceraTable">Nombre</th>
-                <th class="w-56 cabeceraTable">Tipo de Usuario</th>
-                <th class="w-64 cabeceraTable">Correo</th>
-                <th class="w-48 cabeceraTable">Acciones</th>
+                <th class="w-64 cabeceraTable font-medium">Nombre</th>
+                <th class="w-56 cabeceraTable font-medium">Tipo de Usuario</th>
+                <th class="w-64 cabeceraTable font-medium">Correo</th>
+                <th class="w-48 cabeceraTable font-medium">Acciones</th>
               </tr>
               <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios" :key="key">
                 <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
@@ -76,9 +76,9 @@
                           </template>   
                         </multiselect>
                     </div>
-                    <div class="mt-5 text-center">
-                        <button class="botonIconBuscar">Guardar</button>
-                        <button @click="modalEditar = false" class="botonIconCancelar">Cancelar</button>
+                    <div class="mt-5 text-center ml-6">
+                        <button class="botonIconBuscar font-boton">Guardar</button>
+                        <button @click="modalEditar = false" class="botonIconCancelar font-boton">Cancelar</button>
                     </div>
                 </div>
       <div class="flex absolute justify-center inset-x-0 mt-24">
@@ -109,7 +109,7 @@
               <input v-model="User.Mail" class="w-full is_valid" type="text" />
             </div>
             <div class="mt-8 flex justify-center">
-              <button @click="modal_Part = true" class="botonIconNext">
+              <button @click="modal_Part = true" class="botonIconNext font-boton">
                 <img src="../../assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
                 <span class="text-xs">Siguiente</span>
               </button>
@@ -141,13 +141,13 @@
             </div>
             <div class="grid grid-cols-2">  
               <div class="flex justify-center mt-5 mr-10">
-                <button @click="modal_Part = false" class="mt-4 botonIconNext">
+                <button @click="modal_Part = false" class="mt-4 botonIconNext font-boton">
                   <img src="../../assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
                   <span class="text-xs mr-4">Regresar</span>
                 </button>
               </div>
               <div class="flex justify-center mt-5 ml-10">
-                <button @click="confirmar" class=" mt-4 botonIconBuscar">
+                <button @click="confirmar" class=" mt-4 botonIconBuscar font-boton">
                   <img src="../../assets/img/save.png" class="mr-5" width="25" height="25"/>
                   <span class="text-xs mr-5">Guardar</span>
                 </button>

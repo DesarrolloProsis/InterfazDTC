@@ -15,7 +15,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
+        <div class="sticky inset-0 font-titulo">
           <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
             <div class="justify-center text-center block">            
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
@@ -25,7 +25,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
+        <div class="sticky inset-0 font-titulo">
           <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
             <div class="justify-center text-center block">            
                 <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
@@ -98,20 +98,20 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class=" sticky inset-0">
+        <div class=" sticky inset-0 font-titulo">
           <div v-if="modalEdit" class="absolute w-73 sm:w-66  mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">     
             <div class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
-              <p class="text-gray-900 font-bold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
+              <p class="text-gray-900 font-semibold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
               <!--/////////////////////////////////////////////////////////////////
                 ////                   FILA NUMERO 1                         ////
                 ////////////////////////////////////////////////////////////////-->
               <div class="justify-center grid grid-cols-2 mt-5">       
                 <div class="mt-2 mr-3">        
-                  <p class="text-sm mb-1 font-semibold text-gray-900">N° Siniestro:</p>
+                  <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
                   <input v-validate="'uniqueSinester'" :class="{ is_valid: !errors.first('NoSiniestro'),is_invalid: errors.first('NoSiniestro')}" v-model="dtcEdit.sinisterNumber" class="w-full" type="text" name="NoSiniestro" placeholder="S/M"/>
                 </div>
                 <div class="mt-2">       
-                  <p class="text-sm mb-1 font-semibold text-gray-900">N° Reporte:</p>
+                  <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
                   <input v-validate="'uniqueReport'" :class="{ is_valid: !errors.first('NoReporte'),is_invalid: errors.first('NoReporte')}" v-model="dtcEdit.reportNumber" class="w-full" type="text" name="NoReporte" placeholder="S/M"/>
                 </div>
               </div>
@@ -120,11 +120,11 @@
                 ////////////////////////////////////////////////////////////////////-->
               <div class="justify-center grid grid-cols-2 mt-5">       
                 <div class="mt-2 mr-3">     
-                  <p class="text-sm mb-1 font-semibold text-gray-900">Folio de Falla:</p>
+                  <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
                   <input v-model="dtcEdit.failureNumber" class="w-full" type="text" placeholder="S/M"/>
                 </div>
                 <div class="mt-2">   
-                  <p class="text-sm mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
+                  <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
                   <select v-model="dtcEdit.typeDescriptionId" v-validate="'required'" :class="{ is_valid: !errors.first('TipoDescripcion'),is_invalid: errors.first('TipoDescripcion')}" class="sm:w-full w-48" type="text" name="TipoDescripcion">
                     <option disabled value>Selecionar...</option>
                     <option v-for="(desc, index) in descripciones" v-bind:value="desc.typeDescriptionId" :key="index">
@@ -138,11 +138,11 @@
                 ////////////////////////////////////////////////////////////////////-->
               <div class="justify-center grid grid-cols-2 mt-5">       
                 <div class="mt-2 mr-3">     
-                  <p class="text-sm mb-1 font-semibold text-gray-900">Observaciones:</p>
+                  <p class="text-md mb-1 font-semibold text-gray-900">Observaciones:</p>
                   <textarea v-model="dtcEdit.observation" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
                 </div>
                 <div class="mt-2 ">     
-                  <p class="text-sm mb-1 font-semibold text-gray-900">Diagnostico:</p>
+                  <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
                   <textarea v-model="dtcEdit.diagnosis" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" class="bg-white appearance-none block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
                 </div>            
               </div>
@@ -159,7 +159,7 @@
                   <button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button>          
                 </div>     
                 <div>                    
-                  <button @click="(modalEdit = modal = false), (refNum = '')" class="botonIconCancelar sm:ml-2">Cancelar</button>              
+                  <button @click="(modalEdit = modal = false), (refNum = '')" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button>              
                 </div>     
               </div>
             </div>
@@ -168,7 +168,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
-      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full">        
+      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
           <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
           <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
             <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc">

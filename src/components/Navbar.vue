@@ -2,14 +2,14 @@
   <div>
     <nav class="flex justify-between bg-blue-800 p-3" id="navBarShow" v-if="$route != undefined && $route.name != 'login'">
       <div class="text-lg">
-        <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl">
+        <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl font-titulo">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio          
         </router-link>     
       </div>      
       <div class="flex sm:mt-4">        
-        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm">Bienvenido: {{ nombreUsuario }}</p>
-        <div class="group inline-block">
+        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm font-titulo">Bienvenido: {{ nombreUsuario }}</p>
+        <div class="group inline-block font-titulo">
           <button class="bg-white rounded-lg flex items-center w-10 mt-3 ml-4 mr-0">
             <span>
               <svg class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -21,7 +21,7 @@
             <router-link v-for="(item, key) in listaAccesoRapido" name="'...'" :key="key" :to="item.path"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">{{ item.texto }}</li></router-link>                             
           </ul>   
         </div>      
-        <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg border-black hover:border-black hover:text-white hover:bg-red-700">Salir</router-link>
+        <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg font-titulo border-black hover:border-black hover:text-white hover:bg-red-700">Salir</router-link>
       </div>
     </nav>
   </div>

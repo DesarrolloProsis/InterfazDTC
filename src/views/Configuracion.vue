@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <div class="flex justify-center mt-2 sm:mt-14">
+    <div class="flex justify-center mt-2 sm:mt-14 font-titulo">
       <div class="grid grid-cols-2"> 
         <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
           <router-link to="/EncargadosPlaza" class="text-center cursor-pointer">

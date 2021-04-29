@@ -3,8 +3,8 @@
         <div class="justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 relative mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-if="this.type == 'DIAG' ">Diagnóstico de Falla</h1>
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold" v-else>Ficha Técnica de Atención</h1>        
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-if="this.type == 'DIAG' ">Diagnóstico de Falla</h1>
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-else>Ficha Técnica de Atención</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
@@ -32,8 +32,8 @@
                             </div>
                         </div>
                         <div v-else>
-                            <button @click="enviar_header_diagnostico(true)" class="botonIconCrear">
-                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <button @click="enviar_header_diagnostico(true)" class="botonIconActualizar">
+                                <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                                 <span>Actualizar Diagnóstico</span>
                             </button>
                         </div>
@@ -67,7 +67,6 @@ export default {
         }
     },
     beforeMount(){
-
         if(this.$route.params.tipoVista == 'Editar'){
             this.reporteInsertado = true
         }
@@ -87,9 +86,11 @@ methods:{
         return dateInicio < dateFin ? true : false                   
     },
     enviar_header_diagnostico(value){                
-        let llavesHeader = Object.keys(this.datosHeader)            
+        let llavesHeader = Object.keys(this.datosHeader)           
+        console.log(llavesHeader) 
         if(llavesHeader.length == 10){            
             let valueHeader = Object.values(this.datosHeader)
+            console.log(valueHeader);
             let validar = valueHeader.some(prop => prop == '')            
             if(validar){                                
                 this.$notify.warning({

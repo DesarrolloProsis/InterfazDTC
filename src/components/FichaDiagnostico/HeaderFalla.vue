@@ -7,7 +7,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA UNO                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
+            <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4 font-titulo">
                 <div class="grid grid-cols-2 sm:grid md:grid">
                     <span class="">No. De Reporte:</span>
                     <p class="-ml-66 sm:-ml-16 sm:w-24">{{ datosDiagnostico.referenceNumber }}</p>
@@ -46,7 +46,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-65 sm:ml-4">
+            <div class="mt-6 ml-65 sm:ml-4 font-titulo">
                 <div>
                     <span class="">Fecha:</span>
                     <input class="ml-16 fechaDiag" 
@@ -68,7 +68,7 @@
         <!--/////////////////////////////////////////////////////////////////////
         /////                             FOLIOS                            ////
         ////////////////////////////////////////////////////////////////////--> 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
             <div class="mt-6 ml-5 w-full sm:-ml-6">
                 <div class="text-center w-32 ml-64 mr-40 sm:ml-0">
                     <span class="">Folio de FALLA:</span>
@@ -96,7 +96,7 @@
         <!--/////////////////////////////////////////////////////////////////////
         /////                       DECSRIPCION                             ////
         ////////////////////////////////////////////////////////////////////-->      
-        <div class="mt-2 sm:text-xs sm:ml-3 mb-16 mr-5 ml-5" v-if="tipo == 'DIAG'">
+        <div class="mt-2 sm:text-xs sm:ml-3 mb-16 mr-5 ml-5 font-titulo" v-if="tipo == 'DIAG'">
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA TRES                           ////
             ////////////////////////////////////////////////////////////////////--> 
@@ -139,7 +139,7 @@
         <!-- /////////////////////////////////////////////////////////////////////
         ////                            FICHA                             ///////
         //////////////////////////////////////////////////////////////////// -->
-        <div v-if="tipo == 'FICHA'"> 
+        <div class="font-titulo" v-if="tipo == 'FICHA'"> 
             <div class="grid sm:grid-cols-1 grid-cols-2 ml-5">
                 <div class="">
                     <span>TIPO DE FALLA:</span>
@@ -241,30 +241,48 @@ data(){
     }
 },
 beforeMount: async function(){  
-    if(this.$route.params.tipoVista != 'Crear'){        
-        let paramRoute = this.$route.query.item         
-        let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
-        this.plazaSeleccionada = plazaSelect.numeroPlaza;
-        this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-        let todosCarriles = await this.$store.getters["Refacciones/GET_CARRILES_STATE"];          
-        let ubicacion = paramRoute.lanes
-            .split(',')
-            .map(carril => {                        
-                return todosCarriles.find(item => item.lane == carril)                        
-        })                        
-        let fecha = moment(paramRoute.diagnosisDate).format('YYYY-MM-DD')    
-        this.datosDiagnostico = {
-            referenceNumber: paramRoute.referenceNumber,
-            ubicacion: ubicacion,
-            fechaDiagnostico: fecha,
-            horaInicio: paramRoute.start,
-            horaFin: paramRoute.end,
-            folioFalla: paramRoute.failuerNumber,
-            numeroReporte: paramRoute.siniesterNumber,
-            descripcionFalla: paramRoute.failureDescription,
-            diagnosticoFalla:paramRoute.failureDiagnosis,
-            causaFalla:paramRoute.causeFailure
+    alert()
+    if(this.$route.params.tipoVista != 'Crear'){ 
+        
+        console.log(this.$route.query.data)
+        if(this.$route.query.data != undefined){  
+            this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
+            this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+            this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+            this.$emit('actualizar-header', this.datosDiagnostico)                        
+            this.datosDiagnostico = this.$route.query.data        
+            delete this.datosDiagnostico["diagnosticoFalla"]
+            delete this.datosDiagnostico["causaFalla"]
+            this.blockInput = true
+        }      
+        else{ 
+            let paramRoute = this.$route.query.item           
+            let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
+            this.plazaSeleccionada = plazaSelect.numeroPlaza;
+            this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+            this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+            let todosCarriles = await this.$store.getters["Refacciones/GET_CARRILES_STATE"];                  
+            let ubicacion = []
+            if(paramRoute.lanes != 'Sin lineas asignadas'){
+                ubicacion = paramRoute.lanes
+                    .split(',')
+                    .map(carril => {                        
+                        return todosCarriles.find(item => item.lane == carril)                        
+                })     
+            }
+            let fecha = moment(paramRoute.diagnosisDate).format('YYYY-MM-DD')    
+            this.datosDiagnostico = {
+                referenceNumber: paramRoute.referenceNumber,
+                ubicacion: ubicacion,
+                fechaDiagnostico: fecha,
+                horaInicio: paramRoute.start,
+                horaFin: paramRoute.end,
+                folioFalla: paramRoute.failuerNumber,
+                numeroReporte: paramRoute.siniesterNumber,
+                descripcionFalla: paramRoute.failureDescription,
+                diagnosticoFalla:paramRoute.failureDiagnosis,
+                causaFalla:paramRoute.causeFailure
+            }
         }
     }
     else{

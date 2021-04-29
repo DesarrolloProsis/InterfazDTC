@@ -4,24 +4,24 @@
       <div class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full flex flex-col">
         <!-- ************************************************************** -->
         <div class="text-center mb-2">
-          <h6 class=" font-bold text-xl text-gray-800">Equipo Propuesto</h6>
+          <h6 class="font-titulo font-bold text-xl text-gray-800">Equipo Propuesto</h6>
         </div>
         <!-- ************************************************************** -->
-        <div class="inline-flex">
+        <div class="inline-flex font-titulo">
           <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <thead>
               <tr class="border text-xs bg-blue-800 text-white">
-                <th class="w-20 cabeceraTable">Partida</th>
-                <th class="w-24 cabeceraTable">Unidad</th>
-                <th class="w-32 xl:w-48 cabeceraTable">Componente</th>
-                <th class="w-24 cabeceraTable">Cantidad</th>
-                <th class="w-24 xl:w-32 cabeceraTable">Marca</th>
-                <th class="w-24 xl:w-32 cabeceraTable">Modelo</th>
-                <th class="w-32 xl:w-48 cabeceraTable">Precio<br />(Unitario Peso)</th>
-                <th class="w-32 xl:w-48 cabeceraTable">Precio<br />(Unitario Dolar)</th>
-                <th class="w-32 xl:w-48 cabeceraTable">Precio Total<br />(Pesos)</th>
-                <th class="w-32 xl:w-40 cabeceraTable">Precio Total<br />(Dolares)</th>
+                <th class="w-20 cabeceraTable font-medium">Partida</th>
+                <th class="w-24 cabeceraTable font-medium">Unidad</th>
+                <th class="w-32 xl:w-48 cabeceraTable font-medium">Componente</th>
+                <th class="w-24 cabeceraTable font-medium">Cantidad</th>
+                <th class="w-24 xl:w-32 cabeceraTable font-medium">Marca</th>
+                <th class="w-24 xl:w-32 cabeceraTable font-medium">Modelo</th>
+                <th class="w-32 xl:w-48 cabeceraTable font-medium">Precio<br />(Unitario Peso)</th>
+                <th class="w-32 xl:w-48 cabeceraTable font-medium">Precio<br />(Unitario Dolar)</th>
+                <th class="w-32 xl:w-48 cabeceraTable font-medium">Precio Total<br />(Pesos)</th>
+                <th class="w-32 xl:w-40 cabeceraTable font-medium">Precio Total<br />(Dolares)</th>
               </tr>
             </thead>
             <tbody name="table" is="transition-group">  
@@ -57,7 +57,7 @@
           </div>
         </div>
         <div>
-          <div class="flex mb-4" style="margin-top: 1vh">
+          <div class="flex mb-4 font-titulo" style="margin-top: 1vh">
             <div class="w-1/2 h-6 pl-4">
               <p class="inline">Total: {{ letraMoneda }}</p>
             </div>
@@ -73,18 +73,18 @@
     <div class="md:hidden lg:hidden xl:hidden flex justify-center flex-col">
       <div :class="{ 'hidden': modal }">
         <div class="text-center mb-5">
-          <h6 class>Equipo Propuesto</h6>
+          <h6 class="font-titulo font-bold">Equipo Propuesto</h6>
         </div>
         <div class="overflow-x bg-white rounded-lg shadow overflow-y-auto sm:text-xs sm:ml-4 sm:mr-4">
-          <table class="border-collapse">
+          <table class="border-collapse font-titulo">
             <tr class=" border-gray-800 bg-blue-800 text-white text-xs text-center">
-              <th class="w-20 cabeceraTable">Partida</th>
-              <th class="w-48 cabeceraTable">Componente</th>
-              <th class="w-48 cabeceraTable">
+              <th class="w-20 cabeceraTable font-medium">Partida</th>
+              <th class="w-48 cabeceraTable font-medium">Componente</th>
+              <th class="w-48 cabeceraTable font-medium">
                 Precio Total
                 <br />(Pesos)
               </th>
-              <th class="w-40 cabeceraTable">Accion</th>
+              <th class="w-40 cabeceraTable font-medium">Accion</th>
             </tr>
             <tr
               class="hover:bg-blue-200 text-center text-xs"
@@ -106,12 +106,12 @@
           </table>
         </div>
         <div>
-          <div class="flex p-4">
+          <div class=" p-4 font-titulo flex">
             <div class="text-xs p-2">
               <p class="inline">Total: {{ letraMoneda | totalLinea }}</p>
             </div>
             <div class="p-2">
-              <input v-model="sumatoria" disabled class="w-24 is_valid" type="text" placeholder="$ 0.00" />
+              <input v-model="sumatoria" disabled class="w-32 is_valid" type="text" placeholder="$ 0.00" />
             </div>
           </div>
           <hr />
@@ -134,52 +134,52 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col p-5" v-if="modal">
-        <div class="text-xs text-center border border-gray-800 shadow-lg rounded-lg z-40">
-          <div class="inline-flex m-2">
+      <div class="flex flex-col p-5 font-titulo" v-if="modal">
+        <div class="text-xs text-center border border-gray-400 shadow-lg rounded-lg z-40">
+          <div class="inline-flex m-2 mt-6">
             <div class=" w-20 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Componete</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Componete</p>
               <p>{{ infoRow.row3.description }}</p>
             </div>
             <div class="w-20 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Unidad</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unidad</p>
               <p>{{ infoRow.row2 }}</p>
             </div>
             <div class="w-20 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Cantidad</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Cantidad</p>
               <p class>{{ infoRow.row4 }}</p>
             </div>
           </div>
 
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Unitario Dolares</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unitario Dolares</p>
               <p class="border-b-2">{{ '----------' }}</p>
             </div>
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Total Dolares</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Total Dolares</p>
               <p class="border-b-2">{{ '----------' }}</p>
             </div>
           </div>
 
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Unitario Dolares</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unitario Dolares</p>
               <p class="border-b-2">$ {{ (infoRow.row14).toLocaleString('en-US') }}</p>
             </div>
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Total Pesos</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Total Pesos</p>
               <p class="border-b-2">$ {{ (infoRow.row14 * infoRow.row4).toLocaleString('en-US') }}</p>
             </div>
           </div>
 
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Marca</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Marca</p>
               <p class="border-b-2" v-for="(item, id) in infoRow.row5" :key="id">{{ item }}</p>
             </div>
             <div class="w-32 m-1">
-              <p class="mb-3 font-bold text-gray-800 border-2 border-blue-800">Modelo</p>
+              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Modelo</p>
               <p class="border-b-2" v-for="(item, id) in infoRow.row6" :key="id">{{ item }}</p>
             </div>
           </div>
@@ -187,7 +187,7 @@
           <div class="flex justify-end">
             <button
               v-on:click.stop.prevent="modal = false, infoRow = {}"
-              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded inline-flex items-center border-2 border-red-700 mr-10 mb-5 mt-3"
+              class="botonIconCancelar font-boton mr-10 mb-5 mt-3"
             >
               <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
               <span class="text-sm">Cerrar</span>

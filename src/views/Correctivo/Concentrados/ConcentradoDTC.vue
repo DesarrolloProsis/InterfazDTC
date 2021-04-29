@@ -1,6 +1,6 @@
 <template>
 <div>    
-    <div class="flex justify-center">
+    <div class="flex justify-center -mt-6">
         <div class="grid gap-4 grid-cols-1 py-3 px-3">                
         <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
         <!--/////////////////////////////////////////////////////////////////////
@@ -68,24 +68,24 @@
           </div>
         </div>
       </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16" style="height:500px;">
-          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16" style="height:550px;">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped font-titulo">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead>
                 <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                    <th class="cabeceraTable">Referencia</th>
-                    <th class="cabeceraTable">Fecha de Elaboracion</th>
-                    <th class="cabeceraTable">Fecha de Siniestro</th>
-                    <th class="cabeceraTable">Registro en Sistema</th>
-                    <th class="cabeceraTable">Folio</th>
-                    <th class="cabeceraTable">N° de Reporte</th>
-                    <th class="cabeceraTable">N° de Siniestro</th>
-                    <th class="cabeceraTable">Fecha de Falla</th>
-                    <th class="cabeceraTable">Fotografias</th>
-                    <th class="cabeceraTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Status</th>
-                    <th class="cabeceraTable">PDF</th>
+                    <th class="cabeceraTable font-medium">Referencia</th>
+                    <th class="cabeceraTable font-medium">Fecha de Elaboracion</th>
+                    <th class="cabeceraTable font-medium">Fecha de Siniestro</th>
+                    <th class="cabeceraTable font-medium">Registro en Sistema</th>
+                    <th class="cabeceraTable font-medium">Folio</th>
+                    <th class="cabeceraTable font-medium">N° de Reporte</th>
+                    <th class="cabeceraTable font-medium">N° de Siniestro</th>
+                    <th class="cabeceraTable font-medium">Fecha de Falla</th>
+                    <th class="cabeceraTable font-medium">Fotografias</th>
+                    <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Status</th>
+                    <th class="cabeceraTable font-medium">PDF</th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -125,21 +125,20 @@
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
                   <div class="grid grid-cols-2 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
-                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard  w-24 sm:w-10 sm:ml-8 mr-2">
-                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 sm:m-0 sm:ml-1" width="15" height="15" />
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton  w-24 sm:w-10 sm:ml-8 mr-2">
+                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard w-24 sm:w-10 sm:ml-8" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
-                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 sm:m-0 sm:ml-1" width="15" height="15" />
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
+                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
-
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
                     <div v-if="item.escaneadobool">                    
                       <button class="mt-1" v-if="!item.confirmpdf">
-                        <div class="flex justify-center botonIconSellado">
+                        <div class="flex justify-center botonIconSellado font-boton">
                           <input type="file" class="opacity-0 w-auto h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
                           <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
                           <p class="text-xs mt-1">Subir Sellado</p>
@@ -151,8 +150,8 @@
                         <p class="-ml-32 text-sm">{{ pdfSellado.name }}</p>
                         </div>
                         <div class="grid grid-cols-2 -ml-10">
-                          <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar -ml-2 h-10 text-sm justify-center px-1">Cancelar</button>
-                          <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
+                          <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
+                          <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1">Cancelar</button>                  
                         </div>            
                       </div>
                     </div>
@@ -173,7 +172,6 @@
     </div> 
 </div>
 </template>
-
 <script>
 import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -191,7 +189,6 @@ export default {
     HeaderGenerico,
     AgregarImg
   },
-
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
 /////////////////////////////////////////////////////////////////////

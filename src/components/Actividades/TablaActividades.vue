@@ -2,13 +2,13 @@
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
-                <h1 class=" text-3xl sm:text-2xl font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
+                <h1 class=" text-3xl sm:text-2xl font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
                         ////////////////////////////////////////////////////////////////////-->                        
-                        <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1">
+                        <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1 font-titulo">
                             <div class="ml-2 md:hidden lg:hidden xl:hidden">
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                             </div>
@@ -51,7 +51,6 @@
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status *:</p>
                                     <p class="w-48 input ml-20"><select v-model="status" class="w-48 sm:w-24 border-none" type="text" name="TipoDescripcion" >
-                                        <option value="">Selecionar...</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
                                     </select></p>
@@ -101,12 +100,12 @@
                         ////////////////////////////////////////////////////////////////////-->
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                                <th class="w-64 cabeceraTable">Carril</th>
-                                <th class="w-64 cabeceraTable">Referencia</th>                                
-                                <th class="w-64 cabeceraTable">Fecha de Actividad</th>
-                                <th class="w-64 cabeceraTable">Tipo de Actividad</th>
-                                <th class="w-64 cabeceraTable">Status</th>   
-                                <th class="w-64 cabeceraTable">Acciones</th>                
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Carril</th>
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Referencia</th>                                
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Fecha de Actividad</th>
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Tipo de Actividad</th>
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Status</th>   
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>                
                             </tr>
                         </thead>
                     <!--/////////////////////////////////////////////////////////////////////
@@ -114,12 +113,12 @@
                     /////////////////////////////////////////////////////////////////////-->
                         <tbody name="table" is="transition-group">                                                                                        
                             <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
-                                <td class="w-64 cuerpoTable text-center">{{ item.lane }}</td>
-                                <td class="w-64 cuerpoTable text-center">{{ item.referenceNumber }}</td>                                
-                                <td class="w-64 cuerpoTable text-center">{{ item.day}}</td>
-                                <td class="w-64 cuerpoTable text-center">{{ item.frequencyName }}</td>
-                                <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
-                                <td v-else class="w-64 text-center cuerpoTable" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
+                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.lane }}</td>
+                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.referenceNumber }}</td>                                
+                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.day}}</td>
+                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
+                                <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
+                                <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                 <td class="w-64 text-center cuerpoTable">
                                     <div v-if="item.statusMaintenance == false">                               
                                         <button @click="crear_reporte_carril(item)" class="botonIconCrear">

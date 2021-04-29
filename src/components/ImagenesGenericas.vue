@@ -1,5 +1,5 @@
 <template>
-    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full" :class="{'sm:-ml-1': tipo =='Diag'}">        
+    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full font-titulo" :class="{'sm:-ml-1': tipo =='Diag'}">        
         <p class="text-gray-800 mt-2 mb-1 sm:text-sm sm:mb-4"
         :class="{'sm:ml-48 sm:-mt-66 sm:mb-2 ml-5 -mb-1 mt-4 lg:ml-73': tipo =='Diag', 'sm:mt-2' : tipo == 'Ficha'}">IMAGENE</p>
         <div v-if="reporteDataInsertada" :class="{'w-1/3 ml-5 sm:ml-48 lg:ml-73' : tipo == 'Diag'}">

@@ -6,12 +6,12 @@
                     <p class="text-xs sm:mt-1 text-blue-400">{{ cookiesUser.nombreRoll }}</p>
                 </div>
                 <div class="w-full ml-16 sm:ml-0 text-center">
-                    <p class="text-sm text-white">
+                    <p class="text-sm text-white font-titulo">
                         © 2021 Proyectos y Sistemas Informaticos.
                     </p>
                 </div>
                 <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 text-blue-400">V1.4.1</p>
+                    <p class="sm:text-xs text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.4.1</p>
                 </div>
             </div>                                
         </div>        

@@ -6,22 +6,22 @@
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
                 <HeaderGenerico @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" @limpiar-concentrado-diagnostico="limpiar_filtros" :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24" style="height:450px;">
+                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 font-titulo" style="height:550px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <!--/////////////////////////////////////////////////////////////////
                         ////                           HEADER TABLA                      ////
                         ////////////////////////////////////////////////////////////////////-->
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                                <th class="cabeceraTable">Referencia</th>
-                                <th class="cabeceraTable">Plaza</th>
-                                <th class="cabeceraTable">Fecha</th>
-                                <th class="cabeceraTable">Ubicacion</th>
-                                <th class="cabeceraTable">Folio de Falla</th>
-                                <th class="cabeceraTable">Folio de Siniestro</th>
-                                <th class="cabeceraTable">Diagnostico</th>
-                                <th class="cabeceraTable">Ficha</th>
-                                <th class="cabeceraTable">Accion</th>
+                                <th class="cabeceraTable font-medium">Referencia</th>
+                                <th class="cabeceraTable font-medium">Plaza</th>
+                                <th class="cabeceraTable font-medium">Fecha</th>
+                                <th class="cabeceraTable font-medium">Ubicacion</th>
+                                <th class="cabeceraTable font-medium">Folio de Falla</th>
+                                <th class="cabeceraTable font-medium">Folio de Siniestro</th>
+                                <th class="cabeceraTable font-medium">Diagnostico</th>
+                                <th class="cabeceraTable font-medium">Ficha</th>
+                                <th class="cabeceraTable font-medium">Accion</th>
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@
                                 <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
                                 <td class="cuerpoTable">
                                     <div>                        
-                                        <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar">
+                                        <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton">
                                             <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>
@@ -45,7 +45,7 @@
                                 </td>
                                     <td class="cuerpoTable">
                                     <div>                        
-                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar">
+                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton">
                                             <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Descargar</span>
                                         </button>

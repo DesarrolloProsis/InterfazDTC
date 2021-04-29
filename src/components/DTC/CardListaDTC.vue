@@ -4,16 +4,16 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                      REFERENCIA                              ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div class="flex flex-row mb-6">
+      <div class="flex flex-row mb-6 font-titulo">
         <div class="flex justify-between">
-          <div class="font-black m-3">{{ infoCard.referenceNumber }}</div>           
+          <div class="font-semibold m-3">{{ infoCard.referenceNumber }}</div>           
           <div class=" inline-flex sm:ml-10 ml-16">
             <div class="m-3 p-0 inline-block text-sm">
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800">*Fecha Siniestro</span>
             </div>    
             <div class="mt-2 w-5" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
-              <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border border-yellow-600">
+              <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
             </div>      
@@ -24,16 +24,16 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 INFORMACION DTC                              ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div class="flex-col md:flex-row flex mb-4">
+      <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
-          <p class="text-left font-bold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
-          <p class="text-left font-bold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
-          <p class="text-left font-bold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
+          <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
+          <p class="text-left font-semibold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
+          <p class="text-left font-semibold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
           <p class="text-left text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
           <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
-            <p class="text-sm text-black w-40 font-bold">Observaciones:</p>{{ infoCard.observation }}
+            <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
         <!-- /////////////////////////////////////////////////////////////////////
@@ -84,12 +84,12 @@
           ///////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex flex-col md:flex-row mb-6 mt-8">
-          <div class="text-xs font-sans text-center">
+          <div class="text-xs text-center">
             <table class="ml-2 table-fixed w-66 sm:w-65">
               <tr class="bg-blue-800 text-white h-8">
-                <th class="w-1/3 border-2 border-gray-800">Componete</th>
-                <th class="w-1/8 border-2 border-gray-800">Cantidad</th>
-                <th class="w-1/8 border-2 border-gray-800">Ubicacion</th>
+                <th class="w-1/3 border-2 font-medium border-gray-800">Componete</th>
+                <th class="w-1/8 border-2 font-medium border-gray-800">Cantidad</th>
+                <th class="w-1/8 border-2 font-medium border-gray-800">Ubicacion</th>
               </tr>
               <tr class="" v-for="(item, key) in tableFormat" :key="key">
                 <td class="border border-gray-800">{{ item.componente }}</td>
@@ -108,7 +108,7 @@
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
           <div class="inline-flex">
-            <button v-if="tipoUsuario == 4 || infoCard.statusId < 2 || (tipoUsuario == 10 && infoCard.statusId <= 3)" @click.prevent="borrar_dtc" class="botonIconBorrarCard">
+            <button v-if="tipoUsuario == 4 || infoCard.statusId < 2 || (tipoUsuario == 10 && infoCard.statusId <= 3)" @click.prevent="borrar_dtc" class="botonIconBorrarCard font-boton">
               <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
               <span>Borrar</span>
             </button>
@@ -116,24 +116,24 @@
           <div class=" inline-flex">
             <a @click="menos" class="text-gray-700 md:mr-4 mt-3 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
-                <button @click.prevent="editar_dtc" class="botonIconEditCard">
+                <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
                   <span class="text-xs">Editar</span>
                 </button>
             </div>
             <div v-else class="text-xs inline-flex">
               <div v-if="tipoUsuario != 8">
-                <button  @click.prevent="generar_pdf(2)" class="botonIconBorrarCard">
+                <button  @click.prevent="generar_pdf(2)" class="botonIconBorrarCard font-boton">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                   <span>Firmado</span>                
                 </button>   
-                <button v-if="infoCard.statusId > 2" @click.prevent="generar_pdf(3)" class=" ml-1 botonIconBorrarCard">
+                <button v-if="infoCard.statusId > 2" @click.prevent="generar_pdf(3)" class=" ml-1 botonIconBorrarCard font-boton">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
                   <span>Sellado</span>
                 </button>  
               </div> 
               <div v-else>
-                <button  @click.prevent="generar_pdf(1)" class="botonIconBorrarCard">
+                <button  @click.prevent="generar_pdf(1)" class="botonIconBorrarCard font-boton">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
                   <span>Sin Firma</span>
                 </button>  

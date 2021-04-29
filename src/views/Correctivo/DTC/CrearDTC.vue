@@ -14,7 +14,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                      FILA NUMERO 1                            ////
     /////////////////////////////////////////////////////////////////////// -->
-        <div class="border border-gray-300 shadow-md rounded-lg">
+        <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
             <br />
@@ -37,7 +37,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        OBSERVACIONES                         ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="items-center ">
+        <div class="items-center font-titulo">
           <p class="text-center">
             <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
           </p>
@@ -56,7 +56,7 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        FILA NUMERO 2                         ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="border border-gray-300 shadow-md rounded-lg items-center">
+        <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo">
           <p style="text-align: center">
             <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
             <br />
@@ -70,7 +70,7 @@
           </p>
         </div>
         <div></div>
-        <div class="border border-gray-300 shadow-md rounded-lg">
+        <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p style="text-align: center">
             <br />
             <br />
@@ -90,7 +90,7 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(1)" class="botonIconBuscar">
+            <button @click="crearDTCTecnico(1)" class="botonIconBuscar font-boton">
               <img src="@/assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
             </button>
