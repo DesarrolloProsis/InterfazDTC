@@ -41,8 +41,7 @@ const mutations = {
   LISTA_PLAZAS_USUARIO_COOKIES_MUTATION: (state, value) => state.cookiesUser.plazasUsuario = value,  
   cleanOut: (state) => {
     state.listaHeaderDtcUser = []
-    state.listaPlazas = []
-    state.cookiesUser = { nombreRoll: '' }
+    state.listaPlazas = []    
   },
   LISTA_HEADER_PLAZA_USER_MUTATION: (state, value) => state.listaHeaderDtcUser = value,  
 };
