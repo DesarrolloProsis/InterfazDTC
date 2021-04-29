@@ -103,11 +103,10 @@ export default {
                     urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                 else if(this.tipo == 'Diagnostico'){
                     let referenceRoute = this.$route.query.item.referenceNumber        
-                    urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+                    urlImgPaths = `${API}/DiagnosticoFaalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
                 }
                 Axios.get(urlImgPaths)
-                    .then((response) => {                          
-                        console.log(response.data)
+                    .then((response) => {                                              
                         let urlImgDescarga = ''
                         if(this.tipo == 'Actividades')
                             urlImgDescarga = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
