@@ -136,6 +136,11 @@ const routes = [
     component: () => import('../views/SesionExpirada')
   },
   {
+  path: '/Error',
+  name: 'Error',
+  component: () => import('../views/Error')
+  },
+  {
     path: '/ListarDtc',
     name: 'ListarDtc',
     component: ListarDTC,
