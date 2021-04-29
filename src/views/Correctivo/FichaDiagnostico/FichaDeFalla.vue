@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <button @click="enviar_header_ficha" class="botonIconActualizar">
+                            <button @click="enviar_header_ficha(true)" class="botonIconActualizar">
                                 <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                                 <span>Actualizar Ficha</span>
                             </button>                            
@@ -64,6 +64,11 @@ export default {
             datosHeader: {},    
             type: 'DIAGNOSTICO',
             reporteInsertado: false              
+        }
+    },
+    beforeMount(){
+        if(this.$route.params.tipoVista == 'Editar'){
+            this.reporteInsertado = true
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -139,15 +144,23 @@ export default {
         },
         insertar_ficha_falla(value){
             if(value){
+                let flagInsert = this.$route.params.tipoVista == 'Editar' ? 1 : 0
                 let objFicha = {
                     referenceNumber: this.datosHeader.referenceNumber,
                     typeFaultId: this.datosHeader.tipoFalla,
                     intervention: this.datosHeader.solucionFalla,
-                    updateFlag: 0 // 0 -> Insertar || 1 -> actualizar
+                    updateFlag: flagInsert // 0 -> Insertar || 1 -> actualizar
                 }            
                 Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then(() => {             
-                        this.reporteInsertado = true                                                       
+                        this.reporteInsertado = true    
+                        if(this.$route.params.tipoVista == 'Editar'){                            
+                            ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
+                            if(this.datosHeader.tipoFalla > 1)
+                                this.$router    .push('/NuevoDtc')     
+                            else
+                                this.$router.push('/Home')                          
+                        }                                                   
                     })
                     .catch((error) => {                                            
                         console.log(error)

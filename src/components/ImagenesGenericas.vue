@@ -101,17 +101,16 @@ export default {
                 let urlImgPaths = ''                         
                 if(this.tipo == 'Actividades')
                     urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                else if(this.tipo == 'Diag'){
+                else if(this.tipo == 'Diagnostico'){
                     let referenceRoute = this.$route.query.item.referenceNumber        
-                    urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+                    urlImgPaths = `${API}/DiagnosticoFaalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
                 }
                 Axios.get(urlImgPaths)
-                    .then((response) => {                          
-                        console.log(response.data)
+                    .then((response) => {                                              
                         let urlImgDescarga = ''
                         if(this.tipo == 'Actividades')
                             urlImgDescarga = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                        else if(this.tipo == 'Diag'){
+                        else if(this.tipo == 'Diagnostico'){
                             urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         }
                         if(response.status != 404){                          
@@ -175,6 +174,7 @@ export default {
                 }
                 else{
                     if(this.tipo == 'Diagnostico'){
+                        alert()
                         rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/DiagnosticoFalla/Images`, tipo: 2 }
                     }
@@ -196,6 +196,7 @@ export default {
                         }
                         await Axios.post(rutaInsertImagenes, formData)
                             .then((response) => {                                                                   
+                                console.log(response)
                                 this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
                             })
                             .catch(error => {                                                      

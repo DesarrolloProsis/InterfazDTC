@@ -241,30 +241,48 @@ data(){
     }
 },
 beforeMount: async function(){  
-    if(this.$route.params.tipoVista != 'Crear'){        
-        let paramRoute = this.$route.query.item         
-        let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
-        this.plazaSeleccionada = plazaSelect.numeroPlaza;
-        this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-        let todosCarriles = await this.$store.getters["Refacciones/GET_CARRILES_STATE"];          
-        let ubicacion = paramRoute.lanes
-            .split(',')
-            .map(carril => {                        
-                return todosCarriles.find(item => item.lane == carril)                        
-        })                        
-        let fecha = moment(paramRoute.diagnosisDate).format('YYYY-MM-DD')    
-        this.datosDiagnostico = {
-            referenceNumber: paramRoute.referenceNumber,
-            ubicacion: ubicacion,
-            fechaDiagnostico: fecha,
-            horaInicio: paramRoute.start,
-            horaFin: paramRoute.end,
-            folioFalla: paramRoute.failuerNumber,
-            numeroReporte: paramRoute.siniesterNumber,
-            descripcionFalla: paramRoute.failureDescription,
-            diagnosticoFalla:paramRoute.failureDiagnosis,
-            causaFalla:paramRoute.causeFailure
+    alert()
+    if(this.$route.params.tipoVista != 'Crear'){ 
+        
+        console.log(this.$route.query.data)
+        if(this.$route.query.data != undefined){  
+            this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
+            this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+            this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+            this.$emit('actualizar-header', this.datosDiagnostico)                        
+            this.datosDiagnostico = this.$route.query.data        
+            delete this.datosDiagnostico["diagnosticoFalla"]
+            delete this.datosDiagnostico["causaFalla"]
+            this.blockInput = true
+        }      
+        else{ 
+            let paramRoute = this.$route.query.item           
+            let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
+            this.plazaSeleccionada = plazaSelect.numeroPlaza;
+            this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+            this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+            let todosCarriles = await this.$store.getters["Refacciones/GET_CARRILES_STATE"];                  
+            let ubicacion = []
+            if(paramRoute.lanes != 'Sin lineas asignadas'){
+                ubicacion = paramRoute.lanes
+                    .split(',')
+                    .map(carril => {                        
+                        return todosCarriles.find(item => item.lane == carril)                        
+                })     
+            }
+            let fecha = moment(paramRoute.diagnosisDate).format('YYYY-MM-DD')    
+            this.datosDiagnostico = {
+                referenceNumber: paramRoute.referenceNumber,
+                ubicacion: ubicacion,
+                fechaDiagnostico: fecha,
+                horaInicio: paramRoute.start,
+                horaFin: paramRoute.end,
+                folioFalla: paramRoute.failuerNumber,
+                numeroReporte: paramRoute.siniesterNumber,
+                descripcionFalla: paramRoute.failureDescription,
+                diagnosticoFalla:paramRoute.failureDiagnosis,
+                causaFalla:paramRoute.causeFailure
+            }
         }
     }
     else{

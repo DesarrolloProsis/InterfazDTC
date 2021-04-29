@@ -95,8 +95,7 @@ export default {
                         let formData = new FormData();
                         formData.append("image", imgagen);                        
                         await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
-                            .then((response) => {
-                                console.log(response)                                     
+                            .then((response) => {                                                                 
                             })
                             .catch(error => {  
                                 console.log(error)                                                    
