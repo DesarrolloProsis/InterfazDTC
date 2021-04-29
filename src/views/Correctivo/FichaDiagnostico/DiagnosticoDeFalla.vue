@@ -12,11 +12,11 @@
                 <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Diag'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-10 ml-79 sm:mb-6 sm:ml-1 sm:mt-4 mt-64">
+                    <div class="mb-10 ml-79 sm:mb-6 sm:ml-1 sm:mt-4 -mt-24">
                         <div v-if="$route.params.tipoVista == 'Crear'">
                             <div v-if="!reporteInsertado">
                                 <button @click="enviar_header_diagnostico(true)" class="botonIconCrear">
