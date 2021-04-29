@@ -123,7 +123,7 @@
                         />
                         <span class="text-gray-500">{{ restante_diag }}/300</span>
                     </div> 
-                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 sm:ml-4">
+                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10">
                         <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.causaFalla"
