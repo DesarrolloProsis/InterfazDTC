@@ -35,14 +35,23 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <tbody name="table" is="transition-group">    
                   <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
+                    <!--/////////////////////////////////////////////////////////////////
+                    ////                 NUMERO DE PARTIDA                           ////
+                    ////////////////////////////////////////////////////////////////////-->
                     <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
                       <div v-else>{{ objectEditar.rowUpd1 }}</div>
                     </td>
+                    <!--/////////////////////////////////////////////////////////////////
+                    ////                            UNIDAD                           ////
+                    ////////////////////////////////////////////////////////////////////-->
                     <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
                       <div v-else>{{ objectEditar.rowUpd2 }}</div>
                     </td>
+                    <!--/////////////////////////////////////////////////////////////////
+                    ////                 COMPONETE NOMBRE                          ////
+                    ////////////////////////////////////////////////////////////////////-->
                     <td class="cuerpoTable">
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                       <!--<div v-else>
@@ -124,22 +133,13 @@
                     </td>
                     <td class="cuerpoTable pb-2">
                       <div v-if="equipo.rowUp">
-                        <button
-                    v-on:click.stop.prevent="deleteItem(index)"
-                    class="botonIconBorrarCard font-boton w-20"
-                  >
-                    <img
-                      src="../../assets/img/bin.png"
-                      class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
-                    />
-                    <span class="">Borrar</span>
+                        <button v-on:click.stop.prevent="deleteItem(index)" class="botonIconBorrarCard font-boton w-20">
+                          <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                          <span class="">Borrar</span>
                         </button>         
                       </div>
                       <div v-else>
-                        <button
-                    v-on:click.stop.prevent="abortUpdateRowTable(index)"
+                        <button v-on:click.stop.prevent="abortUpdateRowTable(index)"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
                   >
                     <img
@@ -174,16 +174,12 @@
                       <td class="cuerpoTable">{{ datosPrePartida.rowUnidad.toString() }}</td>
                       <td class="cuerpoTable">
                         <button @click="modalAgregarComp">
-                          <img
-                            src="../../assets/img/more.png"
-                            width="15"
-                            height="15"
-                          />
+                          <img src="../../assets/img/more.png" width="15" height="15"/>
                         </button>
                         <multiselect
                             @open="UnClick"                          
                             @select="update_componente"
-                            v-model="updtComp"
+                            v-model="componenteSeleccionado"
                             :options="listaComponentes"
                             :multiple="false"
                             group-values="secundarios"
@@ -220,7 +216,7 @@
                             :multiple="true"
                             class="md:hidden lg:hidden xl:hidden"
                           >
-                          <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                          <template v-if="componenteSeleccionado != 'Servidor de Video' && componenteSeleccionado != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
                             <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                           </template>
                         </multiselect>
@@ -398,7 +394,7 @@
                         @select="update_componente"
                         @open="UnClick,scrollBool = false"
                         @close="scrollBool = true"
-                        v-model="updtComp"
+                        v-model="componenteSeleccionado"
                         :options="listaComponentes"
                         :multiple="false"
                         group-values="secundarios"
@@ -428,7 +424,7 @@
                         :multiple="true"
                         class="sm:hidden md:hidden lg:hidden xl:hidden"
                       >
-                        <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                        <template v-if="componenteSeleccionado != 'Servidor de Video' && componenteSeleccionado != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
                           <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                         </template>
                       </multiselect>
@@ -532,7 +528,7 @@
                         @select="update_componente"
                         @open="UnClick,scrollBool = false"
                         @close="scrollBool = true"
-                        v-model="updtComp"
+                        v-model="componenteSeleccionado"
                         :options="listaComponentes"
                         :multiple="false"
                         group-values="secundarios"
@@ -560,15 +556,13 @@
                         :options="listLane"
                         :multiple="true"
                       >
-                        <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                        <template v-if="componenteSeleccionado != 'Servidor de Video' && componenteSeleccionado != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
                           <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                         </template>
                       </multiselect>
                       
                     <div class="justify-center flex mt-5">
-                        <button  
-                        v-on:click.stop.prevent="agregarPartida()"
-                        class="botonIconCrear m-6">Agregar</button>
+                        <button v-on:click.stop.prevent="agregarPartida()" class="botonIconCrear m-6">Agregar</button>
                         <button @click="botoncancelar_modal" class="botonIconCancelar font-boton m-6">Cancelar</button>
                     </div>
                 </div>
@@ -611,7 +605,7 @@ export default {
       },
       arrayPartidas: [],
       //nombre del Compoente    
-      updtComp: "",     
+      componenteSeleccionado: "",     
       scrollBool: true,
       statusMetro: false,
       cantidadMetro: 0,
@@ -649,8 +643,7 @@ props: {
 //////////////////////////////////////////////////////////////////////
 ////                    CICLOS DE VIDA                            ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function () {
-    try {      
+beforeMount: async function () {    
       let componetesEdit = await this.$store.state.DTC.componetesEdit
       if (JSON.stringify(componetesEdit) != "{}") {                     
         for (const item of componetesEdit.items) { 
@@ -723,10 +716,7 @@ beforeMount: async function () {
           this.arrayPartidas.push(new_partida);
           }, 2000)
         }
-      }
-    } catch (ex) {
-      console.log(ex);      
-    }
+      } 
 },
 destroyed: function () {
     this.arrayPartidas = [];
@@ -742,70 +732,61 @@ destroyed: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  UnClick() { this.updtComp = "" },
+  UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){
         this.showModal = true       
 },  
   botoncancelar_modal: function (){
     this.showModal = false
     this.laneSelect = ''
-    this.updtComp = ''
+    this.componenteSeleccionado = ''
 },  
-  update_componente: async function (value) {
-      for (const propiedades in this.datosPrePartida) {
-        this.datosPrePartida[propiedades] = [];
-      }
-      this.listLane = [];
-      this.laneSelect = [];
-      let comp = {}
-      let componenteValido = false
-      for(let componente of this.arrayPartidas){
-        if(componente["row3"].description == value.description && componente["row3"].componentsRelationship == value.componentsRelationship){
-          comp = componente
+  update_componente: async function (value) {        
+    this.listLane = []; this.laneSelect = []; this.statusMetro = false; this.cantidadMetro = 0;
+    for(const propiedades in this.datosPrePartida) {
+      this.datosPrePartida[propiedades] = [];            
+    }
+    const clousere_validar_componete = () => {            
+      let componeteRepetido = this.arrayPartidas
+        .find(partida => { 
+          return partida.row3.description == value.description && 
+          partida.row3.componentsRelationship == value.componentsRelationship
         }
-      }      
-      if(JSON.stringify(comp) == '{}')
-        componenteValido = true
-      else{
-        if(comp["row2"] == 'METRO')
-          componenteValido = true
-        else
-          componenteValido = false
-      }        
-      this.statusMetro = false
-      this.cantidadMetro = 0      
-      if (componenteValido) {
-        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
-        newObject["attachedId"] = this.updtComp.attachedId;
-        newObject["componentsRelationship"] = this.updtComp.componentsRelationship;
-        newObject["componentsRelationshipId"] = this.updtComp.componentsRelationshipId;        
-        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLane = await this.$store.state.Refacciones.listaLane
-        this.relationShipPrincipal = this.updtComp.componentsRelationship;
-        //Validacion para lista lane
-        if (this.listLane.length == 0) {
-          this.$notify.warning({
-            title: "Ups!",
-            msg: `EL COMPONENTE NO ESTA INSTALADO.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }
-      } else {        
+      )          
+      if(componeteRepetido == undefined) return true
+      else return componeteRepetido.row2 == 'METRO' ? true : false        
+    }                              
+    if (clousere_validar_componete()) {
+      let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+      newObject["attachedId"] = this.componenteSeleccionado.attachedId;
+      newObject["componentsRelationship"] = this.componenteSeleccionado.componentsRelationship;
+      newObject["componentsRelationshipId"] = this.componenteSeleccionado.componentsRelationshipId;        
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+      this.listLane = await this.$store.state.Refacciones.listaLane
+      this.relationShipPrincipal = this.componenteSeleccionado.componentsRelationship;      
+      if (this.listLane.length == 0) {
         this.$notify.warning({
           title: "Ups!",
-          msg: `EL COMPONENTE ESTA REPETIDO.`,
+          msg: `EL COMPONENTE NO ESTA INSTALADO.`,
           position: "bottom right",
           styles: {
             height: 100,
             width: 500,
           },
         });
-        this.updtComp = '';        
       }
+    } else {        
+      this.$notify.warning({
+        title: "Ups!",
+        msg: `EL COMPONENTE ESTA REPETIDO.`,
+        position: "bottom right",
+        styles: {
+          height: 100,
+          width: 500,
+        },
+      });
+      this.componenteSeleccionado = '';        
+    }
   },
   UpdateCompEditado: async function () {
       let comp_rep = this.arrayPartidas.some((item) => {
@@ -822,7 +803,7 @@ methods: {
         newObject["id"] = this.updtCompEditar;
         await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
         this.listLaneEditar = await this.$store.state.Refacciones.listaLane
-        this.relationShipPrincipal = this.updtComp.componentsRelationship;
+        this.relationShipPrincipal = this.componenteSeleccionado.componentsRelationship;
         //Validacion para lista lane
         if (this.listLane.length == 0) {
           this.$notify.warning({
@@ -1007,7 +988,7 @@ methods: {
       this.laneSelectEditar = [];
   },
   agregarPartida: async function () {
-      if (this.updtComp != "") {
+      if (this.componenteSeleccionado != "") {
         if (this.laneSelect.length > 0) {
           //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
           //AGREGAMOS PARTIDA AL STORE
@@ -1048,7 +1029,7 @@ methods: {
             this.statusMetro == true ? this.cantidadMetro : this.laneSelect.length
           );
           new_partida["row1"] = this.arrayPartidas.length + 1;
-          new_partida["row3"] = this.updtComp;
+          new_partida["row3"] = this.componenteSeleccionado;
           new_partida["row8"] = this.laneSelect;          
           this.arrayPartidas.push(new_partida);
           //LIMPIA LA LISTA PRE_PARTIDA
@@ -1058,7 +1039,7 @@ methods: {
             else this.datosPrePartida[propiedades] = [];
           }
           //LIMPIAMOS COMPONENTE Y LANE
-          this.updtComp = "";
+          this.componenteSeleccionado = "";
           this.laneSelect = [];
           this.listLane = [];  
           this.statusMetro = false
@@ -1101,15 +1082,14 @@ watch: {
         if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
         else this.datosPrePartida[propiedades] = [];
       }      
-      if (newValue.length > 0) {
-        //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
+      if (newValue.length > 0) {        
         this.datosPrePartida = Service.lane_select(
           newValue,
           this.datosPrePartida,
           this.equipoValid,
           this.dateSinester,
           this.relationShipPrincipal,
-          undefined, 
+          undefined,//Editar 
           newValue.length         
         );        
         if(this.datosPrePartida.rowUnidad == 'METRO'){
