@@ -139,28 +139,13 @@
                         </button>         
                       </div>
                       <div v-else>
-                        <button v-on:click.stop.prevent="abortUpdateRowTable(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
-                  >
-                    <img
-                      src="../../assets/img/cerrar.png"
-                      class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
-                    />
-                    <span>Cancelar</span>
+                        <button v-on:click.stop.prevent="abortUpdateRowTable(index)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2">
+                          <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                          <span>Cancelar</span>
                         </button>
-                        <button
-                    v-on:click.stop.prevent="confirmRowTable(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
-                  >
-                    <img
-                      src="../../assets/img/garrapata.png"
-                      class="mr-2 sm:m-1"
-                      width="20"
-                      height="20"
-                    />
-                    <span>Confirmar</span>
+                        <button v-on:click.stop.prevent="confirmRowTable(index)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2">
+                          <img src="../../assets/img/garrapata.png" class="mr-2 sm:m-1" width="20" height="20"/>
+                          <span>Confirmar</span>
                         </button>
                       </div>
                     </td>
@@ -178,7 +163,7 @@
                         </button>
                         <multiselect
                             @open="UnClick"                          
-                            @select="update_componente"
+                            @select="cambiar_componente"
                             v-model="componenteSeleccionado"
                             :options="listaComponentes"
                             :multiple="false"
@@ -391,7 +376,7 @@
                         <img src="../../assets/img/more.png" width="20" height="20" />
                       </button>
                       <multiselect
-                        @select="update_componente"
+                        @select="cambiar_componente"
                         @open="UnClick,scrollBool = false"
                         @close="scrollBool = true"
                         v-model="componenteSeleccionado"
@@ -525,7 +510,7 @@
                   ////                        BOTONES MODAL AGREGAR COMP             ////
                   ////////////////////////////////////////////////////////////////////-->
                     <multiselect
-                        @select="update_componente"
+                        @select="cambiar_componente"
                         @open="UnClick,scrollBool = false"
                         @close="scrollBool = true"
                         v-model="componenteSeleccionado"
@@ -560,7 +545,9 @@
                           <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                         </template>
                       </multiselect>
-                      
+                    <div v-if="statusMetro">
+                      <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
+                    </div>                      
                     <div class="justify-center flex mt-5">
                         <button v-on:click.stop.prevent="agregarPartida()" class="botonIconCrear m-6">Agregar</button>
                         <button @click="botoncancelar_modal" class="botonIconCancelar font-boton m-6">Cancelar</button>
@@ -575,8 +562,11 @@
 import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../DTC/TablaEquipoPropuesto.vue";
 import Service from "../../services/EquipoMaloService.js";
+import EventBus from '../../services/EventBus'
 import moment from "moment";
 import { mapState } from 'vuex';
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -643,6 +633,11 @@ props: {
 //////////////////////////////////////////////////////////////////////
 ////                    CICLOS DE VIDA                            ////
 /////////////////////////////////////////////////////////////////////
+created(){
+  EventBus.$on('insertar-componetes-dañados', (objInsert) => {
+    this.insertar_componetes_dañados(objInsert)
+  })
+},
 beforeMount: async function () {    
       let componetesEdit = await this.$store.state.DTC.componetesEdit
       if (JSON.stringify(componetesEdit) != "{}") {                     
@@ -732,16 +727,26 @@ destroyed: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  insertar_componetes_dañados(objInsert){
+    let arrayDmg = []
+    //  const newObjectConvenio = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+    //   newObject["attachedId"] = this.componenteSeleccionado.attachedId;
+    //   newObject["componentsRelationship"] = this.componenteSeleccionado.componentsRelationship;
+    //   newObject["componentsRelationshipId"] = this.componenteSeleccionado.componentsRelationshipId;        
+    //   await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+    Axios.post(`${API}/requestedComponent/${objInsert.split('-')[0]}/${objInsert.flagCreate}`, arrayDmg)
+      .then(response => {      
+        console.log(response)     
+        
+      })
+      .catch(error => {        
+        console.log(error)            
+      });    
+  },
   UnClick() { this.componenteSeleccionado = "" },
-  modalAgregarComp: function (){
-        this.showModal = true       
-},  
-  botoncancelar_modal: function (){
-    this.showModal = false
-    this.laneSelect = ''
-    this.componenteSeleccionado = ''
-},  
-  update_componente: async function (value) {        
+  modalAgregarComp: function (){ this.showModal = true },  
+  botoncancelar_modal: function (){ this.showModal = false; this.laneSelect = ''; this.componenteSeleccionado = ''},  
+  cambiar_componente: async function (value) {        
     this.listLane = []; this.laneSelect = []; this.statusMetro = false; this.cantidadMetro = 0;
     for(const propiedades in this.datosPrePartida) {
       this.datosPrePartida[propiedades] = [];            
@@ -754,7 +759,12 @@ methods: {
         }
       )          
       if(componeteRepetido == undefined) return true
-      else return componeteRepetido.row2 == 'METRO' ? true : false        
+      else{
+        if(componeteRepetido.row2 == 'METRO'){
+          this.statusMetro
+          return true
+        }
+      } 
     }                              
     if (clousere_validar_componete()) {
       let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
@@ -788,240 +798,12 @@ methods: {
       this.componenteSeleccionado = '';        
     }
   },
-  UpdateCompEditado: async function () {
-      let comp_rep = this.arrayPartidas.some((item) => {
-        return (
-          item["row3"].description == this.updtCompEditar.description &&
-          item["row3"].componentsRelationship ==
-            this.updtCompEditar.componentsRelationship
-        );
-      });
-      if (!comp_rep) {
-        this.laneSelectEditar = [];
-        this.listLaneEditar = [];
-        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-        newObject["id"] = this.updtCompEditar;
-        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.state.Refacciones.listaLane
-        this.relationShipPrincipal = this.componenteSeleccionado.componentsRelationship;
-        //Validacion para lista lane
-        if (this.listLane.length == 0) {
-          this.$notify.warning({
-            title: "Ups!",
-            msg: `El componente no esta en carril.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }
-      } else if (
-        this.updtCompEditar.description ==
-          this.saveObjectEdiar[2].description &&
-        this.updtCompEditar.brand == this.saveObjectEdiar[2].brand
-      ) {
-        this.updtCompEditar = "";
-        this.laneSelectEditar = [];
-        this.listLaneEditar = [];
-        for (const propiedades in this.objectEditar) {
-          this.objectEditar[propiedades] = [];
-        }
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `ESTAS EDITANDO EL COMPONENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      } else {
-        this.laneSelectEditar = [];
-        for (const propiedades in this.objectEditar) {
-          this.objectEditar[propiedades] = [];
-        }
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `EL COMPONENTE ESTA REPETIDO.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-  },
-  deleteItem: function (index) {
-      this.arrayPartidas.splice(index, 1);
-      for (let i = 0; i < this.arrayPartidas.length; i++) {
-        this.arrayPartidas[i]["row1"] = i + 1;
-      }
-      this.$store.commit("DTC/ELIMINAR_ITEM_DTC_DAÑADO_MUTATION", index);
-  },
-  updateRowTable: async function (index, datos) {
-      if (this.saveObjectEdiar.length == 0) {
-        this.saveObjectEdiar = Object.values(datos);
-        this.updtCompEditar = this.saveObjectEdiar[2];
-        let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-        newObject["id"] = this.updtCompEditar;
-        await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-        this.listLaneEditar = await this.$store.state.Refacciones.listaLane                  
-        this.laneSelectEditar = this.saveObjectEdiar[7];
-        this.arrayPartidas[index]["rowUp"] = false;
-      } else {
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `YA SE ESTA EDITANDO UN COMPONENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-  },
-  confirmRowTable: async function (index) {
-      if (this.updtCompEditar != "") {
-        if (this.laneSelectEditar.length > 0) {
-          //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
-          //AGREGAMOS PARTIDA AL STORE
-          let objPartida = await Service.obj_partida(this.laneSelectEditar,this.listaRefaccionesValid, this.dateSinester);
-          let objMutation = {
-            index: index,
-            value: objPartida,
-          };
-          this.$store.commit("DTC/ACTUALIZAR_ITEM_DTC_DAÑAD", objMutation);
-          //COMPLETAMOS ATRIBUTOS QUE FALTAN
-          let key_partidas = [
-            "row1",
-            "row2",
-            "row3",
-            "row4",
-            "row5",
-            "row6",
-            "row7",
-            "row8",
-            "row9",
-            "row10",
-            "row11",
-            "row12",
-            "row13",
-            "row14",
-            "rowUp",
-          ];
-          let new_partida = Service.lane_select(
-            this.laneSelectEditar,
-            key_partidas,
-            this.listaRefaccionesValid,
-            this.dateSinester
-          );
-          new_partida["row1"] = index + 1;
-          new_partida["row2"] = this.objectEditar.rowUpd2;
-          new_partida["row3"] = this.updtCompEditar;
-          new_partida["row8"] = this.laneSelectEditar;
-          this.arrayPartidas.splice(index, 1, new_partida);
-          this.objectEditar = {};
-          this.saveObjectEdiar = [];
-          this.laneSelectEditar = [];
-          this.updtCompEditar = "";
-          this.listLaneEditar = [""];
-        } else {
-          this.$notify.warning({
-            title: "Ups!",
-            msg: `FALTA AGREGAR LA UBICACION.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }
-      } else {
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `FALTA AGREGAR UN COMPONENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-  },
-  abortUpdateRowTable: function (index) {
-      let lanes = this.saveObjectEdiar[7];
-      let key_abort = [
-        "row1",
-        "row2",
-        "row3",
-        "row4",
-        "row5",
-        "row6",
-        "row7",
-        "row8",
-        "row9",
-        "row10",
-        "row11",
-        "row12",
-        "row13",
-        "row14",
-        "rowUp",
-      ];
-      let newObject = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-      newObject["id"] = this.saveObjectEdiar[2];
-      this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      //let equipoValid = this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
-      let obj_abort = Service.lane_select(
-        lanes,
-        key_abort,
-        this.listaRefaccionesValid,
-        this.dateSinester
-      );
-      obj_abort["row3"] = this.saveObjectEdiar[2];
-      obj_abort["row8"] = this.saveObjectEdiar[7];
-      this.arrayPartidas[index] = obj_abort;
-      this.saveObjectEdiar = [];
-      this.objectEditar = {};
-      this.listLaneEditar = [""];
-      this.updtCompEditar = "";
-      this.laneSelectEditar = [];
-  },
   agregarPartida: async function () {
       if (this.componenteSeleccionado != "") {
-        if (this.laneSelect.length > 0) {
-          //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
-          //AGREGAMOS PARTIDA AL STORE
-          let objPartida = await Service.obj_partida(
-            this.laneSelect,
-            this.listaRefaccionesValid,
-            this.dateSinester,
-            this.relationShipPrincipal,
-            null,
-            this.statusMetro == true ? this.cantidadMetro : 0
-          );
-          this.$store.commit("DTC/NUEVO_ITEM_DTC_DAÑADO_MUTATION", objPartida);
-          //COMPLETAMOS ATRIBUTOS QUE FALTAN
-          let key_partidas = [
-            "row1",
-            "row2",
-            "row3",
-            "row4",
-            "row5",
-            "row6",
-            "row7",
-            "row8",
-            "row9",
-            "row10",
-            "row11",
-            "row12",
-            "row13",
-            "row14",
-            "rowUp",
-          ];
+        if (this.laneSelect.length > 0) {                
           let new_partida = Service.lane_select(
             this.laneSelect,
-            key_partidas,
+            undefined,//key_partidas
             this.listaRefaccionesValid,
             this.dateSinester,
             this.relationShipPrincipal,
@@ -1039,11 +821,7 @@ methods: {
             else this.datosPrePartida[propiedades] = [];
           }
           //LIMPIAMOS COMPONENTE Y LANE
-          this.componenteSeleccionado = "";
-          this.laneSelect = [];
-          this.listLane = [];  
-          this.statusMetro = false
-          this.showModal= false        
+          this.componenteSeleccionado = ""; this.laneSelect = []; this.listLane = []; this.statusMetro = false; this.showModal= false        
         } else {
           this.$notify.warning({
             title: "Ups!",
@@ -1086,51 +864,15 @@ watch: {
         this.datosPrePartida = Service.lane_select(
           newValue,
           this.datosPrePartida,
-          this.equipoValid,
+          this.listaRefaccionesValid,
           this.dateSinester,
           this.relationShipPrincipal,
           undefined,//Editar 
           newValue.length         
-        );        
-        if(this.datosPrePartida.rowUnidad == 'METRO'){
-          this.statusMetro = true
-        }
-      }  
-  },
-  laneSelectEditar: async function (newValue) {
-      for (const propiedades in this.objectEditar) {
-        if (propiedades == "rowUpd4") this.objectEditar[propiedades] = 0;
-        else this.objectEditar[propiedades] = [];
-      }
-      if (newValue.length > 0) {
-        let key_updt = [
-          "rowUpd1",
-          "rowUpd2",
-          "rowUpd3",
-          "rowUpd4",
-          "rowUpd5",
-          "rowUpd6",
-          "rowUpd7",
-          "rowUpd8",
-          "rowUpd9",
-          "rowUpd10",
-          "rowUpd11",
-          "rowUpd12",
-          "rowUpd13",
-          "rowUpd14",
-          "rowUpd15",
-        ];
-        //let equipoValid = await this.$store.getters["Refacciones/GET_REFACCIONES_VALIDAS"];
-        this.objectEditar = await Service.lane_select(
-          newValue,
-          key_updt,
-          this.equipoValid,
-          this.dateSinester,
-          this.relationShipPrincipal,
-          undefined
         );
-        this.listLaneEditar = await this.$store.state.Refacciones.listaLane          
-      }
+        if(this.datosPrePartida.rowUnidad == 'METRO')
+          this.statusMetro = true
+      }    
   },
 },
 computed: {
