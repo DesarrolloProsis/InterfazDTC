@@ -1,33 +1,33 @@
 <template>
   <div>
-    <div class="flex w-full sm:hidden md:hidden lg:show xl:show">
-      <div>
+    <div class="flex w-full">
+      <div :class="{ hidden: modal }">
         <div class="text-center mb-5 font-titulo">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
-        <div class="flex justify-center p-8">
-          <div class="grid gap-4 grid-cols-1">
-            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24">
+        <div class="flex justify-center p-8 sm:p-4">
+          <div class="grid gap-4 grid-cols-1 sm:gap-0">
+            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 sm:text-xs">
               <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped font-titulo">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="text-sm text-gray-400 bg-blue-800">
-                    <th class="cabeceraTable font-medium">Partida</th>
-                    <th class="cabeceraTable font-medium">Unidad</th>
-                    <th class="text-red-600 font-medium cabeceraTable">Componente</th>
-                    <th class="text-red-600 font-medium cabeceraTable">Cantidad</th>
-                    <th class="cabeceraTable font-medium xl:w-32">Marca</th>
-                    <th class="cabeceraTable font-medium xl:w-32">Modelo</th>
-                    <th class="cabeceraTable font-medium xl:w-32">Numero de Serie</th>
-                    <th class="cabeceraTable font-medium text-red-600">Ubicacion<br />(carril/cuerpo)</th>
-                    <th class="cabeceraTable font-medium">Fecha de Instalacion</th>
-                    <th class="cabeceraTable font-medium">Fecha<br />(Ultimo Mantenimiento)</th>
-                    <th class="cabeceraTable font-medium">Folio<br />(Ultimo Mantenimiento)</th>
-                    <th class="cabeceraTable font-medium">Real</th>
-                    <th class="cabeceraTable font-medium w-20">Fabricante</th>
-                    <th class="cabeceraTable font-medium">Acciones</th>
+                  <tr class="text-sm text-gray-400 bg-blue-800 sm:text-xs">
+                    <th class="cabeceraTable font-medium sm:w-20">Partida</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden">Unidad</th>
+                    <th class="text-red-600 font-medium cabeceraTable sm:w-48">Componente</th>
+                    <th class="text-red-600 font-medium sm:hidden md:hidden cabeceraTable">Cantidad</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden xl:w-32">Marca</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden xl:w-32">Modelo</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden xl:w-32">Numero de Serie</th>
+                    <th class="cabeceraTable font-medium text-red-600 sm:w-48">Ubicacion<br />(carril/cuerpo)</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden">Fecha de Instalacion</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden">Fecha<br />(Ultimo Mantenimiento)</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden">Folio<br />(Ultimo Mantenimiento)</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden">Real</th>
+                    <th class="cabeceraTable font-medium sm:hidden md:hidden w-20">Fabricante</th>
+                    <th class="cabeceraTable font-medium sm:w-48">Acciones</th>
                   </tr>
                 </thead>
                 <!--/////////////////////////////////////////////////////////////////
@@ -35,15 +35,15 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <tbody name="table" is="transition-group">    
                   <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable"><!-- Partida -->
                       <div v-if="equipo.rowUp">{{ equipo.row1.toString() }}</div>
                       <div v-else>{{ objectEditar.rowUpd1 }}</div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Unidad -->
                       <div v-if="equipo.rowUp">{{ equipo.row2.toString() }}</div>
                       <div v-else>{{ objectEditar.rowUpd2 }}</div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable"><!-- Componente -->
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                       <!--<div v-else>
                         <multiselect
@@ -65,25 +65,25 @@
                       </div>-->
                       <div v-else></div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Cantidad -->
                       <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
                       <div v-else>{{ objectEditar.rowUpd4 }}</div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Marca -->
                       <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p></div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Modelo -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
                       </div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Numero de Serio -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
                       </div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable"><!-- Ubicacion -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
                       <!-- <div v-else>
                         <multiselect
@@ -102,65 +102,75 @@
                       </div> -->
                       <div v-else></div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Instalacion -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row9" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd9" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Mantenimiento -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row10" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd10" :key="key" class="text-sm">{{ item | formatDate }}</p></div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Folio Mantenimiento -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row11" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd11" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Real -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row12" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd12" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="cuerpoTable">
+                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Fabricante -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd13" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="cuerpoTable pb-2">
+                    <td class="cuerpoTable pb-2"><!-- Acciones -->
                       <div v-if="equipo.rowUp">
                         <button
-                    v-on:click.stop.prevent="deleteItem(index)"
-                    class="botonIconBorrarCard font-boton w-20"
-                  >
-                    <img
-                      src="../../assets/img/bin.png"
-                      class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
-                    />
-                    <span class="">Borrar</span>
-                        </button>         
+                          v-on:click.stop.prevent="deleteItem(index)"
+                          class="botonIconBorrarCard font-boton w-20 sm:w-10"
+                        >
+                          <img
+                            src="../../assets/img/bin.png"
+                            class="mr-2 sm:ml-1"
+                            width="15"
+                            height="15"
+                          />
+                          <span class="sm:hidden">Borrar</span>
+                        </button>
+                        <button
+                        v-on:click.stop.prevent="infoModal(index)"
+                        class="botonIconMas ml-1 lg:hidden xl:hidden"
+                      >
+                        <img
+                          src="../../assets/img/mas.png"
+                          width="15"
+                          height="15"
+                        />
+                        </button>
                       </div>
                       <div v-else>
                         <button
-                    v-on:click.stop.prevent="abortUpdateRowTable(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
-                  >
-                    <img
-                      src="../../assets/img/cerrar.png"
-                      class="mr-2 sm:m-1"
-                      width="15"
-                      height="15"
-                    />
-                    <span>Cancelar</span>
+                          v-on:click.stop.prevent="abortUpdateRowTable(index)"
+                          class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2"
+                          >
+                          <img
+                            src="../../assets/img/cerrar.png"
+                            class="mr-2 sm:m-1"
+                            width="15"
+                            height="15"
+                          />
+                          <span>Cancelar</span>
                         </button>
                         <button
-                    v-on:click.stop.prevent="confirmRowTable(index)"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
-                  >
-                    <img
-                      src="../../assets/img/garrapata.png"
-                      class="mr-2 sm:m-1"
-                      width="20"
-                      height="20"
-                    />
-                    <span>Confirmar</span>
+                          v-on:click.stop.prevent="confirmRowTable(index)"
+                          class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2"
+                        >
+                          <img
+                            src="../../assets/img/garrapata.png"
+                            class="mr-2 sm:m-1"
+                            width="20"
+                            height="20"
+                          />
+                          <span>Confirmar</span>
                         </button>
                       </div>
                     </td>
@@ -171,15 +181,15 @@
                   ////////////////////////////////////////////////////////////////////-->      
                     <tr class="text-center">
                       <td class="cuerpoTable">{{ "*" }}</td>
-                      <td class="cuerpoTable">{{ datosPrePartida.rowUnidad.toString() }}</td>
-                      <td class="cuerpoTable">
+                      <td class="cuerpoTable sm:text-sm">
                         <button @click="modalAgregarComp">
                           <img
                             src="../../assets/img/more.png"
                             width="15"
                             height="15"
                           />
-                        </button>
+                        </button></td>
+                      <td class="cuerpoTable sm:hidden">
                         <multiselect
                             @open="UnClick"                          
                             @select="update_componente"
@@ -193,12 +203,12 @@
                             placeholder="Buscar componentes"
                             track-by="name"
                             openDirection="below"
-                            class="md:hidden lg:hidden xl:hidden"
+                            class="hidden"
                             label="description"
                         ><span slot="noResult"></span>
                         </multiselect>
                       </td>
-                      <td class="cuerpoTable w-1">
+                      <td class="cuerpoTable w-1 sm:hidden">
                         <template v-if="statusMetro">
                           <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
                         </template>
@@ -206,10 +216,10 @@
                           {{ datosPrePartida.rowCantidad }}
                         </template>                      
                       </td>
-                      <td class="cuerpoTable">{{ datosPrePartida.rowMarca.toString() }}</td>
-                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
-                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
-                      <td class="cuerpoTable">
+                      <td class="cuerpoTable sm:hidden">{{ datosPrePartida.rowMarca.toString() }}</td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable sm:hidden">
                         <multiselect
                             v-model="laneSelect"                                                  
                             :close-on-select="false"
@@ -218,19 +228,19 @@
                             placeholder="Selecciona..."
                             :options="listLane"
                             :multiple="true"
-                            class="md:hidden lg:hidden xl:hidden"
+                            class="hidden"
                           >
                           <template v-if="updtComp != 'Servidor de Video' && updtComp != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
                             <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                           </template>
                         </multiselect>
                       </td>
-                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateInstalacion" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
-                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateMantenimiento" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
-                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowFolioMantenimiento" :key="key" class="text-sm">{{ item }}</p></td>
-                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
-                      <td class="cuerpoTable"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
-                      <td class="cuerpoTable p-2">
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowDateInstalacion" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowDateMantenimiento" :key="key" class="text-sm">{{ item | formatDate }}</p></td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowFolioMantenimiento" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowDateReal" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowDateFabricante" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable sm:hidden p-2">
                         <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24 hidden">
                           <img src="../../assets/img/more.png" width="20" height="20" />
                           <span class="text-xs">Agregar Partida</span>
@@ -248,7 +258,7 @@
     /////                       PEQUEÑA                              //////
     ////////////////////////////////////////////////////////////////////-->
     <div class="flex justify-center lg:hidden xl:hidden">
-      <div class="p-4" :class="{ hidden: modal }">
+      <div class="p-4 hidden" :class="{ hidden: modal }">
         <div class="text-center mb-5 font-titulo">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
