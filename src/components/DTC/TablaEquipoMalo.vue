@@ -728,20 +728,38 @@ destroyed: function () {
 /////////////////////////////////////////////////////////////////////
 methods: {
   insertar_componetes_dañados(objInsert){
-    let arrayDmg = []
-    //  const newObjectConvenio = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
-    //   newObject["attachedId"] = this.componenteSeleccionado.attachedId;
-    //   newObject["componentsRelationship"] = this.componenteSeleccionado.componentsRelationship;
-    //   newObject["componentsRelationshipId"] = this.componenteSeleccionado.componentsRelationshipId;        
-    //   await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-    Axios.post(`${API}/requestedComponent/${objInsert.split('-')[0]}/${objInsert.flagCreate}`, arrayDmg)
-      .then(response => {      
-        console.log(response)     
-        
-      })
-      .catch(error => {        
-        console.log(error)            
-      });    
+    let clousure_formato = new Promise(async (resolve) => {
+        const newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+        let arrayDmg = []
+        await this.arrayPartidas.forEach(async(partida, index) => {      
+          newObjectConvenio["attachedId"] = partida.row3.attachedId;
+          newObjectConvenio["componentsRelationship"] = partida.row3.componentsRelationship;
+          newObjectConvenio["componentsRelationshipId"] = partida.row3.componentsRelationshipId;        
+          await this.$store.dispatch("Refacciones/buscarComponenteId", newObjectConvenio);      
+          let nuevaPartidaInsert = await Service.obj_partida(partida.row8, this.listaRefaccionesValid, this.dateSinester, partida.row3.componentsRelationshipId, undefined, partida.row4)          
+          let nuevoArray = nuevaPartidaInsert.map((item) => {
+            item["IntPartida"] = index + 1
+            item["ReferenceNumber"] = objInsert.refNum   
+            return item  
+          })
+          nuevoArray.forEach(item => {
+            arrayDmg.push(item)
+          })          
+        })
+        resolve(arrayDmg)
+    })
+
+    clousure_formato.then((arrayDmg) => {
+      console.log(arrayDmg)          
+      Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, arrayDmg)
+        .then(response => {      
+          console.log(response)     
+          
+        })
+        .catch(error => {        
+          console.log(error)            
+        });
+    })            
   },
   UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){ this.showModal = true },  
