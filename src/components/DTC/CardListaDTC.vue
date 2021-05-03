@@ -116,7 +116,7 @@
           <div class=" inline-flex">
             <a @click="menos" class="text-gray-700 md:mr-4 mt-3 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
-                <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton">
+                <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton" :class="{'hidden' :tipoUsuario == 4 || tipoUsuario == 10}">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
                   <span class="text-xs">Editar</span>
                 </button>
