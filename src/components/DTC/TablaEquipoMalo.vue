@@ -748,18 +748,15 @@ methods: {
         })
         resolve(arrayDmg)
     })
-
-    clousure_formato.then((arrayDmg) => {
-      console.log(arrayDmg)          
-      Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, arrayDmg)
-        .then(response => {      
-          console.log(response)     
-          
-        })
-        .catch(error => {        
-          console.log(error)            
-        });
-    })            
+    let array = await clousure_formato()        
+    Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, array)
+      .then(response => {      
+        console.log(response)     
+        
+      })
+      .catch(error => {        
+        console.log(error)            
+      });             
   },
   UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){ this.showModal = true },  
