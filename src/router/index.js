@@ -131,6 +131,11 @@ const routes = [
     component: () => import('../views/Correctivo/Pruebas')
   },
   {
+    path: '/ConcentradoBorrados',
+    name: 'ConcentradoBorrados',
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoBorrados')
+  },
+  {
     path: '/SesionExpirada',
     name: 'SesionExpirada',
     component: () => import('../views/SesionExpirada')

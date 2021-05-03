@@ -47,7 +47,7 @@ const actions = {
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)                         
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
             .then((response) => {                               
-                commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
+                commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)             
             })
             .catch(error => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])  

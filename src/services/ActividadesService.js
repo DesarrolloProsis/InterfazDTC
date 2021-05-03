@@ -1,5 +1,7 @@
 import store from '../store/index'
 import moment from "moment";
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){        
     let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -9,27 +11,51 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         let fecha_comodin = new Date()
         mes = fecha_comodin.getMonth() + 1,
         año = fecha_comodin.getFullYear()
-    }        
-    let objApi = {
-        "userId": user.idUser,
-        "squareId": user.numPlaza,
-        "month": mes,
-        "year": año,
+    }       
+    let listaActidadesTipo = []    
+    if(ref != undefined){
+        //alert()
+        let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
+        let plazasUserSinRepetir = []
+        let concentradoActividades = []
+        store.state.Login.cookiesUser.plazasUsuario.forEach(plaza => {
+            if(plazasUserSinRepetir.find(item => item.numeroPlaza == plaza.numeroPlaza) == undefined){
+                plazasUserSinRepetir.push(plaza)
+            }
+        })        
+        console.log({ plazasUserSinRepetir, objApi})
+        plazasUserSinRepetir.forEach((item) => {
+            console.log(item)
+            objApi['squareId'] = item.numeroPlaza
+            Axios.post(`${API}/Calendario/ActividadMesYear/${item.referenciaPlaza}`,objApi)
+            .then((response) => {                               
+                response.data.result.forEach(item => concentradoActividades.push(item))
+                store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
+                console.log(response.data.result)
+            })
+/*             .catch(error => {
+                store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", [])  
+                console.log(error)                                                      
+            }); */ 
+        })
+        console.log(concentradoActividades)
+        listaActidadesTipo = concentradoActividades.filter(item => item.referenceNumber == ref)         
     }
-    await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
-    let listaActidadesTipo = tipoCalendario === false 
+    else{   
+        let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
+        await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
+        listaActidadesTipo = tipoCalendario === false 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-        : eventos_calendario_formato(objApi)      
-            
-    if (status != undefined){
-        listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)        
+        : eventos_calendario_formato(objApi)              
+        if (status != undefined){
+            listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
+            console.log(listaActidadesTipo)                
+        }
+        if (carril != undefined){        
+            listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
+        }
     }
-    if (carril != undefined){        
-        listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
-    }
-    if ((ref != '') && (ref != undefined)){
-        listaActidadesTipo = listaActidadesTipo.filter(item => item.referenceNumber == ref)
-    }     
+    
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,
