@@ -61,6 +61,8 @@ function daysMonthsYearsInDates(dateStart, dateEnd){
 /*///////////////////////////////////////////////////////////////////////////////*/
 import moment from "moment";   
 function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, relationShipPrincipal, _editar, cantidad){
+        if(keyObjectRequire == undefined)
+            keyObjectRequire = ["row1","row2","row3","row4","row5","row6","row7","row8","row9","row10","row11","row12","row13","row14","rowUp",];
         let key_Require = []
         let arrayRequire = {}
         if(Array.isArray(keyObjectRequire)){
@@ -91,7 +93,7 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
             let component = []
             if(_editar == undefined)
                 component = equipoValid.find(comp => comp.lane === lane)
-            else{
+            else{                
                 component = equipoValid.find(comp => comp.tableFolio == lane)
             }                        
             //Marca

@@ -209,7 +209,9 @@ methods: {
           }
         }
         let value_insert = { refNum: this.referenciaDtc, flagCreate: this.flagCreate };
-        await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);        
+        //await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);        
+        let result = await EventBus.$emit('insertar-componetes-dañados', value_insert)
+        console.log(result)
         if (this.$store.getters["DTC/getInsertDmgComplete"]) {           
           if (status == 2) {
             ServiceReporte.generar_pdf_correctivo(
