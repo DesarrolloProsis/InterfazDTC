@@ -614,6 +614,7 @@ export default {
       pruebasMultiselect: [],
       //Cambios Inserte RelationShip
       relationShipPrincipal: "",
+      arrayDmg: []
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -636,6 +637,7 @@ props: {
 created(){
   EventBus.$on('insertar-componetes-dañados', (objInsert) => {
     this.insertar_componetes_dañados(objInsert)
+    return 0
   })
 },
 beforeMount: async function () {    
@@ -727,36 +729,38 @@ destroyed: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  insertar_componetes_dañados(objInsert){
-    let clousure_formato = new Promise(async (resolve) => {
-        const newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
-        let arrayDmg = []
-        await this.arrayPartidas.forEach(async(partida, index) => {      
-          newObjectConvenio["attachedId"] = partida.row3.attachedId;
-          newObjectConvenio["componentsRelationship"] = partida.row3.componentsRelationship;
-          newObjectConvenio["componentsRelationshipId"] = partida.row3.componentsRelationshipId;        
-          await this.$store.dispatch("Refacciones/buscarComponenteId", newObjectConvenio);      
-          let nuevaPartidaInsert = await Service.obj_partida(partida.row8, this.listaRefaccionesValid, this.dateSinester, partida.row3.componentsRelationshipId, undefined, partida.row4)          
-          let nuevoArray = nuevaPartidaInsert.map((item) => {
-            item["IntPartida"] = index + 1
-            item["ReferenceNumber"] = objInsert.refNum   
-            return item  
-          })
-          nuevoArray.forEach(item => {
-            arrayDmg.push(item)
-          })          
-        })
-        resolve(arrayDmg)
-    })
-    let array = await clousure_formato()        
-    Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, array)
+  insertar_componetes_dañados:  function(objInsert){    
+    const newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+    let _arrayDmg = []
+    this.arrayPartidas.forEach(async(partida, index) => {      
+      newObjectConvenio["attachedId"] = partida.row3.attachedId;
+      newObjectConvenio["componentsRelationship"] = partida.row3.componentsRelationship;
+      newObjectConvenio["componentsRelationshipId"] = partida.row3.componentsRelationshipId;        
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObjectConvenio);      
+      let nuevaPartidaInsert = await Service.obj_partida(partida.row8, this.listaRefaccionesValid, this.dateSinester, partida.row3.componentsRelationshipId, undefined, partida.row4)          
+      let nuevoArray = nuevaPartidaInsert.map((item) => {
+        item["IntPartida"] = index + 1
+        item["ReferenceNumber"] = objInsert.refNum   
+        return item  
+      })
+      nuevoArray.forEach(item => {
+        _arrayDmg.push(item)
+      })  
+      console.log(index)                  
+    }) 
+    setTimeout(() => {
+      console.log('termine de crear el array')
+      this.arrayDmg = _arrayDmg
+      console.log('axios')
+      Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, _arrayDmg)
       .then(response => {      
         console.log(response)     
         
-      })
+      })     
       .catch(error => {        
         console.log(error)            
-      });             
+      });        
+    }, 2000)
   },
   UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){ this.showModal = true },  

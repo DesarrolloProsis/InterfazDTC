@@ -273,7 +273,7 @@ beforeMount: async function () {
     if(this.infoDTC.some(item => item.statusId == i)){
         this.statusValidos.push(statusLista.find(status => status.id == i))
     }
-  }  
+  }    
   for(let i = 0; i <= 5; i++){
       if(i < this.infoDTC.length)
         this.lista_dtc.push(this.infoDTC[i])
