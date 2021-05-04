@@ -12,7 +12,7 @@
                 <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Diag'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -63,7 +63,7 @@ export default {
         return{    
             datosHeader: {},
             itemCompletoEdit: {},
-            type: 'DIAG',
+            type: 'Diagnostico',
             reporteInsertado: false                 
         }
     },

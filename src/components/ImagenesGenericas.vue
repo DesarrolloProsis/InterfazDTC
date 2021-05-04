@@ -94,17 +94,22 @@ export default {
         this.arrayImagenes = []           
         clearInterval(this.interval);            
     },
-    beforeMount() {       
-        
-        
+    beforeMount() {                       
             setTimeout(() => {   
-                let urlImgPaths = ''                         
+                let urlImgPaths = ''    
+                console.log(this.tipo)                     
                 if(this.tipo == 'Actividades')
                     urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                 else if(this.tipo == 'Diagnostico'){
                     let referenceRoute = this.$route.query.item.referenceNumber        
-                    urlImgPaths = `${API}/DiagnosticoFaalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+                    urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
                 }
+                else{
+                    let referenceRoute = this.$route.query.data.referenceNumber    
+                    console.log(referenceRoute)    
+                    urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+                }
+                console.log(urlImgPaths)
                 Axios.get(urlImgPaths)
                     .then((response) => {                                              
                         let urlImgDescarga = ''
@@ -112,6 +117,9 @@ export default {
                             urlImgDescarga = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         else if(this.tipo == 'Diagnostico'){
                             urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        }
+                        else{
+                            urlImgDescarga = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`   
                         }
                         if(response.status != 404){                          
                             let newArrayImg = []                      
@@ -173,8 +181,7 @@ export default {
                         objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}
                 }
                 else{
-                    if(this.tipo == 'Diagnostico'){
-                        alert()
+                    if(this.tipo == 'Diagnostico'){                        
                         rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/DiagnosticoFalla/Images`, tipo: 2 }
                     }
