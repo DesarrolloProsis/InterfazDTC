@@ -26,6 +26,12 @@
               <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado Diagnóstico</h1>
             </router-link>
+          </div>
+          <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
+            <router-link to="/ConcentradoBorrados" class="text-center cursor-pointer">
+              <img src="../../assets/img/borrados.png" height="200" width="200" class="m-10 sm:m-1" />
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">DTC Borrado</h1>
+            </router-link>
           </div>           
           <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
