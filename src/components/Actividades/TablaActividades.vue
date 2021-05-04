@@ -51,6 +51,7 @@
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status *:</p>
                                     <p class="w-48 input ml-20"><select v-model="status" class="w-48 sm:w-24 border-none" type="text" name="TipoDescripcion" >
+                                        <option disabled value>Selecionar...</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
                                     </select></p>

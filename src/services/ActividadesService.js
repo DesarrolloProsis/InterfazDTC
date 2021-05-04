@@ -12,7 +12,8 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         mes = fecha_comodin.getMonth() + 1,
         año = fecha_comodin.getFullYear()
     }       
-    let listaActidadesTipo = []    
+    let listaActidadesTipo = []
+    console.log(ref)    
     if(ref != undefined){
         //alert()
         let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
@@ -38,8 +39,14 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
                 console.log(error)                                                      
             }); */ 
         })
-        console.log(concentradoActividades)
-        listaActidadesTipo = concentradoActividades.filter(item => item.referenceNumber == ref)         
+        setTimeout( () =>{
+            console.log(concentradoActividades)
+            concentradoActividades.forEach(item => {
+                if(item.referenceNumber.toUpperCase().includes(ref)){
+                    listaActidadesTipo.push(item)
+                }
+            })         
+        }, 1000)
     }
     else{   
         let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
@@ -48,6 +55,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
         : eventos_calendario_formato(objApi)              
         if (status != undefined){
+            alert()
             listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
             console.log(listaActidadesTipo)                
         }
