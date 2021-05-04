@@ -62,12 +62,14 @@ export default {
     data (){
         return{    
             datosHeader: {},
+            itemCompletoEdit: {},
             type: 'DIAG',
             reporteInsertado: false                 
         }
     },
     beforeMount(){
-        if(this.$route.params.tipoVista == 'Editar'){
+        if(this.$route.params.tipoVista == 'Editar'){            
+            this.itemCompletoEdit = this.$route.query.item
             this.reporteInsertado = true
         }
     },
@@ -185,7 +187,9 @@ methods:{
                                     console.log(response) 
                                     if(this.$route.params.tipoVista == 'Editar'){
                                         this.type = 'FICHA' 
-                                        ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)              
+                                        ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
+                                        this.datosHeader["tipoFalla"] = this.itemCompletoEdit.typeFaultId 
+                                        this.datosHeader["solucionFalla"] = this.itemCompletoEdit.intervention                                             
                                         this.$router.push({
                                             path: 'FichaTecnicaDeFalla',
                                             query: { data: this.datosHeader }

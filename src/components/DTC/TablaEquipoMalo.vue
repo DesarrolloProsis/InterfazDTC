@@ -124,7 +124,7 @@
                     </td>
                     <td class="cuerpoTable pb-2"><!-- Acciones -->
                       <div v-if="equipo.rowUp">
-                        <button v-on:click.stop.prevent="deleteItem(index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-16">
+                        <button v-on:click.stop.prevent="eliminar_partida (index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-16">
                           <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                           <span class="sm:hidden">Borrar</span>
                         </button>
@@ -263,16 +263,8 @@
                 </div>
               </div>
               <div class="flex justify-end font-boton">
-                <button
-                  v-on:click.stop.prevent="(modal = false), (objectModal = {})"
-                  class="hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded-lg inline-flex items-center border-b-2 border-red-700 m-2"
-                >
-                  <img
-                    src="../../assets/img/cerrar.png"
-                    class="mr-2 sm:m-1"
-                    width="15"
-                    height="15"
-                  />
+                <button v-on:click.stop.prevent="(modal = false), (objectModal = {})" class="hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded-lg inline-flex items-center border-b-2 border-red-700 m-2">
+                  <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15"/>
                   <span class="text-sm">Cerrar</span>
                 </button>
               </div>
@@ -537,6 +529,9 @@ methods: {
         });         
       });        
     }, 2000)
+  },
+  eliminar_partida(index){
+    this.arrayPartidas.splice(index, 1)
   },
   UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){ this.showModal = true },  

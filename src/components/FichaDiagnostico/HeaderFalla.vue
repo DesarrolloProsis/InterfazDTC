@@ -240,11 +240,9 @@ data(){
         blockCheckBox: [false, false, false]
     }
 },
-beforeMount: async function(){  
-    alert()
+beforeMount: async function(){      
     if(this.$route.params.tipoVista != 'Crear'){ 
-        
-        console.log(this.$route.query.data)
+                
         if(this.$route.query.data != undefined){  
             this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
             this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];

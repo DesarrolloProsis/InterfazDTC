@@ -144,7 +144,7 @@ export default {
         },
         insertar_ficha_falla(value){
             if(value){
-                let flagInsert = this.$route.params.tipoVista == 'Editar' ? 1 : 0
+                let flagInsert = this.$route.params.tipoVista == 'Editar' ? 0 : 1
                 let objFicha = {
                     referenceNumber: this.datosHeader.referenceNumber,
                     typeFaultId: this.datosHeader.tipoFalla,

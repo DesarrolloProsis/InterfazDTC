@@ -103,8 +103,7 @@ export default {
         imprimir_pdf_ficha(referenceNumber){
             ServiceReporte.generar_pdf_ficha_falla(referenceNumber)
         },
-        filtrar_concentrado_diagnostico(objFiltro){
-            console.log(objFiltro)
+        filtrar_concentrado_diagnostico(objFiltro){            
             this.infoFichasFallaFiltrada = []
             this.infoFichasFallaFiltrada = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
         },
