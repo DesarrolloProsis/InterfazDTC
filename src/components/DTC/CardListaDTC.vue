@@ -250,7 +250,7 @@ export default {
       datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format("YYYY-MM-DD");
       datosSinester.TypeDescriptionId = 2;
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
-      let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc";
+      let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc/Editar";
       this.$router.push({
         path: `/${page}`,
         query: {

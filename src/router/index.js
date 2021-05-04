@@ -52,7 +52,7 @@ const routes = [
     component: Register
   },
   {
-    path: '/NuevoDtc',
+    path: '/NuevoDtc/:tipoVista',
     name: 'NuevoDtc',
     component: CrearDTC
   },

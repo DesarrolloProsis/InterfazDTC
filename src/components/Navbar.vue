@@ -32,7 +32,7 @@ export default {
   data(){
     return{
       accesoRapidoVistas: [
-        { texto: 'Nuevo DTC', path: '/NuevoDtc', rollValidos: [1, 10]},
+        { texto: 'Nuevo DTC', path: '/NuevoDtc/Crear', rollValidos: [1, 10]},
         { texto: 'DTC Pendiente', path: '/ListarDtc', rollValidos: [1, 10]},
         { texto: 'Calendario', path: '/CalendarioActividades', rollValidos: [1, 4]},
         { texto: 'Revisar DTC', path: '/ListarDtc', rollValidos: [4, 7]},

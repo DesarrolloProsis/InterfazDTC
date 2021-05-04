@@ -110,7 +110,7 @@
 <script>
 import Header from "@/components/Header/CrearHeader";
 import EventBus from "@/services/EventBus.js";
-import ServiceReporte from '@/services/ReportesPDFService'
+
 export default {
   name: "CrearDTC",
   props: {
@@ -208,37 +208,9 @@ methods: {
             });  
           }
         }
-        let value_insert = { refNum: this.referenciaDtc, flagCreate: this.flagCreate };
-        //await this.$store.dispatch("DTC/CREAR_LISTA_DTC_DAÑADO", value_insert);        
+        let value_insert = { refNum: this.referenciaDtc, flagCreate: this.flagCreate, status: status, adminId: adminId };        
         let result = await EventBus.$emit('insertar-componetes-dañados', value_insert)
-        console.log(result)
-        if (this.$store.getters["DTC/getInsertDmgComplete"]) {           
-          if (status == 2) {
-            ServiceReporte.generar_pdf_correctivo(
-              this.referenciaDtc, 
-              status, 
-              true,
-              adminId              
-            )               
-          }          
-          await this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
-          await this.$store.commit("DTC/insertDmgCompleteMutation", false);
-          await this.$store.commit("Header/insertHeaderCompleteMutation",false);
-          await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-          await this.$store.commit("Header/clearDatosSinesterMutation");
-          this.$router.push("Home");
-        } 
-        else {
-          this.$notify.warning({
-            title: "Ups!",
-            msg: `NO SE INSERTARON LOS COMPONENTES.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }
+        console.log(result)      
       } 
       else {
         this.$notify.warning({

@@ -161,7 +161,8 @@ methods:{
                 causeFailure: this.datosHeader.causaFalla,
                 adminSquareId: administradorId,
                 updateFlag: flagUpdate // 1 -> Insertar || 0 -> editar
-            }        
+            }  
+            console.log(objDiagnostico)      
             Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
                 .then(() => {                
                     let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
