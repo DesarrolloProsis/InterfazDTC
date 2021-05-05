@@ -135,6 +135,14 @@ function filtro_encargados_plaza (listaEncargados, plaza, nombre){
     }
     return encargadosFiltrados
 }
+function filtro_dtc_borrado(listaBorrados, ref){
+    let listaFiltro = []
+    console.log(ref)
+    if(ref != ''){
+        listaFiltro = listaBorrados.filter(dtc => dtc.refereceNumber == ref)
+    }
+    return listaFiltro
+} 
 function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){        
     let listaFiltrada = []
     if(objFiltro.plaza != ''){
@@ -165,5 +173,6 @@ export default {
     filtrarDTC,
     filtrar_calendario_historico,
     filtro_encargados_plaza,
-    filtros_concentrado_diagnostico
+    filtros_concentrado_diagnostico,
+    filtro_dtc_borrado
 }
