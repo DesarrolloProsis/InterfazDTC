@@ -12,12 +12,12 @@
                             <div class="ml-2 md:hidden lg:hidden xl:hidden">
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                             </div>
-                            <div class="grid grid-cols-4 sm:w-full sm:ml-3  w-full xl:text-center">
-                                <!-- <p class="sm:text-sm">Plaza Seleccionada: {{ plazaNombre }}</p> -->           
+                            <div class="grid grid-cols-4 sm:w-full sm:ml-3 w-full xl:text-center">                                       
                                 <div class="sm:hidden -mt-2"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza></div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
-                                    <p class="w-32 input ml-16"><select v-model="mes" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
+                                    <p class="w-32 input ml-16">
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="1">Enero</option>
                                         <option value="2">Febrero</option>
@@ -35,7 +35,8 @@
                                 </div>
                                 <div class="mb-4 ml-4 sm:mt-4 sm:ml-20">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 mr-2 font-semibold">Año:</p>
-                                    <p class="w-32 input ml-16"><select v-model="año" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
+                                    <p class="w-32 input ml-16">
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>                                        
@@ -43,22 +44,24 @@
                                 </div>
                                 <div class="mb-4 ml-5 sm:mt-20 sm:-ml-1">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1 font-bold sm:ml-0">Carril *:</p>
-                                    <p class="w-32 input ml-16"><select class="w-32 border-none" v-model="ubicacion" type="text">
+                                    <p class="w-32 input ml-16">
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" class="w-32 border-none" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select></p>
                                 </div> 
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status *:</p>
-                                    <p class="w-48 input ml-20"><select v-model="status" class="w-48 sm:w-24 border-none" type="text" name="TipoDescripcion" >
-                                        <option disabled value>Selecionar...</option>
+                                    <p class="w-48 input ml-20">
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="status" class="w-48 sm:w-24 border-none" type="text" name="TipoDescripcion" >
+                                        <option value="">Todos</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia*:</p>
-                                    <input type="text" v-model="ref" placeholder="Referencia" class="text-center input">
+                                    <input type="text" v-model="referenceNumber" placeholder="Referencia" class="text-center input">
                                 </div>
                             </div>                           
                         </div>
@@ -129,19 +132,11 @@
                                     </div>
                                     <div v-else>
                                         <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2">
-                                            <img 
-                                                src="../../assets/img/pdf.png" 
-                                                class="mr-2 sm:m-1" 
-                                                width="15" 
-                                                height="15" />
+                                            <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
                                             <span class="text-xs sm:hidden">Descargar</span>
                                         </button>
                                         <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1">
-                                            <img 
-                                                src="../../assets/img/pencil.png" 
-                                                class="mr-2 sm:m-1" 
-                                                width="15" 
-                                                height="15" />
+                                            <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
                                             <span class="text-xs sm:hidden">Actualizar</span>
                                         </button>                                   
                                     </div>
@@ -174,9 +169,10 @@ export default {
             mes: '',
             comentario: '',
             ubicacion: '',
-            status: undefined,
-            ref:'',
-            mesNombre: ''
+            status: '',
+            referenceNumber:'',
+            mesNombre: '',
+            blockSelect: false
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -197,8 +193,14 @@ beforeMount: async function(){
 },
 computed:{
     carriles_plaza(){
-    return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
     },
+},
+watch: {
+    referenceNumber(newValue){
+        if(newValue.length == 0) this.blockSelect = false
+        else this.blockSelect = true
+    }
 },
 /////////////////////////////////////////////////////////////////////
 ////                            METODOS                          ////
@@ -207,7 +209,7 @@ methods: {
     limpiar_filtros : async function(){
         this.ubicacion = ''
         this.status = undefined
-        this.ref = ''
+        this.referenceNumber = ''
         let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
         this.$nextTick().then(() => {
             this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
@@ -217,9 +219,19 @@ methods: {
             this.mesNombre = actualizar.mesNombre         
         })
     },
+    filtrar_sin_referencia: async function(){
+        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
+        this.$nextTick().then(() => {
+            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+            this.plazaNombre = actualizar.plazaNombre,
+            this.comentario = actualizar.comentario,
+            this.plazaSelect = actualizar.plazaSelect           
+            this.mesNombre = actualizar.mesNombre
+        })
+    },
     filtrar_actividades_mensuales: async function(){ 
-        if(this.status || this.ubicacion.lane || this.ref !=''){
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.ref)        
+        if(this.referenceNumber != ''){
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
             this.$nextTick().then(() => {
                 this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
                 this.plazaNombre = actualizar.plazaNombre,

@@ -12,8 +12,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         mes = fecha_comodin.getMonth() + 1,
         año = fecha_comodin.getFullYear()
     }       
-    let listaActidadesTipo = []
-    console.log(ref)    
+    let listaActidadesTipo = []    
     if(ref != undefined){
         //alert()
         let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
@@ -34,13 +33,12 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
                 store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
                 console.log(response.data.result)
             })
-/*             .catch(error => {
+            .catch(error => {
                 store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", [])  
                 console.log(error)                                                      
-            }); */ 
+            });
         })
-        setTimeout( () =>{
-            console.log(concentradoActividades)
+        setTimeout( () =>{            
             concentradoActividades.forEach(item => {
                 if(item.referenceNumber.toUpperCase().includes(ref)){
                     listaActidadesTipo.push(item)
@@ -53,13 +51,16 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
         listaActidadesTipo = tipoCalendario === false 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-        : eventos_calendario_formato(objApi)              
-        if (status != undefined){
-            alert()
-            listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)
-            console.log(listaActidadesTipo)                
+        : eventos_calendario_formato(objApi)         
+        console.log(listaActidadesTipo)        
+        if (status === true || status === false){ 
+            alert('status')                 
+            listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)            
+            //console.log(listaActidadesTipo)                
         }
-        if (carril != undefined){        
+        console.log(carril)
+        if (carril != undefined){  
+            alert('carril')      
             listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
         }
     }
