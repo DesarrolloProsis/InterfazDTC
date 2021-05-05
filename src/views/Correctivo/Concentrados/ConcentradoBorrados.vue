@@ -20,9 +20,9 @@
                         </thead>
                         <tbody name="table" is="transition-group">  
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaDTC_borrados" :key="key">
-                                <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
-                                <td class="cuerpoTable">{{ item.mail }}</td>
-                                <td class="cuerpoTable">{{ item.squareName }}</td>
+                                <td class="cuerpoTable">{{ `${item.refereceNumber}` }}</td>
+                                <td class="cuerpoTable">{{ item.userName }}</td>
+                                <td class="cuerpoTable">{{ item.dateStamp }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -42,7 +42,7 @@ export default {
         }
     },
     beforeMount: function(){
-        Axios.get(`${API}/dtcData/GetReferencesLog`)
+        Axios.get(`${API}/DtcData/GetReferencesLog`)
         .then((response)=>{
             this.listaDTC_borrados = response.data.result
         }).catch((error)=>{
