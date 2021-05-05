@@ -95,13 +95,13 @@ export default {
         clearInterval(this.interval);            
     },
     beforeMount() {                       
-            setTimeout(() => {   
-                let urlImgPaths = ''    
-                console.log(this.tipo)                     
-                if(this.tipo == 'Actividades')
-                    urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                else if(this.tipo == 'Diagnostico'){
-                    let referenceRoute = this.$route.query.item.referenceNumber        
+        setTimeout(() => {   
+            let urlImgPaths = ''    
+            console.log(this.tipo)                     
+            if(this.tipo == 'Actividades')
+                urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+            else if(this.tipo == 'Diagnostico'){
+                let referenceRoute = this.$route.query.item.referenceNumber        
                     urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
                 }
                 else{
@@ -129,14 +129,13 @@ export default {
                                     "imgbase": `${urlImgDescarga}/${item}`
                                 })
                             })
-
                             this.arrayImagenes = newArrayImg                                       
                         }    
                     })
                     .catch(error => {                    
                         console.log(error);                     
                 });
-            }, 1000)
+        }, 1000)
         
     },
     computed:{
