@@ -111,6 +111,28 @@
             </button>
         </div> 
     </div>
+    <!--////////////////////////////////////////////////////////////////////
+    ///                   FILTROS DE DTC BORRADO                        ///         
+    ///////////////////////////////////////////////////////////////////-->
+    <div v-if="tipo == 'BORRADO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
+            <div class="text-center sm:ml-6">
+                <p class="font-bold sm:text-sm sm:text-center">Referencia</p>
+                <input v-model="refBorrado" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
+            </div>             
+        </div>
+        <div class="flex justify-center ml-4 mb-4 mt-4 sm:ml-0">
+            <button class="botonIconBuscar font-boton" @click="filtrar_borrado">
+                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
+                <span>Buscar</span>
+            </button>
+            <button class="botonIconLimpiar font-boton" @click="limpiar_borrados">
+                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
+                <span>Limpiar</span>
+            </button>
+        </div> 
+    </div>
     <!--///////////////////////////////////////////////////////////////////
     ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
     ///////////////////////////////////////////////////////////////////-->
@@ -207,7 +229,9 @@ export default {
             ubicacion: '',
             plazaSeleccionada:"",
             //data Encargados Plaza
-            nombreEncargado: ""
+            nombreEncargado: "",
+            //data DTC Borrado
+            refBorrado: ""
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -273,6 +297,14 @@ export default {
             this.$emit('limpiar-encargados')
             this.nombreEncargado = ""
             this.plazaSeleccionada = ""
+        },
+        //Metodos para Concentrado DTC Borrados
+        filtrar_borrado: function (){
+            this.$emit('filtrar-borrado', this.refBorrado)
+        },
+        limpiar_borrados: function (){
+            this.$emit('limpiar-borrado')
+            this.refBorrado = ""
         },
         //Metodos Concentrado de Diagnostico Falla
         limpiar_filtros_diagnostico_falla: function(){
