@@ -38,13 +38,13 @@
                 <div class="w-2/3 grid p-2 gap-4 overflow-auto bg-gray-300">                                                                                                                
                 </div>
                 <div class="w-1/3 border-2 relative border-gray-600 bg-gray-300 inline-block border-dashed text-center rounded-lg">
-                    <button class="bg-gray-300" :disabled="reporteDataInsertada" :class="{'' : tipo == 'Diag'}">
+                    <button class="bg-gray-300" :disabled="reporteDataInsertada" :class="{'' : tipo == 'Diagnostico'}">
                         <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-10 sm:mb-16' : tipo == 'Diag'}"/>
                         <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
                     </button>
                 </div>
             </button>
-            <p class="-mt-1 text-1xl sm:text-sm  text-red-700" v-if="tipo == 'Diag'" :class="{'text-center mb-4' :tipo == 'Diag'}">Primero debe enviar la información del Reporte</p>
+            <p class="-mt-1 text-1xl sm:text-sm  text-red-700" v-if="tipo == 'Diagnostico'" :class="{'text-center mb-4' :tipo == 'Diag'}">Primero debe enviar la información del Reporte</p>
             <p class="mt-1 text-1xl text-center text-red-700" v-else>Para agregar imagenes primero debe crear el reporte</p>
         </div>       
     </div>

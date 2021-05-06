@@ -186,7 +186,7 @@ methods:{
                                 .then((response) => {         
                                     console.log(response) 
                                     if(this.$route.params.tipoVista == 'Editar'){
-                                        this.type = 'FICHA' 
+                                        this.type = 'Ficha' 
                                         ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
                                         this.datosHeader["tipoFalla"] = this.itemCompletoEdit.typeFaultId 
                                         this.datosHeader["solucionFalla"] = this.itemCompletoEdit.intervention                                             
