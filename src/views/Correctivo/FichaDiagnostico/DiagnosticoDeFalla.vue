@@ -63,7 +63,7 @@ export default {
         return{    
             datosHeader: {},
             itemCompletoEdit: {},
-            type: 'Diag',
+            type: 'Diagnostico',
             reporteInsertado: false                 
         }
     },

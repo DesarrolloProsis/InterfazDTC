@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/36 (Máximo 36 fotografías)</span>     
+            <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/{{ limiteFotos }} (Máximo {{ limiteFotos }} fotografías)</span>     
         </div> 
         <div v-else :class="{'w-1/3 ml-5 sm:ml-34 lg:ml-73' : tipo == 'Diag', 'w-1/3 ml-5 sm:ml-48 lg:ml-73' :tipo == 'Ficha'}">
             <button class="inline-flex h-40 border border-gray-400 bg-gray-300 rounded-lg w-full sm:w-32" :class="{'bg-gray-400' : reporteDataInsertada}">
@@ -85,6 +85,7 @@ export default {
             countdown: 5,
             expires_in: null,
             interval: null,
+            limiteFotos: 0,
         }
     },
     created(){
@@ -96,45 +97,46 @@ export default {
     },
     beforeMount() {                       
         setTimeout(() => {   
-            let urlImgPaths = ''    
-            console.log(this.tipo)                     
-            if(this.tipo == 'Actividades')
+            let urlImgPaths = ''                                
+            if(this.tipo == 'Actividades'){
+                this.limiteFotos = 36
                 urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+            }
             else if(this.tipo == 'Diagnostico'){
+                this.limiteFotos = 4
                 let referenceRoute = this.$route.query.item.referenceNumber        
-                    urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
-                }
-                else{
-                    let referenceRoute = this.$route.query.data.referenceNumber    
-                    console.log(referenceRoute)    
-                    urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
-                }
-                console.log(urlImgPaths)
-                Axios.get(urlImgPaths)
-                    .then((response) => {                                              
-                        let urlImgDescarga = ''
-                        if(this.tipo == 'Actividades')
-                            urlImgDescarga = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                        else if(this.tipo == 'Diagnostico'){
-                            urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                        }
-                        else{
-                            urlImgDescarga = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`   
-                        }
-                        if(response.status != 404){                          
-                            let newArrayImg = []                      
-                            response.data.forEach(item => {
-                                newArrayImg.push({
-                                    "name": item, 
-                                    "imgbase": `${urlImgDescarga}/${item}`
-                                })
+                urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+            }
+            else{
+                this.limiteFotos = 4                
+                let referenceRoute = this.$route.query.data.referenceNumber                       
+                urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+            }            
+            Axios.get(urlImgPaths)
+                .then((response) => {                                              
+                    let urlImgDescarga = ''
+                    if(this.tipo == 'Actividades')
+                        urlImgDescarga = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                    else if(this.tipo == 'Diagnostico'){
+                        urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                    }
+                    else{
+                        urlImgDescarga = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`   
+                    }
+                    if(response.status != 404){                          
+                        let newArrayImg = []                      
+                        response.data.forEach(item => {
+                            newArrayImg.push({
+                                "name": item, 
+                                "imgbase": `${urlImgDescarga}/${item}`
                             })
-                            this.arrayImagenes = newArrayImg                                       
-                        }    
-                    })
-                    .catch(error => {                    
-                        console.log(error);                     
-                });
+                        })
+                        this.arrayImagenes = newArrayImg                                       
+                    }    
+                })
+                .catch(error => {                    
+                    console.log(error);                     
+            });
         }, 1000)
         
     },
@@ -170,16 +172,17 @@ export default {
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
             let objGetImagen = ''
             if(boolValidacion == true || this.arrayImagenes.length == 0){                                                 
-                let rutaInsertImagenes = {}
+                let rutaInsertImagenes = {};
                 if(this.tipo == 'Actividades'){
                     rutaInsertImagenes = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                    objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/MantenimientoPreventivo/Images`, tipo: 1 }
+                    objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/MantenimientoPreventivo/Images`, tipo: 1 }                    
                 }
                 else if (this.tipo == 'ConcentradoDTC'){
+                        this.limiteFotos = 100
                         rutaInsertImagenes = `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                        objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}
+                        objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}                        
                 }
-                else{
+                else{                    
                     if(this.tipo == 'Diagnostico'){                        
                         rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/DiagnosticoFalla/Images`, tipo: 2 }
@@ -188,8 +191,9 @@ export default {
                         rutaInsertImagenes = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/FichaTecnicaAtencion/Images`, tipo: 3 }
                     }
-                }                             
-                for(let imagenes of value.target.files){                                                              
+                }                                 
+                for(let imagenes of value.target.files){                      
+                    if(this.arrayImagenes.length + 1 <= this.limiteFotos){                                                          
                         let formData = new FormData();
                         if(this.tipo != 'ConcentradoDTC')
                             formData.append("image", imagenes);
@@ -208,14 +212,23 @@ export default {
                             .catch(error => {                                                      
                                 console.log(error)                                    
                         });                       
-                    //}                      
+                    }                      
                 }                                
             }                 
         },
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                 
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
+                    let urlDeleteImg = ''
+                    if(this.tipo == 'Actividades')
+                        urlDeleteImg = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                    else if(this.tipo == 'Diagnostico'){                               
+                        urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                    }
+                    else{                                           
+                        urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                    }
+                    Axios.get(urlDeleteImg)
                         .then(() => {                                                                 
                             this.$notify.success({
                                 title: "Ok!",
@@ -241,11 +254,11 @@ export default {
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
-                        .then(() => {                                                                                                              
-                        })
-                        .catch(error => {                    
-                            console.log(error)
-                        });  
+                    .then(() => {                                                                                                              
+                    })
+                    .catch(error => {                    
+                        console.log(error)
+                    });  
                 } 
             }
         }
