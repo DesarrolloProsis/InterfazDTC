@@ -169,7 +169,7 @@ export default {
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
                 if(this.datosHeader.tipoFalla > 1)
-                    this.$router    .push('/NuevoDtc/Crear')     
+                    this.$router.push('/NuevoDtc/Crear')     
                 else
                     this.$router.push('/Home')   
             }
