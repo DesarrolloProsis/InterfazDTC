@@ -465,6 +465,7 @@ destroyed: function () {
     this.$store.commit("Header/clearDatosSinesterMutation");
     this.$store.commit("DTC/COMPONENTES_EDIT", {});
     this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
+    EventBus.$off('insertar-componetes-dañados')
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////

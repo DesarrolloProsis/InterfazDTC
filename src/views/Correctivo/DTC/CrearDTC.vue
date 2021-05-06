@@ -245,12 +245,12 @@ methods: {
               objInsert.adminId              
             )               
           }          
-          // this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
-          // this.$store.commit("DTC/insertDmgCompleteMutation", false);
-          // this.$store.commit("Header/insertHeaderCompleteMutation",false);
-          // this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-          // this.$store.commit("Header/clearDatosSinesterMutation");
-          // this.$router.push("/Home");     
+          this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
+          this.$store.commit("DTC/insertDmgCompleteMutation", false);
+          this.$store.commit("Header/insertHeaderCompleteMutation",false);
+          this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+          this.$store.commit("Header/clearDatosSinesterMutation");
+          this.$router.push("/Home");     
         
       })     
       .catch(error => {        
