@@ -75,22 +75,7 @@
                                 <span class="text-xs">Limpiar Filtro *</span>
                             </button>
                         </div>                          
-                    </div>
-                    <!--//////////////////////////////////////////////////////////////////////
-                    ////                       COMENTARIO                             ////
-                    ////////////////////////////////////////////////////////////////////-->
-                    <!--<div>
-                        <div class="sm:w-full justify-start sm:mt-3 mr-10  sm:mb-2 mt-0 inline-block sm:p-1 w-69">
-                            <p class=" uppercase sm:text-base text-lg mb-5">Comentario:</p>
-                            <p>{{ comentario }}</p> 
-                            <textarea
-                            v-model="comentario"
-                            class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker border-gray-300 rounded-lg px-2 py-2 h-32 w-full"
-                            readonly
-                            />
-                        </div>
-                    </div>-->
-                    
+                    </div>                                        
                 </div> 
             </div>
             <div class="sm:m-2 sm:w-full sm:ml-1">
