@@ -338,9 +338,6 @@ import Service from "../../services/EquipoMaloService.js";
 import EventBus from '../../services/EventBus'
 import moment from "moment";
 import { mapState } from 'vuex';
-import ServiceReporte from '@/services/ReportesPDFService'
-import Axios from 'axios'
-const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -410,8 +407,7 @@ props: {
 /////////////////////////////////////////////////////////////////////
 created(){
   EventBus.$on('insertar-componetes-dañados', (objInsert) => {
-    this.insertar_componetes_dañados(objInsert)
-    return 0
+    this.mapear_componetes_dañados(objInsert)    
   })
 },
 beforeMount: async function () {    
@@ -474,9 +470,10 @@ destroyed: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  insertar_componetes_dañados:  function(objInsert){    
+  mapear_componetes_dañados:  function(objInsert){    
+    let new_promise = new Promise((resolve, reject) => {
     let newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
-    let _arrayDmg = []
+    let arrayDmg = []
     this.arrayPartidas.forEach(async(partida, index) => {      
       newObjectConvenio["attachedId"] = partida.row3.attachedId;
       newObjectConvenio["componentsRelationship"] = partida.row3.componentsRelationship;
@@ -489,46 +486,20 @@ methods: {
         return item  
       })
       nuevoArray.forEach(item => {
-        _arrayDmg.push(item)
-      })  
-      console.log(index)                  
+        arrayDmg.push(item)
+      }) 
+      if(arrayDmg.length == 0)
+        reject('Mal')
+      else       
+        resolve(arrayDmg)              
     }) 
-    setTimeout(() => {
-      console.log('termine de crear el array')
-      this.arrayDmg = _arrayDmg
-      console.log('axios')
-      Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, _arrayDmg)
-      .then(response => {      
-        console.log(response)                   
-          if (objInsert.status == 2) {
-            ServiceReporte.generar_pdf_correctivo(
-              objInsert.refNum, 
-              objInsert.status, 
-              true,
-              objInsert.adminId              
-            )               
-          }          
-          this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
-          this.$store.commit("DTC/insertDmgCompleteMutation", false);
-          this.$store.commit("Header/insertHeaderCompleteMutation",false);
-          this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-          this.$store.commit("Header/clearDatosSinesterMutation");
-          this.$router.push("/Home");     
-        
-      })     
-      .catch(error => {        
-        console.log(error)   
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE INSERTARON LOS COMPONENTES.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });         
-      });        
-    }, 2000)
+    })
+    new_promise.then((array) => {
+      EventBus.$emit('enviar-componete', { arrayDmg: array, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
+    })
+    .catch((error) => {
+      console.log(error)
+    })    
   },
   eliminar_partida(index){
     this.arrayPartidas.splice(index, 1)

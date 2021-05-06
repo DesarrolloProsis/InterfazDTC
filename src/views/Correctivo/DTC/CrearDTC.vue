@@ -110,6 +110,9 @@
 <script>
 import Header from "@/components/Header/CrearHeader";
 import EventBus from "@/services/EventBus.js";
+import ServiceReporte from '@/services/ReportesPDFService'
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   name: "CrearDTC",
@@ -140,6 +143,9 @@ created(){
         this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     });
+    EventBus.$on("enviar-componete", (objInsert) => {
+      this.enviar_dmg_componentes(objInsert)
+    })
 },
 beforeMount: async function() {   
     this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
@@ -153,6 +159,9 @@ beforeMount: async function() {
       this.flagCreate = false;        
       this.datosUser = this.$route.query.datosDtc           
     }
+},
+destroyed(){
+  EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete'])
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
@@ -209,8 +218,7 @@ methods: {
           }
         }
         let value_insert = { refNum: this.referenciaDtc, flagCreate: this.flagCreate, status: status, adminId: adminId };        
-        let result = await EventBus.$emit('insertar-componetes-dañados', value_insert)
-        console.log(result)      
+        await EventBus.$emit('insertar-componetes-dañados', value_insert)        
       } 
       else {
         this.$notify.warning({
@@ -224,6 +232,40 @@ methods: {
         });
       }
   },
+  enviar_dmg_componentes(objInsert){ 
+      console.log(objInsert)                  
+      Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
+      .then(response => {      
+        console.log(response)                   
+          if (objInsert.status == 2) {
+            ServiceReporte.generar_pdf_correctivo(
+              objInsert.refNum, 
+              objInsert.status, 
+              true,
+              objInsert.adminId              
+            )               
+          }          
+          // this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
+          // this.$store.commit("DTC/insertDmgCompleteMutation", false);
+          // this.$store.commit("Header/insertHeaderCompleteMutation",false);
+          // this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+          // this.$store.commit("Header/clearDatosSinesterMutation");
+          // this.$router.push("/Home");     
+        
+      })     
+      .catch(error => {        
+        console.log(error)   
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `NO SE INSERTARON LOS COMPONENTES.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });         
+      });            
+  }  
 },
 /////////////////////////////////////////////////////////////////////
 ////                       OBSERVADORES                          ////
