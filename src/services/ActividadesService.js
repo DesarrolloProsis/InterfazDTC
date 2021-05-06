@@ -54,13 +54,13 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         : eventos_calendario_formato(objApi)         
         console.log(listaActidadesTipo)        
         if (status === true || status === false){ 
-            alert('status')                 
+            //alert('status')                 
             listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)            
             //console.log(listaActidadesTipo)                
         }
         console.log(carril)
         if (carril != undefined){  
-            alert('carril')      
+            //alert('carril')      
             listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
         }
     }
