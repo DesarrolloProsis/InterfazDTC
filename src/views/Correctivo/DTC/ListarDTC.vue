@@ -26,9 +26,9 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo">
-          <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10">          
             <div class="justify-center text-center block">            
-                <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
+                <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-4" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
             </div>
           </div>
