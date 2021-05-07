@@ -32,6 +32,7 @@
                             :close-on-select="false"
                             :clear-on-select="true"
                             :hideSelected="false"
+                            track-by="lane"                        
                             placeholder="Selecciona..."
                             :options="carriles_plaza"
                             :multiple="true"              
