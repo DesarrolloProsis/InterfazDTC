@@ -164,14 +164,15 @@ export default {
                 Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then(() => {             
                         this.reporteInsertado = true    
-                        if(this.$route.params.tipoVista == 'Editar'){                            
+                        this.modalImage = true    
+                        if(this.$route.params.tipoVista == 'Editar'){   
+                            this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
                             if(this.datosHeader.tipoFalla > 1)
                                 this.$router    .push('/NuevoDtc/Crear')     
                             else
                                 this.$router.push('/Home')                          
-                        }           
-                        this.modalImage = true                                        
+                        }                                                                       
                     })
                     .catch((error) => {                                            
                         console.log(error)

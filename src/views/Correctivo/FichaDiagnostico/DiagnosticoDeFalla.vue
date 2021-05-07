@@ -5,7 +5,7 @@
         ////                     MODAL IMAGENES                        /////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="modalImage" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
+          <div v-if="true" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
             <div class="justify-center text-center block">            
                 <!-- /////////////////////////////////////////////////////////////////////
                 ////                         IMAGENES                             ////
@@ -24,12 +24,12 @@
                     <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-else>Ficha Técnica de Atención</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
-                    ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="'DIAG'" :reporteInsertado="reporteInsertado" @actualizar-header="actualizar_header"></HeaderFalla>                  
+                    ////////////////////////////////////////////////////////////////////-->                       
+                    <HeaderFalla :tipo="'DIAG'" :reporteInsertado="reporteInsertado" @actualizar-header="actualizar_header"></HeaderFalla>                      
                 <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
+                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar'" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -193,10 +193,11 @@ methods:{
                         console.log(response)
                         carrilesInsertDiagnostic.forEach(carril => {                                                     
                             Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                                .then((response) => {         
-                                    console.log(response) 
+                                .then(() => {                                             
+                                    this.modalImage = true
                                     if(this.$route.params.tipoVista == 'Editar'){
                                         this.type = 'Ficha' 
+                                        this.modalImage = false
                                         ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
                                         this.datosHeader["tipoFalla"] = this.itemCompletoEdit.typeFaultId 
                                         this.datosHeader["solucionFalla"] = this.itemCompletoEdit.intervention                                             
@@ -204,8 +205,7 @@ methods:{
                                             path: 'FichaTecnicaDeFalla',
                                             query: { data: this.datosHeader }
                                         }) 
-                                    }
-                                    this.modalImage = true
+                                    }                                    
                                 })
                                 .catch((error) => {                            
                                     console.log(error)                                
