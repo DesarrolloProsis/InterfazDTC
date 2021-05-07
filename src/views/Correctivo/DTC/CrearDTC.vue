@@ -88,20 +88,28 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                           BOTONES                            ////
     ///////////////////////////////////////////////////////////////////// -->
-        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8" style="padding: 3vw;">
+        <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(1)" class="botonIconBuscar font-boton">
+            <button @click="crearDTCTecnico(1)" class="botonIconBuscar font-boton" :class="{'botonDeshabilitado' :modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(2)" class="botonIconCrear">
+            <button @click="crearDTCTecnico(2)" class="botonIconCrear" :class="{'botonDeshabilitado' :modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
           </div>
         </div>
+      <div v-if="modalLoading" class=" inset-0 font-titulo -mt-66 mb-8">
+        <div class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
+          <div class="justify-center text-center block">            
+            <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
+            <p class="text-gray-900 font-thin text-md">Espere ... </p>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -132,7 +140,8 @@ export default {
       flagCreate: true,
       listaComponentes: "",
       dateSinester: "",      
-      limite: 300
+      limite: 300,
+      modalLoading: false,
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -179,6 +188,7 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 methods: {
   crearDTCTecnico: async function (status) {
+      this.modalLoading = true
       await EventBus.$emit("validar_header");
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
@@ -221,6 +231,7 @@ methods: {
         await EventBus.$emit('insertar-componetes-dañados', value_insert)        
       } 
       else {
+        this.modalLoading = false
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE CREO EL DTC CON LA REFERENCIA ${this.refNum}.`,
@@ -233,6 +244,7 @@ methods: {
       }
   },
   enviar_dmg_componentes(objInsert){ 
+      this.modalLoading = false
       console.log(objInsert.arrayDmg)             
       for(let item of objInsert.arrayDmg){
         console.log(item)
