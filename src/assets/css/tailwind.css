@@ -142,7 +142,7 @@ select:focus {
     @apply bg-gray-600 tracking-wide font-bold rounded border-b-2 border-black shadow-md py-1 px-1 inline-flex items-center cursor-not-allowed;
 }
 .botonDeshabilitado:hover{
-    @apply bg-gray-600 text-black transition duration-500;
+    @apply bg-gray-600 text-black border-black transition duration-500;
 }
 .botonIconCancelar{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
