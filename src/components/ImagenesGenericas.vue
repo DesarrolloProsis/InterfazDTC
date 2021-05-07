@@ -1,10 +1,10 @@
 <template>
-    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full font-titulo" :class="{'sm:-ml-1': tipo =='Diag'}">        
+    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full font-titulo" :class="{'sm:-ml-1': tipo =='Diagnostico'}">        
         <p class="text-gray-800 mt-2 mb-1 sm:text-sm sm:mb-4"
-        :class="{'sm:ml-48 sm:-mt-66 sm:mb-2 ml-5 -mb-1 mt-4 lg:ml-73': tipo =='Diag', 'ml-5 -mb-1 mt-4 lg:ml-73 sm:ml-1 sm:-mb-1' : tipo == 'Ficha'}">IMAGENE</p>
-        <div v-if="reporteDataInsertada" :class="{'w-1/3 ml-5 sm:ml-48 lg:ml-73' : tipo == 'Diag', 'w-1/3 ml-5 sm:ml-1 sm:w-66 sm:-mb-10 lg:ml-73' : tipo == 'Ficha' }">
-            <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Diag', 'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}" v-if="!cargandoImagen">
-                <div class="w-2/3 grid p-2 gap-4 overflow-auto" :class="{'grid-cols-2': tipo == 'Actividades', 'grid-cols-3': tipo == 'Diag', 'grid-cols-1': tipo == 'Ficha' }">                                                                                                                
+        :class="{'sm:ml-48 sm:-mt-66 sm:mb-2 ml-5 -mb-1 mt-4 lg:ml-73': tipo =='Diagnostico', 'ml-5 -mb-1 mt-4 lg:ml-73 sm:ml-1 sm:-mb-1' : tipo == 'Ficha'}">IMAGENE</p>
+        <div v-if="reporteDataInsertada" :class="{'w-1/3 ml-5 sm:ml-48 lg:ml-73' : tipo == 'Diagnostico', 'w-1/3 ml-5 sm:ml-1 sm:w-66 sm:-mb-10 lg:ml-73' : tipo == 'Ficha' }">
+            <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Diagnostico', 'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}" v-if="!cargandoImagen">
+                <div class="w-2/3 grid p-2 gap-4 overflow-auto" :class="{'grid-cols-2': tipo == 'Actividades', 'grid-cols-3': tipo == 'Diagnostico', 'grid-cols-1': tipo == 'Ficha' }">                                                                                                                
                     <div class="relative border " v-for="(item) in arrayImagenes" :key="item.name">
                         <span @click="eliminar_imagen(item.name)" class="absolute border rounded-full top-0 right-0">
                             <img  src="../assets/img/closeCircle.png" class="w-4 cursor-pointer " />
@@ -18,12 +18,12 @@
                 <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center rounded-lg">
                     <div class="">
                         <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer" >
-                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-16 sm:w-16 ': tipo=='Diag'}" alt/>
+                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-16 sm:w-16 ': tipo=='Diagnostico'}" alt/>
                         <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
                     </div>
                 </div>
             </div>
-            <div class=" text-center font-serif text-xs h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Diag', 'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}" v-else>
+            <div class=" text-center font-serif text-xs h-40 border border-gray-400 rounded-lg w-full sm:w-32" :class="{'sm:w-full mt-0 sm:mt-2': tipo =='Diagnostico', 'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}" v-else>
                 <div class="mt-5">                
                     <div class="p-10">
                         <p class="mb-2">Cargando imagen</p>
@@ -33,13 +33,13 @@
             </div>
             <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/{{ limiteFotos }} (Máximo {{ limiteFotos }} fotografías)</span>     
         </div> 
-        <div v-else :class="{'w-1/3 ml-5 sm:ml-34 lg:ml-73' : tipo == 'Diag', 'w-1/3 ml-5 sm:ml-48 lg:ml-73' :tipo == 'Ficha'}">
+        <div v-else :class="{'w-1/3 ml-5 sm:ml-34 lg:ml-73' : tipo == 'Diagnostico', 'w-1/3 ml-5 sm:ml-48 lg:ml-73' :tipo == 'Ficha'}">
             <button class="inline-flex h-40 border border-gray-400 bg-gray-300 rounded-lg w-full sm:w-32" :class="{'bg-gray-400' : reporteDataInsertada}">
                 <div class="w-2/3 grid p-2 gap-4 overflow-auto bg-gray-300">                                                                                                                
                 </div>
                 <div class="w-1/3 border-2 relative border-gray-600 bg-gray-300 inline-block border-dashed text-center rounded-lg">
                     <button class="bg-gray-300" :disabled="reporteDataInsertada" :class="{'' : tipo == 'Diagnostico'}">
-                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-10 sm:mb-16' : tipo == 'Diag'}"/>
+                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-12" :class="{'sm:h-10 sm:mb-16' : tipo == 'Diagnostico'}"/>
                         <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
                     </button>
                 </div>
