@@ -24,7 +24,7 @@
                     <div>
                         <span class="mr-20 sm:mr-0">Ubicación:</span>
                     </div>
-                    <div class="-ml-66 sm:-ml-16 sm:w-40">                  
+                    <div class="-ml-66 w-64 sm:-ml-16 sm:w-40">                  
                         <multiselect
                             :disabled="blockInput"
                             v-model="datosDiagnostico.ubicacion"  

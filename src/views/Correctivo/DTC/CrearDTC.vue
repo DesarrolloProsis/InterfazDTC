@@ -1,5 +1,5 @@
 <template>
-  <div>    
+  <div>      
     <!-- //////////////////////////////////////////////////////////////////
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
@@ -8,7 +8,7 @@
       :datosUser="datosUser"
       :headerEdit="headerEdit"
       :observaciones="observaciones"      
-    ></Header>
+    ></Header> 
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
     <!-- //////////////////////////////////////////////////////////////////
