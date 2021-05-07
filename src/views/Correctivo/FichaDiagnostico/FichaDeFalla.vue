@@ -1,22 +1,22 @@
 <template>
     <div>        
         <div class="justify-center">
-        <!--/////////////////////////////////////////////////////////////////////
+            <!--/////////////////////////////////////////////////////////////////////
             ////                     MODAL IMAGENES                        /////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0">
-              <div v-if="modalImage" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
-                <div class="justify-center text-center block">            
-                    <!-- /////////////////////////////////////////////////////////////////////
-                    ////                         IMAGENES                             ////
-                    ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_ficha(false)" class="botonIconCrear">
-                        <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                        <span>Descargar Ficha</span>
-                    </button>  
+                <div v-if="modalImage" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
+                    <div class="justify-center text-center block ml-4 mr-4">            
+                        <!-- /////////////////////////////////////////////////////////////////////
+                        ////                         IMAGENES                             ////
+                        ///////////////////////////////////////////////////////////////////// -->
+                        <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                        <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4">
+                            <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <span>Descargar Ficha</span>
+                        </button>  
+                    </div>
                 </div>
-              </div>
             </div>
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
@@ -26,19 +26,19 @@
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
                     <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header"></HeaderFalla>  
-                <!-- /////////////////////////////////////////////////////////////////////
+                    <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
+                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar'" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="-mt-24 ml-79 sm:mb-6 sm:ml-16 sm:mt-16">
+                    <div class="mb-6 ml-79 sm:mb-6 sm:ml-16 sm:mt-16">
                         <div v-if="$route.params.tipoVista == 'Crear'">                            
-                         <button v-if="!modalImage" @click="enviar_header_ficha(true)" class="botonIconCrear">
-                             <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                             <span>Enviar Informacion de Ficha</span>
-                         </button>                                                                                                  
+                            <button v-if="!modalImage" @click="enviar_header_ficha(true)" class="botonIconCrear">
+                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                <span>Enviar Informacion de Ficha</span>
+                            </button>                                                                                                  
                         </div>
                         <div v-else>
                             <button @click="enviar_header_ficha(true)" class="botonIconActualizar">

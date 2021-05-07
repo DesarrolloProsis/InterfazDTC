@@ -1,5 +1,5 @@
 <template>
-  <div>      
+  <div>    
     <!-- //////////////////////////////////////////////////////////////////
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
@@ -8,7 +8,7 @@
       :datosUser="datosUser"
       :headerEdit="headerEdit"
       :observaciones="observaciones"      
-    ></Header> 
+    ></Header>
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
     <!-- //////////////////////////////////////////////////////////////////
@@ -90,23 +90,23 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(1)" class="botonIconBuscar font-boton" :class="{'botonDeshabilitado' :modalLoading}" :disabled="modalLoading">
+            <button @click="crearDTCTecnico(1)" class="botonIconBuscar font-boton" :class="{'BuscarDeshabilitado' :modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/save.png" class="mr-2" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(2)" class="botonIconCrear" :class="{'botonDeshabilitado' :modalLoading}" :disabled="modalLoading">
+            <button @click="crearDTCTecnico(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
           </div>
         </div>
-      <div class=" inset-0 font-titulo -mt-66 mb-8">
+      <div v-if="modalLoading" class=" inset-0 font-titulo -mt-66 mb-8">
         <div class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10 ">          
           <div class="justify-center text-center block">            
             <img src="@/assets/img/load.gif"  class="h-48 w-48" />
-            <p class="text-gray-900 font-thin text-md">Creando DTC ... </p>
+            <p class="text-gray-900 font-thin text-md">Espere ... </p>
           </div>
         </div>
       </div>
