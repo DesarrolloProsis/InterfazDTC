@@ -1,8 +1,7 @@
 <template>
 <div>    
     <div class="flex justify-center -mt-6">
-        <div class="grid gap-4 grid-cols-1 py-3 px-3">                
-        <!-- <Generico :titulo="'CONCENTRADO DTC'" :tipo="'DTC'"></Generico>  -->
+        <div class="grid gap-4 grid-cols-1 py-3 px-3">                        
         <!--/////////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        /////
         ////////////////////////////////////////////////////////////////////-->
@@ -52,12 +51,7 @@
               </div>
               <div class="mt-5">
                 <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
-                <textarea
-                v-model="motivoCambio"
-                class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
-                placeholder="Motivo del Cambio"
-                v-bind:maxlength="limite"
-                />
+                <textarea v-model="motivoCambio" class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border" placeholder="Motivo del Cambio" v-bind:maxlength="limite"/>
                 <span class="text-gray-500">{{ restante }}/300</span>
               </div>
             </div>
