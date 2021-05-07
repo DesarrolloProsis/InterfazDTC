@@ -17,10 +17,10 @@
         ////                         MODAL CARRUSEL                        /////
         ////////////////////////////////////////////////////////////////////-->
         <div class="relative inset-0">
-          <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-34 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-66">          
+          <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-44 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-66">          
             <button @click="subirImgModal = false" class="ml-74 mt-1 -mb-10 justify-end">
               <img src="../../../assets/img/close.png" class="justify-center" width="30" height="30"/></button>
-            <div class="mt-1 ml-4 mr-4 -mb-6">
+            <div class="mt-1 ml-4 mr-4 -mb-10">
               <AgregarImg :reporteDataInsertada="true" :tipo="'ConcentradoDTC'" :referenceNumber="datosImg.referenceNumber"></AgregarImg>
             </div>
             <div class="justify-center flex mt-5">
