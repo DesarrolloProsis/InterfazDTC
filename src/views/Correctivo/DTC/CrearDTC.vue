@@ -233,7 +233,10 @@ methods: {
       }
   },
   enviar_dmg_componentes(objInsert){ 
-      console.log(objInsert)                  
+      console.log(objInsert.arrayDmg)             
+      for(let item of objInsert.arrayDmg){
+        console.log(item)
+      }     
       Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
       .then(response => {      
         console.log(response)                   
