@@ -13,19 +13,19 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:500px;">
+        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
                 <th class="w-56 cabeceraTable font-medium">Tipo de Usuario</th>
                 <th class="w-64 cabeceraTable font-medium">Correo</th>
-                <th class="w-48 cabeceraTable font-medium">Acciones</th>
+                <th class="w-48 cabeceraTable font-medium" v-if="typeUser">Acciones</th>
               </tr>
               <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios" :key="key">
                 <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
-                <td class="cuerpoTable text-center">
+                <td class="cuerpoTable text-center" v-if="typeUser">
                   <button @click="editarUsuario(item)" class="botonIconActualizar">
                     <img src="../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Editar</span>
