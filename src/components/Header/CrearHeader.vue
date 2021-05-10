@@ -114,7 +114,8 @@
             :class="{ is_valid: !errors.first('FechaEnvio'),is_invalid: errors.first('FechaEnvio')}"
             class="w-full"
             type="date"
-            name="FechaEnvio"          
+            name="FechaEnvio"
+            onkeydown="return false"          
           />
           <p class="text-red-600 text-xs font-titulo font-normal">{{ errors.first("FechaEnvio") }}</p>
         </div>
@@ -147,7 +148,7 @@
         </div>
         <div class="pr-2 font-titulo">
         <p class="text-md mb-1 font-medium text-gray-900">Fecha de Falla:</p>
-        <input v-model="datosSinester.FailureDate" v-validate="`required|before:${fecha_validacion}`" :class="{ is_valid: !errors.first('FechaFalla'),is_invalid: errors.first('FechaFalla')}" class="w-full" name="FechaFalla" type="date" />
+        <input v-model="datosSinester.FailureDate" v-validate="`required|before:${fecha_validacion}`" :class="{ is_valid: !errors.first('FechaFalla'),is_invalid: errors.first('FechaFalla')}" class="w-full" name="FechaFalla" type="date" onkeydown="return false"/>
         <p class="text-red-600 text-xs">{{ errors.first("FechaFalla") }}</p>
         </div>
         <div class="pr-2 font-titulo">
