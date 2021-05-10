@@ -6,7 +6,7 @@
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
-        <HeaderGenerico  @filtrar-usuarios="filtrar_usuario" @limpiar-Usuarios="limpiar_usuarios" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
+        <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
         <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1 " v-if="typeUser">
           <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
@@ -164,8 +164,9 @@
 <script>
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
-import FiltrosServices from "../../services/FiltrosDTCServices";
+
 export default {
+  name: "UsuariosBitacora",
   components: {
     Multiselect,
     HeaderGenerico,
@@ -228,12 +229,6 @@ export default {
         this.User.Password = "";
         this.User.RePassword = "";
       }
-    },
-    filtrar_usuario(value){
-      this.lista_Usuarios_Filtrada = FiltrosServices.filtro_usuario_bitacora(this.lista_Usuarios_Filtrada, value)
-    },
-    limpiar_usuarios(){
-      this.lista_Usuarios_Filtrada = this.lista_Usuarios
     },
     borrar_usuario(item) {
       let User = { id: item.userId, square: ""};
@@ -325,6 +320,18 @@ export default {
       if(value != 'Sin Actividad')
         return `${value.squareCatalogId} ${value.squareName}`  
     },
+    guardar_palabra_busqueda: function(newPalabra){
+      console.log(newPalabra)      
+      if (newPalabra != "") {
+        let array_filtrado = this.lista_Usuarios_Filtrada.filter(item => {
+          return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
+        })       
+        this.lista_Usuarios_Filtrada = array_filtrado;
+      }
+      else{
+        this.lista_Usuarios_Filtrada = this.lista_Usuarios
+      }
+    }
   },
   computed: {
     listaTiposUsuario(){
