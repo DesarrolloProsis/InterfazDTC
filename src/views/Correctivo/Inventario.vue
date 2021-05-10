@@ -7,22 +7,7 @@
             @cancelar-filtros="cancelar_filtros" 
             @filtra-palabra="guardar_palabra_busqueda"
             @guardar-cambios="guardar_cambios_inventario" :tipo="'INV'">               
-        </HeaderGenerico>
-          <!--////////////////////////////////////////////////////////////////////
-          ////                           MODAL INVENTARIO                  //////
-          ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 font-titulo">
-          <div v-if="showModal" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-            <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC</p>
-            <div>
-              Maquetarias lo que falta
-            </div>
-            <div class="justify-center flex mt-5">
-              <button class="text-white mb-5 px-5 py-3 rounded-lg m-2 bg-green-600 font-boton">Si</button>
-              <button @click="showModal = false" class="text-white mb-5 px-4 py-3 rounded-lg m-2 bg-red-700 font-boton">No</button>
-            </div>
-          </div>
-        </div>  
+        </HeaderGenerico> 
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -109,7 +94,6 @@ export default {
   },
   data: function () {
     return {
-      showModal: false,
       buscarPalabra: "",
       arrayPaginacion: [],
       listComponent: [],
