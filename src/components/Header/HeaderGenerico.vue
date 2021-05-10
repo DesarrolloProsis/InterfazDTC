@@ -54,15 +54,7 @@
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10">Buscar</span>
                 <p class="input w-40"><input v-model="buscarPalabraInventario" class="bg-white sm:w-full border-none w-40" /></p>
-            </div>
-            <div class="mr-3 mt-6">
-                <span class="mr-2">Ubicación</span>
-                <input @change="cambiar_orden_inventario('ubicacion')" v-model="boolUbicacion" class="bg-white" type="checkbox"/>
-            </div>
-            <div class="mt-6">
-                <span class="mr-4">Componente</span>
-                <input @change="cambiar_orden_inventario('componente')" v-model="boolComponente" class="bg-white" type="checkbox"/>
-            </div>
+            </div>         
             <div class="text-sm sm:mt-4 mt-6">
                 <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
@@ -353,11 +345,7 @@ export default {
     },
     watch:{
         buscarPalabraInventario: function(newPalabra){
-            let objFiltrarPalabra = {
-                newPalabra,
-                tipo: { ubicacion: this.boolUbicacion, componente: this.boolComponente }
-            }
-            this.$emit('filtra-palabra', objFiltrarPalabra)
+            this.$emit('filtra-palabra', newPalabra)
         }
     }
 }

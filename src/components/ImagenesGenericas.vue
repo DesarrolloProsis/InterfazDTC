@@ -96,21 +96,19 @@ export default {
         clearInterval(this.interval);            
     },
     beforeMount() {                       
-        setTimeout(() => {   
+        setTimeout(() => {               
             let urlImgPaths = ''                                
             if(this.tipo == 'Actividades'){
                 this.limiteFotos = 36
                 urlImgPaths = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }
             else if(this.tipo == 'Diagnostico'){
-                this.limiteFotos = 4
-                let referenceRoute = this.$route.query.item.referenceNumber        
-                urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+                this.limiteFotos = 4                
+                urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }
             else{
-                this.limiteFotos = 4                
-                let referenceRoute = this.$route.query.data.referenceNumber                       
-                urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${referenceRoute.split('-')[0]}/${referenceRoute}`
+                this.limiteFotos = 4                                
+                urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }            
             Axios.get(urlImgPaths)
                 .then((response) => {                                              
@@ -137,8 +135,7 @@ export default {
                 .catch(error => {                    
                     console.log(error);                     
             });
-        }, 1000)
-        
+        }, 1000)        
     },
     computed:{
         num (){

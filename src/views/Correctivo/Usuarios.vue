@@ -186,8 +186,7 @@ export default {
         RePassword: "",
       },
       modal: false,
-      modal_Part: false,
-      disablePass: false,
+      modal_Part: false,      
       enviarPassword: false,
       typeUser: true,
       //Metodos Nuevos
@@ -217,24 +216,6 @@ export default {
 ////                            METODOS                         ////
 ///////////////////////////////////////////////////////////////////// 
   methods: {    
-    editar_password: function () {      
-      if (this.enviarPassword) {
-        this.enviarPassword = false;
-        this.User.Password = "***********";
-        this.User.RePassword = "***********";
-      } 
-      else {
-        this.enviarPassword = true;
-        this.User.Password = "";
-        this.User.RePassword = "";
-      }
-    },
-    filtrar_usuario(value){
-      this.lista_Usuarios_Filtrada = FiltrosServices.filtro_usuario_bitacora(this.lista_Usuarios_Filtrada, value)
-    },
-    limpiar_usuarios(){
-      this.lista_Usuarios_Filtrada = this.lista_Usuarios
-    },
     borrar_usuario(item) {
       let User = { id: item.userId, square: ""};
       this.$store.dispatch("Usuarios/BorrarUser", User);
@@ -244,16 +225,14 @@ export default {
         this.User[prop] = "";
       }
       this.modal = false;
-      this.modal_Part = false;
-      this.disablePass = false;
+      this.modal_Part = false;      
       if (this.enviarPassword) {
         this.enviarPassword = false;
         this.User.Password = "***********";
         this.User.RePassword = "***********";
       }
     },
-    editarUsuario: function (item) {      
-      this.disablePass = true;
+    editarUsuario: function (item) {            
       this.User.UserId = item.userId;
       this.User.UserName = item.userName;
       this.User.Name = item.name;
@@ -289,10 +268,7 @@ export default {
             Rol: this.User.Roll,
           };
           this.$store.dispatch("Usuarios/Update_User", UpUser);                    
-          let _UpUser = {
-            IdUser: this.User.UserId,
-            Password: this.User.Password,
-          };          
+          let _UpUser = { IdUser: this.User.UserId, Password: this.User.Password,};          
           if(_UpUser.Password != "***********"){              
               this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
           }                                                    

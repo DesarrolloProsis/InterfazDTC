@@ -251,7 +251,9 @@ export default {
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )                          
+      )  
+      
+      console.log(actividadInsert)
       await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
