@@ -135,6 +135,22 @@ function filtro_encargados_plaza (listaEncargados, plaza, nombre){
     }
     return encargadosFiltrados
 }
+function filtro_usuario_bitacora (listaUsuarios, nombre){
+    console.log(nombre)
+    let usuariosFiltrados = []
+    if(nombre != '' || nombre > 0){
+        let array_usuarios = []
+        usuariosFiltrados = usuariosFiltrados.length == 0 ? listaUsuarios : usuariosFiltrados
+        for(let nuevo of usuariosFiltrados){
+            let nombreCompleto = `${nuevo.name} ${nuevo.lastName1} ${nuevo.lastName2}`
+            if(nombreCompleto.toUpperCase().includes(nombre.toUpperCase())){
+                array_usuarios.push(nuevo)
+            }
+        }
+        usuariosFiltrados = array_usuarios
+    }
+    return usuariosFiltrados
+}
 function filtro_dtc_borrado(listaBorrados, ref){
     let listaFiltro = []
     console.log(ref)
@@ -174,5 +190,6 @@ export default {
     filtrar_calendario_historico,
     filtro_encargados_plaza,
     filtros_concentrado_diagnostico,
-    filtro_dtc_borrado
+    filtro_dtc_borrado,
+    filtro_usuario_bitacora
 }

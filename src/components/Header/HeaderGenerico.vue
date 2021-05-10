@@ -104,6 +104,28 @@
         </div> 
     </div>
     <!--////////////////////////////////////////////////////////////////////
+    ///         FILTROS DE NAVEGACION USUARIOS                          ////         
+    ///////////////////////////////////////////////////////////////////-->
+    <div v-if="tipo == 'USUARIO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
+            <div class="text-center sm:ml-6">
+                <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
+                <input v-model="nombreUsuario" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
+            </div>             
+        </div>
+        <div class="flex justify-center ml-4 mb-4 mt-4 sm:ml-0">
+            <button class="botonIconBuscar font-boton" @click="filtrar_usuario">
+                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
+                <span>Buscar</span>
+            </button>
+            <button class="botonIconLimpiar font-boton" @click="limpiar_usuario">
+                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
+                <span>Limpiar</span>
+            </button>
+        </div> 
+    </div>
+    <!--////////////////////////////////////////////////////////////////////
     ///                   FILTROS DE DTC BORRADO                        ///         
     ///////////////////////////////////////////////////////////////////-->
     <div v-if="tipo == 'BORRADO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
@@ -223,7 +245,9 @@ export default {
             //data Encargados Plaza
             nombreEncargado: "",
             //data DTC Borrado
-            refBorrado: ""
+            refBorrado: "",
+            //data Usuario Bitacora
+            nombreUsuario:""
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -289,6 +313,14 @@ export default {
             this.$emit('limpiar-encargados')
             this.nombreEncargado = ""
             this.plazaSeleccionada = ""
+        },
+        //Metodos Para Usuarios BItacora
+        filtrar_usuario: function (){
+            this.$emit('filtrar-usuarios', this.nombreUsuario)
+        },
+        limpiar_usuario: function (){
+            this.nombreUsuario = ""
+            this.$emit('limpiar-Usuarios')
         },
         //Metodos para Concentrado DTC Borrados
         filtrar_borrado: function (){
