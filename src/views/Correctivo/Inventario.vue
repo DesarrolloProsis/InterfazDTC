@@ -295,40 +295,21 @@ export default {
       this.cambiar_pagina(1);
       this.listEditados = [];
     },    
-    guardar_palabra_busqueda: function(objFiltroPalabra){
-      this.objCheckoBox = objFiltroPalabra.tipo
-      this.buscarPalabra = objFiltroPalabra.newPalabra
-    }
-  },
-/////////////////////////////////////////////////////////////////////
-////                         OBSERVADORES                        ////
-/////////////////////////////////////////////////////////////////////
-  watch: {
-    buscarPalabra: function (newValue) {
-      this.buscarPalabra.toUpperCase();            
-      if (newValue != "") {
-        let array_filtrado = [];
-        if (this.objCheckoBox.ubicacion) {          
-          for (const item of this.full_Component) {
-            if (item.lane.toUpperCase().includes(newValue.toUpperCase())) {
-              array_filtrado.push(item);
-            }
-          }
-        }
-        if (this.objCheckoBox.componente) {
-          for (const item of this.full_Component) {
-            if (item.component.toUpperCase().includes(newValue.toUpperCase())) {
-              array_filtrado.push(item);
-            }
-          }
-        }
+    guardar_palabra_busqueda: function(newPalabra){      
+      if (newPalabra != "") {
+        let array_filtrado = this.full_Component.filter(item => {
+          return item.lane.toUpperCase().includes(newPalabra.toUpperCase()) || item.component.toUpperCase().includes(newPalabra.toUpperCase()) || item.serialNumber.toUpperCase().includes(newPalabra.toUpperCase())
+        })       
         this.arrayPaginacion = [];
         this.listComponent = array_filtrado;
       } else {
         this.cambiar_pagina(1);
       }
-    },
+    }
   },
+/////////////////////////////////////////////////////////////////////
+////                         OBSERVADORES                        ////
+///////////////////////////////////////////////////////////////////// ,
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADOS                         ////
 /////////////////////////////////////////////////////////////////////
