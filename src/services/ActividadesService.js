@@ -122,6 +122,7 @@ function construir_objeto_actividad(listaCarriles, info){
 }
 function objeto_actividad_insertar(listaCarriles, info){
     let idGares = []
+    console.log(info);
     let capufeLaneNum = []
     let daySplit = info.day.split('/')
     let user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
