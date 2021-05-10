@@ -102,6 +102,7 @@
             class="w-full font-titulo"
             name="FechaSiniestro"
             type="date"
+            onkeydown="return false"
           />
           <p class="text-red-600 text-xs font-titulo font-normal">{{ errors.first("FechaSiniestro") }}</p>
         </div>
