@@ -18,7 +18,7 @@
             </span>
           </button>
           <ul id="testListaAccesoRapido" v-if="listaAccesoRapido.length > 0" class="bg-white border rounded-lg transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top min-w-32 -ml-16">            
-            <router-link v-for="(item, key) in listaAccesoRapido" name="'...'" :key="key" :to="item.path"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">{{ item.texto }}</li></router-link>                             
+            <router-link v-for="(item, key) in listaAccesoRapido" :key="key" :to="item.path"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">{{ item.texto }}</li></router-link>                             
           </ul>   
         </div>      
         <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg font-titulo border-black hover:border-black hover:text-white hover:bg-red-700">Salir</router-link>
