@@ -5,7 +5,7 @@ import store from './store'
 import "./assets/css/tailwind.css"
 import Multiselect from 'vue-multiselect'
 import VeeValidate from 'vee-validate';
-import { Validator } from 'vee-validate';
+import { Validator, ValidationObserver, ValidationProvider } from 'vee-validate';
 import es from "vee-validate/dist/locale/es";
 import './registerServiceWorker'
 import moment from "moment";
@@ -21,6 +21,8 @@ Vue.use(VueFileAgent);
 import VueLazyImage from "vue-lazy-images";
 Vue.use(VueLazyImage)
 //Validaciones en formularios
+Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('ValidationProvider', ValidationProvider);
 Vue.use(VeeValidate, { classes: false,}); 
 const NoSiniestro = {
   validate(value){

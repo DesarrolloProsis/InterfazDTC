@@ -5,7 +5,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
 const state = {
   listaHeaderDtcUser: null,
   listaPlazas: [],
-  cookiesUser: { nombreRoll: ''},
+  cookiesUser: {},
   listaTec: [],
   plazaSelecionada: {},  
   tipoUsuario: [
@@ -87,10 +87,7 @@ const actions = {
   },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async INICIAR_SESION_LOGIN({ commit }, value) {   
-    let objLogin = {
-      username: value.User,
-      password: value.Password,      
-    }     
+    let objLogin = { username: value.User, password: value.Password }     
     await Axios.post(`${API}/login`,objLogin)
       .then(response => {              
         commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))                                                 

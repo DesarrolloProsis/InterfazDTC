@@ -12,34 +12,39 @@
           </div>
         </div>
         <br />
-        <div class="mt-10">
-          <div class="mb-5">
-            <input @keyup.enter="ingresar_inicio()"  v-validate="'required'" v-model="datos.User" class="w-full h-8 font-titulo font-normal" type="text" name="Usuario" :class="{ is_valid: !errors.first('Usuario'),is_invalid: errors.first('Usuario')}" placeholder="  Usuario" />
-            <span class="text-red-600 text-xs">{{ errors.first("Usuario") }}</span>
-          </div>
-          <div class="mb-5">
-            <div class="w-full inline-flex relative">
-              <input @keyup.enter="ingresar_inicio()" placeholder=" Contraseña" class="w-full h-8 font-titulo font-normal" v-validate="'required'" :class="{ is_valid: !errors.first('Contraseña'),is_invalid: errors.first('Contraseña')}" :type="tipoInput" name="Contraseña" v-model="datos.Password" />
-              <span class="absolute right-0 mt-2 mr-2 cursor-pointer" @click="tipoInput == 'password' ? tipoInput = 'text' : tipoInput = 'password'">
-                <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
-                <img v-else src="../assets/img/notvisibility.png" class="w-5" />
-              </span>
+        <ValidationObserver v-slot="{ invalid }">                  
+          <div class="mt-10">          
+            <div class="mb-5">
+              <ValidationProvider name="Usuario" rules="required" v-slot="{ errors }">
+                <input v-model="datos.user" @keyup.enter="ingresar_inicio()" 
+                  :class="{ is_valid: !errors[0], is_invalid: errors[0]}" 
+                  class="w-full h-8 font-titulo font-normal"                
+                  type="text" placeholder="Usuario" name="Usuario" 
+                />
+                <span class="text-red-600 text-xs">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
-            <span class="text-red-600 text-xs">{{ errors.first("Contraseña") }}</span>
-          </div>          
-        </div>
-<!--         <div class="text-center text-gray-900">
-          <input v-model.number="datos.checkLog" class="mt-10 mb-10 mr-2" type="checkbox"/>
-          <span>Generar Por Otra Persona</span>
-        </div> -->
-        <div class="container-login100-form-btn">
-          <button @click="ingresar_inicio()" type="button" class="login100-form-btn text-blue-600 outline-none" 
-          :class="{'cursor-not-allowed' : cargando }" :disabled=" cargando ">Login</button>
-        </div>
-<!--         <div class="flex flex-col text-center mt-3 text-blue-700">
-          <a class="hover:text-blue-900 cursor-pointer" @click="registar_nuevo_usuario">Registrarse</a>
-          <a class="hover:text-blue-900 cursor-pointer" @click="contraseña_perdida">¿Olvidaste tu constraseña?</a>
-        </div> -->
+            <div class="mb-5">
+              <ValidationProvider name="Contraseña" rules="required" v-slot="{ errors }">
+                <div class="w-full inline-flex relative">              
+                    <input v-model="datos.password" @keyup.enter="ingresar_inicio()" 
+                      class="w-full h-8 font-titulo font-normal" 
+                      :class="{ is_valid: !errors[0], is_invalid: errors[0] }" 
+                      :type="tipoInput" placeholder="Contraseña" name="Contraseña" 
+                    />
+                    <span @click="tipoInput == 'password' ? tipoInput = 'text' : tipoInput = 'password'" class="absolute right-0 mt-2 mr-2 cursor-pointer">
+                      <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
+                      <img v-else src="../assets/img/notvisibility.png" class="w-5" />
+                    </span>                             
+                </div>
+                <span class="text-red-600 text-xs">{{ errors[0] }}</span> 
+              </ValidationProvider>            
+            </div>          
+          </div>
+          <div class="container-login100-form-btn">
+            <button @click="ingresar_inicio()" type="button" class="login100-form-btn text-blue-600 outline-none" :disabled="invalid">Login</button>
+          </div>        
+        </ValidationObserver>
       </div>
     </div>
     <!-- //////////////////////////////////////////////////////////////////
@@ -81,16 +86,15 @@ export default {
     return {
       modal: false,
       datos: {
-        User: "",
-        Password: "",
+        user: "",
+        password: "",
         checkLog: false,
       },
       listaPlazas: [],
       listaTec: [],
       plazaSelect: "",
       tecSelect: "",
-      tipoInput : 'password',
-      cargando: false
+      tipoInput : 'password',      
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -128,7 +132,7 @@ export default {
         this.tecSelect = "";
       }
     },
-    ingresar_inicio: async function () {      
+    ingresar_inicio: async function () {            
       await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);      
       setTimeout(async () => {                   
         if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {        
