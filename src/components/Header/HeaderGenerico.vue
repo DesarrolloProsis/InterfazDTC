@@ -48,32 +48,24 @@
     <!--///////////////////////////////////////////////////////////////////
        ///              FILTROS DE NAVEGACION INVENTARIO               ////         
      ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'INV'" class="mt-1 -mb-8 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
+    <div v-if="tipo == 'INV'" class="mt-1 -mb-4 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3">
+        <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3 ml-66">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10">Buscar</span>
                 <p class="input w-40"><input v-model="buscarPalabraInventario" class="bg-white sm:w-full border-none w-40" /></p>
-            </div>
-            <div class="mr-3 mt-6">
-                <span class="mr-2">Ubicación</span>
-                <input @change="cambiar_orden_inventario('ubicacion')" v-model="boolUbicacion" class="bg-white" type="checkbox"/>
-            </div>
-            <div class="mt-6">
-                <span class="mr-4">Componente</span>
-                <input @change="cambiar_orden_inventario('componente')" v-model="boolComponente" class="bg-white" type="checkbox"/>
-            </div>
+            </div>         
             <div class="text-sm sm:mt-4 mt-6">
                 <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
-            <div class="mt-2">
+            <div class="mt-12 ml-16">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
        ////////////////////////////////////////////////////////////////////-->
-        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-5 mr-5 sm:inline-flex">
+        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:m-0" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
@@ -110,6 +102,18 @@
                 <span>Limpiar</span>
             </button>
         </div> 
+    </div>
+    <!--////////////////////////////////////////////////////////////////////
+    ///         FILTROS DE NAVEGACION USUARIOS                          ////         
+    ///////////////////////////////////////////////////////////////////-->
+    <div v-if="tipo == 'USUARIO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
+            <div class="text-center sm:ml-6 mb-6">
+                <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
+                <input v-model="buscarUsuario" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
+            </div>             
+        </div>
     </div>
     <!--////////////////////////////////////////////////////////////////////
     ///                   FILTROS DE DTC BORRADO                        ///         
@@ -231,7 +235,10 @@ export default {
             //data Encargados Plaza
             nombreEncargado: "",
             //data DTC Borrado
-            refBorrado: ""
+            refBorrado: "",
+            //data Usuario Bitacora
+            nombreUsuario:"",
+            buscarUsuario: '',
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -321,11 +328,10 @@ export default {
     },
     watch:{
         buscarPalabraInventario: function(newPalabra){
-            let objFiltrarPalabra = {
-                newPalabra,
-                tipo: { ubicacion: this.boolUbicacion, componente: this.boolComponente }
-            }
-            this.$emit('filtra-palabra', objFiltrarPalabra)
+            this.$emit('filtra-palabra', newPalabra)
+        },
+        buscarUsuario: function(newPalabra){
+            this.$emit('filtrar-usuario', newPalabra)
         }
     }
 }

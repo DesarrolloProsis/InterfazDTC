@@ -174,5 +174,5 @@ export default {
     filtrar_calendario_historico,
     filtro_encargados_plaza,
     filtros_concentrado_diagnostico,
-    filtro_dtc_borrado
+    filtro_dtc_borrado,
 }

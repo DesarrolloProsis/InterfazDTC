@@ -96,6 +96,17 @@ select:focus {
 .botonIconBuscar:focus{
     @apply outline-none;
 }
+
+.BuscarDeshabilitado{
+    @apply bg-gray-600 tracking-wide text-black font-titulo font-bold rounded border-b-2 border-black shadow-md py-2 px-6 inline-flex items-center;
+}
+.BuscarDeshabilitado:hover{
+    @apply border-black bg-gray-600 text-black cursor-not-allowed;
+}
+.BuscarDeshabilitado:focus{
+    @apply outline-none;
+}
+
 .botonCrearFoto{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -120,6 +131,17 @@ select:focus {
 .botonIconCrear:focus{
     @apply outline-none;
 }
+
+.CrearDeshabilitado{
+    @apply bg-gray-600 tracking-wide text-black font-boton font-bold rounded border-b-2 border-black shadow-md py-2 px-6 inline-flex items-center;
+}
+.CrearDeshabilitado:hover{
+    @apply border-black bg-gray-600 text-black cursor-not-allowed;
+}
+.CrearDeshabilitado:focus{
+    @apply outline-none;
+}
+
 .botonCrearReport{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }

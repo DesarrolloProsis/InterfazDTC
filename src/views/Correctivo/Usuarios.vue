@@ -5,27 +5,28 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
-        <h1 class="text-4xl font-bold text-gray-800 text-center mb-8">Lista de Usuarios</h1>
-        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1 -mt-4" v-if="typeUser">
+        <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
+        <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
+        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1 " v-if="typeUser">
           <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
-          <span class="">Agregar Nuevo Encargado</span>
+          <span class="">Agregar Nuevo Usuario</span>
         </button>
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:500px;">
+        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
                 <th class="w-56 cabeceraTable font-medium">Tipo de Usuario</th>
                 <th class="w-64 cabeceraTable font-medium">Correo</th>
-                <th class="w-48 cabeceraTable font-medium">Acciones</th>
+                <th class="w-48 cabeceraTable font-medium" v-if="typeUser">Acciones</th>
               </tr>
-              <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios" :key="key">
+              <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios_Filtrada" :key="key">
                 <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
-                <td class="cuerpoTable text-center">
+                <td class="cuerpoTable text-center" v-if="typeUser">
                   <button @click="editarUsuario(item)" class="botonIconActualizar">
                     <img src="../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Editar</span>
@@ -161,14 +162,19 @@
 </template>
 
 <script>
+import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
+
 export default {
+  name: "UsuariosBitacora",
   components: {
-    Multiselect
+    Multiselect,
+    HeaderGenerico,
   },
   data: function () {
     return {
       lista_Usuarios: [],
+      lista_Usuarios_Filtrada: [],
       User: {
         UserId: "",
         UserName: "",
@@ -202,7 +208,8 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: function () {
-    this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];        
+    this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"]; 
+    this.lista_Usuarios_Filtrada = this.lista_Usuarios
     if (this.$store.state.Login.cookiesUser.rollId == 1) {
       this.typeUser = false;
     }
@@ -313,6 +320,18 @@ export default {
       if(value != 'Sin Actividad')
         return `${value.squareCatalogId} ${value.squareName}`  
     },
+    guardar_palabra_busqueda: function(newPalabra){
+      console.log(newPalabra)      
+      if (newPalabra != "") {
+        let array_filtrado = this.lista_Usuarios_Filtrada.filter(item => {
+          return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
+        })       
+        this.lista_Usuarios_Filtrada = array_filtrado;
+      }
+      else{
+        this.lista_Usuarios_Filtrada = this.lista_Usuarios
+      }
+    }
   },
   computed: {
     listaTiposUsuario(){

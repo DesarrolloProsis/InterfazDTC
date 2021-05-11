@@ -1,22 +1,25 @@
 <template>
     <div>        
         <div class="justify-center">
-        <!--/////////////////////////////////////////////////////////////////////
+            <!--/////////////////////////////////////////////////////////////////////
             ////                     MODAL IMAGENES                        /////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0">
-              <div v-if="modalImage" class="rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
-                <div class="justify-center text-center block">            
-                    <!-- /////////////////////////////////////////////////////////////////////
-                    ////                         IMAGENES                             ////
-                    ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_ficha(false)" class="botonIconCrear">
-                        <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                        <span>Descargar Ficha</span>
-                    </button>  
+                <div v-if="modalImage" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
+                    <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
+                        <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer " />
+                    </span>
+                    <div class="justify-center text-center block ml-4 mr-4">            
+                        <!-- /////////////////////////////////////////////////////////////////////
+                        ////                         IMAGENES                             ////
+                        ///////////////////////////////////////////////////////////////////// -->
+                        <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                        <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4">
+                            <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <span>Descargar Ficha</span>
+                        </button>  
+                    </div>
                 </div>
-              </div>
             </div>
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
@@ -26,19 +29,19 @@
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
                     <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header"></HeaderFalla>  
-                <!-- /////////////////////////////////////////////////////////////////////
+                    <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
+                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar'" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="-mt-24 ml-79 sm:mb-6 sm:ml-16 sm:mt-16">
-                        <div v-if="$route.params.tipoVista == 'Crear'">                            
-                         <button v-if="!modalImage" @click="enviar_header_ficha(true)" class="botonIconCrear">
-                             <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                             <span>Enviar Informacion de Ficha</span>
-                         </button>                                                                                                  
+                    <div class="mb-6 ml-79 sm:mb-6 sm:ml-16 sm:mt-16">
+                        <div v-if="botonEditCreate">                            
+                            <button v-if="$route.params.tipoVista == 'Crear'" @click="enviar_header_ficha(true)" class="botonIconCrear">
+                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                <span>Enviar Informacion de Ficha</span>
+                            </button>                                                                                                  
                         </div>
                         <div v-else>
                             <button @click="enviar_header_ficha(true)" class="botonIconActualizar">
@@ -73,12 +76,14 @@ export default {
             datosHeader: {},    
             type: 'DIAGNOSTICO',
             reporteInsertado: false  ,
-            modalImage: false            
+            modalImage: false,
+            botonEditCreate: true               
         }
     },
     beforeMount(){
         if(this.$route.params.tipoVista == 'Editar'){
             this.reporteInsertado = true
+            this.botonEditCreate = false
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -95,6 +100,10 @@ export default {
             let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
             let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
             return dateInicio < dateFin ? true : false                             
+        },
+        cerrar_modal_imagenes(){
+            this.modalImage = false
+            this.botonEditCreate = false
         },
         enviar_header_ficha(value){    
             let llavesHeader = Object.keys(this.datosHeader)  
@@ -155,16 +164,17 @@ export default {
         insertar_ficha_falla(value){
             if(value){
                 let flagInsert = this.$route.params.tipoVista == 'Editar' ? 0 : 1
+                flagInsert = this.botonEditCreate == false ? 0 : 1
                 let objFicha = {
                     referenceNumber: this.datosHeader.referenceNumber,
                     typeFaultId: this.datosHeader.tipoFalla,
                     intervention: this.datosHeader.solucionFalla,
-                    updateFlag: flagInsert // 1 -> Insertar || 0 -> actualizar
+                    updateFlag: flagInsert // 1 -> Insertar || 0 -> actualizar                    
                 }            
                 Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then(() => {             
                         this.reporteInsertado = true    
-                        this.modalImage = true    
+                        this.modalImage = true  
                         if(this.$route.params.tipoVista == 'Editar'){   
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
@@ -172,11 +182,11 @@ export default {
                                 this.$router    .push('/NuevoDtc/Crear')     
                             else
                                 this.$router.push('/Home')                          
-                        }                                                                       
+                        }                                                                               
                     })
                     .catch((error) => {                                            
                         console.log(error)
-                    })  
+                    })                  
             }
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
