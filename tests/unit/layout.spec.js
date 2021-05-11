@@ -47,7 +47,7 @@ describe("Componentes Layout", () => {
     if(wrapper.vm.$route.path != '/')
       expect(wrapper.find('#testListaAccesoRapido').element.childElementCount).toBe(4)    
     else
-    expect(wrapper.find('#testListaAccesoRapido').element.childElementCount).toBe(0)
+      expect(wrapper.find('#testListaAccesoRapido').element.childElementCount).toBe(0)
   })
 })
 
