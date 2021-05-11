@@ -5,7 +5,7 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <HeaderGenerico @filtrar-borrado="filtradoDTC" @limpiar-borrado="limpiarDTC" :titulo="'Concentrado DTC Borrados'" :tipo="'BORRADO'"></HeaderGenerico>
+                <HeaderGenerico @filtrar-borrado="guardar_palabra_busqueda" :titulo="'Concentrado DTC Borrados'" :tipo="'BORRADO'"></HeaderGenerico>
                 <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">DTC Borrado</h1>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
@@ -35,7 +35,7 @@
 <script>
 import Axios from 'axios';
 import moment from "moment";
-import FiltrosServices from "../../../services/FiltrosDTCServices";
+//import FiltrosServices from "../../../services/FiltrosDTCServices";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -71,12 +71,24 @@ export default {
                 console.log(error)
             })
         },
-        filtradoDTC(value){
+/*         filtradoDTC(value){
             this.listaDTC_filtrada = FiltrosServices.filtro_dtc_borrado(this.listaDTC_borrados, value) 
         },
         limpiarDTC(){
             this.listaDTC_filtrada = this.listaDTC_borrados
+        }, */
+        guardar_palabra_busqueda: function(newPalabra){
+        console.log(newPalabra)      
+        if (newPalabra != "") {
+            let array_filtrado = this.listaDTC_filtrada.filter(item => {
+                return item.refereceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+            })       
+            this.listaDTC_filtrada = array_filtrado;
         }
+        else{
+            this.listaDTC_filtrada = this.listaDTC_borrados
+        }
+    }
     },
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////

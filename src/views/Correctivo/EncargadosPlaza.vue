@@ -5,7 +5,7 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
+                <HeaderGenerico @filtrar-encargados="filtrar_encargados" @buscar-encargado="guardar_palabra_busqueda" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
                 <button @click="agregarUsuario()" class=" botonIconBuscar relative justify-center mb-6 -mt-4">
                     <img
                         src="../../assets/img/plus.png"
@@ -320,6 +320,18 @@ export default {
                 this.modalEditar = false
             } 
         },
+        guardar_palabra_busqueda: function(newPalabra){
+        console.log(newPalabra)      
+        if (newPalabra != "") {
+            let array_filtrado = this.listaencargadosFilrada.filter(item => {
+                return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
+            })       
+            this.listaencargadosFilrada = array_filtrado;
+        }
+        else{
+            this.listaencargadosFilrada = this.listaencargadosCompleta
+        }
+    }
     },
 }
 </script>

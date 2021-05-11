@@ -89,7 +89,7 @@
             </div>
             <div class="text-center sm:ml-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="nombreEncargado" class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
+                <input v-model="buscarEncargado" class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
         </div>
         <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
@@ -121,20 +121,10 @@
     <div v-if="tipo == 'BORRADO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
-            <div class="text-center sm:ml-6">
+            <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Referencia</p>
-                <input v-model="refBorrado" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
+                <input v-model="buscarBorrado" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
-        </div>
-        <div class="flex justify-center ml-4 mb-4 mt-4 sm:ml-0">
-            <button class="botonIconBuscar font-boton" @click="filtrar_borrado">
-                <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
-                <span>Buscar</span>
-            </button>
-            <button class="botonIconLimpiar font-boton" @click="limpiar_borrados">
-                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
-                <span>Limpiar</span>
-            </button>
         </div> 
     </div>
     <!--///////////////////////////////////////////////////////////////////
@@ -234,10 +224,10 @@ export default {
             plazaSeleccionada:"",
             //data Encargados Plaza
             nombreEncargado: "",
+            buscarEncargado: '',
             //data DTC Borrado
-            refBorrado: "",
+            buscarBorrado: '',
             //data Usuario Bitacora
-            nombreUsuario:"",
             buscarUsuario: '',
         }
     },
@@ -306,13 +296,6 @@ export default {
             this.plazaSeleccionada = ""
         },
         //Metodos para Concentrado DTC Borrados
-        filtrar_borrado: function (){
-            this.$emit('filtrar-borrado', this.refBorrado)
-        },
-        limpiar_borrados: function (){
-            this.$emit('limpiar-borrado')
-            this.refBorrado = ""
-        },
         //Metodos Concentrado de Diagnostico Falla
         limpiar_filtros_diagnostico_falla: function(){
             this.$emit('limpiar-concentrado-diagnostico')
@@ -332,6 +315,12 @@ export default {
         },
         buscarUsuario: function(newPalabra){
             this.$emit('filtrar-usuario', newPalabra)
+        },
+        buscarBorrado: function(newPalabra){
+            this.$emit('filtrar-borrado', newPalabra)
+        },
+        buscarEncargado: function(newPalabra){
+            this.$emit('buscar-encargado', newPalabra)
         }
     }
 }
