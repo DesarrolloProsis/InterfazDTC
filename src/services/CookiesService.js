@@ -2,11 +2,12 @@ import store from '../store/index'
 import router from '../router/index'
 import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-function formato_cookies_usuario(loginSesion){       
+function formato_cookies_usuario(loginSesion){  
+    return new Promise((resolve, reject) => {
     let cookies = {}
     let tokenUser = {}
     Axios.post(`${API}/login/Cookie`, { userId: loginSesion.userId })
-    .then((response) => {         
+    .then((response) => {             
         let plazasUsuario =  response.data.result.cookie.map(item => {        
             return {
                 refereciaPlaza: item.referenceSquare,
@@ -16,27 +17,27 @@ function formato_cookies_usuario(loginSesion){
                 plazaAdminNombre: item.plazaAdministrador,
                 statusAdmin: item.statusAdmin
             }
-        })          
+        });             
         tokenUser = response.data.result.userToken
-        cookies['plazasUsuario'] = plazasUsuario
         cookies['rollId'] = loginSesion.rolId
         cookies['nombreRoll'] = loginSesion.rolDescription
-        cookies['userId'] = loginSesion.userId         
-        cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false               
-        store.dispatch("Login/BUSCAR_PLAZAS");
-        Axios.post(`${API}/login/LoginInfo`, { userId: loginSesion.userId })
-        .then((response) => {            
-            cookies['nombreUsuario'] = response.data.result.loginList[0].nombre
-            store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList)             
-        })                             
+        cookies['userId'] = loginSesion.userId
+        cookies['plazasUsuario'] = plazasUsuario         
+        cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false
+        Axios.post(`${API}/login/LoginInfo`, { userId: loginSesion.userId })    
+        .then((response) => {                         
+            cookies['nombreUsuario'] = response.data.result.loginList[0].nombre                                                                                          
+            localStorage.clear()    
+            localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
+            localStorage.setItem('token', JSON.stringify(tokenUser))  
+            store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList)              
+            resolve(cookies)                 
+        })                                                       
     })
-    .catch((error) => {
-        console.log(error)
+    .catch((error) => {        
+        reject(error)
     })    
-    localStorage.clear()    
-    localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
-    localStorage.setItem('token', JSON.stringify(tokenUser))  
-    return cookies 
+    })           
 }
 async function refrescar_barer_token(){
     localStorage.removeItem('token')

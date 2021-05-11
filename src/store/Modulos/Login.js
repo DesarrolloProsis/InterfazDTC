@@ -66,40 +66,25 @@ const actions = {
         console.log(error)          
       });
   },
-  //CONSULTA PARA SABER SI EL USUARIO ESTA REGISTRADO
-  async BUSCAR_COOKIES_USUARIO({ commit }, value) { 
-    let objLogin = {
-      username: value.User,
-      password: value.Password,
-      flag: true
-    }             
-    await Axios.post(`${API}/login/ValidUser`,objLogin)
-      .then(response => {
-        console.log(response)
-        if (response.data.result != null)
-          commit("COOKIES_USER_MUTATION",  CookiesService.formato_cookies_usuario(response.data.result, state.tipoUsuario));           
-        else 
-          commit("COOKIES_USER_MUTATION", []);        
-      })
-      .catch(() => {
-        commit("COOKIES_USER_MUTATION", []);        
-      });
-  },
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
-  async INICIAR_SESION_LOGIN({ commit }, value) {   
-    let objLogin = { username: value.User, password: value.Password }     
-    await Axios.post(`${API}/login`,objLogin)
-      .then(response => {              
-        commit("COOKIES_USER_MUTATION", CookiesService.formato_cookies_usuario(response.data.result))                                                 
+  async INICIAR_SESION_LOGIN({ commit }, objUserLogin) {  
+    return new Promise((resolve, reject) => {
+      let objLogin = { username: objUserLogin.user, password: objUserLogin.password  }     
+      Axios.post(`${API}/login`,objLogin)
+      .then(async (response) => {                                  
+        commit("COOKIES_USER_MUTATION", await CookiesService.formato_cookies_usuario(response.data.result))
+        resolve(true)                                                 
       })
-      .catch(() => {                
+      .catch(() => {  
+        reject(false)                        
       });
+    }) 
   },
   //CONULTA PARA LISTAR LAS PLAZAS
-  async BUSCAR_PLAZAS({ commit }) {                    
+  async BUSCAR_PLAZAS({ commit }) {      
+    console.log(`${API}/squaresCatalog`)              
     await Axios.get(`${API}/squaresCatalog`)
-      .then(response => {        
-        console.log(response)
+      .then(response => {                
         commit("LISTA_PLAZAS_MUTATION", response.data.result);
       })
       .catch(error => {        

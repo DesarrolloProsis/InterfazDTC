@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import ServiceCookies from '../services/CookiesService'
 export default {
   name: "Login",  
   data() {
@@ -106,12 +105,6 @@ export default {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
   methods: {
-    registar_nuevo_usuario: function () {
-      this.$router.push("register");
-    },
-    contraseña_perdida: function () {
-      this.$router.push("home");
-    },
     login_por_otro: async function () {
       if (this.fields.Plaza.valid && this.fields.Tecnico.valid) {
         await this.$store.dispatch("Login/BUSCAR_HEADER_OTRO_TECNICO", this.tecSelect);
@@ -133,39 +126,28 @@ export default {
       }
     },
     ingresar_inicio: async function () {            
-      await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);      
-      setTimeout(async () => {                   
-        if (this.$store.getters["Login/GET_USER_IS_LOGIN"]) {        
-          await this.$store.dispatch("Login/BUSCAR_PLAZAS");
-          this.listaPlazas = await this.$store.state.Login.listaPlazas
-          if (this.datos.checkLog === true)
-            this.modal = true;      
-          else {
-            //await this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos);
-            let dataHeader = await this.$store.state.Login.listaHeaderDtcUser          
-            await this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
-            await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
-            await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-            let userTipo = await this.$store.state.Login.cookiesUser.rollId
-            if(userTipo == 9 || userTipo == 8)
-              this.$router.push("ConcentradoDTC");                                              
-            else            
-              this.$router.push("home");
-            ServiceCookies.actualizar_plaza()
-          }
-        } 
-        else {
-          this.$notify.error({
-            title: "Ops!!",
-            msg: "EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.",
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }
-      }, 500)
+      this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos)
+      .then(() => {             
+        let dataHeader = this.$store.state.Login.listaHeaderDtcUser 
+        let userTipo = this.$store.state.Login.cookiesUser.rollId                     
+        this.$store.dispatch("Login/BUSCAR_PLAZAS");                         
+        this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
+        this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");     
+        this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);                      
+        if(userTipo == 9 || userTipo == 8)
+          this.$router.push("ConcentradoDTC");                                              
+        else            
+          this.$router.push("home");
+      })     
+      .catch((error) => {
+        console.log(error)
+        this.$notify.error({
+          title: "Ops!!",
+          msg: "EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.",
+          position: "bottom right",
+          styles: { height: 100, width: 500 },
+        });
+      })     
     },
   },
 };
