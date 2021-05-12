@@ -133,7 +133,10 @@ export default {
         this.$store.dispatch("Login/BUSCAR_PLAZAS");                         
         this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
         this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");     
-        this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);                      
+        this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);
+        let usuario = this.$store.getters["Login/GET_USEER_ID_PLAZA_ID"]
+        console.log(usuario)
+        this.$store.dispatch("Usuarios/Consulta_Users",{id:usuario.idUser, square:usuario.numPlaza})                      
         if(userTipo == 9 || userTipo == 8)
           this.$router.push("ConcentradoDTC");                                              
         else            

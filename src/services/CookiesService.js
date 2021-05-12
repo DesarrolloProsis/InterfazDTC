@@ -31,6 +31,7 @@ function formato_cookies_usuario(loginSesion){
             localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
             localStorage.setItem('token', JSON.stringify(tokenUser))  
             store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList)              
+            actualizar_plaza()
             resolve(cookies)                 
         })                                                       
     })
