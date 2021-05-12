@@ -43,10 +43,8 @@ describe("Componentes Layout", () => {
     expect(commit).toHaveBeenCalledWith(
       "SET_AUTHENTICATED", true)
   })
-
   it("catches an error", async () => {
     mockError = true
-
     await expect(actions.authenticate({ commit: jest.fn() }, {}))
       .rejects.toThrow("API Error occurred.")
   })
