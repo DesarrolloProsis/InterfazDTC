@@ -54,7 +54,12 @@ const routes = [
   {
     path: '/NuevoDtc/:tipoVista',
     name: 'NuevoDtc',
-    component: CrearDTC
+    component: CrearDTC,
+    beforeEnter: async function(to, from, next){
+      await store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
+      await store.dispatch("Header/BUSCAR_LISTA_UNIQUE");    
+      next()
+    }
   },
   {
     path: '/NuevoDtcLibre',
