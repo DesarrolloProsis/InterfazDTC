@@ -1,10 +1,10 @@
 <template>
-<div class>               
-    
-    <!--////////////////////////////////////////////////////////////////////
-    ///                    FILTROS DE NAVEGACION   DTC                 ////         
-    ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'DTC'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
+    <div class>               
+        
+        <!--////////////////////////////////////////////////////////////////////
+        ///                    FILTROS DE NAVEGACION   DTC                 ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'DTC'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
         <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
@@ -44,11 +44,11 @@
                 <span >Buscar</span>
             </button>
         </div>
-    </div>
-    <!--////////////////////////////////////////////////////////////////////
-    ///                    FILTROS DE NAVEGACION GMMEP                 ////         
-    ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'GMMEP'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
+        </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                    FILTROS DE NAVEGACION GMMEP                 ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'GMMEP'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
         <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
@@ -88,11 +88,11 @@
                 <span >Buscar</span>
             </button>
         </div>
-    </div>
-    <!--///////////////////////////////////////////////////////////////////
-       ///              FILTROS DE NAVEGACION INVENTARIO               ////         
-     ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'INV'" class="mt-1 -mb-4 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
+        </div>
+        <!--///////////////////////////////////////////////////////////////////
+           ///              FILTROS DE NAVEGACION INVENTARIO               ////         
+         ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'INV'" class="mt-1 -mb-4 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3 ml-66">
             <div class="mr-3 sm:mr-1 mt-6">
@@ -119,11 +119,11 @@
                 <span class="text-xs">Guardar</span>
             </button>
         </div>     
-    </div>    
-    <!--///////////////////////////////////////////////////////////////////
-       ///         FILTROS DE NAVEGACION ENCARGADOS                   ////         
-     ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
+        </div>    
+        <!--///////////////////////////////////////////////////////////////////
+           ///         FILTROS DE NAVEGACION ENCARGADOS                   ////         
+         ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
             <div class="sm:ml-2">
@@ -146,11 +146,11 @@
                 <span>Limpiar</span>
             </button>
         </div> 
-    </div>
-    <!--////////////////////////////////////////////////////////////////////
-    ///         FILTROS DE NAVEGACION USUARIOS                          ////         
-    ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'USUARIO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
+        </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///         FILTROS DE NAVEGACION USUARIOS                          ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'USUARIO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
             <div class="text-center sm:ml-6 mb-6">
@@ -158,11 +158,11 @@
                 <input v-model="buscarUsuario" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
         </div>
-    </div>
-    <!--////////////////////////////////////////////////////////////////////
-    ///                   FILTROS DE DTC BORRADO                        ///         
-    ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'BORRADO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
+        </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                   FILTROS DE DTC BORRADO                        ///         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'BORRADO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
             <div class="text-center sm:ml-6 mb-6">
@@ -170,11 +170,11 @@
                 <input v-model="buscarBorrado" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
             </div>             
         </div> 
-    </div>
-    <!--///////////////////////////////////////////////////////////////////
-    ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
-    ///////////////////////////////////////////////////////////////////-->
-    <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" >
+        </div>
+        <!--///////////////////////////////////////////////////////////////////
+        ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" >
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3" >
                 <div class="mt-4">                                        
@@ -210,8 +210,8 @@
                 <span>Buscar</span>
             </button>
         </div>
+        </div>
     </div>
-</div>
 </template>
 
 <script>
