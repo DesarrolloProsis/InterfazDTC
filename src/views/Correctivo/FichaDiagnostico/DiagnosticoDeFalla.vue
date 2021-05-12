@@ -103,11 +103,9 @@ methods:{
         return dateInicio < dateFin ? true : false                   
     },
     enviar_header_diagnostico(value){                
-        let llavesHeader = Object.keys(this.datosHeader)           
-        console.log(llavesHeader) 
+        let llavesHeader = Object.keys(this.datosHeader)                   
         if(llavesHeader.length == 10){            
-            let valueHeader = Object.values(this.datosHeader)
-            console.log(valueHeader);
+            let valueHeader = Object.values(this.datosHeader)            
             let validar = valueHeader.some(prop => prop == '')            
             if(validar){                                
                 this.$notify.warning({
@@ -183,8 +181,7 @@ methods:{
                 causeFailure: this.datosHeader.causaFalla,
                 adminSquareId: administradorId,
                 updateFlag: flagInsert // 1 -> Insertar || 0 -> editar
-            }  
-            console.log(objDiagnostico)      
+            }              
             Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
                 .then(() => {                
                     let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
@@ -196,11 +193,9 @@ methods:{
                         return newCarril
                     })       
                     let borrarDatos = { ...carrilesInsertDiagnostic[0] }
-                    borrarDatos["addFlag"] = 0
-                    console.log(borrarDatos)
+                    borrarDatos["addFlag"] = 0                    
                     Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, borrarDatos)
-                    .then((response) =>{
-                        console.log(response)
+                    .then(() =>{                        
                         carrilesInsertDiagnostic.forEach(carril => {                                                     
                             Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
                                 .then(() => {                                             

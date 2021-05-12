@@ -202,8 +202,7 @@ export default {
                             formData.append("image",imagenes);  
                         }
                         await Axios.post(rutaInsertImagenes, formData)
-                            .then((response) => {                                                                   
-                                console.log(response)
+                            .then((response) => {                                                                                                   
                                 this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
                             })
                             .catch(error => {                                                      

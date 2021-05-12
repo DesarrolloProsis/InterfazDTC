@@ -71,7 +71,7 @@ const actions = {
   async REFRESCAR_TOKEN_USER({ state }){  
     let objRefresh = { UserId: state.cookiesUser.userId }     
     await Axios.post(`${API}/login/Refresh`, objRefresh)
-      .then(response => console.log(response) )
+      .then(response => console.log(response))
       .catch(error => console.log(error) );
   }
 };

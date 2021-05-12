@@ -91,8 +91,7 @@ export default {
     /////////////////////////////////////////////////////////////////////
     methods:{
         actualizar_header(header){
-            this.datosHeader = header
-            console.log(header)
+            this.datosHeader = header            
         },
         validar_horas(){
             let horaISplite = this.datosHeader.horaInicio.split(':')            
@@ -106,8 +105,7 @@ export default {
             this.botonEditCreate = false
         },
         enviar_header_ficha(value){    
-            let llavesHeader = Object.keys(this.datosHeader)  
-            console.log(llavesHeader)          
+            let llavesHeader = Object.keys(this.datosHeader)                 
             if(llavesHeader.length == 10){            
                 let valueHeader = Object.values(this.datosHeader)
                 let validar = valueHeader.some(prop => prop == '')            

@@ -112,8 +112,7 @@ export default {
                     flagUpdate: this.reporteNuevo 
                 }) 
                 Axios.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
-                .then((response) => {               
-                    console.log(response)
+                .then(() => {                                   
                 })
                 .catch((error) => {
                     console.log(error)

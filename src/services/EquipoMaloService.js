@@ -90,15 +90,12 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         //UpRow
         arrayRequire[key_Require[14]] = true
         for(const lane of laneSelect){
-            let component = []
-            console.log(laneSelect)
-            console.log(equipoValid);
+            let component = []                        
             if(_editar == undefined)
                 component = equipoValid.find(comp => comp.lane === lane)
             else{                
                 component = equipoValid.find(comp => comp.tableFolio == lane)
-            }  
-            console.log(component)  
+            }              
             //ubicacion
             arrayRequire[key_Require[7]].push(component.lane)                
             //Marca
@@ -178,8 +175,8 @@ async function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPr
         }                
         return newObjectPartida
     }
-    catch(ex){
-        console.log(ex)        
+    catch(error){
+        console.log(error)        
     }
 }
 export default {

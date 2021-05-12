@@ -172,8 +172,8 @@ async function generar_pdf_fotografico_preventivo(referenceNumber, lane){
             xml_hhtp_request(urlTopdf, namePdf)    
         }
     })
-    .catch(Ex => {                    
-        console.log(Ex);                    
+    .catch(error => {                    
+        console.log(error);                    
     });    
 }
 function generar_pdf_calendario_escaneado(año, mes){

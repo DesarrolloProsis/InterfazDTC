@@ -136,8 +136,7 @@ function filtro_encargados_plaza (listaEncargados, plaza, nombre){
     return encargadosFiltrados
 }
 function filtro_dtc_borrado(listaBorrados, ref){
-    let listaFiltro = []
-    console.log(ref)
+    let listaFiltro = []    
     if(ref != ''){
         listaFiltro = listaBorrados.filter(dtc => dtc.refereceNumber == ref)
     }

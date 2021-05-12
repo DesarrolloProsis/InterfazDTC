@@ -428,8 +428,7 @@ beforeMount: async function () {
             array_carril.push(lane.lane);
             array_cantidad.push(lane.amount)
           }
-        });       
-        console.log(array_carril)       
+        });                  
         let cantidad = array_cantidad.every(ammont => ammont == 0) == true
         ? array_cantidad.length
         : parseInt(array_cantidad[0])          
@@ -496,8 +495,7 @@ methods: {
     }) 
     })
     setTimeout(() => {
-      new_promise.then((array) => {
-        console.log(array);
+      new_promise.then((array) => {        
         EventBus.$emit('enviar-componete', { arrayDmg: array, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
       })
       .catch((error) => {

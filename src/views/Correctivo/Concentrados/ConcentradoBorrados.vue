@@ -54,8 +54,7 @@ export default {
         Axios.get(`${API}/DtcData/GetReferencesLog`)
         .then((response)=>{
             this.listaDTC_borrados = response.data.result
-            this.listaDTC_filtrada = this.listaDTC_borrados
-            console.log(response)
+            this.listaDTC_filtrada = this.listaDTC_borrados            
         }).catch((error)=>{
             console.log(error)
         })
@@ -65,20 +64,12 @@ export default {
             Axios.get(`${API}/DtcData/GetReferencesLog`)
             .then((response)=>{
                 this.listaDTC_borrados = response.data.result
-                this.listaDTC_filtrada = this.listaDTC_borrados
-                console.log(response)
+                this.listaDTC_filtrada = this.listaDTC_borrados                
             }).catch((error)=>{
                 console.log(error)
             })
         },
-/*         filtradoDTC(value){
-            this.listaDTC_filtrada = FiltrosServices.filtro_dtc_borrado(this.listaDTC_borrados, value) 
-        },
-        limpiarDTC(){
-            this.listaDTC_filtrada = this.listaDTC_borrados
-        }, */
-        guardar_palabra_busqueda: function(newPalabra){
-        console.log(newPalabra)      
+        guardar_palabra_busqueda: function(newPalabra){        
         if (newPalabra != "") {
             let array_filtrado = this.listaDTC_filtrada.filter(item => {
                 return item.refereceNumber.toUpperCase().includes(newPalabra.toUpperCase())

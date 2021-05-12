@@ -22,16 +22,13 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
             if(plazasUserSinRepetir.find(item => item.numeroPlaza == plaza.numeroPlaza) == undefined){
                 plazasUserSinRepetir.push(plaza)
             }
-        })        
-        console.log({ plazasUserSinRepetir, objApi})
-        plazasUserSinRepetir.forEach((item) => {
-            console.log(item)
+        })                
+        plazasUserSinRepetir.forEach((item) => {            
             objApi['squareId'] = item.numeroPlaza
             Axios.post(`${API}/Calendario/ActividadMesYear/${item.referenciaPlaza}`,objApi)
             .then((response) => {                               
                 response.data.result.forEach(item => concentradoActividades.push(item))
-                store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                
-                console.log(response.data.result)
+                store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                                
             })
             .catch(error => {
                 store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", [])  
@@ -51,16 +48,11 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
         listaActidadesTipo = tipoCalendario === false 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-        : eventos_calendario_formato(objApi)         
-        console.log(listaActidadesTipo)        
-        if (status === true || status === false){ 
-            //alert('status')                 
-            listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)            
-            //console.log(listaActidadesTipo)                
-        }
-        console.log(carril)
-        if (carril != undefined){  
-            //alert('carril')      
+        : eventos_calendario_formato(objApi)                       
+        if (status === true || status === false){             
+            listaActidadesTipo = listaActidadesTipo.filter(item => item.statusMaintenance == status)                                     
+        }        
+        if (carril != undefined){              
             listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
         }
     }
@@ -121,8 +113,7 @@ function construir_objeto_actividad(listaCarriles, info){
     }    
 }
 function objeto_actividad_insertar(listaCarriles, info){
-    let idGares = []
-    console.log(info);
+    let idGares = []    
     let capufeLaneNum = []
     let daySplit = info.day.split('/')
     let user = store.getters['Login/GET_USEER_ID_PLAZA_ID']

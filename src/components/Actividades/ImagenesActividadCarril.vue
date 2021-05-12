@@ -67,9 +67,9 @@ export default {
                         this.arrayImagenes = newArrayImg                                       
                     }    
                 })
-                .catch(Ex => {                    
-                    console.log(Ex);    
-                    if(Ex.response.status == 401)
+                .catch(error => {                    
+                    console.log(error);    
+                    if(error.response.status == 401)
                         CookiesService.token_no_autorizado()               
             });
         }, 1000)
@@ -114,9 +114,9 @@ export default {
                         .then(() => {                                                                 
                             CookiesService.refrescar_bearer_token()                                                                        
                         })
-                        .catch(Ex => {                    
-                            console.log(Ex);                    
-                            if(Ex.response.status == 401)
+                        .catch(error => {                    
+                            console.log(error);                    
+                            if(error.response.status == 401)
                                 CookiesService.token_no_autorizado()
                     });  
                 }        
@@ -128,15 +128,14 @@ export default {
             }
             else{
                 this.arrayImagenes = []
-                if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    console.log(nombreImagen)
+                if(nombreImagen.split('_')[0] == this.referenceNumber){                    
                     Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {      
                             CookiesService.refrescar_bearer_token()                                                                                                        
                         })
-                        .catch(Ex => {                    
-                            console.log(Ex);  
-                            if(Ex.response.status == 401)
+                        .catch(error => {                    
+                            console.log(error);  
+                            if(error.response.status == 401)
                                 CookiesService.token_no_autorizado()
                         });  
                 } 

@@ -208,8 +208,7 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: function () {
-    this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"]; 
-    console.log(this.lista_Usuarios)
+    this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];     
     this.lista_Usuarios_Filtrada = this.lista_Usuarios
     if (this.$store.state.Login.cookiesUser.rollId == 1) {
       this.typeUser = false;
