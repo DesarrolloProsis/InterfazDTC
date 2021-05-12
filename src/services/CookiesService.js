@@ -30,7 +30,9 @@ function formato_cookies_usuario(loginSesion){
             localStorage.clear()    
             localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
             localStorage.setItem('token', JSON.stringify(tokenUser))  
-            store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList)              
+            store.dispatch("Login/BUSCAR_PLAZAS");  
+            store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList) 
+            store.commit("Header/LISTA_HEADERS_MUTATION", response.data.result.loginList);              
             resolve(cookies)                 
         })                                                       
     })

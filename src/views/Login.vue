@@ -3,7 +3,7 @@
     <div class="wrap-login100">
         <!-- //////////////////////////////////////////////////////////////////
         ////                 FORMULARIO PRINCIPAL                         ////
-        ///////////////////////////////////////////////////////////////////// -->
+        ///////////////////////////////////////////////////////////////////// -->        
       <div :class="{ 'blur-content': modal }">
         <p class="text-center text-black font-titulo font-medium text-4xl">Bienvenido</p>
         <div>
@@ -16,7 +16,7 @@
           <div class="mt-10">          
             <div class="mb-5">
               <ValidationProvider name="Usuario" rules="required" v-slot="{ errors }">
-                <input v-model="datos.user" @keyup.enter="ingresar_inicio()" 
+                <input v-model="datos.user" @keyup.enter="iniciar_sesion()" 
                   :class="{ is_valid: !errors[0], is_invalid: errors[0]}" 
                   class="w-full h-8 font-titulo font-normal"                
                   type="text" placeholder="Usuario" name="Usuario" 
@@ -27,7 +27,7 @@
             <div class="mb-5">
               <ValidationProvider name="Contraseña" rules="required" v-slot="{ errors }">
                 <div class="w-full inline-flex relative">              
-                    <input v-model="datos.password" @keyup.enter="ingresar_inicio()" 
+                    <input v-model="datos.password" @keyup.enter="iniciar_sesion()" 
                       class="w-full h-8 font-titulo font-normal" 
                       :class="{ is_valid: !errors[0], is_invalid: errors[0] }" 
                       :type="tipoInput" placeholder="Contraseña" name="Contraseña" 
@@ -42,7 +42,7 @@
             </div>          
           </div>
           <div class="container-login100-form-btn">
-            <button @click="ingresar_inicio()" type="button" class="login100-form-btn text-blue-600 outline-none" :disabled="invalid">Login</button>
+            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn text-blue-600 outline-none" :disabled="invalid">Login</button>
           </div>        
         </ValidationObserver>
       </div>
@@ -79,8 +79,13 @@
 </template>
 
 <script>
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 export default {
-  name: "Login",  
+  name: "Login", 
+  components:{
+    ValidationProvider,
+    ValidationObserver
+  }, 
   data() {
     return {
       modal: false,
@@ -125,15 +130,10 @@ export default {
         this.tecSelect = "";
       }
     },
-    ingresar_inicio: async function () {            
+    iniciar_sesion: async function () {            
       this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos)
-      .then(() => {             
-        let dataHeader = this.$store.state.Login.listaHeaderDtcUser 
-        let userTipo = this.$store.state.Login.cookiesUser.rollId                     
-        this.$store.dispatch("Login/BUSCAR_PLAZAS");                         
-        this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
-        this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");             
-        this.$store.commit("Header/LISTA_HEADERS_MUTATION", dataHeader);                      
+      .then(() => {                     
+        let userTipo = this.$store.state.Login.cookiesUser.rollId                                                                                          
         if(userTipo == 9 || userTipo == 8)
           this.$router.push("ConcentradoDTC");                                              
         else            
