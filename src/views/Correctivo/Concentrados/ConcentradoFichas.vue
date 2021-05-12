@@ -5,7 +5,7 @@
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
-                <HeaderGenerico @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" @limpiar-concentrado-diagnostico="limpiar_filtros" :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
+                <HeaderGenerico @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" @limpiar-concentrado-diagnostico="limpiar_filtros" @buscar-df="guardar_palabra_busqueda" :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 font-titulo" style="height:550px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <!--/////////////////////////////////////////////////////////////////
@@ -96,7 +96,19 @@ export default {
             console.log(error)            
         })
     },
-    methods: {       
+    methods: {   
+        guardar_palabra_busqueda: function(newPalabra){
+            console.log(newPalabra)      
+            if (newPalabra != "") {
+                    let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
+                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+                })       
+                this.infoFichasFallaFiltrada = array_filtrado;
+            }
+            else{
+                this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+            }
+        },  
         imprimir_pdf_diagnostico(referenceNumber){
             ServiceReporte.generar_pdf_diagnostico_falla(referenceNumber)
         },

@@ -30,7 +30,7 @@
       <!--/////////////////////////////////////////////////////////////////////
       /////                    FILTROS DE NAVEGACION                      ////
       ////////////////////////////////////////////////////////////////////-->   
-      <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" :titulo="'Autorizado GMMEP'" :tipo="'DTC'"></HeaderGenerico>       
+      <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" @buscar-gmmep="guardar_palabra_busqueda" :titulo="'Autorizado GMMEP'" :tipo="'GMMEP'"></HeaderGenerico>       
       <!--////////////////////////////////////////////////////////////////////
       ////                      MODAL CAMBIAR STATUS                   //////
       ////////////////////////////////////////////////////////////////////-->
@@ -86,7 +86,7 @@
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
             <tbody name="table" is="transition-group">  
-                <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in infoDTC" :key="key">                
+                <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_DTC_Filtrada" :key="key">                
                   <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                   <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
                   <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
@@ -188,7 +188,8 @@ export default {
 /////////////////////////////////////////////////////////////////////
 data: function (){
     return {      
-      infoDTC:[],            
+      infoDTC:[],
+      lista_DTC_Filtrada: [],            
       filtroVista: true,
       modalCambiarStatus: false,
       dtcEdit: {},
@@ -202,7 +203,7 @@ data: function (){
       pdfSellado:'',
       bandera:false,
       subirImgModal: false,
-      datosImg:{}
+      datosImg:{},
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -211,6 +212,7 @@ data: function (){
 beforeMount: function () {
   this.filtroVista = true
   this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
+  this.lista_DTC_Filtrada = this.infoDTC
   this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
 },
 /////////////////////////////////////////////////////////////////////
@@ -225,6 +227,18 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+guardar_palabra_busqueda: function(newPalabra){
+  console.log(newPalabra)      
+  if (newPalabra != "") {
+    let array_filtrado = this.lista_DTC_Filtrada.filter(item => {
+      return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+    })       
+    this.lista_DTC_Filtrada = array_filtrado;
+  }
+  else{
+    this.lista_DTC_Filtrada = this.infoDTC
+  }
+},  
 abrirSubir: function (item) {
   this.subirImgModal = true
   this.datosImg = item
@@ -318,7 +332,7 @@ filtro_dtc: async function (objFiltro) {
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
     let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
     this.$nextTick().then(() => {      
-        this.infoDTC = listaFiltrada            
+        this.lista_DTC_Filtrada = listaFiltrada            
     }) 
   }  
   else{
@@ -336,7 +350,7 @@ filtro_dtc: async function (objFiltro) {
 limpiar_filtros: function() {             
   this.modalLoading = true                            
   this.$nextTick().then(() => {             
-    this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);              
+    this.lista_DTC_Filtrada = this.infoDTC
   })           
 },
 recibir_pdf_sellado(e, index) { 

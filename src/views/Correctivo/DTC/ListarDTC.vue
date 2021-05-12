@@ -6,7 +6,8 @@
         ////////////////////////////////////////////////////////////////////-->
         <HeaderGenerico 
             @limpiar-filtros="limpiar_filtros" 
-            @filtrar-dtc="filtro_dtc" 
+            @filtrar-dtc="filtro_dtc"
+            @buscar-dtc="guardar_palabra_busqueda" 
             :titulo="'DTC Pendientes'" 
             :dtcVista="'pendientes'" 
             :tipo="'DTC'" 
@@ -171,7 +172,7 @@
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
           <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
           <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc">
+            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in infoDTC_Filtrado" :key="dtc">
               <CardListDTC
                 @borrar-card="confimaBorrar"
                 @editar-card="editar_header_dtc"
@@ -204,9 +205,11 @@ import Carrusel from "@/components/Carrusel";
 import ServiceFiltrosDTC from '@/services/FiltrosDTCServices'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
+  name: 'DTC Pendientes',
   data() {
     return {
-      infoDTC: [], 
+      infoDTC: [],
+      infoDTC_Filtrado: [], 
       lista_dtc: [],       
       plazasValidas: [], 
       //catalogos
@@ -255,7 +258,8 @@ created(){
 beforeMount: async function () {
   this.filtroVista = false
   this.descripciones = await this.$store.state.DTC.listaDescriptions
-  this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);   
+  this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
+  this.infoDTC_Filtrado = this.infoDTC
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
   //Lista Plaza Validas
@@ -287,6 +291,18 @@ beforeMount: async function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  guardar_palabra_busqueda: function(newPalabra){
+    console.log(newPalabra)      
+    if (newPalabra != "") {
+      let array_filtrado = this.infoDTC_Filtrado.filter(item => {
+        return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+      })       
+      this.infoDTC_Filtrado = array_filtrado;
+    }
+    else{
+      this.infoDTC_Filtrado = this.lista_dtc
+    }
+  },
   cerrarModal: function(){
     this.modalFirma = false
   },
