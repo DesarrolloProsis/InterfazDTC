@@ -9,10 +9,8 @@
                 </option>
             </select>
         </div>
-        <div v-if="forma == 'encargado'">
-            <!--<p class="text-md font-semibold mb-1 text-gray-900">Cambiar Plaza</p>-->
-            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
-                <!-- <option :disabled="tipo == 'insercion'" value>Selecionar...</option> -->
+        <div v-if="forma == 'encargado'">            
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">                
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
                 </option>
@@ -65,20 +63,17 @@ export default {
             this.convenioSelect = {}            
         });
     },
-    beforeMount: async function() {
-        if(this.fullPlazas){
-            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario 
-            this.listaPlazas = this.listaPlazas.filter(item => item.statusAdmin == true)            
-            if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
-                let plazasSinRepetir = []
-                this.listaPlazas.forEach(element => {                                        
-                    if(!plazasSinRepetir.some(item => item.numeroPlaza == element.numeroPlaza)){                        
-                        plazasSinRepetir.push(element)
-                    }
-                });                
-                this.listaPlazas = plazasSinRepetir
-            }
-        }                   
+    beforeMount: async function() {        
+        this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true)         
+        if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
+            let plazasSinRepetir = []
+            this.listaPlazas.forEach(element => {                                        
+                if(!plazasSinRepetir.some(item => item.numeroPlaza == element.numeroPlaza)){                        
+                    plazasSinRepetir.push(element)
+                }
+            });                
+            this.listaPlazas = plazasSinRepetir
+        }                      
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
@@ -104,9 +99,9 @@ export default {
         }        
     },
     methods:{    
-        actualizar_plaza: async function(){   
+        actualizar_plaza: async function(){               
             if(this.plazaSelect != ''){
-                if(this.tipo != 'filtro'){                                           
+                if(this.tipo != 'filtro'){                                                            
                     this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect.administradorId).convenioSelect
                     EventBus.$emit('ACTUALIZAR_INVENTARIO')
                 }
@@ -115,7 +110,7 @@ export default {
             else{
                 this.convenioSelect = []
                 this.$emit('actualizar-plaza', this.plazaSelect)
-            }         
+            }                 
         }
     },
     computed:{

@@ -90,9 +90,9 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
         if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
         else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
         else autoCompleteDias = diaCorriente.toString();
-        let ReferenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
-        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);
-        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);    
+        let referenceNumber = nomPlaza + "-" + newYear + autoCompleteDias;
+        await store.commit("Header/REFERENCIA_DTC_MUTATION", referenceNumber);
+        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", referenceNumber);    
         return await store.state.Header.referenciaDtc
     }
     else{
@@ -112,10 +112,10 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
         if(diaCorriente < 10) autoCompleteDias = "00" +  diaCorriente.toString();
         else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
         else autoCompleteDias = diaCorriente.toString();
-        let ReferenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
-        let newREferencee = Axios.get(`${API}/DiagnosticoFalla/GetReference/${ReferenceNumber.split('-')[0]}/${ReferenceNumber}`) 
+        let referenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
+        let newREferencee = Axios.get(`${API}/DiagnosticoFalla/GetReference/${referenceNumber.split('-')[0]}/${referenceNumber}`) 
         .then((response) => response.data.result[0])
-        .catch((error) => console.log(error))       
+        .catch((error) => console.log(error))               
         return newREferencee   
     }
 }

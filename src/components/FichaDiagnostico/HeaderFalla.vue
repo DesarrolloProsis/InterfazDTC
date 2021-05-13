@@ -346,15 +346,14 @@ methods:{
         if(tipo == 3)
             this.blockCheckBox = [false, false, true]    
     },
-    crear_referencia: async function () {      
+    crear_referencia: async function () {                   
         let objReference  = await ServiceReportePDF.crear_referencia(
             moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
             this.headerSelecionado.referenceSquare, true
         )    
-        this.datosDiagnostico.referenceNumber = objReference.referenceNumber
-              
+        this.datosDiagnostico.referenceNumber = objReference.referenceNumber              
     },
-    async cambiar_plaza(numeroPlaza) {          
+    async cambiar_plaza(numeroPlaza) {                 
         this.plazaSeleccionada = numeroPlaza 
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)

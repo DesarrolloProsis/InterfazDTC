@@ -53,7 +53,7 @@ async function refrescar_barer_token(){
         console.log(error) 
     });
 }
-async function actualizar_plaza(adminId){  
+async function actualizar_plaza(adminId){    
     let clousere_actualizar = async (adminId, tipoFiltro)  => {        
         const listaPlazas = store.state.Login.cookiesUser.plazasUsuario
         const listaHeaders = store.state.Header.listaHeaders        
@@ -70,12 +70,12 @@ async function actualizar_plaza(adminId){
                 break;     
             default:
                 break;
-        }
-        await store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
+        }        
+        store.commit('Login/PLAZA_SELECCIONADA_MUTATION', plazaSelect)                                                
         let objConvenio = { id: null, numPlaza: plazaSelect.numeroPlaza, numConvenio: convenioSelect.agrement, idConvenio: convenioSelect.agremmentInfoId }  
-        await store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
-        await store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        await store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                     
+        store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
+        store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
+        store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                             
         return { plazaSelect, convenioSelect } 
     }    
     if(adminId != undefined)
