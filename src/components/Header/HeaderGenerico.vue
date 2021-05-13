@@ -24,7 +24,7 @@
             <div class="m-3" v-if="dtcVista == 'pendientes'">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Estatus DTC</p>
                 <p class="input w-40">
-                    <select v-model="statusFiltro" @change="filtar_dtc_generico" class="w-full border-none" type="text">
+                    <select v-model="statusFiltro" class="w-full border-none" @change="filtar_dtc_generico" type="text">
                         <option value="">Selecionar...</option>     
                         <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
                     </select>
@@ -64,15 +64,6 @@
             <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Escriba la Referencia</p>
                 <p class="input w-40"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-full" placeholder="PM-000000"/></p>
-            </div> 
-            <div class="m-3" v-if="dtcVista == 'pendientes'">
-                <p class="pdtcpendientes sm:text-sm sm:text-center">Estatus DTC</p>
-                <p class="input w-40">
-                    <select v-model="statusFiltro" class="w-full border-none" type="text">
-                        <option value="">Selecionar...</option>     
-                        <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
-                    </select>
-                </p>
             </div>     
     </div>
     <!-- ////////////////////////////////////////////////////////////////////
@@ -182,7 +173,7 @@
                 </div>
             <div class=" m-3">
                 <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full is_valid" type="date"/>
+                <input v-model="fechaFiltro" class="border w-40 sm:w-full is_valid" @change="filtar_concentrado_diagnostico_falla" type="date"/>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
@@ -352,10 +343,17 @@ export default {
         //Metodos Concentrado de Diagnostico Falla
         limpiar_filtros_diagnostico_falla: function(){
             this.buscarDF = ''
+            this.ubicacion = ''
+            this.fechaFiltro = ''
             this.$emit('limpiar-concentrado-diagnostico')
         },
         filtar_concentrado_diagnostico_falla: function(){            
-            this.$emit('filtrar-concentrado-diagnostico', {nombrePlaza: this.plazaSeleccionada, fecha: this.fechaFiltro, numeroReferencia: this.referenciaFiltro,ubicacion: this.ubicacion})
+            this.$emit('filtrar-concentrado-diagnostico', {
+                nombrePlaza: this.plazaSeleccionada,
+                fecha: this.fechaFiltro,
+                //numeroReferencia: this.referenciaFiltro,
+                ubicacion: this.ubicacion
+            })
         }
     },
     watch:{

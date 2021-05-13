@@ -145,7 +145,7 @@ function filtro_dtc_borrado(listaBorrados, ref){
 function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){        
     let listaFiltrada = []
     if(objFiltro.plaza != ''){
-        listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareId == objFiltro.plaza)
+        listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareId.includes(objFiltro.plaza))
     }
     if(objFiltro.numeroReferencia != ''){
         if(listaFiltrada.length == 0)
