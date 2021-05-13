@@ -58,7 +58,7 @@
             </div>
             <div class=" m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <p class="input w-40"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" type="date"/></p>
+                <p class="input w-40"><input v-model="fechaFiltro" @change="filtar_dtc_generico" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
