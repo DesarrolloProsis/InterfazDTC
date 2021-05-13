@@ -14,12 +14,12 @@
             </div>
             <div class=" m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <p class="input w-40"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" type="date"/></p>
+                <p class="input w-40"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" @change="filtar_dtc_generico" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Escriba la Referencia</p>
-                <p class="input w-40"><input v-model="buscarDTC" class="border-none w-40 text-center sm:w-full" placeholder="PM-000000"/></p>
+                <p class="input w-40"><input v-model="buscarDTC" class="border-none w-40 text-center sm:w-full"  placeholder="PM-000000"/></p>
             </div> 
             <div class="m-3" v-if="dtcVista == 'pendientes'">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Estatus DTC</p>
@@ -30,10 +30,10 @@
                     </select>
                 </p>
             </div>     
-    </div>
-    <!-- ////////////////////////////////////////////////////////////////////
-        ///                    BOTONES DE NAVEGACION  DTC               ////
-       ////////////////////////////////////////////////////////////////////-->
+        </div>
+        <!-- ////////////////////////////////////////////////////////////////////
+        ///                    BOTONES DE NAVEGACION  DTC                   ////
+        ////////////////////////////////////////////////////////////////////-->
         <div class="-mt-1 mb-4 text-center">
             <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar font-boton">
                 <img src="../../assets/img/escoba.png" class="" width="25" height="2"/>
