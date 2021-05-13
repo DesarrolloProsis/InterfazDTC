@@ -13,35 +13,14 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         año = fecha_comodin.getFullYear()
     }       
     let listaActidadesTipo = []    
-    if(ref != undefined){
-        //alert()
-        let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
-        let plazasUserSinRepetir = []
-        let concentradoActividades = []
-        store.state.Login.cookiesUser.plazasUsuario.forEach(plaza => {
-            if(plazasUserSinRepetir.find(item => item.numeroPlaza == plaza.numeroPlaza) == undefined){
-                plazasUserSinRepetir.push(plaza)
-            }
-        })                
-        plazasUserSinRepetir.forEach((item) => {            
-            objApi['squareId'] = item.numeroPlaza
-            Axios.post(`${API}/Calendario/ActividadMesYear/${item.referenciaPlaza}`,objApi)
-            .then((response) => {                               
-                response.data.result.forEach(item => concentradoActividades.push(item))
-                store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", response.data.result)                                
+    if(ref != undefined){     
+        let objApiNuevo = { "userId": user.idUser, referenceNumber: ref }        
+        listaActidadesTipo = await Axios.post(`${API}/Calendario/GetActividadesFiltroReferencia`, objApiNuevo)
+            .then((response) => {
+                return response.data.result
             })
-            .catch(error => {
-                store.commit("Actividades/ACTIVIDADES_MENSUALES_MUTATION", [])  
-                console.log(error)                                                      
-            });
-        })
-        setTimeout( () =>{            
-            concentradoActividades.forEach(item => {
-                if(item.referenceNumber.toUpperCase().includes(ref)){
-                    listaActidadesTipo.push(item)
-                }
-            })         
-        }, 1000)
+            .catch((error) => console.log(error))
+   
     }
     else{   
         let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
@@ -56,7 +35,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
             listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
         }
     }
-    
+    console.log(listaActidadesTipo)
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,

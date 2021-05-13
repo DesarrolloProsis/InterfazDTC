@@ -114,8 +114,8 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
         else autoCompleteDias = diaCorriente.toString();
         let ReferenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
         let newREferencee = Axios.get(`${API}/DiagnosticoFalla/GetReference/${ReferenceNumber.split('-')[0]}/${ReferenceNumber}`) 
-        .then((response) => response.data.result[0])
-        .catch((error) => console.log(error))       
+            .then((response) => response.data.result[0])
+            .catch((error) => console.log(error))       
         return newREferencee   
     }
 }
