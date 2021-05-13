@@ -165,12 +165,6 @@ const routes = [
     path: '/InventarioDetalle',
     name: 'InventarioDetalle',
     component: InventarioDetalle,
-    beforeEnter: async function (to, from, next) {
-      let plaza = store.getters['Header/GET_CONVENIO_PLAZA']
-      await store.dispatch('Refacciones/BUSCAR_COMPONETES_INVENTARIO', plaza)
-      await store.dispatch('Refacciones/BUSCAR_UBICACION_GENERAL_INVENTARIO')
-      next()
-    }
   },  
   {
     path: '/ReportesMantenimiento',

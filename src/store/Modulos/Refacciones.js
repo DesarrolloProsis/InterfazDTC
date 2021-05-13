@@ -47,19 +47,6 @@ const mutations = {
   CARRILES_MUTATION: (state, value) => state.carriles = value
 }
 const actions = {
-  async BUSCAR_COMPONETES_INVENTARIO({ commit, rootGetters }, value) {
-    commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", []);    
-    
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
-    .then(response => {      
-      
-      
-      commit("LISTA_REFACCIONES_INVENTARIO_MUTATION", response.data.result);
-    })
-    .catch(error => {
-      console.log(error);                  
-    });
-  },
   async BUSCAR_CARRILES_INVENTARIO({ commit, rootGetters }, value){
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.numPlaza}`)
     .then(response => {      
@@ -76,16 +63,6 @@ const actions = {
     })
     .catch(error => {
       console.log(error);       
-    });
-  },
-  async BUSCAR_UBICACION_GENERAL_INVENTARIO({ commit, rootGetters }){
-    commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", []);
-    await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
-    .then(response => {          
-      commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
-    })
-    .catch(error => {
-      console.log(error);          
     });
   },
   async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
