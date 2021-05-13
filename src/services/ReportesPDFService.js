@@ -113,10 +113,10 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
         else if (diaCorriente < 100) autoCompleteDias = "0" + diaCorriente.toString();
         else autoCompleteDias = diaCorriente.toString();
         let ReferenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
-        await store.commit("Header/REFERENCIA_DTC_MUTATION", ReferenceNumber);//QUITAR
-        await store.dispatch("Header/BUSCAR_REFERENCIA_DTC_VALIDA", ReferenceNumber);//QUITAR
-        //HACER UNA PETICION AXIOS    
-        return await store.state.Header.referenciaDtc
+        let newREferencee = Axios.get(`${API}/DiagnosticoFalla/GetReference/${ReferenceNumber.split('-')[0]}/${ReferenceNumber}`) 
+        .then((response) => response.data.result[0])
+        .catch((error) => console.log(error))       
+        return newREferencee   
     }
 }
 async function crear_referencia_calendario(numeroReferencia, tipoReferencia, fechaActividad, carril){   

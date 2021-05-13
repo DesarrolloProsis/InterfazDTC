@@ -242,8 +242,7 @@ data(){
     }
 },
 beforeMount: async function(){      
-    if(this.$route.params.tipoVista != 'Crear'){ 
-                
+    if(this.$route.params.tipoVista != 'Crear'){                 
         if(this.$route.query.data != undefined){  
             this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
             this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
@@ -348,16 +347,12 @@ methods:{
             this.blockCheckBox = [false, false, true]    
     },
     crear_referencia: async function () {      
-        let _arrayReference  = await ServiceReportePDF.crear_referencia(
+        let objReference  = await ServiceReportePDF.crear_referencia(
             moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
             this.headerSelecionado.referenceSquare, true
         )    
-        if(typeof(_arrayReference) == 'object'){
-            return this.arrayReference = _arrayReference
-        }
-        else{
-            return this.datosDiagnostico.referenceNumber = _arrayReference
-        }          
+        this.datosDiagnostico.referenceNumber = objReference.referenceNumber
+              
     },
     async cambiar_plaza(numeroPlaza) {  
         this.plazaSeleccionada = numeroPlaza 
