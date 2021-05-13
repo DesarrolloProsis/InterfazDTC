@@ -24,7 +24,7 @@
             <div class="m-3" v-if="dtcVista == 'pendientes'">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Estatus DTC</p>
                 <p class="input w-40">
-                    <select v-model="statusFiltro" class="w-full border-none" type="text">
+                    <select v-model="statusFiltro" @change="filtar_dtc_generico" class="w-full border-none" type="text">
                         <option value="">Selecionar...</option>     
                         <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
                     </select>
