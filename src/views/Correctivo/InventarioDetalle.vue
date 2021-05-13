@@ -184,7 +184,7 @@ export default {
     actualizar_componente: async function () {
       let idUbicacion = this.listaUbicacionGeneral.filter(
         (x) => x.ubicacion == this.objDatos.ubicacionGeneral
-      );
+      );      
       let parametros = {
         infoComponentes: this.objDatos,
         infoPlaza: this.infoPlaza,

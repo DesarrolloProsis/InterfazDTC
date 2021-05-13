@@ -165,6 +165,10 @@ const routes = [
     path: '/InventarioDetalle',
     name: 'InventarioDetalle',
     component: InventarioDetalle,
+    beforeEnter: async function (to, from, next) {            
+      await store.dispatch('Refacciones/BUSCAR_UBICACION_GENERAL_INVENTARIO')
+      next()
+    }
   },  
   {
     path: '/ReportesMantenimiento',

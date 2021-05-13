@@ -5,8 +5,7 @@ const state = {
   listaRefaccionesValid: [],
   listaLane: [],
   //Inventario
-  listaInventario: [],
-  listaLaneInventario: [],
+  listaInventario: [],  
   infoComponenteInventario: [],
   listaUbicacionGeneralInventario: [],
   full_Component: [],
@@ -31,15 +30,13 @@ const mutations = {
   LISTA_LANE_MUTATION: (state, value) => state.listaLane = value,
   LISTA_REFACCIONES_VALIDAS_MUTATION: (state, value) => state.listaRefaccionesValid = value,
   //Inventario
-  LISTA_REFACCIONES_INVENTARIO_MUTATION: (state, value) => state.listaInventario = value,
-  LISTA_LANE_INVENTARIO_MUTATION: (state, value) => state.listaLaneInventario = value,  
+  LISTA_REFACCIONES_INVENTARIO_MUTATION: (state, value) => state.listaInventario = value,  
   INFO_COMPONENTE_INVENTARIO_MUTATION: (state, value) => state.infoComponenteInventario = value,
   LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION: (state, value) => state.listaUbicacionGeneralInventario = value,
   cleanOut: (state) => {
     state.infoComponenteInventario = []
     state.listaInventario = []
-    state.listaLane = []
-    state.listaLaneInventario = []
+    state.listaLane = []    
     state.listaRefacciones = []
     state.listaRefaccionesValid = []
     state.listaUbicacionGeneralInventario = []
@@ -47,15 +44,6 @@ const mutations = {
   CARRILES_MUTATION: (state, value) => state.carriles = value
 }
 const actions = {
-  async BUSCAR_CARRILES_INVENTARIO({ commit, rootGetters }, value){
-    await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.numPlaza}`)
-    .then(response => {      
-      commit("LISTA_LANE_INVENTARIO_MUTATION", response.data.result);
-    })
-    .catch(error => {
-      console.log(error);                  
-    });
-  },
   async BUSCAR_INFO_COMPONENTES_INVENTARIO({ commit, rootGetters }, value){
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
     .then(response => {    
@@ -63,6 +51,16 @@ const actions = {
     })
     .catch(error => {
       console.log(error);       
+    });
+  },
+  async BUSCAR_UBICACION_GENERAL_INVENTARIO({ commit, rootGetters }){
+    commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", []);
+    await Axios.get(`${API}/component/InventarioUbicacion/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
+    .then(response => {          
+      commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
+    })
+    .catch(error => {
+      console.log(error);          
     });
   },
   async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
@@ -78,9 +76,11 @@ const actions = {
       intUbicacion: value.infoUbicacionGeneral[0].typeUbicationId,
       strMaintenanceDate: value.infoComponentes.fechaUltimoMantenimiento,
       strMaintenanceFolio: value.infoComponentes.folioUltimoMantenimiento
-    }          
+    }       
+    console.log(newObject);       
     await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
-    .then(() => {          
+    .then((response) => {          
+      console.log(response)
     })
     .catch(error => {
       console.log(error)                  
@@ -112,7 +112,7 @@ const actions = {
         console.log(error)
       })
   },
-  async FULL_COMPONETES({ commit, rootGetters }, value){    
+  async FULL_COMPONETES({ commit, rootGetters }, value){
     await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
       .then(response => {                               
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
@@ -121,9 +121,10 @@ const actions = {
         console.log(error)
       })
   },
-  async EDIT_COMPONETE_QUICK({ rootGetters }, value){
+  async EDIT_COMPONETE_QUICK({ dispatch, rootGetters }, value){
     await Axios.put(`${API}/Component/UpdateInventoryList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, value)
-      .then(() => {                                  
+      .then(() => {                      
+        dispatch('FULL_COMPONETES')       
       })
       .catch(error => {        
         console.log(error)                     
