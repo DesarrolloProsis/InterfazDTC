@@ -159,7 +159,8 @@ export default {
     crear_array_paginacion: function (tipo) {
       if (tipo === "inicio") {
         this.arrayPaginacion = ["Anterior", 1, 2, 3, "Mas"];
-      } else if (tipo === "mas") {
+      } 
+      else if (tipo === "mas") {
         let new_array = ["Anterior", 1];
         let ultima_pagina = this.arrayPaginacion[this.arrayPaginacion.length - 2];
         let i = ultima_pagina + 1;
@@ -174,7 +175,8 @@ export default {
         }
         new_array.push("Mas");
         this.arrayPaginacion = new_array;
-      } else if (tipo == "anterior") {
+      } 
+      else if (tipo == "anterior") {
         let new_array = [];
         if (this.arrayPaginacion[2] > 2) {
           new_array.push("Anterior");
@@ -231,9 +233,9 @@ export default {
     guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
         this.modalLoading = true
-        let convenio = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+        let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
-        await this.$store.dispatch("Refacciones/FULL_COMPONETES", convenio);
+        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });
         this.cambiar_pagina(1);
         this.listEditados = [];
         setTimeout(() => {

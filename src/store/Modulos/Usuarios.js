@@ -12,11 +12,9 @@ const mutations = {
   USUARIOS_MUTATION: (state, value) => state.listaUsuarios =  value
 }
 const actions = {
-    async Consulta_Users({commit}, value){  
-      console.log(value)    
+    async Consulta_Users({commit}, value){         
         await Axios.post(`${API}/User/consulta`,value)
-            .then(response => {   
-              console.log(response)                           
+            .then(response => {                                     
               commit("USUARIOS_MUTATION", response.data.result);              
             })
             .catch(error => {

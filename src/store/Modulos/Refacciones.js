@@ -135,7 +135,7 @@ const actions = {
         console.log(error)
       })
   },
-  async FULL_COMPONETES({ commit, rootGetters }, value){
+  async FULL_COMPONETES({ commit, rootGetters }, value){    
     await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
       .then(response => {                               
           commit("FULL_COMPONENT_MUTATION", response.data.result)          
@@ -144,10 +144,9 @@ const actions = {
         console.log(error)
       })
   },
-  async EDIT_COMPONETE_QUICK({ dispatch, rootGetters }, value){
+  async EDIT_COMPONETE_QUICK({ rootGetters }, value){
     await Axios.put(`${API}/Component/UpdateInventoryList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, value)
-      .then(() => {                      
-        dispatch('FULL_COMPONETES')       
+      .then(() => {                                  
       })
       .catch(error => {        
         console.log(error)                     
