@@ -80,6 +80,7 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import CookiesService from '../services/CookiesService'
 export default {
   name: "Login", 
   components:{
@@ -133,7 +134,8 @@ export default {
     iniciar_sesion: async function () {            
       this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos)
       .then(() => {                     
-        let userTipo = this.$store.state.Login.cookiesUser.rollId                                                                                          
+        let userTipo = this.$store.state.Login.cookiesUser.rollId        
+        CookiesService.actualizar_plaza()
         if(userTipo == 9 || userTipo == 8)
           this.$router.push("ConcentradoDTC");                                              
         else            

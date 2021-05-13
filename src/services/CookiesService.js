@@ -33,8 +33,7 @@ function formato_cookies_usuario(loginSesion){
             store.dispatch("Login/BUSCAR_PLAZAS");  
             store.commit("Login/LISTA_HEADER_PLAZA_USER_MUTATION", response.data.result.loginList) 
             store.dispatch("Usuarios/Consulta_Users", {id: cookies.userId, square: cookies.plazasUsuario[0].refereciaPlaza})
-            store.commit("Header/LISTA_HEADERS_MUTATION", response.data.result.loginList);      
-            this.actualizar_plaza()                    
+            store.commit("Header/LISTA_HEADERS_MUTATION", response.data.result.loginList);                                    
             resolve(cookies)                 
         })                                                       
     })

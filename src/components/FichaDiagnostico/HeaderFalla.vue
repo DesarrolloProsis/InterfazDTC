@@ -354,14 +354,11 @@ methods:{
         this.datosDiagnostico.referenceNumber = objReference.referenceNumber
               
     },
-    async cambiar_plaza(numeroPlaza) {  
+    async cambiar_plaza(numeroPlaza) {          
         this.plazaSeleccionada = numeroPlaza 
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-        this.crear_referencia()      
-        if (JSON.stringify(this.headerEdit) != "{}") {
-            this.datosDiagnostico.referenceNumber = this.headerEdit.referenceNumber;
-        }
+        this.crear_referencia()               
     },
     label_multi_select(value){            
         if(value != 'Sin Actividad')
