@@ -191,7 +191,7 @@
             </div> 
             <div class="m-3">
                 <p class="font-bold sm:text-sm mb-2 sm:text-center">Ubicación (Carril):</p>
-                <select class="is_valid" v-model="ubicacion" type="text">
+                <select class="is_valid" v-model="ubicacion" @change="filtar_concentrado_diagnostico_falla" type="text">
                     <option value="">Selecionar...</option>
                     <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                 </select>                
@@ -305,6 +305,7 @@ export default {
             this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
             this.filtrar_encargados()
             this.filtar_dtc_generico()
+            this.filtar_concentrado_diagnostico_falla()
         },
         //Metodos Para Inventario
         cancelar_filtro_inventario: function(){
@@ -354,12 +355,7 @@ export default {
             this.$emit('limpiar-concentrado-diagnostico')
         },
         filtar_concentrado_diagnostico_falla: function(){            
-            this.$emit('filtrar-concentrado-diagnostico', {
-                nombrePlaza: this.plazaSeleccionada,
-                fecha: this.fechaFiltro,
-                numeroReferencia: this.referenciaFiltro,
-                ubicacion: this.ubicacion
-            })
+            this.$emit('filtrar-concentrado-diagnostico', {nombrePlaza: this.plazaSeleccionada, fecha: this.fechaFiltro, numeroReferencia: this.referenciaFiltro,ubicacion: this.ubicacion})
         }
     },
     watch:{
