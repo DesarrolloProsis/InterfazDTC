@@ -142,11 +142,10 @@ function filtro_dtc_borrado(listaBorrados, ref){
     }
     return listaFiltro
 } 
-function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){  
-    console.log(objFiltro.numPlaza)      
-    let listaFiltrada = []
+function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){            
+    let listaFiltrada = []    
     if(objFiltro.numPlaza != ''){
-        listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareCatalogId == objFiltro.numPlaza)
+        listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareId == objFiltro.numPlaza)
     }
     if(objFiltro.fecha != '' ){
         if(listaFiltrada.length == 0)
