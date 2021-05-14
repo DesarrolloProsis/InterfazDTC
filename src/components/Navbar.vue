@@ -19,6 +19,7 @@
           </button>
           <ul id="testListaAccesoRapido" v-if="listaAccesoRapido.length > 0" class="bg-white border rounded-lg transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top min-w-32 -ml-16">            
             <router-link v-for="(item, key) in listaAccesoRapido" :key="key" :to="item.path"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">{{ item.texto }}</li></router-link>                             
+            <button @click="manual_pdf"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">Manual de Usuario</li></button>
           </ul>   
         </div>      
         <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg font-titulo border-black hover:border-black hover:text-white hover:bg-red-700">Salir</router-link>
@@ -27,6 +28,7 @@
   </div>
 </template>
 <script>
+import ReportesPDFService from '../services/ReportesPDFService'
 export default {
   name: 'NavBar',
   data(){
@@ -39,7 +41,7 @@ export default {
         { texto: 'Auto. GMMEP', path: '/ConcentradoDTC', rollValidos: [4, 7, 10]},
         { texto: 'Calendario Historico', path: '/CalendarioHistorico', rollValidos: [4, 7]},
         { texto: 'Inventario', path: '/Inventario', rollValidos: [7, 10]},
-        { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]},
+        { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]}
       ]
     }
   },
@@ -56,7 +58,12 @@ export default {
       }
       return []
     }
-  }     
+  },
+  methods:{
+    manual_pdf(){
+      ReportesPDFService.manual_pdf()
+    }
+  }    
 };
 </script>
 <style >

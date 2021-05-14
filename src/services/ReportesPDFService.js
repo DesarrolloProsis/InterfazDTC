@@ -195,6 +195,12 @@ function generar_pdf_ficha_falla(referenceNumber){
     let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)        
 }
+function manual_pdf(){
+    let manual = `${API}/Manual/getManual`
+    let namePdf = 'Manual de Usuario'
+    xml_hhtp_request(manual, namePdf)
+
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
@@ -204,5 +210,6 @@ export default {
     generar_pdf_fotografico_preventivo,
     generar_pdf_calendario_escaneado,
     generar_pdf_diagnostico_falla,
-    generar_pdf_ficha_falla    
+    generar_pdf_ficha_falla,
+    manual_pdf
 }
