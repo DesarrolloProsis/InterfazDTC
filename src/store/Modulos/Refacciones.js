@@ -85,7 +85,7 @@ const actions = {
       commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result);
     })
     .catch(error => {
-      console.log(error);          
+      console.log(error);
     });
   },
   async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
