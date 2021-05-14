@@ -63,16 +63,22 @@
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia*:</p>
                                     <input v-model="referenceNumber" class="text-center input" placeholder="Referencia" type="text">
                                 </div>
+                                <div class="mt-2 ml-4">
+                                    <button @click="limpiar_filtros" class="botonTodos">
+                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
+                                        <span class="">Todos</span>
+                                    </button>
+                                </div>
                             </div>                           
                         </div>
-                        <div class="text-center sm:flex mb-4 ml-16 mt-2 sm:ml-4">
+                        <div class="text-center sm:flex mb-4 ml-16 mt-2 sm:ml-4 hidden">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>
                             </button>
-                            <button @click="limpiar_filtros" class="botonIconLimpiar">
-                                <img src="../../assets/img/escoba.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
-                                <span class="text-xs">Limpiar Filtro *</span>
+                            <button @click="limpiar_filtros" class="botonTodos">
+                                <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
+                                <span class="">Todos</span>
                             </button>
                         </div>                          
                     </div>                                        

@@ -34,7 +34,7 @@ export default {
       accesoRapidoVistas: [
         { texto: 'Nuevo DTC', path: '/NuevoDtc/Crear', rollValidos: [1, 10]},
         { texto: 'DTC Pendiente', path: '/ListarDtc', rollValidos: [1, 10]},
-        { texto: 'Calendario', path: '/CalendarioActividades', rollValidos: [1, 4]},
+        { texto: 'Calendario', path: '/CalendarioActividades', rollValidos: [1]},
         { texto: 'Revisar DTC', path: '/ListarDtc', rollValidos: [4, 7]},
         { texto: 'Auto. GMMEP', path: '/ConcentradoDTC', rollValidos: [4, 7, 10]},
         { texto: 'Calendario Historico', path: '/CalendarioHistorico', rollValidos: [4, 7]},
