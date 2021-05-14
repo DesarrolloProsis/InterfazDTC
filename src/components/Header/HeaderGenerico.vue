@@ -58,7 +58,7 @@
             </div>
             <div class=" m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <p class="input w-40"><input v-model="fechaFiltro" @change="filtar_dtc_generico" class="border-none w-40 sm:w-full" type="date"/></p>
+                <p class="input w-40"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
@@ -69,13 +69,13 @@
     <!-- ////////////////////////////////////////////////////////////////////
         ///                    BOTONES DE NAVEGACION  DTC               ////
        ////////////////////////////////////////////////////////////////////-->
-        <div class="-mt-1 mb-4 text-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar font-boton">
-                <img src="../../assets/img/escoba.png" class="" width="25" height="2"/>
-                <span>Limpiar</span>
+        <div class="-mt-1 mb-4 text-center justify-items-center">
+            <button @click="limpiar_filtros_dtc" class="w-32 botonIconBuscar font-boton">
+                <img src="../../assets/img/mostrar.png" class="mr-4" width="25" height="2"/>
+                <span class="-ml-2">Todos</span>
             </button>
-            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton ">
-                <img src="../../assets/img/lupa.png" class="" width="25" height="2"/>
+            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton hidden">
+                <img src="../../assets/img/lupa.png" class="mr-4" width="25" height="2"/>
                 <span >Buscar</span>
             </button>
         </div>
@@ -128,13 +128,13 @@
             </div>             
         </div>
         <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
-            <button class="botonIconBuscar font-boton" @click="filtrar_encargados">
+            <button class="botonIconBuscar font-boton hidden" @click="filtrar_encargados">
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
             </button>
-            <button class="botonIconLimpiar font-boton" @click="limpiar_encargados">
-                <img src="../../assets/img/escoba.png" class="mr-2" width="25" height="25" />
-                <span>Limpiar</span>
+            <button class="botonIconBuscar font-boton" @click="limpiar_encargados">
+                <img src="../../assets/img/usuarios.png" class="mr-2" width="25" height="25" />
+                <span>Todos</span>
             </button>
         </div> 
         </div>
@@ -345,11 +345,12 @@ export default {
             this.buscarDF = ''
             this.ubicacion = ''
             this.fechaFiltro = ''
+            EventBus.$emit('Limpiar-SelectPlaza')
             this.$emit('limpiar-concentrado-diagnostico')
         },
         filtar_concentrado_diagnostico_falla: function(){            
             this.$emit('filtrar-concentrado-diagnostico', {
-                nombrePlaza: this.plazaSeleccionada,
+                numPlaza: this.plazaFiltro,
                 fecha: this.fechaFiltro,
                 //numeroReferencia: this.referenciaFiltro,
                 ubicacion: this.ubicacion

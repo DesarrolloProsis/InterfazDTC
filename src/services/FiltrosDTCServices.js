@@ -142,16 +142,11 @@ function filtro_dtc_borrado(listaBorrados, ref){
     }
     return listaFiltro
 } 
-function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){        
+function filtros_concentrado_diagnostico(listaDiagnostico, objFiltro){  
+    console.log(objFiltro.numPlaza)      
     let listaFiltrada = []
-    if(objFiltro.plaza != ''){
-        listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareId.includes(objFiltro.plaza))
-    }
-    if(objFiltro.numeroReferencia != ''){
-        if(listaFiltrada.length == 0)
-            listaFiltrada = listaDiagnostico.filter(ficha => ficha.referenceNumber.includes(objFiltro.numeroReferencia))
-        else
-            listaFiltrada = listaFiltrada.filter(ficha => ficha.referenceNumber.includes(objFiltro.numeroReferencia))
+    if(objFiltro.numPlaza != ''){
+        listaFiltrada = listaDiagnostico.filter(ficha => ficha.squareCatalogId == objFiltro.numPlaza)
     }
     if(objFiltro.fecha != '' ){
         if(listaFiltrada.length == 0)

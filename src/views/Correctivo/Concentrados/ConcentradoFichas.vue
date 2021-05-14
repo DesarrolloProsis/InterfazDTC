@@ -118,9 +118,8 @@ export default {
         filtrar_concentrado_diagnostico(objFiltro){            
             this.infoFichasFallaFiltrada = []
             this.infoFichasFallaFiltrada = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
-            console.log(objFiltro)
         },
-        limpiar_filtros(){   
+        limpiar_filtros(){
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
         },
         editar_diagnostico_falla(item){
