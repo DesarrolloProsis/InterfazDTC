@@ -15,7 +15,7 @@
                         ////////////////////////////////////////////////////////////////////-->
                         <div class="m-3 font-titulo">
                         <p class="font-bold sm:text-sm mb-5 tex-2xl">Selecciones el Tramo</p>
-                            <select v-model="tramoFiltro" @change="tramo_cascada" class="w-full is_valid" type="text">
+                            <select v-model="tramoFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
                                 <option value="">Selecionar...</option>  
                                 <option value="1">Mexico-Acapulco</option>
                                 <option value="2">Mexico-Irapuato</option>                                             
@@ -26,7 +26,7 @@
                             ////////////////////////////////////////////////////////////////////-->
                         <div class="m-3 font-titulo">
                             <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
-                            <select v-model="plazaFiltro" class="w-full is_valid" type="text">
+                            <select v-model="plazaFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
                                 <option value="">Selecionar...</option>     
                                 <option v-for="(item, index) in listaPlazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option> 
                             </select>
@@ -36,7 +36,7 @@
                             ////////////////////////////////////////////////////////////////////-->        
                         <div class="m-3 font-titulo">                            
                             <p class="font-bold sm:text-sm mb-5">Seleccione el Año</p>
-                            <select v-model="añoFiltro" class="w-full is_valid" type="text">
+                            <select v-model="añoFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
                                 <option value="">Selecionar...</option>     
                                 <option value="2020">2020</option>
                                 <option value="2021">2021</option>                            
@@ -47,7 +47,7 @@
                             ////////////////////////////////////////////////////////////////////-->
                         <div class="m-3 font-titulo">
                             <p class="font-bold mb-5 sm:text-sm">Seleccione el Mes</p>
-                            <select v-model="mesFiltro" class="w-full is_valid" type="text">
+                            <select v-model="mesFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
                                 <option value="">Selecionar...</option>     
                                 <option value="1">Enero</option>
                                 <option value="2">Febrero</option>
@@ -68,11 +68,11 @@
                         ////                  BOTONES FILTROS                        ////
                         /////////////////////////////////////////////////////////////////-->
                     <div class="m-3 text-center">
-                        <button @click.prevent="limpiar_filtros" class="botonIconLimpiar font-boton">
-                            <img src="../../assets/img/bin.png" class="mr-2" width="20" height="2"/>
-                            <span>Limpiar</span>
+                        <button @click.prevent="limpiar_filtros" class="botonTodosGMMEP font-boton">
+                            <img src="../../assets/img/all.png" class="mr-2" width="20" height="2"/>
+                            <span>Todos</span>
                         </button>
-                        <button @click.prevent="filtros_calendario()" class="botonIconBuscar font-boton">
+                        <button @click.prevent="filtros_calendario()" class="botonIconBuscar font-boton hidden">
                             <img src="../../assets/img/lupa.png" class="mr-2" width="20" height="2"/>
                             <span>Buscar</span>
                         </button>
