@@ -24,7 +24,11 @@
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
                     <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-if="type == 'DIAG'">Diagnóstico de Falla</h1>
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-else>Ficha Técnica de Atención</h1>        
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-else>
+                        <span class="bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-gray-600  py-2 px-6 inline-flex items-center ml-4 mr-4">
+                            Ficha Técnica de Atención
+                        </span>
+                    </h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      

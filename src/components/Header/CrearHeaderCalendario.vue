@@ -39,7 +39,7 @@
                         <div v-if="calendarioEscaneado">
                             <button @click="obtener_escaneado_calendario" class="botonIconDescargar mb-1 sm:mt-2">
                                 <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                    <span class="text-xs sm:hidden">Descargar Calendario Escaneado</span>
+                                    <span class="text-xs sm:hidden">Descargar</span>
                             </button>
                         </div>
                         <div v-else>
@@ -54,7 +54,7 @@
                             <div v-else class=" justify-center botonIconDescargar">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>
                                     <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                    <span>Subir Escaneado</span>                                                                       
+                                    <span>Cargar</span>                                                                       
                             </div>
                         </div>
                     </div>

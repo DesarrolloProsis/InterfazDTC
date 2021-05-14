@@ -35,8 +35,8 @@
         ///                    BOTONES DE NAVEGACION  DTC                   ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="-mt-1 mb-4 text-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonTodosGMMEP font-boton">
-                <img src="../../assets/img/all.png" class="mr-2" width="25" height="2"/>
+            <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton">
+                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
                 <span>Todos</span>
             </button>
             <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton hidden">
@@ -132,8 +132,8 @@
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
             </button>
-            <button class="botonIconBuscar font-boton" @click="limpiar_encargados">
-                <img src="../../assets/img/usuarios.png" class="mr-2" width="25" height="25" />
+            <button class="botonTodos font-boton" @click="limpiar_encargados">
+                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" />
                 <span>Todos</span>
             </button>
         </div> 
