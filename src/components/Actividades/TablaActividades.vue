@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
                                     <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia*:</p>
-                                    <input type="text" v-model="referenceNumber" placeholder="Referencia" class="text-center input">
+                                    <input v-model="referenceNumber" class="text-center input" placeholder="Referencia" type="text">
                                 </div>
                             </div>                           
                         </div>
@@ -183,8 +183,11 @@ computed:{
 },
 watch: {
     referenceNumber(newValue){
-        if(newValue.length == 0) this.blockSelect = false
-        else this.blockSelect = true
+        if(newValue.length == 0)this.blockSelect = false        
+        else {
+             this.filtrar_actividades_mensuales()
+            this.blockSelect = true
+        }
     }
 },
 /////////////////////////////////////////////////////////////////////

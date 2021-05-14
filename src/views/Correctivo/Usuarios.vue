@@ -78,7 +78,7 @@
                         </multiselect>
                     </div>
                     <div class="mt-5 text-center ml-6">
-                        <button class="botonIconBuscar font-boton">Guardar</button>
+                        <button @click="guardar_nuevo_usuario" class="botonIconBuscar font-boton">Guardar</button>
                         <button @click="modalEditar = false" class="botonIconCancelar font-boton">Cancelar</button>
                     </div>
                 </div>
@@ -194,7 +194,7 @@ export default {
       //Metodos Nuevos
       modalEditar: false,
       objUsuarioNuevo:{
-        nobre: '',
+        nombre: '',
         apellidoM: '',
         apellidoP: '',
         correo: '',
@@ -233,7 +233,12 @@ export default {
     borrar_usuario(item) {
       let User = { id: item.userId, square: ""};
       this.$store.dispatch("Usuarios/BorrarUser", User);
-    },    
+    },  
+    guardar_nuevo_usuario(){            
+      this.objUsuarioNuevo.tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
+      this.objUsuarioNuevo.plazas = this.objUsuarioNuevo.plazas.map(item => item.squareCatalogId)
+      console.log(this.objUsuarioNuevo);
+    }, 
     limpiar_usuario() {
       for (let prop in this.User) {
         this.User[prop] = "";
