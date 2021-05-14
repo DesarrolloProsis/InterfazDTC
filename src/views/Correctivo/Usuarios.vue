@@ -7,7 +7,7 @@
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
         <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
-        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1 " v-if="typeUser">
+        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1 hidden" v-if="typeUser">
           <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>

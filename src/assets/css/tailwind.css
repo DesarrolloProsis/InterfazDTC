@@ -78,6 +78,24 @@ select:focus {
     @apply shadow-none;
     @apply bg-white;
 }
+.botonTodos{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-green-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonTodos:hover{
+    @apply border-green-600 bg-green-300 text-white transition duration-500;
+}
+.botonTodos:focus{
+    @apply outline-none;
+}
+.botonTodosGMMEP{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-blue-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonTodosGMMEP:hover{
+    @apply border-blue-600 bg-blue-400 text-white transition duration-500;
+}
+.botonTodosGMMEP:focus{
+    @apply outline-none;
+}
 .botonIconLimpiar{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-red-500 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }

@@ -35,11 +35,11 @@
         ///                    BOTONES DE NAVEGACION  DTC                   ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="-mt-1 mb-4 text-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonIconLimpiar font-boton">
-                <img src="../../assets/img/escoba.png" class="" width="25" height="2"/>
-                <span>Limpiar</span>
+            <button @click="limpiar_filtros_dtc" class="w-32 botonTodosGMMEP font-boton">
+                <img src="../../assets/img/all.png" class="mr-2" width="25" height="2"/>
+                <span>Todos</span>
             </button>
-            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton ">
+            <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton hidden">
                 <img src="../../assets/img/lupa.png" class="" width="25" height="2"/>
                 <span >Buscar</span>
             </button>
@@ -70,7 +70,7 @@
         ///                    BOTONES DE NAVEGACION  DTC               ////
        ////////////////////////////////////////////////////////////////////-->
         <div class="-mt-1 mb-4 text-center justify-items-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonIconBuscar font-boton">
+            <button @click="limpiar_filtros_dtc" class="w-32 botonTodosGMMEP font-boton">
                 <img src="../../assets/img/mostrar.png" class="mr-4" width="25" height="2"/>
                 <span class="-ml-2">Todos</span>
             </button>
@@ -192,11 +192,11 @@
         ///                    BOTONES DE NAVEGACION  DIAGNOSTICO           ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 text-center">
-            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonIconLimpiar font-boton">
-                <img src="../../assets/img/escoba.png" class="" width="25" height="2"/>
-                <span>Limpiar</span>
+            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonTodos font-boton">
+                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <span>Todos</span>
             </button>
-            <button @click="filtar_concentrado_diagnostico_falla" class="w-32 botonIconBuscar font-boton">
+            <button @click="filtar_concentrado_diagnostico_falla" class="w-32 botonIconBuscar font-boton hidden">
                 <img src="../../assets/img/lupa.png" class="" width="25" height="2"/>
                 <span>Buscar</span>
             </button>

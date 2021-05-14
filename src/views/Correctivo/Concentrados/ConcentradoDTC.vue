@@ -247,7 +247,8 @@ subirImg: async function (){
   this.subirImgModal = false
   let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']      
   await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
-  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista)
+  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
+  this.lista_DTC_Filtrada = this.infoDTC
 },
 abrirCarrusel : async function (item){  
   this.dtcImg = item
