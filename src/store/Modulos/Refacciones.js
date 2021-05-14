@@ -44,7 +44,6 @@ const mutations = {
   CARRILES_MUTATION: (state, value) => state.carriles = value
 }
 const actions = {
-
   async ACTUALIZAR_COMPONENTE_INVENTARIO({ rootGetters }, value){
     let newObject = {
       TableFolio: value.infoComponentes.idComponent,

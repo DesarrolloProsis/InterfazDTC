@@ -172,7 +172,7 @@
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
           <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
           <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in infoDTC_Filtrado" :key="dtc">
+            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc">
               <CardListDTC
                 @borrar-card="confimaBorrar"
                 @editar-card="editar_header_dtc"
@@ -259,7 +259,7 @@ beforeMount: async function () {
   this.filtroVista = false
   this.descripciones = await this.$store.state.DTC.listaDescriptions
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
-  this.infoDTC_Filtrado = this.infoDTC
+  this.infoDTC_Filtrado = this.lista_dtc
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
   //Lista Plaza Validas
@@ -294,13 +294,17 @@ methods: {
   guardar_palabra_busqueda: function(newPalabra){
     console.log(newPalabra)      
     if (newPalabra != "") {
-      let array_filtrado = this.infoDTC_Filtrado.filter(item => {
+      let array_filtrado = this.lista_dtc.filter(item => {
         return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
       })       
-      this.infoDTC_Filtrado = array_filtrado;
+      this.lista_dtc = array_filtrado;
     }
     else{
-      this.infoDTC_Filtrado = this.lista_dtc
+        this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                         
+        this.infoDTC.forEach((element, index) => {
+          if(index < 3)
+            this.lista_dtc.push(element) 
+        });
     }
   },
   cerrarModal: function(){
@@ -447,7 +451,7 @@ methods: {
       await this.$nextTick().then(() => {             
         this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                         
         this.infoDTC.forEach((element, index) => {
-          if(index < 3)
+          if(index < 6)
             this.lista_dtc.push(element) 
         });        
         setTimeout(() => {
