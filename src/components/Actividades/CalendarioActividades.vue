@@ -220,7 +220,10 @@ export default {
         return carrilesReturn
       }
       return ['no entre en ninguno']
-    },     
+    },
+    idUser(){
+      return this.$store.state.Login.cookiesUser.userId
+        },     
   },  
   methods: {
     actualizar_comentario_header(comentario){
@@ -346,7 +349,7 @@ export default {
     },
     validar_calendario_escaneado(){
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}`)
+      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${this.idUser}`)
       .then(() => {        
         this.calendarioEscaneado = true
       })

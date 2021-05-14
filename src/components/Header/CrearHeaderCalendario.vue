@@ -39,7 +39,7 @@
                         <div v-if="calendarioEscaneado">
                             <button @click="obtener_escaneado_calendario" class="botonIconDescargar mb-1 sm:mt-2">
                                 <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                    <span class="text-xs sm:hidden">Descargar</span>
+                                    <span class="sm:hidden">Descargar</span>
                             </button>
                         </div>
                         <div v-else>
@@ -51,7 +51,7 @@
                                     <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
                                 </div>                                
                             </div>                        
-                            <div v-else class=" justify-center botonIconDescargar">
+                            <div v-else class="justify-center botonIconDescargar">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>
                                     <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
                                     <span>Cargar</span>                                                                       
@@ -230,7 +230,7 @@ export default {
             //let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
-            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}`, formFile)
+            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${this.idUser}`, formFile)
                 .then(() => {                                   
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false
@@ -268,6 +268,9 @@ export default {
         }
 },
     computed:{
+        idUser(){
+            return this.$store.state.Login.cookiesUser.userId
+        },
         restante(){
             return  this.comentario.length
         },
