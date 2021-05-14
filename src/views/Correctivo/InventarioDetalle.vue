@@ -151,7 +151,7 @@ export default {
         } 
         else {
           this.onliInfoComponente = false;
-          this.multiComponente = infoComponente;
+          this.multiComponente = infoComponente;  
           for (let i = 0; i < this.multiComponente.length; i++) {
             let newObj = { numSerie: this.multiComponente[i]["serialNumber"]};
             this.listaNumSerie.push(newObj);
