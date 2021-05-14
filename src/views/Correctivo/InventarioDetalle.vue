@@ -65,11 +65,7 @@
             <p class="mb-1">Ubicacion</p>
             <select v-model="objDatos.ubicacionGeneral" class="w-64 sm:w-32 is_valid">
               <option disabled value>Selecionar...</option>
-              <option
-                v-for="(item, index) in listaUbicacionGeneral"
-                v-bind:value="item.ubicacion"
-                :key="index"
-              >{{ item.ubicacion }}</option>
+              <option v-for="(item, index) in listaUbicacionGeneral" v-bind:value="item.ubicacion" :key="index">{{ item.ubicacion }}</option>
             </select>
           </div>
           <div class="flex justify-center mt-5 sm:ml-5 sm:text-xs" v-if="tipoUsuario != 7">
@@ -157,9 +153,7 @@ export default {
           this.onliInfoComponente = false;
           this.multiComponente = infoComponente;
           for (let i = 0; i < this.multiComponente.length; i++) {
-            let newObj = {
-              numSerie: this.multiComponente[i]["serialNumber"],
-            };
+            let newObj = { numSerie: this.multiComponente[i]["serialNumber"]};
             this.listaNumSerie.push(newObj);
           }          
         }
@@ -182,15 +176,13 @@ export default {
       }
     },
     actualizar_componente: async function () {
-      let idUbicacion = this.listaUbicacionGeneral.filter(
-        (x) => x.ubicacion == this.objDatos.ubicacionGeneral
-      );      
+      let idUbicacion = this.listaUbicacionGeneral.filter((x) => x.ubicacion == this.objDatos.ubicacionGeneral);      
       let parametros = {
+        intUserId: this.$store.state.Login.cookiesUser.userId,
         infoComponentes: this.objDatos,
         infoPlaza: this.infoPlaza,
         infoUbicacionGeneral: idUbicacion,
-      };
-      
+      };      
       await this.$store.dispatch("Refacciones/ACTUALIZAR_COMPONENTE_INVENTARIO", parametros); 
       this.$notify.success({
           title: "Ok!",
