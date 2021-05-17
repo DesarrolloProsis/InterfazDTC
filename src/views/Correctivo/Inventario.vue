@@ -19,8 +19,8 @@
             </div>
           </div>
         </div>
-        <div class="overflow-x-auto sm:m-2 sm:text-xs rounded-lg shadow font-titulo">
-          <table class="border-collapse  table-fixed">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1" style="height:650px;">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
@@ -63,20 +63,7 @@
               </tr>
             </tbody>
           </table>
-        </div>
-        <!--/////////////////////////////////////////////////////////////////
-        ////                 PAGINACION DE LA TABLA                      ////
-        ////////////////////////////////////////////////////////////////////-->
-        <div class="flex justify-center mt-2 mb-32 sm:mb-5">
-          <button
-            @click="cambiar_pagina(item)"
-            class="mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg focus:shadow-outline"
-            v-for="(item, key) in arrayPaginacion"
-            :key="key"
-          >
-            {{ item }}
-          </button>
-        </div>                        
+        </div>                      
       </div>
     </div>  
   </div>
@@ -124,97 +111,13 @@ export default {
     await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
-    this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);
-    this.crear_array_paginacion("inicio");    
-    this.full_Component.sort((a, b) => {
-      if (a.lane < b.lane) return -1;
-      if (a.lane > b.lane) return 1;
-      return 0;
-    });    
+    this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
   },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
   methods: {
-    cambiar_pagina: function (value) {
-      if (value == "Anterior") {
-        if (this.arrayPaginacion[2] == 4) {
-          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](3);
-          this.crear_array_paginacion("inicio");
-        } else if (this.arrayPaginacion[2] != 2) {
-          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](this.array_paginacion[2] - 1);
-          this.crear_array_paginacion("anterior");
-        }
-      } else if (value == "Mas") {
-        let pagina = this.arrayPaginacion[this.arrayPaginacion.length - 2];
-        if (pagina < Math.ceil(this.full_Component.length / 10)) {
-          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](pagina + 1);
-          this.crear_array_paginacion("mas");
-        }
-      } else {
-        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](value);
-        if (value == 1) this.crear_array_paginacion("inicio");
-      }
-    },
-    crear_array_paginacion: function (tipo) {
-      if (tipo === "inicio") {
-        this.arrayPaginacion = ["Anterior", 1, 2, 3, "Mas"];
-      } 
-      else if (tipo === "mas") {
-        let new_array = ["Anterior", 1];
-        let ultima_pagina = this.arrayPaginacion[this.arrayPaginacion.length - 2];
-        let i = ultima_pagina + 1;
-        while (i <= ultima_pagina + 3) {
-          if (i <= Math.ceil(this.full_Component.length / 10)) {
-            new_array.push(i);
-            i++;
-          } 
-          else {
-            break;
-          }
-        }
-        new_array.push("Mas");
-        this.arrayPaginacion = new_array;
-      } 
-      else if (tipo == "anterior") {
-        let new_array = [];
-        if (this.arrayPaginacion[2] > 2) {
-          new_array.push("Anterior");
-          new_array.push(1);
-        } else {
-          new_array.push("Anterior");
-        }
-        let primera_pagina = this.arrayPaginacion[2];
-        let i = primera_pagina - 3;
-        while (i < primera_pagina) {
-          if (i <= Math.ceil(this.full_Component.length / 10)) {
-            new_array.push(i);
-            i++;
-          } else {
-            break;
-          }
-        }
-        new_array.push("Mas");
-        this.arrayPaginacion = new_array;
-      }
-    },
-    cambiar_ordern_inventario: function (orden) {      
-      if (orden == "ubicacion") { 
-        this.full_Component.sort((a, b) => {
-          if (a.lane < b.lane) return -1;
-          if (a.lane > b.lane) return 1;
-          return 0;
-        });
-        this.cambiar_pagina(1);
-      } else if (orden == "componente") {
-        this.full_Component.sort((a, b) => {
-          if (a.component < b.component) return -1;
-          if (a.component > b.component) return 1;
-          return 0;
-        });
-        this.cambiar_pagina(1);
-      }
-    },
+
     guardar_editado: function (value) {
       if (this.listEditados.length == 0)
         this.listEditados.push(Object.assign({}, value));
@@ -278,7 +181,6 @@ export default {
     cancelar_filtros: function () {      
       let convenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];
       this.$store.dispatch("Refacciones/FULL_COMPONETES", convenio);
-      this.cambiar_pagina(1);
       this.listEditados = [];
     },    
     guardar_palabra_busqueda: function(newPalabra){      

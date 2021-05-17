@@ -18,11 +18,7 @@ const getters = {
     return state.full_Component.filter(item => item.lane == lanefind) 
   },      
   GET_REFACCIONES_VALIDAS: () => state.listaRefaccionesValid.length > 0 ? state.listaRefaccionesValid : [],      
-  GET_PAGINACION_COMPONENTES: (state) => (index) => {
-    let fin = index * 10
-    let inicio = fin - 10
-    return state.full_Component.slice(inicio ,fin)
-},    
+  GET_PAGINACION_COMPONENTES: (state) => state.full_Component,    
 };
 const mutations = {
   FULL_COMPONENT_MUTATION: (state, value) => state.full_Component = value,
