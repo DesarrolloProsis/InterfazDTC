@@ -44,7 +44,7 @@
                         <div v-if="botonEditCreate">                            
                             <button v-if="$route.params.tipoVista == 'Crear'" @click="enviar_header_ficha(true)" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                <span>Enviar Informacion de Ficha</span>
+                                <span>Enviar Información de Ficha</span>
                             </button>                                                                                                  
                         </div>
                         <div v-else>

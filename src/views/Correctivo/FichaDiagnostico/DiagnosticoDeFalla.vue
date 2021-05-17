@@ -40,7 +40,7 @@
                         <div v-if="$route.params.tipoVista == 'Crear'">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                                <span>Enviar Informacion del Diagnóstico</span>
+                                <span>Enviar Información del Diagnóstico</span>
                             </button>                                                                                                         
                         </div>
                         <div v-else>
