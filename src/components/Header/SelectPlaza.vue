@@ -58,7 +58,7 @@ export default {
         }
     },   
     created(){
-        EventBus.$on("Limpiar-SelectPlaza", () => {      
+        EventBus.$on('Limpiar-SelectPlaza', () => {      
             this.plazaSelect = {}
             this.convenioSelect = {}            
         });
@@ -97,6 +97,9 @@ export default {
             this.convenioSelect = convenioSelect
             this.boolCambiarPlaza = false
         }        
+    },
+    destroyed(){
+        EventBus.$off('Limpiar-SelectPlaza')
     },
     methods:{    
         actualizar_plaza: async function(){               

@@ -176,6 +176,9 @@ export default {
             this.reporteInsertado = true                     
         }
     },
+    destroyed(){
+        EventBus.$off(['actualizar_hora_inicio', 'actualizar_hora_fin'])
+    },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
 /////////////////////////////////////////////////////////////////////

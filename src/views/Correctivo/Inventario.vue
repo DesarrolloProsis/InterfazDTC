@@ -96,9 +96,8 @@ export default {
 /////////////////////////////////////////////////////////////////////
   created: function(){
     //Escucha Evento SelectPlaza Component
-    EventBus.$on("ACTUALIZAR_INVENTARIO", () => {              
-        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);        
-        this.crear_array_paginacion("inicio");    
+    EventBus.$on('ACTUALIZAR_INVENTARIO', () => {              
+        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);          
         this.full_Component.sort((a, b) => {
           if (a.lane < b.lane) return -1;
           if (a.lane > b.lane) return 1;
@@ -112,6 +111,9 @@ export default {
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
+  },
+  destroyed(){
+    EventBus.$off('ACTUALIZAR_INVENTARIO')
   },
 /////////////////////////////////////////////////////////////////////
 ////                           METODOS                           ////

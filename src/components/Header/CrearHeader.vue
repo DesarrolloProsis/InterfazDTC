@@ -289,7 +289,7 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 created:  function (){            
-    EventBus.$on("validar_header", async () => {
+    EventBus.$on('validar_header', async () => {
       await this.$validator.validateAll().then((item) => {
         if(item == false){          
           //
@@ -320,6 +320,9 @@ beforeMount: async function () {
     this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
     this.fechaSiniestoEdit = true;    
   }  
+},
+destroyed(){
+  EventBus.$off('validar_header')
 },
 /////////////////////////////////////////////////////////////////////
 ////                            METODOS                          ////

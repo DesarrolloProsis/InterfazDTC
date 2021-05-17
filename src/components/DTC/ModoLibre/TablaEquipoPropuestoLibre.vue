@@ -411,13 +411,13 @@ export default {
     // },
   },
   created: function () {
-    EventBus.$on("nuevo_componente", (value) => {
+    EventBus.$on('nuevo_componente', (value) => {
       this.info_confirmar = this.listaEquipo.find(
         (item) => item.partida == value
       );
       this.modal = true;
     });
-    EventBus.$on("editar_componente", (value) => {      
+    EventBus.$on('editar_componente', (value) => {      
       this.infoRow[value.index].partida = value.data.partida;
       this.infoRow[value.index].unidad = value.data.unidad;
       this.infoRow[value.index].componente = value.data.componente;
@@ -426,7 +426,7 @@ export default {
       this.sumatoria_conteo();
 
     });
-    EventBus.$on("borrar_componente", (value) => {
+    EventBus.$on('borrar_componente', (value) => {
       this.borrar_componente_bus(value);
     });
   },
@@ -448,6 +448,9 @@ export default {
         this.infoRow.push(newPartida);
       }
     }
+  },
+  destroyed(){
+    EventBus.$off(['nuevo_componente', 'editar_componente', 'borrar_componente'])
   },
   watch: {
     diagnostico: function (newValue) {

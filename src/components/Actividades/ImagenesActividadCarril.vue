@@ -44,12 +44,9 @@ export default {
         }
     },
     created(){
-        EventBus.$on("guardar_imagenes", referenceNumber => {                                                      
+        EventBus.$on('guardar_imagenes', referenceNumber => {                                                      
             this.enviar_imagen(referenceNumber)
         });
-    },
-    destroyed(){
-        this.arrayImagenes = []
     },
     beforeMount() {        
         setTimeout(() => {
@@ -73,6 +70,10 @@ export default {
                         CookiesService.token_no_autorizado()               
             });
         }, 1000)
+    },
+    destroyed(){
+        EventBus.$off('guardar_imagenes')
+        this.arrayImagenes = []
     },
     computed:{
         num (){

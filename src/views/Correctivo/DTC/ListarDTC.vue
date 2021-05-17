@@ -249,7 +249,7 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
 created(){
-  EventBus.$on("abrir_modal_carrusel", (arrayImagenes) => {      
+  EventBus.$on('abrir_modal_carrusel', (arrayImagenes) => {      
     this.arrayImagenesCarrusel = arrayImagenes
     this.carruselModal = true
     this.modal = true      
@@ -286,6 +286,9 @@ beforeMount: async function () {
   }
       
   this.scroll_infinito()
+},
+destroyed(){
+  EventBus.$off('abrir_modal_carrusel')
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////

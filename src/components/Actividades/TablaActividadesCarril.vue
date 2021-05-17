@@ -81,6 +81,9 @@ export default {
             ? this.reporteNuevo = false 
             : this.reporteNuevo = true 
     },
+    destroyed(){
+        EventBus.$off('insertar-todas-actividades')
+    },
     methods:{
         insertar_actividades_nuevas(){
             if(this.reporteNuevo){                      
