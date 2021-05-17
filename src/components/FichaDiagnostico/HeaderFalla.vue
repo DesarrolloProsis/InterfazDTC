@@ -75,7 +75,7 @@
                     <span class="">Folio de FALLA:</span>
                 </div>
                 <div class="mt-5 text-center w-32 ml-64 sm:ml-0">
-                    <span class="">No. De Reporte:</span>
+                    <span class="">No. De Siniestro:</span>
                 </div>
                 <div class="mt-5 text-center w-56 ml-40 sm:-ml-12">
                     <span class="sm:hidden">Técnico Responsable PROSIS:</span>
