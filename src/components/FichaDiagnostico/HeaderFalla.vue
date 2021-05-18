@@ -16,15 +16,19 @@
                     <div>
                         <span>Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-66 sm:-ml-16">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
+                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': boolCambiarPlaza == true}">
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
+                    </div>
+                    <div class="-ml-66 " :class="{'hidden': boolCambiarPlaza == false}">
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
+                        <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
                 </div>
                 <div class="mt-5 grid sm:grid grid-cols-2">
                     <div>
                         <span class="mr-20 sm:mr-0">Ubicación:</span>
                     </div>
-                    <div class="-ml-66 w-64 sm:-ml-16 sm:w-40">                  
+                    <div class="-ml-66 w-64 sm:-ml-16 sm:w-40" :class="{'cursor-not-allowed':blockInput==true}">                  
                         <multiselect
                             :disabled="blockInput"
                             v-model="datosDiagnostico.ubicacion"  
@@ -35,7 +39,7 @@
                             track-by="lane"                        
                             placeholder="Selecciona..."
                             :options="carriles_plaza"
-                            :multiple="true"              
+                            :multiple="true"                        
                         >
                             <template slot="selection" slot-scope="{ values, isOpen }">
                                 <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
@@ -54,25 +58,28 @@
                     type="date" 
                     :disabled="blockInput"
                     v-model="datosDiagnostico.fechaDiagnostico"
-                    @change="crear_referencia"/>
+                    @change="crear_referencia"
+                    :class="{'fechaFicha':blockInput == true}"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora INICIO:</span>
-                    <input :disabled="blockInput" class="ml-4 fechaDiag mr-4 sm:ml-8" type="time" v-model="datosDiagnostico.horaInicio"/>
+                    <input :disabled="blockInput" class="ml-4 fechaDiag mr-4 sm:ml-8" type="time" v-model="datosDiagnostico.horaInicio" :class="{'fechaFicha':blockInput == true}"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora FIN:</span>
-                    <input :disabled="blockInput" class="ml-10 fechaDiag sm:ml-12" type="time" v-model="datosDiagnostico.horaFin"/>
+                    <input :disabled="blockInput" class="ml-10 fechaDiag sm:ml-12" type="time" v-model="datosDiagnostico.horaFin" :class="{'fechaFicha':blockInput == true}"/>
                 </div>
             </div>
         </div>    
         <!--/////////////////////////////////////////////////////////////////////
         /////                             FOLIOS                            ////
         ////////////////////////////////////////////////////////////////////--> 
+        <div v-if="blockInput" class="text-center ml-68"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
             <div class="mt-6 ml-5 w-full sm:-ml-6">
                 <div class="text-center w-32 ml-64 mr-40 sm:ml-0">
                     <span class="">Folio de FALLA:</span>
+                    
                 </div>
                 <div class="mt-5 text-center w-32 ml-64 sm:ml-0">
                     <span class="">No. De Siniestro:</span>
@@ -84,10 +91,10 @@
             </div>
             <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
                 <div class="-ml-69 sm:-ml-16">
-                    <input :disabled="blockInput" class="inputDiag text-center" v-model="datosDiagnostico.folioFalla" />
+                    <input :disabled="blockInput" class="inputDiag text-center"  v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}"/>
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
-                    <input :disabled="blockInput" class="inputDiag text-center" v-model="datosDiagnostico.numeroReporte"  />
+                    <input :disabled="blockInput" class="inputDiag text-center" v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}"/>
                 </div>
                 <div class="mt-5 -ml-69 sm:-ml-16">
                     <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
@@ -166,12 +173,13 @@
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.descripcionFalla"
-                            class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones"
+                            class="mx-auto py-4 mb-0 h-40 textareaFicha ph-center-observaciones"
                             placeholder="jane@example.com"
                             name="Observaciones"
                             v-bind:maxlength="limite"
+                            readonly
                         />
-                        <span class="text-gray-500">{{ restante_desc }}/300</span>
+                        <span class="text-gray-500">{{ restante_desc }}/300 <span class="text-red-400 ml-32">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
                     </div>
                     <div class="mr-10">
                         <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
@@ -218,7 +226,8 @@ components:{
 /////////////////////////////////////////////////////////////////////
 data(){
     return{
-        limite:300,                                                                                      
+        limite:300, 
+        boolCambiarPlaza: false,                                                                                     
         datosDiagnostico:{
             referenceNumber: "",
             ubicacion: '',
@@ -252,6 +261,7 @@ beforeMount: async function(){
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
+            this.boolCambiarPlaza = true
         }      
         else{ 
             let paramRoute = this.$route.query.item           

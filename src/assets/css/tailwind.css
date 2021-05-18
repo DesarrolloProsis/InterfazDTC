@@ -78,6 +78,15 @@ select:focus {
     @apply shadow-none;
     @apply bg-white;
 }
+.textareaFicha{
+    @apply mt-1 block w-full border-none bg-gray-300  rounded-xl shadow-lg cursor-not-allowed;
+}
+.textareaFicha:hover{
+        @apply bg-gray-300;
+}
+.textareaFicha:focus{
+        @apply bg-gray-300;
+}
 .botonTodos{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-green-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
@@ -309,8 +318,20 @@ select:focus {
 .fechaDiag {
     @apply border-none bg-gray-100  rounded-xl shadow-lg;
 }
+.fechaFicha {
+    @apply border-none bg-gray-300  rounded-xl shadow-lg cursor-not-allowed;
+}
+.fechaFicha:hover{
+    @apply bg-gray-300;
+}
 .inputDiag{
     @apply bg-white border-none w-full;
+}
+.inputFicha{
+    @apply bg-gray-300 border-none w-full cursor-not-allowed;
+}
+.inputFicha:hover{
+    @apply bg-gray-300;
 }
 .botonPrincipal{
     @apply border-gray-200 border-2 rounded-lg m-8  shadow-xl;
