@@ -11,7 +11,7 @@
                     </p>
                 </div>
                 <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.5.1 Beta</p>
+                    <p class="sm:text-xs text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.5.1</p>
                 </div>
             </div>                                
         </div>        
