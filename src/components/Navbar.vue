@@ -34,7 +34,7 @@ export default {
   data(){
     return{
       accesoRapidoVistas: [
-        { texto: 'Diagnostico de Falla', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 10]},
+        { texto: 'Diagnóstico de Falla', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 10]},
         { texto: 'DTC Pendiente', path: '/ListarDtc', rollValidos: [1, 10]},
         { texto: 'Calendario', path: '/CalendarioActividades', rollValidos: [1]},
         { texto: 'Revisar DTC', path: '/ListarDtc', rollValidos: [4, 7]},

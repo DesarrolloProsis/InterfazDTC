@@ -78,7 +78,7 @@
                     <th class="cabeceraTable font-medium">N° de Siniestro</th>
                     <th class="cabeceraTable font-medium">Fecha de Falla</th>
                     <th class="cabeceraTable font-medium">Fotografias</th>
-                    <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Status</th>
+                    <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
                     <th class="cabeceraTable font-medium">PDF</th>
                 </tr>
             </thead>
@@ -113,7 +113,7 @@
                   </td>
                   <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
                     <div>
-                      <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Status</button>
+                      <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Estatus</button>
                     </div>
                   </td>
                   <td class="cuerpoTable">

@@ -99,7 +99,7 @@
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Referencia</th>                                
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Fecha de Actividad</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Tipo de Actividad</th>
-                                <th class="w-64 cabeceraTable font-titulo font-medium">Status</th>   
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Estatus</th>   
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>                
                             </tr>
                         </thead>
@@ -191,7 +191,7 @@ watch: {
     referenceNumber(newValue){
         if(newValue.length == 0)this.blockSelect = false        
         else {
-             this.filtrar_actividades_mensuales()
+            this.filtrar_actividades_mensuales()
             this.blockSelect = true
         }
     }
