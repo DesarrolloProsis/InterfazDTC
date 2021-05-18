@@ -87,6 +87,24 @@ select:focus {
 .Home:focus{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-2 border-gray-200 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
+.botonesCorrectivo{
+    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl;
+}
+.botonesCorrectivo:hover{
+    @apply bg-gray-400;
+}
+.botonesCorrectivo:focus{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-2 border-gray-200 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonAdminPre{
+    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl h-72;
+}
+.botonAdminPre:hover{
+    @apply bg-gray-400;
+}
+.botonAdminPre:focus{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-2 border-gray-200 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
 .botonTodos:hover{
     @apply border-green-600 bg-green-300 text-white transition duration-500;
 }
