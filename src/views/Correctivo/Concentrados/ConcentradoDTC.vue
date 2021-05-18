@@ -85,7 +85,22 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
-            <tbody name="table" is="transition-group">  
+            <tbody name="table">  
+              <template v-if="lista_DTC_Filtrada.length == 0 && loadingTabla != true"> 
+                  <tr>
+                      <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
+                          <div class="mt-8 mb-8">Sin Informacion</div>
+                      </td>
+                  </tr>  
+              </template> 
+              <template v-if="loadingTabla">  
+                  <tr>
+                      <td class="w-full" colspan="10">                                    
+                          <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                      </td>                          
+                  </tr>  
+              </template>   
+              <template v-if="lista_DTC_Filtrada.length > 0">
                 <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_DTC_Filtrada" :key="key">                
                   <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                   <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
@@ -159,6 +174,7 @@
                   </div>
                   </td>
                 </tr>
+              </template>
             </tbody>
           </table>
         </div>  
@@ -189,31 +205,34 @@ export default {
 data: function (){
     return {      
       infoDTC:[],
-      lista_DTC_Filtrada: [],            
+      lista_DTC_Filtrada: [],          
+      arrayImagenesCarrusel: [],          
       filtroVista: true,
+      pdfSelladoBool: true,
+      subirImgModal: false,
+      loadingTabla: false,
       modalCambiarStatus: false,
-      dtcEdit: {},
+      bandera:false,
+      carruselModal: false,      
       motivoCambio:"",
       statusEdit: "",
       limite:300,
-      carruselModal: false,
+      dtcEdit: {},
       dtcImg: {},
-      arrayImagenesCarrusel: [],
-      pdfSelladoBool: true,
-      pdfSellado:'',
-      bandera:false,
-      subirImgModal: false,
-      datosImg:{},
+      datosImg:{},        
+      pdfSellado:'',                        
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
+  this.loadingTabla = true
   this.filtroVista = true
   this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
   this.lista_DTC_Filtrada = this.infoDTC
   this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
+  this.loadingTabla = false
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -227,13 +246,17 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-guardar_palabra_busqueda: function(newPalabra){
-  console.log(newPalabra)      
-  if (newPalabra != "") {
-    let array_filtrado = this.lista_DTC_Filtrada.filter(item => {
-      return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
-    })       
-    this.lista_DTC_Filtrada = array_filtrado;
+guardar_palabra_busqueda: function(newPalabra){  
+  if (newPalabra != "") {   
+    this.lista_DTC_Filtrada = [] 
+    this.loadingTabla = true
+    setTimeout(async () => {
+      let array_filtrado = this.infoDTC.filter(item => {
+        return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+      })       
+      this.lista_DTC_Filtrada = array_filtrado;
+      this.loadingTabla = false
+    },1000)
   }
   else{
     this.lista_DTC_Filtrada = this.infoDTC
@@ -329,12 +352,17 @@ abrir_modal_editar : function (item){
 descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
 },
-filtro_dtc: async function (objFiltro) {   
-  if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){        
-    let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
-    this.$nextTick().then(() => {      
-        this.lista_DTC_Filtrada = listaFiltrada            
-    }) 
+filtro_dtc: async function (objFiltro) {     
+  if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
+    this.lista_DTC_Filtrada = []
+    this.loadingTabla = true    
+    setTimeout(async () => {
+      let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
+      this.$nextTick().then(() => {      
+          this.lista_DTC_Filtrada = listaFiltrada            
+          this.loadingTabla = false
+      }) 
+    },1000)
   }  
   else{
     this.$notify.warning({

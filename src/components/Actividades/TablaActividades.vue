@@ -107,7 +107,7 @@
                     ////                           Body TABLA                     //////////
                     /////////////////////////////////////////////////////////////////////-->
                         <tbody name="table">   
-                               <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
+                            <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
                                 <tr>
                                     <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
                                         <div class="mt-8 mb-8">Sin Informacion</div>
@@ -115,39 +115,39 @@
                                 </tr>  
                             </template> 
                             <template v-if="loadingTabla">  
-                            <tr>
-                                <td class="w-full" colspan="6">                                    
-                                    <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
-                                </td>                          
-                            </tr>  
+                                <tr>
+                                    <td class="w-full" colspan="6">                                    
+                                        <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                                    </td>                          
+                                </tr>  
                             </template>   
                             <template v-if="listaActividadesMensuales.length > 0">                                                                                     
-                            <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.lane }}</td>
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.referenceNumber }}</td>                                
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.day}}</td>
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
-                                <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
-                                <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                <td class="w-64 text-center cuerpoTable">
-                                    <div v-if="item.statusMaintenance == false">                               
-                                        <button @click="crear_reporte_carril(item)" class="botonIconCrear">
-                                            <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span class="text-xs sm:hidden">Crear</span>
-                                        </button>
-                                    </div>
-                                    <div v-else>
-                                        <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2">
-                                            <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                            <span class="text-xs sm:hidden">Descargar</span>
-                                        </button>
-                                        <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1">
-                                            <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
-                                            <span class="text-xs sm:hidden">Actualizar</span>
-                                        </button>                                   
-                                    </div>
-                                </td>                                                                                     
-                            </tr>
+                                <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.lane }}</td>
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.referenceNumber }}</td>                                
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.day}}</td>
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
+                                    <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
+                                    <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
+                                    <td class="w-64 text-center cuerpoTable">
+                                        <div v-if="item.statusMaintenance == false">                               
+                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear">
+                                                <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Crear</span>
+                                            </button>
+                                        </div>
+                                        <div v-else>
+                                            <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2">
+                                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Descargar</span>
+                                            </button>
+                                            <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1">
+                                                <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Actualizar</span>
+                                            </button>                                   
+                                        </div>
+                                    </td>                                                                                     
+                                </tr>
                             </template>                                                                                                              
                         </tbody>     
                         <tbody>
