@@ -7,7 +7,7 @@
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
         <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
-        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1 hidden" v-if="typeUser">
+        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1" v-if="typeUser">
           <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
@@ -18,8 +18,8 @@
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
-                <th class="w-56 cabeceraTable font-medium">Tipo de Usuario</th>
-                <th class="w-64 cabeceraTable font-medium">Correo</th>
+                <th class="w-56 cabeceraTable font-medium">Tipo de Usuario</th>   
+                <th class="w-56 cabeceraTable font-medium">Correo</th>                
                 <th class="w-48 cabeceraTable font-medium" v-if="typeUser">Acciones</th>
               </tr>
               <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios_Filtrada" :key="key">
@@ -52,8 +52,6 @@
                         <input v-model="objUsuarioNuevo.apellidoM" type="text" class="w-full bg-white border-gray-400 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
                         <input v-model="objUsuarioNuevo.apellidoP" type="text" class="w-full bg-white border-gray-400 mt-2">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
-                        <input v-model="objUsuarioNuevo.correo" type="text" class="w-full bg-white border-gray-400 mt-2" >
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tipo Usuario</p>
                         <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2">
                           <option disabled value>Selecionar...</option>     
@@ -164,6 +162,8 @@
 <script>
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   name: "UsuariosBitacora",
@@ -196,8 +196,7 @@ export default {
       objUsuarioNuevo:{
         nombre: '',
         apellidoM: '',
-        apellidoP: '',
-        correo: '',
+        apellidoP: '',        
         tipoUsuario: '',
         plazas: []
       }
@@ -236,8 +235,20 @@ export default {
     },  
     guardar_nuevo_usuario(){            
       this.objUsuarioNuevo.tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
-      this.objUsuarioNuevo.plazas = this.objUsuarioNuevo.plazas.map(item => item.squareCatalogId)
+      this.objUsuarioNuevo.plazas
       console.log(this.objUsuarioNuevo);
+      let objInsert = {
+        name: this.objUsuarioNuevo.nombre,
+        lastName1: this.objUsuarioNuevo.apellidoM,
+        lastName2: this.objUsuarioNuevo.apellidoP,
+        password: '1234',
+        rol: this.objUsuarioNuevo.tipoUsuario,
+      }
+      Axios.post(`${API}/User/nuevo`,objInsert)
+      .then((response) => {
+          console.log(response.data);
+      })
+      .catch((error) => console.log(error))
     }, 
     limpiar_usuario() {
       for (let prop in this.User) {
