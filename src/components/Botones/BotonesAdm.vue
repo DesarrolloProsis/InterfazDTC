@@ -3,35 +3,35 @@
     <div class="flex justify-center mt-2 sm:mt-14" v-if="tipoBotones">
       <div class="grid grid-cols-3">        
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
-            <router-link to="/ListarDTC" class="text-center cursor-pointer ">
-              <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Revisar DTC</h1>
-            </router-link>
-          </div>
-          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
-            <router-link to="/ConcentradoDTC" class="text-center">
-              <img src="../../assets/img/terminado.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Autorizado GMMEP</h1>
-            </router-link>
-          </div>
-          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
-            <router-link to="/Inventario" class="text-center cursor-pointer">
-              <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
-            </router-link>
-          </div>  
-          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
               <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado Diagnóstico</h1>
             </router-link>
           </div>
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+            <router-link to="/ListarDTC" class="text-center cursor-pointer ">
+              <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1" />
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado DTC</h1>
+            </router-link>
+          </div>
+          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+            <router-link to="/ConcentradoDTC" class="text-center">
+              <img src="../../assets/img/terminado.png" height="200" width="200" class="m-10 sm:m-1"/>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado GMMEP</h1>
+            </router-link>
+          </div>
+          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/ConcentradoBorrados" class="text-center cursor-pointer">
               <img src="../../assets/img/borrados.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">DTC Borrado</h1>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado DTC Borrado</h1>
             </router-link>
-          </div>           
+          </div> 
+          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+            <router-link to="/Inventario" class="text-center cursor-pointer">
+              <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/>
+              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
+            </router-link>
+          </div>          
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
               <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1" />
