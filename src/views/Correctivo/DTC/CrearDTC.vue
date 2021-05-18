@@ -142,6 +142,7 @@ export default {
       dateSinester: "",      
       limite: 300,
       modalLoading: false,
+      referenciaFicha: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -156,7 +157,9 @@ created(){
       this.enviar_dmg_componentes(objInsert)
     })
 },
-beforeMount: async function() {   
+beforeMount: async function() {
+    let refenciaFichaTecnica = this.$route.params.referenciaFicha     
+    this.referenciaFicha = refenciaFichaTecnica
     this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
     this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     this.flagCreate = true;
@@ -193,13 +196,15 @@ methods: {
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
+      let referenceFicha = this.referenciaFicha
       //Inserta Header
       await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
         header: header,
         status: status,
         flag: this.flagCreate,
         openFlag: false,
-        adminIdPlaza: adminId
+        adminIdPlaza: adminId,   
+        referenceFicha     
       });
       //Valida si se inserto header
       if (this.$store.getters["Header/getInsertHeaderComplete"]) {

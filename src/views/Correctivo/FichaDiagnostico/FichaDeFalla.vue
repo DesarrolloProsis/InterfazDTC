@@ -180,8 +180,9 @@ export default {
                         if(this.$route.params.tipoVista == 'Editar'){   
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                            if(this.datosHeader.tipoFalla > 1)
-                                this.$router    .push('/NuevoDtc/Crear')     
+                            if(this.datosHeader.tipoFalla > 1){
+                                this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}`) 
+                            }
                             else
                                 this.$router.push('/Home')                          
                         }                                                                               
@@ -193,7 +194,7 @@ export default {
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
                 if(this.datosHeader.tipoFalla > 1)
-                    this.$router.push('/NuevoDtc/Crear')     
+                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}`)     
                 else
                     this.$router.push('/Home')   
             }
