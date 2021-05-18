@@ -37,30 +37,46 @@
             </thead>
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
-            ////////////////////////////////////////////////////////////////////-->
-            <tbody name="table" is="transition-group">  
-              <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
-                <td class="cuerpoTable">{{ item.component }}</td>
-                <td class="cuerpoTable">{{ item.lane }}</td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date" onkeydown="return false"/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date" onkeydown="return false"/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
-                </td>
-                <td class="cuerpoTable">
-                  <button @click="mostrar_mas(item)" class="botonIconCrear">
-                    <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
-                    <span class="text-xs">Mas</span>
-                  </button>
-                </td>
-              </tr>
+            ////////////////////////////////////////////////////////////////////-->            
+            <tbody name="table">  
+              <template v-if="listComponent.length == 0 && loadingTabla != true"> 
+                  <tr>
+                      <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
+                          <div class="mt-8 mb-8">Sin Informacion</div>
+                      </td>
+                  </tr>  
+              </template> 
+              <template v-if="loadingTabla">  
+                  <tr>
+                      <td class="w-full" colspan="10">                                    
+                          <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                      </td>                          
+                  </tr>  
+              </template>  
+              <template v-if="listComponent.length > 0">
+                <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
+                  <td class="cuerpoTable">{{ item.component }}</td>
+                  <td class="cuerpoTable">{{ item.lane }}</td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date" onkeydown="return false"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date" onkeydown="return false"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <button @click="mostrar_mas(item)" class="botonIconCrear">
+                      <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <span class="text-xs">Mas</span>
+                    </button>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>                      
@@ -88,7 +104,8 @@ export default {
       objCheckoBox: {},      
       tipoUsuario: 0,
       disableInputs: false,
-      modalLoading: false
+      modalLoading: false,
+      loadingTabla: false
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -96,21 +113,28 @@ export default {
 /////////////////////////////////////////////////////////////////////
   created: function(){
     //Escucha Evento SelectPlaza Component
-    EventBus.$on('ACTUALIZAR_INVENTARIO', () => {              
-        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);          
-        this.full_Component.sort((a, b) => {
-          if (a.lane < b.lane) return -1;
-          if (a.lane > b.lane) return 1;
-          return 0;
-        });  
+    EventBus.$on('ACTUALIZAR_INVENTARIO', () => {    
+        this.listComponent = []  
+        this.loadingTabla = true        
+        setTimeout(() => {
+          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];          
+          this.full_Component.sort((a, b) => {
+            if (a.lane < b.lane) return -1;
+            if (a.lane > b.lane) return 1;
+            return 0;
+          });  
+          this.loadingTabla = false      
+        },1000)        
     });
   },
-  beforeMount: async function () {    
+  beforeMount: async function () { 
+    this.loadingTabla = true
     let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza             
     await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
+    this.loadingTabla = false
   },
   destroyed(){
     EventBus.$off('ACTUALIZAR_INVENTARIO')
@@ -140,8 +164,7 @@ export default {
         this.modalLoading = true
         let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
-        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });
-        this.cambiar_pagina(1);
+        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false
@@ -187,14 +210,17 @@ export default {
     },    
     guardar_palabra_busqueda: function(newPalabra){      
       if (newPalabra != "") {
-        let array_filtrado = this.full_Component.filter(item => {
-          return item.lane.toUpperCase().includes(newPalabra.toUpperCase()) || item.component.toUpperCase().includes(newPalabra.toUpperCase()) || item.serialNumber.toUpperCase().includes(newPalabra.toUpperCase())
-        })       
-        this.arrayPaginacion = [];
-        this.listComponent = array_filtrado;
-      } else {
-        this.cambiar_pagina(1);
-      }
+        this.loadingTabla = true
+        this.listComponent = []
+        setTimeout(() => {
+          let array_filtrado = this.full_Component.filter(item => {
+            return item.lane.toUpperCase().includes(newPalabra.toUpperCase()) || item.component.toUpperCase().includes(newPalabra.toUpperCase()) || item.serialNumber.toUpperCase().includes(newPalabra.toUpperCase())
+          })       
+          this.arrayPaginacion = [];
+          this.listComponent = array_filtrado;
+          this.loadingTabla = false
+        },1000)
+      } 
     }
   },
 /////////////////////////////////////////////////////////////////////
