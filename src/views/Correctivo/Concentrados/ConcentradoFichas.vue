@@ -27,39 +27,55 @@
                         <!--/////////////////////////////////////////////////////////////////
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table" is="transition-group">  
-                            <tr v-for="(item, key) in infoFichasFallaFiltrada" :key="key" class="h-12 text-gray-900 text-sm text-center">                
-                                <td class="cuerpoTable">{{ item.referenceNumber }}</td>
-                                <td class="cuerpoTable">{{ item.squareName }}</td>
-                                <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) }}</td>
-                                <td class="cuerpoTable">{{ item.lanes }}</td>
-                                <td class="cuerpoTable">{{ item.failuerNumber }}</td>
-                                <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
-                                <td class="cuerpoTable">
-                                    <div>                        
-                                        <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton">
-                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Descargar</span>
-                                        </button>
-                                    </div>
-                                </td>
+                        <tbody name="table">
+                            <template v-if="infoFichasFallaFiltrada.length == 0 && loadingTabla != true"> 
+                                <tr>
+                                    <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
+                                        <div class="mt-8 mb-8">Sin Informacion</div>
+                                    </td>
+                                </tr>  
+                            </template> 
+                            <template v-if="loadingTabla">  
+                                <tr>
+                                    <td class="w-full" colspan="9">                                    
+                                        <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                                    </td>                          
+                                </tr>  
+                            </template>                            
+                            <template v-if="infoFichasFallaFiltrada.length > 0">
+                                <tr v-for="(item, key) in infoFichasFallaFiltrada" :key="key" class="h-12 text-gray-900 text-sm text-center">                
+                                    <td class="cuerpoTable">{{ item.referenceNumber }}</td>
+                                    <td class="cuerpoTable">{{ item.squareName }}</td>
+                                    <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) }}</td>
+                                    <td class="cuerpoTable">{{ item.lanes }}</td>
+                                    <td class="cuerpoTable">{{ item.failuerNumber }}</td>
+                                    <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
                                     <td class="cuerpoTable">
-                                    <div>                        
-                                        <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton">
-                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Descargar</span>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="cuerpoTable">
-                                    <div>                                      
-                                        <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
-                                            <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Editar</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                        <div>                        
+                                            <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton">
+                                                <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span>Descargar</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                        <td class="cuerpoTable">
+                                        <div>                        
+                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton">
+                                                <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span>Descargar</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="cuerpoTable">
+                                        <div>                                      
+                                            <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
+                                                <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span>Editar</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>  
                         </tbody>
                     </table>
                 </div>
@@ -81,16 +97,19 @@ export default {
     data (){
         return {
             infoFichasFallaCompleta:[],
-            infoFichasFallaFiltrada: []
+            infoFichasFallaFiltrada: [],
+            loadingTabla: false
         }
     },
     beforeMount: function (){
+        this.loadingTabla = true
         let userId = this.$store.state.Login.cookiesUser.userId
         Axios.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
             console.log(response)
             this.infoFichasFallaCompleta = response.data.result
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+            this.loadingTabla = false
         })
         .catch((error) => {
             console.log(error)            
@@ -100,10 +119,15 @@ export default {
         guardar_palabra_busqueda: function(newPalabra){
             console.log(newPalabra)      
             if (newPalabra != "") {
+                this.infoFichasFallaFiltrada = []
+                this.loadingTabla = true
+                setTimeout(() => {
                     let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
-                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
-                })       
-                this.infoFichasFallaFiltrada = array_filtrado;
+                        return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+                    })       
+                    this.infoFichasFallaFiltrada = array_filtrado;
+                    this.loadingTabla = false
+                },1000)
             }
             else{
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
@@ -117,7 +141,11 @@ export default {
         },
         filtrar_concentrado_diagnostico(objFiltro){            
             this.infoFichasFallaFiltrada = []
-            this.infoFichasFallaFiltrada = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
+            this.loadingTabla = true
+            setTimeout(() => {
+                this.infoFichasFallaFiltrada = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
+                this.loadingTabla = false
+            },1000)
         },
         limpiar_filtros(){
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
