@@ -8,7 +8,7 @@
             @limpiar-filtros="limpiar_filtros" 
             @filtrar-dtc="filtro_dtc"
             @buscar-dtc="guardar_palabra_busqueda" 
-            :titulo="'DTC Pendientes'" 
+            :titulo="'Concentrado DTC'" 
             :dtcVista="'pendientes'" 
             :tipo="'DTC'" 
             :listaStatus="statusValidos">
