@@ -106,7 +106,22 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     ////                           Body TABLA                     //////////
                     /////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table" is="transition-group">                                                                                        
+                        <tbody name="table">   
+                               <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
+                                <tr>
+                                    <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
+                                        <div class="mt-8 mb-8">Sin Informacion</div>
+                                    </td>
+                                </tr>  
+                            </template> 
+                            <template v-if="loadingTabla">  
+                            <tr>
+                                <td class="w-full" colspan="6">                                    
+                                    <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                                </td>                          
+                            </tr>  
+                            </template>   
+                            <template v-if="listaActividadesMensuales.length > 0">                                                                                     
                             <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
                                 <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.lane }}</td>
                                 <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.referenceNumber }}</td>                                
@@ -131,9 +146,13 @@
                                             <span class="text-xs sm:hidden">Actualizar</span>
                                         </button>                                   
                                     </div>
-                                </td>
-                            </tr>                                                          
-                        </tbody>
+                                </td>                                                                                     
+                            </tr>
+                            </template>                                                                                                              
+                        </tbody>     
+                        <tbody>
+                       
+                        </tbody>        
                     </table>
                 </div>
             </div>
@@ -163,14 +182,15 @@ export default {
             status: '',
             referenceNumber:'',
             mesNombre: '',
-            blockSelect: false
+            blockSelect: false,
+            loadingTabla: false
         }
     },
 /////////////////////////////////////////////////////////////////////
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function(){  
-    
+    this.loadingTabla = true        
     this.listaPlazas = await this.$store.state.Login.cookiesUser.plazasUsuario
     let cargaInicial = this.$route.params.cargaInicial
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
@@ -180,7 +200,8 @@ beforeMount: async function(){
     this.mesNombre = cargaInicial.mesNombre
     this.año = cargaInicial.año
     this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
-    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)               
+    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
+    this.loadingTabla = false          
 },
 computed:{
     carriles_plaza(){
@@ -214,25 +235,35 @@ methods: {
         })
     },
     filtrar_sin_referencia: async function(){
-        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
-        this.$nextTick().then(() => {
-            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-            this.plazaNombre = actualizar.plazaNombre,
-            this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect           
-            this.mesNombre = actualizar.mesNombre
-        })
+        this.listaActividadesMensuales = []
+        this.loadingTabla = true  
+        setTimeout(async () => {
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
+                this.$nextTick().then(() => {
+                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                    this.plazaNombre = actualizar.plazaNombre,
+                    this.comentario = actualizar.comentario,
+                    this.plazaSelect = actualizar.plazaSelect           
+                    this.mesNombre = actualizar.mesNombre
+                    this.loadingTabla = false
+                })
+        },1000)
     },
     filtrar_actividades_mensuales: async function(){ 
         if(this.referenceNumber != ''){
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
-            this.$nextTick().then(() => {
-                this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-                this.plazaNombre = actualizar.plazaNombre,
-                this.comentario = actualizar.comentario,
-                this.plazaSelect = actualizar.plazaSelect           
-                this.mesNombre = actualizar.mesNombre
-            })
+            this.listaActividadesMensuales = []
+            this.loadingTabla = true  
+            setTimeout(async () => {
+                let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
+                this.$nextTick().then(() => {
+                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                    this.plazaNombre = actualizar.plazaNombre,
+                    this.comentario = actualizar.comentario,
+                    this.plazaSelect = actualizar.plazaSelect           
+                    this.mesNombre = actualizar.mesNombre
+                    this.loadingTabla = false  
+                })
+            },1000)
         }else{
             this.$notify.warning({
             title: "Ups!",
