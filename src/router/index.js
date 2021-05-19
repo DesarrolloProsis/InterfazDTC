@@ -69,16 +69,7 @@ const routes = [
   {
     path: '/Configuracion',
     name: 'Configuracion',
-    component: Configuracion,
-    beforeEnter: async function (to, from, next) {
-      let user = store.getters['Login/GET_USEER_ID_PLAZA_ID']
-      let params = {
-        Id: user.idUser,
-        Square: user.numPlaza
-      }
-      await store.dispatch('Usuarios/Consulta_Users', params)
-      next()
-    }
+    component: Configuracion,  
   },
   {
     path: '/Usuarios',

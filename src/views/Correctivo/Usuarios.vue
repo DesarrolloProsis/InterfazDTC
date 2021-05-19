@@ -209,9 +209,8 @@ export default {
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
-  beforeMount: function () {
-    this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];     
-    this.lista_Usuarios_Filtrada = this.lista_Usuarios
+  beforeMount: async function () {
+    this.refrescar_usuarios()    
     if (this.$store.state.Login.cookiesUser.rollId == 1) {
       this.typeUser = false;
     }
@@ -231,6 +230,17 @@ export default {
         this.User.Password = "";
         this.User.RePassword = "";
       }
+    },
+    refrescar_usuarios: function(){
+      this.lista_Usuarios = []
+      this.lista_Usuarios_Filtrada = []
+      let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+      let params = { Id: user.idUser, Square: user.numPlaza}
+      this.$store.dispatch('Usuarios/Consulta_Users', params)
+      setTimeout(() => {
+        this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
+        this.lista_Usuarios_Filtrada = this.lista_Usuarios
+      },100)
     },
     borrar_usuario(item) {
       let User = { id: item.userId, square: ""};
@@ -285,7 +295,8 @@ export default {
                     width: 500,
                   },
                 })
-                this.modalEditar = false
+                this.modalEditar = false                
+                this.refrescar_usuarios()
               })
               .catch((error) => console.log(error))
           },1000)
