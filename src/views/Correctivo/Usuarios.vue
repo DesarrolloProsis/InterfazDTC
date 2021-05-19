@@ -244,9 +244,30 @@ export default {
         password: '1234',
         rol: this.objUsuarioNuevo.tipoUsuario,
       }
+      let passwordGenerado = ''
+      let userNuevoId = ''      
       Axios.post(`${API}/User/nuevo`,objInsert)
-      .then((response) => {
-          console.log(response.data);
+      .then((response) => {                    
+          passwordGenerado = response.data.result.pass
+          userNuevoId = response.data.result.userId
+          this.objUsuarioNuevo.plazas.forEach(plaza => {
+            let plazaInsert = {
+              userId: response.data.result.userId,
+              squareCatalogId: plaza.squareCatalogId,
+              clavePlaza: plaza.referenceSquare
+            }
+            Axios.post(`${API}/User/AddSquareToUser`,plazaInsert)
+              .then((responsePlaza) => console.log(responsePlaza))
+              .catch((error) => console.log(error))
+
+          })
+          setTimeout(() => {
+            console.log(passwordGenerado);
+            Axios.put(`${API}/User/ActivateUser/PM/${userNuevoId}`)
+              .then((response) => console.log(response))
+              .catch((error) => console.log(error))
+          },1000)
+
       })
       .catch((error) => console.log(error))
     }, 
