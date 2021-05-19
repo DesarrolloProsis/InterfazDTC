@@ -165,10 +165,10 @@ export default {
                 }
             }, 1000);
         },
-        enviar_imagenes: async function(value){                                       
+        enviar_imagenes: async function(value){                                                 
             let boolValidacion = this.arrayImagenes.some(item => item.name.split('-')[0] != this.referenceNumber) 
             let objGetImagen = ''
-            if(boolValidacion == true || this.arrayImagenes.length == 0){                                                 
+            if(boolValidacion ==     true || this.arrayImagenes.length == 0){                                                 
                 let rutaInsertImagenes = {};
                 if(this.tipo == 'Actividades'){
                     rutaInsertImagenes = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
@@ -195,19 +195,31 @@ export default {
                         if(this.tipo != 'ConcentradoDTC')
                             formData.append("image", imagenes);
                         else{
-                            let objPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.refereciaPlaza = this.referenceNumber.split('-')[0])
-                            console.log(objPlaza)
+                            let objPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.refereciaPlaza = this.referenceNumber.split('-')[0])                            
                             formData.append("id", this.referenceNumber);
                             formData.append("plaza", objPlaza.plazaNombre);
                             formData.append("image",imagenes);  
                         }
-                        await Axios.post(rutaInsertImagenes, formData)
-                            .then((response) => {                                                                                                   
-                                this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
-                            })
-                            .catch(error => {                                                      
-                                console.log(error)                                    
-                        });                       
+                        if(imagenes.type == 'image/png' || imagenes.type == 'image/jpeg'){                            
+                            await Axios.post(rutaInsertImagenes, formData)
+                                .then((response) => {                                                                                                   
+                                    this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
+                                })
+                                .catch(error => {                                                      
+                                    console.log(error)                                    
+                            });   
+                        }  
+                        else{
+                            this.$notify.warning({
+                                title: "Error!",
+                                msg: `SOLO PUEDE SUBIR IMAGENES.`,
+                                position: "bottom right",
+                                styles: {
+                                    height: 100,
+                                    width: 500,
+                                },
+                            }); 
+                        }                  
                     }                      
                 }                                
             }                 
