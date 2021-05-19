@@ -141,7 +141,6 @@ select:focus {
 .botonIconBuscar:focus{
     @apply outline-none;
 }
-
 .BuscarDeshabilitado{
     @apply bg-gray-600 tracking-wide text-black font-titulo font-bold rounded border-b-2 border-black shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -151,7 +150,6 @@ select:focus {
 .BuscarDeshabilitado:focus{
     @apply outline-none;
 }
-
 .botonCrearFoto{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -176,7 +174,6 @@ select:focus {
 .botonIconCrear:focus{
     @apply outline-none;
 }
-
 .CrearDeshabilitado{
     @apply bg-gray-600 tracking-wide text-black font-boton font-bold rounded border-b-2 border-black shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -371,6 +368,9 @@ select:focus {
 }
 .botonCrearFoto:focus{
     @apply outline-none;
+}
+.carruselGMMEP{
+    @apply rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48;
 }
 @tailwind components;
 
