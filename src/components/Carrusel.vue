@@ -3,12 +3,12 @@
 <div class="shadow-2xl bg-gray-300">
 	<div class="relative  w-full">
             <span @click="cerrar_carrusel" class="absolute  top-0 right-0">
-                <img  src="../assets/img/close.png" class=" w-8 cursor-pointer " />
+                <img  src="../assets/img/close.png" class="w-8 cursor-pointer " />
             </span>     
             <div class="inline-flex w-full">
                 <div class="my-auto absolute mt-48 ml-6 sm:ml-0" :class="{'hidden' : total <= 1}">
                     <button @click="cambiar_imagen('anterior')">
-                        <img src="../assets/img/anterior.png" class="w-24 opacity-50" alt />
+                        <img src="../assets/img/der.png" class="w-24 opacity-50 transform rotate-180" alt />
                     </button>
                 </div>         
                 <div class="block h-69 w-full text-white text-5xl text-center">           
@@ -16,7 +16,7 @@
                 </div>
                 <div class="my-auto absolute mt-48 ml-73 sm:ml-64" :class="{'hidden' : total <= 1}">
                     <button @click="cambiar_imagen('siguiente')">
-                        <img src="../assets/img/siguiente.png" class="w-24 opacity-50 " alt />
+                        <img src="../assets/img/der.png" class="w-24 opacity-50 " alt />
                     </button>
                 </div>
             </div>

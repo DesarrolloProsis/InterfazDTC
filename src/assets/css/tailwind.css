@@ -105,6 +105,9 @@ select:focus {
 .botonAdminPre:focus{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-2 border-gray-200 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
+.botonTodos{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-green-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}    
 .botonTodos:hover{
     @apply border-green-600 bg-green-300 text-white transition duration-500;
 }
@@ -249,6 +252,12 @@ select:focus {
 }
 .botonIconBorrarCard:hover{
     @apply bg-red-300 border-red-600 text-white transition duration-500;
+}
+.botonIconBorrarCardDes{
+    @apply bg-gray-400 tracking-wide text-gray-800 font-bold border-b-2 border-black shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonIconBorrarCardDes:hover{
+    @apply bg-gray-400 border-black text-gray-800 cursor-not-allowed;
 }
 .botonBorrarCard:focus{
     @apply outline-none;
