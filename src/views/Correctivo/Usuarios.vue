@@ -52,6 +52,8 @@
                         <input v-model="objUsuarioNuevo.apellidoM" type="text" class="w-full bg-white border-gray-400 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
                         <input v-model="objUsuarioNuevo.apellidoP" type="text" class="w-full bg-white border-gray-400 mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Constraseña</p>
+                        <input v-model="objUsuarioNuevo.password" type="text" class="w-full bg-white border-gray-400 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tipo Usuario</p>
                         <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2">
                           <option disabled value>Selecionar...</option>     
@@ -196,7 +198,8 @@ export default {
       objUsuarioNuevo:{
         nombre: '',
         apellidoM: '',
-        apellidoP: '',        
+        apellidoP: '',  
+        password: '',      
         tipoUsuario: '',
         plazas: []
       }
@@ -234,21 +237,29 @@ export default {
       this.$store.dispatch("Usuarios/BorrarUser", User);
     },  
     guardar_nuevo_usuario(){            
-      this.objUsuarioNuevo.tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
+      let tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
       this.objUsuarioNuevo.plazas
       console.log(this.objUsuarioNuevo);
       let objInsert = {
         name: this.objUsuarioNuevo.nombre,
         lastName1: this.objUsuarioNuevo.apellidoM,
         lastName2: this.objUsuarioNuevo.apellidoP,
-        password: '1234',
-        rol: this.objUsuarioNuevo.tipoUsuario,
-      }
-      let passwordGenerado = ''
-      let userNuevoId = ''      
-      Axios.post(`${API}/User/nuevo`,objInsert)
-      .then((response) => {                    
-          passwordGenerado = response.data.result.pass
+        password: this.objUsuarioNuevo.password,
+        rol: tipoUsuario,
+      }      
+      let userNuevoId = ''   
+      console.log(objInsert);   
+      Axios.post(`${API}/User/Nuevo`,objInsert)
+      .then((response) => {      
+          this.$notify.success({
+              title: "Ops!!",
+              msg: "SE REGISTRO EL USUARIO NUEVO  .",
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              }
+          })                        
           userNuevoId = response.data.result.userId
           this.objUsuarioNuevo.plazas.forEach(plaza => {
             let plazaInsert = {
@@ -261,15 +272,25 @@ export default {
               .catch((error) => console.log(error))
 
           })
-          setTimeout(() => {
-            console.log(passwordGenerado);
+          setTimeout(() => {            
             Axios.put(`${API}/User/ActivateUser/PM/${userNuevoId}`)
-              .then((response) => console.log(response))
+              .then((response) => {
+                console.log(response)
+                this.$notify.success({
+                  title: "Ops!!",
+                  msg: "SE ACTIVO CORRECTAMENTE EL USUARIO.",
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                })
+                this.modalEditar = false
+              })
               .catch((error) => console.log(error))
           },1000)
-
-      })
-      .catch((error) => console.log(error))
+        })
+      .catch((error) => console.log(error))      
     }, 
     limpiar_usuario() {
       for (let prop in this.User) {
