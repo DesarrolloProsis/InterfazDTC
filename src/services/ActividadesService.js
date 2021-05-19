@@ -16,11 +16,15 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
     if(ref != undefined){     
         let objApiNuevo = { "userId": user.idUser, referenceNumber: ref }        
         listaActidadesTipo = await Axios.post(`${API}/Calendario/GetActividadesFiltroReferencia`, objApiNuevo)
-            .then((response) => {
-                return response.data.result
+            .then((response) => {                
+                return response.data.result.map(actividad => { 
+                    let ayudaFecha = new Date(parseInt(actividad.year), parseInt(actividad.month - 1), parseInt(actividad.day))                                                                     
+                    actividad["day"] = moment(ayudaFecha).format("DD/MM/YYYY"); //`${actividad.day}/${obj.month}/${obj.year}`  
+                    actividad["frequencyName"] = store.state.Actividades.catalogoActividades.find(item => item.value == actividad.frequencyId).text         
+                    return { ...actividad }
+                })                  
             })
-            .catch((error) => console.log(error))
-   
+            .catch((error) => console.log(error))   
     }
     else{   
         let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
