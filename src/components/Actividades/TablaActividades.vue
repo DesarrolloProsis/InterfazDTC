@@ -106,34 +106,53 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     ////                           Body TABLA                     //////////
                     /////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table" is="transition-group">                                                                                        
-                            <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.lane }}</td>
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.referenceNumber }}</td>                                
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.day}}</td>
-                                <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
-                                <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
-                                <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                <td class="w-64 text-center cuerpoTable">
-                                    <div v-if="item.statusMaintenance == false">                               
-                                        <button @click="crear_reporte_carril(item)" class="botonIconCrear">
-                                            <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span class="text-xs sm:hidden">Crear</span>
-                                        </button>
-                                    </div>
-                                    <div v-else>
-                                        <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2">
-                                            <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                            <span class="text-xs sm:hidden">Descargar</span>
-                                        </button>
-                                        <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1">
-                                            <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
-                                            <span class="text-xs sm:hidden">Actualizar</span>
-                                        </button>                                   
-                                    </div>
-                                </td>
-                            </tr>                                                          
-                        </tbody>
+                        <tbody name="table">   
+                            <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
+                                <tr>
+                                    <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
+                                        <div class="mt-8 mb-8">Sin Informacion</div>
+                                    </td>
+                                </tr>  
+                            </template> 
+                            <template v-if="loadingTabla">  
+                                <tr>
+                                    <td class="w-full" colspan="6">                                    
+                                        <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                                    </td>                          
+                                </tr>  
+                            </template>   
+                            <template v-if="listaActividadesMensuales.length > 0">                                                                                     
+                                <tr class="h-12 text-gray-900" v-for="(item, key) in listaActividadesMensuales" :key="key"> 
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.lane }}</td>
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.referenceNumber }}</td>                                
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.day}}</td>
+                                    <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
+                                    <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
+                                    <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
+                                    <td class="w-64 text-center cuerpoTable">
+                                        <div v-if="item.statusMaintenance == false">                               
+                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear">
+                                                <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Crear</span>
+                                            </button>
+                                        </div>
+                                        <div v-else>
+                                            <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2">
+                                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Descargar</span>
+                                            </button>
+                                            <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1">
+                                                <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Actualizar</span>
+                                            </button>                                   
+                                        </div>
+                                    </td>                                                                                     
+                                </tr>
+                            </template>                                                                                                              
+                        </tbody>     
+                        <tbody>
+                       
+                        </tbody>        
                     </table>
                 </div>
             </div>
@@ -163,14 +182,15 @@ export default {
             status: '',
             referenceNumber:'',
             mesNombre: '',
-            blockSelect: false
+            blockSelect: false,
+            loadingTabla: false
         }
     },
 /////////////////////////////////////////////////////////////////////
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function(){  
-    
+    this.loadingTabla = true        
     this.listaPlazas = await this.$store.state.Login.cookiesUser.plazasUsuario
     let cargaInicial = this.$route.params.cargaInicial
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
@@ -180,7 +200,8 @@ beforeMount: async function(){
     this.mesNombre = cargaInicial.mesNombre
     this.año = cargaInicial.año
     this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
-    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)               
+    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
+    this.loadingTabla = false          
 },
 computed:{
     carriles_plaza(){
@@ -214,25 +235,35 @@ methods: {
         })
     },
     filtrar_sin_referencia: async function(){
-        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
-        this.$nextTick().then(() => {
-            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-            this.plazaNombre = actualizar.plazaNombre,
-            this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect           
-            this.mesNombre = actualizar.mesNombre
-        })
+        this.listaActividadesMensuales = []
+        this.loadingTabla = true  
+        setTimeout(async () => {
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
+                this.$nextTick().then(() => {
+                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                    this.plazaNombre = actualizar.plazaNombre,
+                    this.comentario = actualizar.comentario,
+                    this.plazaSelect = actualizar.plazaSelect           
+                    this.mesNombre = actualizar.mesNombre
+                    this.loadingTabla = false
+                })
+        },1000)
     },
     filtrar_actividades_mensuales: async function(){ 
         if(this.referenceNumber != ''){
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
-            this.$nextTick().then(() => {
-                this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-                this.plazaNombre = actualizar.plazaNombre,
-                this.comentario = actualizar.comentario,
-                this.plazaSelect = actualizar.plazaSelect           
-                this.mesNombre = actualizar.mesNombre
-            })
+            this.listaActividadesMensuales = []
+            this.loadingTabla = true  
+            setTimeout(async () => {
+                let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
+                this.$nextTick().then(() => {
+                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                    this.plazaNombre = actualizar.plazaNombre,
+                    this.comentario = actualizar.comentario,
+                    this.plazaSelect = actualizar.plazaSelect           
+                    this.mesNombre = actualizar.mesNombre
+                    this.loadingTabla = false  
+                })
+            },1000)
         }else{
             this.$notify.warning({
             title: "Ups!",
