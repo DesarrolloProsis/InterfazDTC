@@ -259,7 +259,8 @@ beforeMount: async function () {
   this.filtroVista = false
   this.descripciones = await this.$store.state.DTC.listaDescriptions
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
-  this.infoDTC_Filtrado = this.lista_dtc
+  this.infoDTC_Filtrado = this.infoDTC
+  console.log(this.infoDTC_Filtrado)
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
   //Lista Plaza Validas
@@ -297,7 +298,7 @@ methods: {
   guardar_palabra_busqueda: function(newPalabra){
     console.log(newPalabra)      
     if (newPalabra != "") {
-      let array_filtrado = this.lista_dtc.filter(item => {
+      let array_filtrado = this.infoDTC_Filtrado.filter(item => {
         return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
       })       
       this.lista_dtc = array_filtrado;

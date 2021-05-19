@@ -71,9 +71,9 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 STATUS / VER MAS                             ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div class="flex justify-between">
+      <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">
         <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 ">Estatus {{ infoCard.statusId }}: {{ infoCard.statusDescription }}</a>        
-        <div class="pb-2" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
+        <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
