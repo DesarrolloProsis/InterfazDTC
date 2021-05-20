@@ -3,6 +3,7 @@
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 py-3 px-3">
         <HeaderGenerico :titulo="'INVENTARIO'" :contadorInventario="listEditados.length"
+            @cambiar-orden="cambiar_ordern_inventario"
             @cancelar-filtros="cancelar_filtros" 
             @filtra-palabra="guardar_palabra_busqueda"
             @guardar-cambios="guardar_cambios_inventario" :tipo="'INV'">               
@@ -11,9 +12,9 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10 ">          
+          <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
             <div class="justify-center text-center block">            
-                <img src="@/assets/img/load.gif"  class="h-48 w-48" />
+                <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
             </div>
           </div>
@@ -36,30 +37,46 @@
             </thead>
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
-            ////////////////////////////////////////////////////////////////////-->
-            <tbody name="table" is="transition-group">  
-              <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
-                <td class="cuerpoTable">{{ item.component }}</td>
-                <td class="cuerpoTable">{{ item.lane }}</td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date" onkeydown="return false"/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date" onkeydown="return false"/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
-                </td>
-                <td class="cuerpoTable">
-                  <button @click="mostrar_mas(item)" class="botonIconCrear">
-                    <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
-                    <span class="text-xs">Mas</span>
-                  </button>
-                </td>
-              </tr>
+            ////////////////////////////////////////////////////////////////////-->            
+            <tbody name="table">  
+              <template v-if="listComponent.length == 0 && loadingTabla != true"> 
+                  <tr>
+                      <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
+                          <div class="mt-8 mb-8">Sin Informacion</div>
+                      </td>
+                  </tr>  
+              </template> 
+              <template v-if="loadingTabla">  
+                  <tr>
+                      <td class="w-full" colspan="10">                                    
+                          <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                      </td>                          
+                  </tr>  
+              </template>  
+              <template v-if="listComponent.length > 0">
+                <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
+                  <td class="cuerpoTable">{{ item.component }}</td>
+                  <td class="cuerpoTable">{{ item.lane }}</td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.installationDate" type="date" onkeydown="return false"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceDate" type="date" onkeydown="return false"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
+                  </td>
+                  <td class="cuerpoTable">
+                    <button @click="mostrar_mas(item)" class="botonIconCrear">
+                      <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <span class="text-xs">Mas</span>
+                    </button>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>                      
@@ -87,7 +104,8 @@ export default {
       objCheckoBox: {},      
       tipoUsuario: 0,
       disableInputs: false,
-      modalLoading: false
+      modalLoading: false,
+      loadingTabla: false
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -95,21 +113,28 @@ export default {
 /////////////////////////////////////////////////////////////////////
   created: function(){
     //Escucha Evento SelectPlaza Component
-    EventBus.$on('ACTUALIZAR_INVENTARIO', () => {              
-        this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"](1);          
-        this.full_Component.sort((a, b) => {
-          if (a.lane < b.lane) return -1;
-          if (a.lane > b.lane) return 1;
-          return 0;
-        });  
+    EventBus.$on('ACTUALIZAR_INVENTARIO', () => {    
+        this.listComponent = []  
+        this.loadingTabla = true        
+        setTimeout(() => {
+          this.listComponent = this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];          
+          this.full_Component.sort((a, b) => {
+            if (a.lane < b.lane) return -1;
+            if (a.lane > b.lane) return 1;
+            return 0;
+          });  
+          this.loadingTabla = false      
+        },1000)        
     });
   },
-  beforeMount: async function () {    
+  beforeMount: async function () { 
+    this.loadingTabla = true
     let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza             
     await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
+    this.loadingTabla = false
   },
   destroyed(){
     EventBus.$off('ACTUALIZAR_INVENTARIO')
@@ -118,6 +143,7 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
   methods: {
+
     guardar_editado: function (value) {
       if (this.listEditados.length == 0)
         this.listEditados.push(Object.assign({}, value));
@@ -135,17 +161,16 @@ export default {
     },
     guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
-        let numAct = this.listEditados
         this.modalLoading = true
         let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
-        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });
+        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false
           this.$notify.success({
             title: "Ok!",
-            msg: `SE ACTUALIZARON ${numAct.length} COMPONENTES.`,
+            msg: `SE ACTUALIZARON ${this.listEditados.length} COMPONENTES.`,
             position: "bottom right",
             styles: {
               height: 100,
@@ -185,12 +210,17 @@ export default {
     },    
     guardar_palabra_busqueda: function(newPalabra){      
       if (newPalabra != "") {
-        let array_filtrado = this.full_Component.filter(item => {
-          return item.lane.toUpperCase().includes(newPalabra.toUpperCase()) || item.component.toUpperCase().includes(newPalabra.toUpperCase()) || item.serialNumber.toUpperCase().includes(newPalabra.toUpperCase())
-        })       
-        this.arrayPaginacion = [];
-        this.listComponent = array_filtrado;
-      }
+        this.loadingTabla = true
+        this.listComponent = []
+        setTimeout(() => {
+          let array_filtrado = this.full_Component.filter(item => {
+            return item.lane.toUpperCase().includes(newPalabra.toUpperCase()) || item.component.toUpperCase().includes(newPalabra.toUpperCase()) || item.serialNumber.toUpperCase().includes(newPalabra.toUpperCase())
+          })       
+          this.arrayPaginacion = [];
+          this.listComponent = array_filtrado;
+          this.loadingTabla = false
+        },1000)
+      } 
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -204,5 +234,3 @@ export default {
   },
 };
 </script>
-
-
