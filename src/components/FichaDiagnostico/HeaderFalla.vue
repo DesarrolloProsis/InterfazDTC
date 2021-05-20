@@ -16,12 +16,12 @@
                     <div>
                         <span>Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': boolCambiarPlaza == true}">
+                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': blockInput == true}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
-                    <div class="-ml-66 " :class="{'hidden': boolCambiarPlaza == false}">
+                    <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                        <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
                 </div>
                 <div class="mt-5 grid sm:grid grid-cols-2">
@@ -74,7 +74,7 @@
         <!--/////////////////////////////////////////////////////////////////////
         /////                             FOLIOS                            ////
         ////////////////////////////////////////////////////////////////////--> 
-        <div v-if="blockInput" class="text-center ml-68"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
+        <div v-if="blockInput" class="text-center ml-68 -mb-6"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
             <div class="mt-6 ml-5 w-full sm:-ml-6">
                 <div class="text-center w-32 ml-64 mr-40 sm:ml-0">

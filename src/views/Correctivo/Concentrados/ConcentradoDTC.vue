@@ -123,8 +123,8 @@
                   </td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
-                  <div class="grid grid-cols-2 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
-                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton  w-24 sm:w-10 sm:ml-8 mr-2">
+                  <div class="grid grid-cols-1 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8 ml-2">
                         <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
