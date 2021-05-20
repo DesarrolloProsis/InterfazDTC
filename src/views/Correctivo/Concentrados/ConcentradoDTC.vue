@@ -118,24 +118,24 @@
                   </td>
                   <td class="cuerpoTable">
                   <!-- <input type="checkbox"> -->
-                  <div class="grid grid-cols-1 md:mr-24 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
-                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton  w-24 ml-2 sm:w-10 sm:ml-8">
+                  <div class="grid grid-cols-1 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
+                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8 ml-2">
                         <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Firmado</span>
                     </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 ml-2 sm:w-10 sm:ml-8" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
+                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8" :class="{'hidden': item.escaneadobool  }" :disabled=" item.escaneadobool ">
                         <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
                     </button>
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
-                    <div class="" v-if="item.escaneadobool">                    
-                      <button class="mt-1 sm:w-10 sm:ml-8" v-if="!item.confirmpdf">
+                    <div v-if="item.escaneadobool">                    
+                      <button class="mt-1" v-if="!item.confirmpdf">
                         <div class="flex justify-center botonIconSellado font-boton">
                           <input type="file" class="opacity-0 w-auto h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
                           <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
-                          <p class="text-xs mt-1 sm:hidden">Subir Sellado</p>
+                          <p class="text-xs mt-1">Subir Sellado</p>
                         </div>                   
                       </button>
                       <div class="grid grid-cols-1" v-else>
