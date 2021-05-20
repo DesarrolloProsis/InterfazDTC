@@ -78,18 +78,36 @@ select:focus {
     @apply shadow-none;
     @apply bg-white;
 }
-.textareaFicha{
-    @apply mt-1 block w-full border-none bg-gray-300  rounded-xl shadow-lg cursor-not-allowed;
+.Home{
+    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl h-73;
 }
-.textareaFicha:hover{
-        @apply bg-gray-300;
+.Home:hover{
+    @apply bg-gray-400;
 }
-.textareaFicha:focus{
-        @apply bg-gray-300;
+.Home:focus{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-2 border-gray-200 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonesCorrectivo{
+    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl;
+}
+.botonesCorrectivo:hover{
+    @apply bg-gray-400;
+}
+.botonesCorrectivo:focus{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-2 border-gray-200 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
+}
+.botonAdminPre{
+    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl h-72;
+}
+.botonAdminPre:hover{
+    @apply bg-gray-400;
+}
+.botonAdminPre:focus{
+    @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-2 border-gray-200 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
 }
 .botonTodos{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-green-600 shadow-md py-2 px-6 inline-flex items-center ml-4 mr-4;
-}
+}    
 .botonTodos:hover{
     @apply border-green-600 bg-green-300 text-white transition duration-500;
 }
@@ -123,7 +141,6 @@ select:focus {
 .botonIconBuscar:focus{
     @apply outline-none;
 }
-
 .BuscarDeshabilitado{
     @apply bg-gray-600 tracking-wide text-black font-titulo font-bold rounded border-b-2 border-black shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -133,7 +150,6 @@ select:focus {
 .BuscarDeshabilitado:focus{
     @apply outline-none;
 }
-
 .botonCrearFoto{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-blue-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -158,7 +174,6 @@ select:focus {
 .botonIconCrear:focus{
     @apply outline-none;
 }
-
 .CrearDeshabilitado{
     @apply bg-gray-600 tracking-wide text-black font-boton font-bold rounded border-b-2 border-black shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -234,6 +249,12 @@ select:focus {
 }
 .botonIconBorrarCard:hover{
     @apply bg-red-300 border-red-600 text-white transition duration-500;
+}
+.botonIconBorrarCardDes{
+    @apply bg-gray-400 tracking-wide text-gray-800 font-bold border-b-2 border-black shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonIconBorrarCardDes:hover{
+    @apply bg-gray-400 border-black text-gray-800 cursor-not-allowed;
 }
 .botonBorrarCard:focus{
     @apply outline-none;
@@ -359,6 +380,9 @@ select:focus {
 }
 .botonCrearFoto:focus{
     @apply outline-none;
+}
+.carruselGMMEP{
+    @apply rounded-lg border max-w-2xl h-69 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48;
 }
 @tailwind components;
 

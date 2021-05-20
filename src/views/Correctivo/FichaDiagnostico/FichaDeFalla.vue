@@ -16,7 +16,7 @@
                         <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                         <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4">
                             <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                            <span>Descargar Ficha</span>
+                            <span>Generar Ficha Técnica</span>
                         </button>  
                     </div>
                 </div>

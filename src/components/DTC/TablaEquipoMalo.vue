@@ -151,6 +151,15 @@
                     <tr class="text-center">
                       <td class="cuerpoTable">{{ "*" }}</td>
                       <td class="cuerpoTable sm:text-sm">
+                        <template v-if="statusMetro">
+                          <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
+                        </template>
+                        <template v-else>
+                          {{ datosPrePartida.rowCantidad }}
+                        </template>  
+                        
+                      </td>
+                      <td class="cuerpoTable w-1 sm:hidden">
                         <button @click="modalAgregarComp">
                           <img src="../../assets/img/more.png" width="15" height="15"/>
                         </button>
@@ -170,15 +179,7 @@
                             class="hidden"
                             label="description"
                         ><span slot="noResult"></span>
-                        </multiselect>
-                      </td>
-                      <td class="cuerpoTable w-1 sm:hidden">
-                        <template v-if="statusMetro">
-                          <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
-                        </template>
-                        <template v-else>
-                          {{ datosPrePartida.rowCantidad }}
-                        </template>                      
+                        </multiselect>                     
                       </td>
                       <td class="cuerpoTable sm:hidden">{{ datosPrePartida.rowMarca.toString() }}</td>
                       <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
