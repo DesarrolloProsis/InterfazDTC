@@ -43,12 +43,6 @@
             </router-link>
           </div>
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
-            <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
-              <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" />
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado Diagnóstico</h1>
-            </router-link>
-          </div>
-          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
               <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Configuración</h1>
