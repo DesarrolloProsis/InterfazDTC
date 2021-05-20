@@ -311,7 +311,7 @@
                         :close-on-select="false"
                         :clear-on-select="true"
                         :hideSelected="false"
-                        placeholder="Carril/Cuepro"
+                        placeholder="Carril/Cuerpo"
                         :options="listLane"
                         :multiple="true"
                       >

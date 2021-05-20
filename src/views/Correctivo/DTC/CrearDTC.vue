@@ -29,7 +29,7 @@
             variación de la paridad Peso/Dólar mayor al 5%, se revisarán los
             precios.
             <br />
-            <span style="font-weight: bold">Precios en USCY:</span>
+            <span style="font-weight: bold">Precios en USD:</span>
             No incluyen IVA, el cual se cargará al momentode facturarse.
           </p>
         </div>
