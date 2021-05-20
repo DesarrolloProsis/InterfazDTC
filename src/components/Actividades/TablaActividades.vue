@@ -16,8 +16,8 @@
                                 <div class="sm:hidden -mt-2"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza></div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
-                                    <p class="w-32 input ml-16">
-                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
+                                    <p class="w-32 input ml-16 sm:ml-0">
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-24  border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="1">Enero</option>
                                         <option value="2">Febrero</option>
@@ -34,8 +34,8 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-4 sm:mt-4 sm:ml-20">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 mr-2 font-semibold">Año:</p>
-                                    <p class="w-32 input ml-16">
+                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 font-semibold">Año:</p>
+                                    <p class="w-32 input ml-16 sm:ml-0">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="2020">2020</option>
@@ -43,16 +43,16 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-5 sm:mt-20 sm:-ml-1">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 -ml-1 font-bold sm:ml-0">Carril *:</p>
-                                    <p class="w-32 input ml-16">
+                                    <p class="text-sm sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
+                                    <p class="w-32 input ml-16 sm:ml-0">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" class="w-32 border-none" v-model="ubicacion" type="text">
                                         <option value="">Selecionar...</option>
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select></p>
                                 </div> 
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
-                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status *:</p>
-                                    <p class="w-48 input ml-20">
+                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status:</p>
+                                    <p class="w-48 input ml-20 sm:ml-0 sm:w-32">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="status" class="w-48 sm:w-24 border-none" type="text" name="TipoDescripcion" >
                                         <option value="">Todos</option>
                                         <option :value=true>Concluido</option>
@@ -60,41 +60,37 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
-                                    <p class="text-sm sm:text-sm font-semiboldtext-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia*:</p>
-                                    <input v-model="referenceNumber" class="text-center input" placeholder="Referencia" type="text">
+                                    <p class="text-sm sm:text-sm font-semibold text-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia:</p>
+                                    <input v-model="referenceNumber" class="text-center input sm:w-32" placeholder="Referencia" type="text">
                                 </div>
-                                <div class="mt-2 ml-4">
+                                <div class="mt-2 ml-4 sm:ml-20 sm:w-32">
                                     <button @click="limpiar_filtros" class="botonTodos">
-                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
+                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0 sm:-ml-4" width="25" height="2"/>
                                         <span class="">Todos</span>
                                     </button>
                                 </div>
                             </div>                           
                         </div>
-                        <div class="text-center sm:flex mb-4 ml-16 mt-2 sm:ml-4 hidden">
+                        <div class="text-center mb-4 ml-16 mt-2 sm:ml-4 hidden sm:hidden md:hidden lg:hidden">
                             <button @click="filtrar_actividades_mensuales" class="botonIconBuscar">
                                 <img src="../../assets/img/lupa.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                 <span class="text-xs">Buscar Actividades</span>
-                            </button>
-                            <button @click="limpiar_filtros" class="botonTodos">
-                                <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
-                                <span class="">Todos</span>
                             </button>
                         </div>                          
                     </div>                                        
                 </div> 
             </div>
             <div class="sm:m-2 sm:w-full sm:ml-1">
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
+                <div class="divtabla sm:mb-24 font-titulo" style="height:600px;">
                     <!--//////////////////////////////////////////////////////////////////////
                     ////                           TABLA                             ////////
                     ////////////////////////////////////////////////////////////////////-->
-                    <table class="border-collapse bg-white table-striped relative">
+                    <table class="table table-striped" >
                         <!--////////////////////////////////////////////////////////////////////
                         ////                           HEADER TABLA                      //////
                         ////////////////////////////////////////////////////////////////////-->
                         <thead>
-                            <tr class="text-md text-gray-400 font-normal bg-blue-800">                
+                            <tr class="text-md trTable font-normal">                
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Carril</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Referencia</th>                                
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Fecha de Actividad</th>
@@ -103,9 +99,9 @@
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>                
                             </tr>
                         </thead>
-                    <!--/////////////////////////////////////////////////////////////////////
-                    ////                           Body TABLA                     //////////
-                    /////////////////////////////////////////////////////////////////////-->
+                        <!--/////////////////////////////////////////////////////////////////////
+                        ////                           Body TABLA                     //////////
+                        /////////////////////////////////////////////////////////////////////-->
                         <tbody name="table">   
                             <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
                                 <tr>
@@ -117,7 +113,7 @@
                             <template v-if="loadingTabla">  
                                 <tr>
                                     <td class="w-full" colspan="6">                                    
-                                        <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                                        <div style="border-top-color:transparent" class="laodTable"></div>
                                     </td>                          
                                 </tr>  
                             </template>   
@@ -130,18 +126,18 @@
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                     <td class="w-64 text-center cuerpoTable">
-                                        <div v-if="item.statusMaintenance == false">                               
-                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear">
+                                        <div class="ml-2" v-if="item.statusMaintenance == false">                               
+                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear sm:h-8">
                                                 <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Crear</span>
                                             </button>
                                         </div>
-                                        <div v-else>
-                                            <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2">
+                                        <div class="mr-5 grid grid-cols-1 sm:-ml-3" v-else>
+                                            <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2 w-32 sm:w-16 sm:h-8">
                                                 <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Descargar</span>
                                             </button>
-                                            <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1">
+                                            <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1 w-32 sm:w-16 sm:h-8">
                                                 <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Actualizar</span>
                                             </button>                                   
@@ -149,10 +145,7 @@
                                     </td>                                                                                     
                                 </tr>
                             </template>                                                                                                              
-                        </tbody>     
-                        <tbody>
-                       
-                        </tbody>        
+                        </tbody>       
                     </table>
                 </div>
             </div>

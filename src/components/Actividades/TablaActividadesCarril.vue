@@ -2,16 +2,16 @@
 <div>
     <div class="flex justify-center p-10">
         <div class="grid gap-4 grid-cols-1">
-            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto" :class="{ 'overflow-x-auto': scrollBool}">
+            <div class="divtabla" :class="{ 'overflow-x-auto': scrollBool}">
             <!--//////////////////////////////////////////////////////////////////////
                 ////                           TABLA                             ////
                 ////////////////////////////////////////////////////////////////////-->
-                <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped"  style="height:550px;">
+                <table class="table table-striped"  style="height:550px;">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
                     ////////////////////////////////////////////////////////////////////-->
                     <thead>
-                        <tr class="text-md h-16 text-gray-400 font-normal bg-blue-800"> 
+                        <tr class="text-md h-16 trTable"> 
                             <th class="w-64 cabeceraTable font-titulo font-medium">Equipo</th>               
                             <th class="w-64 cabeceraTable font-titulo font-medium">Componente</th> 
                             <th class="w-64 cabeceraTable font-titulo font-medium">Actividad</th>                             

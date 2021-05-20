@@ -5,7 +5,7 @@
     ////                      MODAL AGREGAR                            ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
-      <div v-if="modalAgreagrActividad" class="rounded-lg mt-64 justify-center text-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+      <div v-if="modalAgreagrActividad" class="modalAgregarActPre sm:w-64">
         <h class="text-grey-darkest text-2xl font-titulo">Agregar Actividad</h>
         <h1 class="mt-5 font-titulo">{{ fechaModal | formatModal }}</h1>
         <div>
@@ -44,20 +44,20 @@
         </div>
       </div>
     </div>
-    <!--/////////////////////////////////////////////////////////////////
-        ////            MODAL LISTA DE CARRILES                         ////
-        ////////////////////////////////////////////////////////////////////-->
+    <!--////////////////////////////////////////////////////////////////////
+    ////            MODAL LISTA DE CARRILES                            ////
+    ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
-      <div v-if="modalActividades" class="rounded-lg justify-center border absolute inset-x-0 mt-40 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">        
+      <div v-if="modalActividades" class="modalAgregarActPre sm:w-64">        
         <div class="text-center">                    
         <div class="mb-4">
             <h1 class="text-grey-darkest text-2xl font-titulo">Lista de Carriles</h1>    
             <h1 class="mt-5 font-titulo">{{ fechaModal | formatModal }}</h1>
         </div>
         <div>
-            <div class="flex mb-1 items-center h-10 text-sm border-gray-200 border-b-2 rounded-lg" v-for="(item, key) in this.carrilesModal" :key="key" >
-                <p class="w-full text-grey-darkest font-titulo">{{`Lane: ${item.lane} IdGare: ${item.idGare} CapufeNum: ${item.capufeLaneNum}`}}</p>                
-                <button @click="borrar_carril_evento(item, key)" class="p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-titulo font-medium bg-red-500 text-gray-800  hover:bg-red-400">
+            <div class="inputBorrarActPre" v-for="(item, key) in this.carrilesModal" :key="key" >
+                <p class="w-full text-grey-darkest font-titulo">{{`Lane: ${item.lane}, IdGare: ${item.idGare}, CapufeNum: ${item.capufeLaneNum}`}}</p>                
+                <button @click="borrar_carril_evento(item, key)" class="botonBorrarActPre">
                   <img src="../../assets/img/bin.png" class="" width="14" height="1"/>
                 </button>
             </div>          
