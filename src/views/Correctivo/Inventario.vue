@@ -2,8 +2,7 @@
   <div class="relative">    
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 py-3 px-3">
-        <HeaderGenerico :titulo="'INVENTARIO'" :contadorInventario="listEditados.length"
-            @cambiar-orden="cambiar_ordern_inventario"
+        <HeaderGenerico :titulo="'Inventario'" :contadorInventario="listEditados.length"
             @cancelar-filtros="cancelar_filtros" 
             @filtra-palabra="guardar_palabra_busqueda"
             @guardar-cambios="guardar_cambios_inventario" :tipo="'INV'">               
@@ -12,9 +11,9 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10">          
             <div class="justify-center text-center block">            
-                <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
+                <img src="@/assets/img/load.gif"  class="h-48 w-48" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
             </div>
           </div>
@@ -161,6 +160,7 @@ export default {
     },
     guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
+        let numAct = this.listEditados
         this.modalLoading = true
         let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
@@ -170,7 +170,7 @@ export default {
           this.modalLoading = false
           this.$notify.success({
             title: "Ok!",
-            msg: `SE ACTUALIZARON ${this.listEditados.length} COMPONENTES.`,
+            msg: `SE ACTUALIZARON ${numAct.length} COMPONENTES.`,
             position: "bottom right",
             styles: {
               height: 100,
