@@ -16,12 +16,12 @@
                     <div>
                         <span>Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': boolCambiarPlaza == true}">
+                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': blockInput == true}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
-                    <div class="-ml-66 " :class="{'hidden': boolCambiarPlaza == false}">
+                    <div class="-ml-66 " :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                        <span v-if="blockInput" class="block m-1 text-red-600 font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
                 </div>
                 <div class="mt-5 grid sm:grid grid-cols-2">
