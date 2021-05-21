@@ -52,7 +52,7 @@ const routes = [
     component: Register
   },
   {
-    path: '/NuevoDtc/:tipoVista/:referenciaFicha',
+    path: '/NuevoDtc/:tipoVista/:referenciaFicha/:tipoFalla',
     name: 'NuevoDtc',
     component: CrearDTC,
     beforeEnter: async function(to, from, next){

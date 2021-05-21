@@ -181,7 +181,7 @@ export default {
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
                             if(this.datosHeader.tipoFalla > 1){
-                                this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}`) 
+                                this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`) 
                             }
                             else
                                 this.$router.push('/Home')                          
@@ -194,7 +194,7 @@ export default {
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
                 if(this.datosHeader.tipoFalla > 1)
-                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}`)     
+                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)     
                 else
                     this.$router.push('/Home')   
             }

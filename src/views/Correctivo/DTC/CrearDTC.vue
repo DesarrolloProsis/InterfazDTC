@@ -197,6 +197,7 @@ methods: {
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
       let referenceFicha = this.referenciaFicha
+      let tipoFalla = this.$route.params.tipoFalla
       //Inserta Header
       await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
         header: header,
@@ -204,7 +205,8 @@ methods: {
         flag: this.flagCreate,
         openFlag: false,
         adminIdPlaza: adminId,   
-        referenceFicha     
+        referenceFicha,
+        tipoFalla    
       });
       //Valida si se inserto header
       if (this.$store.getters["Header/getInsertHeaderComplete"]) {
