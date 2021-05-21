@@ -388,10 +388,34 @@ select:focus {
     @apply mt-1 block w-full border-none bg-gray-300  rounded-xl shadow-lg cursor-not-allowed;
 }
 .textareaFicha:hover{
-        @apply bg-gray-300;
+    @apply bg-gray-300;
 }
 .textareaFicha:focus{
-        @apply bg-gray-300;
+    @apply bg-gray-300;
+}
+.modalAgregarActPre{
+    @apply rounded-lg mt-64 justify-center text-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl;
+}
+.inputBorrarActPre{
+    @apply flex mb-1 items-center h-10 text-sm border-gray-200 border-b-2 rounded-lg;
+}
+.botonBorrarActPre{
+    @apply p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-titulo font-medium bg-red-500 text-gray-800;
+}
+.botonBorrarActPre:hover{
+    @apply bg-red-400;
+}
+.divtabla{
+    @apply overflow-x-auto bg-white rounded-lg shadow overflow-y-auto;
+}
+.table{
+    @apply border-collapse table-auto w-full whitespace-no-wrap bg-white;
+}
+.trTable{
+    @apply text-gray-400 bg-blue-800;
+}
+.laodTable{
+    @apply mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto;    
 }
 @tailwind components;
 
