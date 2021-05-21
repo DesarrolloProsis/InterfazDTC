@@ -46,13 +46,11 @@ const actions = {
     async OBTENER_ACTIVIDADES_MESNUALES({ dispatch, commit, rootGetters}, value) {  
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)                         
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
-            .then((response) => {                               
-                commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)             
-            })
+            .then((response) => commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result))
             .catch(error => {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])  
                 console.log(error)                                                      
-        }); 
+            }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
         await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
@@ -60,9 +58,7 @@ const actions = {
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
             })
-            .catch((error) => {
-                console.log(error)                                          
-            });
+            .catch((error) => console.log(error));
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                           
