@@ -359,13 +359,13 @@ export default {
     },
     watch:{
         buscarDTC: function(newPalabra){
-            this.$emit('buscar-dtc', newPalabra)
+            this.$emit('buscar-dtc', newPalabra.trim())
         },
         buscarDF: function (newPalabra){
             this.$emit('buscar-df', newPalabra)
         },
         buscarGMMEP: function (newPalabra){
-            this.$emit('buscar-gmmep', newPalabra)
+            this.$emit('buscar-gmmep', newPalabra.trim())
         },
         buscarPalabraInventario: function(newPalabra){
             this.$emit('filtra-palabra', newPalabra)
