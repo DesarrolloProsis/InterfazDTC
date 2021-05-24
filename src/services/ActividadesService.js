@@ -53,6 +53,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
 }
 function eventos_calendario_formato(objApi){
     let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
+    console.log(eventoSinFormato)
     let catalogoActividades = store.state.Actividades.catalogoActividades
     let eventsReturn = []
     var i = 1;
@@ -70,7 +71,8 @@ function eventos_calendario_formato(objApi){
             }
         }
         i++;
-    }        
+    }
+    console.log(eventoReducidoDay)        
     for (let item of eventoReducidoDay) {  
         eventsReturn.push(construir_objeto_actividad(item, item[0]))
     }
@@ -83,7 +85,8 @@ function construir_objeto_actividad(listaCarriles, info){
             lane: carril.lane,
             capufeLaneNum: carril.capufeLaneNum,
             idGare: carril.idGare,
-            calendarId: parseInt(carril.calendarId)
+            calendarId: parseInt(carril.calendarId),
+            referenceNumber: carril.referenceNumber            
         });
     }       
     return {                        

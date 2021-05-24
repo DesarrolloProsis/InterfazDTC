@@ -56,11 +56,14 @@
             <h1 class="text-grey-darkest text-2xl font-titulo">Lista de Carriles</h1>    
             <h1 class="mt-5 font-titulo">{{ fechaModal | formatModal }}</h1>
         </div>
-        <div>
-            <div class="inputBorrarActPre" v-for="(item, key) in this.carrilesModal" :key="key" >
-                <p class="w-full text-grey-darkest font-titulo">{{`Lane: ${item.lane}, IdGare: ${item.idGare}, CapufeNum: ${item.capufeLaneNum}`}}</p>                
-                <button @click="borrar_carril_evento(item, key)" class="botonBorrarActPre">
+        <div class="overflow-y-auto" style="height:120px;">
+            <div class="inputBorrarActPre "  v-for="(item, key) in this.carrilesModal" :key="key" >
+                <p class="w-full text-grey-darkest font-titulo">{{`Carril: ${item.lane}, CapufeNum: ${item.capufeLaneNum}`}}</p>                
+                <button @click="borrar_carril_evento(item, key)" class="botonBorrarActPre" v-if="item.referenceNumber == '---'">
                   <img src="../../assets/img/bin.png" class="" width="14" height="1"/>
+                </button>
+                <button @click="borrar_carril_evento(item, key)" class="botonOkActPre" disabled v-else>
+                  <img src="../../assets/img/comprobado.png" class="" width="14" height="1"/>
                 </button>
             </div>          
         </div>    
@@ -169,19 +172,39 @@ export default {
     carriles_filtrados() {
       if (this.actividadSelect == "") {                
         return ['Sin Actividad']
-      } else if (this.actividadSelect == 1) {        
-        let carrilesReturn = this.carriles.map((item) => ({
-          value: {
-            capufeLaneNum: item.capufeLaneNum,
-            idGare: item.idGare,
-            lane: item.lane,
-          },
-          text: item.lane,
-        }));     
+      }
+      else if (this.actividadSelect == 1) { 
+        let  carrilesInvalidos = []
+        let fechaModal = moment(this.fechaModal).format('YYYY-MM-DD')
+        this.events.forEach(evento => {
+          if(evento.start == fechaModal){
+            if(evento.tipoActividad == 'Semanal'){
+              evento.carriles.forEach(carril => {
+                carrilesInvalidos.push(carril)
+              })
+            }
+          }
+        })
+        console.log(carrilesInvalidos);
+        let carrilesReturn = []
+        this.carriles.forEach(carril => {
+          let existLane = carrilesInvalidos.findIndex(item => item.capufeLaneNum == carril.capufeLaneNum)
+          if(existLane == -1) {
+            carrilesReturn.push({
+              value: {
+                capufeLaneNum: carril.capufeLaneNum,
+                idGare: carril.idGare,
+                lane: carril.lane,
+              },
+              text: carril.lane,
+            });
+          }
+        })                  
         if(this.tipoUsuario == 1)
           carrilesReturn = carrilesReturn.filter(item => item.value.capufeLaneNum != '0000')             
         return carrilesReturn
-      } else if (this.actividadSelect > 1) {
+      } 
+      else if (this.actividadSelect > 1) {
         let rolUser = this.$store.state.Login.cookiesUser.rollId
         let actividadNombre = this.listaActividades.find(item => item.value == this.actividadSelect).text
         let carriles_prohibidos = [];
