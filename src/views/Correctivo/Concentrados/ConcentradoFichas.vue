@@ -112,6 +112,9 @@ export default {
             this.loadingTabla = false
         })
         .catch((error) => {
+            this.loadingTabla = false
+            this.infoFichasFallaCompleta = []
+            this.infoFichasFallaFiltrada = []
             console.log(error)            
         })
     },

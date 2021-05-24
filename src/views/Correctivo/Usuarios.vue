@@ -245,6 +245,7 @@ export default {
     borrar_usuario(item) {
       let User = { id: item.userId, square: ""};
       this.$store.dispatch("Usuarios/BorrarUser", User);
+      this.refrescar_usuarios()
     },  
     guardar_nuevo_usuario(){            
       let tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
@@ -257,7 +258,7 @@ export default {
         password: this.objUsuarioNuevo.password,
         rol: tipoUsuario,
       }      
-      let userNuevoId = ''   
+      //let userNuevoId = ''   
       console.log(objInsert);   
       Axios.post(`${API}/User/Nuevo`,objInsert)
       .then((response) => {      
@@ -270,7 +271,7 @@ export default {
                 width: 500,
               }
           })                        
-          userNuevoId = response.data.result.userId
+          //userNuevoId = response.data.result.userId
           this.objUsuarioNuevo.plazas.forEach(plaza => {
             let plazaInsert = {
               userId: response.data.result.userId,
@@ -283,9 +284,9 @@ export default {
 
           })
           setTimeout(() => {            
-            Axios.put(`${API}/User/ActivateUser/PM/${userNuevoId}`)
-              .then((response) => {
-                console.log(response)
+            // Axios.put(`${API}/User/ActivateUser/PM/${userNuevoId}`)
+            //   .then((response) => {
+            //     console.log(response)
                 this.$notify.success({
                   title: "Ops!!",
                   msg: "SE ACTIVO CORRECTAMENTE EL USUARIO.",
@@ -297,8 +298,8 @@ export default {
                 })
                 this.modalEditar = false                
                 this.refrescar_usuarios()
-              })
-              .catch((error) => console.log(error))
+              // })
+              // .catch((error) => console.log(error))
           },1000)
         })
       .catch((error) => console.log(error))      
