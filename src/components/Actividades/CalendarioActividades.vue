@@ -11,12 +11,14 @@
         <div>
           <div>
             <div class="mt-5 font-titulo">
+              <span class="text-sm -ml-32 text-gray-500">Seleccione Frecuencia de Actividad</span>
               <select v-model="actividadSelect" class="w-full text-gray-600 h-10 border-gray-300 " type="text">
                   <option disabled value="">Selecionar...</option>
                   <option v-for="(item, index) in listaActividades" :value="item.value" :key="index">{{ item.text }}</option>
                 </select>
             </div>
-            <div class="mt-5 font-titulo">
+            <div class="mt-1 font-titulo" v-if="actividadSelect">
+              <span class="text-sm -ml-33 text-gray-500">Seleccione Ubicación Carril/Plaza</span>
               <multiselect
                 v-model="laneSelect"   
                 :custom-label="label_multi_select"                                                                     
