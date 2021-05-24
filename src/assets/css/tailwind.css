@@ -406,7 +406,7 @@ select:focus {
     @apply bg-red-400;
 }
 .botonOkActPre{
-    @apply p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-titulo font-medium bg-green-500 text-gray-800;
+    @apply p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-titulo font-medium bg-green-500 text-gray-800 cursor-default;
 }
 .divtabla{
     @apply overflow-x-auto bg-white rounded-lg shadow overflow-y-auto;
