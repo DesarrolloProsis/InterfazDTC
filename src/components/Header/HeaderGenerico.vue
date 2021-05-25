@@ -88,7 +88,9 @@
         <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3 ml-66 mb-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10 font-bold text-md">Buscar</span>
-                <p class="input w-40 is_valid"><input v-model="buscarPalabraInventario" class="bg-white sm:w-full border-none w-40" /></p>
+                <p class="input w-40 is_valid">
+                    <input v-model="buscarPalabraInventario" placeholder="Carril/Componete/Serie" class="bg-white sm:w-full border-none w-40" />
+                </p>
             </div>         
             <div class="text-sm sm:mt-4 mt-6">
                 <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
@@ -146,7 +148,7 @@
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="buscarUsuario" class="border w-66 text-center sm:w-32" placeholder="PM-000000"/>
+                <input v-model="buscarUsuario" class="border w-66 text-center sm:w-32" placeholder="Nombre Apellidos"/>
             </div>             
         </div>
         </div>
