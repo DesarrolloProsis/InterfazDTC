@@ -54,12 +54,7 @@
             <div class="mt-6 ml-65 sm:ml-4 font-titulo">
                 <div>
                     <span class="">Fecha:</span>
-                    <input class="ml-16 fechaDiag" 
-                    type="date" 
-                    :disabled="blockInput"
-                    v-model="datosDiagnostico.fechaDiagnostico"
-                    @change="crear_referencia"
-                    :class="{'fechaFicha':blockInput == true}"/>
+                    <input class="ml-16 fechaDiag" type="date" :disabled="blockInput" v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true}"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora INICIO:</span>
@@ -294,9 +289,12 @@ beforeMount: async function(){
         }
     }
     else{
+        let fechaInicial = new Date()
+        this.datosDiagnostico.fechaDiagnostico = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");        
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.crear_referencia()
         this.$emit('actualizar-header', this.datosDiagnostico)          
         if(this.$route.query.data != undefined){        
             this.datosDiagnostico = this.$route.query.data        

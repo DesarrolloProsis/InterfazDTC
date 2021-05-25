@@ -82,9 +82,7 @@ export default {
     crear: function () {
       this.$validator.validate().then((row) => {
         if (row === true) {
-          if (
-            this.dataRegister.constraseña === this.dataRegister.reContraseña
-          ) {
+          if (this.dataRegister.constraseña === this.dataRegister.reContraseña) {
             let CreateUser = {
               Name: this.dataRegister.nombre,
               LastName1: this.dataRegister.apellidoMaterno,
@@ -132,7 +130,8 @@ export default {
             this.dataRegister.constraseña = "";
             this.dataRegister.reContraseña = "";
           }
-        } else {
+        } 
+        else {
           this.$notify.error({
             title: "Ops!!",
             msg: "FALTAN CAMPOS PARA LLENAR.",
