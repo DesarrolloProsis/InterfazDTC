@@ -400,10 +400,10 @@ select:focus {
     @apply flex mb-1 items-center h-10 text-sm border-gray-200 border-b-2 rounded-lg;
 }
 .botonBorrarActPre{
-    @apply p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-titulo font-medium bg-red-500 text-gray-800;
+    @apply p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-titulo font-medium bg-red-600 text-gray-800;
 }
 .botonBorrarActPre:hover{
-    @apply bg-red-400;
+    @apply bg-red-500;
 }
 .botonOkActPre{
     @apply p-1 ml-4 mr-2 w-6 rounded-xl border-gray-800 text-xs font-titulo font-medium bg-green-500 text-gray-800 cursor-default;

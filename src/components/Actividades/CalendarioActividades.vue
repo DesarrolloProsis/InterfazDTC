@@ -60,7 +60,7 @@
             <div class="inputBorrarActPre "  v-for="(item, key) in this.carrilesModal" :key="key" >
                 <p class="w-full text-grey-darkest font-titulo">{{`Carril: ${item.lane}, CapufeNum: ${item.capufeLaneNum}`}}</p>                
                 <button @click="borrar_carril_evento(item, key)" class="botonBorrarActPre" v-if="item.referenceNumber == '---'">
-                  <img src="../../assets/img/bin.png" class="" width="14" height="1"/>
+                  <img src="../../assets/img/close.png" class="" width="14" height="1"/>
                 </button>
                 <button @click="borrar_carril_evento(item, key)" class="botonOkActPre" disabled v-else>
                   <img src="../../assets/img/comprobado.png" class="" width="14" height="1"/>
