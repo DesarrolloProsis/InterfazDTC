@@ -22,7 +22,7 @@
                 <th class="w-56 cabeceraTable font-medium">Correo</th>                
                 <th class="w-48 cabeceraTable font-medium" v-if="typeUser">Acciones</th>
               </tr>
-              <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios_Filtrada" :key="key">
+              <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in listaUsuariosFiltrada" :key="key">
                 <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
@@ -58,6 +58,12 @@
                         <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2">
                           <option disabled value>Selecionar...</option>     
                           <option v-for="(item, key) in listaTiposUsuario" :key="key">{{ item.nombre }}</option>                                                                         
+                        </select>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tramo</p>
+                        <select v-model="tramoSeleccionado" class="w-full mt-2">
+                          <option disabled value>Selecionar...</option>     
+                          <option value="1">México Acapulco</option>     
+                          <option value="2">México Irapuato</option>     
                         </select>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>                        
                         <multiselect 
@@ -175,8 +181,8 @@ export default {
   },
   data: function () {
     return {
-      lista_Usuarios: [],
-      lista_Usuarios_Filtrada: [],
+      listaUsuarios: [],
+      listaUsuariosFiltrada: [],
       User: {
         UserId: "",
         UserName: "",
@@ -195,6 +201,7 @@ export default {
       typeUser: true,
       //Metodos Nuevos
       modalEditar: false,
+      tramoSeleccionado: '',
       objUsuarioNuevo:{
         nombre: '',
         apellidoM: '',
@@ -232,14 +239,14 @@ export default {
       }
     },
     refrescar_usuarios: function(){
-      this.lista_Usuarios = []
-      this.lista_Usuarios_Filtrada = []
+      this.listaUsuarios = []
+      this.listaUsuariosFiltrada = []
       let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
       let params = { Id: user.idUser, Square: user.numPlaza}
       this.$store.dispatch('Usuarios/Consulta_Users', params)
       setTimeout(() => {
-        this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
-        this.lista_Usuarios_Filtrada = this.lista_Usuarios
+        this.listaUsuarios = this.$store.getters["Usuarios/getUsers"];   
+        this.listaUsuariosFiltrada = this.listaUsuarios
       },100)
     },
     borrar_usuario(item) {
@@ -393,13 +400,13 @@ export default {
     guardar_palabra_busqueda: function(newPalabra){
       console.log(newPalabra)      
       if (newPalabra != "") {
-        let array_filtrado = this.lista_Usuarios_Filtrada.filter(item => {
+        let array_filtrado = this.listaUsuariosFiltrada.filter(item => {
           return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
         })       
-        this.lista_Usuarios_Filtrada = array_filtrado;
+        this.listaUsuarios_Filtrada = array_filtrado;
       }
       else{
-        this.lista_Usuarios_Filtrada = this.lista_Usuarios
+        this.listaUsuariosFiltrada = this.listaUsuarios
       }
     }
   },
@@ -407,8 +414,8 @@ export default {
     listaTiposUsuario(){
       return this.$store.state.Login.tipoUsuario
     },
-    listaPlazas(){
-      return this.$store.state.Login.listaPlazas
+    listaPlazas(){            
+      return this.$store.state.Login.listaPlazas.filter(plaza => plaza.delegationId == this.tramoSeleccionado)
     }
   }
 };
