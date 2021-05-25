@@ -131,7 +131,7 @@ export default {
     
             }
             else{
-                this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+                this.listaFicha = this.infoFichasFallaCompleta
             }
         },  
         imprimir_pdf_diagnostico(referenceNumber){
@@ -149,7 +149,7 @@ export default {
             },1000)
         },
         limpiar_filtros(){
-            this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+            this.listaFicha = this.infoFichasFallaCompleta
         },
         editar_diagnostico_falla(item){
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
