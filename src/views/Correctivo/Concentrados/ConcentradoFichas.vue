@@ -141,10 +141,10 @@ export default {
             ServiceReporte.generar_pdf_ficha_falla(referenceNumber)
         },
         filtrar_concentrado_diagnostico(objFiltro){            
-            this.infoFichasFallaFiltrada = []
+            this.listaFicha = []
             this.loadingTabla = true
             setTimeout(() => {
-                this.infoFichasFallaFiltrada = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
+                this.listaFicha = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
                 this.loadingTabla = false
             },1000)
         },

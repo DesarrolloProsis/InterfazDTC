@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaencargadosFilrada" :key="key" 
+                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaEncargados" :key="key" 
                             :class="{'hidden' : item.statusAdmin != true}">
                                 <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
                                 <td class="cuerpoTable sm:hidden">{{ item.mail }}</td>
@@ -146,7 +146,7 @@ export default {
         return{
             listaencargadosCompleta: [],
             listaencargadosFilrada:[],
-            listaUs:[],
+            listaEncargados:[],
             modalEliminar: false,
             modalEditar: false,
             modalAgregar: false,
@@ -176,6 +176,7 @@ export default {
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
+            this.listaEncargados = this.listaencargadosFilrada
         }).catch((error)=>{
             console.log(error)
         })
@@ -188,15 +189,16 @@ export default {
                     console.log(response)              
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
+                    this.listaEncargados = this.listaencargadosFilrada
                 }).catch((error)=>{
                     console.log(error)                        
                 }) 
         },
         filtrar_encargados(value){
-            this.listaencargadosFilrada = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
+            this.listaEncargados = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
         },
         limpiar_encargados(){
-            this.listaencargadosFilrada = this.listaencargadosCompleta
+            this.listaEncargados = this.listaencargadosCompleta
             EventBus.$emit('Limpiar-SelectPlaza')
         },
         agregarUsuario (){
@@ -325,10 +327,10 @@ export default {
             let array_filtrado = this.listaencargadosFilrada.filter(item => {
                 return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
             })       
-            this.listaencargadosFilrada = array_filtrado;
+            this.listaEncargados = array_filtrado;
         }
         else{
-            this.listaencargadosFilrada = this.listaencargadosCompleta
+            this.listaEncargados = this.listaencargadosCompleta
         }
     }
     },

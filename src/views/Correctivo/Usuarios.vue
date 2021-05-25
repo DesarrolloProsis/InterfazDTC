@@ -22,7 +22,7 @@
                 <th class="w-56 cabeceraTable font-medium">Correo</th>                
                 <th class="w-48 cabeceraTable font-medium" v-if="typeUser">Acciones</th>
               </tr>
-              <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in lista_Usuarios_Filtrada" :key="key">
+              <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in listaUsuarios" :key="key">
                 <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
@@ -177,6 +177,7 @@ export default {
     return {
       lista_Usuarios: [],
       lista_Usuarios_Filtrada: [],
+      listaUsuarios: [],
       User: {
         UserId: "",
         UserName: "",
@@ -240,6 +241,7 @@ export default {
       setTimeout(() => {
         this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
+        this.listaUsuarios = this.lista_Usuarios_Filtrada
       },100)
     },
     borrar_usuario(item) {
@@ -396,10 +398,10 @@ export default {
         let array_filtrado = this.lista_Usuarios_Filtrada.filter(item => {
           return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
         })       
-        this.lista_Usuarios_Filtrada = array_filtrado;
+        this.listaUsuarios = array_filtrado;
       }
       else{
-        this.lista_Usuarios_Filtrada = this.lista_Usuarios
+        this.listaUsuarios = this.lista_Usuarios
       }
     }
   },
