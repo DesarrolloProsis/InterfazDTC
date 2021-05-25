@@ -8,7 +8,7 @@
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
         <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
         <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1" v-if="typeUser">
-          <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
+          <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
       <!--///////////////////////////////////////////////////////////////////
@@ -28,11 +28,11 @@
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
                 <td class="cuerpoTable text-center" v-if="typeUser">
                   <button @click="editarUsuario(item)" class="botonIconActualizar">
-                    <img src="../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                    <img src="@/assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Editar</span>
                   </button>
                   <button v-if="typeUser" @click="borrar_usuario(item)" class="botonIconLimpiar m-2">
-                    <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                    <img src="@/assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Borrar</span>
                   </button>
                 </td>
@@ -86,7 +86,7 @@
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex -mr-10 -mt-6">
             <button @click="limpiar_usuario">
-              <img src="../../assets/img/close.png" class="mr-2" width="25" height="25" />
+              <img src="@/assets/img/close.png" class="mr-2" width="25" height="25" />
             </button>
           </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -111,7 +111,7 @@
             </div>
             <div class="mt-8 flex justify-center">
               <button @click="modal_Part = true" class="botonIconNext font-boton">
-                <img src="../../assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
+                <img src="@/assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
                 <span class="text-xs">Siguiente</span>
               </button>
             </div>
@@ -143,13 +143,13 @@
             <div class="grid grid-cols-2">  
               <div class="flex justify-center mt-5 mr-10">
                 <button @click="modal_Part = false" class="mt-4 botonIconNext font-boton">
-                  <img src="../../assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
+                  <img src="@/assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
                   <span class="text-xs mr-4">Regresar</span>
                 </button>
               </div>
               <div class="flex justify-center mt-5 ml-10">
                 <button @click="confirmar" class=" mt-4 botonIconBuscar font-boton">
-                  <img src="../../assets/img/save.png" class="mr-5" width="25" height="25"/>
+                  <img src="@/assets/img/save.png" class="mr-5" width="25" height="25"/>
                   <span class="text-xs mr-5">Guardar</span>
                 </button>
               </div>
@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import HeaderGenerico from "@/components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
 import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION

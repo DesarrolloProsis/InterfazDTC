@@ -74,7 +74,7 @@ const routes = [
   {
     path: '/Usuarios',
     name: 'Usuarios',
-    component: () => import('../views/Correctivo/Usuarios')
+    component: () => import('../views/Usuarios')
   },
   {
     path: '/EncargadosPlaza',
