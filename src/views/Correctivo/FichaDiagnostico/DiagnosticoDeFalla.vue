@@ -105,9 +105,9 @@ methods:{
     enviar_header_diagnostico(value){                
         let llavesHeader = Object.keys(this.datosHeader)                   
         if(llavesHeader.length == 10){            
-            let valueHeader = Object.values(this.datosHeader)            
+            let valueHeader = Object.values(this.datosHeader)
             let validar = valueHeader.some(prop => prop == '')            
-            if(validar){                                
+            if(validar || valueHeader[5].trim().length == 0 || valueHeader[6].trim().length == 0){                                
                 this.$notify.warning({
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS.`,
