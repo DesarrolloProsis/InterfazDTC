@@ -20,7 +20,7 @@
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">  
-                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaDTC_filtrada" :key="key">
+                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaborrados" :key="key">
                                 <td class="cuerpoTable">{{ `${item.refereceNumber}` }}</td>
                                 <td class="cuerpoTable">{{ item.userName }}</td>
                                 <td class="cuerpoTable">{{ item.dateStamp | formatDate }}</td>
@@ -47,37 +47,30 @@ export default {
     data (){
         return{
             listaDTC_borrados:[],
-            listaDTC_filtrada:[]
+            listaDTC_filtrada:[],
+            listaborrados:[],
         }
     },
     beforeMount: function(){
         Axios.get(`${API}/DtcData/GetReferencesLog`)
         .then((response)=>{
             this.listaDTC_borrados = response.data.result
-            this.listaDTC_filtrada = this.listaDTC_borrados            
+            this.listaDTC_filtrada = this.listaDTC_borrados  
+            this.listaborrados = this.listaDTC_filtrada          
         }).catch((error)=>{
             console.log(error)
         })
     },
     methods:{
-        actualizarFiltro(){
-            Axios.get(`${API}/DtcData/GetReferencesLog`)
-            .then((response)=>{
-                this.listaDTC_borrados = response.data.result
-                this.listaDTC_filtrada = this.listaDTC_borrados                
-            }).catch((error)=>{
-                console.log(error)
-            })
-        },
         guardar_palabra_busqueda: function(newPalabra){        
         if (newPalabra != "") {
             let array_filtrado = this.listaDTC_filtrada.filter(item => {
                 return item.refereceNumber.toUpperCase().includes(newPalabra.toUpperCase())
             })       
-            this.listaDTC_filtrada = array_filtrado;
+            this.listaborrados = array_filtrado;
         }
         else{
-            this.listaDTC_filtrada = this.listaDTC_borrados
+            this.listaborrados = this.listaDTC_borrados
         }
     }
     },
