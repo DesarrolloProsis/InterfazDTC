@@ -43,7 +43,7 @@
                                 </tr>  
                             </template>                            
                             <template v-if="infoFichasFallaFiltrada.length > 0">
-                                <tr v-for="(item, key) in infoFichasFallaFiltrada" :key="key" class="h-12 text-gray-900 text-sm text-center">                
+                                <tr v-for="(item, key) in listaFicha" :key="key" class="h-12 text-gray-900 text-sm text-center">                
                                     <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                                     <td class="cuerpoTable">{{ item.squareName }}</td>
                                     <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) }}</td>
@@ -98,6 +98,7 @@ export default {
         return {
             infoFichasFallaCompleta:[],
             infoFichasFallaFiltrada: [],
+            listaFicha: [],
             loadingTabla: false
         }
     },
@@ -109,6 +110,7 @@ export default {
             console.log(response)
             this.infoFichasFallaCompleta = response.data.result
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+            this.listaFicha = this.infoFichasFallaFiltrada
             this.loadingTabla = false
         })
         .catch((error) => {
@@ -122,15 +124,11 @@ export default {
         guardar_palabra_busqueda: function(newPalabra){
             console.log(newPalabra)      
             if (newPalabra != "") {
-                this.infoFichasFallaFiltrada = []
-                this.loadingTabla = true
-                setTimeout(() => {
-                    let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
-                        return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
-                    })       
-                    this.infoFichasFallaFiltrada = array_filtrado;
-                    this.loadingTabla = false
-                },1000)
+                let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
+                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+                })       
+                this.listaFicha = array_filtrado;
+    
             }
             else{
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta

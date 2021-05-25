@@ -362,22 +362,22 @@ export default {
             this.$emit('buscar-dtc', newPalabra.trim())
         },
         buscarDF: function (newPalabra){
-            this.$emit('buscar-df', newPalabra)
+            this.$emit('buscar-df', newPalabra.trim())
         },
         buscarGMMEP: function (newPalabra){
             this.$emit('buscar-gmmep', newPalabra.trim())
         },
         buscarPalabraInventario: function(newPalabra){
-            this.$emit('filtra-palabra', newPalabra)
+            this.$emit('filtra-palabra', newPalabra.trim())
         },
         buscarUsuario: function(newPalabra){
-            this.$emit('filtrar-usuario', newPalabra)
+            this.$emit('filtrar-usuario', newPalabra.trim())
         },
         buscarBorrado: function(newPalabra){
-            this.$emit('filtrar-borrado', newPalabra)
+            this.$emit('filtrar-borrado', newPalabra.trim())
         },
         buscarEncargado: function(newPalabra){
-            this.$emit('buscar-encargado', newPalabra)
+            this.$emit('buscar-encargado', newPalabra.trim())
         }
     }
 }
