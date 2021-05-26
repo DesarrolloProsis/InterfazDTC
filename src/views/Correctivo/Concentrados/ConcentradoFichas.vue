@@ -46,7 +46,7 @@
                                 <tr v-for="(item, key) in listaFicha" :key="key" class="h-12 text-gray-900 text-sm text-center">                
                                     <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                                     <td class="cuerpoTable">{{ item.squareName }}</td>
-                                    <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) }}</td>
+                                    <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) | formato_concentrado }}</td>
                                     <td class="cuerpoTable">{{ item.lanes }}</td>
                                     <td class="cuerpoTable">{{ item.failuerNumber }}</td>
                                     <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
@@ -92,6 +92,7 @@
 <script>
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import Axios from 'axios'
+import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
@@ -179,7 +180,7 @@ export default {
                 causaFalla: item.causeFailure,
                 descripcionFalla: item.faultDescription,
                 diagnosticoFalla: item.failureDiagnosis,
-                fechaDiagnostico: item.diagnosisDate,
+                fechaDiagnostico: moment(item.diagnosisDate,"YYYY-MM-DD").format("YYYY-MM-DD"),
                 folioFalla: item.failuerNumber,
                 horaFin: item.end,
                 horaInicio: item.start,
@@ -191,5 +192,10 @@ export default {
             this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
         }
     },
+    filters: {
+        formato_concentrado(fecha){            
+            return moment(fecha,"YYYY-MM-DD").format("DD/MM/YYYY")
+        }
+    }
 }
 </script>

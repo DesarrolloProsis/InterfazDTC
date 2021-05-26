@@ -172,9 +172,11 @@ export default {
                     typeFaultId: this.datosHeader.tipoFalla,
                     intervention: this.datosHeader.solucionFalla,
                     updateFlag: flagInsert // 1 -> Insertar || 0 -> actualizar                    
-                }            
+                }          
+                console.log(objFicha);  
                 Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
-                    .then(() => {             
+                    .then((response) => {  
+                        console.log(response);           
                         this.reporteInsertado = true    
                         this.modalImage = true  
                         if(this.$route.params.tipoVista == 'Editar'){   
