@@ -18,6 +18,60 @@
             </div>
           </div>
         </div>
+                <!-- ////////////////////////////////////////////////////////////////////
+        ///                         MODAL INVENTARIO                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" >
+            <div><h1 class="text-center font-titulo text-4xl">Mantenimiento</h1></div>
+                <div class="grid grid-cols-2 mt-10">
+                    <div class="ml-2">
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
+                    </div>
+                    <div class="mt-8 ml-4">
+                    <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
+                    <p class="w-32 input ml-16 -mt-6 sm:ml-0">
+                    <select v-model="datosmtto.ubicacion" class="w-32 border-none"  type="text">
+                        <option value="">Selecionar...</option>
+                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                    </select></p>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <p class="text-sm mb-1 font-semibold text-gray-700">Fecha de Mantenimineto</p>
+                    <input  class="w-full is_valid" type="date" v-model="datosmtto.fecha"/>
+                </div>
+                <div class="mt-3">
+                    <p class="text-sm mb-1 font-semibold text-gray-700">Folio de Mantenimiento</p>
+                    <input  class="w-full is_valid" type="text" v-model="datosmtto.folio"/>
+                </div>
+                <div class="mt-8 flex justify-center">
+                    <button class="botonIconCrear font-boton" @click="modalAdver">
+                        <span class="">Aceptar</span>
+                    </button>
+                    <button class="botonIconCancelar font-boton" @click="modalmtto = false">
+                        <span class="">Cancelar</span>
+                    </button>
+                </div>
+        </div> 
+        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalAdv">
+            <div>
+                <h1 class="text-center font-titulo text-4xl">Advertencia</h1>
+                <span>
+                    Se van a actualizar Folios y Fechas de Mantenimiento en todos los componentes del carril {{ datosmtto.ubicacion.lane }}
+                    con fehca de mantenimineto {{ datosmtto.fecha }} y folio de Mantenimiento {{ datosmtto.folio }}
+                    A esepcion de SEMAFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA SEMAFORO MODO DE PAGO FULLMATRIX LED (CAJERO)
+                    SEMAFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)
+                </span>
+            </div>
+            <div class="mt-8 flex justify-center">
+                <button class="botonIconCrear font-boton" >
+                    <span class="">Aceptar</span>
+                </button>
+                <button class="botonIconCancelar font-boton" @click="modalAdv = false">
+                    <span class="">Cancelar</span>
+                </button>
+            </div>
+        </div> 
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1" style="height:650px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
@@ -88,6 +142,8 @@
 import { mapState } from "vuex";
 import EventBus from "../../services/EventBus.js";
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import Axios from 'axios'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
   name: "EditarComponente",
@@ -104,7 +160,13 @@ export default {
       tipoUsuario: 0,
       disableInputs: false,
       modalLoading: false,
-      loadingTabla: false
+      loadingTabla: false,
+      datosmtto: {
+        plaza:'',
+        ubicacion: '',
+        fecha: '',
+        folio: '',
+      },
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -142,7 +204,17 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
   methods: {
-
+    abrirModal: function (){
+        this.modalmtto = true
+    },
+    modalAdver: function (){
+        this.modalAdv = true
+        this.modalmtto = false
+        console.log(this.datosmtto);
+    },
+    botonModalAceptar: async function (){
+        Axios.put(`${API}/UpdateFechaFolioInventario/{}`)
+    },
     guardar_editado: function (value) {
       if (this.listEditados.length == 0)
         this.listEditados.push(Object.assign({}, value));
@@ -231,6 +303,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
   computed: {
     ...mapState("Refacciones", ["full_Component"]),
+    
   },
 };
 </script>
