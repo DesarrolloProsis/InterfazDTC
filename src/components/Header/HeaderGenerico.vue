@@ -256,8 +256,6 @@ export default {
             boolUbicacion: true,
             boolComponente: false,
             buscarPalabraInventario: '',
-            modalmtto: false,
-            modalAdv: false,
             datosAd:{},
             //data filtros
             plazaFiltro: '',
@@ -296,6 +294,9 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
+        abrirModal: function (){
+            this.$emit('abrir-modal')
+        },
         cambiar_plaza(numeroPlaza) {  
             this.plazaSeleccionada = numeroPlaza 
             this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   

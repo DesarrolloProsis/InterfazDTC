@@ -5,7 +5,9 @@
         <HeaderGenerico :titulo="'Inventario'" :contadorInventario="listEditados.length"
             @cancelar-filtros="cancelar_filtros" 
             @filtra-palabra="guardar_palabra_busqueda"
-            @guardar-cambios="guardar_cambios_inventario" :tipo="'INV'">               
+            @guardar-cambios="guardar_cambios_inventario" 
+            @abrir-modal="abrirModal"
+            :tipo="'INV'">               
         </HeaderGenerico> 
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
@@ -21,7 +23,7 @@
                 <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" >
+        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalmtto">
             <div><h1 class="text-center font-titulo text-4xl">Mantenimiento</h1></div>
                 <div class="grid grid-cols-2 mt-10">
                     <div class="ml-2">
@@ -48,7 +50,7 @@
                     <button class="botonIconCrear font-boton" @click="modalAdver">
                         <span class="">Aceptar</span>
                     </button>
-                    <button class="botonIconCancelar font-boton" @click="modalmtto = false">
+                    <button class="botonIconCancelar font-boton" @click="modalmtto = false, datosmtto.folio = '', datosmtto.ubicacion = ''">
                         <span class="">Cancelar</span>
                     </button>
                 </div>
@@ -57,17 +59,22 @@
             <div>
                 <h1 class="text-center font-titulo text-4xl">Advertencia</h1>
                 <span>
-                    Se van a actualizar Folios y Fechas de Mantenimiento en todos los componentes del carril {{ datosmtto.ubicacion.lane }}
+                    Se van a actualizar Folios y Fechas de Mantenimiento en todos los componentes de la plaza plaza {{ $store.state.Login.plazaSelecionada.plazaNombre }}
+                    del carril {{ datosmtto.ubicacion.lane }}
                     con fehca de mantenimineto {{ datosmtto.fecha }} y folio de Mantenimiento {{ datosmtto.folio }}
-                    A esepcion de SEMAFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA SEMAFORO MODO DE PAGO FULLMATRIX LED (CAJERO)
-                    SEMAFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)
+                    A esepcion de 
+                    <ul>
+                      <li>SEMAFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA)</li> 
+                      <li>SEMAFORO MODO DE PAGO FULLMATRIX LED (CAJERO)</li>
+                      <li>SEMAFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)</li>
+                    </ul>
                 </span>
             </div>
             <div class="mt-8 flex justify-center">
                 <button class="botonIconCrear font-boton" >
-                    <span class="">Aceptar</span>
+                    <span class="" @click="boton_Modal_Aceptar">Aceptar</span>
                 </button>
-                <button class="botonIconCancelar font-boton" @click="modalAdv = false">
+                <button class="botonIconCancelar font-boton" @click="modalAdv = false, datosmtto.folio = '', datosmtto.lane = '' ">
                     <span class="">Cancelar</span>
                 </button>
             </div>
@@ -142,13 +149,16 @@
 import { mapState } from "vuex";
 import EventBus from "../../services/EventBus.js";
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import SelectPlaza from '../../components/Header/SelectPlaza'
 import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import moment from 'moment'
 
 export default {
   name: "EditarComponente",
   components: {    
-    HeaderGenerico
+    HeaderGenerico,
+    SelectPlaza
   },
   data: function () {
     return {
@@ -167,6 +177,10 @@ export default {
         fecha: '',
         folio: '',
       },
+      plazaSeleccionada: '',
+      arrayCarriles: {},
+      modalmtto: false,
+      modalAdv: false,
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -206,14 +220,27 @@ export default {
   methods: {
     abrirModal: function (){
         this.modalmtto = true
+        let fechaInicial = new Date()
+        this.datosmtto.fecha = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");
     },
     modalAdver: function (){
         this.modalAdv = true
         this.modalmtto = false
         console.log(this.datosmtto);
     },
-    botonModalAceptar: async function (){
-        Axios.put(`${API}/UpdateFechaFolioInventario/{}`)
+    boton_Modal_Aceptar: async function (){
+      let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+      let idUser = this.$store.state.Login.cookiesUser.userId
+      Axios.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.folio}/${idUser}`)
+        .then(async(response)=>{
+          console.log(response);
+          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza  
+          await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });
+
+        })
+        .catch((ex)=>{
+          console.log(ex);
+        })
     },
     guardar_editado: function (value) {
       if (this.listEditados.length == 0)
@@ -293,6 +320,16 @@ export default {
           this.loadingTabla = false
         },1000)
       } 
+    },
+    cambiar_plaza(numeroPlaza) {  
+      this.plazaSeleccionada = numeroPlaza 
+      this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
+    },
+  },
+  filters:{
+    formato_Fecha(fecha){
+      let fechaFormato = new Date(fecha)
+      return fechaFormato.toLocaleString().slice(0,10) 
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -303,6 +340,9 @@ export default {
 /////////////////////////////////////////////////////////////////////
   computed: {
     ...mapState("Refacciones", ["full_Component"]),
+    carriles_plaza(){
+      return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+    },
     
   },
 };
