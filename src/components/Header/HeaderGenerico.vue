@@ -98,10 +98,69 @@
             <div class="mt-12 ml-16">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
+            <div class="mt-8 ml-20">
+                <button class="botonIconNext" @click="abrirModal">
+                    <span>Mantenimiento</span>
+                </button>
+            </div>
         </div>
-    <!-- ////////////////////////////////////////////////////////////////////
+        <!-- ////////////////////////////////////////////////////////////////////
+        ///                         MODAL INVENTARIO                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalmtto">
+            <div><h1 class="text-center font-titulo text-4xl">Mantenimiento</h1></div>
+                <div class="grid grid-cols-2 mt-10">
+                    <div class="ml-2">
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
+                    </div>
+                    <div class="mt-8 ml-4">
+                    <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
+                    <p class="w-32 input ml-16 -mt-6 sm:ml-0">
+                    <select v-model="datosmtto.ubicacion" class="w-32 border-none"  type="text">
+                        <option value="">Selecionar...</option>
+                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                    </select></p>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <p class="text-sm mb-1 font-semibold text-gray-700">Fecha de Mantenimineto</p>
+                    <input  class="w-full is_valid" type="date" v-model="datosmtto.fecha"/>
+                </div>
+                <div class="mt-3">
+                    <p class="text-sm mb-1 font-semibold text-gray-700">Folio de Mantenimiento</p>
+                    <input  class="w-full is_valid" type="text" v-model="datosmtto.folio"/>
+                </div>
+                <div class="mt-8 flex justify-center">
+                    <button class="botonIconCrear font-boton" @click="modalAdver">
+                        <span class="">Aceptar</span>
+                    </button>
+                    <button class="botonIconCancelar font-boton" @click="modalmtto = false">
+                        <span class="">Cancelar</span>
+                    </button>
+                </div>
+        </div> 
+        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalAdv">
+            <div>
+                <h1 class="text-center font-titulo text-4xl">Advertencia</h1>
+                <span>
+                    Se van a actualizar Folios y Fechas de Mantenimiento en todos los componentes del carril {{ datosmtto.ubicacion.lane }}
+                    con fehca de mantenimineto {{ datosmtto.fecha }} y folio de Mantenimiento {{ datosmtto.folio }}
+                    A esepcion de SEMAFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA SEMAFORO MODO DE PAGO FULLMATRIX LED (CAJERO)
+                    SEMAFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)
+                </span>
+            </div>
+            <div class="mt-8 flex justify-center">
+                <button class="botonIconCrear font-boton" >
+                    <span class="">Aceptar</span>
+                </button>
+                <button class="botonIconCancelar font-boton" @click="modalAdv = false">
+                    <span class="">Cancelar</span>
+                </button>
+            </div>
+        </div> 
+        <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
-       ////////////////////////////////////////////////////////////////////-->
+        ////////////////////////////////////////////////////////////////////-->
         <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1}">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:m-0" width="25" height="25"/>
@@ -251,6 +310,15 @@ export default {
             boolUbicacion: true,
             boolComponente: false,
             buscarPalabraInventario: '',
+            modalmtto: false,
+            modalAdv: false,
+            datosmtto: {
+                plaza:'',
+                ubicacion: '',
+                fecha: '',
+                folio: '',
+            },
+            datosAd:{},
             //data filtros
             plazaFiltro: '',
             fechaFiltro: '',
@@ -288,9 +356,17 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
-        async cambiar_plaza(numeroPlaza) {  
+        abrirModal: function (){
+            this.modalmtto = true
+        },
+        modalAdver: function (){
+            this.modalAdv = true
+            this.modalmtto = false
+            console.log(this.datosmtto);
+        },
+        cambiar_plaza(numeroPlaza) {  
             this.plazaSeleccionada = numeroPlaza 
-            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){           
