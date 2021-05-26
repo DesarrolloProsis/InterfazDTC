@@ -60,17 +60,23 @@
                                     </td>
                                         <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton">
+                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" :disabled="!item.validacionFichaTecnica" :class="{'bg-gray-600': !item.validacionFichaTecnica}" class="botonDescargar font-boton">
                                                 <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span>Descargar</span>
                                             </button>
                                         </div>
                                     </td>
                                     <td class="cuerpoTable">
-                                        <div>                                      
+                                        <div v-if="item.validacionFichaTecnica">                                      
                                             <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
                                                 <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Editar</span>
+                                                <span>Editar Diagnostico</span>                                                
+                                            </button>
+                                        </div>
+                                        <div v-else>
+                                            <button @click="terminar_ficha_diagnostico(item)" class="botonIconCrear">
+                                                <img src="@/assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span>Terminar Ficha</span>                                                
                                             </button>
                                         </div>
                                     </td>
@@ -127,8 +133,7 @@ export default {
                 let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
                     return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
                 })       
-                this.listaFicha = array_filtrado;
-    
+                this.listaFicha = array_filtrado;    
             }
             else{
                 this.listaFicha = this.infoFichasFallaCompleta
@@ -153,6 +158,37 @@ export default {
         },
         editar_diagnostico_falla(item){
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
+        },
+        terminar_ficha_diagnostico(item){
+            console.log(item);
+            let carrilesMapeados = []
+            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza
+            this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)
+            let carriles = this.$store.getters["Refacciones/GET_CARRILES_STATE"];   
+            item.lanes.split(',').forEach(lane => {
+                let carrilFull = carriles.find(carril => carril.lane == lane)
+                if(carrilFull != undefined){
+                    carrilesMapeados.push({
+                        capufeLaneNum: carrilFull.capufeLaneNum,
+                        idGare: carrilFull.idGare,
+                        lane: carrilFull.lane
+                    })
+                }
+            })
+            let data = {
+                causaFalla: item.causeFailure,
+                descripcionFalla: item.faultDescription,
+                diagnosticoFalla: item.failureDiagnosis,
+                fechaDiagnostico: item.diagnosisDate,
+                folioFalla: item.failuerNumber,
+                horaFin: item.end,
+                horaInicio: item.start,
+                numeroReporte: item.siniesterNumber,
+                referenceNumber: item.referenceNumber,
+                ubicacion: carrilesMapeados,
+            }
+            console.log(data)
+            this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
         }
     },
 }

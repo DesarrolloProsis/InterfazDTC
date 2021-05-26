@@ -93,6 +93,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
 methods:{
     actualizar_header(header){
+        console.log(header)
         this.datosHeader = header
     },
     validar_horas(){
@@ -112,10 +113,7 @@ methods:{
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS.`,
                     position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                    },
+                    styles: { height: 100, width: 500,}
                 });
             }
             else{                                                
@@ -125,10 +123,7 @@ methods:{
                         title: "Ups!",
                         msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
                         position: "bottom right",
-                        styles: {
-                            height: 100,
-                            width: 500,
-                        },
+                        styles: { height: 100, width: 500,}
                     });
                 }   
                 else{
@@ -137,10 +132,7 @@ methods:{
                         title: "Ok",
                         msg: `SE CREO CORRECTAMENTE.`,
                         position: "bottom right",
-                        styles: {
-                            height: 100,
-                            width: 500,
-                        },
+                        styles: { height: 100, width: 500,}
                     });
                 }             
             }                 
@@ -150,10 +142,7 @@ methods:{
                     title: "Ups!",
                     msg: `FALTA LLENAR CAMPOS.`,
                     position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                    },
+                    styles: { height: 100, width: 500,}
                 });
         }
     },
@@ -202,9 +191,7 @@ methods:{
                                     if(this.botonEditCreate != false)
                                         this.modalImage = true                                                                    
                                 })
-                                .catch((error) => {                            
-                                    console.log(error)                                
-                                })    
+                                .catch((error) => console.log(error))    
                         }); 
                         setTimeout(() => {
                             if(this.$route.params.tipoVista == 'Editar'){
@@ -226,9 +213,7 @@ methods:{
                     this.reporteInsertado = true                                                   
                     
                 })
-                .catch((error) => {                                    
-                    console.log(error)
-                })  
+                .catch((error) => console.log(error))  
         }        
         else{
             this.type = 'FICHA' 
