@@ -53,7 +53,7 @@
                                     <td class="cuerpoTable">
                                         <div>                        
                                             <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton">
-                                                <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <img src="../../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span>Descargar</span>
                                             </button>
                                         </div>
@@ -61,7 +61,7 @@
                                         <td class="cuerpoTable">
                                         <div>                        
                                             <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton">
-                                                <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <img src="../../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span>Descargar</span>
                                             </button>
                                         </div>

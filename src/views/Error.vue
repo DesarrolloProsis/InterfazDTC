@@ -5,7 +5,7 @@
                 <h1 class="text-black text-center text-6xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">Error</h1>
                 <div class="ml-14 sm:ml-10">
                     <div class="absolute mt-8 opacity-50 mb-10 sm:-mt-64">
-                        <img src="../assets/img/advertencia.png" class="-ml-6" width="350px" height="100"/>
+                        <img src="../assets/img/warning.png" class="-ml-6" width="350px" height="100"/>
                     </div>
                     <div class="grid gap-4 grid-cols-1 py-10 px-3 mt-66">
                         <img src="../assets/img/desenchufado.png" class="ml-6 transform -rotate-45 ... opacity-50" width="200px" height="100" />

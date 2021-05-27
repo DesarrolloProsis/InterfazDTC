@@ -68,8 +68,8 @@
                         ////                  BOTONES FILTROS                        ////
                         /////////////////////////////////////////////////////////////////-->
                     <div class="m-3 text-center">
-                        <button @click.prevent="limpiar_filtros" class="botonTodosGMMEP font-boton">
-                            <img src="../../assets/img/all.png" class="mr-2" width="20" height="2"/>
+                        <button @click.prevent="limpiar_filtros" class="botonTodos font-boton">
+                            <img src="../../assets/img/todos.png" class="mr-2" width="20" height="2"/>
                             <span>Todos</span>
                         </button>
                         <button @click.prevent="filtros_calendario()" class="botonIconBuscar font-boton hidden">
