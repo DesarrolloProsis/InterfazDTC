@@ -20,10 +20,10 @@
             </div>
           </div>
         </div>
-                <!-- ////////////////////////////////////////////////////////////////////
+        <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalmtto">
+        <div class="mt-32 absolute justify-items-center is_valid shadow-xl border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalmtto">
             <div><h1 class="text-center font-titulo text-4xl">Mantenimiento</h1></div>
                 <div class="grid grid-cols-2 mt-10">
                     <div class="ml-2">
@@ -55,30 +55,41 @@
                     </button>
                 </div>
         </div> 
-        <div class="mt-32 absolute justify-items-center border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalAdv">
+        <div class="mt-32 absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5 text-gray-600" v-if="modalAdv">
             <div>
-                <h1 class="text-center font-titulo text-4xl">Advertencia</h1>
-                <span>
-                    Se van a actualizar Folios y Fechas de Mantenimiento en todos los componentes de la plaza plaza {{ $store.state.Login.plazaSelecionada.plazaNombre }}
-                    del carril {{ datosmtto.ubicacion.lane }}
-                    con fehca de mantenimineto {{ datosmtto.fecha }} y folio de Mantenimiento {{ datosmtto.folio }}
-                    A esepcion de 
-                    <ul>
-                      <li>SEMAFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA)</li> 
-                      <li>SEMAFORO MODO DE PAGO FULLMATRIX LED (CAJERO)</li>
-                      <li>SEMAFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)</li>
-                    </ul>
-                </span>
+                <h1 class="mb-10 text-center font-titulo font-bold text-4xl">
+                  <img src="../../assets/img/warning.png" class="ml-20" width="35" height="35" />
+                  <p class="-mt-10 text-black">Advertencia</p>
+                  <img src="../../assets/img/warning.png" class="ml-68 -mt-12" width="35" height="35" />
+                </h1>
+                <div>
+                  <p aling="center" class="w-69 ml-12">
+                    Se van a actualizar Folios y Fechas de Mantenimiento en todos los componentes de la plaza
+                    <span class="text-black font-bold">{{ $store.state.Login.plazaSelecionada.plazaNombre }}</span>
+                    del carril <span class="text-black font-bold">{{ datosmtto.ubicacion.lane }}</span>
+                    con fehca de Mantenimineto <span class="text-black font-bold">{{ datosmtto.fecha|formato_Fecha }}</span> y folio de Mantenimiento <span class="text-black font-bold">{{ datosmtto.folio }}</span>
+                    a excepción de: 
+                  </p>
+                  <ul class="mt-10 font-bold">
+                    <li class="ml-4">SEMÁFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA)</li> 
+                    <li class="ml-4">SEMÁFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)</li>
+                    <li class="ml-4">SEMÁFORO MODO DE PAGO FULLMATRIX LED (CAJERO)</li>
+                  </ul>
+                </div>
+                
             </div>
-            <div class="mt-8 flex justify-center">
+            <div class="mt-12 flex justify-center">
                 <button class="botonIconCrear font-boton" >
                     <span class="" @click="boton_Modal_Aceptar">Aceptar</span>
                 </button>
-                <button class="botonIconCancelar font-boton" @click="modalAdv = false, datosmtto.folio = '', datosmtto.lane = '' ">
+                <button class="botonIconCancelar font-boton" @click="modalAdv = false, datosmtto.folio = '', datosmtto.ubicacion = '' ">
                     <span class="">Cancelar</span>
                 </button>
             </div>
-        </div> 
+        </div>
+        <!-- ////////////////////////////////////////////////////////////////////
+        ///                             TABLA                               ////
+        ////////////////////////////////////////////////////////////////////-->
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1" style="height:650px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
@@ -224,14 +235,27 @@ export default {
         this.datosmtto.fecha = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");
     },
     modalAdver: function (){
+      if(this.datosmtto.folio == '' || this.datosmtto.ubicacion == '' || this.datosmtto.folio.trim().length == 0)
+      {
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `NO SE HA INGRESADO UN FOLIO DE MANTENIMIENTO.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+    
+      }else{
         this.modalAdv = true
         this.modalmtto = false
-        console.log(this.datosmtto);
+      }
     },
     boton_Modal_Aceptar: async function (){
       let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
       let idUser = this.$store.state.Login.cookiesUser.userId
-      Axios.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.folio}/${idUser}`)
+      Axios.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.fecha}/${this.datosmtto.folio}/${idUser}`)
         .then(async(response)=>{
           console.log(response);
           let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza  
@@ -328,8 +352,9 @@ export default {
   },
   filters:{
     formato_Fecha(fecha){
-      let fechaFormato = new Date(fecha)
-      return fechaFormato.toLocaleString().slice(0,10) 
+      return moment(fecha).format('DD/MM/YYYY')
+      //let fechaFormato = new Date(fecha)
+      //return fechaFormato.toLocaleString().slice(0,10) 
     }
   },
 /////////////////////////////////////////////////////////////////////
