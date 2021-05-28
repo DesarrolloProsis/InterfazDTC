@@ -289,12 +289,9 @@ beforeMount: async function(){
         }
     }
     else{
-        let fechaInicial = new Date()
-        this.datosDiagnostico.fechaDiagnostico = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");        
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-        this.crear_referencia()
         this.$emit('actualizar-header', this.datosDiagnostico)          
         if(this.$route.query.data != undefined){        
             this.datosDiagnostico = this.$route.query.data        
