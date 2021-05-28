@@ -1,20 +1,20 @@
 <template>
     <div>        
-        <div class="grid gap-4 grid-cols-1 pl-3 pr-3">   
+        <div class="grid grid-cols-1 w-1/2 ml-72 sm:ml-8">   
         <!--//////////////////////////////////////////////////////////////////////
             ////                        FILTROS                              ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="grid grid-cols justify-center mt-10" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
-                <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-66">
+            <div class="mt-10" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
+                <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-67 sm:-ml-4">
                     <div>   
-                        <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold">Bitacora de Visitas de Mantenimiento Equipos De Peaje</h1>     
+                        <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-sm font-titulo font-bold">Bitacora de Visitas de Mantenimiento Equipos De Peaje</h1>     
                     </div>
-                    <div class="flex sm:inline-block justify-center"> 
+                    <div class="grid grid-cols-4 sm:grid-cols-2 justify-center"> 
                     <!--/////////////////////////////////////////////////////////////////////
                         ////                         FILTRO TRAMO                        ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <div class="m-3 font-titulo">
-                        <p class="font-bold sm:text-sm mb-5 tex-2xl">Selecciones el Tramo</p>
+                        <div class="m-3 font-titulo sm:mt-3 sm:-ml-12">
+                        <p class="font-bold sm:text-sm mb-5 tex-2xl">Tramo</p>
                             <select v-model="tramoFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
                                 <option value="">Selecionar...</option>  
                                 <option value="1">Mexico-Acapulco</option>
@@ -24,9 +24,9 @@
                         <!--/////////////////////////////////////////////////////////////////
                             ////                         FILTRO PLAZA                       ////
                             ////////////////////////////////////////////////////////////////////-->
-                        <div class="m-3 font-titulo">
-                            <p class="font-bold sm:text-sm mb-5">Selecciones la Plaza</p>
-                            <select v-model="plazaFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
+                        <div class="m-3 font-titulo sm:mt-3 sm:ml-6">
+                            <p class="font-bold sm:text-sm mb-5">Plaza</p>
+                            <select v-model="plazaFiltro" @change="filtros_calendario" class="w-full is_valid sm:w-32" type="text">
                                 <option value="">Selecionar...</option>     
                                 <option v-for="(item, index) in listaPlazasValidas" :value="item.squareCatalogId" :key="index">{{ item.squareName }}</option> 
                             </select>
@@ -34,8 +34,8 @@
                         <!--/////////////////////////////////////////////////////////////////
                             ////                         FILTRO FECHA                        ////
                             ////////////////////////////////////////////////////////////////////-->        
-                        <div class="m-3 font-titulo">                            
-                            <p class="font-bold sm:text-sm mb-5">Seleccione el Año</p>
+                        <div class="m-3 font-titulo sm:mt-3 sm:-ml-12">                            
+                            <p class="font-bold sm:text-sm mb-5">Año</p>
                             <select v-model="añoFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
                                 <option value="">Selecionar...</option>     
                                 <option value="2020">2020</option>
@@ -45,9 +45,9 @@
                         <!--/////////////////////////////////////////////////////////////////////
                             ////                         FILTRO REFERENCIA                   ////
                             ////////////////////////////////////////////////////////////////////-->
-                        <div class="m-3 font-titulo">
-                            <p class="font-bold mb-5 sm:text-sm">Seleccione el Mes</p>
-                            <select v-model="mesFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
+                        <div class="m-3 font-titulo sm:mt-3 sm:ml-6">
+                            <p class="font-bold mb-5 sm:text-sm">Mes</p>
+                            <select v-model="mesFiltro" @change="filtros_calendario" class="w-full is_valid sm:w-32" type="text">
                                 <option value="">Selecionar...</option>     
                                 <option value="1">Enero</option>
                                 <option value="2">Febrero</option>
@@ -68,8 +68,8 @@
                         ////                  BOTONES FILTROS                        ////
                         /////////////////////////////////////////////////////////////////-->
                     <div class="m-3 text-center">
-                        <button @click.prevent="limpiar_filtros" class="botonTodosGMMEP font-boton">
-                            <img src="../../assets/img/all.png" class="mr-2" width="20" height="2"/>
+                        <button @click.prevent="limpiar_filtros" class="botonTodos font-boton">
+                            <img src="../../assets/img/todos.png" class="mr-2" width="20" height="2"/>
                             <span>Todos</span>
                         </button>
                         <button @click.prevent="filtros_calendario()" class="botonIconBuscar font-boton hidden">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div> 
-            <div class="overflow-x-auto sm:m-2 mx-auto sm:text-xs rounded-lg shadow h-66 mt-6" style="height:500px;">
+            <div class="overflow-x-auto mx-auto sm:text-xs rounded-lg shadow h-66 mt-6 sm:w-67 sm:-ml-4" style="height:500px;">
                 <table class="border-collapse table-fixed">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
@@ -102,8 +102,8 @@
                             <td class="cuerpoTable font-titulo font-normal">{{ item.nombre  }}</td>
                             <td class="cuerpoTable font-titulo font-normal">
                                 <button @click="reporte_pdf(item)" class="botonIconDescargar">
-                                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                        <span class="text-xs sm:hidden">Descargar</span>
+                                    <img src="../../assets/img/pdf.png" class="mr-2" width="15" height="15" />
+                                    <span class="text-xs">Descargar</span>
                                 </button>
                             </td>             
                         </tr>
