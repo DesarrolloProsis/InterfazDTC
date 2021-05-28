@@ -69,7 +69,7 @@
                                     </td>
                                     <td class="cuerpoTable">                                    
                                         <button @click="terminar_dtc(item.referenceNumber)" :disabled="item.validacionDTC || item.typeFaultId <= 1" :class="{'botonDescargarDes': item.validacionDTC || item.typeFaultId <= 1 }" class="botonDescargar font-boton">
-                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="../../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Terminar DTC</span>
                                         </button>                                        
                                     </td>
@@ -77,7 +77,7 @@
                                         <div v-if="item.validacionFichaTecnica">                                      
                                             <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
                                                 <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Editar Diagnostico</span>                                                
+                                                <span>Editar</span>                                                
                                             </button>
                                         </div>
                                         <div v-else>
