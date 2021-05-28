@@ -103,8 +103,12 @@
                             <td class="cuerpoTable font-titulo font-normal">
                                 <button @click="reporte_pdf(item)" class="botonIconDescargar">
                                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                        <span class="text-xs sm:hidden">Descargar</span>
+                                        <span class="text-xs sm:hidden">Calendario</span>
                                 </button>
+                                <!-- <button @click="reporte_pdf(item)" class="botonIconDescargar">
+                                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                        <span class="text-xs sm:hidden">Reporte Fotografico</span>
+                                </button> -->
                             </td>             
                         </tr>
                     </tbody>
