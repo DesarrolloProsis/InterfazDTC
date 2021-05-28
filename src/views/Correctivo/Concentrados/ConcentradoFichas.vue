@@ -21,6 +21,7 @@
                                 <th class="cabeceraTable font-medium">Folio de Siniestro</th>
                                 <th class="cabeceraTable font-medium">Diagnostico</th>
                                 <th class="cabeceraTable font-medium">Ficha</th>
+                                <th class="cabeceraTable font-medium">DTC</th>
                                 <th class="cabeceraTable font-medium">Accion</th>
                             </tr>
                         </thead>
@@ -58,13 +59,19 @@
                                             </button>
                                         </div>
                                     </td>
-                                        <td class="cuerpoTable">
+                                    <td class="cuerpoTable">
                                         <div>                        
                                             <button @click="imprimir_pdf_ficha(item.referenceNumber)" :disabled="!item.validacionFichaTecnica" :class="{'botonDescargarDes': !item.validacionFichaTecnica}" class="botonDescargar font-boton">
                                                 <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span>Descargar</span>
                                             </button>
                                         </div>
+                                    </td>
+                                    <td class="cuerpoTable">                                    
+                                        <button @click="terminar_dtc(item.referenceNumber)" :disabled="item.validacionDTC || item.typeFaultId <= 1" :class="{'botonDescargarDes': item.validacionDTC || item.typeFaultId <= 1 }" class="botonDescargar font-boton">
+                                            <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <span>Terminar DTC</span>
+                                        </button>                                        
                                     </td>
                                     <td class="cuerpoTable">
                                         <div v-if="item.validacionFichaTecnica">                                      
@@ -190,7 +197,11 @@ export default {
             }
             console.log(data)
             this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
+        },
+        terminar_dtc(referencia){
+            this.$router.push(`/NuevoDtc/Crear/${referencia}`) 
         }
+
     },
     filters: {
         formato_concentrado(fecha){            
