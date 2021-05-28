@@ -21,8 +21,8 @@
                                 <th class="cabeceraTable font-medium">Folio de Siniestro</th>
                                 <th class="cabeceraTable font-medium">Diagnostico</th>
                                 <th class="cabeceraTable font-medium">Ficha</th>
-                                <th class="cabeceraTable font-medium">DTC</th>
-                                <th class="cabeceraTable font-medium">Accion</th>
+                                <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4}">DTC</th>
+                                <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4}">Acciones</th>
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////
@@ -67,17 +67,21 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="cuerpoTable">                                    
+                                    <td class="cuerpoTable" :class="{'hidden': typeUser == 4}">                                    
                                         <button @click="terminar_dtc(item.referenceNumber)" :disabled="item.validacionDTC || item.typeFaultId <= 1" :class="{'botonDescargarDes': item.validacionDTC || item.typeFaultId <= 1 }" class="botonDescargar font-boton">
                                             <img src="../../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Terminar DTC</span>
                                         </button>                                        
                                     </td>
-                                    <td class="cuerpoTable">
+                                    <td class="cuerpoTable" :class="{'hidden': typeUser == 4}">
                                         <div v-if="item.validacionFichaTecnica">                                      
                                             <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
-                                                <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <img src="@/assets/img/pencil.png" class="sm:m-0" width="15" height="15" />
                                                 <span>Editar</span>                                                
+                                            </button>
+                                            <button @click="editar_diagnostico_falla(item)" class="botonIconCancelar">
+                                                <img src="@/assets/img/borrar.png" class="sm:m-0" width="15" height="15" />
+                                                <span>Borrar</span>                                                
                                             </button>
                                         </div>
                                         <div v-else>
@@ -113,10 +117,12 @@ export default {
             infoFichasFallaCompleta:[],
             infoFichasFallaFiltrada: [],
             listaFicha: [],
-            loadingTabla: false
+            loadingTabla: false,
+            typeUser:''
         }
     },
     beforeMount: function (){
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId 
         this.loadingTabla = true
         let userId = this.$store.state.Login.cookiesUser.userId
         Axios.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
