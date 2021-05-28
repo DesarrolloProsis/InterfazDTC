@@ -239,7 +239,7 @@ export default {
       {
         this.$notify.warning({
           title: "Ups!",
-          msg: `NO SE HA INGRESADO UN FOLIO DE MANTENIMIENTO.`,
+          msg: `NO SE HA INGRESADO LOS DATOS COMPLETOS.`,
           position: "bottom right",
           styles: {
             height: 100,
@@ -258,9 +258,27 @@ export default {
       Axios.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.fecha}/${this.datosmtto.folio}/${idUser}`)
         .then(async(response)=>{
           console.log(response);
-          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza  
-          await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });
-
+          this.modalAdv = false
+          this.modalLoading = true
+          this.datosmtto.folio = ''
+          this.datosmtto.ubicacion = ''
+          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
+          await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza }); 
+          this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
+          this.loadingTabla = false       
+          this.listEditados = [];
+          setTimeout(() => {
+            this.modalLoading = false
+            this.$notify.success({
+              title: "Ok!",
+              msg: `SE ACTUALIZARON COMPONENTES.`,
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            }); 
+          }, 500)       
         })
         .catch((ex)=>{
           console.log(ex);
