@@ -22,29 +22,29 @@
         <!--/////////////////////////////////////////////////////////////////
         ////          TEXT AREA PARA OBSERVACIONES                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1 font-titulo">
+        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1 font-titulo mt-10">
             <div class="w-1/2 sm:w-full sm:-ml-10">                
-                <p class="text-center font-bold text-xl text-gray-800 mb-5 sm:-ml-20">Observaciones</p>          
+                <p class="text-center text-xl text-gray-800 mb-5 sm:-ml-32">Observaciones</p>          
                 <textarea
                     id="obs"
                     v-model="observaciones"
-                    class="block container mx-auto py-4 mb-0 h-40 is_valid placeholder-gray-500 ph-center-observaciones sm:h-32 sm:w-66"
+                    class="block container mx-auto py-4 mb-0 h-40 is_valid placeholder-gray-500 sm:text-sm ph-center-observaciones sm:h-32 sm:w-66 sm:-ml-6"
                     placeholder="Observaciones del Mantenimiento Preventivo"
                     name="Observaciones"
                     v-bind:maxlength="limite"                    
                 />
-                <span class="text-xs text-gray-500">{{ restante }}/300</span>
+                <span class="text-xs text-gray-500 sm:ml-24">{{ restante }}/300</span>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class=" w-1/2 ml-20 sm:w-full sm:-ml-10 sm:mt-5 mt-6">
+            <div class="w-1/2 ml-20 sm:w-full sm:-ml-20 sm:mt-5 mt-6">
                 <ImagenesActividadCarril :reporteDataInsertada="reporteInsertado" :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                         BOTON CREAR REPORTE                 ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:justify-start">
+            <div class="w-1/2 justify-end flex sm:grid grid-cols-1 sm:w-full sm:-mb-32">
             <!-- reportInsert equivalente a usar route.params.tipoVista == 'crear o editar' -->
                 <div v-if="reporteInsert">
                     <div v-if="!reporteInsertado">

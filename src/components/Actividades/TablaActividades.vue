@@ -17,7 +17,7 @@
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
                                     <p class="w-32 input ml-16 sm:ml-0">
-                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-24  border-none" type="text" name="TipoDescripcion" >
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32  border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="1">Enero</option>
                                         <option value="2">Febrero</option>
@@ -36,7 +36,7 @@
                                 <div class="mb-4 ml-4 sm:mt-4 sm:ml-20">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 font-semibold">Año:</p>
                                     <p class="w-32 input ml-16 sm:ml-0">
-                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-24 border-none" type="text" name="TipoDescripcion" >
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>                                        
@@ -53,7 +53,7 @@
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status:</p>
                                     <p class="w-48 input ml-20 sm:ml-0 sm:w-32">
-                                    <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-24 border-none" type="text" name="TipoDescripcion" >
+                                    <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option value="">Todos</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
@@ -63,9 +63,9 @@
                                     <p class="text-sm sm:text-sm font-semibold text-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia:</p>
                                     <input v-model="referenceNumber" class="text-center input sm:w-32" placeholder="PM-00000" type="text">
                                 </div>
-                                <div class="mt-2 ml-4 sm:ml-20 sm:w-32">
-                                    <button @click="limpiar_filtros" class="botonTodos">
-                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0 sm:-ml-4" width="25" height="2"/>
+                                <div class="mt-2 ml-4 sm:ml-16">
+                                    <button @click="limpiar_filtros" class="botonTodos sm:w-32">
+                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                         <span class="">Todos</span>
                                     </button>
                                 </div>
@@ -80,8 +80,8 @@
                     </div>                                        
                 </div> 
             </div>
-            <div class="sm:m-2 sm:w-full sm:ml-1">
-                <div class="divtabla sm:mb-24 font-titulo" style="height:600px;">
+            <div class="sm:m-2 sm:w-full sm:ml-1 relative">
+                <div class="divtabla font-titulo" style="height:600px;">
                     <!--//////////////////////////////////////////////////////////////////////
                     ////                           TABLA                             ////////
                     ////////////////////////////////////////////////////////////////////-->
@@ -127,7 +127,7 @@
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                     <td class="w-64 text-center cuerpoTable">
                                         <div class="ml-2" v-if="item.statusMaintenance == false">                               
-                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear sm:h-8">
+                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear sm:w-16 sm:h-8">
                                                 <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Crear</span>
                                             </button>

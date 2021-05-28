@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="flex justify-center p-10">
+    <div class="flex justify-center p-2">
         <div class="grid gap-4 grid-cols-1">
             <div class="divtabla" :class="{ 'overflow-x-auto': scrollBool}">
             <!--//////////////////////////////////////////////////////////////////////
@@ -28,8 +28,8 @@
                             <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.componente }}</td>                                                         
                             <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.actividades }}</td>   
                             <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.ubicacion }}</td>                                                                                
-                            <td class="w-66 cuerpoTable font-titulo font-normal text-center" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }">                                                                
-                                <select v-model="item.jobStatus" @change="actualizar_actividad(item)" class="w-32 text-md text-gray-800 border-gray-900 " >
+                            <td class="w-66 cuerpoTable font-titulo font-normal text-center " >                                                                
+                                <select v-model="item.jobStatus" @change="actualizar_actividad(item)" class="w-32 text-md text-gray-800 is_valid ml-20 sm:ml-0" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }" >
                                     <option value="0">Seleccione...</option>
                                     <option class="bg-green-500" value="1">Ok</option>
                                     <option class="bg-yellow-500" value="2">Dañado</option>

@@ -1,16 +1,16 @@
 <template>
-    <div class="p-10">
+    <div class="">
         <!--///////////////////////////////////////////////////////////////////
           ////                             HEADER                          ////
           ////////////////////////////////////////////////////////////////////-->
         <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-10">
             <div class=" w-auto mx-auto flex justify-center">
-                <div class="w-66 p-5">
+                <div class="w-66 p-5 sm:ml-20 sm:-mt-10">
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
                 </div>
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
-                <div class="p-5 pt-0">
+                <div class="">
                     <h1 class="mt-5 font-titulo font-bold text-3xl">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel ${tituloUbicacion}` }}</h1>            
                 </div>
             </div>
@@ -63,19 +63,19 @@
                 </div>
                 <div class="flex justify-between mt-2 ml-2 font-titulo">
                     <p>Equipo con Daño Fisico y/o Vandalizado</p>
-                    <div class="bg-yellow-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-yellow-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid -mt-1 sm:mt-1">
                         <p class="mt-1 text-white">Dañado</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2 font-titulo">
                     <p>No aplica por garantia con el fabricante</p>
-                    <div class="bg-orange-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid">
+                    <div class="bg-orange-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid -mt-1 sm:mt-1">
                         <p class="mt-1 text-white">No Aplica</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2 font-titulo">
                     <p>No Existe Equipo (Vandalizado)</p>
-                    <div class="bg-red-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid">
+                    <div class="bg-red-500 border-gray-800 border w-20 h-6 ml-3 text-center is_valid -mt-1 sm:-mt-1">
                         <p class="mt-1 text-white">No Existe</p>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                             <br> 
                             <div class="grid grid-cols-2 sm:grid-cols-1 font-titulo">  
                                 <p class="font-bold my-1 sm:text-sm">Nueva Fecha *:</p>
-                                <input v-model="fechaCambio" class="border w-40" type="date"/>
+                                <input v-model="fechaCambio" class="border w-40 is_valid" type="date"/>
                             </div>
                         </div>
                         <div class="mt-5 font-titulo">
@@ -120,8 +120,8 @@
                     ////                     BOTONES MODAL CAMBIAR FECHA          ////
                     ////////////////////////////////////////////////////////////////////-->
                     <div class="justify-center flex mt-5">
-                        <button  @click="botoncambiar_modal" class="botonIconCrear font-titulo m-6 sm:m-3">Cambiar</button>
-                        <button  @click="botoncancelar_modal" class="botonIconCancelar m-6 sm:m-3">Cancelar</button>
+                        <button  @click="botoncambiar_modal" class="botonIconCrear m-6 sm:m-3">Cambiar</button>
+                        <button  @click="botoncancelar_modal" class="botonIconCancelar font-boton m-6 sm:m-3">Cancelar</button>
                     </div>
                 </div>
             </div>
