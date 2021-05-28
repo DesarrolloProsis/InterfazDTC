@@ -247,9 +247,7 @@ beforeMount: function () {
   this.loadingTabla = false
   let rol = this.$store.state.Login.cookiesUser.rollId
   if( rol == 7)
-    this.rollId = false
-  console.log(rol)
-  console.log(this.rollId)
+    this.rollId = false    
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
