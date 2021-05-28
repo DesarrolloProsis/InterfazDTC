@@ -140,7 +140,7 @@ const actions = {
       });
   },
   async BORRAR_DTC({ commit, rootGetters }, value) {    
-    await Axios.delete(`${API}/dtcData/Delete/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.refNum}/${value.userId}`)
+    await Axios.delete(`${API}/dtcData/Delete/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.refNum}/${value.userId}/${value.comentario}`)
       .then(() => {        
         commit("BORRAR_DTC_MUTATION", value)        
       })
