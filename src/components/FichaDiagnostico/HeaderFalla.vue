@@ -258,7 +258,7 @@ beforeMount: async function(){
             this.blockInput = true
             this.boolCambiarPlaza = true
         }      
-        else{ 
+        else{             
             let paramRoute = this.$route.query.item           
             let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
             this.plazaSeleccionada = plazaSelect.numeroPlaza;
@@ -288,17 +288,17 @@ beforeMount: async function(){
             }
         }
     }
-    else{
+    else{                
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
         this.$emit('actualizar-header', this.datosDiagnostico)          
-        if(this.$route.query.data != undefined){        
+        if(this.$route.query.data != undefined){                    
             this.datosDiagnostico = this.$route.query.data        
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
-        }
+        }   
     }       
 },
 /////////////////////////////////////////////////////////////////////

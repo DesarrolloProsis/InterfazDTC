@@ -46,7 +46,7 @@
                                 <tr v-for="(item, key) in listaFicha" :key="key" class="h-12 text-gray-900 text-sm text-center">                
                                     <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                                     <td class="cuerpoTable">{{ item.squareName }}</td>
-                                    <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) }}</td>
+                                    <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) | formato_concentrado }}</td>
                                     <td class="cuerpoTable">{{ item.lanes }}</td>
                                     <td class="cuerpoTable">{{ item.failuerNumber }}</td>
                                     <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
@@ -60,17 +60,23 @@
                                     </td>
                                         <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton">
+                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" :disabled="!item.validacionFichaTecnica" :class="{'botonDescargarDes': !item.validacionFichaTecnica}" class="botonDescargar font-boton">
                                                 <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span>Descargar</span>
                                             </button>
                                         </div>
                                     </td>
                                     <td class="cuerpoTable">
-                                        <div>                                      
+                                        <div v-if="item.validacionFichaTecnica">                                      
                                             <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
                                                 <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Editar</span>
+                                                <span>Editar Diagnostico</span>                                                
+                                            </button>
+                                        </div>
+                                        <div v-else>
+                                            <button @click="terminar_ficha_diagnostico(item)" class="botonIconCrear">
+                                                <img src="@/assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span>Terminar Ficha</span>                                                
                                             </button>
                                         </div>
                                     </td>
@@ -86,6 +92,7 @@
 <script>
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import Axios from 'axios'
+import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
@@ -127,8 +134,7 @@ export default {
                 let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
                     return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
                 })       
-                this.listaFicha = array_filtrado;
-    
+                this.listaFicha = array_filtrado;    
             }
             else{
                 this.listaFicha = this.infoFichasFallaCompleta
@@ -153,7 +159,43 @@ export default {
         },
         editar_diagnostico_falla(item){
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
+        },
+        terminar_ficha_diagnostico(item){
+            console.log(item);
+            let carrilesMapeados = []
+            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza
+            this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)
+            let carriles = this.$store.getters["Refacciones/GET_CARRILES_STATE"];   
+            item.lanes.split(',').forEach(lane => {
+                let carrilFull = carriles.find(carril => carril.lane == lane)
+                if(carrilFull != undefined){
+                    carrilesMapeados.push({
+                        capufeLaneNum: carrilFull.capufeLaneNum,
+                        idGare: carrilFull.idGare,
+                        lane: carrilFull.lane
+                    })
+                }
+            })
+            let data = {
+                causaFalla: item.causeFailure,
+                descripcionFalla: item.faultDescription,
+                diagnosticoFalla: item.failureDiagnosis,
+                fechaDiagnostico: moment(item.diagnosisDate,"YYYY-MM-DD").format("YYYY-MM-DD"),
+                folioFalla: item.failuerNumber,
+                horaFin: item.end,
+                horaInicio: item.start,
+                numeroReporte: item.siniesterNumber,
+                referenceNumber: item.referenceNumber,
+                ubicacion: carrilesMapeados,
+            }
+            console.log(data)
+            this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
         }
     },
+    filters: {
+        formato_concentrado(fecha){            
+            return moment(fecha,"YYYY-MM-DD").format("DD/MM/YYYY")
+        }
+    }
 }
 </script>
