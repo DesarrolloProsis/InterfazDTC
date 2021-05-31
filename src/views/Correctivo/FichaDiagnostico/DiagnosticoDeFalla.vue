@@ -29,7 +29,7 @@
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->                       
                     <HeaderFalla :tipo="'DIAG'" :reporteInsertado="reporteInsertado" @actualizar-header="actualizar_header"></HeaderFalla>                      
-                <!-- /////////////////////////////////////////////////////////////////////
+                    <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar' || botonEditCreate == false" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
@@ -44,7 +44,7 @@
                             </button>                                                                                                         
                         </div>
                         <div v-else>
-                            <button @click="enviar_header_diagnostico(true)" class="botonIconActualizar">
+                            <button @click="enviar_header_diagnostico(true)" class="botonIconActualizar sm:mt-12">
                                 <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                                 <span>Actualizar Diagnóstico</span>
                             </button>

@@ -52,25 +52,25 @@
                                     <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
                                     <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton">
-                                                <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Descargar</span>
+                                            <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton sm:w-24">
+                                                <img src="../../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span class="sm:text-xs sm:ml-1">Descargar</span>
                                             </button>
                                         </div>
                                     </td>
                                         <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton">
-                                                <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Descargar</span>
+                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton sm:w-24">
+                                                <img src="../../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <span class="sm:text-xs sm:ml-1">Descargar</span>
                                             </button>
                                         </div>
                                     </td>
                                     <td class="cuerpoTable">
                                         <div>                                      
                                             <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
-                                                <img src="@/assets/img/pencil.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Editar</span>
+                                                <img src="@/assets/img/pencil.png" class="mr-2 sm:-ml-4" width="15" height="15" />
+                                                <span class="sm:text-xs sm:ml-1">Editar</span>
                                             </button>
                                         </div>
                                     </td>
