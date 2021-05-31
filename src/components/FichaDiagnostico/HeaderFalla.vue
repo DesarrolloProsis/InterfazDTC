@@ -288,7 +288,7 @@ beforeMount: async function(){
             }
         }
     }
-    else{       
+    else{
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
