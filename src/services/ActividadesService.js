@@ -1,6 +1,6 @@
 import store from '../store/index'
 import moment from "moment";
-import Axios from 'axios'
+import Axios from '../store/ManejoSolicitudes'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){        
@@ -51,7 +51,8 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
     return obj
 }
 function eventos_calendario_formato(objApi){
-    let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)    
+    let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
+    console.log(eventoSinFormato)
     let catalogoActividades = store.state.Actividades.catalogoActividades
     let eventsReturn = []
     var i = 1;

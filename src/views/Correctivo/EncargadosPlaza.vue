@@ -127,7 +127,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios';
 import CookiesService from '../../services/CookiesService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import FiltrosServices from "../../services/FiltrosDTCServices";
@@ -172,7 +171,7 @@ export default {
     },
     beforeMount: function (){
         this.typeUser = this.$store.state.Login.cookiesUser.rollId        
-        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
+        this.$http.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
@@ -184,7 +183,7 @@ export default {
     },
     methods:{
         actualizarFiltro(){
-            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
+            this.$http.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
                 .then((response)=>{      
                     console.log(response)              
                     this.listaencargadosCompleta = response.data.result
@@ -223,7 +222,7 @@ export default {
             }else{
                 this.modalAgregar = false
                 this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                             
-                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
+                this.$http.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
@@ -235,7 +234,7 @@ export default {
         actualziar_header_plazas(){
             let userId = this.$store.state.Login.cookiesUser.userId            
             //plazas 
-            Axios.post(`${API}/login/Cookie`, { userId: userId })
+            this.$http.post(`${API}/login/Cookie`, { userId: userId })
             .then((response) => {                     
                 let plazasUsuario =  response.data.result.cookie.map(item => {        
                     return {
@@ -249,7 +248,7 @@ export default {
                 })  
                 this.$store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION',plazasUsuario)
                 //Header Lista LArga 
-                Axios.post(`${API}/login/LoginInfo`, { userId: userId })
+                this.$http.post(`${API}/login/LoginInfo`, { userId: userId })
                 .then((response) => {                    
                     this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
                     this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)      
@@ -270,7 +269,7 @@ export default {
             let objStatusUpdate = {
                 status: false,
                 adminId: this.infoDelate.adminSquareId} 
-                Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate)
+                this.$http.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate)
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
@@ -309,7 +308,7 @@ export default {
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
                     adminId: this.editUser.userId}                              
-                Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
+                this.$http.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
                     this.actualziar_header_plazas()                    

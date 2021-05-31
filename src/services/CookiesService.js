@@ -1,6 +1,7 @@
 import store from '../store/index'
 import router from '../router/index'
-import Axios from 'axios'
+import Axios from '../store/ManejoSolicitudes'
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 function formato_cookies_usuario(loginSesion){  
     return new Promise((resolve, reject) => {

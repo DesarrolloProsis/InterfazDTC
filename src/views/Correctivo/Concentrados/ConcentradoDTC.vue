@@ -194,7 +194,6 @@
 </div>
 </template>
 <script>
-import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import moment from "moment";
 import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
@@ -290,7 +289,7 @@ subirImg: async function (){
 },
 abrirCarrusel : async function (item){  
   this.dtcImg = item
-  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+  await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
     .then((response) => {              
         if(response.status != 404){                 
           if(response.data.length > 0){
@@ -334,7 +333,7 @@ editar_status_dtc: function (){
       }        
     if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
+    this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
       .then(async() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   
@@ -468,9 +467,9 @@ enviar_pdf_sellado(index){
   this.infoDTC[index].escaneadobool = false        
   this.infoDTC.splice(index, 1, Object.assign(this.infoDTC[index]))  
   let pdf_sellado_promise = new Promise((resolve, reject) => {    
-  Axios.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}/${false}`, obj.file)
+  this.$http.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}/${false}`, obj.file)
     .then(() => {          
-      Axios.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
+      this.$http.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
       .then(() => {                         
           let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                                     

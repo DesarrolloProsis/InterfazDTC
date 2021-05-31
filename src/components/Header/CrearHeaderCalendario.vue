@@ -119,7 +119,6 @@
 import ServiceActividades from '../../services/ActividadesService'
 import SelectPlaza from '../Header/SelectPlaza'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-import Axios from "axios";
 import ReportesPDFService from '../../services/ReportesPDFService'
 
 export default {
@@ -230,7 +229,7 @@ export default {
             //let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
             let  formFile = new FormData()
             formFile.append('file', calendarioEscaneadoFile)                     
-            Axios.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${this.idUser}`, formFile)
+            this.$http.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${this.idUser}`, formFile)
                 .then(() => {                                   
                     this.escaneadoBool = false
                     this.calendarioEscaneado = false

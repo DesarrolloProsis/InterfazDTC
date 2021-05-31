@@ -77,7 +77,6 @@ import TablaActividadesCarril from '../../components/Actividades/TablaActividade
 import ImagenesActividadCarril from '../../components/ImagenesGenericas'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
-import Axios from 'axios';
 import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
@@ -292,7 +291,7 @@ methods:{
             }   
             else banderaInsertar = false
             
-            Axios.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/${banderaInsertar}`, headerReporte)
+            this.$http.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/${banderaInsertar}`, headerReporte)
             .then((response) => {                                                                                                       
                     console.log(response)
                     if(this.objetoLogDate.fecha != ''){                                                          
@@ -305,7 +304,7 @@ methods:{
                             referenceNumber: this.referenceNumber,
                             comment: this.objetoLogDate.motivo
                         }
-                        Axios.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
+                        this.$http.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                             .then(() => {                                                                                                                                   
                             }).catch(error => {      
                                 console.log(error)                                                                      

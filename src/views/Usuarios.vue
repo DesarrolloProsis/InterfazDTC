@@ -170,7 +170,6 @@
 <script>
 import HeaderGenerico from "@/components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
-import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -269,7 +268,7 @@ export default {
       }      
       //let userNuevoId = ''   
       console.log(objInsert);   
-      Axios.post(`${API}/User/Nuevo`,objInsert)
+      this.$http.post(`${API}/User/Nuevo`,objInsert)
       .then((response) => {      
           this.$notify.success({
               title: "Ops!!",
@@ -287,7 +286,7 @@ export default {
               squareCatalogId: plaza.squareCatalogId,
               clavePlaza: plaza.referenceSquare
             }
-            Axios.post(`${API}/User/AddSquareToUser`,plazaInsert)
+            this.$http.post(`${API}/User/AddSquareToUser`,plazaInsert)
               .then((responsePlaza) => console.log(responsePlaza))
               .catch((error) => console.log(error))
           })

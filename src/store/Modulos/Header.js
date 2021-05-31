@@ -1,4 +1,4 @@
-import Axios from "axios"
+import Axios from '../ManejoSolicitudes'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {

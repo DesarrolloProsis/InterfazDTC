@@ -33,9 +33,7 @@
     </div>
 </template>
 <script>
-import Axios from 'axios';
 import moment from "moment";
-//import FiltrosServices from "../../../services/FiltrosDTCServices";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -52,7 +50,7 @@ export default {
         }
     },
     beforeMount: function(){
-        Axios.get(`${API}/DtcData/GetReferencesLog`)
+        this.$http.get(`${API}/DtcData/GetReferencesLog`)
         .then((response)=>{
             this.listaDTC_borrados = response.data.result
             this.listaDTC_filtrada = this.listaDTC_borrados  

@@ -46,7 +46,6 @@
 </div>
 </template>
 <script>
-import Axios from 'axios';
 import EventBus from "../../services/EventBus.js";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
@@ -96,7 +95,7 @@ export default {
                         flagUpdate: this.reporteNuevo 
                     }) 
                 })                
-                Axios.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
+                this.$http.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
                 .then((response) => {               
                     console.log(response)
                 })
@@ -114,7 +113,7 @@ export default {
                     jobStatus: parseInt(item.jobStatus),
                     flagUpdate: this.reporteNuevo 
                 }) 
-                Axios.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
+                this.$http.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
                 .then(() => {                                   
                 })
                 .catch((error) => {

@@ -102,7 +102,6 @@
 </template>
 <script>
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
-import Axios from 'axios'
 import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
@@ -125,7 +124,7 @@ export default {
         this.typeUser = this.$store.state.Login.cookiesUser.rollId 
         this.loadingTabla = true
         let userId = this.$store.state.Login.cookiesUser.userId
-        Axios.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
+        this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
             console.log(response)
             this.infoFichasFallaCompleta = response.data.result

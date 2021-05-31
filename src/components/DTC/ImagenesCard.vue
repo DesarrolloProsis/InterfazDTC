@@ -69,7 +69,7 @@
   </div>
 </template>
 <script>
-import Axios from "axios";
+
 import ServiceImagenes from '../../services/ImagenesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import EventBus from "../../services/EventBus.js";
@@ -210,7 +210,7 @@ export default {
       let eliminar_promise = new Promise(async (resolve, reject) => {        
         if (this.eliminar_name.length > 0) {
           for (let eliminar of this.eliminar_name) {
-            Axios.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`)
+            this.$http.get(`${API}/dtcData/EquipoDañado/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${eliminar}`)
               .then(() => {                
                 if(eliminar){
                   this.$notify.error({
@@ -253,7 +253,7 @@ export default {
             formData.append("plaza", nombrePlaza);
             formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));
             console.log(nombrePlaza)            
-            await Axios.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
+            await this.$http.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
               .then(() => {                            
             
               })
@@ -298,7 +298,7 @@ export default {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];
-      await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
+      await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
         .then((response) => {                    
           array_nombre_imagenes = response.data;
         })

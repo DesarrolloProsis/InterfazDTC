@@ -3,7 +3,7 @@ import saveAs from "file-saver";
 import store from '../store/index'
 import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
-import Axios from 'axios'
+import Axios from '../store/ManejoSolicitudes'
 import CookiesService from '../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const STATUS_REPORTE_CORRECTIVO = Object.freeze({

@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import Axios from 'axios'
 import ServiceImagenes from '../services/ImagenesService'
 import BarraProgreso from '../components/BarraProgreso'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -110,7 +109,7 @@ export default {
                 this.limiteFotos = 4                                
                 urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }            
-            Axios.get(urlImgPaths)
+            this.$http.get(urlImgPaths)
                 .then((response) => {                                              
                     let urlImgDescarga = ''
                     if(this.tipo == 'Actividades')
@@ -201,7 +200,7 @@ export default {
                             formData.append("image",imagenes);  
                         }
                         if(imagenes.type == 'image/png' || imagenes.type == 'image/jpeg'){                            
-                            await Axios.post(rutaInsertImagenes, formData)
+                            await this.$http.post(rutaInsertImagenes, formData)
                                 .then((response) => {                                                                                                   
                                     this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
                                 })
@@ -236,7 +235,7 @@ export default {
                     else{                                           
                         urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
-                    Axios.get(urlDeleteImg)
+                    this.$http.get(urlDeleteImg)
                         .then(() => {                                                                 
                             this.$notify.success({
                                 title: "Ok!",
@@ -261,7 +260,7 @@ export default {
             else{
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
+                    this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                     .then(() => {                                                                                                              
                     })
                     .catch(error => {                    

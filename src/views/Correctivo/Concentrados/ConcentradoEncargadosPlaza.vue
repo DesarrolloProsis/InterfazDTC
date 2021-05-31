@@ -74,7 +74,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "EncargadosDePlaza",  
@@ -96,7 +95,7 @@ export default {
         }
     },
     beforeMount: function (){
-        Axios.get(`${API}/SquaresCatalog/Admins`)
+        this.$http.get(`${API}/SquaresCatalog/Admins`)
         .then((response)=>{            
             this.lista_encargados = response.data.result
         }).catch((Ex)=>{

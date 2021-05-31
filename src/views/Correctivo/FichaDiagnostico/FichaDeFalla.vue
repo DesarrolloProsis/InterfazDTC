@@ -62,7 +62,6 @@
 
 <script>
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
-import Axios from 'axios';
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 import ServiceReporte from '../../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -174,7 +173,7 @@ export default {
                     updateFlag: flagInsert // 1 -> Insertar || 0 -> actualizar                    
                 }          
                 console.log(objFicha);  
-                Axios.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
+                this.$http.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then((response) => {  
                         console.log(response);           
                         this.reporteInsertado = true    

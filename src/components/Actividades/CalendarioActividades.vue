@@ -121,7 +121,6 @@ import ServiceActividades from '../../services/ActividadesService'
 import ServicePDF from '../../services/ReportesPDFService'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
-import Axios from 'axios'
 import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -280,7 +279,7 @@ export default {
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
       )              
-      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
+      await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
@@ -322,7 +321,7 @@ export default {
           SquareId: user.numPlaza,
           Year: this.año
         }                
-        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
+        this.$http.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
         .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {
               mes: this.mes,
@@ -347,7 +346,7 @@ export default {
     },
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
-      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
+      this.$http.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
         .then(async () => {                 
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
@@ -374,7 +373,7 @@ export default {
     },
     validar_calendario_escaneado(){
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${this.idUser}`)
+      this.$http.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${this.idUser}`)
       .then(() => {        
         this.calendarioEscaneado = true
       })

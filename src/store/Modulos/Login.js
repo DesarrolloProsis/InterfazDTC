@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from '../ManejoSolicitudes'
 import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 

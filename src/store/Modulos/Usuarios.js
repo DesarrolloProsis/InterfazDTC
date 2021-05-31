@@ -1,5 +1,4 @@
-import Axios from 'axios'
-//import CookiesService from '../../services/CookiesService'
+import Axios from '../ManejoSolicitudes'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state =  {

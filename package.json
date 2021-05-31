@@ -29,7 +29,8 @@
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.4.5",
     "vuejs-notify": "^1.0.27",
-    "vuex": "^3.5.1"
+    "vuex": "^3.5.1",
+    "wonderlog-console": "^1.1.2"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.3.0",

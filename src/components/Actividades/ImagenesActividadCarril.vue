@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Axios from 'axios'
+
 import ServiceImagenes from '../../services/ImagenesService'
 import EventBus from "../../services/EventBus.js";
 import CookiesService from '../../services/CookiesService'
@@ -50,7 +50,7 @@ export default {
     },
     beforeMount() {        
         setTimeout(() => {
-            Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
+            this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`, CookiesService.obtener_bearer_token())
                 .then((response) => {   
                     CookiesService.refrescar_bearer_token()                       
                     if(response.status != 404){                          
@@ -95,7 +95,7 @@ export default {
                         let imgagen = ServiceImagenes.base64_to_file(imagenes.imgbase, imagenes.name)                    
                         let formData = new FormData();
                         formData.append("image", imgagen);                        
-                        await Axios.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
+                        await this.$http.post(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`,formData, CookiesService.obtener_bearer_token())
                             .then((response) => {                                                                 
                             })
                             .catch(error => {  
@@ -111,7 +111,7 @@ export default {
         eliminar_imagen(nombreImagen){                
             if(this.arrayImagenes.length > 1){                              
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                    this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {                                                                 
                             CookiesService.refrescar_bearer_token()                                                                        
                         })
@@ -130,7 +130,7 @@ export default {
             else{
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){                    
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
+                    this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`, CookiesService.obtener_bearer_token())
                         .then(() => {      
                             CookiesService.refrescar_bearer_token()                                                                                                        
                         })

@@ -61,7 +61,7 @@ import VueNotify from 'vuejs-notify'
 Vue.use(VueNotify)
 //manejor de Solicitudes axios
 import AxiosManejador from './store/ManejoSolicitudes'
-Vue.prototype.$http = AxiosManejador.Axios
+Vue.prototype.$http = AxiosManejador
 Vue.config.productionTip = false
 new Vue({
   router,

@@ -119,7 +119,6 @@
 </template>
 
 <script>
-import Axios from 'axios';
 import ServicePDF from '../../services/ReportesPDFService'
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -139,7 +138,7 @@ export default {
     },
     beforeMount: async function() {
         
-        await Axios.get(`${API}/Mantenimiento/Bitacora`)
+        await this.$http.get(`${API}/Mantenimiento/Bitacora`)
         .then((response) => {             
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  

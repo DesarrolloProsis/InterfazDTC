@@ -4,7 +4,7 @@ import CookiesService from '../services/CookiesService'
 import ErrorLog from '../services/ErroresLog'
 const Axios = axios.create({baseURL: ''})
 const AxiosRetry = axiosretry
-AxiosRetry(Axios, { retries: 3 });
+AxiosRetry(Axios, { retries: 3, retryDelay: AxiosRetry.exponentialDelay });
 
 Axios.interceptors.request.use((config) => {            
     if(config.url.includes('login'))                                     
@@ -35,8 +35,7 @@ Axios.interceptors.response.use((response) => {
                 return Axios(requestOriginal)            
             }                                                                  
         }
-        else if (error.response.status == 404) {  
-            alert()              
+        else if (error.response.status == 404) {                           
             ErrorLog.mapear_error_404(error.response)
             return Promise.reject(error)
         }
@@ -48,6 +47,4 @@ Axios.interceptors.response.use((response) => {
         return Promise.reject(error)
     }
 })
-export default {
-    Axios  
-}
+export default Axios 
