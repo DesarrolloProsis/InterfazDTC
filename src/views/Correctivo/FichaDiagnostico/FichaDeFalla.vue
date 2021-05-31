@@ -5,7 +5,7 @@
             ////                     MODAL IMAGENES                        /////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0">
-                <div v-if="modalImage" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48">          
+                <div v-if="modalImage" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48 sm:m-4 sm:mt-66">          
                     <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
                         <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer " />
                     </span>
@@ -40,7 +40,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-6 ml-79 sm:mb-6 sm:ml-16 sm:mt-16">
+                    <div class="mb-6 ml-79 sm:mb-6 sm:ml-1 sm:mt-6">
                         <div v-if="botonEditCreate">                            
                             <button v-if="$route.params.tipoVista == 'Crear'" @click="enviar_header_ficha(true)" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
