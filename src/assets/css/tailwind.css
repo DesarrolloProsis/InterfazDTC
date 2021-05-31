@@ -304,6 +304,15 @@ select:focus {
 .botonDescargar:focus{
     @apply outline-none;
 }
+.botonDescargarDes{
+    @apply bg-gray-500 tracking-wide text-gray-800 font-bold border-b-2 border-black shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonDescargarDes:hover{
+    @apply border-black bg-gray-500 text-gray-800 transition duration-500;
+}
+.botonDescargarDes:focus{
+    @apply outline-none;
+}
 .botonSubir{
     @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-green-400 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }

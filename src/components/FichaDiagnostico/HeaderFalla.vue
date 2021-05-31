@@ -16,8 +16,12 @@
                     <div>
                         <span>Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': blockInput == true}">
+                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': blockInput == true || this.$route.params.tipoVista != 'Crear'}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
+                    </div>
+                    <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == true}">
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
+                        <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
                     <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
@@ -54,7 +58,7 @@
             <div class="mt-6 ml-65 sm:ml-4 font-titulo">
                 <div>
                     <span class="">Fecha:</span>
-                    <input class="ml-16 fechaDiag" type="date" :disabled="blockInput" v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true}"/>
+                    <input class="ml-16 fechaDiag" type="date" :disabled="blockInput || this.$route.params.tipoVista != 'Crear'" v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || this.$route.params.tipoVista != 'Crear'}"/>
                 </div>
                 <div class="mt-5">
                     <span class="">Hora INICIO:</span>
@@ -258,7 +262,7 @@ beforeMount: async function(){
             this.blockInput = true
             this.boolCambiarPlaza = true
         }      
-        else{ 
+        else{             
             let paramRoute = this.$route.query.item           
             let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
             this.plazaSeleccionada = plazaSelect.numeroPlaza;
@@ -288,17 +292,17 @@ beforeMount: async function(){
             }
         }
     }
-    else{
+    else{                
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
         this.$emit('actualizar-header', this.datosDiagnostico)          
-        if(this.$route.query.data != undefined){        
+        if(this.$route.query.data != undefined){                    
             this.datosDiagnostico = this.$route.query.data        
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
-        }
+        }   
     }       
 },
 /////////////////////////////////////////////////////////////////////

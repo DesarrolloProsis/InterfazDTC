@@ -90,6 +90,9 @@
         <div class="sticky inset-0">
           <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
             <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
+            <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
+            <textarea v-model="comentarioBorrar" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('comentarioBorrar'), 'is_invalid': errors.first('Observaciones')}" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
+            <p class="text-xs text-red-600">{{ errors.first("comentarioBorrar") }}</p>
             <div class="mt-5 text-center">
               <button @click="borrar(true)" class="botonIconCrear">Si</button>
               <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
@@ -222,6 +225,7 @@ export default {
       arrayImagenesCarrusel: [], 
       //eliminar  
       modalEliminar: false,
+      comentarioBorrar: '',
       //loading
       modalLoading: false,
       //firma
@@ -316,7 +320,7 @@ methods: {
   },
   borrar: async  function (value) {  
       let userId = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']         
-      let obj = { "refNum": this.refNum, "userId": userId.idUser }    
+      let obj = { "refNum": this.refNum, "userId": userId.idUser, comentario: this.comentarioBorrar }    
       if (value) {
         this.infoDTC = []        
         this.lista_dtc = []
