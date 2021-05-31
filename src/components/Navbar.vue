@@ -37,7 +37,7 @@ export default {
         { texto: 'Diagnóstico de Falla', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 10]},
         { texto: 'Concentrado Diag/Ficha', path: '/ConcentradoFichas', rollValidos:[1,4,10]},
         { texto: 'Concentrado DTC', path: '/ListarDtc', rollValidos: [1, 10]},
-        { texto: 'Concentrado GMMEP', path: '/ConcentradoDTC', rollValidos: [1,4, 7, 10]},
+        { texto: 'Concentrado GMMEP', path: '/ConcentradoGMMEP', rollValidos: [1,4, 7, 10]},
         { texto: 'Calendario de Actividades', path: '/CalendarioActividades', rollValidos: [1]},
         { texto: 'Revisar DTC', path: '/ListarDtc', rollValidos: [4, 7]},
         { texto: 'Calendario Historico', path: '/CalendarioHistorico', rollValidos: [4, 7]},
