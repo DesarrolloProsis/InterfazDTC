@@ -136,8 +136,7 @@ export default {
             todasPlazas: []                       
         }
     },
-    beforeMount: async function() {
-        
+    beforeMount: async function() {        
         await this.$http.get(`${API}/Mantenimiento/Bitacora`)
         .then((response) => {             
             this.listaCompleta = response.data.result  
@@ -148,10 +147,8 @@ export default {
                     plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
                     this.listaPlazasValidas.push(plaza)        
                 }
-            }                                                                                                           
-        }).catch(error => {      
-            console.log(error)            
-        })                  
+            }
+        })                                                                                                                               
     },
     methods:{
         tramo_cascada(){

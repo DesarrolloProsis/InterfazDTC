@@ -292,8 +292,7 @@ methods:{
             else banderaInsertar = false
             
             this.$http.post(`${API}/Calendario/CalendarReportData/${refPlaza.refereciaPlaza}/${banderaInsertar}`, headerReporte)
-            .then((response) => {                                                                                                       
-                    console.log(response)
+            .then(() => {                                                                                                                           
                     if(this.objetoLogDate.fecha != ''){                                                          
                         let refPlaza = this.referenceNumber.split('-')[0]
                         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -306,9 +305,7 @@ methods:{
                         }
                         this.$http.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                             .then(() => {                                                                                                                                   
-                            }).catch(error => {      
-                                console.log(error)                                                                      
-                            })         
+                            })
                     }                                                                                              
                     if(this.reporteInsert){                          
                         if(value) {
@@ -341,10 +338,7 @@ methods:{
                         });
                         this.ocultar_modal_loading()
                     }                                                                                                                       
-            })
-            .catch(error => {                                                                                                  
-                console.log(error);
-            });                                                                                                                                                                                                    
+            })                                                                                                                                                                                               
         }                   
     }    
 }

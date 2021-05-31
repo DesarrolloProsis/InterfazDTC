@@ -98,9 +98,7 @@ export default {
         this.$http.get(`${API}/SquaresCatalog/Admins`)
         .then((response)=>{            
             this.lista_encargados = response.data.result
-        }).catch((Ex)=>{
-            console.log(Ex)
-        })
+        })     
     },
     methods:{
         confimaBorrar (item) {

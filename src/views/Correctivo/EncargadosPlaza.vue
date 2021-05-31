@@ -176,22 +176,16 @@ export default {
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
             this.listaEncargados = this.listaencargadosFilrada
-        }).catch((error)=>{
-            console.log(error)
         })
-
     },
     methods:{
         actualizarFiltro(){
             this.$http.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
-                .then((response)=>{      
-                    console.log(response)              
+                .then((response)=>{                                        
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
                     this.listaEncargados = this.listaencargadosFilrada
-                }).catch((error)=>{
-                    console.log(error)                        
-                }) 
+                })
         },
         filtrar_encargados(value){
             this.listaEncargados = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
@@ -226,8 +220,6 @@ export default {
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
-                }).catch((error) => {
-                    console.log(error)
                 })
             }
         },
@@ -255,10 +247,7 @@ export default {
                     let cookiesUser = this.$store.state.Login.cookiesUser
                     localStorage.setItem('cookiesUser', JSON.stringify(cookiesUser))              
                 })               
-            }) 
-            .catch((error) => {
-                console.log(error)
-            })
+            })           
         },
         confimaBorrar (item) {
             this.infoDelate = item            
@@ -273,9 +262,7 @@ export default {
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
-                }).catch((error) => {
-                    console.log(error)                                            
-                })      
+                }) 
         },
         editarUsuario (item) {            
             CookiesService.actualizar_plaza(item.adminSquareId)
@@ -312,16 +299,11 @@ export default {
                 .then(() => {                    
                     this.actualizarFiltro()
                     this.actualziar_header_plazas()                    
-                }).catch((ex)=>{
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
-                    console.log(ex)
                 })
                 this.modalEditar = false
             } 
         },
-        guardar_palabra_busqueda: function(newPalabra){
-        console.log(newPalabra)      
+        guardar_palabra_busqueda: function(newPalabra){             
         if (newPalabra != "") {
             let array_filtrado = this.listaencargadosFilrada.filter(item => {
                 return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())

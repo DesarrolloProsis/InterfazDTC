@@ -257,17 +257,14 @@ export default {
     },  
     guardar_nuevo_usuario(){            
       let tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
-      this.objUsuarioNuevo.plazas
-      console.log(this.objUsuarioNuevo);
+      this.objUsuarioNuevo.plazas      
       let objInsert = {
         name: this.objUsuarioNuevo.nombre,
         lastName1: this.objUsuarioNuevo.apellidoM,
         lastName2: this.objUsuarioNuevo.apellidoP,
         password: this.objUsuarioNuevo.password,
         rol: tipoUsuario,
-      }      
-      //let userNuevoId = ''   
-      console.log(objInsert);   
+      }                  
       this.$http.post(`${API}/User/Nuevo`,objInsert)
       .then((response) => {      
           this.$notify.success({
@@ -286,14 +283,9 @@ export default {
               squareCatalogId: plaza.squareCatalogId,
               clavePlaza: plaza.referenceSquare
             }
-            this.$http.post(`${API}/User/AddSquareToUser`,plazaInsert)
-              .then((responsePlaza) => console.log(responsePlaza))
-              .catch((error) => console.log(error))
+            this.$http.post(`${API}/User/AddSquareToUser`,plazaInsert)                        
           })
-          setTimeout(() => {            
-            // Axios.put(`${API}/User/ActivateUser/PM/${userNuevoId}`)
-            //   .then((response) => {
-            //     console.log(response)
+          setTimeout(() => {                  
                 this.$notify.success({
                   title: "Ops!!",
                   msg: "SE ACTIVO CORRECTAMENTE EL USUARIO.",
@@ -304,12 +296,9 @@ export default {
                   },
                 })
                 this.modalEditar = false                
-                this.refrescar_usuarios()
-              // })
-              // .catch((error) => console.log(error))
+                this.refrescar_usuarios()                            
           },1000)
-        })
-      .catch((error) => console.log(error))      
+        })        
     }, 
     limpiar_usuario() {
       for (let prop in this.User) {
@@ -397,8 +386,7 @@ export default {
       if(value != 'Sin Actividad')
         return `${value.squareCatalogId} ${value.squareName}`  
     },
-    guardar_palabra_busqueda: function(newPalabra){
-      console.log(newPalabra)      
+    guardar_palabra_busqueda: function(newPalabra){      
       if (newPalabra != "") {
         let array_filtrado = this.listaUsuariosFiltrada.filter(item => {
           return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())

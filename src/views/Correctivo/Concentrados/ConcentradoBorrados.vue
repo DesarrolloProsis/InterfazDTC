@@ -55,8 +55,6 @@ export default {
             this.listaDTC_borrados = response.data.result
             this.listaDTC_filtrada = this.listaDTC_borrados  
             this.listaborrados = this.listaDTC_filtrada          
-        }).catch((error)=>{
-            console.log(error)
         })
     },
     methods:{

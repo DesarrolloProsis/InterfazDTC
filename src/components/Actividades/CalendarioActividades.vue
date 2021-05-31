@@ -183,8 +183,7 @@ export default {
               })
             }
           }
-        })
-        console.log(carrilesInvalidos);
+        })        
         let carrilesReturn = []
         this.carriles.forEach(carril => {
           let existLane = carrilesInvalidos.findIndex(item => item.capufeLaneNum == carril.capufeLaneNum)
@@ -283,9 +282,6 @@ export default {
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
-        .catch(error => {                        
-          console.log(error)                          
-        });
       this.actividadSelect = ''      
     },
     label_multi_select(value){            
@@ -328,9 +324,6 @@ export default {
               año: this.año
           })          
         })
-        .catch((error) => {          
-          console.log(error);                      
-        });
       }
       else{        
         this.$notify.warning({
@@ -358,7 +351,7 @@ export default {
               this.carrilesModal.splice(index,1)               
             }                                                           
         })
-        .catch(error => {  
+        .catch(() => {  
           this.$notify.warning({
             title: "Ups!",
             msg: `NO PUEDES BORRAR ESTA ACTIVIDAD YA HAY UN REPORTE GENERADO`,
@@ -367,8 +360,7 @@ export default {
               height: 100,
               width: 500,
             },          
-          });          
-          console.log(error);                      
+          });                                       
         });
     },
     validar_calendario_escaneado(){
@@ -377,8 +369,7 @@ export default {
       .then(() => {        
         this.calendarioEscaneado = true
       })
-      .catch((error) => {
-          console.log(error)                                                    
+      .catch(() => {                                                         
           this.calendarioEscaneado = false
       })
     }

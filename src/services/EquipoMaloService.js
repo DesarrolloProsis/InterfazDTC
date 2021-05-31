@@ -137,47 +137,42 @@ function lane_select(laneSelect, keyObjectRequire, equipoValid, dateSinester, re
         }  
         return arrayRequire 
 }
-async function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){
-    try {               
-        let newObjectPartida = []        
-        for(const lane of laneSelect){                                                      
-            let component = []            
-            if(editar == undefined)
-                component = await equipoValid.find(comp => comp.lane == lane)
-            else
-                component = await equipoValid.find(comp => comp.tableFolio == lane)                                                      
-            let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
-            let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");                        
-            let fecha_format =  daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                                                   
-            let obj = {
-                ComponentsStockId: component['componentsStockId'],
-                ReferenceNumber: "",
-                CapufeLaneNum: component['capufeLaneNum'],
-                IdGare: component['idGare'],
-                Marca: component['brand'],
-                ModeloPropuesto: component['catalogModel'],
-                MarcaPropuesta: component['catalogBrand'],
-                Modelo: component['model'],
-                NumSerie: component['serialNumber'],
-                Unity: component['unity'],
-                DateInstallationDate: component['instalationDate'],
-                DateMaintenanceDate: component['maintenanceDate'],
-                MaintenanceFolio: component['maintenanceFolio'],
-                IntLifeTimeExpected: component['lifeTime'],
-                strLifeTimeReal: fecha_format,
-                IntPartida: "",
-                //Nuevo
-                mainRelationship: relationShipPrincipal,
-                tableFolio: component.tableFolio,  
-                amount: parseInt(cantidad)
-            };
-            newObjectPartida.push(obj)        
-        }                
-        return newObjectPartida
-    }
-    catch(error){
-        console.log(error)        
-    }
+async function obj_partida(laneSelect, equipoValid, dateSinester, relationShipPrincipal, editar, cantidad){                 
+    let newObjectPartida = []        
+    for(const lane of laneSelect){                                                      
+        let component = []            
+        if(editar == undefined)
+            component = await equipoValid.find(comp => comp.lane == lane)
+        else
+            component = await equipoValid.find(comp => comp.tableFolio == lane)                                                      
+        let fechaInstalacion = moment(component.instalationDate).format("DD/MM/YYYY");
+        let fechaSinester = moment(dateSinester).format("DD/MM/YYYY");                        
+        let fecha_format =  daysMonthsYearsInDates(fechaInstalacion, fechaSinester)                                                   
+        let obj = {
+            ComponentsStockId: component['componentsStockId'],
+            ReferenceNumber: "",
+            CapufeLaneNum: component['capufeLaneNum'],
+            IdGare: component['idGare'],
+            Marca: component['brand'],
+            ModeloPropuesto: component['catalogModel'],
+            MarcaPropuesta: component['catalogBrand'],
+            Modelo: component['model'],
+            NumSerie: component['serialNumber'],
+            Unity: component['unity'],
+            DateInstallationDate: component['instalationDate'],
+            DateMaintenanceDate: component['maintenanceDate'],
+            MaintenanceFolio: component['maintenanceFolio'],
+            IntLifeTimeExpected: component['lifeTime'],
+            strLifeTimeReal: fecha_format,
+            IntPartida: "",
+            //Nuevo
+            mainRelationship: relationShipPrincipal,
+            tableFolio: component.tableFolio,  
+            amount: parseInt(cantidad)
+        };
+        newObjectPartida.push(obj)        
+    }                
+    return newObjectPartida
 }
 export default {
     lane_select,

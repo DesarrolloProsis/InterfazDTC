@@ -21,9 +21,7 @@ const state = {
 const getters = {  
   getInsertDmgComplete: () => state.insertDmgComplete,
   GET_LISTA_DTC: () => (tipoVista) => {
-    if(tipoVista){
-      let lista = state.listaInfoDTC.filter(item => item.dtcView.statusId == 4)
-      console.log(lista)      
+    if(tipoVista){     
       return state.listaInfoDTC
         .filter(dtc => dtc.dtcView.statusId == 4)
         .map((item) => {
@@ -90,10 +88,7 @@ const actions = {
     await Axios.get(`${API}/typedescriptions/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
       .then(response => {        
         commit("LISTA_DESCRIPCIONES_MUTATION", response.data.result);
-      })
-      .catch((error) => {
-        console.log(error)                    
-      });
+      }) 
   },
   //Consulta API Crear DTC
   async CREAR_LISTA_DTC_DAÑADO({ state, commit, rootGetters }, value) {
@@ -111,19 +106,15 @@ const actions = {
         if (response.status == 200) {
           commit('insertDmgCompleteMutation', true)
         }
-      })
-      .catch(error => {        
-        console.log(error)            
-      });
+      }) 
   },
   async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idUser}/${value.numPlaza}`)
       .then(response => {                      
         commit("LISTA_DTC_MUTATION", response.data.result);
       })
-      .catch(error => {
-        commit("LISTA_DTC_MUTATION", []);
-        console.log(error)                    
+      .catch(() => {
+        commit("LISTA_DTC_MUTATION", []);                           
       });
   },
   async BUSCAR_TABLA_CARDS({ commit, rootGetters }, value) {            
@@ -134,9 +125,8 @@ const actions = {
         else
           commit("TABLA_DTC_CARDS_MUTATION", []);
       })
-      .catch(error => {
-        commit("TABLA_DTC_CARDS_MUTATION", []);
-        console.log(error)                    
+      .catch(() => {
+        commit("TABLA_DTC_CARDS_MUTATION", []);                         
       });
   },
   async BORRAR_DTC({ commit, rootGetters }, value) {    
@@ -144,27 +134,18 @@ const actions = {
       .then(() => {        
         commit("BORRAR_DTC_MUTATION", value)        
       })
-      .catch(error => {
-        console.log(error);                    
-      });
   },
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/EditInfo/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`)
       .then(response => {        
         commit("COMPONENTES_EDIT", response.data.result)
       })
-      .catch(error => {
-        console.log(error)                    
-      });
   },
   async COMPONENT_EDIT_OPEN({ commit, rootGetters }, value) {
     await Axios.get(`${API}/dtcData/EditInfo/Open/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`)
       .then(response => {        
         commit("COMPONENTES_EDIT", response.data.result)
-      })
-      .catch(error => {
-        console.log(error)                    
-      });
+      }) 
   },
   async crearDmgLibre({ state, commit, rootGetters }, value) {
     let arrayDmg = []
@@ -200,10 +181,7 @@ const actions = {
         if (response.status == 201) {
           commit('insertDmgCompleteMutation', true)
         }
-      })
-      .catch(error => {        
-        console.log(error)            
-      });
+      }) 
   },
 };
 export default {

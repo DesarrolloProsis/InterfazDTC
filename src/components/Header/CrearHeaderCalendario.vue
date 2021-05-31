@@ -244,11 +244,7 @@ export default {
                         width: 500,
                         },
                     });                                                                                                     
-                })
-                .catch((error) => {
-                    console.log(error)                                      
-                })
-
+                })           
         },
         base64ToFile(dataurl, fileName) {                    
             let url = "data:text/pdf;base64," + dataurl;  

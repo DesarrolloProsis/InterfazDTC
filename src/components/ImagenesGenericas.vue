@@ -130,10 +130,7 @@ export default {
                         })
                         this.arrayImagenes = newArrayImg                                       
                     }    
-                })
-                .catch(error => {                    
-                    console.log(error);                     
-            });
+                })                
         }, 1000)        
     },
     computed:{
@@ -203,10 +200,7 @@ export default {
                             await this.$http.post(rutaInsertImagenes, formData)
                                 .then((response) => {                                                                                                   
                                     this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
-                                })
-                                .catch(error => {                                                      
-                                    console.log(error)                                    
-                            });   
+                                })                                
                         }  
                         else{
                             this.$notify.warning({
@@ -246,10 +240,7 @@ export default {
                                     width: 500,
                                 },
                             });                                                                                                           
-                        })
-                        .catch(error => {                                                                 
-                            console.log(error)                                
-                    });  
+                        })                    
                 }        
                 this.$nextTick(() => {                                     
                     let arrayIMG = this.arrayImagenes.filter(imagen => imagen.name != nombreImagen)
@@ -262,10 +253,7 @@ export default {
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                     .then(() => {                                                                                                              
-                    })
-                    .catch(error => {                    
-                        console.log(error)
-                    });  
+                    })  
                 } 
             }
         }

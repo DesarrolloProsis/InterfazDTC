@@ -49,9 +49,6 @@ async function refrescar_barer_token(){
     .then((response) => {                
         localStorage.setItem('token', JSON.stringify(response.data.result))        
     })
-    .catch(error => {        
-        console.log(error) 
-    });
 }
 async function actualizar_plaza(adminId){    
     let clousere_actualizar = async (adminId, tipoFiltro)  => {        

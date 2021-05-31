@@ -224,8 +224,7 @@ export default {
                 });
               }
               })
-              .catch((error) => {
-                console.log(error)                                           
+              .catch(() => {                                                       
                 this.$notify.error({
                   title: "ups!",                  
                   msg: 'IMAGENES ELIMINADAS',
@@ -251,15 +250,13 @@ export default {
             let formData = new FormData();
             formData.append("id", this.referenceNumber);
             formData.append("plaza", nombrePlaza);
-            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));
-            console.log(nombrePlaza)            
+            formData.append("image",ServiceImagenes.base64_to_file(item.imgbase, item.name));                       
             await this.$http.post(`${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`,formData)
               .then(() => {                            
             
               })
               .catch((error) => {                    
-                reject(error);         
-                console.log(error)
+                reject(error);                         
               });
             }
           }          
@@ -301,10 +298,7 @@ export default {
       await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)
         .then((response) => {                    
           array_nombre_imagenes = response.data;
-        })
-        .catch((error) => {          
-          console.log(error)                              
-        });
+        })  
       let arrayimg = [];
       if (array_nombre_imagenes.length > 0) {
         for (let item2 of array_nombre_imagenes) {          

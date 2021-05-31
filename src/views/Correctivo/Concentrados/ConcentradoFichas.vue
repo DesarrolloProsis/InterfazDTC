@@ -125,23 +125,20 @@ export default {
         this.loadingTabla = true
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
-        .then((response) => {
-            console.log(response)
+        .then((response) => {            
             this.infoFichasFallaCompleta = response.data.result
             this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
             this.listaFicha = this.infoFichasFallaFiltrada
             this.loadingTabla = false
         })
-        .catch((error) => {
+        .catch(() => {
             this.loadingTabla = false
             this.infoFichasFallaCompleta = []
-            this.infoFichasFallaFiltrada = []
-            console.log(error)            
+            this.infoFichasFallaFiltrada = []                       
         })
     },
     methods: {   
-        guardar_palabra_busqueda: function(newPalabra){
-            console.log(newPalabra)      
+        guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
                 let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
                     return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
@@ -172,8 +169,7 @@ export default {
         editar_diagnostico_falla(item){
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
         },
-        terminar_ficha_diagnostico(item){
-            console.log(item);
+        terminar_ficha_diagnostico(item){            
             let carrilesMapeados = []
             let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza
             this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)
@@ -199,8 +195,7 @@ export default {
                 numeroReporte: item.siniesterNumber,
                 referenceNumber: item.referenceNumber,
                 ubicacion: carrilesMapeados,
-            }
-            console.log(data)
+            }            
             this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
         },
         terminar_dtc(referencia){

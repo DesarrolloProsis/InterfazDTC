@@ -282,10 +282,7 @@ methods: {
             let referenceNumber = response.data.result.table[0].referenceNumber
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
             ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
-        })
-        .catch(error => {                    
-            console.log(error)
-        });                 
+        })                   
     },  
     editar_reporte_carril: async function(item){        
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
@@ -306,9 +303,6 @@ methods: {
                 },
             });
         })
-        .catch(error => {                                
-            console.log(error)                
-        });
     },
     crear_reporte_carril(item){              
         item["plazaNombre"] = this.plazaNombre                

@@ -96,12 +96,8 @@ export default {
                     }) 
                 })                
                 this.$http.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
-                .then((response) => {               
-                    console.log(response)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })                                
+                .then(() => {                                   
+                })                                    
             } 
         },
         actualizar_actividad(item){
@@ -115,10 +111,7 @@ export default {
                 }) 
                 this.$http.post(`${API}/Calendario/CalendarReportActivities/${this.referenceNumber.split('-')[0]}/${this.calendarioId}`, arrayJob)
                 .then(() => {                                   
-                })
-                .catch((error) => {
-                    console.log(error)
-                })                                
+                })                                     
             }            
         }
     }

@@ -262,8 +262,7 @@ beforeMount: async function () {
   this.filtroVista = false
   this.descripciones = await this.$store.state.DTC.listaDescriptions
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
-  this.infoDTC_Filtrado = this.infoDTC
-  console.log(this.infoDTC_Filtrado)
+  this.infoDTC_Filtrado = this.infoDTC  
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   let listaPlazasValias = []
   //Lista Plaza Validas
@@ -298,8 +297,7 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  guardar_palabra_busqueda: function(newPalabra){
-    console.log(newPalabra)      
+  guardar_palabra_busqueda: function(newPalabra){          
     if (newPalabra != "") {
       let array_filtrado = this.infoDTC_Filtrado.filter(item => {
         return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
@@ -402,10 +400,7 @@ methods: {
               this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}`)
               .then(() => {
                 
-              })       
-              .catch((error) => {
-                console.log(error)
-              })
+              })                  
               resolve('ok')                     
             })
             .catch((error) => {                              
@@ -435,8 +430,7 @@ methods: {
                 },
               });
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, true)
-            })
-            .catch((error) =>  console.log(error))    
+            })              
           }, 3000);    
         } 
       })       
@@ -507,8 +501,7 @@ methods: {
               width: 500,
             },
         });  
-      })
-      .catch((error) =>  console.log(error))    
+      })      
     }, 3000);                                                                                   
   },
   filtro_dtc: async function (objFiltros) {     
@@ -578,7 +571,7 @@ methods: {
               width: 500,
             },
           });         
-        }).catch((error) => console.log(error))
+        })
       }, 3000)
     }
     else if(value === false){        
@@ -631,8 +624,7 @@ methods: {
                 width: 500,
               },
         });  
-      })
-      .catch((error) =>  console.log(error))    
+      })        
     }, 1000); 
   },
   cargar_mas(){

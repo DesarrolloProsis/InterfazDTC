@@ -65,10 +65,7 @@ const actions = {
         if(response.data.result.length > 1){
           commit("REFERENCIA_DTC_MUTATION", response.data.result);
         }
-      })
-      .catch(error => {
-        console.log(error)                 
-      });
+      }) 
   },
   async BUSCAR_LISTA_UNIQUE({ commit, rootGetters }) {
     await Axios.get(`${API}/dtcdata/InvalidReferenceNumbers/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`)
@@ -77,9 +74,6 @@ const actions = {
           commit("LISTA_UNIQUE_MUTATION", response.data.result);
         }
       })
-      .catch((error) => {
-        console.log(error)                    
-      });
   },
   async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {         
     let newObject = {
@@ -108,10 +102,7 @@ const actions = {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)
         }
-      })
-      .catch((error) => {
-        console.log(error)                    
-      });
+      })   
   }
 };
 export default {

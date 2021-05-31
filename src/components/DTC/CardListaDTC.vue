@@ -220,10 +220,7 @@ export default {
         .then(async (response) => {                                      
           datosUser = response.data.result[0]                    
           await CookiesService.actualizar_plaza(datosUser.adminSquareId)          
-        })
-        .catch(error => {
-          console.log(error);                      
-        });      
+        })         
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', { numSiniestro: this.infoCard.sinisterNumber,  numReporte: this.infoCard.reportNumber })                         
       let datosSinester = {
         ReferenceNumber: "",

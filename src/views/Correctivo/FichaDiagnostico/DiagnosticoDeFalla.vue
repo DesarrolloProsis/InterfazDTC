@@ -91,8 +91,7 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(header){
-        console.log(header)
+    actualizar_header(header){        
         this.datosHeader = header
     },
     validar_horas(){
@@ -189,8 +188,7 @@ methods:{
                                 .then(() => { 
                                     if(this.botonEditCreate != false)
                                         this.modalImage = true                                                                    
-                                })
-                                .catch((error) => console.log(error))    
+                                })                                 
                         }); 
                         setTimeout(() => {
                             if(this.$route.params.tipoVista == 'Editar'){
@@ -205,14 +203,10 @@ methods:{
                                 }) 
                             }  
                         },2000)
-                    })
-                    .catch((error) => {
-                        console.log(error.response)
-                    })
+                    })              
                     this.reporteInsertado = true                                                   
                     
-                })
-                .catch((error) => console.log(error))  
+                })                
         }        
         else{
             this.type = 'FICHA' 

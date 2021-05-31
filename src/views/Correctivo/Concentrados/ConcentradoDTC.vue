@@ -317,10 +317,7 @@ abrirCarrusel : async function (item){
           });
         }   
       }                   
-    })
-    .catch((error) => {   
-      console.log(error)            
-    });      
+    })     
 },
 editar_status_dtc: function (){
   let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -341,10 +338,7 @@ editar_status_dtc: function (){
         await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
         this.modalCambiarStatus = false
         this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                              
-      })
-      .catch(error => {                    
-        console.log(error);
-      });
+      }) 
       this.lista_DTC_Filtrada = this.infoDTC
     }
     else {
@@ -397,8 +391,7 @@ limpiar_filtros: function() {
     this.lista_DTC_Filtrada = this.infoDTC
   })           
 },
-recibir_pdf_sellado(e, index) { 
-  console.log(index)               
+recibir_pdf_sellado(e, index) {           
   var files = e.target.files || e.dataTransfer.files;
   if (!files.length) return;
   else {  
@@ -414,8 +407,7 @@ recibir_pdf_sellado(e, index) {
     }        
   }
 },
-crearImage(file) {
-  console.log(file)
+crearImage(file) {  
   if(file.type.split('/')[1] == 'pdf'){
     var reader = new FileReader(); 
     reader.onload = (e) => {
@@ -455,8 +447,7 @@ base64ToFile(dataurl, fileName) {
   }
   return new File([u8arr], fileName + '.pdf', { type: mime });
 },
-enviar_pdf_sellado(index){
-  console.log(index)                      
+enviar_pdf_sellado(index){                       
   let formData = new FormData();
   let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
   formData.append("file", file);     
@@ -502,8 +493,7 @@ enviar_pdf_sellado(index){
               width: 500,
             },
         });  
-      })
-      .catch((error) =>  console.log(error))    
+      })      
     }, 3000);      
 },
 },
