@@ -38,8 +38,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         if (carril != undefined){              
             listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
         }
-    }
-    console.log(listaActidadesTipo)
+    }    
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,
@@ -52,8 +51,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
     return obj
 }
 function eventos_calendario_formato(objApi){
-    let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-    console.log(eventoSinFormato)
+    let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)    
     let catalogoActividades = store.state.Actividades.catalogoActividades
     let eventsReturn = []
     var i = 1;

@@ -44,6 +44,13 @@ export default {
       }
   },
   beforeMount: function(){
+        this.$http.get('http://example.com/test') // The first request fails and the second returns 'ok'
+    .then(result => {
+      result.data; // 'ok'
+    })
+    .catch((error) => {
+      console.log(error)
+    });
     this.typeUser = this.$store.state.Login.cookiesUser.rollId    
   },
 };

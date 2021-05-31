@@ -106,6 +106,7 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
   async beforeMount() {  
+
   },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -141,8 +142,7 @@ export default {
         else            
           this.$router.push("home");
       })     
-      .catch((error) => {
-        console.log(error)
+      .catch(() => {        
         this.$notify.error({
           title: "Ops!!",
           msg: "EL USUARIO O LA CONTRASEÑA PUEDEN ESTAR MAL.",
