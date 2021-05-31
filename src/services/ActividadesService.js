@@ -1,6 +1,6 @@
 import store from '../store/index'
 import moment from "moment";
-import Axios from 'axios'
+import Axios from '../store/ManejoSolicitudes'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){        
@@ -23,8 +23,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
                     actividad["frequencyName"] = store.state.Actividades.catalogoActividades.find(item => item.value == actividad.frequencyId).text         
                     return { ...actividad }
                 })                  
-            })
-            .catch((error) => console.log(error))   
+            })            
     }
     else{   
         let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
@@ -38,8 +37,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         if (carril != undefined){              
             listaActidadesTipo = listaActidadesTipo.filter(item => item.lane.split('-')[0] == carril)
         }
-    }
-    console.log(listaActidadesTipo)
+    }    
     let obj = {
         listaActividadesMensuales: listaActidadesTipo,
         plazaNombre: nombrePlaza,
@@ -52,8 +50,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
     return obj
 }
 function eventos_calendario_formato(objApi){
-    let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
-    console.log(eventoSinFormato)
+    let eventoSinFormato = store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)    
     let catalogoActividades = store.state.Actividades.catalogoActividades
     let eventsReturn = []
     var i = 1;
@@ -71,8 +68,7 @@ function eventos_calendario_formato(objApi){
             }
         }
         i++;
-    }
-    console.log(eventoReducidoDay)        
+    }        
     for (let item of eventoReducidoDay) {  
         eventsReturn.push(construir_objeto_actividad(item, item[0]))
     }

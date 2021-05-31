@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import Axios from 'axios'
 import ServiceImagenes from '../services/ImagenesService'
 import BarraProgreso from '../components/BarraProgreso'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -110,7 +109,7 @@ export default {
                 this.limiteFotos = 4                                
                 urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }            
-            Axios.get(urlImgPaths)
+            this.$http.get(urlImgPaths)
                 .then((response) => {                                              
                     let urlImgDescarga = ''
                     if(this.tipo == 'Actividades')
@@ -131,10 +130,7 @@ export default {
                         })
                         this.arrayImagenes = newArrayImg                                       
                     }    
-                })
-                .catch(error => {                    
-                    console.log(error);                     
-            });
+                })                
         }, 1000)        
     },
     computed:{
@@ -201,13 +197,10 @@ export default {
                             formData.append("image",imagenes);  
                         }
                         if(imagenes.type == 'image/png' || imagenes.type == 'image/jpeg'){                            
-                            await Axios.post(rutaInsertImagenes, formData)
+                            await this.$http.post(rutaInsertImagenes, formData)
                                 .then((response) => {                                                                                                   
                                     this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
-                                })
-                                .catch(error => {                                                      
-                                    console.log(error)                                    
-                            });   
+                                })                                
                         }  
                         else{
                             this.$notify.warning({
@@ -236,7 +229,7 @@ export default {
                     else{                                           
                         urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
-                    Axios.get(urlDeleteImg)
+                    this.$http.get(urlDeleteImg)
                         .then(() => {                                                                 
                             this.$notify.success({
                                 title: "Ok!",
@@ -247,10 +240,7 @@ export default {
                                     width: 500,
                                 },
                             });                                                                                                           
-                        })
-                        .catch(error => {                                                                 
-                            console.log(error)                                
-                    });  
+                        })                    
                 }        
                 this.$nextTick(() => {                                     
                     let arrayIMG = this.arrayImagenes.filter(imagen => imagen.name != nombreImagen)
@@ -261,12 +251,9 @@ export default {
             else{
                 this.arrayImagenes = []
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    Axios.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
+                    this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
                     .then(() => {                                                                                                              
-                    })
-                    .catch(error => {                    
-                        console.log(error)
-                    });  
+                    })  
                 } 
             }
         }

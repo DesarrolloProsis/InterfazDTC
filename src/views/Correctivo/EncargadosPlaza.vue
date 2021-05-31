@@ -127,7 +127,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios';
 import CookiesService from '../../services/CookiesService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import FiltrosServices from "../../services/FiltrosDTCServices";
@@ -172,27 +171,21 @@ export default {
     },
     beforeMount: function (){
         this.typeUser = this.$store.state.Login.cookiesUser.rollId        
-        Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
+        this.$http.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
         .then((response)=>{
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
             this.listaEncargados = this.listaencargadosFilrada
-        }).catch((error)=>{
-            console.log(error)
         })
-
     },
     methods:{
         actualizarFiltro(){
-            Axios.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
-                .then((response)=>{      
-                    console.log(response)              
+            this.$http.get(`${API}/SquaresCatalog/Admins/${this.$store.state.Login.cookiesUser.userId}`)
+                .then((response)=>{                                        
                     this.listaencargadosCompleta = response.data.result
                     this.listaencargadosFilrada = this.listaencargadosCompleta
                     this.listaEncargados = this.listaencargadosFilrada
-                }).catch((error)=>{
-                    console.log(error)                        
-                }) 
+                })
         },
         filtrar_encargados(value){
             this.listaEncargados = FiltrosServices.filtro_encargados_plaza(this.listaencargadosCompleta, value.plaza, value.nombre)
@@ -223,19 +216,17 @@ export default {
             }else{
                 this.modalAgregar = false
                 this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                             
-                Axios.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
+                this.$http.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
-                }).catch((error) => {
-                    console.log(error)
                 })
             }
         },
         actualziar_header_plazas(){
             let userId = this.$store.state.Login.cookiesUser.userId            
             //plazas 
-            Axios.post(`${API}/login/Cookie`, { userId: userId })
+            this.$http.post(`${API}/login/Cookie`, { userId: userId })
             .then((response) => {                     
                 let plazasUsuario =  response.data.result.cookie.map(item => {        
                     return {
@@ -249,17 +240,14 @@ export default {
                 })  
                 this.$store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION',plazasUsuario)
                 //Header Lista LArga 
-                Axios.post(`${API}/login/LoginInfo`, { userId: userId })
+                this.$http.post(`${API}/login/LoginInfo`, { userId: userId })
                 .then((response) => {                    
                     this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
                     this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)      
                     let cookiesUser = this.$store.state.Login.cookiesUser
                     localStorage.setItem('cookiesUser', JSON.stringify(cookiesUser))              
                 })               
-            }) 
-            .catch((error) => {
-                console.log(error)
-            })
+            })           
         },
         confimaBorrar (item) {
             this.infoDelate = item            
@@ -270,13 +258,11 @@ export default {
             let objStatusUpdate = {
                 status: false,
                 adminId: this.infoDelate.adminSquareId} 
-                Axios.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate)
+                this.$http.put(`${API}/SquaresCatalog/UpdateAdminStatus`, objStatusUpdate)
                 .then(() => {                    
                     this.actualziar_header_plazas()
                     this.actualizarFiltro()
-                }).catch((error) => {
-                    console.log(error)                                            
-                })      
+                }) 
         },
         editarUsuario (item) {            
             CookiesService.actualizar_plaza(item.adminSquareId)
@@ -309,20 +295,15 @@ export default {
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
                     adminId: this.editUser.userId}                              
-                Axios.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
+                this.$http.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
                     this.actualziar_header_plazas()                    
-                }).catch((ex)=>{
-                    if(ex.response.status == 401)
-                        CookiesService.token_no_autorizado()
-                    console.log(ex)
                 })
                 this.modalEditar = false
             } 
         },
-        guardar_palabra_busqueda: function(newPalabra){
-        console.log(newPalabra)      
+        guardar_palabra_busqueda: function(newPalabra){             
         if (newPalabra != "") {
             let array_filtrado = this.listaencargadosFilrada.filter(item => {
                 return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())

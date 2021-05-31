@@ -3,7 +3,7 @@ import saveAs from "file-saver";
 import store from '../store/index'
 import SeriviceActividades from '../services/ActividadesService'
 import moment from "moment";
-import Axios from 'axios'
+import Axios from '../store/ManejoSolicitudes'
 import CookiesService from '../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 const STATUS_REPORTE_CORRECTIVO = Object.freeze({
@@ -30,10 +30,7 @@ async function obtener_admin_id(referenceNumber){
     await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`)
     .then(async (response) => {                                              
         id = response.data.result[0].adminSquareId        
-    })
-    .catch((error) => {
-        console.log(error)
-    })  
+    }) 
     return id  
 }
 async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
@@ -114,8 +111,7 @@ async function crear_referencia(sinisterDate, referenceSquare,bandera) {
         else autoCompleteDias = diaCorriente.toString();
         let referenceNumber = nomPlaza + "-DF-" + newYear + autoCompleteDias;
         let newREferencee = Axios.get(`${API}/DiagnosticoFalla/GetReference/${referenceNumber.split('-')[0]}/${referenceNumber}`) 
-            .then((response) => response.data.result[0])
-            .catch((error) => console.log(error))               
+            .then((response) => response.data.result[0])                       
         return newREferencee   
     }
 }
@@ -171,9 +167,6 @@ async function generar_pdf_fotografico_preventivo(referenceNumber, lane){
             let namePdf = 'ReporteFotografica' + '-' + referenceNumber
             xml_hhtp_request(urlTopdf, namePdf)    
         }
-    })
-    .catch(error => {                    
-        console.log(error);                    
     });    
 }
 function generar_pdf_calendario_escaneado(año, mes){

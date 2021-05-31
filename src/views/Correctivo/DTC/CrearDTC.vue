@@ -119,7 +119,6 @@
 import Header from "@/components/Header/CrearHeader";
 import EventBus from "@/services/EventBus.js";
 import ServiceReporte from '@/services/ReportesPDFService'
-import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -249,14 +248,9 @@ methods: {
       }
   },
   enviar_dmg_componentes(objInsert){ 
-      this.modalLoading = false
-      console.log(objInsert.arrayDmg)             
-      for(let item of objInsert.arrayDmg){
-        console.log(item)
-      }     
-      Axios.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
-      .then(response => {      
-        console.log(response)                   
+      this.modalLoading = false      
+      this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
+      .then(() => {                             
           if (objInsert.status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               objInsert.refNum, 
@@ -273,8 +267,7 @@ methods: {
           this.$router.push("/Home");     
         
       })     
-      .catch(error => {        
-        console.log(error)   
+      .catch(() => {                
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE INSERTARON LOS COMPONENTES.`,

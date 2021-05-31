@@ -121,7 +121,6 @@ import ServiceActividades from '../../services/ActividadesService'
 import ServicePDF from '../../services/ReportesPDFService'
 import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
-import Axios from 'axios'
 import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -184,8 +183,7 @@ export default {
               })
             }
           }
-        })
-        console.log(carrilesInvalidos);
+        })        
         let carrilesReturn = []
         this.carriles.forEach(carril => {
           let existLane = carrilesInvalidos.findIndex(item => item.capufeLaneNum == carril.capufeLaneNum)
@@ -280,13 +278,10 @@ export default {
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
       )              
-      await Axios.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
+      await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async () => {                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
-        .catch(error => {                        
-          console.log(error)                          
-        });
       this.actividadSelect = ''      
     },
     label_multi_select(value){            
@@ -322,16 +317,13 @@ export default {
           SquareId: user.numPlaza,
           Year: this.año
         }                
-        Axios.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
+        this.$http.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
         .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {
               mes: this.mes,
               año: this.año
           })          
         })
-        .catch((error) => {          
-          console.log(error);                      
-        });
       }
       else{        
         this.$notify.warning({
@@ -347,7 +339,7 @@ export default {
     },
     borrar_carril_evento(item, index){      
       let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']  
-      Axios.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
+      this.$http.delete(`${API}/Calendario/DeleteCalendar/${refPlaza}/${item.calendarId}`)
         .then(async () => {                 
             if(this.carrilesModal.length == 1){ 
               this.modal = false             
@@ -359,7 +351,7 @@ export default {
               this.carrilesModal.splice(index,1)               
             }                                                           
         })
-        .catch(error => {  
+        .catch(() => {  
           this.$notify.warning({
             title: "Ups!",
             msg: `NO PUEDES BORRAR ESTA ACTIVIDAD YA HAY UN REPORTE GENERADO`,
@@ -368,18 +360,16 @@ export default {
               height: 100,
               width: 500,
             },          
-          });          
-          console.log(error);                      
+          });                                       
         });
     },
     validar_calendario_escaneado(){
       let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-      Axios.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${this.idUser}`)
+      this.$http.get(`${API}/Calendario/Exists/${referenciaPlaza}/${this.año}/${this.mes}/${this.idUser}`)
       .then(() => {        
         this.calendarioEscaneado = true
       })
-      .catch((error) => {
-          console.log(error)                                                    
+      .catch(() => {                                                         
           this.calendarioEscaneado = false
       })
     }

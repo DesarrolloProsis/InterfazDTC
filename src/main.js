@@ -60,8 +60,8 @@ Vue.component('multiselect', Multiselect)
 import VueNotify from 'vuejs-notify'
 Vue.use(VueNotify)
 //manejor de Solicitudes axios
-import manejo_solicitudes_run from './store/ManejoSolicitudes'
-manejo_solicitudes_run()
+import AxiosManejador from './store/ManejoSolicitudes'
+Vue.prototype.$http = AxiosManejador
 Vue.config.productionTip = false
 new Vue({
   router,

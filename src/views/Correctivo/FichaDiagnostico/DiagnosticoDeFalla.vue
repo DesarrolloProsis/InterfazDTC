@@ -60,7 +60,6 @@
 import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
-import Axios from 'axios';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -92,8 +91,7 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(header){
-        console.log(header)
+    actualizar_header(header){        
         this.datosHeader = header
     },
     validar_horas(){
@@ -171,7 +169,7 @@ methods:{
                 adminSquareId: administradorId,
                 updateFlag: flagInsert // 1 -> Insertar || 0 -> editar
             }              
-            Axios.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
+            this.$http.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
                 .then(() => {                
                     let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                         let newCarril = {}
@@ -183,15 +181,14 @@ methods:{
                     })       
                     let borrarDatos = { ...carrilesInsertDiagnostic[0] }
                     borrarDatos["addFlag"] = 0                    
-                    Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, borrarDatos)
+                    this.$http.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, borrarDatos)
                     .then(() =>{                        
                         carrilesInsertDiagnostic.forEach(carril => {                                                     
-                            Axios.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
+                            this.$http.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
                                 .then(() => { 
                                     if(this.botonEditCreate != false)
                                         this.modalImage = true                                                                    
-                                })
-                                .catch((error) => console.log(error))    
+                                })                                 
                         }); 
                         setTimeout(() => {
                             if(this.$route.params.tipoVista == 'Editar'){
@@ -206,14 +203,10 @@ methods:{
                                 }) 
                             }  
                         },2000)
-                    })
-                    .catch((error) => {
-                        console.log(error.response)
-                    })
+                    })              
                     this.reporteInsertado = true                                                   
                     
-                })
-                .catch((error) => console.log(error))  
+                })                
         }        
         else{
             this.type = 'FICHA' 

@@ -155,7 +155,6 @@
 <script>
 import ServicioActividades from '../../services/ActividadesService.js'
 import SelectPlaza from '../Header/SelectPlaza'
-import Axios from 'axios'
 import ServiceReportePDF from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
@@ -278,19 +277,16 @@ methods: {
     reporte_pdf: async function(item){          
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
         .then((response) => {                  
             let referenceNumber = response.data.result.table[0].referenceNumber
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
             ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
-        })
-        .catch(error => {                    
-            console.log(error)
-        });                 
+        })                   
     },  
     editar_reporte_carril: async function(item){        
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
-        await Axios.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
         .then((response) => {                  
             let header = response.data.result.table[0]                        
             let actividades = response.data.result.table1                             
@@ -307,9 +303,6 @@ methods: {
                 },
             });
         })
-        .catch(error => {                                
-            console.log(error)                
-        });
     },
     crear_reporte_carril(item){              
         item["plazaNombre"] = this.plazaNombre                

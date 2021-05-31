@@ -499,9 +499,7 @@ methods: {
       new_promise.then((array) => {        
         EventBus.$emit('enviar-componete', { arrayDmg: array, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
       })
-      .catch((error) => {
-        console.log(error)
-      })    
+      
     }, 2000)
   },
   eliminar_partida(index){

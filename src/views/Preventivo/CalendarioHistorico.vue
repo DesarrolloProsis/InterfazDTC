@@ -103,8 +103,12 @@
                             <td class="cuerpoTable font-titulo font-normal">
                                 <button @click="reporte_pdf(item)" class="botonIconDescargar">
                                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                        <span class="text-xs sm:hidden">Descargar</span>
+                                        <span class="text-xs sm:hidden">Calendario</span>
                                 </button>
+                                <!-- <button @click="reporte_pdf(item)" class="botonIconDescargar">
+                                        <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                        <span class="text-xs sm:hidden">Reporte Fotografico</span>
+                                </button> -->
                             </td>             
                         </tr>
                     </tbody>
@@ -115,7 +119,6 @@
 </template>
 
 <script>
-import Axios from 'axios';
 import ServicePDF from '../../services/ReportesPDFService'
 import ServiceFiltrosDTC from '../../services/FiltrosDTCServices'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -133,9 +136,8 @@ export default {
             todasPlazas: []                       
         }
     },
-    beforeMount: async function() {
-        
-        await Axios.get(`${API}/Mantenimiento/Bitacora`)
+    beforeMount: async function() {        
+        await this.$http.get(`${API}/Mantenimiento/Bitacora`)
         .then((response) => {             
             this.listaCompleta = response.data.result  
             this.listaCalendario = response.data.result  
@@ -145,10 +147,8 @@ export default {
                     plaza["referenceSquare"] = this.listaCompleta.find(calendario => calendario.plazaId == plaza.squareCatalogId).referenceSquare
                     this.listaPlazasValidas.push(plaza)        
                 }
-            }                                                                                                           
-        }).catch(error => {      
-            console.log(error)            
-        })                  
+            }
+        })                                                                                                                               
     },
     methods:{
         tramo_cascada(){

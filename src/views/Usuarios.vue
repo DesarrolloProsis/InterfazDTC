@@ -8,7 +8,7 @@
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
         <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
         <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1" v-if="typeUser">
-          <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
+          <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
       <!--///////////////////////////////////////////////////////////////////
@@ -28,11 +28,11 @@
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
                 <td class="cuerpoTable text-center" v-if="typeUser">
                   <button @click="editarUsuario(item)" class="botonIconActualizar">
-                    <img src="../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                    <img src="@/assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Editar</span>
                   </button>
                   <button v-if="typeUser" @click="borrar_usuario(item)" class="botonIconLimpiar m-2">
-                    <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                    <img src="@/assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Borrar</span>
                   </button>
                 </td>
@@ -58,6 +58,12 @@
                         <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2">
                           <option disabled value>Selecionar...</option>     
                           <option v-for="(item, key) in listaTiposUsuario" :key="key">{{ item.nombre }}</option>                                                                         
+                        </select>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tramo</p>
+                        <select v-model="tramoSeleccionado" class="w-full mt-2">
+                          <option disabled value>Selecionar...</option>     
+                          <option value="1">México Acapulco</option>     
+                          <option value="2">México Irapuato</option>     
                         </select>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>                        
                         <multiselect 
@@ -86,7 +92,7 @@
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex -mr-10 -mt-6">
             <button @click="limpiar_usuario">
-              <img src="../../assets/img/close.png" class="mr-2" width="25" height="25" />
+              <img src="@/assets/img/close.png" class="mr-2" width="25" height="25" />
             </button>
           </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -111,7 +117,7 @@
             </div>
             <div class="mt-8 flex justify-center">
               <button @click="modal_Part = true" class="botonIconNext font-boton">
-                <img src="../../assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
+                <img src="@/assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
                 <span class="text-xs">Siguiente</span>
               </button>
             </div>
@@ -143,13 +149,13 @@
             <div class="grid grid-cols-2">  
               <div class="flex justify-center mt-5 mr-10">
                 <button @click="modal_Part = false" class="mt-4 botonIconNext font-boton">
-                  <img src="../../assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
+                  <img src="@/assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
                   <span class="text-xs mr-4">Regresar</span>
                 </button>
               </div>
               <div class="flex justify-center mt-5 ml-10">
                 <button @click="confirmar" class=" mt-4 botonIconBuscar font-boton">
-                  <img src="../../assets/img/save.png" class="mr-5" width="25" height="25"/>
+                  <img src="@/assets/img/save.png" class="mr-5" width="25" height="25"/>
                   <span class="text-xs mr-5">Guardar</span>
                 </button>
               </div>
@@ -162,9 +168,8 @@
 </template>
 
 <script>
-import HeaderGenerico from "../../components/Header/HeaderGenerico";
+import HeaderGenerico from "@/components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
-import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -196,6 +201,7 @@ export default {
       typeUser: true,
       //Metodos Nuevos
       modalEditar: false,
+      tramoSeleccionado: '',
       objUsuarioNuevo:{
         nombre: '',
         apellidoM: '',
@@ -233,8 +239,8 @@ export default {
       }
     },
     refrescar_usuarios: function(){
-      this.lista_Usuarios = []
-      this.lista_Usuarios_Filtrada = []
+      this.listaUsuarios = []
+      this.listaUsuariosFiltrada = []
       let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
       let params = { Id: user.idUser, Square: user.numPlaza}
       this.$store.dispatch('Usuarios/Consulta_Users', params)
@@ -251,18 +257,15 @@ export default {
     },  
     guardar_nuevo_usuario(){            
       let tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
-      this.objUsuarioNuevo.plazas
-      console.log(this.objUsuarioNuevo);
+      this.objUsuarioNuevo.plazas      
       let objInsert = {
         name: this.objUsuarioNuevo.nombre,
         lastName1: this.objUsuarioNuevo.apellidoM,
         lastName2: this.objUsuarioNuevo.apellidoP,
         password: this.objUsuarioNuevo.password,
         rol: tipoUsuario,
-      }      
-      //let userNuevoId = ''   
-      console.log(objInsert);   
-      Axios.post(`${API}/User/Nuevo`,objInsert)
+      }                  
+      this.$http.post(`${API}/User/Nuevo`,objInsert)
       .then((response) => {      
           this.$notify.success({
               title: "Ops!!",
@@ -280,15 +283,9 @@ export default {
               squareCatalogId: plaza.squareCatalogId,
               clavePlaza: plaza.referenceSquare
             }
-            Axios.post(`${API}/User/AddSquareToUser`,plazaInsert)
-              .then((responsePlaza) => console.log(responsePlaza))
-              .catch((error) => console.log(error))
-
+            this.$http.post(`${API}/User/AddSquareToUser`,plazaInsert)                        
           })
-          setTimeout(() => {            
-            // Axios.put(`${API}/User/ActivateUser/PM/${userNuevoId}`)
-            //   .then((response) => {
-            //     console.log(response)
+          setTimeout(() => {                  
                 this.$notify.success({
                   title: "Ops!!",
                   msg: "SE ACTIVO CORRECTAMENTE EL USUARIO.",
@@ -299,12 +296,9 @@ export default {
                   },
                 })
                 this.modalEditar = false                
-                this.refrescar_usuarios()
-              // })
-              // .catch((error) => console.log(error))
+                this.refrescar_usuarios()                            
           },1000)
-        })
-      .catch((error) => console.log(error))      
+        })        
     }, 
     limpiar_usuario() {
       for (let prop in this.User) {
@@ -392,10 +386,9 @@ export default {
       if(value != 'Sin Actividad')
         return `${value.squareCatalogId} ${value.squareName}`  
     },
-    guardar_palabra_busqueda: function(newPalabra){
-      console.log(newPalabra)      
+    guardar_palabra_busqueda: function(newPalabra){      
       if (newPalabra != "") {
-        let array_filtrado = this.lista_Usuarios_Filtrada.filter(item => {
+        let array_filtrado = this.listaUsuariosFiltrada.filter(item => {
           return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
         })       
         this.listaUsuarios = array_filtrado;
@@ -409,8 +402,8 @@ export default {
     listaTiposUsuario(){
       return this.$store.state.Login.tipoUsuario
     },
-    listaPlazas(){
-      return this.$store.state.Login.listaPlazas
+    listaPlazas(){            
+      return this.$store.state.Login.listaPlazas.filter(plaza => plaza.delegationId == this.tramoSeleccionado)
     }
   }
 };

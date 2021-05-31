@@ -194,7 +194,6 @@
 </div>
 </template>
 <script>
-import Axios from "axios";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import moment from "moment";
 import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
@@ -290,7 +289,7 @@ subirImg: async function (){
 },
 abrirCarrusel : async function (item){  
   this.dtcImg = item
-  await Axios.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+  await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
     .then((response) => {              
         if(response.status != 404){                 
           if(response.data.length > 0){
@@ -318,10 +317,7 @@ abrirCarrusel : async function (item){
           });
         }   
       }                   
-    })
-    .catch((error) => {   
-      console.log(error)            
-    });      
+    })     
 },
 editar_status_dtc: function (){
   let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -334,7 +330,7 @@ editar_status_dtc: function (){
       }        
     if( this.statusEdit != '' && this.motivoCambio != ''){
       //Evento post que llama a la api 
-    Axios.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
+    this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
       .then(async() => {        
         this.statusEdit = ''
         this.motivoCambio = ''   
@@ -342,10 +338,7 @@ editar_status_dtc: function (){
         await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
         this.modalCambiarStatus = false
         this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                              
-      })
-      .catch(error => {                    
-        console.log(error);
-      });
+      }) 
       this.lista_DTC_Filtrada = this.infoDTC
     }
     else {
@@ -398,8 +391,7 @@ limpiar_filtros: function() {
     this.lista_DTC_Filtrada = this.infoDTC
   })           
 },
-recibir_pdf_sellado(e, index) { 
-  console.log(index)               
+recibir_pdf_sellado(e, index) {           
   var files = e.target.files || e.dataTransfer.files;
   if (!files.length) return;
   else {  
@@ -415,8 +407,7 @@ recibir_pdf_sellado(e, index) {
     }        
   }
 },
-crearImage(file) {
-  console.log(file)
+crearImage(file) {  
   if(file.type.split('/')[1] == 'pdf'){
     var reader = new FileReader(); 
     reader.onload = (e) => {
@@ -456,8 +447,7 @@ base64ToFile(dataurl, fileName) {
   }
   return new File([u8arr], fileName + '.pdf', { type: mime });
 },
-enviar_pdf_sellado(index){
-  console.log(index)                      
+enviar_pdf_sellado(index){                       
   let formData = new FormData();
   let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
   formData.append("file", file);     
@@ -468,9 +458,9 @@ enviar_pdf_sellado(index){
   this.infoDTC[index].escaneadobool = false        
   this.infoDTC.splice(index, 1, Object.assign(this.infoDTC[index]))  
   let pdf_sellado_promise = new Promise((resolve, reject) => {    
-  Axios.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}/${false}`, obj.file)
+  this.$http.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}/${false}`, obj.file)
     .then(() => {          
-      Axios.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
+      this.$http.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
       .then(() => {                         
           let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                                     
@@ -503,8 +493,7 @@ enviar_pdf_sellado(index){
               width: 500,
             },
         });  
-      })
-      .catch((error) =>  console.log(error))    
+      })      
     }, 3000);      
 },
 },

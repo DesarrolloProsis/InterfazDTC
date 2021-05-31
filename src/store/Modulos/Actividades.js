@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from '../ManejoSolicitudes'
 import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -47,9 +47,8 @@ const actions = {
         dispatch('OBTENER_COMENTARIO_MENSUAL', value)                         
         await Axios.post(`${API}/Calendario/ActividadMesYear/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
             .then((response) => commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result))
-            .catch(error => {
-                commit("ACTIVIDADES_MENSUALES_MUTATION", [])  
-                console.log(error)                                                      
+            .catch(() => {
+                commit("ACTIVIDADES_MENSUALES_MUTATION", [])                                                                 
             }); 
     },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
@@ -57,8 +56,7 @@ const actions = {
             .then((response) => {                                  
                 let comentario = response.data.result.table.length >= 1 ? response.data.result.table[0].comment : ""                                     
                 commit("COMENTARIO_MENSUAL_MUTATION", comentario)               
-            })
-            .catch((error) => console.log(error));
+            })            
     },
     async OBTENER_LISTA_ACTIVIDADES_CHECK({ commit, rootGetters }, value){        
         let rolUser = rootGetters['Login/GET_TIPO_USUARIO']                           
@@ -70,8 +68,7 @@ const actions = {
             })                                       
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", actividades)               
         })
-        .catch(error => {            
-            console.log(error)
+        .catch(() => {                        
             commit("LISTA_ACTIVIDADES_CHECK_MUTATION", [])                            
         });
     }

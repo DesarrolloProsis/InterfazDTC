@@ -157,7 +157,7 @@ import ServiceReporte from '../../services/ReportesPDFService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 import CookiesService from '../../services/CookiesService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-import Axios from 'axios'
+
 export default {
   props: {
     infoCard: {
@@ -216,14 +216,11 @@ export default {
     editar_dtc: async function () {
       let datosUser = {}      
       await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber); 
-      await Axios.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`)
+      await this.$http.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`)
         .then(async (response) => {                                      
           datosUser = response.data.result[0]                    
           await CookiesService.actualizar_plaza(datosUser.adminSquareId)          
-        })
-        .catch(error => {
-          console.log(error);                      
-        });      
+        })         
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', { numSiniestro: this.infoCard.sinisterNumber,  numReporte: this.infoCard.reportNumber })                         
       let datosSinester = {
         ReferenceNumber: "",

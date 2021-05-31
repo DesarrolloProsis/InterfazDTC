@@ -1,6 +1,7 @@
 import store from '../store/index'
 import router from '../router/index'
-import Axios from 'axios'
+import Axios from '../store/ManejoSolicitudes'
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 function formato_cookies_usuario(loginSesion){  
     return new Promise((resolve, reject) => {
@@ -48,9 +49,6 @@ async function refrescar_barer_token(){
     .then((response) => {                
         localStorage.setItem('token', JSON.stringify(response.data.result))        
     })
-    .catch(error => {        
-        console.log(error) 
-    });
 }
 async function actualizar_plaza(adminId){    
     let clousere_actualizar = async (adminId, tipoFiltro)  => {        
