@@ -1,32 +1,32 @@
 <template>
-<div>    
+  <div>    
     <div class="flex justify-center -mt-6">
-        <div class="grid gap-4 grid-cols-1 py-3 px-3">                        
-        <!--/////////////////////////////////////////////////////////////////////
-        ////                         MODAL CARRUSEL                        /////
-        ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-          <div v-if="carruselModal" class="carruselGMMEP">          
-            <div class="justify-center text-center block">            
-                <Carrusel @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
-            </div>
+      <div class="grid gap-4 grid-cols-1 py-3 px-3">                        
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                         MODAL CARRUSEL                        /////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0">
+        <div v-if="carruselModal" class="carruselGMMEP">          
+          <div class="justify-center text-center block">            
+              <Carrusel @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
           </div>
         </div>
-        <!--/////////////////////////////////////////////////////////////////////
-        ////                         MODAL CARRUSEL                        /////
-        ////////////////////////////////////////////////////////////////////-->
-        <div class="relative inset-0">
-          <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-44 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-66">          
-            <button @click="subirImgModal = false" class="ml-74 mt-1 -mb-10 justify-end">
-              <img src="../../../assets/img/close.png" class="justify-center" width="30" height="30"/></button>
-            <div class="mt-1 ml-4 mr-4 -mb-10">
-              <AgregarImg :reporteDataInsertada="true" :tipo="'ConcentradoDTC'" :referenceNumber="datosImg.referenceNumber"></AgregarImg>
-            </div>
-            <div class="justify-center flex mt-5">
-              <button @click="subirImg" class="botonIconCrear m-4">Subir</button>
-            </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                         MODAL CARRUSEL                        /////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="relative inset-0">
+        <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-44 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-66">          
+          <button @click="subirImgModal = false" class="ml-74 mt-1 -mb-10 justify-end sm:ml-66">
+            <img src="../../../assets/img/close.png" class="justify-center" width="30" height="30"/></button>
+          <div class="mt-1 ml-4 mr-4 -mb-10">
+            <AgregarImg :reporteDataInsertada="true" :tipo="'ConcentradoDTC'" :referenceNumber="datosImg.referenceNumber"></AgregarImg>
+          </div>
+          <div class="justify-center flex mt-5">
+            <button @click="subirImg" class="botonIconCrear m-4">Subir</button>
           </div>
         </div>
+      </div>
       <!--/////////////////////////////////////////////////////////////////////
       /////                    FILTROS DE NAVEGACION                      ////
       ////////////////////////////////////////////////////////////////////-->   
@@ -62,24 +62,24 @@
           </div>
         </div>
       </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16" style="height:550px;">
-          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped font-titulo">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:-mb-32 md:mb-16 font-titulo" style="height:550px;">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead>
                 <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                    <th class="cabeceraTable font-medium">Referencia</th>
-                    <th class="cabeceraTable font-medium">Fecha de Elaboracion</th>
-                    <th class="cabeceraTable font-medium">Fecha de Siniestro</th>
-                    <th class="cabeceraTable font-medium">Registro en Sistema</th>
-                    <th class="cabeceraTable font-medium">Folio</th>
-                    <th class="cabeceraTable font-medium">N° de Reporte</th>
-                    <th class="cabeceraTable font-medium">N° de Siniestro</th>
-                    <th class="cabeceraTable font-medium">Fecha de Falla</th>
-                    <th class="cabeceraTable font-medium">Fotografias</th>
-                    <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
-                    <th class="cabeceraTable font-medium">PDF</th>
+                  <th class="cabeceraTable font-medium">Referencia</th>
+                  <th class="cabeceraTable font-medium">Fecha de Elaboracion</th>
+                  <th class="cabeceraTable font-medium">Fecha de Siniestro</th>
+                  <th class="cabeceraTable font-medium">Registro en Sistema</th>
+                  <th class="cabeceraTable font-medium">Folio</th>
+                  <th class="cabeceraTable font-medium">N° de Reporte</th>
+                  <th class="cabeceraTable font-medium">N° de Siniestro</th>
+                  <th class="cabeceraTable font-medium">Fecha de Falla</th>
+                  <th class="cabeceraTable font-medium">Fotografias</th>
+                  <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
+                  <th class="cabeceraTable font-medium">PDF</th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -137,53 +137,52 @@
                     </div>
                   </td>
                   <td class="cuerpoTable">
-                  <!-- <input type="checkbox"> -->
-                  <div class="grid grid-cols-1 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
-                    <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8 ml-2">
-                        <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
-                        <span class="text-xs sm:hidden">Firmado</span>
-                    </button>
-                    <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8 ml-2" :class="{'hidden': item.escaneadobool}" :disabled=" item.escaneadobool ">
-                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
-                        <span class="text-xs sm:hidden">Sellado</span>
-                    </button>
-                    <!-- /////////////////////////////////////////////////////////////////////
-                    ////                       SUBIR PDF SELLADO                      ////
-                    ///////////////////////////////////////////////////////////////////// -->        
-                    <div v-if="tipoUsuario != 7">
-                      <div v-if="item.escaneadobool">                    
-                        <button class="mt-1" v-if="!item.confirmpdf">
-                          <div class="flex justify-center botonIconSellado font-boton">
-                            <input type="file" class="opacity-0 w-auto h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
-                            <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
-                            <p class="text-xs mt-1">Subir Sellado</p>
-                          </div>                   
-                        </button>
-                        <div class="grid grid-cols-1" v-else>
-                          <div class="grid grid-cols-2">
-                          <img src="../../../assets/img/pdf.png" class="w-4 h-4 -ml-4 opacity-75" alt/>     
-                          <p class="-ml-32 text-sm">{{ pdfSellado.name }}</p>
+                    <div class="grid grid-cols-1 md:mr-24 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
+                      <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 sm:-ml-1 ml-2">
+                          <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:mr-2 " width="15" height="15" />
+                          <span class="text-xs">Firmado</span>
+                      </button>
+                      <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 ml-2 sm:-ml-1" :class="{'hidden': item.escaneadobool}" :disabled=" item.escaneadobool ">
+                          <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:mr-2" width="15" height="15" />
+                          <span class="text-xs">Sellado</span>
+                      </button>
+                      <!-- /////////////////////////////////////////////////////////////////////
+                      ////                       SUBIR PDF SELLADO                      ////
+                      ///////////////////////////////////////////////////////////////////// -->        
+                      <div v-if="tipoUsuario != 7">
+                        <div v-if="item.escaneadobool">                    
+                          <button class="mt-1 sm:w-32 sm:-ml-5" v-if="!item.confirmpdf">
+                            <div class="flex justify-center botonIconSellado font-boton">
+                              <input type="file" class="opacity-0 w-auto h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
+                              <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
+                              <p class="text-xs mt-1">Subir Sellado</p>
+                            </div>                   
+                          </button>
+                          <div class="grid grid-cols-1" v-else>
+                            <div class="grid grid-cols-2">
+                            <img src="../../../assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
+                            <p class="-ml-32 text-sm sm:ml-0">{{ pdfSellado.name }}</p>
+                            </div>
+                            <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
+                              <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
+                              <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                            </div>            
                           </div>
-                          <div class="grid grid-cols-2 -ml-10">
-                            <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                            <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1">Cancelar</button>                  
-                          </div>            
                         </div>
+                      </div> 
+                      <div class="-ml-2" v-if="item.escaneadobool && tipoUsuario == 7">
+                        <button class="botonIconBorrarCardDes font-boton w-24 sm:w-10 sm:ml-8"  :disabled=" item.escaneadobool ">
+                          <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
+                          <span class="text-xs sm:hidden">Sellado</span>
+                        </button>
                       </div>
-                    </div> 
-                    <div class="-ml-2" v-if="item.escaneadobool && tipoUsuario == 7">
-                      <button class="botonIconBorrarCardDes font-boton w-24 sm:w-10 sm:ml-8"  :disabled=" item.escaneadobool ">
-                        <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
-                        <span class="text-xs sm:hidden">Sellado</span>
+                    </div>                                 
+                    <div v-else>
+                      <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
+                        <img src="../../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
+                        <span class="text-xs sm:hidden w-24">Sin Firma</span>
                       </button>
                     </div>
-                  </div>                                 
-                  <div v-else>
-                    <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
-                      <img src="../../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
-                      <span class="text-xs sm:hidden w-24">Sin Firma</span>
-                    </button>
-                  </div>
                   </td>
                 </tr>
               </template>
@@ -192,7 +191,7 @@
         </div>  
       </div>  
     </div> 
-</div>
+  </div>
 </template>
 <script>
 import Axios from "axios";
