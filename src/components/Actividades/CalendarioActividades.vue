@@ -84,7 +84,7 @@
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
     </HeaderCalendario>  
-    <div class="pl-10 pr-10 mt-10 mb-32 font-titulo" :class="{' pointer-events-none': modal}">
+    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo" :class="{' pointer-events-none': modal}">
         <vue-cal 
           ref="vuecal"          
           :time="false"
