@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <span class="text-gray-500 text-sm sm:-mt-6 ">{{ num }}/{{ limiteFotos }} (Máximo {{ limiteFotos }} fotografías)</span>     
+            <span class="text-gray-500 text-sm sm:-mt-6 sm:ml-20">{{ num }}/{{ limiteFotos }} (Máximo {{ limiteFotos }} fotografías)</span>     
         </div> 
         <div v-else :class="{'w-1/3 ml-5 lg:ml-73' : tipo == 'Diagnostico', 'w-1/3 ml-5 sm:ml-48 lg:ml-73' :tipo == 'Ficha'}">
             <button class="inline-flex h-40 border border-gray-400 bg-gray-300 rounded-lg w-full sm:w-66" :class="{'bg-gray-400' : reporteDataInsertada}">

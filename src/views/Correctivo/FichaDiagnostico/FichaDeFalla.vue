@@ -48,7 +48,7 @@
                             </button>                                                                                                  
                         </div>
                         <div v-else>
-                            <button @click="enviar_header_ficha(true)" class="botonIconActualizar">
+                            <button @click="enviar_header_ficha(true)" class="botonIconActualizar sm:mt-12">
                                 <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                                 <span>Actualizar Ficha</span>
                             </button>                            
