@@ -119,15 +119,15 @@
                   <td class="cuerpoTable">
                     <div v-if="tipoUsuario != 7">
                       <button @click="abrirCarrusel(item)" class="botonIconCrear" v-if="!item.imgbool" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
-                        <img src="../../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
+                        <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                       </button>
                       <button @click="abrirSubir(item)" class="botonIconCrear" v-else >
-                        <img src="../../../assets/img/more.png" class="justify-center" width="15" height="15"/>
+                        <img src="@/assets/img/more.png" class="justify-center" width="15" height="15"/>
                       </button>
                     </div>
                     <div v-if="tipoUsuario == 7">
                       <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
-                        <img src="../../../assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
+                        <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                       </button>
                     </div>
                   </td>
@@ -139,11 +139,11 @@
                   <td class="cuerpoTable">
                     <div class="grid grid-cols-1 md:grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 justify-center" v-if="tipoUsuario != 8">
                       <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8 ml-2">
-                          <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
+                          <img src="@/assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                           <span class="text-xs sm:hidden">Firmado</span>
                       </button>
                       <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:w-10 sm:ml-8 ml-2" :class="{'hidden': item.escaneadobool}" :disabled=" item.escaneadobool ">
-                          <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
+                          <img src="@/assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                           <span class="text-xs sm:hidden">Sellado</span>
                       </button>
                       <!-- /////////////////////////////////////////////////////////////////////
@@ -154,13 +154,13 @@
                           <button class="mt-1" v-if="!item.confirmpdf">
                             <div class="flex justify-center botonIconSellado font-boton">
                               <input type="file" class="opacity-0 w-auto h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
-                              <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
+                              <img src="@/assets/img/pdf.png" class="mr-1" width="15" height="15"/>
                               <p class="text-xs mt-1">Subir Sellado</p>
                             </div>                   
                           </button>
                           <div class="grid grid-cols-1" v-else>
                             <div class="grid grid-cols-2">
-                            <img src="../../../assets/img/pdf.png" class="w-4 h-4 -ml-4 opacity-75" alt/>     
+                            <img src="@/assets/img/pdf.png" class="w-4 h-4 -ml-4 opacity-75" alt/>     
                             <p class="-ml-32 text-sm">{{ pdfSellado.name }}</p>
                             </div>
                             <div class="grid grid-cols-2 -ml-10">
@@ -172,14 +172,14 @@
                       </div> 
                       <div class="-ml-2" v-if="item.escaneadobool && tipoUsuario == 7">
                         <button class="botonIconBorrarCardDes font-boton w-24 sm:w-10 sm:ml-8"  :disabled=" item.escaneadobool ">
-                          <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
+                          <img src="@/assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                           <span class="text-xs sm:hidden">Sellado</span>
                         </button>
                       </div>
                     </div>                                 
                     <div v-else>
                       <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
-                        <img src="../../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
+                        <img src="@/assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
                         <span class="text-xs sm:hidden w-24">Sin Firma</span>
                       </button>
                     </div>

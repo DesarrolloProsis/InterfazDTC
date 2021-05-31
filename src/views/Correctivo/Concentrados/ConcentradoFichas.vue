@@ -54,22 +54,21 @@
                                     <td class="cuerpoTable">
                                         <div>                        
                                             <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton">
-                                                <img src="../../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Descargar</span>
+                                                <img src="@/assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />                                                
                                             </button>
                                         </div>
                                     </td>
                                     <td class="cuerpoTable">
                                         <div>                        
                                             <button @click="imprimir_pdf_ficha(item.referenceNumber)" :disabled="!item.validacionFichaTecnica" :class="{'botonDescargarDes': !item.validacionFichaTecnica}" class="botonDescargar font-boton">
-                                                <img src="../../../assets/img/descargar.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                                <img src="@/assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />                                                
                                                 <span>Descargar</span>
                                             </button>
                                         </div>
                                     </td>
                                     <td class="cuerpoTable" :class="{'hidden': typeUser == 4}">                                    
                                         <button @click="terminar_dtc(item.referenceNumber)" :disabled="item.validacionDTC || item.typeFaultId <= 1" :class="{'botonDescargarDes': item.validacionDTC || item.typeFaultId <= 1 }" class="botonDescargar font-boton">
-                                            <img src="../../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <img src="@/assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                             <span>Terminar DTC</span>
                                         </button>                                        
                                     </td>
