@@ -1,31 +1,31 @@
 <template>
-    <div>    
-<!--/////////////////////////////////////////////////////////////////////
+    <div class="font-titulo">    
+        <!--/////////////////////////////////////////////////////////////////////
         /////                   DATOS DEL REPORTE                           ////
         ////////////////////////////////////////////////////////////////////--> 
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mb-2">
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA UNO                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4 font-titulo">
+            <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4">
                 <div class="grid grid-cols-2 sm:grid md:grid">
                     <span class="">No. De Reporte:</span>
-                    <p class="-ml-66 sm:-ml-16 sm:w-24">{{ datosDiagnostico.referenceNumber }}</p>
+                    <p class="-ml-66 sm:-ml-16 sm:w-32">{{ datosDiagnostico.referenceNumber }}</p>
                 </div>
                 <div class="mt-5 grid grid-cols-2 sm:grid">
                     <div>
                         <span>Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': blockInput == true || this.$route.params.tipoVista != 'Crear'}">
+                    <div class="-ml-66 sm:-ml-16 sm:-mt-1" :class="{'hidden': blockInput == true || this.$route.params.tipoVista != 'Crear'}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
                     <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == true}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                        <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
-                    <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == false}">
+                    <div class="-ml-66 -mb-4 sm:-ml-16 sm:-mt-1" :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <span v-if="blockInput" class="block m-1 text-red-400 text-center text-xs font-titulo font-normal sm:-ml-32">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                        <span v-if="blockInput" class="block m-1 text-red-400 text-center text-xs font-normal sm:-ml-32">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
                 </div>
                 <div class="mt-5 grid sm:grid grid-cols-2">
@@ -55,7 +55,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-65 sm:ml-4 font-titulo">
+            <div class="mt-6 ml-65 sm:ml-4">
                 <div>
                     <span class="">Fecha:</span>
                     <input class="ml-16 fechaDiag" type="date" :disabled="blockInput || this.$route.params.tipoVista != 'Crear'" v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || this.$route.params.tipoVista != 'Crear'}"/>
@@ -73,8 +73,8 @@
         <!--/////////////////////////////////////////////////////////////////////
         /////                             FOLIOS                            ////
         ////////////////////////////////////////////////////////////////////--> 
-        <div v-if="blockInput" class="text-center ml-68 -mb-6 sm:ml-1 sm:text-xs sm:-mb-1"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
+        <div v-if="blockInput" class="text-center ml-68 -mb-6 sm:ml-1 sm:text-xs sm:-mb-4 sm:mt-4"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0">
             <div class="mt-6 ml-5 w-full sm:-ml-6">
                 <div class="text-center w-32 ml-64 mr-40 sm:ml-0">
                     <span class="">Folio de FALLA:</span>
@@ -103,7 +103,7 @@
         <!--/////////////////////////////////////////////////////////////////////
         /////                       DECSRIPCION                             ////
         ////////////////////////////////////////////////////////////////////-->      
-        <div class="mt-2 sm:text-xs sm:ml-3 mb-16 mr-5 ml-5 font-titulo" v-if="tipo == 'DIAG'">
+        <div class="mt-2 sm:text-xs sm:ml-3 mb-16 mr-5 ml-5" v-if="tipo == 'DIAG'">
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA TRES                           ////
             ////////////////////////////////////////////////////////////////////--> 
@@ -146,7 +146,7 @@
         <!-- /////////////////////////////////////////////////////////////////////
         ////                            FICHA                             ///////
         //////////////////////////////////////////////////////////////////// -->
-        <div class="font-titulo sm:-mt-6" v-if="tipo == 'FICHA'"> 
+        <div class="sm:-mt-6" v-if="tipo == 'FICHA'"> 
             <div class="grid sm:grid-cols-1 grid-cols-2 ml-5 sm:text-xs sm:ml-1">
                 <div class="">
                     <span>TIPO DE FALLA:</span>
@@ -179,7 +179,7 @@
                             readonly
                         />
                         <span class="text-gray-500 sm:ml-32">{{ restante_desc }}/300 <span class="text-red-400 ml-32 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
-                        <div class="text-red-400 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
+                        <div class="text-center lg:hidden xl:hidden"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
                     </div>
                     <div class="mr-10 sm:mr-1">
                         <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>

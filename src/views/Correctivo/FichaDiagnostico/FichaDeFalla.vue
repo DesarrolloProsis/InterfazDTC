@@ -5,16 +5,16 @@
             ////                     MODAL IMAGENES                        /////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0">
-                <div v-if="modalImage" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48 sm:m-4 sm:mt-66">          
+                <div v-if="modalImage" class="modalCargarImg mt-48 sm:m-4 sm:mt-66">          
                     <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
-                        <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer " />
+                        <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
                     </span>
                     <div class="justify-center text-center block ml-4 mr-4">            
                         <!-- /////////////////////////////////////////////////////////////////////
                         ////                         IMAGENES                             ////
                         ///////////////////////////////////////////////////////////////////// -->
                         <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                        <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4">
+                        <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4 sm:mt-12">
                             <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Generar Ficha Técnica</span>
                         </button>  
