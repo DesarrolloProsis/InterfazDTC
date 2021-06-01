@@ -4,12 +4,12 @@
           ////                             HEADER                          ////
           ////////////////////////////////////////////////////////////////////-->
         <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-10">
-            <div class=" w-auto mx-auto flex justify-center">
+            <div class=" w-auto mx-auto flex justify-center sm:ml-16 sm:-mb-6">
                 <div class="border-gray-800 w-66 border-none p-5">
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
                 </div>
             </div>
-            <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
+            <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm sm:-mb-6 flex justify-start sm:justify-center">
                 <div class="border-gray-200 p-5 pt-0">
                     <h1 class="mt-5 border-purple-800 w-72 sm:w-full font-titulo font-bold">{{ `Calendario de Actividades` }}</h1>            
                 </div>
@@ -35,11 +35,11 @@
                             <span class="">Crear</span>
                         </button>
                     </div>
-                    <div class="flex-col justify-center h-12 w-full mt-5 " >
+                    <div class="flex-col justify-center h-12 w-full mt-5" >
                         <div v-if="calendarioEscaneado">
-                            <button @click="obtener_escaneado_calendario" class="botonIconDescargar mb-1 sm:mt-2">
+                            <button @click="obtener_escaneado_calendario" class="botonIconDescargar mb-1">
                                 <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                    <span class="sm:hidden">Descargar</span>
+                                    <span class="">Descargar</span>
                             </button>
                         </div>
                         <div v-else>
@@ -47,11 +47,11 @@
                                 <div class="inline-flex">
                                     <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
                                     <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
-                                    <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
-                                    <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
+                                    <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24 sm:-mt-2">Subir</button>
+                                    <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1 sm:-ml-16 sm:mt-8">Cancelar</button>
                                 </div>                                
                             </div>                        
-                            <div v-else class="justify-center botonIconDescargar">
+                            <div v-else class="justify-center botonIconDescargar font-bold">
                                 <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>
                                     <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
                                     <span>Cargar</span>                                                                       
@@ -66,12 +66,12 @@
                         v-model="comentario"
                         v-validate="'max:500|required'"
                         :class="{ 'is_valid': !errors.first('comentario'), 'is_invalid': errors.first('comentario')}"
-                        class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-32 w-full placeholder-gray-500 border sm:mt-2 sm:mb-1 font-titulo"
+                        class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 textAreaCalendario"
                         placeholder="jane@example.com"
                         name="comentario"
                         v-bind:maxlength="limite"
                     />
-                    <span class="text-xs text-gray-500 sm:ml-4">{{ restante }}/500</span>
+                    <span class="text-xs text-gray-500 sm:ml-40">{{ restante }}/500</span>
                     <p class="text-xs">{{ errors.first("comentario") }}</p>
                 </div>              
             </div>

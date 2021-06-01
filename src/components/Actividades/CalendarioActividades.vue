@@ -6,19 +6,19 @@
     ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
       <div v-if="modalAgreagrActividad" class="modalAgregarActPre sm:w-64">
-        <h class="text-grey-darkest text-2xl font-titulo">Agregar Actividad</h>
-        <h1 class="mt-5 font-titulo">{{ fechaModal | formatModal }}</h1>
+        <h class="text-grey-darkest text-2xl font-titulo sm:text-sm">Agregar Actividad</h>
+        <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
         <div>
           <div>
             <div class="mt-5 font-titulo">
-              <span class="text-sm -ml-32 text-gray-500">Seleccione Frecuencia de Actividad</span>
-              <select v-model="actividadSelect" class="w-full text-gray-600 h-10 border-gray-300 " type="text">
+              <span class="text-sm -ml-32 text-gray-500 sm:ml-0">Seleccione Frecuencia de Actividad</span>
+              <select v-model="actividadSelect" class="w-full text-gray-600 h-10 border-gray-300 sm:text-sm sm:h-5" type="text">
                   <option disabled value="">Selecionar...</option>
                   <option v-for="(item, index) in listaActividades" :value="item.value" :key="index">{{ item.text }}</option>
                 </select>
             </div>
-            <div class="mt-1 font-titulo" v-if="actividadSelect">
-              <span class="text-sm -ml-33 text-gray-500">Seleccione Ubicación Carril/Plaza</span>
+            <div class="mt-1 font-titulo sm:text-sm" v-if="actividadSelect">
+              <span class="text-sm -ml-33 text-gray-500 sm:ml-0">Seleccione Ubicación Carril/Plaza</span>
               <multiselect
                 v-model="laneSelect"   
                 :custom-label="label_multi_select"                                                                     
@@ -28,7 +28,7 @@
                 placeholder="Selecciona..."
                 :options="carriles_filtrados"
                 track-by="text"
-                class=" shadow-md hover:border-gray-700"
+                class=" shadow-md hover:border-gray-700 h-5"
                 :multiple="true"
               >   
                 <template slot="selection" slot-scope="{ values, search, isOpen }">
@@ -40,25 +40,25 @@
           <div>
           </div>
         </div>
-        <div class="justify-center ml-8 sm:grid grid-cols-1 mt-5">
-          <button @click="agregar_actividad_dia" class="botonIconCrear sm:mb-2">Aceptar</button>
-          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar sm:w-full sm:ml-0">Cancelar</button>
+        <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
+          <button @click="agregar_actividad_dia" class="botonIconCrear sm:mb-2"><span class="ml-4">Aceptar</span></button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar font-boton sm:w-full sm:ml-0"><span class="ml-4">Cancelar</span></button>
         </div>
       </div>
     </div>
     <!--////////////////////////////////////////////////////////////////////
     ////            MODAL LISTA DE CARRILES                            ////
     ////////////////////////////////////////////////////////////////////-->
-    <div class="sticky inset-0 z-50">
+    <div class="sticky inset-0 z-50 shadow-xl">
       <div v-if="modalActividades" class="modalAgregarActPre sm:w-64">        
         <div class="text-center">                    
         <div class="mb-4">
-            <h1 class="text-grey-darkest text-2xl font-titulo">Lista de Carriles</h1>    
-            <h1 class="mt-5 font-titulo">{{ fechaModal | formatModal }}</h1>
+            <h1 class="text-grey-darkest text-2xl font-titulo sm:text-sm">Lista de Carriles</h1>    
+            <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
         </div>
         <div class="overflow-y-auto" style="height:120px;">
             <div class="inputBorrarActPre "  v-for="(item, key) in this.carrilesModal" :key="key" >
-                <p class="w-full text-grey-darkest font-titulo">{{`Carril: ${item.lane}, CapufeNum: ${item.capufeLaneNum}`}}</p>                
+                <p class="w-full text-grey-darkest font-titulo text-xs">{{`Carril: ${item.lane}, CapufeNum: ${item.capufeLaneNum}`}}</p>                
                 <button @click="borrar_carril_evento(item, key)" class="botonBorrarActPre" v-if="item.referenceNumber == '---'">
                   <img src="../../assets/img/close.png" class="" width="14" height="1"/>
                 </button>
@@ -69,7 +69,7 @@
         </div>    
         </div>
         <div class="justify-center flex mt-5">          
-          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar">Cancelar</button>
+          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar text-sm">Cancelar</button>
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
     </HeaderCalendario>  
-    <div class="pl-10 pr-10 mt-10 mb-32 font-titulo" :class="{' pointer-events-none': modal}">
+    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo" :class="{' pointer-events-none': modal}">
         <vue-cal 
           ref="vuecal"          
           :time="false"

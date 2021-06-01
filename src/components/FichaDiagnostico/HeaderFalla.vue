@@ -25,7 +25,7 @@
                     </div>
                     <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                        <span v-if="blockInput" class="block m-1 text-red-400 text-center text-xs font-titulo font-normal sm:-ml-32">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
                 </div>
                 <div class="mt-5 grid sm:grid grid-cols-2">
@@ -73,7 +73,7 @@
         <!--/////////////////////////////////////////////////////////////////////
         /////                             FOLIOS                            ////
         ////////////////////////////////////////////////////////////////////--> 
-        <div v-if="blockInput" class="text-center ml-68 -mb-6"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
+        <div v-if="blockInput" class="text-center ml-68 -mb-6 sm:ml-1 sm:text-xs sm:-mb-1"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
             <div class="mt-6 ml-5 w-full sm:-ml-6">
                 <div class="text-center w-32 ml-64 mr-40 sm:ml-0">
@@ -146,8 +146,8 @@
         <!-- /////////////////////////////////////////////////////////////////////
         ////                            FICHA                             ///////
         //////////////////////////////////////////////////////////////////// -->
-        <div class="font-titulo" v-if="tipo == 'FICHA'"> 
-            <div class="grid sm:grid-cols-1 grid-cols-2 ml-5">
+        <div class="font-titulo sm:-mt-6" v-if="tipo == 'FICHA'"> 
+            <div class="grid sm:grid-cols-1 grid-cols-2 ml-5 sm:text-xs sm:ml-1">
                 <div class="">
                     <span>TIPO DE FALLA:</span>
                 </div>
@@ -166,9 +166,9 @@
                     </div>
                 </div>
             </div>
-            <div class="ml-5">   
+            <div class="ml-5 sm:text-xs sm:ml-1">   
                 <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-2">
-                    <div class="mr-10">
+                    <div class="mr-10 sm:mr-1 sm:mb-6">
                         <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.descripcionFalla"
@@ -178,9 +178,10 @@
                             v-bind:maxlength="limite"
                             readonly
                         />
-                        <span class="text-gray-500">{{ restante_desc }}/300 <span class="text-red-400 ml-32">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
+                        <span class="text-gray-500 sm:ml-32">{{ restante_desc }}/300 <span class="text-red-400 ml-32 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
+                        <div class="text-red-400 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
                     </div>
-                    <div class="mr-10">
+                    <div class="mr-10 sm:mr-1">
                         <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
                         <textarea
                             v-model="datosDiagnostico.solucionFalla"
@@ -189,7 +190,7 @@
                             name="Observaciones"
                             v-bind:maxlength="limite"
                         />
-                        <span class="text-gray-500">{{ restante_sol }}/300</span>
+                        <span class="text-gray-500 sm:ml-32">{{ restante_sol }}/300</span>
                     </div>                                  
                 </div>                 
             </div>            
