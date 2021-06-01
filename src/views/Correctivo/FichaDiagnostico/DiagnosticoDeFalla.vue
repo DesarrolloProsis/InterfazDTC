@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
+import HeaderFalla from '../../../components/Header/HeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
