@@ -42,7 +42,7 @@
           <span class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
       </div>
       <div class="sm:flex-col pr-2 inline-block font-titulo">
-          <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros</p>
+          <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
           <input
             v-validate="'uniqueSinester'"
             :class="{ is_valid: !errors.first('NoSiniestro'),is_invalid: errors.first('NoSiniestro')}"
@@ -52,16 +52,18 @@
             name="NoSiniestro"
           />
           <p class="w-1/2 text-red-600 text-xs font-titulo font-normal">{{ errors.first("NoSiniestro") }}</p>
-<!--           <p class="w-1/2 text-md mb-1 font-semibold text-gray-900">No. Reporte:</p>
-          <input
-            v-validate="'uniqueReport'"
-            v-model="datosSinester.ReportNumber"
-            :class="{ is_valid: !errors.first('NoReporte'),is_invalid: errors.first('NoReporte')}"
-            class="w-full"
-            type="text"
-            name="NoReporte"
-          />
-          <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p> -->
+          <template v-if="$route.params.tipoFalla == 3">
+              <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Oficio:</p>
+              <input
+                v-validate="'uniqueReport'"
+                v-model="datosSinester.ReportNumber"
+                :class="{ is_valid: !errors.first('NoReporte'),is_invalid: errors.first('NoReporte')}"
+                class="w-full"
+                type="text"
+                name="NoReporte"
+              />
+              <p class="text-red-600 text-xs">{{ errors.first("NoReporte") }}</p>
+          </template>
         </div>      
         <div class="pr-2 font-titulo">
           <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripcion</p>

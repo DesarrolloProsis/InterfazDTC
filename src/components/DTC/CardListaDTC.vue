@@ -249,7 +249,7 @@ export default {
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
       let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc/Editar";
       this.$router.push({
-        path: `/${page}/--`,
+        path: `/${page}/--/3`,
         query: {
           headerInfo: { ...this.infoCard },
           datosDtc: { ...this.datosUser }
