@@ -56,14 +56,14 @@
             <div class="mr-4 mt-4">
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
-            <div class=" m-3">
+            <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm">Seleccione una fecha</p>
-                <p class="input w-40"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
+                <p class="input w-40 sm:w-full"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm">Escriba la Referencia</p>
-                <p class="input w-40"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-full" placeholder="PM-000000"/></p>
+                <p class="input w-40 sm:w-full"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-full" placeholder="PM-000000"/></p>
             </div>     
     </div>
     <!-- ////////////////////////////////////////////////////////////////////
