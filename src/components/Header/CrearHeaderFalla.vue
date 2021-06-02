@@ -383,13 +383,7 @@ watch:{
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
         }
-    },
-    datosDiagnostico: {
-        deep: true,
-        handler(datosDiagnostico) {            
-            this.$emit('actualizar-header', datosDiagnostico)
-        },
-    },
+    }, 
 },
 methods:{  
     bloquear_checboxes(tipo){        

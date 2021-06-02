@@ -81,14 +81,14 @@
               <span class="inline ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.position }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FechaSiniestro" rules="`required|before:${fecha_validacion}`"  v-slot="{ errors }">
+              <ValidationProvider name="FechaSiniestro" :rules="{ required: true, before: fecha_validacion }" v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Siniestro:</p>
                 <input v-model="datosSinester.SinisterDate" @change="crear_referencia_dtc()" class="w-full font-titulo" :disabled="fechaSiniestoEdit" name="FechaSiniestro" type="date" onkeydown="return false"/>              
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FechaEnvio" rules="`required|before:${fecha_validacion}`"  v-slot="{ errors }">
+              <ValidationProvider name="FechaEnvio" :rules="{ required: true, before: fecha_validacion }"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Envio:</p>
                 <input v-model="datosSinester.ShippingElaboracionDate" class="w-full" type="date" name="FechaEnvio" onkeydown="return false"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -117,7 +117,7 @@
               <span class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ headerSelecionado.plaza }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FechaFalla" rules="`required|before:${fecha_validacion}`"  v-slot="{ errors }">
+              <ValidationProvider name="FechaFalla" :rules="{ required: true, before: fecha_validacion }"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Falla:</p>
                 <input v-model="datosSinester.FailureDate" class="w-full" name="FechaFalla" type="date" onkeydown="return false"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -262,13 +262,7 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 created:  function (){            
-    EventBus.$on('validar_header', async () => {
-      await this.$validator.validateAll().then((item) => {
-        if(item == false){          
-          //
-        }
-      })
-    });
+    EventBus.$on('validar_header_dtc', (value) => this.validar_header(value));
 },
 beforeMount: async function () {    
   let f = new Date()
@@ -295,7 +289,7 @@ beforeMount: async function () {
   }  
 },
 destroyed(){
-  EventBus.$off('validar_header')
+  EventBus.$off('validar_header_dtc')
 },
 /////////////////////////////////////////////////////////////////////
 ////                            METODOS                          ////
@@ -349,6 +343,15 @@ methods: {
         this.datosSinester.TypeDescriptionId = 2;
         this.fechaSiniestoEdit = true;
       }
+  },
+  validar_header: async function(value){
+    alert()
+    let isValid = await this.$refs.observer.validate();
+    console.log(isValid)
+    if(isValid){
+      this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
+      this.$emit('crear-dtc', value)
+    }
   }
 },
 //////////////////////////////////////////////////////////////////////

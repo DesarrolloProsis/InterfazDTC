@@ -121,23 +121,25 @@
           </div>
           <hr />
         </div>
-        <div class="flex justify-center flex-col">
-          <div>
-            <textarea
-              v-model="diagnostico"
-              v-validate="'max:300'"
-              :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}"
-              placeholder="Dignostico"
-              class="appearance-none block bg-grey-lighter container mx-auto text-grey-darkerr border-black rounded-lg mb-0 h-40 placeholder-gray-500 border"
-              name="Diagnostico"
-              v-bind:maxlength="limite"
-            />
+        <ValidationObserver ref="observer">  
+          <div class="flex justify-center flex-col">
+            <div>
+              <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">            
+                <textarea
+                  v-model="diagnostico"                                    
+                  placeholder="Dignostico"
+                  class="appearance-none block bg-grey-lighter container mx-auto text-grey-darkerr border-black rounded-lg mb-0 h-40 placeholder-gray-500 border"
+                  name="Diagnostico"
+                  :maxlength="limite"
+                />
+                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+            <div class="text-center">
+              <span class="text-gray-500">{{ restante }}/300</span>              
+            </div>
           </div>
-          <div class="text-center">
-            <span class="text-gray-500">{{ restante }}/300</span>
-            <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
-          </div>
-        </div>
+        </ValidationObserver>
       </div>
       <div class="flex flex-col p-5 font-titulo" v-if="modal">
         <div class="text-xs text-center border border-gray-400 shadow-lg rounded-lg z-40">
