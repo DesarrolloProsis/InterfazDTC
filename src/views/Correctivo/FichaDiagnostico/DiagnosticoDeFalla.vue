@@ -57,9 +57,10 @@
 </template>
 
 <script>
-import HeaderFalla from '../../../components/Header/HeaderFalla';
+import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
+import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -91,58 +92,12 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(header){        
-        this.datosHeader = header
-    },
-    validar_horas(){
-        let horaISplite = this.datosHeader.horaInicio.split(':')            
-        let horaFSplite = this.datosHeader.horaFin.split(':')            
-        let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-        let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-        return dateInicio < dateFin ? true : false                   
+    actualizar_header(objHeader){        
+        this.datosHeader = objHeader.header
+        this.insertar_diagnostico_falla(objHeader.value)
     },
     enviar_header_diagnostico(value){                
-        let llavesHeader = Object.keys(this.datosHeader)                   
-        if(llavesHeader.length == 10){            
-            let valueHeader = Object.values(this.datosHeader)
-            let validar = valueHeader.some(prop => prop == '')            
-            if(validar || valueHeader[5].trim().length == 0 || valueHeader[6].trim().length == 0){                                
-                this.$notify.warning({
-                    title: "Ups!",
-                    msg: `FALTA LLENAR CAMPOS.`,
-                    position: "bottom right",
-                    styles: { height: 100, width: 500,}
-                });
-            }
-            else{                                                
-                let horasValidas = this.validar_horas()
-                if(horasValidas != true){                           
-                    this.$notify.warning({
-                        title: "Ups!",
-                        msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
-                        position: "bottom right",
-                        styles: { height: 100, width: 500,}
-                    });
-                }   
-                else{
-                    this.insertar_diagnostico_falla(value)                       
-                    this.$notify.success({
-                        title: "Ok",
-                        msg: `SE CREO CORRECTAMENTE.`,
-                        position: "bottom right",
-                        styles: { height: 100, width: 500,}
-                    });
-                }             
-            }                 
-        }
-        else{                        
-            this.$notify.warning({
-                    title: "Ups!",
-                    msg: `FALTA LLENAR CAMPOS.`,
-                    position: "bottom right",
-                    styles: { height: 100, width: 500,}
-                });
-        }
+        EventBus.$emit('validar_header_diagnostico', value)
     },
     cerrar_modal_imagenes(){
         this.modalImage = false

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import HeaderFalla from '../../../components/Header/HeaderFalla';
+import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 import ServiceReporte from '../../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION

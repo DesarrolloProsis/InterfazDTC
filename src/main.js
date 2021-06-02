@@ -27,16 +27,31 @@ Object.keys(rules).forEach(rule => {
   extend(rule, rules[rule]);
 });
 localize('es', es);
-const NoSiniestro = {
+extend('NoSiniestro', {
   validate(value){
       return store.getters['Header/GET_UNIQUE_SINESTER_NUMBER'](value)
   }
-}
-const NoReporte = {
+})
+extend('NoReporte', {
   validate(value){
     return store.getters['Header/GET_UNIQUE_REPORT_NUMBER'](value)
   }
-}
+})
+extend('maxTime', {
+  getMessage: (field) => `La ${field} debe ser menor que la HoraFin`,
+  validate: (value, args) => {
+    if(args[0] == ''){
+      return true
+    }    
+    else{
+      let horaISplite = value.split(':')            
+      let horaFSplite = args[0].split(':')            
+      let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+      let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+      return dateInicio < dateFin ? true : false    
+    }   
+  }
+});
 const FechaValidaList = {
   validate(value) {
       let fechas = value.split('\n')
@@ -51,8 +66,6 @@ const FechaValidaList = {
       return true   
   }
 }
-extend('uniqueSinester', NoSiniestro)
-extend('uniqueReport', NoReporte)
 extend('FechaValidaList',FechaValidaList)
 // Componente Multiselect
 Vue.component('multiselect', Multiselect)
