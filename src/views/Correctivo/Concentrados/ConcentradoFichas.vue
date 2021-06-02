@@ -171,7 +171,9 @@ export default {
         },
         terminar_ficha_diagnostico(item){            
             let carrilesMapeados = []
-            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza
+            console.log(item)
+            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId)
+            console.log(numeroPlaza);
             this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)
             let carriles = this.$store.getters["Refacciones/GET_CARRILES_STATE"];   
             item.lanes.split(',').forEach(lane => {

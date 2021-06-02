@@ -180,45 +180,54 @@
                     <span>TIPO DE FALLA:</span>
                 </div>
                 <div class="grid grid-cols-3 sm:grid-cols-3 sm:mx-auto -ml-69">
-                    <div class="text-center">
-                        <p>POR OPERACIÓN</p>                        
-                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" :disabled="blockCheckBox[0]">
-                    </div>
-                    <div class="text-center">
-                        <p>POR SINIESTRO</p>
-                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" :disabled="blockCheckBox[1]">
-                    </div>
-                    <div class="text-center">
-                        <p>POR FIN DE VIDA ÚTIL</p>
-                        <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" :disabled="blockCheckBox[2]">
-                    </div>
+                    <ValidationProvider name="TipoFalla" rules="required" v-slot="{ errors }">    
+                        <div class="text-center">
+                            <p>POR OPERACIÓN</p>                        
+                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="TipoFalla" :disabled="blockCheckBox[0]">
+                        </div>
+                        <div class="text-center">
+                            <p>POR SINIESTRO</p>
+                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" name="TipoFalla" :disabled="blockCheckBox[1]">
+                        </div>
+                        <div class="text-center">
+                            <p>POR FIN DE VIDA ÚTIL</p>
+                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" name="TipoFalla" :disabled="blockCheckBox[2]">
+                        </div>
+                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
                 </div>
             </div>
             <div class="ml-5 sm:text-xs sm:ml-1">   
                 <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-2">
                     <div class="mr-10 sm:mr-1 sm:mb-6">
-                        <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
-                        <textarea
-                            v-model="datosDiagnostico.descripcionFalla"
-                            class="mx-auto py-4 mb-0 h-40 textareaFicha ph-center-observaciones"
-                            placeholder="jane@example.com"
-                            name="Observaciones"
-                            v-bind:maxlength="limite"
-                            readonly
-                        />
-                        <span class="text-gray-500 sm:ml-32">{{ restante_desc }}/300 <span class="text-red-400 ml-32 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
-                        <div class="text-red-400 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
+                        <ValidationProvider name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">    
+                            <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
+                            <textarea
+                                v-model="datosDiagnostico.descripcionFalla"
+                                class="mx-auto py-4 mb-0 h-40 textareaFicha ph-center-observaciones"
+                                placeholder="jane@example.com"
+                                name="DescripcionFalla"
+                                :maxlength="limite"
+                                readonly
+                            />
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            <span class="text-gray-500 sm:ml-32">{{ restante_desc }}/300 <span class="text-red-400 ml-32 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
+                            <div class="text-red-400 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
+                        </ValidationProvider>
                     </div>
                     <div class="mr-10 sm:mr-1">
-                        <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
-                        <textarea
-                            v-model="datosDiagnostico.solucionFalla"
-                            class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones"
-                            placeholder="Intervencion Realizada"
-                            name="Observaciones"
-                            v-bind:maxlength="limite"
-                        />
-                        <span class="text-gray-500 sm:ml-32">{{ restante_sol }}/300</span>
+                        <ValidationProvider name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">    
+                            <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
+                            <textarea
+                                v-model="datosDiagnostico.solucionFalla"
+                                class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones"
+                                placeholder="Intervencion Realizada"
+                                name="SolucionFallas"
+                                :maxlength="limite"
+                            />
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            <span class="text-gray-500 sm:ml-32">{{ restante_sol }}/300</span>
+                        </ValidationProvider>
                     </div>                                  
                 </div>                 
             </div>            

@@ -159,8 +159,7 @@ methods:{
                             }  
                         },2000)
                     })              
-                    this.reporteInsertado = true                                                   
-                    
+                    this.reporteInsertado = true                                                                       
                 })                
         }        
         else{
