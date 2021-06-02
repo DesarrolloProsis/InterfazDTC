@@ -27,12 +27,12 @@ Object.keys(rules).forEach(rule => {
   extend(rule, rules[rule]);
 });
 localize('es', es);
-extend('NoSiniestro', {
+extend('uniqueSinester', {
   validate(value){
       return store.getters['Header/GET_UNIQUE_SINESTER_NUMBER'](value)
   }
 })
-extend('NoReporte', {
+extend('uniqueReport', {
   validate(value){
     return store.getters['Header/GET_UNIQUE_REPORT_NUMBER'](value)
   }

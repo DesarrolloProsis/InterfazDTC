@@ -201,7 +201,7 @@ export default {
             this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
         },
         terminar_dtc(referencia){
-            this.$router.push(`/NuevoDtc/Crear/${referencia}`) 
+            this.$router.push(`/NuevoDtc/Crear/${referencia}/1`) 
         }
 
     },

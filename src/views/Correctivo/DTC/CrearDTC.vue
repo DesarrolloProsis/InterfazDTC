@@ -37,22 +37,16 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        OBSERVACIONES                         ////
     ///////////////////////////////////////////////////////////////////// -->
+      <ValidationObserver ref="observer"> 
         <div class="items-center font-titulo">
-          <p class="text-center">
-            <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
-          </p>
-          <textarea
-            v-model="observaciones"
-            v-validate="'max:300'"
-            :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-            class="rounded-lg py-4 mb-1 h-40 placeholder-gray-500 ph-center-observaciones"
-            placeholder="Indica las observaciones necesarias del siniestro"
-            name="Observaciones"
-            v-bind:maxlength="limite"
-          />
-          <span class="text-gray-500 ml-64">{{ restante }}/300</span>
-          <p class="text-xs">{{ errors.first("Observaciones") }}</p>
+          <ValidationProvider name="Observaciones" rules="max:300"  v-slot="{ errors }">
+            <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
+            <textarea v-model="observaciones" class="rounded-lg py-4 mb-1 h-40 placeholder-gray-500 ph-center-observaciones" placeholder="Indica las observaciones necesarias del siniestro" name="Observaciones" :maxlength="limite"/>
+            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+            <span class="text-gray-500 ml-64">{{ restante }}/300</span>   
+          </ValidationProvider>       
         </div>
+      </ValidationObserver>
     <!-- //////////////////////////////////////////////////////////////////
     ////                        FILA NUMERO 2                         ////
     ///////////////////////////////////////////////////////////////////// -->

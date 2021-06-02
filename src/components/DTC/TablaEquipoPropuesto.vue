@@ -40,21 +40,26 @@
             </tbody>
           </table>
           </div>
-          <div>
-            <tr>
-              <th>Diagnostico</th>
-            </tr>
-            <td>
-              <textarea v-model="diagnostico" v-validate="'max:300'" 
-              :class="{ 'is_valid': !errors.first('Diagnostico'), 'is_invalid': errors.first('Diagnostico')}" 
-              class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6 ph-center mb-1"
-              placeholder="Diagnostico de Equipo Dañado" 
-              name="Diagnostico" 
-              v-bind:maxlength="limite"/>
-              <span class="text-gray-500 ml-48">{{ restante }}/300</span>
-              <p class="text-red-600 text-xs">{{ errors.first('Diagnostico') }}</p>
-            </td>
-          </div>
+          <ValidationObserver ref="observer">  
+            <div>            
+              <tr>
+                <th>Diagnostico</th>
+              </tr>
+              <td>  
+                <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">                                        
+                  <textarea 
+                    v-model="diagnostico"                  
+                    class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6 ph-center mb-1"
+                    placeholder="Diagnostico de Equipo Dañado" 
+                    name="Diagnostico" 
+                    :maxlength="limite"
+                  />
+                  <span class="text-red-600 text-xs block">{{ errors[0] }}</span>                
+                  <span class="text-gray-500 ml-48">{{ restante }}/300</span>                
+                </ValidationProvider>
+              </td>
+            </div>
+          </ValidationObserver>
         </div>
         <div>
           <div class="flex mb-4 font-titulo" style="margin-top: 1vh">
