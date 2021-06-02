@@ -12,18 +12,18 @@
             <div class="mr-4 mt-4">
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
-            <div class=" m-3">
+            <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <p class="input w-40"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" @change="filtar_dtc_generico" type="date"/></p>
+                <p class="input w-40 sm:w-full"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" @change="filtar_dtc_generico" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Escriba la Referencia</p>
-                <p class="input w-40"><input v-model="buscarDTC" class="border-none w-40 text-center sm:w-full"  placeholder="PM-000000"/></p>
+                <p class="input w-40 sm:w-full"><input v-model="buscarDTC" class="border-none w-40 text-center sm:w-full"  placeholder="PM-000000"/></p>
             </div> 
             <div class="m-3" v-if="dtcVista == 'pendientes'">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Estatus DTC</p>
-                <p class="input w-40">
+                <p class="input w-40 sm:w-full">
                     <select v-model="statusFiltro" class="w-full border-none" @change="filtar_dtc_generico" type="text">
                         <option value="">Selecionar...</option>     
                         <option v-for="(item, key) in listaStatus" :key="key" :value="item.id" >{{ item.nombre }}</option>                                                                                                                                                                                                           
@@ -34,7 +34,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                    BOTONES DE NAVEGACION  DTC                   ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="-mt-1 mb-4 text-center">
+        <div class="-mt-1 mb-4 text-center sm:mt-2">
             <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton">
                 <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
                 <span>Todos</span>
