@@ -19,7 +19,7 @@
                     <div class="-ml-66 sm:-ml-16 sm:-mt-1" :class="{'hidden': blockInput == true || this.$route.params.tipoVista != 'Crear'}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
-                    <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == true}">
+                    <div class="-ml-66 -mb-4 sm:-ml-16 sm:-mt-1" :class="{'hidden': blockInput == true}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
                         <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
