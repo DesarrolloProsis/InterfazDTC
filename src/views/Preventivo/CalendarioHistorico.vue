@@ -86,10 +86,10 @@
                     ////////////////////////////////////////////////////////////////////-->
                     <thead>
                         <tr class="text-md text-gray-400 bg-blue-800 font-titulo">                
-                            <th class="cabeceraTable font-medium w-64">Plaza</th>
-                            <th class="cabeceraTable font-medium w-64">Fecha</th>
-                            <th class="cabeceraTable font-medium w-64">Tecnico</th>                                                                                    
-                            <th class="cabeceraTable font-medium w-64">Acciones</th>
+                            <th class="cabeceraTable font-titulo font-normal w-64">Plaza</th>
+                            <th class="cabeceraTable font-titulo font-normal w-64">Fecha</th>
+                            <th class="cabeceraTable font-titulo font-normal w-64">Tecnico</th>                                                                                    
+                            <th class="cabeceraTable font-titulo font-normal w-64">Acciones</th>
                         </tr>
                     </thead>
                     <!--/////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@
                             <td class="cuerpoTable font-titulo font-normal">{{ item.nombre  }}</td>
                             <td class="cuerpoTable font-titulo font-normal">
                                 <button @click="reporte_pdf(item)" class="botonIconDescargar">
-                                    <img src="../../assets/img/pdf.png" class="mr-2" width="15" height="15" />
+                                    <img src="../../assets/img/pdf.png" class="mr-2 sm:-ml-2" width="15" height="15" />
                                     <span class="text-xs">Descargar</span>
                                 </button>
                                 <!-- <button @click="reporte_pdf(item)" class="botonIconDescargar">
