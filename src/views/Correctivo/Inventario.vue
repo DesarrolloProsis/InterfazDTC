@@ -256,8 +256,7 @@ export default {
       let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
       let idUser = this.$store.state.Login.cookiesUser.userId
       Axios.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.fecha}/${this.datosmtto.folio}/${idUser}`)
-        .then(async(response)=>{
-          console.log(response);
+        .then(async()=>{          
           this.modalAdv = false
           this.modalLoading = true
           this.datosmtto.folio = ''
@@ -279,10 +278,7 @@ export default {
               },
             }); 
           }, 500)       
-        })
-        .catch((ex)=>{
-          console.log(ex);
-        })
+        })        
     },
     guardar_editado: function (value) {
       if (this.listEditados.length == 0)

@@ -170,10 +170,8 @@ export default {
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
         },
         terminar_ficha_diagnostico(item){            
-            let carrilesMapeados = []
-            console.log(item)
-            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId)
-            console.log(numeroPlaza);
+            let carrilesMapeados = []            
+            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId)            
             this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)
             let carriles = this.$store.getters["Refacciones/GET_CARRILES_STATE"];   
             item.lanes.split(',').forEach(lane => {
