@@ -19,8 +19,8 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-10 -mt-8" style="height:550px;">
-                    <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+                <div class="divtabla sm:mb-24 mb-10 -mt-8" style="height:550px;">
+                    <table class="table">
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
                                 <th class="cabeceraTable font-medium">Nombre</th>
@@ -54,23 +54,23 @@
             ////                      MODAL AGREGAR                            ////
             ////////////////////////////////////////////////////////////////////-->
             <div class="mt-10">
-                <div v-if="modalAgregar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Agregar Encargado de Plaza</p>
+                <div v-if="modalAgregar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-bold text-2xl mb-8 sm:text-sm sm:text-center text-center">Agregar Encargado de Plaza</p>
                     <div class="grid grid-cols-2 mt-2">
-                        <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-6">Nombre(s)</p>
                         <input type="text" class="w-full bg-white border-gray-400" v-model="insertAdmin.nombre">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Paterno</p>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Apellido Paterno</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.apellidoP" >
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Apellido Materno</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.apellidoM">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>
-                        <SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza>
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Correo</p>
-                        <input type="text" class="w-full bg-white border-gray-400 mt-2" v-model="insertAdmin.mail">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
+                        <div class="sm:-ml-20"><SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza></div>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
+                        <input type="text" class="w-full bg-white border-gray-400 mt-2 sm:-ml-20 sm:w-48" v-model="insertAdmin.mail">
                     </div>
                     <div class="mt-5 text-center ml-6">
-                        <button @click="confirmarAgregar()" class="botonIconBuscar font-boton">Guardar</button>
-                        <button @click="modalAgregar = false" class="botonIconCancelar font-boton">Cancelar</button>
+                        <button @click="confirmarAgregar()" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
+                        <button @click="modalAgregar = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -78,8 +78,8 @@
             ////                      MODAL ELIMINAR                         ////
             ////////////////////////////////////////////////////////////////////-->
             <div class="mt-10">
-                <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a {{ `${infoDelate.name} ${infoDelate.lastName1} ${infoDelate.lastName2}` }}</p>
+                <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a: <p class="text-center font-bold">{{ `${infoDelate.name} ${infoDelate.lastName1} ${infoDelate.lastName2}` }}</p>
                     <div class="mt-5 text-center">
                         <button @click="borrar()" class="botonIconCrear font-boton">Si</button>
                         <button @click="modalEliminar = false" class="botonIconCancelar font-boton">No</button>

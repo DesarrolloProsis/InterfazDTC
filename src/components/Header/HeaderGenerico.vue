@@ -98,7 +98,7 @@
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
-            <div class="mt-8 ml-20 sm:ml-40 sm:-mt-4">
+            <div class="mt-8 ml-20 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
                 <button class="botonIconNext" @click="abrirModal">
                     <span>Mantenimiento</span>
                 </button>
@@ -107,7 +107,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1}">
+        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-4" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
@@ -280,6 +280,7 @@ export default {
     ////                       CICLOS DE VIDA                        ////
     /////////////////////////////////////////////////////////////////////
     beforeMount: function () {
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId  
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
     },
