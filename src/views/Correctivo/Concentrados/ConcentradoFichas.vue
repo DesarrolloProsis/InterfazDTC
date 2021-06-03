@@ -22,7 +22,7 @@
                                 <th class="cabeceraTable font-medium">Diagnostico</th>
                                 <th class="cabeceraTable font-medium">Ficha</th>
                                 <th class="cabeceraTable font-medium">DTC</th>
-                                <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4}">Acciones</th>
+                                <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4 || typeUser == 10}">Acciones</th>
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@
                                             <span class="sm:text-xs">Terminar DTC</span>
                                         </button>
                                         <button v-if="item.validacionDTC && item.validacionFichaTecnica" @click="terminar_dtc(item.referenceNumber, item.typeFaultId)"  class="botonBorrarFicha font-boton sm:w-32">
-                                            <img src="@/assets/img/pdf-firmado.png" class="mr-2 sm:ml-0" width="15" height="15" />
+                                            <img src="@/assets/img/pdf-firmado.png" class="mr-2 sm:-ml-1" width="15" height="15" />
                                             <span class="sm:text-xs">Descargar DTC</span>
                                         </button>
                                         <button v-if="!item.validacionDTC && item.typeFaultId <= 1" @click="terminar_dtc(item.referenceNumber, item.typeFaultId)" :disabled="item.validacionDTC || item.typeFaultId <= 1" class="botonNoAplica font-boton sm:w-32 cursor-not-allowed">
