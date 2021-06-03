@@ -39,36 +39,42 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
         <div v-if="modalCambiarStatus" class="rounded-lg  justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2">
-          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
-            <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ refNum }}</p>
-            <div>
-              <div class="mt-5">
-              <p class="mb-1 sm:text-sm">Status DTC</p>
-              <select v-model="statusEdit" class="w-full" type="text">
-                  <option value="">Selecionar...</option>     
-                  <option value="1">Inconcluso</option>  
-                  <option value="2">Concluido</option>                                                                  
-                  <option value="3">Sellado</option>                                                                                                                               
-                  <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
-              </select> 
+          <ValidationObserver ref="observer" v-slot="{ invalid }">      
+            <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+              <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ refNum }}</p>
+              <div>
+                <div class="mt-5">
+                <ValidationProvider name="Status" rules="required" v-slot="{ errors }"> 
+                  <p class="mb-1 sm:text-sm">Status DTC</p>
+                  <select v-model="statusEdit" class="w-full" name="Status" type="text">
+                      <option value="">Selecionar...</option>     
+                      <option value="1">Inconcluso</option>  
+                      <option value="2">Concluido</option>                                                                  
+                      <option value="3">Sellado</option>                                                                                                                               
+                      <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
+                  </select> 
+                  <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                </ValidationProvider>
+                </div>
+                <div class="mt-5">
+                  <ValidationProvider name="Observaciones" rules="required|max:300" v-slot="{ errors }"> 
+                    <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
+                    <textarea
+                      v-model="motivoCambioStatus"                                        
+                      class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
+                      placeholder="jane@example.com"
+                      name="Observaciones"
+                    />
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
               </div>
-              <div class="mt-5">
-                <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
-                <textarea
-                  v-model="motivoCambioStatus"
-                  v-validate="'max:300'"
-                  :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-                  class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
-                  placeholder="jane@example.com"
-                  name="Observaciones"
-                />
+              <div class="justify-end flex mt-5">
+                <button @click="actualizar_dtc_status" class="botonIconCrear m-4">Aceptar</button>
+                <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = ''" class="botonIconCancelar m-4">Cancelar</button>
               </div>
             </div>
-            <div class="justify-end flex mt-5">
-              <button @click="actualizar_dtc_status" class="botonIconCrear m-4">Aceptar</button>
-              <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = ''" class="botonIconCancelar m-4">Cancelar</button>
-            </div>
-          </div>
+          </ValidationObserver>
         </div>
         </div>
         <!--/////////////////////////////////////////////////////////////////
@@ -89,22 +95,26 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
           <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-            <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
-            <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
-            <textarea v-model="comentarioBorrar" v-validate="'max:300'" :class="{ 'is_valid': !errors.first('comentarioBorrar'), 'is_invalid': errors.first('Observaciones')}" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
-            <p class="text-xs text-red-600">{{ errors.first("comentarioBorrar") }}</p>
-            <div class="mt-5 text-center">
-              <button @click="borrar(true)" class="botonIconCrear">Si</button>
-              <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
-            </div>
+            <ValidationObserver ref="observer">
+              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
+              <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
+                <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
+                <textarea v-model="comentarioBorrar" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
+                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <div class="mt-5 text-center">
+                <button @click="borrar(true)" class="botonIconCrear">Si</button>
+                <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
+              </div>
+            </ValidationObserver>
           </div>
         </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class=" sticky inset-0 font-titulo">       
-          <ValidationObserver ref="observer" v-slot="{ invalid }">      
+        <div class=" sticky inset-0 font-titulo">                 
           <div v-if="modalEdit" class="absolute w-73 sm:w-66  mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">                
+            <ValidationObserver ref="observer">      
               <div class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
                 <p class="text-gray-900 font-semibold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
                 <!--/////////////////////////////////////////////////////////////////
@@ -173,12 +183,12 @@
                   ////                        BOTONES MODAL EDIT                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center grid grid-cols-2  mt-10">  
-                  <div><button @click="editar_header_dtc(true)" :disabled="invalid" class="botonIconCrear">Actualizar</button></div>     
+                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button></div>     
                   <div><button @click="(modalEdit = modal = false), (refNum = '')" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
                 </div>
-              </div>            
-          </div> 
-          </ValidationObserver>         
+              </div>     
+            </ValidationObserver>         
+          </div>                  
         </div>      
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
@@ -324,7 +334,9 @@ methods: {
   cerrarModal: function(){
     this.modalFirma = false
   },
-  borrar: async  function (value) {  
+  borrar: async  function (value) {
+    let isValid = await this.$refs.observer.validate(); 
+    if(isValid){
       let userId = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']         
       let obj = { "refNum": this.refNum, "userId": userId.idUser, comentario: this.comentarioBorrar }    
       if (value) {
@@ -352,7 +364,8 @@ methods: {
         if(index < 3)
           this.lista_dtc.push(element) 
       });
-      this.refNum = "";      
+      this.refNum = "";   
+    }   
   },
   confimaBorrar: function (refNum) {
       this.refNum = refNum;
@@ -578,43 +591,41 @@ methods: {
     this.refNum = info
     this.modal = true    
   },
-  actualizar_dtc_status: function(){
-    let actualizar_status = new Promise((resolve, reject) => {
-      let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-      this.modalCambiarStatus = false
-      let objeActualizado = {
-        "ReferenceNumber": this.refNum,
-        "StatusId": parseInt(this.statusEdit),
-        "UserId": user.idUser,
-        "Comment": this.motivoCambioStatus,
-      }      
-      this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)
-      .then(() => {        
-        this.refNum = ''
-        this.statusEdit = ''
-        this.motivoCambioStatus = ''   
-        let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-        this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
-        resolve('ok')                     
+  actualizar_dtc_status: async function(){
+    let isValid = await this.$refs.observer.validate(); 
+    if(isValid){
+      let actualizar_status = new Promise((resolve, reject) => {
+        let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+        this.modalCambiarStatus = false
+        let objeActualizado = { "ReferenceNumber": this.refNum, "StatusId": parseInt(this.statusEdit), "UserId": user.idUser, "Comment": this.motivoCambioStatus,}      
+        this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.refNum.split('-')[0]}`, objeActualizado)
+        .then(() => {        
+          this.refNum = ''
+          this.statusEdit = ''
+          this.motivoCambioStatus = ''   
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
+          resolve('ok')                     
+        })
+        .catch(error => {                  
+          reject(error)        
+        });
       })
-      .catch(error => {                  
-        reject(error)        
-      });
-    })
-    setTimeout(() => {
-        actualizar_status.then(() => {                       
-        this.limpiar_filtros()
-        this.$notify.success({
-              title: "Ok!",
-              msg: `Se actualizó el estatus.`,
-              position: "bottom right",
-              styles: {
-                height: 100,
-                width: 500,
-              },
-        });  
-      })        
-    }, 1000); 
+      setTimeout(() => {
+          actualizar_status.then(() => {                       
+          this.limpiar_filtros()
+          this.$notify.success({
+                title: "Ok!",
+                msg: `Se actualizó el estatus.`,
+                position: "bottom right",
+                styles: {
+                  height: 100,
+                  width: 500,
+                },
+          });  
+        })        
+      }, 1000);
+    } 
   },
   cargar_mas(){
     let pos = document.documentElement.offsetHeight
