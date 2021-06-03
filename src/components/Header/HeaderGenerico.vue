@@ -149,13 +149,11 @@
         ///         FILTROS DE NAVEGACION USUARIOS                          ////         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'USUARIO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
-        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="buscarUsuario" class="border w-66 text-center sm:w-32" placeholder="Nombre Apellidos"/>
+                <input v-model="buscarUsuario" class="ml-62 w-66 text-center sm:w-48 is_valid sm:ml-16" placeholder="Nombre Apellidos"/>
             </div>             
-        </div>
         </div>
         <!--////////////////////////////////////////////////////////////////////
         ///                   FILTROS DE DTC BORRADO                        ///         

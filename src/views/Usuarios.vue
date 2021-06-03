@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <div :class="{'mb-69': typeUser != 1}" class="flex justify-center p-4 font-titulo">
+    <div :class="{'mb-69': typeUser != 1}" class="grid grid-cols-1 w-78 ml-73 p-4 justify-center font-titulo sm:w-auto sm:ml-0">
       <div class="mt-5">
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
@@ -14,7 +14,7 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:600px;">
+        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto relative" style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
