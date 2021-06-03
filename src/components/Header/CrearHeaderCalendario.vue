@@ -60,20 +60,22 @@
                     </div>
                     </div>          
                 </div>
-                <div class=" w-1/2 sm:w-full p-8 sm:p-2">
-                    <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
-                    <textarea
-                        v-model="comentario"
-                        v-validate="'max:500|required'"
-                        :class="{ 'is_valid': !errors.first('comentario'), 'is_invalid': errors.first('comentario')}"
-                        class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 textAreaCalendario"
-                        placeholder="jane@example.com"
-                        name="comentario"
-                        v-bind:maxlength="limite"
-                    />
-                    <span class="text-xs text-gray-500 sm:ml-40">{{ restante }}/500</span>
-                    <p class="text-xs">{{ errors.first("comentario") }}</p>
-                </div>              
+                <ValidationObserver ref="observer">  
+                    <div class=" w-1/2 sm:w-full p-8 sm:p-2">
+                        <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
+                            <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
+                            <textarea
+                                v-model="comentario"                                                               
+                                class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 textAreaCalendario"
+                                placeholder="jane@example.com"
+                                name="ComentarioCalendario"
+                                :maxlength="limite"
+                            />
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            <span class="text-xs text-gray-500 sm:ml-40">{{ restante }}/500</span>    
+                        </ValidationProvider>                    
+                    </div>  
+                </ValidationObserver>            
             </div>
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA INDICACIONES                    ////
@@ -184,8 +186,11 @@ export default {
         cambiar_plaza(numeroPlaza){                  
             this.$emit("actualizar-actividad", numeroPlaza);
         },
-        generar_pdf(){           
-            this.$emit('generar-pdf', this.comentario)
+        generar_pdf:  async function(){     
+            let isValid = await this.$refs.observer.validate();    
+            if(isValid){      
+                this.$emit('generar-pdf', this.comentario)
+            }
         },         
         recibir_calendario_escaneado(e) {                  
             var files = e.target.files || e.dataTransfer.files;

@@ -83,8 +83,8 @@
       :año="año" 
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
-    </HeaderCalendario>  
-    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo" :class="{' pointer-events-none': modal}">
+    </HeaderCalendario>            
+    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo" :class="{' pointer-events-none': modal}">              
         <vue-cal 
           ref="vuecal"          
           :time="false"
@@ -96,9 +96,10 @@
           @cell-click="modal_agregar_actividad"          
           events-on-month-view="short"
           :events="events"
+          name="CalendarioActividades"
           :on-event-click="modal_actividades_dia"
           >
-            <template v-slot:title="{ title, view }">
+            <template v-slot:title="{ view }">
               🎉
               <span v-if="view.id === 'years'">Years</span>            
               <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>    
@@ -107,8 +108,8 @@
             </template>
             <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
-        <span class="text-gray-700 font-titulo">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>
-    </div>    
+        <span class="text-gray-700 font-titulo">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>      
+    </div>      
   </div>
 </div>
 </template>
@@ -306,7 +307,7 @@ export default {
       this.año = parseInt(fecha[2])   
       this.validar_calendario_escaneado()   
     },    
-    generar_pdf_calendario(comentario){   
+    generar_pdf_calendario: function(comentario){        
       if(this.events.length != 0 & comentario != ''){ 
         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
