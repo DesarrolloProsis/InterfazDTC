@@ -303,7 +303,8 @@ export default {
       if (this.listEditados.length > 0) {
         let numAct = this.listEditados
         this.modalLoading = true
-        let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
+        let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza     
+        console.log(numeroPlaza);            
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
         await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
         this.listEditados = [];

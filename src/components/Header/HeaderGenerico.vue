@@ -314,7 +314,7 @@ export default {
             this.$emit('cancelar-filtros')
         },
         actualizar_inventario: function(){
-            this.$emit('guardar-cambios')
+            this.$emit('guardar-cambios')            
         },
         cambiar_orden_inventario: function(orden){        
             this.$emit('cambiar-orden', orden)
