@@ -124,14 +124,14 @@
         <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
-            <div class="sm:ml-2">
+            <div class="sm:-ml-24">
                 <div class="ml-32">
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
             </div>
-            <div class="text-center sm:ml-6">
-                <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="buscarEncargado" class="border w-40 text-center sm:w-32" placeholder="PM-000000"/>
+            <div class="text-center sm:-ml-33 sm:mt-2">
+                <p class="font-bold sm:text-sm sm:-ml-20">Nombre</p>
+                <input v-model="buscarEncargado" class="border-none w-40 text-center sm:w-auto sm:mt-1" placeholder="Nombre Apellido"/>
             </div>             
         </div>
         <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
