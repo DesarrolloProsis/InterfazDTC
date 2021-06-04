@@ -41,7 +41,7 @@
             <div>
               <div class="mt-5">
                 <p class="mb-1 sm:text-sm">Status DTC</p>
-                <select v-model="statusEdit" class="w-full" type="text">
+                <select v-model="statusEdit" class="w-full is_valid" type="text">
                   <option value="">Selecionar...</option>     
                   <option value="1">Inconcluso</option>  
                   <option value="2">Concluido</option>                                                                  
@@ -51,7 +51,7 @@
               </div>
               <div class="mt-5">
                 <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
-                <textarea v-model="motivoCambio" class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border" placeholder="Motivo del Cambio" v-bind:maxlength="limite"/>
+                <textarea v-model="motivoCambio" class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker is_valid border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border" placeholder="Motivo del Cambio" v-bind:maxlength="limite"/>
                 <span class="text-gray-500">{{ restante }}/300</span>
               </div>
             </div>
@@ -119,14 +119,14 @@
                 <td class="cuerpoTable">
                   <div v-if="tipoUsuario != 7">
                     <button @click="abrirCarrusel(item)" class="botonIconCrear" v-if="!item.imgbool" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
-                      <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
+                      <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
                     </button>
-                    <button @click="abrirSubir(item)" class="botonIconCrear" v-else >
-                      <img src="@/assets/img/more.png" class="justify-center" width="15" height="15"/>
+                    <button @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': item.imgbool }" :disabled=" item.imgbool " v-else >
+                      <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
                     </button>
                   </div>
                   <div v-if="tipoUsuario == 7">
-                    <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
+                    <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': tipoUsuario == 4 || tipoUsuario == 10 }" :disabled=" tipoUsuario == 4 || tipoUsuario == 10 ">
                       <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                     </button>
                   </div>
