@@ -96,13 +96,15 @@ export default {
     methods:{
         actualizar_header(objHeader){        
             this.datosHeader = objHeader.header
+            console.log(this.datosHeader);
             this.insertar_ficha_falla(objHeader.value)
         }, 
         cerrar_modal_imagenes(){
             this.modalImage = false
             this.botonEditCreate = false
         },
-        enviar_header_ficha(value){    
+        enviar_header_ficha(value){   
+            alert('f') 
             EventBus.$emit('validar_header_diagnostico', value)
         },
         insertar_ficha_falla(value){

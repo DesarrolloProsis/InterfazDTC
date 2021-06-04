@@ -430,7 +430,7 @@ select:focus {
     @apply mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto;    
 }
 .textAreaCalendario{
-    @apply appearance-none mx-auto border-black rounded-lg py-4 mb-0 h-32 w-full border font-titulo;
+    @apply appearance-none mx-auto border-gray-400 rounded-lg py-4 mb-0 h-32 w-full border font-titulo;
 }
 .modalCargarImg{
     @apply rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48;

@@ -61,12 +61,12 @@
                     </div>          
                 </div>
                 <ValidationObserver ref="observer">  
-                    <div class=" w-1/2 sm:w-full p-8 sm:p-2">
+                    <div class="w-69 ml-20 sm:w-full p-8 sm:p-2">
                         <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
                             <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
                             <textarea
                                 v-model="comentario"                                                               
-                                class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 textAreaCalendario"
+                                class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 textAreaCalendario mt-6"
                                 placeholder="jane@example.com"
                                 name="ComentarioCalendario"
                                 :maxlength="limite"

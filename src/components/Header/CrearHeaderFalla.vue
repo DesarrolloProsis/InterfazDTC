@@ -408,7 +408,9 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){
+        console.log('validacion header componente');
         let isValid = await this.$refs.observer.validate();
+        alert(isValid)
         if(isValid){
             this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value })
         }         
