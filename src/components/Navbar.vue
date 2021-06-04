@@ -8,8 +8,8 @@
         </router-link>     
       </div>      
       <div class="flex sm:mt-4">        
-        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm font-titulo">Bienvenido: {{ nombreUsuario }}</p>
-        <div class="group inline-block font-titulo">
+        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm font-titulo sm:hidden">Bienvenido: {{ nombreUsuario }}</p>
+        <div class="group inline-block font-titulo sm:hidden">
           <button class="bg-white rounded-lg flex items-center w-10 mt-3 ml-4 mr-0">
             <span>
               <svg class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -22,7 +22,7 @@
             <button @click="manual_pdf"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">Manual de Usuario</li></button>
           </ul>   
         </div>      
-        <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg font-titulo border-black hover:border-black hover:text-white hover:bg-red-700">Salir</router-link>
+        <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg font-titulo border-black hover:border-black hover:text-white hover:bg-red-700 sm:-mt-4">Salir</router-link>
       </div>
     </nav>
   </div>
