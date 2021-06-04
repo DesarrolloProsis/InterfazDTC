@@ -112,15 +112,15 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class=" sticky inset-0 font-titulo">                 
-          <div v-if="modalEdit" class="absolute w-73 sm:w-66  mx-auto sm:relative justify-center inset-x-0 pointer-events-auto">                
+        <div class="sticky inset-0 sm:text-xs font-titulo">               
+          <div v-if="modalEdit" class="absolute w-73 sm:w-66  mx-auto  justify-center inset-x-0 pointer-events-auto">     
             <ValidationObserver ref="observer">      
-              <div class="rounded-lg border border-gray-700 bg-white px-12 py-10 shadow-2xl">
-                <p class="text-gray-900 font-semibold text-lg">Editar DTC {{ dtcEdit.referenceNumber }}</p>
+              <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
+                <p class="text-gray-900 font-semibold text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
                 <!--/////////////////////////////////////////////////////////////////
                   ////                   FILA NUMERO 1                         ////
                   ////////////////////////////////////////////////////////////////-->
-                <div class="justify-center grid grid-cols-2 mt-5">       
+                <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
                   <div class="mt-2 mr-3">       
                     <ValidationProvider name="NoSiniestro" rules="uniqueSinester"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
@@ -210,7 +210,7 @@
           </div>   
           <!-- </transition-group>       -->                
       </div>
-      <div class="text-center" v-if="moreCard != false">       
+      <div class="text-center" :class="{'hidden' : flecha}" v-if="moreCard != false">       
         <button @click="cargar_mas" class="botonBajar animate-bounce">
           <img src="@/assets/img/abajo.png" class="w-16 h-16 sm:w-12 sm:h-12"  />
         </button>          
@@ -228,7 +228,7 @@ import Carrusel from "@/components/Carrusel";
 import ServiceFiltrosDTC from '@/services/FiltrosDTCServices'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
-  name: 'DTC Pendientes',
+  name: 'DTCPendientes',
   data() {
     return {
       infoDTC: [],
@@ -260,7 +260,8 @@ export default {
       refNum: "",    
       tipoUsuario: '',                                                             
       moreCard: true,                  
-      filtroVista: false
+      filtroVista: false,
+      flecha: false
     };
   },
   components: {    
@@ -305,8 +306,7 @@ beforeMount: async function () {
         this.lista_dtc.push(this.infoDTC[i])
       else 
         this.moreCard = false                
-  }
-      
+  } 
   this.scroll_infinito()
 },
 destroyed(){
@@ -322,6 +322,7 @@ methods: {
         return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
       })       
       this.lista_dtc = array_filtrado;
+      this.flecha = true
     }
     else{
         this.infoDTC = this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                         

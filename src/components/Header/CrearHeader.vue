@@ -2,24 +2,24 @@
   <div class="">    
     <div class="m-0 p-0 bg-white" :class="{ 'pointer-events-none': modalReferencia, 'opacity-75':modalReferencia }">
       <ValidationObserver ref="observer">  
-      <div class="mt-8 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 w-full sm:screen  flex-col flex-wrap my-2">        
+      <div class="mt-8 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 w-full sm:screen  flex-col flex-wrap my-2 sm:-mb-16">
           <!-- /////////////////////////////////////////////////////////////////
           ////                          TITULO                              ////
           ///////////////////////////////////////////////////////////////////// -->            
-          <div class="box-content p-4 xl:w-3/4">
+          <div class="box-content p-4 xl:w-3/4 sm:-mt-12 justify-items-center">
             <img src="../../assets/img/prosis-logo.jpg" class="xl:h-16 4k:h-12 xl:ml-20 lg:ml-1 md:ml-1 sm:ml-1 " />
           </div>
-          <div class="text-3xl text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-titulo font-bold p-4 ">Dictamen Tecnico y Cotizacion</div>
+          <div class="text-3xl text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-titulo font-bold p-4 sm:-mt-6">Dictamen Tecnico y Cotizacion</div>
           <div class="text-left font-titulo">
             <br />
-            <span class="mr-2 ml-5 text-lg font-semibold">Referencia:</span>
+            <span class="mr-2 ml-5 text-lg font-semibold sm:ml-0">Referencia:</span>
             <span style="font-weight: bold">{{ datosSinester.ReferenceNumber }}</span>
           </div>
           <!-- //////////////////////////////////////////////////////////////////
           ////                       SUB-TITULO                              ////
           ///////////////////////////////////////////////////////////////////// -->
           <div>
-            <br />
+            <br class="sm:hidden"/>
             <span class for="inline-full-name font-titulo" style="font-weight: normal">Contrato / Oferta:</span>
             <span style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</span>
           </div>
@@ -165,8 +165,8 @@
           <!-- //////////////////////////////////////////////////////////////////
           ////                   SEPTIMA LINEA                              ////
           ///////////////////////////////////////////////////////////////////// -->
-            <div></div>
-            <div></div>
+            <div class="sm:hidden"></div>
+            <div class="sm:hidden"></div>
             <div class="pr-2 font-titulo">
               <span class="font-semibold text-lg">Correo:</span>
               <span class="font-semibold text-lg">hguzman@grupo-prosis.com</span>

@@ -5,9 +5,9 @@
         ////                     MODAL IMAGENES                        /////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0" v-if="modalImage">
-            <div v-if="true" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48 sm:mt-66 sm:m-4">          
+            <div v-if="true" class="modalCargarImg sm:mt-66 sm:m-4">          
                 <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
-                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer " />
+                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
                 </span> 
                 <div class="justify-center text-center block">            
                     <!-- /////////////////////////////////////////////////////////////////////

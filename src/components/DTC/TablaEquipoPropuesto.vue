@@ -141,8 +141,17 @@
           </div>
         </ValidationObserver>
       </div>
-      <div class="flex flex-col p-5 font-titulo" v-if="modal">
+      <!--////////////////////////////////////////////////////////////////////
+      ////              MODAL INFORMACION CELULAR                        ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="p-5 font-titulo" v-if="modal">
         <div class="text-xs text-center border border-gray-400 shadow-lg rounded-lg z-40">
+              <div class="flex justify-end">
+                <button v-on:click.stop.prevent="(modal = false), (objectModal = {})" class="">
+                  <img src="../../assets/img/close.png" class="mr-2 sm:m-1" width="25" height="25"/>
+                  <span class="text-sm hidden">Cerrar</span>
+                </button>
+              </div>
           <div class="inline-flex m-2 mt-6">
             <div class=" w-20 m-1">
               <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Componete</p>
@@ -157,7 +166,6 @@
               <p class>{{ infoRow.row4 }}</p>
             </div>
           </div>
-
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
               <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unitario Dolares</p>
@@ -168,7 +176,6 @@
               <p class="border-b-2">{{ '----------' }}</p>
             </div>
           </div>
-
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
               <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unitario Dolares</p>
@@ -179,7 +186,6 @@
               <p class="border-b-2">$ {{ (infoRow.row14 * infoRow.row4).toLocaleString('en-US') }}</p>
             </div>
           </div>
-
           <div class="inline-flex m-2">
             <div class="w-32 m-1">
               <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Marca</p>
@@ -189,16 +195,6 @@
               <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Modelo</p>
               <p class="border-b-2" v-for="(item, id) in infoRow.row6" :key="id">{{ item }}</p>
             </div>
-          </div>
-
-          <div class="flex justify-end">
-            <button
-              v-on:click.stop.prevent="modal = false, infoRow = {}"
-              class="botonIconCancelar font-boton mr-10 mb-5 mt-3"
-            >
-              <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15" />
-              <span class="text-sm">Cerrar</span>
-            </button>
           </div>
         </div>
       </div>

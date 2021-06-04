@@ -71,7 +71,7 @@
           <div class="flex justify-center mt-5 sm:ml-5 sm:text-xs" v-if="tipoUsuario != 7">
             <button @click.prevent="actualizar_componente" class="botonIconBuscar font-boton sm:w-32">
               <img src="../../assets/img/save.png" class="mr-2" width="25" height="2" />
-              <span>Guardar Cambios</span>
+              <span class="sm:mt-2">Guardar Cambios</span>
             </button>
           </div>
         </div>

@@ -6,11 +6,10 @@
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
                 <HeaderGenerico @filtrar-borrado="guardar_palabra_busqueda" :titulo="'Concentrado DTC Borrados'" :tipo="'BORRADO'"></HeaderGenerico>
-                <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">DTC Borrado</h1>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-80" style="height:650px;">
+                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-80 sm:w-67 sm:ml-1" style="height:650px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
