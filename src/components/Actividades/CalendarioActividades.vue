@@ -309,14 +309,17 @@ export default {
     generar_pdf_calendario(comentario){   
       if(this.events.length != 0 & comentario != ''){ 
         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+        let adminId = this.$store.state.Login.plazaSelecionada.administradorId
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let objComentario = {
           UserId: user.idUser,
           Month: this.mes,
           Comment: comentario,
           SquareId: user.numPlaza,
+          AdminId: adminId,
           Year: this.año
-        }                
+        }        
+        console.log(objComentario);        
         this.$http.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
         .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {
