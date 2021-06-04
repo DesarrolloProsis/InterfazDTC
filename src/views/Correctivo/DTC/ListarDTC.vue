@@ -39,7 +39,7 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
         <div v-if="modalCambiarStatus" class="rounded-lg  justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2">
-          <ValidationObserver ref="observer" v-slot="{ invalid }">      
+          <ValidationObserver ref="observer">      
             <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
               <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ refNum }}</p>
               <div>

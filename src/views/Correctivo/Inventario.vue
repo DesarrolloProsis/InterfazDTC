@@ -23,28 +23,38 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-32 absolute justify-items-center is_valid shadow-xl border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalmtto">
+        <div v-if="modalmtto" class="mt-32 absolute justify-items-center is_valid shadow-xl border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5">
+          <ValidationObserver ref="observer">      
             <div><h1 class="text-center font-titulo text-4xl">Mantenimiento</h1></div>
                 <div class="grid grid-cols-2 mt-10">
                     <div class="ml-2">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                     </div>
                     <div class="mt-8 ml-4">
-                    <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
-                    <p class="w-32 input ml-16 -mt-6 sm:ml-0">
-                    <select v-model="datosmtto.ubicacion" class="w-32 border-none"  type="text">
-                        <option value="">Selecionar...</option>
-                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                    </select></p>
+                      <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }"> 
+                        <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
+                        <p class="w-32 input ml-16 -mt-6 sm:ml-0">
+                        <select v-model="datosmtto.ubicacion" class="w-32 border-none" name="Carriles" type="text">
+                            <option value="">Selecionar...</option>
+                            <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                        </select></p>
+                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      </ValidationProvider>
                     </div>
                 </div>
                 <div class="mt-6">
+                  <ValidationProvider name="FechaMantenimiento" rules="required" v-slot="{ errors }"> 
                     <p class="text-sm mb-1 font-semibold text-gray-700">Fecha de Mantenimineto</p>
-                    <input  class="w-full is_valid" type="date" v-model="datosmtto.fecha"/>
+                    <input  class="w-full is_valid" type="date" name="FechaMantenimiento" v-model="datosmtto.fecha"/>
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                  </ValidationProvider>
                 </div>
                 <div class="mt-3">
+                  <ValidationProvider name="FolioMantenimiento" rules="required" v-slot="{ errors }"> 
                     <p class="text-sm mb-1 font-semibold text-gray-700">Folio de Mantenimiento</p>
-                    <input  class="w-full is_valid" type="text" v-model="datosmtto.folio"/>
+                    <input v-model="datosmtto.folio" class="w-full is_valid" type="text" name="FolioMantenimiento" />
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                  </ValidationProvider>
                 </div>
                 <div class="mt-8 flex justify-center">
                     <button class="botonIconCrear font-boton" @click="modalAdver">
@@ -54,8 +64,9 @@
                         <span class="">Cancelar</span>
                     </button>
                 </div>
+          </ValidationObserver>
         </div> 
-        <div class="mt-32 absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5 text-gray-600" v-if="modalAdv">
+        <div v-if="modalAdv" class="mt-32 absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5 text-gray-600">
             <div>
                 <h1 class="mb-10 text-center font-titulo font-bold text-4xl">
                   <img src="../../assets/img/warning.png" class="ml-20" width="35" height="35" />
@@ -80,7 +91,7 @@
             </div>
             <div class="mt-12 flex justify-center">
                 <button class="botonIconCrear font-boton" >
-                    <span class="" @click="boton_Modal_Aceptar">Aceptar</span>
+                    <span class="" @click="boton_modal_aceptar">Aceptar</span>
                 </button>
                 <button class="botonIconCancelar font-boton" @click="modalAdv = false, datosmtto.folio = '', datosmtto.ubicacion = '' ">
                     <span class="">Cancelar</span>
@@ -234,9 +245,13 @@ export default {
         let fechaInicial = new Date()
         this.datosmtto.fecha = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");
     },
-    modalAdver: function (){
-      if(this.datosmtto.folio == '' || this.datosmtto.ubicacion == '' || this.datosmtto.folio.trim().length == 0)
-      {
+    modalAdver: async function (){      
+      let isValid = await this.$refs.observer.validate();       
+      if(isValid){
+        this.modalAdv = true
+        this.modalmtto = false   
+      }
+      else{
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA INGRESADO LOS DATOS COMPLETOS.`,
@@ -245,14 +260,10 @@ export default {
             height: 100,
             width: 500,
           },
-        });
-    
-      }else{
-        this.modalAdv = true
-        this.modalmtto = false
+        });             
       }
     },
-    boton_Modal_Aceptar: async function (){
+    boton_modal_aceptar: async function (){     
       let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
       let idUser = this.$store.state.Login.cookiesUser.userId
       Axios.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.fecha}/${this.datosmtto.folio}/${idUser}`)
@@ -278,7 +289,7 @@ export default {
               },
             }); 
           }, 500)       
-        })        
+        })          
     },
     guardar_editado: function (value) {
       if (this.listEditados.length == 0)
