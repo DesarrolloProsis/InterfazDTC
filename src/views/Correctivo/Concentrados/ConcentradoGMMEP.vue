@@ -62,7 +62,8 @@
           </div>
         </div>
       </div>
-      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo"  style="height:550px;">
+      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo"
+        :class="{'overflow-x-auto bg-gray-400 rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo' : !carruselModal && !modalCambiarStatus}"  style="height:550px;">
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
           <!--/////////////////////////////////////////////////////////////////
           ////                           HEADER TABLA                      ////
