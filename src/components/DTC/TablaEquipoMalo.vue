@@ -411,7 +411,7 @@ created(){
     this.mapear_componetes_dañados(objInsert)    
   })
 },
-beforeMount: async function () {    
+beforeMount: async function () {
     let componetesEdit = await this.$store.state.DTC.componetesEdit
     if (JSON.stringify(componetesEdit) != "{}") {   
       let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];                  
