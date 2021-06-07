@@ -104,17 +104,17 @@
             <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
                 <div class="-ml-69 sm:-ml-16">
                     <ValidationProvider name="FolioFalla" rules="required|max:20" v-slot="{ errors }">                   
-                        <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag text-center" :disabled="blockInput" name="FolioFalla" />
-                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                        <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
+                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs">{{ restante_folio }}/20</span>
                     </ValidationProvider>
                 </div>
-                <div class="mt-5 -ml-69 sm:-ml-16">
+                <div class="-mt-1 -ml-69 sm:-ml-16">
                     <ValidationProvider name="NumeroReporte" rules="required|max:30" v-slot="{ errors }">    
                         <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag text-center" :disabled="blockInput" name="NumeroReporte"/>
-                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs">{{ restante_siniestro }}/30</span>
                     </ValidationProvider>                    
                 </div>
-                <div class="mt-5 -ml-69 sm:-ml-16">
+                <div class="-mt-1 -ml-69 sm:-ml-16">
                     <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
                 </div>
             </div>
@@ -375,6 +375,12 @@ computed:{
             return this.datosDiagnostico.solucionFalla.length
         return 0
     },
+    restante_folio(){
+        return this.datosDiagnostico.folioFalla.length
+    },
+    restante_siniestro(){
+        return this.datosDiagnostico.numeroReporte.length
+    }
 },
 watch:{
     tipo(newValue){
