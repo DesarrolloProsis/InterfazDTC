@@ -13,8 +13,8 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_diagnostico(false)" class="botonIconCrear mt-8">
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                    <button @click="enviar_header_diagnostico(false)" class="botonIconCrear mt-8 sm:mt-4">
                         <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Diagnóstico</span>
                     </button>  
@@ -35,7 +35,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-5 ml-79 sm:mb-6 sm:ml-1 sm:mt-18 mt-4">
+                    <div class="mb-5 ml-79 sm:mb-6 sm:ml-1 sm:-mt-16 mt-4">
                         <div v-if="$route.params.tipoVista == 'Crear'">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />

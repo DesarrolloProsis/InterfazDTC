@@ -87,7 +87,7 @@ const actions = {
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.diagnostico,
-      Observation: state.observaciones == null ? '' : state.observaciones,
+      Observation: 'NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.',
       UserId: value.header.userId,
       AgremmentInfoId: value.header.agremmentInfoId,
       flag: value.flag,

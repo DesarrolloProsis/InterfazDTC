@@ -61,7 +61,7 @@
                                     </td>
                                     <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton sm:w-32">
+                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton sm:w-32" :class="{'botonDescargarDes' : !item.validacionFichaTecnica}" :disabled="!item.validacionFichaTecnica">
                                                 <img src="../../../assets/img/download.png" class="mr-2 sm:ml-2" width="15" height="15" />
                                                 <span class="sm:text-xs sm:ml-1">Descargar</span>
                                             </button>

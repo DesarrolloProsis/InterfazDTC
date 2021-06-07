@@ -42,8 +42,8 @@
         <div class="items-center font-titulo">
           <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
             <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
-            <textarea v-model="observaciones" class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
-                      placeholder="INO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
+            <textarea v-model="observaciones" value="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
+                      placeholder="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
             <span class="text-gray-500 ml-64 sm:ml-32">{{ restante }}/300</span>   
           </ValidationProvider>       

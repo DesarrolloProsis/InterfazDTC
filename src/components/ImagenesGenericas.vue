@@ -2,7 +2,7 @@
     <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full font-titulo" :class="{'sm:-ml-1': tipo =='Diagnostico', 'sm:-ml-1': tipo =='Ficha'}">        
         <p class="text-gray-800 font-titulo mt-2 mb-1 sm:text-sm sm:mb-4"
         :class="{'sm:-ml-48 sm:mt-18 sm:mb-2 ml-5 -mb-1 mt-4 lg:ml-73': tipo =='Diagnostico', 'ml-5 mb-2 mt-6 lg:ml-73 sm:-ml-48 sm:-mb-1' : tipo == 'Ficha'}">IMAGENES</p>
-        <div v-if="reporteDataInsertada" class=" sm:-ml-4" :class="{'w-75 ml-4 mr-4 mt-4 -mb-4 sm:-mt-18 sm:-ml-4 lg:ml-73' : tipo == 'Diagnostico',
+        <div v-if="reporteDataInsertada" class="sm:-ml-4" :class="{'w-75 ml-4 mr-4 mt-4 -mb-4 sm:-mt-18 sm:-ml-4 lg:ml-73' : tipo == 'Diagnostico',
             'w-75 ml-4 mr-4 mt-4 -mb-4 sm:-mt-24 lg:ml-73' : tipo == 'Diagnostico' && $route.params.tipoVista == 'Editar', 
             'w-75 ml-1 sm:ml-10 sm:w-66 sm:-mb-10' : tipo == 'Ficha', 'w-1/3 ml-5 sm:ml-1 sm:w-66 sm:-mb-10 lg:ml-73' :$route.params.tipoVista == 'Editar' }">
             <div class="inline-flex h-40 border border-gray-400 rounded-lg w-full sm:w-66" :class="{'sm:w-full mt-0 sm:mt-2 sm:ml-4': tipo =='Diagnostico', 'sm:w-full mt-0 sm:mt-2 sm:ml-4': tipo =='Ficha'}" v-if="!cargandoImagen">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class=" text-center font-serif text-xs h-40 border border-gray-400 rounded-lg w-full sm:w-66" :class="{'sm:w-66 mt-0 sm:mt-2 sm:ml-2': tipo =='Diagnostico', 'sm:w-full mt-0 sm:mt-2': tipo =='Ficha'}" v-else>
+            <div class=" text-center font-serif text-xs h-40 border border-gray-400 rounded-lg w-full sm:w-66" :class="{'sm:w-66 mt-0 sm:mt-2 sm:ml-3': tipo =='Diagnostico', 'sm:w-full mt-0 sm:mt-2 sm:ml-3': tipo =='Ficha'}" v-else>
                 <div class="mt-5">                
                     <div class="p-10">
                         <p class="mb-2">Cargando imagen</p>

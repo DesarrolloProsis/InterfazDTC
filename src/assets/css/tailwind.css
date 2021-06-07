@@ -305,10 +305,10 @@ select:focus {
     @apply outline-none;
 }
 .botonDescargarDes{
-    @apply bg-gray-500 tracking-wide text-gray-800 font-bold border-b-2 border-black shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+    @apply bg-gray-400 tracking-wide text-gray-800 font-bold border-b-2 border-black shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1 cursor-default;
 }
 .botonDescargarDes:hover{
-    @apply border-black bg-gray-500 text-gray-800 transition duration-500;
+    @apply border-black bg-gray-400 text-gray-800 transition duration-500;
 }
 .botonDescargarDes:focus{
     @apply outline-none;

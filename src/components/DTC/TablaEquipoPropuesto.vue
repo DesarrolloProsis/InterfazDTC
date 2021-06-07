@@ -122,7 +122,7 @@
           <hr />
         </div>
         <ValidationObserver ref="observer">  
-          <div class="flex justify-center flex-col">
+          <div class="flex justify-center flex-col sm:mt-10">
             <div>
               <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">            
                 <textarea

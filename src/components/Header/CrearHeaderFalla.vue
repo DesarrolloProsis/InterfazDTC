@@ -24,7 +24,7 @@
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
                         <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
-                    <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == false}">
+                    <div class="-ml-66 -mb-4 sm:-ml-16 sm:-mt-1" :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
                         <span v-if="blockInput" class="block m-1 text-red-400 text-center text-xs font-titulo font-normal sm:-ml-32">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
@@ -179,8 +179,8 @@
                 <div class="">
                     <span>TIPO DE FALLA:</span>
                 </div>
-                <div class="grid grid-cols-3 sm:grid-cols-3 sm:mx-auto -ml-69">
-                    <ValidationProvider name="TipoFalla" rules="required" v-slot="{ errors }">    
+                <div class="grid grid-cols-1 sm:mx-auto -ml-69">
+                    <ValidationProvider name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3">    
                         <div class="text-center">
                             <p>POR OPERACIÓN</p>                        
                             <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="TipoFalla" :disabled="blockCheckBox[0]">
