@@ -97,7 +97,8 @@ const actions = {
       adminId: value.adminIdPlaza,
       diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
       //tipofalla: value.tipofalla
-    }                
+    }            
+    console.log(newObject);    
     await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
       .then(response => {        
         if (response.status === 201) {

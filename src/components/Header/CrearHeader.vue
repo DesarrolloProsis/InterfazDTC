@@ -357,6 +357,7 @@ methods: {
   validar_header: async function(value){    
     let isValid = await this.$refs.observer.validate();    
     if(isValid){
+      alert(value)
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)
     }
