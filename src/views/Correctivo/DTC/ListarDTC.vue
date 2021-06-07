@@ -373,9 +373,9 @@ methods: {
       this.modalEliminar = true;
       this.modal = true
   },
-  editar_header_dtc: async function(refNum){ 
-      let isValid = await this.$refs.observer.validate(); 
-      if(typeof refNum === 'boolean'){  
+  editar_header_dtc: async function(refNum){        
+      if(typeof refNum === 'boolean'){         
+        let isValid = await this.$refs.observer.validate(); 
           if(isValid){ 
           this.modalEdit = false
           this.modalLoading = true          

@@ -61,7 +61,7 @@
                     </div>          
                 </div>
                 <ValidationObserver ref="observer">  
-                    <div class="w-69 ml-20 sm:w-full p-8 sm:p-2">
+                    <div class="w-69 ml-20 sm:m-0 sm:w-full p-8 sm:p-2">
                         <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
                             <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
                             <textarea

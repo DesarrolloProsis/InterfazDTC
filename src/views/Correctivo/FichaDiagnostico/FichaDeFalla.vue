@@ -103,8 +103,7 @@ export default {
             this.modalImage = false
             this.botonEditCreate = false
         },
-        enviar_header_ficha(value){   
-            alert('f') 
+        enviar_header_ficha(value){               
             EventBus.$emit('validar_header_diagnostico', value)
         },
         insertar_ficha_falla(value){
