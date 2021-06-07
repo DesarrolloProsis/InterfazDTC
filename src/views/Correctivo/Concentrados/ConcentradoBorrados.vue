@@ -14,15 +14,20 @@
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
                                 <th class="cabeceraTable">Referencia</th>
-                                <th class="cabeceraTable">Usuario</th>
-                                <th class="cabeceraTable">Fecha de Elaboración</th>
+                                <th class="cabeceraTable">Conteo de borrado</th>
+                                <th class="cabeceraTable">Acciones</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">  
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaborrados" :key="key">
                                 <td class="cuerpoTable">{{ `${item.refereceNumber}` }}</td>
-                                <td class="cuerpoTable">{{ item.userName }}</td>
-                                <td class="cuerpoTable">{{ item.dateStamp | formatDate }}</td>
+                                <td class="cuerpoTable">{{ `Numero de veces borrado ${item.conteos}` }}</td>                                
+                                <td class="cuerpoTable">
+                                    <button class="botonIconActualizar" @click="editarUsuario(item)">
+                                        <img src="../../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                                        <span class="text-xs sm:hidden">Editar</span>
+                                    </button>
+                                </td>                                
                             </tr>
                         </tbody>
                     </table>
