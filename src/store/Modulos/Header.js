@@ -96,7 +96,7 @@ const actions = {
       SquareId: value.header.plaza.slice(0,3),
       adminId: value.adminIdPlaza,
       diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
-      tipofalla: value.tipofalla
+      //tipofalla: value.tipofalla
     }                
     await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
       .then(response => {        

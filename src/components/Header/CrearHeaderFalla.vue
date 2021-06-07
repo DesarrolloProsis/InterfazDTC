@@ -348,7 +348,8 @@ beforeMount: async function(){
     }       
 },
 destroyed(){
-    EventBus.$off('validar_header_diagnostico')
+    if(this.tipo == 'FICHA')
+        EventBus.$off('validar_header_diagnostico')
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
