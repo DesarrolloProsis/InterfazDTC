@@ -396,12 +396,13 @@ methods: {
           }                                           
           let editar_dtc_promise = new Promise((resolve , reject) => {
             this.$http.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit)
-              .then(() =>{                                                             
+              .then(async () =>{                                                             
                 this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
                 let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
                 this.modal = false  
-                this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)      
-                this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}`)    
+                this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)     
+                let adminId = await ServicePDfReporte.obtener_admin_id(objEdit.referenceNumber) 
+                this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
                   .then(() => resolve('ok'))   
                   .catch((error) => {
                     reject(error)
@@ -433,7 +434,7 @@ methods: {
                   width: 500,
                 },
               });
-              ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, true)
+              ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
             })              
           }, 3000);    
         }          

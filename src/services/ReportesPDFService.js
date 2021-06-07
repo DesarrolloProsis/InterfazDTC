@@ -34,11 +34,12 @@ async function obtener_admin_id(referenceNumber){
     return id  
 }
 async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
+    alert()
     let clavePlaza = numeroReferencia.split('-')[0]    
     let urlTopdf = ''
     let namePdf = ''
     if(adminId == undefined){
-        adminId = await obtener_admin_id(numeroReferencia)
+        adminId = await obtener_admin_id(numeroReferencia)        
     }    
     if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
         urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${adminId}`;
@@ -204,5 +205,6 @@ export default {
     generar_pdf_calendario_escaneado,
     generar_pdf_diagnostico_falla,
     generar_pdf_ficha_falla,
-    manual_pdf
+    manual_pdf,
+    obtener_admin_id
 }
