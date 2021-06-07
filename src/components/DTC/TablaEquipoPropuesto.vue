@@ -49,7 +49,7 @@
                 <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">                                        
                   <textarea 
                     v-model="diagnostico"                  
-                    class="appearance-none border border-black rounded-lg py-4 mt-5 xl:w-68 xl:ml-6 ph-center mb-1"
+                    class="appearance-none border border-gray-400 hover:border-gray-400 rounded-lg py-4 mt-5 xl:w-68 xl:ml-6 ph-center mb-1"
                     placeholder="Diagnostico de Equipo Dañado" 
                     name="Diagnostico" 
                     :maxlength="limite"
@@ -128,7 +128,7 @@
                 <textarea
                   v-model="diagnostico"                                    
                   placeholder="Dignostico"
-                  class="appearance-none block bg-grey-lighter container mx-auto text-grey-darkerr border-black rounded-lg mb-0 h-40 placeholder-gray-500 border"
+                  class="appearance-none block bg-grey-400 container mx-auto text-grey-darkerr border-gray-400 rounded-lg mb-0 h-40 placeholder-gray-500 border"
                   name="Diagnostico"
                   :maxlength="limite"
                 />

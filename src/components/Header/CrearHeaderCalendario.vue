@@ -37,7 +37,7 @@
                         </div>
                         <div class="grid grid-cols-2 justify-center h-12 w-full mt-5" >
                             <div class="ml-32 -mt-1 sm:ml-35 ">
-                                <button @click="obtener_escaneado_calendario" class="botonIconDescargar w-auto h-12 font-bold mb-1" :disabled="!calendarioEscaneado" :class="{'bg-gray-400 border-b-2 border-black hover:bg-gray-400 hover:border-black hover:text-black cursor-not-allowed': !calendarioEscaneado}">
+                                <button @click="obtener_escaneado_calendario" class="botonIconDescargar w-auto h-12 font-bold mb-1" :disabled="!calendarioEscaneado" :class="{'bg-gray-400 border-b-2 hidden border-black hover:bg-gray-400 hover:border-black hover:text-black cursor-not-allowed': !calendarioEscaneado}">
                                     <img src="../../assets/img/pdf.png"  class="mr-2 -ml-4 sm:-ml-3" width="25" height="25" />
                                         <span class="mr-2">Descargar</span>
                                 </button>
@@ -63,10 +63,10 @@
                 <ValidationObserver ref="observer">  
                     <div class="w-69 ml-20 sm:w-full p-8 sm:p-2">
                         <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
-                            <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
+                            <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:-ml-16">Observaciones</span>          
                             <textarea
                                 v-model="comentario"                                                               
-                                class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 textAreaCalendario mt-6"
+                                class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 sm:-ml-16 textAreaCalendario mt-6"
                                 placeholder="jane@example.com"
                                 name="ComentarioCalendario"
                                 :maxlength="limite"

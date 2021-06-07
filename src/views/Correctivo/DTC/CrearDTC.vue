@@ -42,9 +42,10 @@
         <div class="items-center font-titulo">
           <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
             <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
-            <textarea v-model="observaciones" class="rounded-lg py-4 mb-1 h-40 placeholder-gray-500 ph-center-observaciones" placeholder="Indica las observaciones necesarias del siniestro" name="Observaciones" :maxlength="limite"/>
+            <textarea v-model="observaciones" class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
+                      placeholder="INO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-            <span class="text-gray-500 ml-64">{{ restante }}/300</span>   
+            <span class="text-gray-500 ml-64 sm:ml-32">{{ restante }}/300</span>   
           </ValidationProvider>       
         </div>
       </ValidationObserver>
@@ -85,8 +86,8 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="dtc_validaciones(1)" class="botonIconBuscar font-boton" :class="{'BuscarDeshabilitado' :modalLoading}" :disabled="modalLoading">
-              <img src="@/assets/img/save.png" class="mr-2" width="35" height="35" />
+            <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading}" :disabled="modalLoading">
+              <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
@@ -128,7 +129,7 @@ export default {
     return {
       descripcionHeaders: [],
       datosUser: {},
-      observaciones: "",
+      observaciones: "NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.",
       referenciaDtc: "",
       headerEdit: {},
       flagCreate: true,
