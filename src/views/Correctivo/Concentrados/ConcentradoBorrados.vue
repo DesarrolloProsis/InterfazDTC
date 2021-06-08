@@ -14,13 +14,13 @@
                     <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">                      
                     <p class="text-gray-900 sm:ml-6 mt-8 sm:-mt-6">DTC {{ detallesDtcBorrado.refereceNumber  }}</p>                      
                     </h1>
-                    <div class="divtabla">                          
+                    <div class="divtabla font-titulo">                          
                         <table class="table">
                         <thead>
                             <tr class="text-md trTable">
-                                <th class="cabeceraTable">Usuario</th>
-                                <th class="cabeceraTable">Fecha</th>
-                                <th class="cabeceraTable">Comentario</th>
+                                <th class="cabeceraTable font-light">Usuario</th>
+                                <th class="cabeceraTable font-light">Fecha</th>
+                                <th class="cabeceraTable font-light">Comentario</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">  
@@ -41,10 +41,10 @@
 
                 </div>
                 </div>
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-80 sm:w-67 sm:ml-1" style="height:650px;">
+                <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-80 sm:w-67 sm:ml-1" style="height:650px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <thead>
-                            <tr class="text-md text-gray-400 font-normal bg-blue-800">
+                            <tr class="text-md text-gray-400 bg-blue-800">
                                 <th class="cabeceraTable">Referencia</th>
                                 <th class="cabeceraTable hidden">Conteo de borrado</th>
                                 <th class="cabeceraTable">Acciones</th>
