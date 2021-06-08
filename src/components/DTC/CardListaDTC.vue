@@ -123,6 +123,10 @@
             </div>
             <div v-else class="text-xs inline-flex">
               <div v-if="tipoUsuario != 8">
+                <button  @click="fotografico" class="botonIconBorrarCard font-boton">
+                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
+                  <span>Fotografico</span>                
+                </button> 
                 <button  @click.prevent="generar_pdf(2)" class="botonIconBorrarCard font-boton">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                   <span>Firmado</span>                
@@ -263,6 +267,9 @@ export default {
         }
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
+    },
+    fotografico(){
+      ServiceReporte.generar_pdf_fotografico_correctivo(this.infoCard.referenceNumber)
     },
     generar_pdf(status) {
       ServiceReporte.generar_pdf_correctivo(

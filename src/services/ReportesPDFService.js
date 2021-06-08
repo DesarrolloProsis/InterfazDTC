@@ -182,6 +182,15 @@ function generar_pdf_diagnostico_falla(referenceNumber){
     let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)        
 }
+function generar_pdf_fotografico_correctivo(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')[0]
+    Axios.get(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
+    let urlTopdf = `${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`
+    let namePdf = 'ReporteFotografico' + '-' + referenceNumber
+    xml_hhtp_request(urlTopdf, namePdf) 
+    
+    
+}
 function generar_pdf_ficha_falla(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]    
     let urlTopdf = `${API}/FichaTecnicaAtencion/${clavePlaza}/${referenceNumber}`
@@ -210,5 +219,6 @@ export default {
     generar_pdf_diagnostico_falla,
     generar_pdf_ficha_falla,
     manual_pdf,
-    obtener_admin_id
+    obtener_admin_id,
+    generar_pdf_fotografico_correctivo
 }
