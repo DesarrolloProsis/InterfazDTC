@@ -250,8 +250,7 @@ methods: {
   },
   enviar_dmg_componentes(objInsert){       
       this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
-      .then(() => { 
-        alert()                            
+      .then(() => {                                
           if (objInsert.status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               objInsert.refNum, 

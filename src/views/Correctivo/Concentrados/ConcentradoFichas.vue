@@ -92,7 +92,7 @@
                                             <img src="@/assets/img/nuevoDtc.png" class="mr-2 sm:ml-0" width="15" height="15" />
                                             <span class="sm:text-xs">Terminar DTC</span>
                                         </button>
-                                        <button v-if="item.validacionDTC && item.validacionFichaTecnica" @click="terminar_dtc(item.referenceNumber, item.typeFaultId)"  class="botonBorrarFicha font-boton sm:w-32">
+                                        <button v-if="item.validacionDTC && item.validacionFichaTecnica" @click="desargar_pdf(item)"  class="botonBorrarFicha font-boton sm:w-32">
                                             <img src="@/assets/img/pdf-firmado.png" class="mr-2 sm:-ml-1" width="15" height="15" />
                                             <span class="sm:text-xs">Descargar DTC</span>
                                         </button>
@@ -191,6 +191,18 @@ export default {
             this.modalEliminar = true
             console.log(item)
 
+        },
+        desargar_pdf(value){
+            ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
+            this.$notify.success({
+                title: "Ok!",
+                msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
+                position: "bottom right",
+                styles: {
+                  height: 100,
+                  width: 500,
+                },
+            }); 
         },
         borrar(){
             let userId = this.$store.state.Login.cookiesUser.userId 
