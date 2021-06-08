@@ -27,7 +27,7 @@
                             <tr v-for="(item, key) in detallesDtcBorrado.lista" :key="key" class="h-12 text-gray-900 text-sm text-center">
                                 <td class="cuerpoTable">{{ item.userName }}</td>
                                 <td class="cuerpoTable">{{ item.dateStamp | formatDate }}</td>                                
-                                <td class="cuerpoTable">{{ item.comment}}</td>                                
+                                <td class="cuerpoTable">{{ item.comment == null ? 'Sin Comentario' : item.comment}}</td>                                
                             </tr>
                         </tbody>
                     </table>
