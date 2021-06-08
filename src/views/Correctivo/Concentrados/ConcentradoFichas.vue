@@ -2,6 +2,26 @@
     <div>        
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
+                <!--/////////////////////////////////////////////////////////////////
+                ////                      MODAL ELIMINAR                         ////
+                ////////////////////////////////////////////////////////////////////-->
+                <div class="absolute mt-66 ml-69 sm:ml-4">
+                    <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                        <ValidationObserver ref="observer">
+                            <p class="text-gray-900 font-thin text-md sm:text-sm text-justify" v-if="infoEliminar.referenceDTC != '--'">Seguro que quiere eliminará el Diagnóstico y la Ficha con referencia {{ infoEliminar.referenceNumber }} y DTC con referencia {{ infoEliminar.referenceDTC}}</p>
+                            <p class="text-gray-900 font-thin text-md sm:text-sm text-justify" v-else>Se eliminará el Diagnóstico y la Ficha con referencia {{ infoEliminar.referenceNumber }}</p>
+                            <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
+                                <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
+                                <textarea v-model="comentarioBorrar" class="textAreaCalendario" name="comentarioBorrar"/>              
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                            <div class="mt-5 text-center">
+                                <button @click="borrar()" class="botonIconCrear">Si</button>
+                                <button @click="modalEliminar = false" class="botonIconCancelar font-boton">No</button>
+                            </div>
+                        </ValidationObserver>
+                    </div>
+                </div>
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
@@ -87,7 +107,7 @@
                                                 <img src="@/assets/img/pencil.png" class="sm:mr-1 mr-2" width="15" height="15" />
                                                 <span class="sm:text-xs">Editar</span>                                                
                                             </button>
-                                            <button @click="editar_diagnostico_falla(item)" class="botonBorrarFicha font-boton">
+                                            <button @click="confirmarBorrar(item)" class="botonBorrarFicha font-boton">
                                                 <img src="@/assets/img/borrar.png" class="sm:mr-1 mr-2" width="15" height="15" />
                                                 <span class="sm:text-xs">Borrar</span>                                                
                                             </button>
@@ -125,7 +145,10 @@ export default {
             infoFichasFallaFiltrada: [],
             listaFicha: [],
             loadingTabla: false,
-            typeUser:''
+            typeUser:'', 
+            modalEliminar: false,
+            infoEliminar:{},
+            comentarioBorrar:'',
         }
     },
     beforeMount: function (){
@@ -145,7 +168,45 @@ export default {
             this.infoFichasFallaFiltrada = []                       
         })
     },
-    methods: {   
+    methods: {  
+        actualizarTabla(){
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId 
+        this.loadingTabla = true
+        let userId = this.$store.state.Login.cookiesUser.userId
+        this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
+        .then((response) => {            
+            this.infoFichasFallaCompleta = response.data.result
+            this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+            this.listaFicha = this.infoFichasFallaFiltrada
+            this.loadingTabla = false
+        })
+        .catch(() => {
+            this.loadingTabla = false
+            this.infoFichasFallaCompleta = []
+            this.infoFichasFallaFiltrada = []                       
+        })
+        },
+        confirmarBorrar (item){
+            this.infoEliminar = item
+            this.modalEliminar = true
+            console.log(item)
+
+        },
+        borrar(){
+            let userId = this.$store.state.Login.cookiesUser.userId 
+            let clavePlaza = this.infoEliminar.referenceNumber.split('-')[0] 
+            this.$http.post(`${API}/DiagnosticoFalla/BorraDiagnosticoFull/${clavePlaza}/${this.infoEliminar.referenceNumber}/${userId}/${this.comentarioBorrar}/${this.infoEliminar.referenceDTC}`)
+            .then((response)=>{
+                console.log(response)
+                this.modalEliminar = false
+                this.comentarioBorrar = ''
+                this.actualizarTabla()
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+
+        },
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
                 let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
