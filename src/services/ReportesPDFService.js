@@ -33,8 +33,7 @@ async function obtener_admin_id(referenceNumber){
     }) 
     return id  
 }
-async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
-    alert()
+async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){    
     let clavePlaza = numeroReferencia.split('-')[0]    
     let urlTopdf = ''
     let namePdf = ''
