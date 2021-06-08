@@ -9,15 +9,15 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div v-if="modalDetalles" class="mt-32 absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
-                <div>
+                <div v-if="modalDetalles" class="mt-32 absolute justify-items-center rounded-lg border border-gray-400 font-titulo shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+                <div class="">
                     <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">                      
-                      <p class="text-gray-900 sm:ml-6 mt-8 sm:-mt-6">DTC {{ detallesDtcBorrado.refereceNumber  }}</p>                      
+                    <p class="text-gray-900 sm:ml-6 mt-8 sm:-mt-6">DTC {{ detallesDtcBorrado.refereceNumber  }}</p>                      
                     </h1>
-                    <div>                          
-                       <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+                    <div class="divtabla">                          
+                        <table class="table">
                         <thead>
-                            <tr class="text-md text-gray-400 font-normal bg-blue-800">
+                            <tr class="text-md trTable">
                                 <th class="cabeceraTable">Usuario</th>
                                 <th class="cabeceraTable">Fecha</th>
                                 <th class="cabeceraTable">Comentario</th>
@@ -46,18 +46,18 @@
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
                                 <th class="cabeceraTable">Referencia</th>
-                                <th class="cabeceraTable">Conteo de borrado</th>
+                                <th class="cabeceraTable hidden">Conteo de borrado</th>
                                 <th class="cabeceraTable">Acciones</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">  
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaborrados" :key="key">
                                 <td class="cuerpoTable">{{ `${item.refereceNumber}` }}</td>
-                                <td class="cuerpoTable">{{ `Numero de veces borrado ${item.conteos}` }}</td>                                
+                                <td class="cuerpoTable hidden">{{ `Numero de veces borrado ${item.conteos}` }}</td>                                
                                 <td class="cuerpoTable">
-                                    <button class="botonIconActualizar" @click="mostras_detalles_borrado(item)">
-                                        <img src="../../../assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
-                                        <span class="text-xs sm:hidden">Detalles</span>
+                                    <button class="botonIconCrear" @click="mostras_detalles_borrado(item)">
+                                        <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                                        <span class="text-xs sm:hidden">Más</span>
                                     </button>
                                 </td>                                
                             </tr>

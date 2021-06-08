@@ -163,7 +163,7 @@
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Referencia</p>
-                <input v-model="buscarBorrado" class="border w-66 text-center sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
+                <input v-model="buscarBorrado" class="border w-66 text-center ml-74 sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
             </div>             
         </div> 
         </div>
