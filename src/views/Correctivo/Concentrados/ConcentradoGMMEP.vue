@@ -28,6 +28,25 @@
         </div>
       </div>
       <!--/////////////////////////////////////////////////////////////////////
+      ////                         MODAL ACTUALIZAR                      /////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 font-titulo">
+        <div v-if="modalActualizar" class="carruselGMMEP h-62">          
+          <div class="justify-center text-center block">    
+            <p class="mt-10 text-black text-2xl font-bold sm:ml-6 sm:-mt-6">Advertencia</p>        
+            <p class="w-69 ml-24 sm:ml-0 sm:w-full text-justify">Se van a Actualizar los componentes requeridos del DTC con Referencia {{ infoAcrualizar.referenceNumber }}</p> 
+          </div>
+          <div class="mt-12 flex justify-center">
+              <button class="botonIconCrear font-boton" >
+                  <span class="" @click="ActualizarComponentes">Aceptar</span>
+              </button>
+              <button class="botonIconCancelar font-boton" @click="modalActualizar = false">
+                  <span class="">Cancelar</span>
+              </button>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////////
       /////                    FILTROS DE NAVEGACION                      ////
       ////////////////////////////////////////////////////////////////////-->   
       <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" @buscar-gmmep="guardar_palabra_busqueda" :titulo="'Concentrado GMMEP'" :tipo="'GMMEP'"></HeaderGenerico>       
@@ -63,13 +82,14 @@
         </div>
       </div>
       <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo"
-        :class="{'overflow-x-auto bg-white rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo' : !carruselModal && !modalCambiarStatus}"  style="height:550px;">
+        :class="{'overflow-x-auto bg-white rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo' : !carruselModal && !modalCambiarStatus && !modalActualizar}"  style="height:550px;">
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
           <!--/////////////////////////////////////////////////////////////////
           ////                           HEADER TABLA                      ////
           ////////////////////////////////////////////////////////////////////-->
           <thead class="">
-              <tr class="text-md text-gray-400 font-normal bg-blue-800">                
+              <tr class="text-md text-gray-400 font-normal bg-blue-800">   
+                <th class="cabeceraTable font-medium" v-if="tipoUsuario == 1">Actualizar</th>             
                 <th class="cabeceraTable font-medium">Referencia</th>
                 <th class="cabeceraTable font-medium">Fecha de Elaboracion</th>
                 <th class="cabeceraTable font-medium">Fecha de Siniestro</th>
@@ -102,7 +122,14 @@
                 </tr>  
             </template>   
             <template v-if="lista_DTC_Filtrada.length > 0">
-              <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_DTC_Filtrada" :key="key">                
+              <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_DTC_Filtrada" :key="key">  
+                <td class="cuerpoTable" v-if="tipoUsuario == 1">
+                  <div>
+                    <button @click="abrirModal(item)" class="botonTodos">
+                      <img src="@/assets/img/todos.png" class="justify-center w-5"/>
+                    </button>
+                  </div>
+                </td>              
                 <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                 <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
                 <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
@@ -232,7 +259,9 @@ data: function (){
       dtcEdit: {},
       dtcImg: {},
       datosImg:{},        
-      pdfSellado:'',                        
+      pdfSellado:'',
+      modalActualizar: false,
+      infoAcrualizar:{}                        
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -261,6 +290,16 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+abrirModal(item){
+  this.infoAcrualizar = item
+  console.log(this.infoAcrualizar)
+  this.modalActualizar = true
+},
+ActualizarComponentes: async function(){
+  let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
+  this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}`)
+  this.modalActualizar = false
+},
 guardar_palabra_busqueda: function(newPalabra){  
   if (newPalabra != "") {   
     this.lista_DTC_Filtrada = [] 
