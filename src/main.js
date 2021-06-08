@@ -4,11 +4,11 @@ import router from './router'
 import store from './store'
 import "./assets/css/tailwind.css"
 import Multiselect from 'vue-multiselect'
-import VeeValidate from 'vee-validate';
-import { Validator, ValidationObserver, ValidationProvider } from 'vee-validate';
-import es from "vee-validate/dist/locale/es";
+import { ValidationObserver, ValidationProvider, localize, extend  } from 'vee-validate';
+import es from 'vee-validate/dist/locale/es.json';
 import './registerServiceWorker'
 import moment from "moment";
+import * as rules from 'vee-validate/dist/rules';
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
 //Rputer
@@ -23,37 +23,50 @@ Vue.use(VueLazyImage)
 //Validaciones en formularios
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
-Vue.use(VeeValidate, { classes: false,}); 
-const NoSiniestro = {
+Object.keys(rules).forEach(rule => {
+  extend(rule, rules[rule]);
+});
+localize('es', es);
+extend('uniqueSinester', {
   validate(value){
       return store.getters['Header/GET_UNIQUE_SINESTER_NUMBER'](value)
   }
-}
-const NoReporte = {
+})
+extend('uniqueReport', {
   validate(value){
     return store.getters['Header/GET_UNIQUE_REPORT_NUMBER'](value)
   }
-}
+})
+extend('maxTime', {
+  getMessage: (field) => `La ${field} debe ser menor que la HoraFin`,
+  validate: (value, args) => {
+    if(args[0] == ''){
+      return true
+    }    
+    else{
+      let horaISplite = value.split(':')            
+      let horaFSplite = args[0].split(':')            
+      let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+      let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+      return dateInicio < dateFin ? true : false    
+    }   
+  }
+});
 const FechaValidaList = {
   validate(value) {
       let fechas = value.split('\n')
       for(let item of fechas){
         if(item.length == 10){
-          if(!moment(item, 'YYYY/MM/DD').isValid()){
-            return false
-          }
+          if(!moment(item, 'YYYY/MM/DD').isValid())
+            return false          
         }
-        else{
-          return false
-        }
+        else
+          return false        
       }
       return true   
   }
 }
-Validator.extend('uniqueSinester', NoSiniestro)
-Validator.extend('uniqueReport', NoReporte)
-Validator.extend('FechaValidaList',FechaValidaList)
-Validator.localize("es",es);
+extend('FechaValidaList',FechaValidaList)
 // Componente Multiselect
 Vue.component('multiselect', Multiselect)
 // Notificaciones 
@@ -62,6 +75,8 @@ Vue.use(VueNotify)
 //manejor de Solicitudes axios
 import AxiosManejador from './store/ManejoSolicitudes'
 Vue.prototype.$http = AxiosManejador
+//Vlidaciones
+
 Vue.config.productionTip = false
 new Vue({
   router,

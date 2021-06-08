@@ -87,7 +87,7 @@ const actions = {
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.diagnostico,
-      Observation: state.observaciones == null ? '' : state.observaciones,
+      Observation: 'NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.',
       UserId: value.header.userId,
       AgremmentInfoId: value.header.agremmentInfoId,
       flag: value.flag,
@@ -96,8 +96,9 @@ const actions = {
       SquareId: value.header.plaza.slice(0,3),
       adminId: value.adminIdPlaza,
       diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
-      tipofalla: value.tipofalla
-    }                
+      //tipofalla: value.tipofalla
+    }            
+    console.log(newObject);    
     await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
       .then(response => {        
         if (response.status === 201) {

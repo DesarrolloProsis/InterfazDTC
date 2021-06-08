@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <div :class="{'mb-69': typeUser != 1}" class="flex justify-center p-4 font-titulo">
+    <div :class="{'mb-69': typeUser != 1}" class="grid grid-cols-1 w-78 ml-73 p-4 justify-center font-titulo sm:w-auto sm:ml-0">
       <div class="mt-5">
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
@@ -14,7 +14,7 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg sm:mb-16 shadow overflow-y-auto relative mb-32" style="height:600px;">
+        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto relative" style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
@@ -43,29 +43,29 @@
         <!--/////////////////////////////////////////////////////////////////////
         ////                     MODAL AGREGAR USUARIO                      ////
         ////////////////////////////////////////////////////////////////////-->
-      <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
-                    <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center text-center">Agregar Usuario</p>
+      <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                    <p class="text-gray-900 font-semibold text-md sm:text-md sm:text-center text-center">Agregar Usuario</p>
                     <div class="grid grid-cols-2 mt-2">
-                        <p class="text-sm mb-1 font-semibold text-gray-700">Nombre(s)</p>
-                        <input v-model="objUsuarioNuevo.nombre" type="text" class="w-full bg-white border-gray-400">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Paterno</p>
-                        <input v-model="objUsuarioNuevo.apellidoM" type="text" class="w-full bg-white border-gray-400 mt-2">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Apellido Materno</p>
-                        <input v-model="objUsuarioNuevo.apellidoP" type="text" class="w-full bg-white border-gray-400 mt-2">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Constraseña</p>
-                        <input v-model="objUsuarioNuevo.password" type="text" class="w-full bg-white border-gray-400 mt-2">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tipo Usuario</p>
-                        <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-5">Nombre(s)</p>
+                        <input v-model="objUsuarioNuevo.nombre" type="text" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Apellido Paterno</p>
+                        <input v-model="objUsuarioNuevo.apellidoM" type="text" class="w-full bg-white border-gray-400 mt-2 sm:w-33 sm:-ml-4">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Apellido Materno</p>
+                        <input v-model="objUsuarioNuevo.apellidoP" type="text" class="w-full bg-white border-gray-400 mt-2 sm:w-33 sm:-ml-4">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Constraseña</p>
+                        <input v-model="objUsuarioNuevo.password" type="text" class="w-full bg-white border-gray-400 mt-2 sm:w-33 sm:-ml-4">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Tipo Usuario</p>
+                        <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2 sm:w-33 sm:-ml-4">
                           <option disabled value>Selecionar...</option>     
                           <option v-for="(item, key) in listaTiposUsuario" :key="key">{{ item.nombre }}</option>                                                                         
                         </select>
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Tramo</p>
-                        <select v-model="tramoSeleccionado" class="w-full mt-2">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Tramo</p>
+                        <select v-model="tramoSeleccionado" class="w-full mt-2 sm:w-33 sm:-ml-4">
                           <option disabled value>Selecionar...</option>     
                           <option value="1">México Acapulco</option>     
                           <option value="2">México Irapuato</option>     
                         </select>
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2">Plaza</p>                        
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
                         <multiselect 
                           v-model="objUsuarioNuevo.plazas"                                                                                                                                                             
                           :custom-label="label_multi_select"                          
@@ -75,7 +75,7 @@
                           placeholder="Selecciona..."
                           :options="listaPlazas"
                           track-by="squareCatalogId"
-                          class=" shadow-md hover:border-gray-700 mt-2"
+                          class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
                           :multiple="true"
                         >   
                           <template slot="selection" slot-scope="{ values, search, isOpen }">
@@ -84,8 +84,8 @@
                         </multiselect>
                     </div>
                     <div class="mt-5 text-center ml-6">
-                        <button @click="guardar_nuevo_usuario" class="botonIconBuscar font-boton">Guardar</button>
-                        <button @click="modalEditar = false" class="botonIconCancelar font-boton">Cancelar</button>
+                        <button @click="guardar_nuevo_usuario" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
+                        <button @click="modalEditar = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
                     </div>
                 </div>
       <div class="flex absolute justify-center inset-x-0 mt-24">

@@ -7,7 +7,8 @@
       :descripciones="descripcionHeaders"
       :datosUser="datosUser"
       :headerEdit="headerEdit"
-      :observaciones="observaciones"      
+      :observaciones="observaciones" 
+      @crear-dtc="crear_dtc"     
     ></Header>
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
@@ -37,22 +38,17 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                        OBSERVACIONES                         ////
     ///////////////////////////////////////////////////////////////////// -->
+      <ValidationObserver ref="observer"> 
         <div class="items-center font-titulo">
-          <p class="text-center">
-            <span class="text-center font-bold text-xl text-gray-800">Observaciones</span>
-          </p>
-          <textarea
-            v-model="observaciones"
-            v-validate="'max:300'"
-            :class="{ 'is_valid': !errors.first('Observaciones'), 'is_invalid': errors.first('Observaciones')}"
-            class="rounded-lg py-4 mb-1 h-40 placeholder-gray-500 ph-center-observaciones"
-            placeholder="Indica las observaciones necesarias del siniestro"
-            name="Observaciones"
-            v-bind:maxlength="limite"
-          />
-          <span class="text-gray-500 ml-64">{{ restante }}/300</span>
-          <p class="text-xs">{{ errors.first("Observaciones") }}</p>
+          <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
+            <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
+            <textarea v-model="observaciones" value="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
+                      placeholder="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
+            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+            <span class="text-gray-500 ml-64 sm:ml-32">{{ restante }}/300</span>   
+          </ValidationProvider>       
         </div>
+      </ValidationObserver>
     <!-- //////////////////////////////////////////////////////////////////
     ////                        FILA NUMERO 2                         ////
     ///////////////////////////////////////////////////////////////////// -->
@@ -90,13 +86,13 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(1)" class="botonIconBuscar font-boton" :class="{'BuscarDeshabilitado' :modalLoading}" :disabled="modalLoading">
-              <img src="@/assets/img/save.png" class="mr-2" width="35" height="35" />
+            <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading}" :disabled="modalLoading">
+              <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
-            <button @click="crearDTCTecnico(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading}" :disabled="modalLoading">
+            <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
@@ -133,7 +129,7 @@ export default {
     return {
       descripcionHeaders: [],
       datosUser: {},
-      observaciones: "",
+      observaciones: "NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.",
       referenciaDtc: "",
       headerEdit: {},
       flagCreate: true,
@@ -188,10 +184,13 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
-methods: {
-  crearDTCTecnico: async function (status) {
-      this.modalLoading = true
-      await EventBus.$emit("validar_header");
+methods: {  
+  dtc_validaciones(value){
+    EventBus.$emit("validar_header_dtc", value);
+  },
+  crear_dtc: async function (status) {
+      console.log(status);
+      this.modalLoading = true      
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
@@ -249,10 +248,10 @@ methods: {
         });
       }
   },
-  enviar_dmg_componentes(objInsert){ 
-      this.modalLoading = false      
+  enviar_dmg_componentes(objInsert){       
       this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
-      .then(() => {                             
+      .then(() => { 
+        alert()                            
           if (objInsert.status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               objInsert.refNum, 

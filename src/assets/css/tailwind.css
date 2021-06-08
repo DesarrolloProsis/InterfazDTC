@@ -305,10 +305,10 @@ select:focus {
     @apply outline-none;
 }
 .botonDescargarDes{
-    @apply bg-gray-500 tracking-wide text-gray-800 font-bold border-b-2 border-black shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+    @apply bg-gray-400 tracking-wide text-gray-800 font-bold border-b-2 border-black shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1 cursor-default;
 }
 .botonDescargarDes:hover{
-    @apply border-black bg-gray-500 text-gray-800 transition duration-500;
+    @apply border-black bg-gray-400 text-gray-800 transition duration-500;
 }
 .botonDescargarDes:focus{
     @apply outline-none;
@@ -430,7 +430,43 @@ select:focus {
     @apply mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto;    
 }
 .textAreaCalendario{
-    @apply appearance-none mx-auto border-black rounded-lg py-4 mb-0 h-32 w-full border font-titulo;
+    @apply appearance-none mx-auto border-gray-400 rounded-lg py-4 mb-0 h-32 w-full border font-titulo;
+}
+.textAreaCalendario:hover{
+    @apply  border-gray-400;
+}
+.modalCargarImg{
+    @apply rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48;
+}
+.botonEditarDF{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-yellow-500 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonEditarDF:hover{
+    @apply border-yellow-600 bg-yellow-300 text-gray-800 transition duration-500;
+}
+.botonEditarDF:focus{
+    @apply outline-none;
+}
+.botonTerminarFicha{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-green-500 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonTerminarFicha:hover{
+    @apply border-green-600 bg-green-300 text-white transition duration-500;
+}
+.botonTerminarFicha:focus{
+    @apply outline-none;
+}
+.botonBorrarFicha{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-red-500 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
+}
+.botonBorrarFicha:hover{
+    @apply border-red-600 bg-red-300 text-white transition duration-500;
+}
+.botonBorrarFicha:focus{
+    @apply outline-none;
+}
+.botonNoAplica{
+    @apply bg-white tracking-wide text-gray-800 font-bold border-b-2 border-red-500 shadow-md text-xs py-2 px-2 rounded inline-flex items-center mt-1;
 }
 @tailwind components;
 
