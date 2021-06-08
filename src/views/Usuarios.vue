@@ -240,7 +240,7 @@ export default {
     },
     refrescar_usuarios: function(){
       this.listaUsuarios = []
-      this.listaUsuariosFiltrada = []
+      this.lista_Usuarios_Filtrada = []
       let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
       let params = { Id: user.idUser, Square: user.numPlaza}
       this.$store.dispatch('Usuarios/Consulta_Users', params)
@@ -388,7 +388,7 @@ export default {
     },
     guardar_palabra_busqueda: function(newPalabra){      
       if (newPalabra != "") {
-        let array_filtrado = this.listaUsuariosFiltrada.filter(item => {
+        let array_filtrado = this.lista_Usuarios_Filtrada.filter(item => {
           return item.name.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName1.toUpperCase().includes(newPalabra.toUpperCase()) || item.lastName2.toUpperCase().includes(newPalabra.toUpperCase())
         })       
         this.listaUsuarios = array_filtrado;
