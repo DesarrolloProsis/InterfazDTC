@@ -381,7 +381,8 @@ beforeMount: async function(){
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
         }   
-    }       
+    }   
+    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: undefined, crear: false })    
 },
 destroyed(){
     if(this.tipo == 'FICHA')
