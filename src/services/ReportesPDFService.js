@@ -33,12 +33,12 @@ async function obtener_admin_id(referenceNumber){
     }) 
     return id  
 }
-async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){
+async function generar_pdf_correctivo(numeroReferencia, statusId, crearDTC, adminId){    
     let clavePlaza = numeroReferencia.split('-')[0]    
     let urlTopdf = ''
     let namePdf = ''
     if(adminId == undefined){
-        adminId = await obtener_admin_id(numeroReferencia)
+        adminId = await obtener_admin_id(numeroReferencia)        
     }    
     if(STATUS_REPORTE_CORRECTIVO.sinfirma === statusId){
         urlTopdf = `${API}/pdf/${clavePlaza}/${numeroReferencia}/${adminId}`;
@@ -182,11 +182,25 @@ function generar_pdf_diagnostico_falla(referenceNumber){
     let namePdf = referenceNumber
     xml_hhtp_request(urlTopdf, namePdf)        
 }
+function generar_pdf_fotografico_correctivo(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')[0]
+    Axios.get(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
+    let urlTopdf = `${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`
+    let namePdf = 'ReporteFotografico' + '-' + referenceNumber
+    xml_hhtp_request(urlTopdf, namePdf) 
+    
+    
+}
 function generar_pdf_ficha_falla(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]    
     let urlTopdf = `${API}/FichaTecnicaAtencion/${clavePlaza}/${referenceNumber}`
-    let namePdf = referenceNumber
-    xml_hhtp_request(urlTopdf, namePdf)        
+    if(referenceNumber.split('-')[0,3] != undefined){
+        let namePdf = clavePlaza + '-' + 'FT' + '-' + referenceNumber.split('-')[0,2] + '-' + referenceNumber.split('-')[0,3]
+        xml_hhtp_request(urlTopdf, namePdf)        
+    }else{
+        let namePdf = clavePlaza + '-' + 'FT' + '-' + referenceNumber.split('-')[0,2]
+        xml_hhtp_request(urlTopdf, namePdf)        
+    }
 }
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
@@ -204,5 +218,7 @@ export default {
     generar_pdf_calendario_escaneado,
     generar_pdf_diagnostico_falla,
     generar_pdf_ficha_falla,
-    manual_pdf
+    manual_pdf,
+    obtener_admin_id,
+    generar_pdf_fotografico_correctivo
 }

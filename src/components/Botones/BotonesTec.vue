@@ -42,16 +42,16 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
             </router-link>
           </div>
-          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+          <!-- <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
               <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Configuración</h1>
             </router-link>
-          </div>      
+          </div>       -->
       </div>
     </div>
     <div class="flex justify-center mt-2 sm:mt-14" v-else>
-      <div class="grid grid-cols-2">     
+      <div class="grid grid-cols-2" :class="{'grid grid-cols-3':typeUser == 2}">     
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/CalendarioActividades" class="text-center cursor-pointer">
               <img src="../../assets/img/schedule.png" height="200" width="200" class="m-10 sm:m-1"/>
@@ -65,7 +65,15 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Reportes</h1>
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Mantenimiento</h1>
             </router-link>
-          </div>          
+          </div>
+          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="typeUser == 2">
+            <router-link to="/CalendarioHistorico" class="text-center cursor-pointer">
+                <img src="../../assets/img/document.png" height="200" width="200" class="m-10 sm:m-1" />
+                <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Bitacora de Visitas</h1>                            
+                <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">de Mantenimiento</h1>
+                <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium mb-1">Equipos De Peaje</h1>
+            </router-link>                     
+          </div>           
           <!-- <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
             <router-link to="/Correctivo/PreDTC/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/document.png" height="200" width="200" class="m-10 sm:m-1" />
@@ -86,6 +94,7 @@ export default {
     } 
   },
   beforeMount(){
+    this.typeUser = this.$store.state.Login.cookiesUser.rollId  
     this.tipoBotones = this.$router.currentRoute.name === 'Preventivo' 
     ? false 
     : true

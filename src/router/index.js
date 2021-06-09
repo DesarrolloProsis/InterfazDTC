@@ -9,7 +9,6 @@ import Inventario from '../views/Correctivo/Inventario.vue'
 import InventarioDetalle from '../views/Correctivo/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
 import Register from '../views/Register.vue'
-import CrearDtcLibre from '../views/Correctivo/DTC/CrearDTCLibre.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
 import FichaDiagnostico from '../views/Correctivo/FichaDiagnostico/FichaDiagnosticoInicio'
 import CalendarioActividades from '../views/Preventivo/CalendarioForm'
@@ -57,14 +56,10 @@ const routes = [
     component: CrearDTC,
     beforeEnter: async function(to, from, next){
       await store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
-      await store.dispatch("Header/BUSCAR_LISTA_UNIQUE");    
+      if(to.params.tipoVista != 'Editar')
+        await store.dispatch("Header/BUSCAR_LISTA_UNIQUE");    
       next()
     }
-  },
-  {
-    path: '/NuevoDtcLibre',
-    name: 'NuevoDtcLibre',
-    component: CrearDtcLibre
   },
   {
     path: '/Configuracion',

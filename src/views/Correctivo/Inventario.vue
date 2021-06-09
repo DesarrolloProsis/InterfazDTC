@@ -23,30 +23,40 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-32 absolute justify-items-center is_valid shadow-xl border border-gray-700 inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5" v-if="modalmtto">
-            <div><h1 class="text-center font-titulo text-4xl">Mantenimiento</h1></div>
-                <div class="grid grid-cols-2 mt-10">
-                    <div class="ml-2">
+        <div v-if="modalmtto" class="mt-32 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-69 sm:w-66 mx-auto px-10 py-5">
+          <ValidationObserver ref="observer">      
+            <div><h1 class="text-center font-titulo text-4xl sm:text-md">Mantenimiento</h1></div>
+                <div class="grid grid-cols-2 mt-10 sm:grid-cols-1">
+                    <div class="ml-2 sm:-ml-4">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                     </div>
                     <div class="mt-8 ml-4">
-                    <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
-                    <p class="w-32 input ml-16 -mt-6 sm:ml-0">
-                    <select v-model="datosmtto.ubicacion" class="w-32 border-none"  type="text">
-                        <option value="">Selecionar...</option>
-                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                    </select></p>
+                      <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }"> 
+                        <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
+                        <p class="w-32 input ml-16 -mt-6 sm:ml-8">
+                        <select v-model="datosmtto.ubicacion" class="w-32 border-none" name="Carriles" type="text">
+                            <option value="">Selecionar...</option>
+                            <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                        </select></p>
+                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      </ValidationProvider>
                     </div>
                 </div>
                 <div class="mt-6">
+                  <ValidationProvider name="FechaMantenimiento" rules="required" v-slot="{ errors }"> 
                     <p class="text-sm mb-1 font-semibold text-gray-700">Fecha de Mantenimineto</p>
-                    <input  class="w-full is_valid" type="date" v-model="datosmtto.fecha"/>
+                    <input  class="w-full is_valid" type="date" name="FechaMantenimiento" v-model="datosmtto.fecha"/>
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                  </ValidationProvider>
                 </div>
                 <div class="mt-3">
+                  <ValidationProvider name="FolioMantenimiento" rules="required" v-slot="{ errors }"> 
                     <p class="text-sm mb-1 font-semibold text-gray-700">Folio de Mantenimiento</p>
-                    <input  class="w-full is_valid" type="text" v-model="datosmtto.folio"/>
+                    <input v-model="datosmtto.folio" class="w-full is_valid" type="text" name="FolioMantenimiento" />
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                  </ValidationProvider>
                 </div>
-                <div class="mt-8 flex justify-center">
+                <div class="mt-8 flex justify-center sm:ml-6">
                     <button class="botonIconCrear font-boton" @click="modalAdver">
                         <span class="">Aceptar</span>
                     </button>
@@ -54,16 +64,17 @@
                         <span class="">Cancelar</span>
                     </button>
                 </div>
+          </ValidationObserver>
         </div> 
-        <div class="mt-32 absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:w-64 mx-auto px-10 py-5 text-gray-600" v-if="modalAdv">
+        <div v-if="modalAdv" class="mt-32 absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
             <div>
-                <h1 class="mb-10 text-center font-titulo font-bold text-4xl">
-                  <img src="../../assets/img/warning.png" class="ml-20" width="35" height="35" />
-                  <p class="-mt-10 text-black">Advertencia</p>
-                  <img src="../../assets/img/warning.png" class="ml-68 -mt-12" width="35" height="35" />
+                <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+                  <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
+                  <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
+                  <img src="../../assets/img/warning.png" class="ml-68 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
                 </h1>
                 <div>
-                  <p aling="center" class="w-69 ml-12">
+                  <p class="w-69 ml-12 sm:ml-0 sm:w-full text-justify">
                     Se van a actualizar Folios y Fechas de Mantenimiento en todos los componentes de la plaza
                     <span class="text-black font-bold">{{ $store.state.Login.plazaSelecionada.plazaNombre }}</span>
                     del carril <span class="text-black font-bold">{{ datosmtto.ubicacion.lane }}</span>
@@ -71,16 +82,16 @@
                     a excepción de: 
                   </p>
                   <ul class="mt-10 font-bold">
-                    <li class="ml-4">SEMÁFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA)</li> 
-                    <li class="ml-4">SEMÁFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)</li>
-                    <li class="ml-4">SEMÁFORO MODO DE PAGO FULLMATRIX LED (CAJERO)</li>
+                    <li class="ml-4 sm:ml-0 sm:text-sm">• SEMÁFORO DE ESTADO DE CARRIL FULLMATRIX LED (ASPA/FLECHA)</li> 
+                    <li class="ml-4 sm:ml-0 sm:text-sm">• SEMÁFORO DE TELEPEAJE FULLMATRIX LED (AUTOPAGO)</li>
+                    <li class="ml-4 sm:ml-0 sm:text-sm">• SEMÁFORO MODO DE PAGO FULLMATRIX LED (CAJERO)</li>
                   </ul>
                 </div>
                 
             </div>
             <div class="mt-12 flex justify-center">
                 <button class="botonIconCrear font-boton" >
-                    <span class="" @click="boton_Modal_Aceptar">Aceptar</span>
+                    <span class="" @click="boton_modal_aceptar">Aceptar</span>
                 </button>
                 <button class="botonIconCancelar font-boton" @click="modalAdv = false, datosmtto.folio = '', datosmtto.ubicacion = '' ">
                     <span class="">Cancelar</span>
@@ -90,7 +101,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                             TABLA                               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1" style="height:650px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1 font-titulo" style="height:650px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -142,7 +153,7 @@
                   </td>
                   <td class="cuerpoTable">
                     <button @click="mostrar_mas(item)" class="botonIconCrear">
-                      <img src="../../assets/img/more.png" class="mr-2 sm:m-0" width="15" height="15" />
+                      <img src="../../assets/img/more.png" class="mr-2 sm:-ml-4 sm:mr-1" width="15" height="15" />
                       <span class="text-xs">Mas</span>
                     </button>
                   </td>
@@ -161,7 +172,6 @@ import { mapState } from "vuex";
 import EventBus from "../../services/EventBus.js";
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import SelectPlaza from '../../components/Header/SelectPlaza'
-import Axios from 'axios'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import moment from 'moment'
 
@@ -234,9 +244,13 @@ export default {
         let fechaInicial = new Date()
         this.datosmtto.fecha = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");
     },
-    modalAdver: function (){
-      if(this.datosmtto.folio == '' || this.datosmtto.ubicacion == '' || this.datosmtto.folio.trim().length == 0)
-      {
+    modalAdver: async function (){      
+      let isValid = await this.$refs.observer.validate();       
+      if(isValid){
+        this.modalAdv = true
+        this.modalmtto = false   
+      }
+      else{
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE HA INGRESADO LOS DATOS COMPLETOS.`,
@@ -245,19 +259,14 @@ export default {
             height: 100,
             width: 500,
           },
-        });
-    
-      }else{
-        this.modalAdv = true
-        this.modalmtto = false
+        });             
       }
     },
-    boton_Modal_Aceptar: async function (){
+    boton_modal_aceptar: async function (){     
       let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
       let idUser = this.$store.state.Login.cookiesUser.userId
-      Axios.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.fecha}/${this.datosmtto.folio}/${idUser}`)
-        .then(async(response)=>{
-          console.log(response);
+      this.$http.put(`${API}/Mantenimiento/UpdateFolioFechaInventario/${clavePlaza}/${this.datosmtto.ubicacion.idGare}/${this.datosmtto.ubicacion.capufeLaneNum}/${this.datosmtto.fecha}/${this.datosmtto.folio}/${idUser}`)
+        .then(async()=>{
           this.modalAdv = false
           this.modalLoading = true
           this.datosmtto.folio = ''
@@ -279,10 +288,7 @@ export default {
               },
             }); 
           }, 500)       
-        })
-        .catch((ex)=>{
-          console.log(ex);
-        })
+        })          
     },
     guardar_editado: function (value) {
       if (this.listEditados.length == 0)
@@ -303,7 +309,8 @@ export default {
       if (this.listEditados.length > 0) {
         let numAct = this.listEditados
         this.modalLoading = true
-        let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
+        let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza
+        console.log(numeroPlaza)                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
         await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
         this.listEditados = [];

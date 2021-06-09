@@ -5,16 +5,16 @@
         ////                     MODAL IMAGENES                        /////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0" v-if="modalImage">
-            <div v-if="true" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48 sm:mt-66 sm:m-4">          
+            <div v-if="true" class="modalCargarImg sm:mt-66 sm:m-4">          
                 <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
-                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer " />
+                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
                 </span> 
                 <div class="justify-center text-center block">            
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_diagnostico(false)" class="botonIconCrear mt-8">
+                    <ImagenesFichaDiagnostico :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                    <button @click="enviar_header_diagnostico(false)" class="botonIconCrear mt-8 sm:mt-4">
                         <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Diagnóstico</span>
                     </button>  
@@ -23,8 +23,7 @@
         </div>
             <div class="grid gap-4 grid-cols-1 py-3 px-3">      
                 <div class="mt-1  mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-if="this.type == 'Diagnostico' ">Diagnóstico de Falla</h1>
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-else>Ficha Técnica de Atención</h1>        
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold">Diagnóstico de Falla</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->                       
@@ -36,7 +35,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-5 ml-79 sm:mb-6 sm:ml-1 sm:mt-18 mt-4">
+                    <div class="mb-5 ml-79 sm:mb-6 sm:ml-1 sm:-mt-16 mt-4">
                         <div v-if="$route.params.tipoVista == 'Crear'">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -57,9 +56,10 @@
 </template>
 
 <script>
-import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
+import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
+import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -91,58 +91,13 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(header){        
-        this.datosHeader = header
-    },
-    validar_horas(){
-        let horaISplite = this.datosHeader.horaInicio.split(':')            
-        let horaFSplite = this.datosHeader.horaFin.split(':')            
-        let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-        let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-        return dateInicio < dateFin ? true : false                   
+    actualizar_header(objHeader){        
+        this.datosHeader = objHeader.header
+        if(objHeader.crear)
+            this.insertar_diagnostico_falla(objHeader.value)
     },
     enviar_header_diagnostico(value){                
-        let llavesHeader = Object.keys(this.datosHeader)                   
-        if(llavesHeader.length == 10){            
-            let valueHeader = Object.values(this.datosHeader)
-            let validar = valueHeader.some(prop => prop == '')            
-            if(validar || valueHeader[5].trim().length == 0 || valueHeader[6].trim().length == 0){                                
-                this.$notify.warning({
-                    title: "Ups!",
-                    msg: `FALTA LLENAR CAMPOS.`,
-                    position: "bottom right",
-                    styles: { height: 100, width: 500,}
-                });
-            }
-            else{                                                
-                let horasValidas = this.validar_horas()
-                if(horasValidas != true){                           
-                    this.$notify.warning({
-                        title: "Ups!",
-                        msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
-                        position: "bottom right",
-                        styles: { height: 100, width: 500,}
-                    });
-                }   
-                else{
-                    this.insertar_diagnostico_falla(value)                       
-                    this.$notify.success({
-                        title: "Ok",
-                        msg: `SE CREO CORRECTAMENTE.`,
-                        position: "bottom right",
-                        styles: { height: 100, width: 500,}
-                    });
-                }             
-            }                 
-        }
-        else{                        
-            this.$notify.warning({
-                    title: "Ups!",
-                    msg: `FALTA LLENAR CAMPOS.`,
-                    position: "bottom right",
-                    styles: { height: 100, width: 500,}
-                });
-        }
+        EventBus.$emit('validar_header_diagnostico', value)
     },
     cerrar_modal_imagenes(){
         this.modalImage = false
@@ -196,24 +151,25 @@ methods:{
                                 this.modalImage = false
                                 ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
                                 this.datosHeader["tipoFalla"] = this.itemCompletoEdit.typeFaultId 
-                                this.datosHeader["solucionFalla"] = this.itemCompletoEdit.intervention                                             
+                                this.datosHeader["solucionFalla"] = this.itemCompletoEdit.intervention             
+                                let referenciaDtc = this.$route.query.referenciaDtc                                
                                 this.$router.push({
                                     path: 'FichaTecnicaDeFalla',
-                                    query: { data: this.datosHeader }
+                                    query: { data: this.datosHeader, referenciaDtc }
                                 }) 
                             }  
                         },2000)
                     })              
-                    this.reporteInsertado = true                                                   
-                    
+                    this.reporteInsertado = true                                                                       
                 })                
         }        
         else{
             this.type = 'FICHA' 
-            ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)              
+            ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
+            let referenciaDtc = this.$route.query.referenciaDtc         
             this.$router.push({
                 path: 'FichaTecnicaDeFalla',
-                query: { data: this.datosHeader }
+                query: { data: this.datosHeader, referenciaDtc }
             }) 
         }       
     }

@@ -48,7 +48,7 @@ const mutations = {
   OBSERVACION_MUTATION: (state, value) => state.observaciones = value,
   DIAGNOSTICO_MUTATION: (state, value) => state.diagnostico = value,
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
-  LIBERAR_VALIDACION_NUMS: (state, value) => {    
+  LIBERAR_VALIDACION_NUMS: (state, value) => {       
     let index = state.listaUnique.findIndex(item => item.sinisterNumber === value.numSiniestro && item.reportNumber === value.numReporte)            
     if(index != -1 ){      
       state.listaUnique.splice(index, 1)
@@ -87,7 +87,7 @@ const actions = {
       ElaborationDate: state.datosSinester.ShippingElaboracionDate,
       TypeDescriptionId: state.datosSinester.TypeDescriptionId,
       Diagnosis: state.diagnostico,
-      Observation: state.observaciones == null ? '' : state.observaciones,
+      Observation: 'NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.',
       UserId: value.header.userId,
       AgremmentInfoId: value.header.agremmentInfoId,
       flag: value.flag,
@@ -96,8 +96,9 @@ const actions = {
       SquareId: value.header.plaza.slice(0,3),
       adminId: value.adminIdPlaza,
       diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
-      tipofalla: value.tipofalla
-    }                
+      //tipofalla: value.tipofalla
+    }            
+    console.log(newObject);    
     await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
       .then(response => {        
         if (response.status === 201) {

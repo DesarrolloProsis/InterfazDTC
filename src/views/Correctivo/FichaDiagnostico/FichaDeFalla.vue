@@ -5,16 +5,16 @@
             ////                     MODAL IMAGENES                        /////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0">
-                <div v-if="modalImage" class="rounded-lg border max-w-2xl h-66 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-48 sm:m-4 sm:mt-66">          
+                <div v-if="modalImage" class="modalCargarImg mt-48 sm:m-4 sm:mt-66">          
                     <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
-                        <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer " />
+                        <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
                     </span>
                     <div class="justify-center text-center block ml-4 mr-4">            
                         <!-- /////////////////////////////////////////////////////////////////////
                         ////                         IMAGENES                             ////
                         ///////////////////////////////////////////////////////////////////// -->
                         <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                        <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4">
+                        <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4 sm:mt-12">
                             <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Generar Ficha Técnica</span>
                         </button>  
@@ -23,8 +23,7 @@
             </div>
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
                 <div class="mt-1 mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-if="type == 'DIAG'">Diagnóstico de Falla</h1>
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold" v-else>
+                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold">
                         <span class="bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-gray-600  py-2 px-6 inline-flex items-center ml-4 mr-4">
                             Ficha Técnica de Atención
                         </span>
@@ -61,9 +60,10 @@
 </template>
 
 <script>
-import HeaderFalla from '../../../components/FichaDiagnostico/HeaderFalla';
+import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 import ServiceReporte from '../../../services/ReportesPDFService'
+import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -93,74 +93,17 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
-        actualizar_header(header){
-            this.datosHeader = header            
-        },
-        validar_horas(){
-            let horaISplite = this.datosHeader.horaInicio.split(':')            
-            let horaFSplite = this.datosHeader.horaFin.split(':')            
-            let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-            let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-            return dateInicio < dateFin ? true : false                             
-        },
+        actualizar_header(objHeader){                    
+            this.datosHeader = objHeader.header      
+            if(objHeader.crear)      
+                this.insertar_ficha_falla(objHeader.value)
+        }, 
         cerrar_modal_imagenes(){
             this.modalImage = false
             this.botonEditCreate = false
         },
-        enviar_header_ficha(value){    
-            let llavesHeader = Object.keys(this.datosHeader)                 
-            if(llavesHeader.length == 10){            
-                let valueHeader = Object.values(this.datosHeader)
-                let validar = valueHeader.some(prop => prop == '')            
-                if(validar){                                
-                    this.$notify.warning({
-                        title: "Ups!",
-                        msg: `FALTA LLENAR CAMPOS.`,
-                        position: "bottom right",
-                        styles: {
-                            height: 100,
-                            width: 500,
-                        },
-                    });
-                }
-                else{                                                
-                    let horasValidas = this.validar_horas()
-                    if(horasValidas != true){                           
-                        this.$notify.warning({
-                            title: "Ups!",
-                            msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
-                            position: "bottom right",
-                            styles: {
-                                height: 100,
-                                width: 500,
-                            },
-                        });
-                    }    
-                    else{
-                        this.insertar_ficha_falla(value)                   
-                            this.$notify.success({
-                                title: "Ok",
-                                msg: `SE CREO CORRECTAMENTE.`,
-                                position: "bottom right",
-                                styles: {
-                                    height: 100,
-                                    width: 500,
-                                },
-                            });
-                        }            
-                }                  
-            }
-            else{                                
-                this.$notify.warning({
-                        title: "Ups!",
-                        msg: `FALTA LLENAR CAMPOS.`,
-                        position: "bottom right",
-                        styles: {
-                            height: 100,
-                            width: 500,
-                        },
-                    });
-            }
+        enviar_header_ficha(value){               
+            EventBus.$emit('validar_header_diagnostico', value)
         },
         insertar_ficha_falla(value){
             if(value){

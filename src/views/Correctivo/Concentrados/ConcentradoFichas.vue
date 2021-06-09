@@ -2,6 +2,31 @@
     <div>        
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
+                <!--/////////////////////////////////////////////////////////////////
+                ////                      MODAL ELIMINAR                         ////
+                ////////////////////////////////////////////////////////////////////-->
+                <div class="absolute mt-66 ml-69 sm:ml-4">
+                    <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                        <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+                            <img src="@/assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
+                            <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
+                            <img src="@/assets/img/warning.png" class="ml-66 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+                        </h1>
+                        <ValidationObserver ref="observer">
+                            <p class="text-red-600 font-thin text-md sm:text-sm text-justify" v-if="infoEliminar.referenceDTC != '--'">Se eliminará el Diagnóstico y la Ficha con referencia <span class="text-black font-bold">{{ infoEliminar.referenceNumber }}</span> y DTC con referencia <span class="text-black font-bold">{{ infoEliminar.referenceDTC}}</span></p>
+                            <p class="text-red-600 font-thin text-md sm:text-sm text-justify" v-else>Se eliminará el Diagnóstico y la Ficha con referencia <span class="text-black font-bold">{{ infoEliminar.referenceNumber }}</span></p>
+                            <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
+                                <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
+                                <textarea v-model="comentarioBorrar" class="textAreaCalendario" name="comentarioBorrar"/>              
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                            <div class="mt-5 text-center">
+                                <button @click="borrar()" class="botonIconCrear">Si</button>
+                                <button @click="modalEliminar = false" class="botonIconCancelar font-boton">No</button>
+                            </div>
+                        </ValidationObserver>
+                    </div>
+                </div>
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
@@ -21,8 +46,8 @@
                                 <th class="cabeceraTable font-medium">Folio de Siniestro</th>
                                 <th class="cabeceraTable font-medium">Diagnostico</th>
                                 <th class="cabeceraTable font-medium">Ficha</th>
-                                <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4}">DTC</th>
-                                <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4}">Acciones</th>
+                                <th class="cabeceraTable font-medium">DTC</th>
+                                <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4 || typeUser == 10}">Acciones</th>
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////
@@ -53,41 +78,49 @@
                                     <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
                                     <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton sm:w-24">
-                                                <img src="../../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton sm:w-32">
+                                                <img src="../../../assets/img/download.png" class="mr-2 sm:ml-2" width="15" height="15" />
                                                 <span class="sm:text-xs sm:ml-1">Descargar</span>
                                             </button>
                                         </div>
                                     </td>
                                     <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton sm:w-24">
-                                                <img src="../../../assets/img/download.png" class="mr-2 sm:m-0" width="15" height="15" />
+                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton sm:w-32" :class="{'botonDescargarDes' : !item.validacionFichaTecnica}" :disabled="!item.validacionFichaTecnica">
+                                                <img src="../../../assets/img/download.png" class="mr-2 sm:ml-2" width="15" height="15" />
                                                 <span class="sm:text-xs sm:ml-1">Descargar</span>
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="cuerpoTable" :class="{'hidden': typeUser == 4}">                                    
-                                        <button @click="terminar_dtc(item.referenceNumber)" :disabled="item.validacionDTC || item.typeFaultId <= 1" :class="{'botonDescargarDes': item.validacionDTC || item.typeFaultId <= 1 }" class="botonDescargar font-boton">
-                                            <img src="@/assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                            <span>Terminar DTC</span>
-                                        </button>                                        
+                                    <td class="cuerpoTable" :class="{}">                                    
+                                        <button v-if="item.validacionFichaTecnica && !item.validacionDTC && item.typeFaultId  >= 2" @click="terminar_dtc(item.referenceNumber, item.typeFaultId)" :disabled="item.validacionDTC || item.typeFaultId <= 1" :class="{'botonDescargarDes': item.validacionDTC || item.typeFaultId <= 1, 'hidden': typeUser == 4 || typeUser == 10 }" class="botonDescargar font-boton sm:w-32">
+                                            <img src="@/assets/img/nuevoDtc.png" class="mr-2 sm:ml-0" width="15" height="15" />
+                                            <span class="sm:text-xs">Terminar DTC</span>
+                                        </button>
+                                        <button v-if="item.validacionDTC && item.validacionFichaTecnica" @click="desargar_pdf(item)"  class="botonBorrarFicha font-boton sm:w-32">
+                                            <img src="@/assets/img/pdf-firmado.png" class="mr-2 sm:-ml-1" width="15" height="15" />
+                                            <span class="sm:text-xs">Descargar DTC</span>
+                                        </button>
+                                        <button v-if="!item.validacionDTC && item.typeFaultId <= 1" @click="terminar_dtc(item.referenceNumber, item.typeFaultId)" :disabled="item.validacionDTC || item.typeFaultId <= 1" class="botonNoAplica font-boton sm:w-32 cursor-not-allowed">
+                                            <img src="@/assets/img/error.png" class="mr-2 sm:ml-0" width="15" height="15" />
+                                            <span class="sm:text-xs">No Aplica DTC</span>
+                                        </button>                                          
                                     </td>
-                                    <td class="cuerpoTable" :class="{'hidden': typeUser == 4}">
-                                        <div v-if="item.validacionFichaTecnica">                                      
-                                            <button @click="editar_diagnostico_falla(item)" class="botonIconActualizar">
-                                                <img src="@/assets/img/pencil.png" class="sm:m-0" width="15" height="15" />
-                                                <span>Editar</span>                                                
+                                    <td class="cuerpoTable" :class="{'hidden': typeUser != 1}">
+                                        <div v-if="item.validacionFichaTecnica" class="">
+                                            <button @click="editar_diagnostico_falla(item)" class="botonEditarDF font-boton sm:mr-1 mr-2">
+                                                <img src="@/assets/img/pencil.png" class="sm:mr-1 mr-2" width="15" height="15" />
+                                                <span class="sm:text-xs">Editar</span>                                                
                                             </button>
-                                            <button @click="editar_diagnostico_falla(item)" class="botonIconCancelar">
-                                                <img src="@/assets/img/borrar.png" class="sm:m-0" width="15" height="15" />
-                                                <span>Borrar</span>                                                
+                                            <button @click="confirmarBorrar(item)" class="botonBorrarFicha font-boton">
+                                                <img src="@/assets/img/borrar.png" class="sm:mr-1 mr-2" width="15" height="15" />
+                                                <span class="sm:text-xs">Borrar</span>                                                
                                             </button>
                                         </div>
                                         <div v-else>
-                                            <button @click="terminar_ficha_diagnostico(item)" class="botonIconCrear">
-                                                <img src="@/assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span>Terminar Ficha</span>                                                
+                                            <button @click="terminar_ficha_diagnostico(item)" class="botonTerminarFicha font-boton  w-full sm:w-33 justify-center">
+                                                <img src="@/assets/img/nuevoDtc.png" class="mr-2" width="15" height="15" />
+                                                <span class="sm:text-xs">Terminar Ficha</span>                                                
                                             </button>
                                         </div>
                                     </td>
@@ -117,7 +150,10 @@ export default {
             infoFichasFallaFiltrada: [],
             listaFicha: [],
             loadingTabla: false,
-            typeUser:''
+            typeUser:'', 
+            modalEliminar: false,
+            infoEliminar:{},
+            comentarioBorrar:'',
         }
     },
     beforeMount: function (){
@@ -137,7 +173,57 @@ export default {
             this.infoFichasFallaFiltrada = []                       
         })
     },
-    methods: {   
+    methods: {  
+        actualizarTabla(){
+        this.typeUser = this.$store.state.Login.cookiesUser.rollId 
+        this.loadingTabla = true
+        let userId = this.$store.state.Login.cookiesUser.userId
+        this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
+        .then((response) => {            
+            this.infoFichasFallaCompleta = response.data.result
+            this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+            this.listaFicha = this.infoFichasFallaFiltrada
+            this.loadingTabla = false
+        })
+        .catch(() => {
+            this.loadingTabla = false
+            this.infoFichasFallaCompleta = []
+            this.infoFichasFallaFiltrada = []                       
+        })
+        },
+        confirmarBorrar (item){
+            this.infoEliminar = item
+            this.modalEliminar = true
+            console.log(item)
+
+        },
+        desargar_pdf(value){
+            ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
+            this.$notify.success({
+                title: "Ok!",
+                msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
+                position: "bottom right",
+                styles: {
+                height: 100,
+                width: 500,
+                },
+            }); 
+        },
+        borrar(){
+            let userId = this.$store.state.Login.cookiesUser.userId 
+            let clavePlaza = this.infoEliminar.referenceNumber.split('-')[0] 
+            this.$http.post(`${API}/DiagnosticoFalla/BorraDiagnosticoFull/${clavePlaza}/${this.infoEliminar.referenceNumber}/${userId}/${this.comentarioBorrar}/${this.infoEliminar.referenceDTC}`)
+            .then((response)=>{
+                console.log(response)
+                this.modalEliminar = false
+                this.comentarioBorrar = ''
+                this.actualizarTabla()
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+
+        },
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
                 let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
@@ -167,11 +253,11 @@ export default {
             this.listaFicha = this.infoFichasFallaCompleta
         },
         editar_diagnostico_falla(item){
-            this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
+            this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
         terminar_ficha_diagnostico(item){            
-            let carrilesMapeados = []
-            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza
+            let carrilesMapeados = []            
+            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId)            
             this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)
             let carriles = this.$store.getters["Refacciones/GET_CARRILES_STATE"];   
             item.lanes.split(',').forEach(lane => {
@@ -198,8 +284,8 @@ export default {
             }            
             this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
         },
-        terminar_dtc(referencia){
-            this.$router.push(`/NuevoDtc/Crear/${referencia}`) 
+        terminar_dtc(referencia, typeFaultId){
+            this.$router.push(`/NuevoDtc/Crear/${referencia}/${typeFaultId}`) 
         }
 
     },

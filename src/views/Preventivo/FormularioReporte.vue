@@ -38,7 +38,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/2 ml-20 sm:w-full sm:-ml-20 sm:mt-5 mt-6">
+            <div class="w-1/2 ml-20 sm:w-full sm:-ml-16 sm:mt-5 mt-6 ">
                 <ImagenesActividadCarril :reporteDataInsertada="reporteInsertado" :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////

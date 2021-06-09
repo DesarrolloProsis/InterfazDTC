@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="w-66 sm:w-auto">
-      <!-- /////////////////////////////////////////////////////////////////////
-          ////                      REFERENCIA                              ////
-          ///////////////////////////////////////////////////////////////////// -->
+      <!-- //////////////////////////////////////////////////////////////////////
+      ///    /                      REFERENCIA                              ////
+      ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6 font-titulo">
         <div class="flex justify-between">
           <div class="font-semibold m-3">{{ infoCard.referenceNumber }}</div>           
@@ -21,9 +21,9 @@
         </div>
         <hr />
       </div>
-      <!-- /////////////////////////////////////////////////////////////////////
-          ////                 INFORMACION DTC                              ////
-          ///////////////////////////////////////////////////////////////////// -->
+      <!-- //////////////////////////////////////////////////////////////////////
+      ////                     INFORMACION DTC                              ////
+      ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
           <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
@@ -36,9 +36,9 @@
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
-        <!-- /////////////////////////////////////////////////////////////////////
-            ////                       SUBIR PDF SELLADO                      ////
-            ///////////////////////////////////////////////////////////////////// -->        
+        <!-- //////////////////////////////////////////////////////////////////////
+        ////                         SUBIR PDF SELLADO                        ////
+        ///////////////////////////////////////////////////////////////////// -->        
         <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
           <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
@@ -82,19 +82,19 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 MINI TABLA CARD                              ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div v-if="showmenosMas">
+      <div v-if="showmenosMas" class="-ml-2 sm:ml-0">
         <div class="flex flex-col md:flex-row mb-6 mt-8">
-          <div class="text-xs text-center">
-            <table class="ml-2 table-fixed w-66 sm:w-65">
-              <tr class="bg-blue-800 text-white h-8">
-                <th class="w-1/3 border-2 font-medium border-gray-800">Componete</th>
-                <th class="w-1/8 border-2 font-medium border-gray-800">Cantidad</th>
-                <th class="w-1/8 border-2 font-medium border-gray-800">Ubicacion</th>
+          <div class="text-xs text-center divtabla">
+            <table class="ml-2  sm:ml-0 w-66 sm:w-full border-collapse table-auto bg-white">
+              <tr class="h-8 trTable">
+                <th class="w-1/3 cabeceraTable font-medium">Componete</th>
+                <th class="w-1/8 cabeceraTable font-medium">Cantidad</th>
+                <th class="w-1/8 cabeceraTable font-medium">Ubicacion</th>
               </tr>
               <tr class="" v-for="(item, key) in tableFormat" :key="key">
-                <td class="border border-gray-800">{{ item.componente }}</td>
-                <td class="border border-gray-800">{{ item.cantidad }}</td>
-                <td class="text-xs border border-gray-800">
+                <td class="cuerpoTabla">{{ item.componente }}</td>
+                <td class="cuerpoTabla">{{ item.cantidad }}</td>
+                <td class="cuerpoTabla">
                   <p v-for="(value, key2) in item.lane.split(',')" :key="key2">{{ value }}</p>
                 </td>
               </tr>
@@ -123,6 +123,10 @@
             </div>
             <div v-else class="text-xs inline-flex">
               <div v-if="tipoUsuario != 8">
+                <button  @click="fotografico" class="botonIconBorrarCard font-boton">
+                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
+                  <span>Fotografico</span>                
+                </button> 
                 <button  @click.prevent="generar_pdf(2)" class="botonIconBorrarCard font-boton">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                   <span>Firmado</span>                
@@ -263,6 +267,9 @@ export default {
         }
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
+    },
+    fotografico(){
+      ServiceReporte.generar_pdf_fotografico_correctivo(this.infoCard.referenceNumber)
     },
     generar_pdf(status) {
       ServiceReporte.generar_pdf_correctivo(

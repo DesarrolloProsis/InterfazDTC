@@ -1,19 +1,19 @@
 <template>
   <div>
     <div class="flex w-full">
-      <div :class="{ hidden: modal }">
+      <div>
         <div class="text-center mb-5 font-titulo">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
         </div>
         <div class="flex justify-center p-8 sm:p-4">
           <div class="grid gap-4 grid-cols-1 sm:gap-0">
-            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 sm:text-xs">
-              <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped font-titulo">
+            <div class="divtabla sm:mb-24 sm:text-xs" :class="{ hidden: modal }">
+              <table class="table font-titulo">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
                 ////////////////////////////////////////////////////////////////////-->
                 <thead>
-                  <tr class="text-sm text-gray-400 bg-blue-800 sm:text-xs">
+                  <tr class="text-sm trTable sm:text-xs">
                     <th class="cabeceraTable font-medium sm:w-20">Partida</th>
                     <th class="cabeceraTable font-medium sm:hidden md:hidden">Unidad</th>
                     <th class="text-red-600 font-medium cabeceraTable sm:w-48">Componente</th>
@@ -45,24 +45,6 @@
                     </td>
                     <td class="cuerpoTable"><!-- Componente -->
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
-                      <!--<div v-else>
-                        <multiselect
-                          @select="UpdateCompEditado()"
-                          v-model="updtCompEditar"
-                          :options="listaComponentes"
-                          :multiple="false"
-                          group-values="secundarios"
-                          group-label="componentePrincipal"
-                          :close-on-select="false"
-                          :group-select="false"
-                          placeholder="Buscar componentes"
-                          track-by="name"
-                          class="w-65"
-                          label="description"
-                          >
-                          <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-                        </multiselect>
-                      </div>-->
                       <div v-else></div>
                     </td>
                     <td class="cuerpoTable sm:hidden md:hidden"><!-- Cantidad -->
@@ -85,21 +67,6 @@
                     </td>
                     <td class="cuerpoTable"><!-- Ubicacion -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
-                      <!-- <div v-else>
-                        <multiselect
-                          v-model="laneSelectEditar"
-                          :close-on-select="false"
-                          :clear-on-select="true"
-                          :hideSelected="false"
-                          placeholder="Selecciona..."
-                          :options="listLaneEditar"
-                          :multiple="true"
-                        >
-                          <template v-if=" updtCompEditar != 'Servidor de Video' && updtCompEditar != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
-                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
-                          </template>
-                          </multiselect>
-                      </div> -->
                       <div v-else></div>
                     </td>
                     <td class="cuerpoTable sm:hidden md:hidden"><!-- Instalacion -->
@@ -122,13 +89,13 @@
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row13" :key="key" class="text-sm">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd13" :key="key" class="text-sm">{{ item }}</p></div>
                     </td>
-                    <td class="cuerpoTable pb-2"><!-- Acciones -->
-                      <div v-if="equipo.rowUp">
-                        <button v-on:click.stop.prevent="eliminar_partida (index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-16">
+                    <td class="cuerpoTable pb-2 "><!-- Acciones -->
+                      <div v-if="equipo.rowUp" class="sm:mr-5">
+                        <button v-on:click.stop.prevent="eliminar_partida (index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-8 ">
                           <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                           <span class="sm:hidden">Borrar</span>
                         </button>
-                        <button v-on:click.stop.prevent="infoModal(index)" class="botonIconMas ml-1 lg:hidden xl:hidden sm:h-16">
+                        <button v-on:click.stop.prevent="infoModal(index)" class="botonIconMas ml-1 lg:hidden xl:hidden sm:h-8 sm:mr-1">
                           <img src="../../assets/img/mas.png" width="15" height="15"/>
                         </button>         
                       </div>
@@ -150,7 +117,7 @@
                   ////////////////////////////////////////////////////////////////////-->      
                     <tr class="text-center">
                       <td class="cuerpoTable">{{ "*" }}</td>
-                      <td class="cuerpoTable sm:text-sm">
+                      <td class="cuerpoTable sm:text-sm sm:hidden">
                         <template v-if="statusMetro">
                           <input v-model="cantidadMetro" type="number" class="w-24" placeholder="Cantidad">
                         </template>
@@ -159,7 +126,7 @@
                         </template>  
                         
                       </td>
-                      <td class="cuerpoTable w-1 sm:hidden">
+                      <td class="cuerpoTable w-1">
                         <button @click="modalAgregarComp">
                           <img src="../../assets/img/more.png" width="15" height="15"/>
                         </button>
@@ -215,11 +182,17 @@
               </table>
             </div>
           </div>               
-          <!--/////////////////////////////////////////////////////////////////
-          ////              MODAL INFORMACION CELULAR                     ////
+          <!--////////////////////////////////////////////////////////////////////
+          ////              MODAL INFORMACION CELULAR                        ////
           ////////////////////////////////////////////////////////////////////-->
-          <div class="flex flex-col p-5 font-titulo" v-if="modal">
+          <div class="font-titulo" v-if="modal">
             <div class="text-xs text-center contenedor z-40">
+              <div class="flex justify-end">
+                <button v-on:click.stop.prevent="(modal = false), (objectModal = {})" class="">
+                  <img src="../../assets/img/close.png" class="mr-2 sm:m-1" width="25" height="25"/>
+                  <span class="text-sm hidden">Cerrar</span>
+                </button>
+              </div>
               <div class="inline-flex m-2">
                 <div class="w-24 m-1">
                   <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Componete</p>
@@ -262,12 +235,6 @@
                   <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Tiempo de Vida Real</p>
                   <p class="border-b-2" v-for="(item, id) in objectModal.row12" :key="id">{{ item }}</p>
                 </div>
-              </div>
-              <div class="flex justify-end font-boton">
-                <button v-on:click.stop.prevent="(modal = false), (objectModal = {})" class="hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded-lg inline-flex items-center border-b-2 border-red-700 m-2">
-                  <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15"/>
-                  <span class="text-sm">Cerrar</span>
-                </button>
               </div>
             </div>
           </div>

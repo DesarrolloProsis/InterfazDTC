@@ -28,52 +28,54 @@
                     <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>                                                    
                     </div>
-                    <div class="grid grid-cols-2">
-                    <div class="flex justify-start m-5">
-                        <button @click="generar_pdf" class="botonIconCrear">
-                            <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
-                            <span class="">Crear</span>
-                        </button>
-                    </div>
-                    <div class="flex-col justify-center h-12 w-full mt-5" >
-                        <div v-if="calendarioEscaneado">
-                            <button @click="obtener_escaneado_calendario" class="botonIconDescargar mb-1">
-                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                    <span class="">Descargar</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-1 sm:mb-8">
+                        <div class="flex justify-start m-5">
+                            <button @click="generar_pdf" class="botonIconCrear">
+                                <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
+                                <span class="">Crear</span>
                             </button>
                         </div>
-                        <div v-else>
-                            <div  class="grid grid-cols-2" v-if="escaneadoBool"> 
-                                <div class="inline-flex">
-                                    <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
-                                    <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
-                                    <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-2 mr-2 ml-2 px-2 py-2 h-10 text-sm justify-center w-24 sm:-mt-2">Subir</button>
-                                    <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-2 ml-4 h-10 text-sm justify-center px-1 sm:-ml-16 sm:mt-8">Cancelar</button>
-                                </div>                                
-                            </div>                        
-                            <div v-else class="justify-center botonIconDescargar font-bold">
-                                <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-12 h-12 absolute" multiple/>
-                                    <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                    <span>Cargar</span>                                                                       
+                        <div class="grid grid-cols-2 justify-center h-12 w-full mt-5" >
+                            <div class="ml-32 -mt-1 sm:ml-35 ">
+                                <button @click="obtener_escaneado_calendario" class="botonIconDescargar w-auto h-12 font-bold mb-1" :disabled="!calendarioEscaneado" :class="{'bg-gray-400 border-b-2 hidden border-black hover:bg-gray-400 hover:border-black hover:text-black cursor-not-allowed': !calendarioEscaneado}">
+                                    <img src="../../assets/img/pdf.png"  class="mr-2 -ml-4 sm:-ml-3" width="25" height="25" />
+                                        <span class="mr-2">Descargar</span>
+                                </button>
+                            </div>
+                            <div class="-ml-34">
+                                <div  class="grid grid-cols-2 -mt-3" v-if="escaneadoBool"> 
+                                    <div class="inline-flex">
+                                        <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
+                                        <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
+                                        <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-16 mr-2 -ml-32 px-2 py-2 h-10 text-sm justify-center w-24 sm:mt-16 sm:w-12 sm:-ml-45">Subir</button>
+                                        <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-16 ml-4 h-10 text-sm justify-center px-1 sm:ml-4 sm:mt-16">Cancelar</button>
+                                    </div>                                
+                                </div>                        
+                                <div v-else class="justify-center botonIconDescargar font-bold">
+                                    <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-32 h-10 absolute" multiple/>
+                                        <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
+                                        <span>Cargar</span>                                                                       
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>          
                 </div>
-                <div class=" w-1/2 sm:w-full p-8 sm:p-2">
-                    <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:ml-5">Observaciones</span>          
-                    <textarea
-                        v-model="comentario"
-                        v-validate="'max:500|required'"
-                        :class="{ 'is_valid': !errors.first('comentario'), 'is_invalid': errors.first('comentario')}"
-                        class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 textAreaCalendario"
-                        placeholder="jane@example.com"
-                        name="comentario"
-                        v-bind:maxlength="limite"
-                    />
-                    <span class="text-xs text-gray-500 sm:ml-40">{{ restante }}/500</span>
-                    <p class="text-xs">{{ errors.first("comentario") }}</p>
-                </div>              
+                <ValidationObserver ref="observer">  
+                    <div class="w-69 ml-20 sm:m-0 sm:w-full p-8 sm:p-2">
+                        <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
+                            <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:-ml-16">Observaciones</span>          
+                            <textarea
+                                v-model="comentario"                                                               
+                                class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 sm:-ml-16 textAreaCalendario mt-6"
+                                placeholder="jane@example.com"
+                                name="ComentarioCalendario"
+                                :maxlength="limite"
+                            />
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            <span class="text-xs text-gray-500 sm:ml-40">{{ restante }}/500</span>    
+                        </ValidationProvider>                    
+                    </div>  
+                </ValidationObserver>            
             </div>
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA INDICACIONES                    ////
@@ -184,8 +186,11 @@ export default {
         cambiar_plaza(numeroPlaza){                  
             this.$emit("actualizar-actividad", numeroPlaza);
         },
-        generar_pdf(){           
-            this.$emit('generar-pdf', this.comentario)
+        generar_pdf:  async function(){     
+            let isValid = await this.$refs.observer.validate();    
+            if(isValid){      
+                this.$emit('generar-pdf', this.comentario)
+            }
         },         
         recibir_calendario_escaneado(e) {                  
             var files = e.target.files || e.dataTransfer.files;
