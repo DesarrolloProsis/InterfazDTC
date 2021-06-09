@@ -48,7 +48,7 @@ const mutations = {
   OBSERVACION_MUTATION: (state, value) => state.observaciones = value,
   DIAGNOSTICO_MUTATION: (state, value) => state.diagnostico = value,
   INFO_CARD_DTC: (state, value) => state.infoDTCCard = value,
-  LIBERAR_VALIDACION_NUMS: (state, value) => {    
+  LIBERAR_VALIDACION_NUMS: (state, value) => {       
     let index = state.listaUnique.findIndex(item => item.sinisterNumber === value.numSiniestro && item.reportNumber === value.numReporte)            
     if(index != -1 ){      
       state.listaUnique.splice(index, 1)

@@ -56,7 +56,8 @@ const routes = [
     component: CrearDTC,
     beforeEnter: async function(to, from, next){
       await store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
-      await store.dispatch("Header/BUSCAR_LISTA_UNIQUE");    
+      if(to.params.tipoVista != 'Editar')
+        await store.dispatch("Header/BUSCAR_LISTA_UNIQUE");    
       next()
     }
   },
