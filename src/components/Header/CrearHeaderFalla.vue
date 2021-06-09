@@ -175,6 +175,32 @@
             ////                            FICHA                             ///////
             //////////////////////////////////////////////////////////////////// -->
             <div class="font-titulo sm:-mt-6" v-if="tipo == 'FICHA'"> 
+            <div v-if="modalAdvertencia" class="absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+                <div>
+                    <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+                      <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
+                      <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
+                      <img src="../../assets/img/warning.png" class="ml-68 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+                    </h1>
+                    <div>
+                        <p>*Si cambia el tipo de falla para este diagnostico es necesario eliminar el DTC con referencia {{ referenciaDtc }}</p>                                   
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <ValidationObserver ref="observer">                        
+                        <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
+                          <p class="text-md mb-1 font-semibold text-gray-900 mt-5">Motivo</p>
+                          <textarea v-model="comentarioBorrarDtc" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 w-69 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
+                          <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                        <div class="mt-10 text-center">
+                          <button @click="aceptar_borrar_dtc" class="botonIconCrear">Confirmar</button>
+                          <button @click="cancelar_borrado_dtc" class="botonIconCancelar">Cancelar</button>
+                        </div>
+                    </ValidationObserver>
+                
+                </div>
+            </div>
             <div class="grid sm:grid-cols-1 grid-cols-2 ml-5 sm:text-xs sm:ml-1">
                 <div class="">
                     <span>TIPO DE FALLA:</span>
@@ -195,7 +221,7 @@
                         </div>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
-                </div>
+                </div>   
             </div>
             <div class="ml-5 sm:text-xs sm:ml-1">   
                 <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-2">
@@ -285,15 +311,22 @@ data(){
         arraySelect:{},
         type:"DIAG",
         blockInput: false,
-        blockCheckBox: [false, false, false]
+        blockCheckBox: [false, false, false],     
+        referenciaDtc: '',
+        modalAdvertencia: false,
+        comentarioBorrarDtc: '',
+        tipoFallaOriginal: ''        
     }
 },
 created(){
     EventBus.$on('validar_header_diagnostico', (value) => this.validar_campos_header(value))
 },
 beforeMount: async function(){      
-    if(this.$route.params.tipoVista != 'Crear'){                 
-        if(this.$route.query.data != undefined){  
+    //Bloque para editar
+    if(this.$route.params.tipoVista != 'Crear'){   
+        //Editar Ficha            
+        if(this.$route.query.data != undefined){      
+            this.referenciaDtc = this.$route.query.referenciaDtc                                  
             this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
             this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
             this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
@@ -301,11 +334,13 @@ beforeMount: async function(){
             this.datosDiagnostico = this.$route.query.data        
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
+            this.tipoFallaOriginal = this.datosDiagnostico.tipoFalla       
             this.blockInput = true
             this.boolCambiarPlaza = true
-        }      
-        else{             
-            let paramRoute = this.$route.query.item           
+        }     
+        //Editar Diagnostico 
+        else{                          
+            let paramRoute = this.$route.query.item                       
             let { plazaSelect } = await CookiesService.actualizar_plaza(paramRoute.adminSquareId)        
             this.plazaSeleccionada = plazaSelect.numeroPlaza;
             this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
@@ -334,11 +369,13 @@ beforeMount: async function(){
             }
         }
     }
+    //Bloque para crear
     else{                
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-        this.$emit('actualizar-header', this.datosDiagnostico)          
+        this.$emit('actualizar-header', this.datosDiagnostico)    
+        //Bloque para crear Ficha      
         if(this.$route.query.data != undefined){                    
             this.datosDiagnostico = this.$route.query.data        
             delete this.datosDiagnostico["diagnosticoFalla"]
@@ -393,13 +430,50 @@ watch:{
     }, 
 },
 methods:{  
+    aceptar_borrar_dtc: async function(){
+        let userId = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']         
+        let obj = { "refNum": this.referenciaDtc, "userId": userId.idUser, comentario: this.comentarioBorrarDtc }                                                      
+        await this.$store.dispatch("DTC/BORRAR_DTC",obj)
+            .then(() => {
+                this.$notify.success({
+                    title: "Ok!",
+                    msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} SE ELIMINO CORRECTAMENTE.`,
+                    position: "bottom right",
+                    styles: {
+                      height: 100,
+                      width: 500,
+                    },
+                })    
+            })
+            .catch(() => {
+                 this.$notify.error({
+                    title: "Ups!",
+                    msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} NO SE PUDO ELIMINAR.`,
+                    position: "bottom right",
+                    styles: {
+                      height: 100,
+                      width: 500,
+                    },
+                })
+            }) 
+        this.referenciaDtc = '--'
+        this.modalAdvertencia = false                                                                                                                        
+    },
+    cancelar_borrado_dtc(){
+        this.modalAdvertencia = false
+        this.comentarioBorrarDtc = ''
+        this.datosDiagnostico.tipoFalla = this.tipoFallaOriginal
+    },
     bloquear_checboxes(tipo){        
-        if(tipo == 1)
-            this.blockCheckBox = [true, false, false]        
+        if(tipo == 1){
+            this.blockCheckBox = [true, false, false]    
+            if(this.referenciaDtc != '--')  
+                this.modalAdvertencia = true
+        }    
         if(tipo == 2)
             this.blockCheckBox = [false, true, false]
         if(tipo == 3)
-            this.blockCheckBox = [false, false, true]    
+            this.blockCheckBox = [false, false, true]            
     },
     crear_referencia: async function () {                   
         let objReference  = await ServiceReportePDF.crear_referencia(
