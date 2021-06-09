@@ -248,7 +248,7 @@ export default {
             this.listaFicha = this.infoFichasFallaCompleta
         },
         editar_diagnostico_falla(item){
-            this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item } })
+            this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
         terminar_ficha_diagnostico(item){            
             let carrilesMapeados = []            

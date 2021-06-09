@@ -150,10 +150,11 @@ methods:{
                                 this.modalImage = false
                                 ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
                                 this.datosHeader["tipoFalla"] = this.itemCompletoEdit.typeFaultId 
-                                this.datosHeader["solucionFalla"] = this.itemCompletoEdit.intervention                                             
+                                this.datosHeader["solucionFalla"] = this.itemCompletoEdit.intervention             
+                                let referenciaDtc = this.$route.query.referenciaDtc                                
                                 this.$router.push({
                                     path: 'FichaTecnicaDeFalla',
-                                    query: { data: this.datosHeader }
+                                    query: { data: this.datosHeader, referenciaDtc }
                                 }) 
                             }  
                         },2000)
@@ -163,10 +164,11 @@ methods:{
         }        
         else{
             this.type = 'FICHA' 
-            ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)              
+            ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
+            let referenciaDtc = this.$route.query.referenciaDtc         
             this.$router.push({
                 path: 'FichaTecnicaDeFalla',
-                query: { data: this.datosHeader }
+                query: { data: this.datosHeader, referenciaDtc }
             }) 
         }       
     }
