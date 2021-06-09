@@ -487,10 +487,10 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-        let isValid = await this.$refs.observer.validate();        
-        if(isValid){
+/*         let isValid = await this.$refs.observer.validate();        
+        if(isValid){ */
             this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
-        }         
+       /*  }  */        
     },
     label_multi_select(value){            
         if(value != 'Sin Actividad')
