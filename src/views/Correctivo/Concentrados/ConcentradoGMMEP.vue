@@ -297,7 +297,8 @@ abrirModal(item){
 },
 ActualizarComponentes: async function(){
   let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
-  this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}`)
+  let userId = this.$store.state.Login.cookiesUser.userId
+  this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}/${userId}`)
   this.modalActualizar = false
 },
 guardar_palabra_busqueda: function(newPalabra){  

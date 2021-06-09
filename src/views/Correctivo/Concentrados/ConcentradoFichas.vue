@@ -106,7 +106,7 @@
                                             <span class="sm:text-xs">No Aplica DTC</span>
                                         </button>                                          
                                     </td>
-                                    <td class="cuerpoTable" :class="{'hidden': typeUser != 1}">
+                                    <td class="cuerpoTable" :class="{'hidden': typeUser == 7 || typeUser == 10 || typeUser == 4}">
                                         <div v-if="item.validacionFichaTecnica" class="">
                                             <button @click="editar_diagnostico_falla(item)" class="botonEditarDF font-boton sm:mr-1 mr-2">
                                                 <img src="@/assets/img/pencil.png" class="sm:mr-1 mr-2" width="15" height="15" />
