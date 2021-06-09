@@ -110,7 +110,7 @@
                 </div>
                 <div class="-mt-1 -ml-69 sm:-ml-16">
                     <ValidationProvider name="NumeroReporte" rules="required|max:30" v-slot="{ errors }">    
-                        <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag text-center" :disabled="blockInput" name="NumeroReporte"/>
+                        <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs">{{ restante_siniestro }}/30</span>
                     </ValidationProvider>                    
                 </div>
@@ -438,19 +438,19 @@ methods:{
                     msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} SE ELIMINO CORRECTAMENTE.`,
                     position: "bottom right",
                     styles: {
-                      height: 100,
-                      width: 500,
+                    height: 100,
+                    width: 500,
                     },
                 })    
             })
             .catch(() => {
-                 this.$notify.error({
+                this.$notify.error({
                     title: "Ups!",
                     msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} NO SE PUDO ELIMINAR.`,
                     position: "bottom right",
                     styles: {
-                      height: 100,
-                      width: 500,
+                    height: 100,
+                    width: 500,
                     },
                 })
             }) 
@@ -486,10 +486,8 @@ methods:{
         this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
         this.crear_referencia()               
     },
-    validar_campos_header: async function(value){
-        console.log('validacion header componente');        
+    validar_campos_header: async function(value){      
         let isValid = await this.$refs.observer.validate();        
-        alert(isValid)
         if(isValid){
             this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
         }         

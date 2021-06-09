@@ -7,9 +7,14 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <div class="absolute mt-66 ml-69 sm:ml-4">
                     <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                        <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+                            <img src="@/assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
+                            <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
+                            <img src="@/assets/img/warning.png" class="ml-66 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+                        </h1>
                         <ValidationObserver ref="observer">
-                            <p class="text-gray-900 font-thin text-md sm:text-sm text-justify" v-if="infoEliminar.referenceDTC != '--'">Seguro que quiere eliminará el Diagnóstico y la Ficha con referencia {{ infoEliminar.referenceNumber }} y DTC con referencia {{ infoEliminar.referenceDTC}}</p>
-                            <p class="text-gray-900 font-thin text-md sm:text-sm text-justify" v-else>Se eliminará el Diagnóstico y la Ficha con referencia {{ infoEliminar.referenceNumber }}</p>
+                            <p class="text-red-600 font-thin text-md sm:text-sm text-justify" v-if="infoEliminar.referenceDTC != '--'">Se eliminará el Diagnóstico y la Ficha con referencia <span class="text-black font-bold">{{ infoEliminar.referenceNumber }}</span> y DTC con referencia <span class="text-black font-bold">{{ infoEliminar.referenceDTC}}</span></p>
+                            <p class="text-red-600 font-thin text-md sm:text-sm text-justify" v-else>Se eliminará el Diagnóstico y la Ficha con referencia <span class="text-black font-bold">{{ infoEliminar.referenceNumber }}</span></p>
                             <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
                                 <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
                                 <textarea v-model="comentarioBorrar" class="textAreaCalendario" name="comentarioBorrar"/>              
@@ -199,8 +204,8 @@ export default {
                 msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
                 position: "bottom right",
                 styles: {
-                  height: 100,
-                  width: 500,
+                height: 100,
+                width: 500,
                 },
             }); 
         },
