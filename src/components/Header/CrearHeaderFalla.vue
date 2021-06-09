@@ -175,12 +175,12 @@
             ////                            FICHA                             ///////
             //////////////////////////////////////////////////////////////////// -->
             <div class="font-titulo sm:-mt-6" v-if="tipo == 'FICHA'"> 
-            <div v-if="modalAdvertencia" class="absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+            <div v-if="modalAdvertencia" class="absolute justify-items-center rounded-lg border border-gray-400 shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
                 <div>
                     <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
-                      <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
-                      <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
-                      <img src="../../assets/img/warning.png" class="ml-68 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+                        <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
+                        <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
+                        <img src="../../assets/img/warning.png" class="ml-68 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
                     </h1>
                     <div>
                         <p>*Si cambia el tipo de falla para este diagnostico es necesario eliminar el DTC con referencia {{ referenciaDtc }}</p>                                   
@@ -189,13 +189,13 @@
                 <div class="flex justify-center">
                     <ValidationObserver ref="observer">                        
                         <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
-                          <p class="text-md mb-1 font-semibold text-gray-900 mt-5">Motivo</p>
-                          <textarea v-model="comentarioBorrarDtc" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 w-69 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
-                          <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            <p class="text-md mb-1 font-semibold text-gray-900 mt-5">Motivo</p>
+                            <textarea v-model="comentarioBorrarDtc" class="bg-white is_valid appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 w-69 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                         </ValidationProvider>
                         <div class="mt-10 text-center">
-                          <button @click="aceptar_borrar_dtc" class="botonIconCrear">Confirmar</button>
-                          <button @click="cancelar_borrado_dtc" class="botonIconCancelar">Cancelar</button>
+                            <button @click="aceptar_borrar_dtc" class="botonIconCrear">Confirmar</button>
+                            <button @click="cancelar_borrado_dtc" class="botonIconCancelar font-boton">Cancelar</button>
                         </div>
                     </ValidationObserver>
                 
