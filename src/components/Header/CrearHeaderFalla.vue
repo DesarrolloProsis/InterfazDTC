@@ -175,7 +175,7 @@
             ////                            FICHA                             ///////
             //////////////////////////////////////////////////////////////////// -->
             <div class="font-titulo sm:-mt-6" v-if="tipo == 'FICHA'"> 
-            <div v-if="modalAdvertencia" class="absolute justify-items-center rounded-lg border border-gray-400 shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+            <div v-if="modalAdvertencia && this.$route.params.tipoVista != 'Crear'" class="absolute justify-items-center rounded-lg border border-gray-400 shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
                 <div>
                     <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
                         <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
