@@ -86,6 +86,7 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
             <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-2 sm:p-2 -mt-48">
+                <ValidationObserver ref="observer">
                 <div class="rounded-lg border bg-white border-gray-400 px-12 py-10 sm:px-6 shadow-2xl">
                     <p class="text-gray-900 font-titulo font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
                     <div>
@@ -95,25 +96,21 @@
                                 <p class="ml-5 text-center">{{ header.day }}</p> 
                             </div> 
                             <br> 
-                            <div class="grid grid-cols-2 sm:grid-cols-2 font-titulo ">  
+                            <div class="grid grid-cols-2 sm:grid-cols-2 font-titulo "> 
+                                <ValidationProvider name="FechaPrev" rules="required" v-slot="{ errors }"> 
                                 <p class="font-bold my-1 sm:text-sm">Nueva Fecha *:</p>
                                 <input v-model="fechaCambio" class="border w-40 is_valid sm:mb-6 sm:-mt-1" type="date"/>
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                </ValidationProvider>
                             </div>
                         </div>
                         <div class="mt-5 font-titulo">
+                            <ValidationProvider name="Motivo" rules="required:max:300"  v-slot="{ errors }">    
                             <p class="mb-1 sm:text-sm">Motivo del Cambio *:</p>
-                            <textarea
-                            id="mensaje"
-                            v-model="motivoCambioFecha"
-                            v-validate="'max:300'"
-                            :class="{ 'is_valid': !errors.first('Motivo'), 'is_invalid': errors.first('Motivo')}"
-                            class="text-center appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
-                            placeholder="Motivo del cambio"
-                            name="Motivo"
-                            v-bind:maxlength="limite"
-                            />
+                            <textarea v-model="motivoCambioFecha" class="textAreaCalendario text-center" placeholder="Motivo del cambio" name="Motivo"/>
                             <span class="text-xs text-gray-500">{{ restante }}/300</span>
-                            <p class="text-xs text-red-600">{{ errors.first("Motivo") }}</p>
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            </ValidationProvider>
                         </div>
                     </div>
                     <!--/////////////////////////////////////////////////////////////////
@@ -124,6 +121,7 @@
                         <button  @click="botoncancelar_modal" class="botonIconCancelar font-boton m-6 sm:m-3">Cancelar</button>
                     </div>
                 </div>
+                </ValidationObserver>
             </div>
         </div>
     </div>
