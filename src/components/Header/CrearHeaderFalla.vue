@@ -328,8 +328,7 @@ beforeMount: async function(){
             this.referenciaDtc = this.$route.query.referenciaDtc                                  
             this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
             this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-            this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-            this.$emit('actualizar-header', this.datosDiagnostico)                        
+            this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)                               
             this.datosDiagnostico = this.$route.query.data        
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
@@ -372,8 +371,7 @@ beforeMount: async function(){
     else{                
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
-        this.$emit('actualizar-header', this.datosDiagnostico)    
+        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)          
         //Bloque para crear Ficha      
         if(this.$route.query.data != undefined){                    
             this.datosDiagnostico = this.$route.query.data        
@@ -493,7 +491,7 @@ methods:{
         let isValid = await this.$refs.observer.validate();        
         alert(isValid)
         if(isValid){
-            this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value })
+            this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
         }         
     },
     label_multi_select(value){            
