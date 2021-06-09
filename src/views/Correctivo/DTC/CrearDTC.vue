@@ -257,7 +257,10 @@ methods: {
               objInsert.status, 
               true,
               objInsert.adminId              
-            )               
+            );
+            setTimeout(()=>{
+              ServiceReporte.generar_pdf_fotografico_correctivo(objInsert.refNum);               
+            },1000)
           }          
           this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
           this.$store.commit("DTC/insertDmgCompleteMutation", false);
