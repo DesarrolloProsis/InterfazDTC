@@ -187,7 +187,7 @@
                     </div>
                 </div>
                 <div class="flex justify-center">
-                    <ValidationObserver ref="observer">                        
+                    <ValidationObserver ref="observerModal">                        
                         <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
                           <p class="text-md mb-1 font-semibold text-gray-900 mt-5">Motivo</p>
                           <textarea v-model="comentarioBorrarDtc" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 w-69 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
@@ -197,8 +197,7 @@
                           <button @click="aceptar_borrar_dtc" class="botonIconCrear">Confirmar</button>
                           <button @click="cancelar_borrado_dtc" class="botonIconCancelar">Cancelar</button>
                         </div>
-                    </ValidationObserver>
-                
+                    </ValidationObserver>                
                 </div>
             </div>
             <div class="grid sm:grid-cols-1 grid-cols-2 ml-5 sm:text-xs sm:ml-1">
@@ -489,8 +488,9 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){
-        console.log('validacion header componente');
+        console.log('validacion header componente');        
         let isValid = await this.$refs.observer.validate();        
+        alert(isValid)
         if(isValid){
             this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value })
         }         
