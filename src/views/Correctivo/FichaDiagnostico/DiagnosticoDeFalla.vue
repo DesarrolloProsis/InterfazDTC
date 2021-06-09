@@ -93,7 +93,8 @@ export default {
 methods:{
     actualizar_header(objHeader){        
         this.datosHeader = objHeader.header
-        this.insertar_diagnostico_falla(objHeader.value)
+        if(objHeader.crear)
+            this.insertar_diagnostico_falla(objHeader.value)
     },
     enviar_header_diagnostico(value){                
         EventBus.$emit('validar_header_diagnostico', value)

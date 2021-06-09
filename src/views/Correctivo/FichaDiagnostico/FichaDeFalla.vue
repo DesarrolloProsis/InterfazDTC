@@ -93,10 +93,10 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
-        actualizar_header(objHeader){        
-            this.datosHeader = objHeader.header
-            console.log(this.datosHeader);
-            this.insertar_ficha_falla(objHeader.value)
+        actualizar_header(objHeader){                    
+            this.datosHeader = objHeader.header      
+            if(objHeader.crear)      
+                this.insertar_ficha_falla(objHeader.value)
         }, 
         cerrar_modal_imagenes(){
             this.modalImage = false

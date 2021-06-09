@@ -133,7 +133,7 @@ export default {
                         this.arrayImagenes = newArrayImg                                       
                     }    
                 })                
-        }, 1000)        
+        }, 4000)        
     },
     computed:{
         num (){
