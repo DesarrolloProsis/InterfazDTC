@@ -1,7 +1,7 @@
 <template>
     <div class="font-titulo">
         <div v-if="forma == ''">
-            <p class="text-md font-bold mb-1 mt-1 text-gray-900">Cambiar Plaza</p>
+            <p class="text-md font-bold mb-1 mt-1 text-gray-900" :class="{'hidden': $route.params.type != ''}">Cambiar Plaza</p>
             <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" type="text" name="TipoDescripcion">
                 <!-- <option :disabled="tipo != 'filtro'" value>Selecionar...</option> -->
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">

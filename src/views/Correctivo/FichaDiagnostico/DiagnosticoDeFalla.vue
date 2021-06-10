@@ -14,7 +14,7 @@
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesFichaDiagnostico :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_diagnostico(false)" class="botonIconCrear mt-8 sm:mt-4">
+                    <button @click="enviar_header_diagnostico(false)" class="botonIconCrear mt-6">
                         <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Diagnóstico</span>
                     </button>  
@@ -23,7 +23,7 @@
         </div>
             <div class="grid gap-4 grid-cols-1 py-3 px-3">      
                 <div class="mt-1  mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold">Diagnóstico de Falla</h1>        
+                    <h1 class="text-black text-center -ml-30 text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold">Diagnóstico de Falla</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->                       
@@ -35,7 +35,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-5 ml-79 sm:mb-6 sm:ml-1 sm:-mt-16 mt-4">
+                    <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:ml-1 sm:-mt-16">
                         <div v-if="$route.params.tipoVista == 'Crear'">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
