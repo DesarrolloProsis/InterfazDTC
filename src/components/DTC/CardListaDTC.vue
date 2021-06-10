@@ -63,7 +63,7 @@
               ///////////////////////////////////////////////////////////////////// -->
         <div class="flex text-center cursor-pointer border-gray-800 flex-col mt-2 sm:m-3 sm:mt-5" v-if="!showmenosMas">
           <ImagenesCard
-            :referenceNumber="infoCard.referenceNumber"        
+            :referenceNumber="infoCard.technicalSheetReference"        
             :plazasValidas="plazasValidas"                
           ></ImagenesCard>
         </div>
