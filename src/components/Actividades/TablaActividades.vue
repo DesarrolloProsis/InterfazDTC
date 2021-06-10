@@ -96,7 +96,8 @@
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Fecha de Actividad</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Tipo de Actividad</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Estatus</th>   
-                                <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>                
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>
+                                <th class="w-68 cabeceraTable font-titulo font-medium">PDF</th>                
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////////
@@ -127,7 +128,7 @@
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                     <td class="w-64 text-center cuerpoTable">
                                         <div class="ml-2" v-if="item.statusMaintenance == false">                               
-                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear sm:w-16 sm:h-8">
+                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear ml-3 sm:w-16 sm:h-8">
                                                 <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Crear</span>
                                             </button>
@@ -141,6 +142,18 @@
                                                 <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Actualizar</span>
                                             </button>                                   
+                                        </div>
+                                    </td>
+                                    <td class="w-64 text-center cuerpoTable">
+                                        <div class="grid grid-cols-1 -ml-4">
+                                            <button  class="botonIconDescargar mb-1 sm:mt-2 w-32 sm:w-16 sm:h-8">
+                                                <img  src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-1"  width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Sellado</span>
+                                            </button>
+                                            <button  class="botonIconDescargar mb-1 sm:mt-2 w-32 sm:w-16 sm:h-88">
+                                                <img  src="../../assets/img/pdf.png" class="mr-2 -ml-4 sm:m-1"  width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Subir Sellado</span>
+                                            </button> 
                                         </div>
                                     </td>                                                                                     
                                 </tr>
