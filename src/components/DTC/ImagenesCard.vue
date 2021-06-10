@@ -46,7 +46,7 @@
           ///////////////////////////////////////////////////////////////////// -->
       <template v-else>
         <div class="flex justify-between">
-          <div class="justify-start">
+          <div class="justify-start hidden">
             <button v-if="!(tipoUsuario == 9 || tipoUsuario == 7 || tipoUsuario == 8)" @click="editar_img" class="m-1 p-1 text-xs inline-flex border border-green-600 rounded-lg hover:border-green-700">
               Agregar 
               <img src="../../assets/img/image-mini.png" class="w-6 border" alt/>
@@ -90,7 +90,7 @@ export default {
     fotosEnDtc: {
       type: Array,
       default: () => []
-    }
+    }    
   },
   data: function () {
     return {
@@ -113,30 +113,34 @@ export default {
 ////                          CICLOS DE VIDA                     ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {    
-    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-    let arrayNombreFotos = this.$store.getters['DTC/GET_FOTOS_EQUIPO_DAÑADO_REFERENCE'](this.referenceNumber)                
-    if(arrayNombreFotos.length > 0){       
-        let array = arrayNombreFotos.map(item => {
-          return {
-            "fileName": item, 
-            "image": `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
-          }
-        })            
-        this.imgbase64 = {
-          array_img: array,
-          referenceNumber: this.referenceNumber,
-        };                  
-        this.agregarbool = false;
-        this.cargarImagen = false;                   
-    } 
-    else {
-        this.agregarbool = true;
-        this.cargarImagen = true;
-        this.imgbase64 = {
-            array_img: [],
-            referenceNumber: "",
-        };
-    }        
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId    
+    if(this.referenceNumber != '--'){
+      this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`)      
+        .then((response) => {
+          if(response.data.length > 0){       
+            let array = response.data.map(item => {
+              return {
+                "fileName": item, 
+                "image": `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${item}`
+              }
+            })            
+            this.imgbase64 = {
+              array_img: array,
+              referenceNumber: this.referenceNumber,
+            };                  
+            this.agregarbool = false;
+            this.cargarImagen = false;                   
+          } 
+          else {
+              this.agregarbool = true;
+              this.cargarImagen = true;
+              this.imgbase64 = {
+                  array_img: [],
+                  referenceNumber: "",
+              };
+          }         
+        })  
+    }         
   },
   /////////////////////////////////////////////////////////////////////
 ////                          METODOS                              ////
