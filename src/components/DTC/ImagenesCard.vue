@@ -4,7 +4,7 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 SECCION DE AGREGAR IMAGEN                    ////
           ///////////////////////////////////////////////////////////////////// -->
-      <template v-if="cargarImagen">
+      <template v-if="cargarImagen" class="hidden">
         <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full" v-if="editar_imagen">         
           <div class="inline-flex justify-center">
             <input :disabled="(tipoUsuario == 9 || tipoUsuario == 7 || tipoUsuario == 8 || tipoUsuario == 4)" type="file" class="opacity-0 w-auto h-12 absolute" multiple @change="recibirImagenes"/>

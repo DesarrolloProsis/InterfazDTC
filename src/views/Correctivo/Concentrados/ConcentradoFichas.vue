@@ -47,6 +47,7 @@
                                 <th class="cabeceraTable font-medium">Diagnostico</th>
                                 <th class="cabeceraTable font-medium">Ficha</th>
                                 <th class="cabeceraTable font-medium">DTC</th>
+                                <th class="cabeceraTable font-medium">Referencia DTC</th>
                                 <th class="cabeceraTable font-medium" :class="{'hidden': typeUser == 4 || typeUser == 10}">Acciones</th>
                             </tr>
                         </thead>
@@ -106,6 +107,7 @@
                                             <span class="sm:text-xs">No Aplica DTC</span>
                                         </button>                                          
                                     </td>
+                                    <td class="cuerpoTable" :class="{}">{{ item.referenceDTC }}</td>
                                     <td class="cuerpoTable" :class="{'hidden': typeUser == 7 || typeUser == 10 || typeUser == 4}">
                                         <div v-if="item.validacionFichaTecnica" class="">
                                             <button @click="editar_diagnostico_falla(item)" class="botonEditarDF font-boton sm:mr-1 mr-2">
