@@ -159,9 +159,18 @@ methods:{
                                 }) 
                             }  
                         },2000)
-                    })              
+                    })                                  
                     this.reporteInsertado = true                                                                       
-                })                
+                })
+                .catch(() => {
+                    this.$notify.warning({
+                        title: "Ops!!",
+                        msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
+                        position: "bottom right",
+                        styles: { height: 100, width: 500 },
+                    });
+                })
+                
         }        
         else{
             this.type = 'FICHA' 

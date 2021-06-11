@@ -48,20 +48,20 @@
               <span class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
           </div>
           <div class="sm:flex-col pr-2 inline-block font-titulo">
-            <ValidationProvider name="NoSiniestro" rules="uniqueSinester|max:30" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
+            <ValidationProvider name="NoSiniestro" immediate rules="uniqueSinester|max:30" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
                 <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
                 <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" name="NoSiniestro" type="text"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
             </ValidationProvider>                                      
             <template v-if="$route.params.tipoFalla == 3">
-                <ValidationProvider name="NoOficio" rules="uniqueReport|max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
+                <ValidationProvider name="NoOficio" immediate rules="uniqueReport|max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
                   <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Oficio:</p>
-                  <input v-model="datosSinester.ReportNumber" class="w-full is_valid" type="text" name="NoOficio"/>  
+                  <input v-model="datosSinester.ReportNumber" immediate class="w-full is_valid" type="text" name="NoOficio"/>  
                   <span class="text-red-600 text-xs block">{{ errors[0] }}</span>                
                 </ValidationProvider>
             </template>
             <template v-else>
-                <ValidationProvider name="NoReporte" rules="uniqueReport|max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
+                <ValidationProvider name="NoReporte" immediate rules="uniqueReport|max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
                   <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Reporte:</p>
                   <input v-model="datosSinester.ReportNumber" class="w-full is_valid" type="text" name="NoReporte"/>  
                   <span class="text-red-600 text-xs block">{{ errors[0] }}</span>                
@@ -69,10 +69,9 @@
             </template>
           </div>      
           <div class="pr-2 font-titulo">
-            <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">
+            <ValidationProvider name="TipoDescripcion" immediate rules="required"  v-slot="{ errors }">
               <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripcion</p>
-              <select v-model="datosSinester.TypeDescriptionId" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">
-                <option disabled value>Selecionar...</option>
+              <select v-model="datosSinester.TypeDescriptionId" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
                 <option v-for="(desc, index) in descripciones" :value="desc.typeDescriptionId" :key="index">
                   {{ desc.description }}
                 </option>
@@ -88,14 +87,14 @@
               <span class="inline ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.position }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FechaSiniestro" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="FechaSiniestro" immediate rules="required" v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Siniestro:</p>
                 <input v-model="datosSinester.SinisterDate" @change="crear_referencia_dtc()" class="w-full font-titulo is_valid" :disabled="fechaSiniestoEdit" name="FechaSiniestro" type="date" onkeydown="return false"/>              
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <ValidationProvider name="FechaEnvio" rules="required"  v-slot="{ errors }">
+              <ValidationProvider name="FechaEnvio" immediate rules="required"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Envio:</p>
                 <input v-model="datosSinester.ShippingElaboracionDate" class="w-full is_valid" type="date" name="FechaEnvio" onkeydown="return false"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -109,7 +108,7 @@
             <span class="inline ml-2 text-md font-titulo font-normal" style="color: blue">{{ headerSelecionado.mail }}</span>
             </div>  
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">
+              <ValidationProvider name="FolioFalla" immediate rules="max:60"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Folio de Falla:</p>              
                 <input v-model="datosSinester.FailureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -127,7 +126,7 @@
               <span class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ headerSelecionado.plaza }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FechaFalla" rules="required"  v-slot="{ errors }">
+              <ValidationProvider name="FechaFalla" immediate rules="required"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Falla:</p>
                 <input v-model="datosSinester.FailureDate" class="w-full is_valid" name="FechaFalla" type="date" onkeydown="return false"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -251,7 +250,7 @@ export default {
         ShippingElaboracionDate: '',  
         Diagnosis: "",
         Observation: "",
-        TypeDescriptionId: "",
+        TypeDescriptionId: 1,
         UserId: null,
         AgremmentInfoId: null,
         Descripcion: null,
@@ -354,11 +353,18 @@ methods: {
         this.fechaSiniestoEdit = true;
       }
   },
-  validar_header: async function(value){    
-    let isValid = await this.$refs.observer.validate(true);    
-    if(isValid){ 
+  validar_header: async function(value){            
+    if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != ''){ 
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)
+    }
+    else{
+      this.$notify.warning({
+              title: "Ops!!",
+              msg: "NO SE PUDO INSERTAR LOS DATOS DEL DTC.",
+              position: "bottom right",
+              styles: { height: 100, width: 500 },
+          });
     }
   }
   
