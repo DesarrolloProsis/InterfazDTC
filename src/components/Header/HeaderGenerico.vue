@@ -55,10 +55,11 @@
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
             <div class="mr-4 mt-4">
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Plaza</p>
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
             <div class="m-3">
-                <p class="pdtcpendientes sm:text-sm">Seleccione una fecha</p>
+                <p class="pdtcpendientes sm:text-sm">Seleccione una Fecha</p>
                 <p class="input w-40 sm:w-full"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
