@@ -113,7 +113,7 @@
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 sm:text-xs font-titulo">               
-          <div v-if="modalEdit" class="absolute w-73 sm:w-66  mx-auto  justify-center inset-x-0 pointer-events-auto">     
+          <div v-if="modalEdit" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto">     
             <ValidationObserver ref="observer">      
               <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
                 <p class="text-gray-900 font-semibold text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
@@ -124,14 +124,14 @@
                   <div class="mt-2 mr-3">       
                     <ValidationProvider name="NoSiniestro" rules="uniqueSinester"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
-                      <input v-model="dtcEdit.sinisterNumber" class="w-full" type="text" name="NoSiniestro" placeholder="S/M"/>
+                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
                   <div class="mt-2">  
                     <ValidationProvider name="NoReporte" rules="uniqueReport" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
-                      <input v-model="dtcEdit.reportNumber" class="w-full" type="text" name="NoReporte" placeholder="S/M"/>
+                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
@@ -143,14 +143,14 @@
                   <div class="mt-2 mr-3">  
                     <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
-                      <input v-model="dtcEdit.failureNumber" class="w-full" name="FolioFalla" type="text" placeholder="S/M"/>
+                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
                   <div class="mt-2">   
                     <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
-                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48" type="text" name="TipoDescripcion">
+                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
                         <option disabled value>Selecionar...</option>
                         <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.typeDescriptionId" :key="index">
                           {{ desc.description }}
@@ -167,14 +167,14 @@
                   <div class="mt-2 mr-3">     
                     <ValidationProvider name="Observaciones" rules="max:300"  v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">Observaciones:</p>
-                      <textarea v-model="dtcEdit.observation" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
+                      <textarea v-model="dtcEdit.observation" readonly class="bg-white appearance-none block is_valid bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
                   <div class="mt-2 ">    
                     <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">  
                       <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
-                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
+                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>            
