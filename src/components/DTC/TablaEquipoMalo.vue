@@ -471,6 +471,7 @@ methods: {
   },
   eliminar_partida(index){
     this.arrayPartidas.splice(index, 1)
+    EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
   },
   UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){ this.showModal = true },  
@@ -543,6 +544,7 @@ methods: {
           new_partida["row3"] = this.componenteSeleccionado;
           new_partida["row8"] = this.laneSelect;          
           this.arrayPartidas.push(new_partida);
+          EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
           //LIMPIA LA LISTA PRE_PARTIDA
           for (const propiedades in this.datosPrePartida) {
             if (propiedades == "rowCantidad")

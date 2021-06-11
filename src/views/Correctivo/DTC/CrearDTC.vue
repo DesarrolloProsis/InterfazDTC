@@ -137,7 +137,8 @@ export default {
       dateSinester: "",      
       limite: 300,
       modalLoading: false,
-      referenciaFicha: ''
+      referenciaFicha: '',
+      numeroComponentesDmg: 0
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -150,6 +151,9 @@ created(){
     });
     EventBus.$on("enviar-componete", (objInsert) => {
       this.enviar_dmg_componentes(objInsert)
+    })
+    EventBus.$on("conteo_componetes_dmg", (num) => {
+      this.numeroComponentesDmg = num
     })
 },
 beforeMount: async function() {
@@ -168,7 +172,7 @@ beforeMount: async function() {
     }
 },
 destroyed(){
-  EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete'])
+  EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete', 'conteo_componetes_dmg'])
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
@@ -186,7 +190,19 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 methods: {  
   dtc_validaciones(value){
-    EventBus.$emit("validar_header_dtc", value);
+    if(this.numeroComponentesDmg > 0)
+      EventBus.$emit("validar_header_dtc", value);
+    else{
+       this.$notify.warning({
+          title: "Ups!",
+          msg: `FALTA AGREGAR COMPONENTES DAÑADOS.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+    }
   },
   crear_dtc: async function (status) {
       console.log(status);
