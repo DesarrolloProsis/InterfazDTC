@@ -129,6 +129,7 @@
         <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
             <div class="sm:-ml-24">
                 <div class="ml-32">
+                    <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
             </div>
