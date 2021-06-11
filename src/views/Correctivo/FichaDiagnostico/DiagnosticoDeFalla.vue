@@ -96,7 +96,7 @@ methods:{
         if(objHeader.crear)
             this.insertar_diagnostico_falla(objHeader.value)
     },
-    enviar_header_diagnostico(value){                
+    enviar_header_diagnostico(value){            
         EventBus.$emit('validar_header_diagnostico', value)
     },
     cerrar_modal_imagenes(){

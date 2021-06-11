@@ -262,6 +262,7 @@
 </template>
 
 <script>
+// import { required, minLength } from 'vuelidate/lib/validators'
 import SelectPlaza from '../../components/Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService';
 import moment from "moment";
@@ -487,12 +488,18 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-        try {
-            let isValid = await this.$refs.observer.validate(true);                    
-            if(isValid){  
-                alert(isValid)               
+        try {            
+            if(value){
+                let isValid = await this.$refs.observer.validate(true);    
+                if(isValid){  
+                    alert(isValid)               
+                    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
+                }              
+            }   
+            else{                
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
-            }  
+            } 
+           
         }
         catch(error){            
             console.log(error)
