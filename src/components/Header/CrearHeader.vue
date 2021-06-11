@@ -1,5 +1,5 @@
 <template>
-  <div class="">    
+  <div class="sm:text-xs">    
     <div class="m-0 p-0 bg-white" :class="{ 'pointer-events-none': modalReferencia, 'opacity-75':modalReferencia }">
       <ValidationObserver ref="observer">  
       <div class="mt-8 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:border border-black px-8 pt-6 pb-8 w-full sm:screen  flex-col flex-wrap my-2 sm:-mb-16">
@@ -9,10 +9,10 @@
           <div class="box-content p-4 xl:w-3/4 sm:-mt-12 justify-items-center">
             <img src="../../assets/img/prosis-logo.jpg" class="xl:h-16 4k:h-12 xl:ml-20 lg:ml-1 md:ml-1 sm:ml-1 " />
           </div>
-          <div class="text-3xl text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-titulo font-bold p-4 sm:-mt-6">Dictamen Tecnico y Cotizacion</div>
+          <div class="text-3xl text-center h-24 text-gray-800 md:text-lg lg:text-3xl font-titulo font-bold p-4 sm:text-sm sm:-mb-32 sm:-mt-6">Dictamen Tecnico y Cotizacion</div>
           <div class="text-left font-titulo">
             <br />
-            <span class="mr-2 ml-5 text-lg font-semibold sm:ml-0">Referencia:</span>
+            <span class="mr-2 ml-5 text-lg font-semibold sm:ml-0 sm:text-xs">Referencia:</span>
             <span style="font-weight: bold">{{ datosSinester.ReferenceNumber }}</span>
           </div>
           <!-- //////////////////////////////////////////////////////////////////
@@ -28,8 +28,8 @@
           ///////////////////////////////////////////////////////////////////// -->
           <div>
             <br />
-            <div class="text-xl text-center font-titulo font-bold">
-              <h6>En caso de Siniestro</h6>
+            <div class="text-xl text-center font-titulo font-bold sm:-mb-6">
+              <h6 class="sm:text-sm">En caso de Siniestro</h6>
             </div>
           </div>
           <!-- //////////////////////////////////////////////////////////////////
@@ -134,8 +134,8 @@
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <span class="text-lg font-semibold">Tecnico Responsable:</span>
-              <span class="text-lg ml-2" style="font-weight: normal">{{ headerSelecionado.nombre }}</span>
+              <span class="text-lg font-semibold sm:text-xs">Tecnico Responsable:</span>
+              <span class="text-lg ml-2 sm:text-xs" style="font-weight: normal">{{ headerSelecionado.nombre }}</span>
             </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   QUINTA  LINEA                              ////
@@ -144,13 +144,14 @@
             <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
             <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Advertencia una vez creado no puedes cambiar la plaza</span>
           </div>
-          <div class="text-sm" :class="{'hidden': boolCambiarPlaza == true}">
+          <div class="text-sm -mt-32 sm:-mt-1" :class="{'hidden': boolCambiarPlaza == true}">
+            <span class="text-lg font-semibold font-titulo sm:text-xs">Cambiar Plaza:</span>
             <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
             <!-- <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span> -->
           </div>
           <div></div>
-          <div class="pr-2 font-titulo -mt-24 sm:mt-0">
-            <span class="font-semibold text-lg">Coordinacion Regional:</span>
+          <div class="pr-2 font-titulo -mt-24 sm:-mt-4">
+            <span class="font-semibold text-lg sm:text-xs">Coordinacion Regional:</span>
             <label class="text-md" style="font-weight: normal">{{ headerSelecionado.regionalCoordination }}</label>
           </div>
             <!-- //////////////////////////////////////////////////////////////////
@@ -158,8 +159,8 @@
             ///////////////////////////////////////////////////////////////////// -->
             <div></div>
             <div></div>
-            <div class="pr-2 font-titulo -mt-20 sm:mt-0">
-              <span class="font-semibold text-lg">Centro de Servicio: Ciudad de México</span>
+            <div class="pr-2 font-titulo -mt-20 sm:-mt-10">
+              <span class="font-semibold text-lg sm:text-xs">Centro de Servicio: Ciudad de México</span>
               <label></label>
             </div>
           <!-- //////////////////////////////////////////////////////////////////
@@ -167,12 +168,12 @@
           ///////////////////////////////////////////////////////////////////// -->
             <div class="sm:hidden"></div>
             <div class="sm:hidden"></div>
-            <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <span class="font-semibold text-lg">Correo:</span>
-              <span class="font-semibold text-lg">hguzman@grupo-prosis.com</span>
+            <div class="pr-2 font-titulo -mt-16 sm:-mt-8">
+              <span class="font-semibold text-lg sm:text-xs">Correo:</span>
+              <span class="font-semibold text-lg sm:text-xs">hguzman@grupo-prosis.com</span>
             </div>   
-            <br />
-            <br />        
+            <br class="sm:hidden"/>
+            <br class=""/>        
       </div> 
       </ValidationObserver>     
       <!-- //////////////////////////////////////////////////////////////////
@@ -187,18 +188,18 @@
     ////                  MODAL RREFERENCIAS                         ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="flex absolute justify-center inset-x-0 top-0 mt-66 opacity-100">
-          <div v-if="modalReferencia" class="rounded-lg border border-gray-700 bg-white px-10 py-8 shadow-2xl">
+          <div v-if="modalReferencia" class="rounded-lg border border-gray-400 bg-white px-10 py-8 shadow-2xl">
             <p class="text-gray-900  text-center text-xl">Seleccione una Referencia</p>
             <div class="justify-center mt-10 inline-block">
               <div>
-                <select v-model="referenceSelected" class="w-full" type="text">
+                <select v-model="referenceSelected" class="w-full is_valid" type="text">
                   <option disabled value="">Selecionar...</option>
                   <option v-for="(item, index) in arrayReference" :value="item.referenceNumber" :key="index">{{ item.referenceNumber }}</option>
                 </select>
                 </div>
                 <div class="mt-10">                  
-                    <button @click="confirmar_referencia(false)" class="text-white  px-4 py-3 rounded-lg m-2 bg-red-700">Cancelar</button>
-                    <button @click="confirmar_referencia(true)" class="text-white  px-5 py-3 rounded-lg m-2 bg-green-600">Aceptar</button>
+                    <button @click="confirmar_referencia(false)" class="font-boton px-4 py-3 rounded-lg m-2 botonIconCancelar">Cancelar</button>
+                    <button @click="confirmar_referencia(true)" class="font-boton px-5 py-3 rounded-lg m-2 botonIconCrear">Aceptar</button>
                 </div>
             </div>
           </div>
