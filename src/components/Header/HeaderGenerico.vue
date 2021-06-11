@@ -90,17 +90,18 @@
         <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3 ml-66 mb-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10 font-bold text-md">Buscar</span>
-                <p class="input w-40 is_valid">
-                    <input v-model="buscarPalabraInventario" placeholder="Carril/Componete/Serie" class="bg-white sm:w-full border-none w-40" />
-                </p>
+                <!--  <p class="input w-40 is_valid"> -->
+                    <input v-model="buscarPalabraInventario" placeholder="Carril/Componete/Serie" class="bg-white input -mt-1 sm:w-full border-none w-40" />
+                <!--   </p> -->
             </div>         
             <div class="text-sm sm:mt-4 mt-6">
+                <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
                 <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
-            <div class="mt-8 ml-20 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
+            <div class="mt-8 ml-16 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
                 <button class="botonIconNext" @click="abrirModal">
                     <span>Mantenimiento</span>
                 </button>
