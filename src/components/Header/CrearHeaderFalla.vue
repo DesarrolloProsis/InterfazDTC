@@ -92,13 +92,13 @@
             <div v-if="blockInput" class="ml-69 -mb-6 sm:-ml-1 sm:w-69 text-xs sm:-mb-1"><span class="text-red-400">Este dato no se puede modificar, vienen del Diagnóstico de Falla</span></div>
             <div class="ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
                 <div class="mt-6 -ml-32 w-full sm:-ml-6">
-                    <div class="text-center w-32 ml-64 mr-40 sm:ml-1">
+                    <div class="text-center w-32 ml-64 mr-40 sm:ml-1 sm:-mt-1">
                         <span class="">Folio de FALLA:</span>                    
                     </div>
-                    <div class="mt-5 text-center w-32 ml-64 sm:ml-2">
+                    <div class="mt-5 text-center w-32 ml-64 sm:ml-2 sm:mt-1">
                         <span class="">No. De Siniestro:</span>
                     </div>
-                    <div class="mt-5 text-center w-56 ml-40 sm:-ml-12">
+                    <div class="mt-5 text-center w-56 ml-40 sm:-ml-12 sm:mt-1">
                         <span class="sm:hidden">Técnico Responsable PROSIS:</span>
                         <span class="sm:show sm:ml-4 md:show lg:hidden xl:hidden">Tec.Res. PROSIS:</span>
                     </div>
@@ -107,13 +107,13 @@
                     <div class="-ml-69 sm:-ml-56">
                         <ValidationProvider name="FolioFalla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
                             <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
-                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_folio }}/20</span>
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_folio }}/20</span>
                         </ValidationProvider>
                     </div>
                     <div class="-mt-1 -ml-69 sm:-ml-56 sm:mt-1">
                         <ValidationProvider name="NumeroReporte" rules="required|max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
                             <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
-                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_siniestro }}/30</span>
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_siniestro }}/30</span>
                         </ValidationProvider>                    
                     </div>
                     <div class="-mt-1 -ml-69 sm:-ml-49 sm:mt-1">
