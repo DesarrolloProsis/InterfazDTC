@@ -7,9 +7,9 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <HeaderGenerico @filtrar-borrado="guardar_palabra_busqueda" :titulo="'Concentrado DTC Borrados'" :tipo="'BORRADO'"></HeaderGenerico>
                 <!--///////////////////////////////////////////////////////////////////
-                ////                     TABLA DE USUARIOS                        ////
+                ////                     MODAL COMENTARIOS                         ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div v-if="modalDetalles" class="mt-32 absolute justify-items-center rounded-lg border border-gray-400 font-titulo shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+                <div v-if="modalDetalles" class="-mt-3 absolute justify-items-center rounded-lg border border-gray-400 font-titulo shadow-xl inset-x-0 bg-white w-69 h-67 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
                 <div class="">
                     <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">                      
                     <p class="text-gray-900 sm:ml-6 mt-8 sm:-mt-6">DTC {{ detallesDtcBorrado.refereceNumber  }}</p>                      
@@ -41,7 +41,7 @@
 
                 </div>
                 </div>
-                <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-80 sm:w-67 sm:ml-1" style="height:650px;">
+                <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-77 sm:w-67 sm:ml-32 mb-20" style="height:500px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <thead>
                             <tr class="text-md text-gray-400 bg-blue-800">

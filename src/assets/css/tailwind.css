@@ -355,7 +355,7 @@ select:focus {
     @apply bg-gray-300;
 }
 .inputDiag{
-    @apply bg-white border-none w-full;
+    @apply bg-white border-none w-69;
 }
 .inputFicha{
     @apply bg-gray-300 border-none w-full cursor-not-allowed;

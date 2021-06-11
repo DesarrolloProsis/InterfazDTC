@@ -2,20 +2,20 @@
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
-                <h1 class=" text-3xl sm:text-2xl font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
+                <h1 class=" text-3xl sm:text-lg font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
                         ////////////////////////////////////////////////////////////////////-->                        
-                        <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1 font-titulo">
+                        <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1 font-titulo sm:text-xs">
                             <div class="ml-2 md:hidden lg:hidden xl:hidden">
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                             </div>
                             <div class="grid grid-cols-4 sm:w-full sm:ml-3 w-full xl:text-center">                                       
                                 <div class="sm:hidden -mt-2"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza></div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
-                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
+                                    <p class="text-sm sm:text-xs text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
                                     <p class="w-32 input ml-16 sm:ml-0">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32  border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
@@ -34,7 +34,7 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-4 sm:mt-4 sm:ml-20">
-                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 font-semibold">Año:</p>
+                                    <p class="text-sm sm:text-xs text-gray-900 mr-2 font-semibold">Año:</p>
                                     <p class="w-32 input ml-16 sm:ml-0">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
@@ -43,7 +43,7 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-5 sm:mt-20 sm:-ml-1">
-                                    <p class="text-sm sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
+                                    <p class="text-sm sm:text-xs text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
                                     <p class="w-32 input ml-16 sm:ml-0">
                                     <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 border-none"  type="text">
                                         <option value="">Selecionar...</option>
@@ -51,7 +51,7 @@
                                     </select></p>
                                 </div> 
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
-                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status:</p>
+                                    <p class="text-sm sm:text-xs text-gray-900 mr-2 mb-1 font-bold">Status:</p>
                                     <p class="w-48 input ml-20 sm:ml-0 sm:w-32">
                                     <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option value="">Todos</option>
@@ -60,7 +60,7 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
-                                    <p class="text-sm sm:text-sm font-semibold text-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia:</p>
+                                    <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia:</p>
                                     <input v-model="referenceNumber" class="text-center input sm:w-32" placeholder="PM-00000" type="text">
                                 </div>
                                 <div class="mt-2 ml-4 sm:ml-16">
@@ -80,7 +80,7 @@
                     </div>                                        
                 </div> 
             </div>
-            <div class="sm:m-2 sm:w-full sm:ml-1 relative">
+            <div class="sm:m-2 sm:w-full sm:-mb-32 sm:ml-1 relative sm:text-xs">
                 <div class="divtabla font-titulo" style="height:600px;">
                     <!--//////////////////////////////////////////////////////////////////////
                     ////                           TABLA                             ////////
