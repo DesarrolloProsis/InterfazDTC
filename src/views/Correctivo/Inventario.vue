@@ -24,17 +24,17 @@
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div v-if="modalmtto" class="mt-32 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-69 sm:w-66 mx-auto px-10 py-5">
-          <ValidationObserver ref="observer">      
+          <ValidationObserver ref="observer" v-slot="{ invalid}">      
             <div><h1 class="text-center font-titulo text-4xl sm:text-md">Mantenimiento</h1></div>
                 <div class="grid grid-cols-2 mt-10 sm:grid-cols-1">
                     <div class="ml-2 sm:-ml-4">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                     </div>
                     <div class="mt-8 ml-4">
-                      <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }"> 
+                      <ValidationProvider name="Carriles" immediate rules="required" v-slot="{ errors }"> 
                         <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
                         <p class="w-32 input ml-16 -mt-6 sm:ml-8">
-                        <select v-model="datosmtto.ubicacion" class="w-32 border-none" name="Carriles" type="text">
+                        <select v-model="datosmtto.ubicacion" immediate class="w-32 border-none" name="Carriles" type="text">
                             <option value="">Selecionar...</option>
                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                         </select></p>
@@ -43,21 +43,21 @@
                     </div>
                 </div>
                 <div class="mt-6">
-                  <ValidationProvider name="FechaMantenimiento" rules="required" v-slot="{ errors }"> 
+                  <ValidationProvider name="FechaMantenimiento" immediate rules="required" v-slot="{ errors }"> 
                     <p class="text-sm mb-1 font-semibold text-gray-700">Fecha de Mantenimineto</p>
                     <input  class="w-full is_valid" type="date" name="FechaMantenimiento" v-model="datosmtto.fecha"/>
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                   </ValidationProvider>
                 </div>
                 <div class="mt-3">
-                  <ValidationProvider name="FolioMantenimiento" rules="required" v-slot="{ errors }"> 
+                  <ValidationProvider immediate name="FolioMantenimiento" rules="required" v-slot="{ errors }"> 
                     <p class="text-sm mb-1 font-semibold text-gray-700">Folio de Mantenimiento</p>
                     <input v-model="datosmtto.folio" class="w-full is_valid" type="text" name="FolioMantenimiento" />
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                   </ValidationProvider>
                 </div>
                 <div class="mt-8 flex justify-center sm:ml-6">
-                    <button class="botonIconCrear font-boton" @click="modalAdver">
+                    <button class="botonIconCrear font-boton" :disabled="invalid" @click="modalAdver">
                         <span class="">Aceptar</span>
                     </button>
                     <button class="botonIconCancelar font-boton" @click="modalmtto = false, datosmtto.folio = '', datosmtto.ubicacion = ''">
