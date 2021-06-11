@@ -55,7 +55,7 @@
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
             <div class="mr-4 mt-4">
-                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Plaza</p>
+                <p class="dtcpendientes font-bold sm:text-sm sm:text-center">Seleccione una Plaza</p>
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
             <div class="m-3">
@@ -162,12 +162,12 @@
         <!--////////////////////////////////////////////////////////////////////
         ///                   FILTROS DE DTC BORRADO                        ///         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'BORRADO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo sm:w-67 sm:ml-1">
+        <div v-if="tipo == 'BORRADO'" class="w-77 border mb-2 shadow-md rounded-lg font-titulo sm:w-67 sm:ml-1">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Referencia</p>
-                <input v-model="buscarBorrado" class="border w-66 text-center ml-74 sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
+                <input v-model="buscarBorrado" class="border w-66 text-center ml-64 sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
             </div>             
         </div> 
         </div>
