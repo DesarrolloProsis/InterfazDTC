@@ -15,7 +15,7 @@
         <ValidationObserver  v-slot="{ invalid  }">                       
           <div class="mt-10">          
             <div class="mb-5">
-              <ValidationProvider name="Usuario" rules="required" immediate  v-slot="{ errors }">                   
+              <ValidationProvider name="Usuario" rules="required" v-slot="{ errors }">                   
                 <input v-model="datos.user" @keyup.enter="iniciar_sesion()" 
                   :class="{ is_valid: !errors[0], is_invalid: errors[0]}" 
                   class="w-full h-8 font-titulo font-normal"                
@@ -25,7 +25,7 @@
               </ValidationProvider>
             </div>
             <div class="mb-5">
-              <ValidationProvider name="Contraseña" rules="required" immediate  v-slot="{ errors }">
+              <ValidationProvider name="Contraseña" rules="required" v-slot="{ errors }">
                 <div class="w-full inline-flex relative">              
                     <input v-model="datos.password"  @keyup.enter="iniciar_sesion()" 
                       class="w-full h-8 font-titulo font-normal" 
