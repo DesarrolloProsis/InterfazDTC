@@ -96,7 +96,8 @@
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Fecha de Actividad</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Tipo de Actividad</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Estatus</th>   
-                                <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>                
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>
+                                <th class="w-68 cabeceraTable font-titulo font-medium">PDF</th>                
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////////
@@ -127,7 +128,7 @@
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
                                     <td class="w-64 text-center cuerpoTable">                                                                    
                                         <div class="ml-2" v-if="item.statusMaintenance == false">                               
-                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear sm:w-16 sm:h-8">
+                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear ml-3 sm:w-16 sm:h-8">
                                                 <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Crear</span>
                                             </button>
@@ -141,6 +142,33 @@
                                                 <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Actualizar</span>
                                             </button>                                   
+                                        </div>
+                                    </td>
+                                    <td class="w-64 text-center cuerpoTable">
+                                        <div class="grid grid-cols-1 -ml-4">
+                                            <button  class="botonIconDescargar mb-1 sm:mt-2 w-32 sm:w-16 sm:h-8">
+                                                <img  src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-1"  width="15" height="15" />
+                                                <span class="text-xs sm:hidden">Sellado</span>
+                                            </button>
+                      <div>                    
+                        <button class="mt-1 sm:w-32 sm:-ml-5" v-if="pdfSelladoBool">
+                          <div class="botonIconSellado font-boton">
+                            <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
+                            <img src="@/assets/img/pdf.png" class="mr-1" width="15" height="15"/>
+                            <p class="text-xs mt-1">Subir Sellado</p>
+                          </div>                   
+                        </button>
+                        <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
+                          <div class="grid grid-cols-2">
+                          <img src="@/assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
+                          <p class="-ml-32 text-sm sm:ml-0">PDF Sellado</p>
+                          </div>
+                          <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
+                            <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subiar</button>
+                            <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                          </div>            
+                        </div>
+                      </div>
                                         </div>
                                     </td>                                                                                     
                                 </tr>
@@ -198,7 +226,11 @@ export default {
         { title: 'Space Pirate', desc: 'More space battles!', img: '/img/nuevoDtc.90090632.png' },
         { title: 'Explorer', desc: 'Discovering new species!', img: '/img/pencil.04ec78bc.png' },
         { title: 'Miner', desc: 'We need to go deeper!', img: '/img/pdf.5b78f070.png' },
-      ]
+      ],
+
+            pdfSelladoBool: true,
+            pdfSellado:'' 
+
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -337,9 +369,67 @@ methods: {
             }
         })
     },
+
     customLabel ({ title, desc }) {
       return `${title} – ${desc}`
-    }
+    },
+
+recibir_pdf_sellado(e, index) {           
+  var files = e.target.files || e.dataTransfer.files;
+  if (!files.length) return;
+  else {  
+    for (let item of files) {        
+      if(this.crearImage(item)){        
+        this.$nextTick().then(() => {
+          this.pdfSelladoBool = false           
+          this.listaActividadesMensuales.splice(index, 1 ,  Object.assign(this.listaActividadesMensuales[index]))          
+          
+        })
+      }
+    }        
+  }
+},
+crearImage(file) {  
+  if(file.type.split('/')[1] == 'pdf'){
+    var reader = new FileReader(); 
+    reader.onload = (e) => {
+      this.$nextTick().then(() => {
+        this.pdfSellado = {
+          imgbase: e.target.result.split(',')[1],
+          name: file.name,
+        };
+      })        
+    };
+    reader.readAsDataURL(file);   
+    return true
+  }
+  else{
+    this.$notify.warning({
+      title: "Ups!",
+      msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+      position: "bottom right",
+      styles: {
+        height: 100,
+        width: 500,
+      },          
+    });
+    this.pdfSellado = {}
+    return false
+  }         
+},
+base64ToFile(dataurl, fileName) {                    
+    let url = "data:text/pdf;base64," + dataurl;  
+    var arr = url.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName + '.pdf', { type: mime });
+},
+
 },
 }
 </script>
