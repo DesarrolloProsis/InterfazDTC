@@ -137,7 +137,7 @@
                                                 <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Descargar</span>
                                             </button>
-                                            <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1 w-32 sm:w-16 sm:h-8">
+                                            <button v-if="tipoUsuario != 4 && tipoUsuario != 7 && tipoUsuario != 10" @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1 w-32 sm:w-16 sm:h-8">
                                                 <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Actualizar</span>
                                             </button>                                   
@@ -175,7 +175,8 @@ export default {
             referenceNumber:'',
             mesNombre: '',
             blockSelect: false,
-            loadingTabla: false
+            loadingTabla: false,
+            tipoUsuario: ''
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -193,7 +194,8 @@ beforeMount: async function(){
     this.año = cargaInicial.año
     this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
-    this.loadingTabla = false          
+    this.loadingTabla = false  
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId        
 },
 computed:{
     carriles_plaza(){
