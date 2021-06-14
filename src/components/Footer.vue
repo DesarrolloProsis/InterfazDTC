@@ -11,11 +11,7 @@
                     </p>
                 </div>
                 <div>
-<<<<<<< HEAD
-                    <p class="sm:text-xs text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.2</p>
-=======
                     <p class="sm:text-xs text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.3</p>
->>>>>>> 94d2d0e3a6dd97678db86f8219f96f02afb0ce9e
                 </div>
             </div>                                
         </div>        

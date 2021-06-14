@@ -490,14 +490,20 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-        try {            
-            let valuesDiagnostico = Object.values(this.datosDiagnostico)  
-            let validacion = valuesDiagnostico.some(item => item == '')                
+        try {                                 
+            let validacion = true
+            Object.entries(this.datosDiagnostico).forEach(item => {
+                if(item[0] != 'folioFalla' || item[0] != 'numeroReporte'){
+                    if(item[1] == ""){
+                        validacion = false
+                    }
+                }
+            })                           
             if(!validacion){
-                if(value){                                                           
+                if(value){                                                                        
                     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                              
                 }   
-                else{                
+                else{                 
                     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
                 }         
             }  

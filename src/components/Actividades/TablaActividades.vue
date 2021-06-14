@@ -125,7 +125,7 @@
                                     <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                    <td class="w-64 text-center cuerpoTable">
+                                    <td class="w-64 text-center cuerpoTable">                                                                    
                                         <div class="ml-2" v-if="item.statusMaintenance == false">                               
                                             <button @click="crear_reporte_carril(item)" class="botonIconCrear sm:w-16 sm:h-8">
                                                 <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
@@ -147,19 +147,35 @@
                             </template>                                                                                                              
                         </tbody>       
                     </table>
+                               <div>
+  <label class="typo__label">Custom option template</label>
+  <multiselect v-model="value" placeholder="Fav No Man’s Sky path" label="title" track-by="title" :options="options" :option-height="104" :custom-label="customLabel" :show-labels="false">
+    <template slot="singleLabel" slot-scope="props">
+        <img :src="props.option.img" alt="No Man’s Sky" width="15">           
+        <span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>
+    <template slot="option" slot-scope="props">
+        <img :src="props.option.img" alt="No Man’s Sky" width="15">            
+      <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
+    </template>
+  </multiselect>
+  <pre class="language-json"><code>{{ value  }}</code></pre>
+</div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+
+import Multiselect from "vue-multiselect";
 import ServicioActividades from '../../services/ActividadesService.js'
 import SelectPlaza from '../Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
-        SelectPlaza
+        SelectPlaza,
+        Multiselect
     },
     data(){
         return{
@@ -176,7 +192,13 @@ export default {
             mesNombre: '',
             blockSelect: false,
             loadingTabla: false,
-            tipoUsuario: ''
+            tipoUsuario: '',
+            value: '',
+      options: [
+        { title: 'Space Pirate', desc: 'More space battles!', img: '/img/nuevoDtc.90090632.png' },
+        { title: 'Explorer', desc: 'Discovering new species!', img: '/img/pencil.04ec78bc.png' },
+        { title: 'Miner', desc: 'We need to go deeper!', img: '/img/pdf.5b78f070.png' },
+      ]
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -314,6 +336,9 @@ methods: {
                 'header': item,                
             }
         })
+    },
+    customLabel ({ title, desc }) {
+      return `${title} – ${desc}`
     }
 },
 }
