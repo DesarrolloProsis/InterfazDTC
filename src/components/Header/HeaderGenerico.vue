@@ -10,10 +10,11 @@
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
             <div class="mr-4 mt-4">
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Plaza</p>
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
             <div class="m-3">
-                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una fecha</p>
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Fecha</p>
                 <p class="input w-40 sm:w-full"><input v-model="fechaFiltro" class="border-none w-40 sm:w-full" @change="filtar_dtc_generico" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
@@ -54,10 +55,11 @@
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
             <div class="mr-4 mt-4">
+                <p class="dtcpendientes font-bold sm:text-sm sm:text-center">Seleccione una Plaza</p>
                 <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
             </div>
             <div class="m-3">
-                <p class="pdtcpendientes sm:text-sm">Seleccione una fecha</p>
+                <p class="pdtcpendientes sm:text-sm">Seleccione una Fecha</p>
                 <p class="input w-40 sm:w-full"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
@@ -88,17 +90,18 @@
         <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3 ml-66 mb-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10 font-bold text-md">Buscar</span>
-                <p class="input w-40 is_valid">
-                    <input v-model="buscarPalabraInventario" placeholder="Carril/Componete/Serie" class="bg-white sm:w-full border-none w-40" />
-                </p>
+                <!--  <p class="input w-40 is_valid"> -->
+                    <input v-model="buscarPalabraInventario" placeholder="Carril/Componete/Serie" class="bg-white input -mt-1 sm:w-full border-none w-40" />
+                <!--   </p> -->
             </div>         
             <div class="text-sm sm:mt-4 mt-6">
+                <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
                 <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
-            <div class="mt-8 ml-20 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
+            <div class="mt-8 ml-16 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
                 <button class="botonIconNext" @click="abrirModal">
                     <span>Mantenimiento</span>
                 </button>
@@ -126,6 +129,7 @@
         <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
             <div class="sm:-ml-24">
                 <div class="ml-32">
+                    <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
             </div>
@@ -158,12 +162,12 @@
         <!--////////////////////////////////////////////////////////////////////
         ///                   FILTROS DE DTC BORRADO                        ///         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'BORRADO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo sm:w-67 sm:ml-1">
+        <div v-if="tipo == 'BORRADO'" class="w-77 border mb-2 shadow-md rounded-lg font-titulo sm:w-67 sm:ml-1">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Referencia</p>
-                <input v-model="buscarBorrado" class="border w-66 text-center ml-74 sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
+                <input v-model="buscarBorrado" class="border w-66 text-center ml-64 sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
             </div>             
         </div> 
         </div>
@@ -171,22 +175,23 @@
         ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" >
-        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3" >
                 <div class="mt-4">                                        
+                    <p class="font-bold mb-2 sm:text-xs sm:text-center">Seleccione una Plaza</p>
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>
             <div class=" m-3">
-                <p class="font-bold mb-2 sm:text-sm sm:text-center">Seleccione una fecha</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:w-full is_valid" @change="filtar_concentrado_diagnostico_falla" type="date"/>
+                <p class="font-bold mb-2 sm:text-xs sm:text-center">Seleccione una Fecha</p>
+                <input v-model="fechaFiltro" class="border w-40 sm:text-xs sm:w-full is_valid" @change="filtar_concentrado_diagnostico_falla" type="date"/>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Escriba la Referencia</p>
-                <input v-model="buscarDF" class="border w-40 text-center sm:w-full is_valid" placeholder="PM-000000"/>
+                <p class="font-bold sm:text-xs mb-2 sm:text-center">Escriba la Referencia</p>
+                <input v-model="buscarDF" class="border w-40 text-xs text-center sm:w-full is_valid" placeholder="PM-000000"/>
             </div> 
             <div class="m-3">
-                <p class="font-bold sm:text-sm mb-2 sm:text-center">Ubicación (Carril):</p>
+                <p class="font-bold sm:text-xs mb-2 sm:text-center">Ubicación (Carril):</p>
                 <select class="is_valid" v-model="ubicacion" @change="filtar_concentrado_diagnostico_falla" type="text">
                     <option value="">Selecionar...</option>
                     <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
@@ -196,7 +201,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                    BOTONES DE NAVEGACION  DIAGNOSTICO           ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mt-1 mb-4 text-center">
+        <div class="mt-1 mb-4 sm:text-xs text-center">
             <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonTodos font-boton">
                 <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
                 <span>Todos</span>

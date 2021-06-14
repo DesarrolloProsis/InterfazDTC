@@ -13,7 +13,7 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10">          
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute inset-x-0 bg-white mx-auto px-12 py-10">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
@@ -23,15 +23,16 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div v-if="modalmtto" class="mt-32 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-69 sm:w-66 mx-auto px-10 py-5">
-          <ValidationObserver ref="observer" v-slot="{ invalid}">      
+        <div v-if="modalmtto" class="mt-16 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
+          <ValidationObserver ref="observer">      
             <div><h1 class="text-center font-titulo text-4xl sm:text-md">Mantenimiento</h1></div>
                 <div class="grid grid-cols-2 mt-10 sm:grid-cols-1">
                     <div class="ml-2 sm:-ml-4">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
+                      <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
+                      <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                     </div>
-                    <div class="mt-8 ml-4">
-                      <ValidationProvider name="Carriles" immediate rules="required" v-slot="{ errors }"> 
+                    <div class="ml-4">
+                      <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }"> 
                         <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
                         <p class="w-32 input ml-16 -mt-6 sm:ml-8">
                         <select v-model="datosmtto.ubicacion" immediate class="w-32 border-none" name="Carriles" type="text">
@@ -66,11 +67,11 @@
                 </div>
           </ValidationObserver>
         </div> 
-        <div v-if="modalAdv" class="mt-32 absolute justify-items-center is_valid shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+        <div v-if="modalAdv" class="mt-10 absolute justify-items-center border border-gray-400 rounded-lg shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
             <div>
                 <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
                   <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
-                  <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
+                  <p class="-mt-10 text-black sm:ml-6 ml-8 sm:-mt-6">Advertencia</p>
                   <img src="../../assets/img/warning.png" class="ml-68 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
                 </h1>
                 <div>

@@ -8,9 +8,9 @@
                 <div class="absolute mt-66 ml-69 sm:ml-4">
                     <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
                         <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
-                            <img src="@/assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
-                            <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
-                            <img src="@/assets/img/warning.png" class="ml-66 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+                            <img src="@/assets/img/warning.png" class="ml-2 sm:-ml-4" width="35" height="35" />
+                            <p class="-mt-10 text-black sm:-ml-3 sm:-mt-6">Advertencia</p>
+                            <img src="@/assets/img/warning.png" class="ml-66 -mt-12 sm:-mt-10 sm:ml-48" width="35" height="35" />
                         </h1>
                         <ValidationObserver ref="observer">
                             <p class="text-red-600 font-thin text-md sm:text-sm text-justify" v-if="infoEliminar.referenceDTC != '--'">Se eliminará el Diagnóstico y la Ficha con referencia <span class="text-black font-bold">{{ infoEliminar.referenceNumber }}</span> y DTC con referencia <span class="text-black font-bold">{{ infoEliminar.referenceDTC}}</span></p>
@@ -31,7 +31,7 @@
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
                 <HeaderGenerico @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" @limpiar-concentrado-diagnostico="limpiar_filtros" @buscar-df="guardar_palabra_busqueda" :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 font-titulo" style="height:550px;">
+                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 font-titulo mb-12 sm:text-xs" style="height:550px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <!--/////////////////////////////////////////////////////////////////
                         ////                           HEADER TABLA                      ////
@@ -54,7 +54,7 @@
                         <!--/////////////////////////////////////////////////////////////////
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table">
+                        <tbody name="table" class="">
                             <template v-if="infoFichasFallaFiltrada.length == 0 && loadingTabla != true"> 
                                 <tr>
                                     <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
@@ -71,15 +71,15 @@
                             </template>                            
                             <template v-if="infoFichasFallaFiltrada.length > 0">
                                 <tr v-for="(item, key) in listaFicha" :key="key" class="h-12 text-gray-900 text-sm text-center">                
-                                    <td class="cuerpoTable">{{ item.referenceNumber }}</td>
-                                    <td class="cuerpoTable">{{ item.squareName }}</td>
-                                    <td class="cuerpoTable">{{ item.diagnosisDate.slice(0,10) | formato_concentrado }}</td>
-                                    <td class="cuerpoTable">{{ item.lanes }}</td>
-                                    <td class="cuerpoTable">{{ item.failuerNumber }}</td>
-                                    <td class="cuerpoTable">{{ item.siniesterNumber }}</td>
-                                    <td class="cuerpoTable">
+                                    <td class="cuerpoTable sm:text-xs">{{ item.referenceNumber }}</td>
+                                    <td class="cuerpoTable sm:text-xs">{{ item.squareName }}</td>
+                                    <td class="cuerpoTable sm:text-xs">{{ item.diagnosisDate.slice(0,10) | formato_concentrado }}</td>
+                                    <td class="cuerpoTable sm:text-xs">{{ item.lanes }}</td>
+                                    <td class="cuerpoTable sm:text-xs">{{ item.failuerNumber }}</td>
+                                    <td class="cuerpoTable sm:text-xs">{{ item.siniesterNumber }}</td>
+                                    <td class="cuerpoTable sm:text-xs">
                                         <div>                        
-                                            <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar font-boton sm:w-32">
+                                            <button @click="imprimir_pdf_diagnostico(item.referenceNumber)" class="botonDescargar w-31 font-boton sm:w-32">
                                                 <img src="../../../assets/img/download.png" class="mr-2 sm:ml-2" width="15" height="15" />
                                                 <span class="sm:text-xs sm:ml-1">Descargar</span>
                                             </button>
@@ -87,7 +87,7 @@
                                     </td>
                                     <td class="cuerpoTable">
                                         <div>                        
-                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar font-boton sm:w-32" :class="{'botonDescargarDes' : !item.validacionFichaTecnica}" :disabled="!item.validacionFichaTecnica">
+                                            <button @click="imprimir_pdf_ficha(item.referenceNumber)" class="botonDescargar w-31 font-boton sm:w-32" :class="{'botonDescargarDes' : !item.validacionFichaTecnica}" :disabled="!item.validacionFichaTecnica">
                                                 <img src="../../../assets/img/download.png" class="mr-2 sm:ml-2" width="15" height="15" />
                                                 <span class="sm:text-xs sm:ml-1">Descargar</span>
                                             </button>
@@ -102,14 +102,14 @@
                                             <img src="@/assets/img/pdf-firmado.png" class="mr-2 sm:-ml-1" width="15" height="15" />
                                             <span class="sm:text-xs">Descargar DTC</span>
                                         </button>
-                                        <button v-if="!item.validacionDTC && item.typeFaultId <= 1" @click="terminar_dtc(item.referenceNumber, item.typeFaultId)" :disabled="item.validacionDTC || item.typeFaultId <= 1" class="botonNoAplica font-boton sm:w-32 cursor-not-allowed">
+                                        <button v-if="!item.validacionDTC && item.typeFaultId <= 1" @click="terminar_dtc(item.referenceNumber, item.typeFaultId)" :disabled="item.validacionDTC || item.typeFaultId <= 1" class="botonNoAplica font-boton w-32 sm:w-32 cursor-not-allowed">
                                             <img src="@/assets/img/error.png" class="mr-2 sm:ml-0" width="15" height="15" />
                                             <span class="sm:text-xs">No Aplica DTC</span>
                                         </button>                                          
                                     </td>
                                     <td class="cuerpoTable" :class="{}">{{ item.referenceDTC }}</td>
                                     <td class="cuerpoTable" :class="{'hidden': typeUser == 7 || typeUser == 10 || typeUser == 4}">
-                                        <div v-if="item.validacionFichaTecnica" class="">
+                                        <div v-if="item.validacionFichaTecnica" class=" mr-10">
                                             <button @click="editar_diagnostico_falla(item)" class="botonEditarDF font-boton sm:mr-1 mr-2">
                                                 <img src="@/assets/img/pencil.png" class="sm:mr-1 mr-2" width="15" height="15" />
                                                 <span class="sm:text-xs">Editar</span>                                                
@@ -120,7 +120,7 @@
                                             </button>
                                         </div>
                                         <div v-else>
-                                            <button @click="terminar_ficha_diagnostico(item)" class="botonTerminarFicha font-boton  w-full sm:w-33 justify-center">
+                                            <button @click="terminar_ficha_diagnostico(item)" class="botonTerminarFicha font-boton -ml-2 w-33 sm:w-33 justify-center">
                                                 <img src="@/assets/img/nuevoDtc.png" class="mr-2" width="15" height="15" />
                                                 <span class="sm:text-xs">Terminar Ficha</span>                                                
                                             </button>

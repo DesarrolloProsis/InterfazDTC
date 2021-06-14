@@ -51,6 +51,13 @@ const actions = {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])                                                                 
             }); 
     },
+    async OBTENER_ACTIVIDADES_MESNUALES_ADMIN({ commit }, value) {                           
+        await Axios.post(`${API}/Calendario/GetActividadesUsuario`,value)
+            .then((response) => commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result))
+            .catch(() => {
+                commit("ACTIVIDADES_MENSUALES_MUTATION", [])                                                                 
+            }); 
+    },
     async OBTENER_COMENTARIO_MENSUAL({ commit, rootGetters }, value) {
         await Axios.post(`${API}/Calendario/getComentario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`,value)
             .then((response) => {                                  

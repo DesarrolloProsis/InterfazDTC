@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <div :class="{'mb-69': typeUser != 1}" class="grid grid-cols-1 w-78 ml-73 p-4 justify-center font-titulo sm:w-auto sm:ml-0">
+    <div :class="{'mb-69': typeUser != 1}" class="grid grid-cols-1 w-78 ml-48 p-4 justify-center font-titulo sm:w-auto sm:ml-0">
       <div class="mt-5">
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
