@@ -5,7 +5,7 @@
     ////                      MODAL AGREGAR                            ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
-      <div v-if="modalAgreagrActividad" class="modalAgregarActPre sm:w-64">
+      <div v-if="modalAgreagrActividad" class="modalAgregarActPre mt-32  sm:w-64">
         <h class="text-grey-darkest text-2xl font-titulo sm:text-sm">Agregar Actividad</h>
         <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
         <div>
@@ -41,8 +41,8 @@
           </div>
         </div>
         <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
-          <button @click="agregar_actividad_dia" class="botonIconCrear sm:mb-2"><span class="ml-4">Aceptar</span></button>
-          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar font-boton sm:w-full sm:ml-0"><span class="ml-4">Cancelar</span></button>
+          <button @click="agregar_actividad_dia" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1">Aceptar</span></button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar font-boton sm:w-full sm:ml-0"><span class="ml-1">Cancelar</span></button>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
     ////            MODAL LISTA DE CARRILES                            ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50 shadow-xl">
-      <div v-if="modalActividades" class="modalAgregarActPre sm:w-64">        
+      <div v-if="modalActividades" class="modalAgregarActPre mt-32 sm:w-64">        
         <div class="text-center">                    
         <div class="mb-4">
             <h1 class="text-grey-darkest text-2xl font-titulo sm:text-sm">Lista de Carriles</h1>    
@@ -69,7 +69,7 @@
         </div>    
         </div>
         <div class="justify-center flex mt-5">          
-          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar text-sm">Cancelar</button>
+          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar font-boton text-sm">Cancelar</button>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 <div>
     <div class="flex justify-center p-2">
         <div class="grid gap-4 grid-cols-1">
-            <div class="divtabla" :class="{ 'overflow-x-auto': scrollBool}">
+            <div class="divtabla sm:text-xs" :class="{ 'overflow-x-auto': scrollBool}">
             <!--//////////////////////////////////////////////////////////////////////
                 ////                           TABLA                             ////
                 ////////////////////////////////////////////////////////////////////-->

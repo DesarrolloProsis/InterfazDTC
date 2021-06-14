@@ -76,6 +76,8 @@ Vue.use(VueNotify)
 import AxiosManejador from './store/ManejoSolicitudes'
 Vue.prototype.$http = AxiosManejador
 //Vlidaciones
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 
 Vue.config.productionTip = false
 new Vue({

@@ -9,9 +9,9 @@
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
                 </div>
             </div>
-            <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm flex justify-start sm:justify-center">
+            <div class="w-2/3 sm:w-auto sm:-mt-3 sm:text-sm flex justify-start sm:justify-center">
                 <div class="">
-                    <h1 class="mt-5 font-titulo font-bold text-3xl">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel ${tituloUbicacion}` }}</h1>            
+                    <h1 class="mt-5 font-titulo font-bold text-3xl sm:text-lg">{{ `Mantenimiento Preventivo ${header.frequencyName} Nivel ${tituloUbicacion}` }}</h1>            
                 </div>
             </div>
         </div>
@@ -19,32 +19,32 @@
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA IZQUIERDA                        ////
               ////////////////////////////////////////////////////////////////////-->
-            <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
+            <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-base sm:text-xs">
                 <div class="w-1/2 sm:w-full p-8 sm:p-2">
-                    <div class="flex justify-starts m-5">
+                    <div class="flex justify-starts m-5 sm:ml-3 -ml-1">
                         <p class="font-titulo font-bold">Numero de Reporte:</p>
                         <h2 class="font-titulo ml-5">{{ referenceNumber }}</h2>
                     </div>
-                    <div class="flex justify-start m-5">
+                    <div class="flex justify-start m-5 sm:ml-3 -ml-1">
                         <p class="font-titulo font-bold">Plaza de Cobro:</p>
                         <p class="font-titulo ml-5">{{ header.plazaNombre }}</p>                                   
                     </div>
-                    <div class="flex justify-start m-5">
+                    <div class="flex justify-start m-5 sm:ml-3 -ml-1">
                         <p class="font-titulo font-bold">Ubicacion:</p>       
                         <p class="font-titulo ml-5">{{ header.lane }}</p>               
                     </div>
                 </div>
-                <div class="w-1/2 sm:w-full p-8 sm:p-2">
-                    <div class="flex justify-start m-5">
+                <div class="w-1/2 sm:w-full sm:-mt-10 p-8 sm:p-2">
+                    <div class="flex justify-start sm:ml-3 m-5">
                         <p class="font-titulo font-bold">Fecha:</p>                        
                         <p class="font-titulo ml-5">{{ header.day }}</p> 
                         <p @click="modalCambiarFecha" v-if="!$route.query.edicion" class="ml-5 text-sm cursor-pointer text-blue-700 font-boton font-bold">Cambiar Fecha</p>                            
                     </div>
-                    <div class="flex justify-start m-5">
+                    <div class="flex justify-start m-5 sm:ml-3">
                         <p class="font-titulo font-bold">Hora Inicio:</p>
                         <input v-model="horaInicio" class="ml-5 w-40 is_valid font-titulo" type="time">
                     </div>
-                    <div class="flex justify-start m-5">
+                    <div class="flex justify-start m-5 sm:ml-3">
                         <p class="font-titulo font-bold">Hora Fin:</p>
                         <input v-model="horaFin" class="ml-10 w-40 is_valid font-titulo" type="time">
                     </div>
@@ -53,7 +53,7 @@
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA INDICACIONES                    ////
               ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/3 sm:w-full uppercase text-xs p-10 sm:p-5">
+            <div class="w-1/3 sm:w-full uppercase text-xs sm:text-xs p-10 sm:p-5">
                 <p class="font-titulo font-bold">Estatus Equipo:</p>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Operando en optimas condiciones</p>
@@ -85,7 +85,8 @@
         ////                      MODAL CAMBIAR FECHA                    ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-2 sm:p-2 -mt-48">
+            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-2 sm:p-2 -mt-67">
+                <ValidationObserver ref="observer">
                 <div class="rounded-lg border bg-white border-gray-400 px-12 py-10 sm:px-6 shadow-2xl">
                     <p class="text-gray-900 font-titulo font-thin text-md">Indica la fecha y el motivo por el cual desea cambiar la fecha</p>
                     <div>
@@ -115,11 +116,12 @@
                     <!--/////////////////////////////////////////////////////////////////
                     ////                     BOTONES MODAL CAMBIAR FECHA          ////
                     ////////////////////////////////////////////////////////////////////-->
-                    <div class="justify-center flex mt-5">
+                    <div class="justify-center flex -mt-5 -mb-6 sm:-mt-3">
                         <button  @click="botoncambiar_modal" class="botonIconCrear m-6 sm:m-3">Cambiar</button>
                         <button  @click="botoncancelar_modal" class="botonIconCancelar font-boton m-6 sm:m-3">Cancelar</button>
                     </div>
                 </div>
+                </ValidationObserver>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex w-full">
+    <div class="flex w-full sm:-mb-10">
       <div>
         <div class="text-center mb-5 font-titulo">
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
@@ -186,7 +186,7 @@
           ////              MODAL INFORMACION CELULAR                        ////
           ////////////////////////////////////////////////////////////////////-->
           <div class="font-titulo" v-if="modal">
-            <div class="text-xs text-center contenedor z-40">
+            <div class="text-xs text-center contenedor z-40 sm:-mt-10 sm:mb-10">
               <div class="flex justify-end">
                 <button v-on:click.stop.prevent="(modal = false), (objectModal = {})" class="">
                   <img src="../../assets/img/close.png" class="mr-2 sm:m-1" width="25" height="25"/>
@@ -246,7 +246,7 @@
     //////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 font-titulo">
             <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-80 mx-auto px-2">
-                <div class="rounded-lg border bg-white border-gray-700 px-4 py-10 shadow-2xl">
+                <div class="rounded-lg border bg-white border-gray-400 px-4 py-10 shadow-2xl sm:-mt-56">
                   <!--////////////////////////////////////////////////////////////////////
                   ////                        BOTONES MODAL AGREGAR COMP             ////
                   ////////////////////////////////////////////////////////////////////-->
@@ -471,6 +471,7 @@ methods: {
   },
   eliminar_partida(index){
     this.arrayPartidas.splice(index, 1)
+    EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
   },
   UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){ this.showModal = true },  
@@ -543,6 +544,7 @@ methods: {
           new_partida["row3"] = this.componenteSeleccionado;
           new_partida["row8"] = this.laneSelect;          
           this.arrayPartidas.push(new_partida);
+          EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
           //LIMPIA LA LISTA PRE_PARTIDA
           for (const propiedades in this.datosPrePartida) {
             if (propiedades == "rowCantidad")
