@@ -26,6 +26,7 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
+        <p class="text-left font-semibold text-sm">Referencia Diagnostico: {{ infoCard.technicalSheetReference }}</p>
           <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-semibold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-semibold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 

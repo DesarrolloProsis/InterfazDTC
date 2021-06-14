@@ -130,7 +130,7 @@ export default {
         let userTipo = this.$store.state.Login.cookiesUser.rollId        
         CookiesService.actualizar_plaza()
         if(userTipo == 9 || userTipo == 8)
-          this.$router.push("ConcentradoDTC");                                              
+          this.$router.push("ConcentradoGMMEP");                                              
         else            
           this.$router.push("home");
       })     

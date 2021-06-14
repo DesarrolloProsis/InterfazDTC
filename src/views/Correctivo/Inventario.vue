@@ -31,15 +31,15 @@
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                     </div>
                     <div class="mt-8 ml-4">
-                      <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }"> 
+                      <!-- <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }">  -->
                         <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
                         <p class="w-32 input ml-16 -mt-6 sm:ml-8">
                         <select v-model="datosmtto.ubicacion" class="w-32 border-none" name="Carriles" type="text">
                             <option value="">Selecionar...</option>
                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                         </select></p>
-                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      </ValidationProvider>
+                        <!-- <span class="text-red-600 text-xs block">{{ errors[0] }}</span> -->
+                      <!-- </ValidationProvider> -->
                     </div>
                 </div>
                 <div class="mt-6">

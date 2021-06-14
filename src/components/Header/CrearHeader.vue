@@ -69,7 +69,7 @@
             </template>
           </div>      
           <div class="pr-2 font-titulo">
-            <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">
+            <!-- <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }"> -->
               <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripcion</p>
               <select v-model="datosSinester.TypeDescriptionId" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">
                 <option disabled value>Selecionar...</option>
@@ -77,8 +77,8 @@
                   {{ desc.description }}
                 </option>
               </select>
-              <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-            </ValidationProvider>              
+              <!-- <span class="text-red-600 text-xs block">{{ errors[0] }}</span> -->
+            <!-- </ValidationProvider>               -->
           </div>
           <!-- //////////////////////////////////////////////////////////////////
           ////                   SEGUNDA LINEA                              ////
