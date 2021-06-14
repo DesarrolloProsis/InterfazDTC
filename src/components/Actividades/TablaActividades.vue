@@ -126,7 +126,21 @@
                                     <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                    <td class="w-64 text-center cuerpoTable">                                                                    
+                                    <td class="w-64 text-center cuerpoTable">                                            
+                                        <multiselect v-model="value" placeholder="Seleccione una Accion" label="title" track-by="title" :options="options" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                                            <template slot="singleLabel" slot-scope="props">
+                                                <div class=" inline-flex">
+                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                                    <span class="option__title">{{ props.option.title }}</span>
+                                                </div>
+                                            </template>
+                                            <template slot="option" slot-scope="props">                                                
+                                                <div class="option__desc"><span class="option__title inline-flex">
+                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                    {{ props.option.title }}</span>
+                                                </div>
+                                            </template>
+                                        </multiselect>                                                                  
                                         <div class="ml-2" v-if="item.statusMaintenance == false">                               
                                             <button @click="crear_reporte_carril(item)" class="botonIconCrear ml-3 sm:w-16 sm:h-8">
                                                 <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
@@ -150,44 +164,31 @@
                                                 <img  src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-1"  width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Sellado</span>
                                             </button>
-                      <div>                    
-                        <button class="mt-1 sm:w-32 sm:-ml-5" v-if="pdfSelladoBool">
-                          <div class="botonIconSellado font-boton">
-                            <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
-                            <img src="@/assets/img/pdf.png" class="mr-1" width="15" height="15"/>
-                            <p class="text-xs mt-1">Subir Sellado</p>
-                          </div>                   
-                        </button>
-                        <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
-                          <div class="grid grid-cols-2">
-                          <img src="@/assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
-                          <p class="-ml-32 text-sm sm:ml-0">PDF Sellado</p>
-                          </div>
-                          <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
-                            <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subiar</button>
-                            <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
-                          </div>            
-                        </div>
-                      </div>
+                                            <div>                    
+                                                <button class="mt-1 sm:w-32 sm:-ml-5" v-if="pdfSelladoBool">
+                                                    <div class="botonIconSellado font-boton">
+                                                        <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
+                                                        <img src="@/assets/img/pdf.png" class="mr-1" width="15" height="15"/>
+                                                        <p class="text-xs mt-1">Subir Sellado</p>
+                                                    </div>                   
+                                                </button>
+                                                <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
+                                                    <div class="grid grid-cols-2">
+                                                        <img src="@/assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
+                                                        <p class="-ml-32 text-sm sm:ml-0">PDF Sellado</p>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
+                                                        <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subiar</button>
+                                                        <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                                                    </div>            
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>                                                                                     
                                 </tr>
                             </template>                                                                                                              
                         </tbody>       
-                    </table>
-                               <div>
-  <label class="typo__label">Custom option template</label>
-  <multiselect v-model="value" placeholder="Fav No Man’s Sky path" label="title" track-by="title" :options="options" :option-height="104" :custom-label="customLabel" :show-labels="false">
-    <template slot="singleLabel" slot-scope="props">
-        <img :src="props.option.img" alt="No Man’s Sky" width="15">           
-        <span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>
-    <template slot="option" slot-scope="props">
-        <img :src="props.option.img" alt="No Man’s Sky" width="15">            
-      <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-    </template>
-  </multiselect>
-  <pre class="language-json"><code>{{ value  }}</code></pre>
-</div>
+                    </table>                
                 </div>
             </div>
         </div>
@@ -222,15 +223,13 @@ export default {
             loadingTabla: false,
             tipoUsuario: '',
             value: '',
-      options: [
-        { title: 'Space Pirate', desc: 'More space battles!', img: '/img/nuevoDtc.90090632.png' },
-        { title: 'Explorer', desc: 'Discovering new species!', img: '/img/pencil.04ec78bc.png' },
-        { title: 'Miner', desc: 'We need to go deeper!', img: '/img/pdf.5b78f070.png' },
-      ],
-
+            options: [
+                { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
+                { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
+                { title: 'Descargar', img: '/img/pdf.5b78f070.png' },
+            ],
             pdfSelladoBool: true,
             pdfSellado:'' 
-
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -369,9 +368,8 @@ methods: {
             }
         })
     },
-
-    customLabel ({ title, desc }) {
-      return `${title} – ${desc}`
+    customLabel ({ title }) {
+        return `${title}`
     },
 
 recibir_pdf_sellado(e, index) {           
