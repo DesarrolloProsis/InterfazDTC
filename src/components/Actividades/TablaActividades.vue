@@ -126,23 +126,21 @@
                                     <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                    <td class="w-64 text-center cuerpoTable">                                                                    
-                                        <div class="ml-2" v-if="item.statusMaintenance == false">                               
-                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear ml-3 sm:w-16 sm:h-8">
-                                                <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span class="text-xs sm:hidden">Crear</span>
-                                            </button>
-                                        </div>
-                                        <div class="mr-5 grid grid-cols-1 sm:-ml-3" v-else>
-                                            <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2 w-32 sm:w-16 sm:h-8">
-                                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                                <span class="text-xs sm:hidden">Descargar</span>
-                                            </button>
-                                            <button v-if="tipoUsuario != 4 && tipoUsuario != 7 && tipoUsuario != 10" @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1 w-32 sm:w-16 sm:h-8">
-                                                <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
-                                                <span class="text-xs sm:hidden">Actualizar</span>
-                                            </button>                                   
-                                        </div>
+                                    <td class="w-64 text-center cuerpoTable">                                            
+                                        <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                                            <template slot="singleLabel" slot-scope="props">
+                                                <div class=" inline-flex">
+                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                                    <span class="option__title">{{ props.option.title }}</span>
+                                                </div>
+                                            </template>
+                                            <template slot="option" slot-scope="props">                                                
+                                                <div class="option__desc"><span class="option__title inline-flex">
+                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                    {{ props.option.title }}</span>
+                                                </div>
+                                            </template>
+                                        </multiselect>                                                                                                   
                                     </td>
                                     <td class="w-64 text-center cuerpoTable">
                                         <div class="grid grid-cols-1 -ml-4">
@@ -150,44 +148,31 @@
                                                 <img  src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-1"  width="15" height="15" />
                                                 <span class="text-xs sm:hidden">Sellado</span>
                                             </button>
-                      <div>                    
-                        <button class="mt-1 sm:w-32 sm:-ml-5" v-if="pdfSelladoBool">
-                          <div class="botonIconSellado font-boton">
-                            <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
-                            <img src="@/assets/img/pdf.png" class="mr-1" width="15" height="15"/>
-                            <p class="text-xs mt-1">Subir Sellado</p>
-                          </div>                   
-                        </button>
-                        <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
-                          <div class="grid grid-cols-2">
-                          <img src="@/assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
-                          <p class="-ml-32 text-sm sm:ml-0">PDF Sellado</p>
-                          </div>
-                          <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
-                            <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subiar</button>
-                            <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
-                          </div>            
-                        </div>
-                      </div>
+                                            <div>                    
+                                                <button class="mt-1 sm:w-32 sm:-ml-5" v-if="pdfSelladoBool">
+                                                    <div class="botonIconSellado font-boton">
+                                                        <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
+                                                        <img src="@/assets/img/pdf.png" class="mr-1" width="15" height="15"/>
+                                                        <p class="text-xs mt-1">Subir Sellado</p>
+                                                    </div>                   
+                                                </button>
+                                                <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
+                                                    <div class="grid grid-cols-2">
+                                                        <img src="@/assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
+                                                        <p class="-ml-32 text-sm sm:ml-0">PDF Sellado</p>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
+                                                        <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subiar</button>
+                                                        <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                                                    </div>            
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>                                                                                     
                                 </tr>
                             </template>                                                                                                              
                         </tbody>       
-                    </table>
-                               <div>
-  <label class="typo__label">Custom option template</label>
-  <multiselect v-model="value" placeholder="Fav No Man’s Sky path" label="title" track-by="title" :options="options" :option-height="104" :custom-label="customLabel" :show-labels="false">
-    <template slot="singleLabel" slot-scope="props">
-        <img :src="props.option.img" alt="No Man’s Sky" width="15">           
-        <span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>
-    <template slot="option" slot-scope="props">
-        <img :src="props.option.img" alt="No Man’s Sky" width="15">            
-      <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-    </template>
-  </multiselect>
-  <pre class="language-json"><code>{{ value  }}</code></pre>
-</div>
+                    </table>                
                 </div>
             </div>
         </div>
@@ -221,16 +206,9 @@ export default {
             blockSelect: false,
             loadingTabla: false,
             tipoUsuario: '',
-            value: '',
-      options: [
-        { title: 'Space Pirate', desc: 'More space battles!', img: '/img/nuevoDtc.90090632.png' },
-        { title: 'Explorer', desc: 'Discovering new species!', img: '/img/pencil.04ec78bc.png' },
-        { title: 'Miner', desc: 'We need to go deeper!', img: '/img/pdf.5b78f070.png' },
-      ],
-
+            value: '',           
             pdfSelladoBool: true,
             pdfSellado:'' 
-
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -249,7 +227,7 @@ beforeMount: async function(){
     this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
     this.loadingTabla = false  
-    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId        
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId            
 },
 computed:{
     carriles_plaza(){
@@ -331,9 +309,9 @@ methods: {
         this.limpiar_filtros()
     },
     reporte_pdf: async function(item){          
-        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
+        //let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
-        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${item.referenceNumber.split('-')[0]}/${item.calendarId}`)
         .then((response) => {                  
             let referenceNumber = response.data.result.table[0].referenceNumber
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
@@ -369,12 +347,40 @@ methods: {
             }
         })
     },
-
-    customLabel ({ title, desc }) {
-      return `${title} – ${desc}`
+    customLabel ({ title }) {
+        return `${title}`
     },
-
-recibir_pdf_sellado(e, index) {           
+    acciones_mapper(item){                
+        if(this.value.title == 'Crear'){
+            this.crear_reporte_carril(item)
+        }
+        if(this.value.title == 'Editar'){
+            this.editar_reporte_carril(item)
+        }   
+        if(this.value.title == 'Descargar'){            
+            this.reporte_pdf(item)
+        }
+        this.value = ""
+    },
+    opticones_select_acciones({ statusMaintenance }){
+        let options= [
+            { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
+            { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
+            { title: 'Descargar', img: '/img/pdf.5b78f070.png' },
+        ]
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
+            return options.splice(2,1)
+        }      
+        else{            
+            if(statusMaintenance){     
+                return options.splice(1,2)     
+            }
+            else{                                                
+                return options.splice(0,1)
+            }
+        }   
+    },
+    recibir_pdf_sellado(e, index) {           
   var files = e.target.files || e.dataTransfer.files;
   if (!files.length) return;
   else {  
@@ -388,8 +394,8 @@ recibir_pdf_sellado(e, index) {
       }
     }        
   }
-},
-crearImage(file) {  
+    },
+    crearImage(file) {  
   if(file.type.split('/')[1] == 'pdf'){
     var reader = new FileReader(); 
     reader.onload = (e) => {
@@ -416,8 +422,8 @@ crearImage(file) {
     this.pdfSellado = {}
     return false
   }         
-},
-base64ToFile(dataurl, fileName) {                    
+    },
+    base64ToFile(dataurl, fileName) {                    
     let url = "data:text/pdf;base64," + dataurl;  
     var arr = url.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
@@ -428,8 +434,7 @@ base64ToFile(dataurl, fileName) {
     u8arr[n] = bstr.charCodeAt(n);
   }
   return new File([u8arr], fileName + '.pdf', { type: mime });
-},
-
+    },
 },
 }
 </script>

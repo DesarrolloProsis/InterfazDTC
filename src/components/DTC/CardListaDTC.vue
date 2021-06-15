@@ -6,17 +6,22 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6 font-titulo">
         <div class="flex justify-between">
-          <div class="font-semibold">{{ infoCard.referenceNumber }}</div>           
+          <div class="font-semibold w-33">{{ infoCard.referenceNumber }}</div>           
           <div class=" inline-flex sm:ml-10 ml-16">
-            <div class="m-3 p-0 inline-block text-sm">
+            <div class="m-3 p-0 inline-block text-sm -ml-6">
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800">*Fecha Siniestro</span>
             </div>    
-            <div class="mt-2 w-5" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
+            <div class="mt-2 ml-5 mr-3 w-5" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
-            </div>      
+            </div>   
+            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 w-5">
+              <button @click="editar_fechas_calendario" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
+                <img src="../../assets/img/schedule.png" class="" width="30" height="30" />              
+              </button>
+            </div>        
           </div>
         </div>
         <hr />
@@ -115,7 +120,6 @@
             </button>
           </div>
           <div class=" inline-flex">
-            <a @click="menos" class="text-gray-700 md:mr-4 mt-3 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
                 <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton" :class="{'hidden' :tipoUsuario == 4 || tipoUsuario == 10}">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
@@ -151,6 +155,10 @@
             <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>          
           </div>
         </div>
+        <div class="mt-62 flex justify-end">
+          <a @click="menos" class="text-gray-700 md:mr-4 cursor-pointer mr-2">Menos ↑</a>
+        </div>
+        
       </div>
     </div>   
   </div>
@@ -188,7 +196,7 @@ export default {
       pdfSelladoBool: false,
       statusAgregarFimar: '',
       cambiarStatus: 0,
-      TIPO_USUARIO: 0 ,      
+      TIPO_USUARIO: 0 ,               
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -202,12 +210,15 @@ export default {
         Sistemas: 3,
         Administracion: 4,
         Supervisor_Sitemas: 5,
-    })   
+    })  
   },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
   methods: {
+    editar_fechas_calendario(){
+      this.$emit('editar-fechas-dtc', this.infoCard)
+    },   
     mas: async function () {
       this.menosMas = false;
       await this.$store.dispatch("DTC/BUSCAR_TABLA_CARDS",this.infoCard.referenceNumber);

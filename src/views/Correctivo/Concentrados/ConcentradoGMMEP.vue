@@ -144,6 +144,7 @@
                   <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
                 </td>
                 <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
+                <!-- Columna de las imagenes -->
                 <td class="cuerpoTable">
                   <div v-if="tipoUsuario != 7">
                     <button @click="abrirCarrusel(item)" class="botonIconCrear" v-if="!item.imgbool" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
@@ -159,6 +160,7 @@
                     </button>
                   </div>
                 </td>
+                <!-- Columna de cambios de status -->
                 <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
                   <div>
                     <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Estatus</button>
