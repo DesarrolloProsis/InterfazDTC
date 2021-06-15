@@ -44,7 +44,7 @@
               <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ refNum }}</p>
               <div>
                 <div class="mt-5">
-                <ValidationProvider name="Status" rules="required" v-slot="{ errors }"> 
+                
                   <p class="mb-1 sm:text-sm">Status DTC</p>
                   <select v-model="statusEdit" class="w-full" name="Status" type="text">
                       <option value="">Selecionar...</option>     
@@ -53,8 +53,7 @@
                       <option value="3">Sellado</option>                                                                                                                               
                       <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
                   </select> 
-                  <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                </ValidationProvider>
+
                 </div>
                 <div class="mt-5">
                   <ValidationProvider name="Observaciones" rules="required|max:300" v-slot="{ errors }"> 

@@ -401,6 +401,9 @@ abrir_modal_editar : function (item){
 },
 descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
+    setTimeout(()=>{
+    ServiceReportPDF.generar_pdf_fotografico_correctivo(infoDtc.referenceNumber);               
+    },1000)
 },
 filtro_dtc: async function (objFiltro) {     
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
