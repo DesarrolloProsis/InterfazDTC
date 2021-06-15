@@ -189,7 +189,64 @@
               </div>     
             </ValidationObserver>         
           </div>                  
-        </div>      
+        </div>    
+      <!--/////////////////////////////////////////////////////////////////
+        ////                      MODAL FECHAS DTC                       ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0 sm:text-xs font-titulo">               
+          <div v-if="modalEditFechas" class="absolute w-73 sm:w-66  mx-auto  justify-center inset-x-0 pointer-events-auto">     
+            <ValidationObserver ref="observer" v-slot="{ invalid  }">      
+              <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
+                <p class="text-gray-900 font-semibold text-lg text-center">Editar Fechas del DTC {{ refNum }}</p>
+                <!--/////////////////////////////////////////////////////////////////
+                  ////                   FILA NUMERO 1                         ////
+                  ////////////////////////////////////////////////////////////////-->
+                <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
+                  <div class="mt-2 mr-3">       
+                    <ValidationProvider immediate name="FechaSiniestro" rules="required" v-slot="{ errors }"> 
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Siniestro:</p>
+                      <input v-model="fechaSiniestro" class="w-full" type="date" name="FechaSiniestro"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                  <div class="mt-2">  
+                    <ValidationProvider immediate name="FechaFalla" rules="required" v-slot="{ errors }">      
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
+                      <input v-model="fechaFalla" class="w-full" type="date" name="FechaFalla"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                </div>
+                <!--/////////////////////////////////////////////////////////////////////
+                  ////                      FILA NUMERO 2                         ////
+                  ////////////////////////////////////////////////////////////////////-->
+                <div class="justify-center grid grid-cols-2 mt-5">       
+                  <div class="mt-2 mr-3">       
+                    <ValidationProvider immediate name="FechaEnvio" rules="required" v-slot="{ errors }"> 
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
+                      <input v-model="fechaEnvio" class="w-full" type="date" name="FechaEnvio"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                  <div class="mt-2">  
+                    <ValidationProvider immediate name="FechaElaboracion" rules="required" v-slot="{ errors }">      
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion:</p>
+                      <input v-model="fechaElaboracion" class="w-full" type="date" name="FechaElaboracion"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                </div>                                          
+              <!--/////////////////////////////////////////////////////////////////////
+                  ////                        BOTONES MODAL EDIT                         ////
+                  ////////////////////////////////////////////////////////////////////-->
+                <div class="text-center grid grid-cols-2  mt-10">  
+                  <div><button @click="confirmar_edicion_fechas" :disabled="invalid" class="botonIconCrear">Actualizar Fechas</button></div>     
+                  <div><button @click="cancelar_edicion_fechas" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
+                </div>
+              </div>     
+            </ValidationObserver>         
+          </div>                  
+        </div>        
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
@@ -203,6 +260,7 @@
                 @editar-status="editar_status_dtc"
                 @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
                 @enviar_pdf_sellado="enviar_pdf_sellado"
+                @editar-fechas-dtc="editar_fechas_dtc"
                 :plazasValidas="plazasValidas"
                 :infoCard="dtc"              
               ></CardListDTC>
@@ -261,7 +319,13 @@ export default {
       tipoUsuario: '',                                                             
       moreCard: true,                  
       filtroVista: false,
-      flecha: false
+      flecha: false,
+      //Modal Fechas
+      modalEditFechas: false,
+      fechaSiniestro: '',
+      fechaFalla: '',
+      fechaEnvio: '',
+      fechaElaboracion: ''           
     };
   },
   components: {    
@@ -405,6 +469,7 @@ methods: {
                 this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
                   .then(() => resolve('ok'))   
                   .catch((error) => {
+
                     reject(error)
                   })                                     
               })
@@ -655,6 +720,45 @@ methods: {
             }                                               
         }    
     };
+  },
+  editar_fechas_dtc(value){    
+    this.refNum = value.referenceNumber
+    this.fechaSiniestro = value.sinisterDate.slice(0,10)
+    this.fechaFalla = value.failureDate.slice(0,10)
+    this.fechaElaboracion = value.elaborationDate.slice(0,10)
+    this.fechaEnvio = value.shippingDate.slice(0,10)
+    this.modalEditFechas = true
+  },
+  confirmar_edicion_fechas(){ 
+    this.$http.put(`${API}/DtcData/UpdateFechaDtc/PM`, {
+      Reference: this.refNum,
+      SinisterDate: this.fechaSiniestro,
+      FailureDate: this.fechaFalla,
+      ShippingDate: this.fechaEnvio,
+      ElaborationDate: this.fechaElaboracion
+    })
+    .then(() => {
+        this.$notify.success({
+           title: "Ok!",
+           msg: `SE ACTUALIZARON LAS FECHAS PARA EL DTC ${this.refNum}`,
+           position: "bottom right",
+           styles: { height: 100, width: 500,},
+        });
+    })
+    .catch(() =>{
+      this.$notify.warning({
+           title: "Ups!",
+           msg: `NO SE ´PUDIERON ACTUALIZAR LA FECHAS DEL DTC ${this.refNum}`,
+           position: "bottom right",
+           styles: { height: 100, width: 500,},
+        });      
+    })
+    this.refNum = ''; this.fechaSiniestro = ''; this.fechaFalla = ''; this.fechaElaboracion = ''; this.fechaEnvio = '';
+    this.modalEditFechas = false
+    this.limpiar_filtros()
+  },
+  cancelar_edicion_fechas(){
+    this.modalEditFechas = false
   }
 },
 computed: {
