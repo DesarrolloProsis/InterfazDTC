@@ -367,7 +367,6 @@ methods: {
             { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
             { title: 'Descargar', img: '/img/pdf.5b78f070.png' },
         ]
-
         if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
             return options.splice(2,1)
         }      
