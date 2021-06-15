@@ -280,6 +280,7 @@ export default {
             if(this.value.title == 'DTC'){    
                 this.desargar_pdf(item)
             }
+            this.value = ""
             
         },
         opticones_select_acciones(item){

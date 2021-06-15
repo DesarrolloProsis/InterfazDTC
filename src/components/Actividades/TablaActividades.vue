@@ -360,6 +360,7 @@ methods: {
         if(this.value.title == 'Descargar'){            
             this.reporte_pdf(item)
         }
+        this.value = ""
     },
     opticones_select_acciones({ statusMaintenance }){
         let options= [
