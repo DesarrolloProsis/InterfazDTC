@@ -149,7 +149,7 @@
             <!-- <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span> -->
           </div>
           <div></div>
-          <div class="pr-2 font-titulo -mt-24 sm:-mt-4">
+          <div class="pr-2 font-titulo -mt-20 sm:-mt-4">
             <span class="font-semibold text-lg sm:text-xs">Coordinacion Regional:</span>
             <label class="text-md" style="font-weight: normal">{{ headerSelecionado.regionalCoordination }}</label>
           </div>
@@ -158,7 +158,7 @@
             ///////////////////////////////////////////////////////////////////// -->
             <div></div>
             <div></div>
-            <div class="pr-2 font-titulo -mt-20 sm:-mt-10">
+            <div class="pr-2 font-titulo -mt-12 sm:-mt-10">
               <span class="font-semibold text-lg sm:text-xs">Centro de Servicio: Ciudad de México</span>
               <label></label>
             </div>
@@ -167,7 +167,7 @@
           ///////////////////////////////////////////////////////////////////// -->
             <div class="sm:hidden"></div>
             <div class="sm:hidden"></div>
-            <div class="pr-2 font-titulo -mt-16 sm:-mt-8">
+            <div class="pr-2 font-titulo -mt-8 sm:-mt-8">
               <span class="font-semibold text-lg sm:text-xs">Correo:</span>
               <span class="font-semibold text-lg sm:text-xs">hguzman@grupo-prosis.com</span>
             </div>   
