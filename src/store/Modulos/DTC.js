@@ -29,7 +29,6 @@ const getters = {
             item.dtcView.imgbool = false
           else  
             item.dtcView.imgbool = true
-
           if(item.pdfExists){
             item.dtcView.escaneadobool = false
             item.dtcView.confirmpdf = true

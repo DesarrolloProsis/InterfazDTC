@@ -13,7 +13,8 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
         año = fecha_comodin.getFullYear()
     }       
     let listaActidadesTipo = []    
-    if(ref != undefined){     
+    if(ref != undefined){   
+        //Consulta tecnicos y Admin capufe desarrollo  
         let objApiNuevo = { "userId": user.idUser, referenceNumber: ref }        
         listaActidadesTipo = await Axios.post(`${API}/Calendario/GetActividadesFiltroReferencia`, objApiNuevo)
             .then((response) => {                
@@ -26,8 +27,13 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
             })            
     }
     else{   
-        let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}   
-        await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
+        let tipoUsuario = store.state.Login.cookiesUser.rollId
+        let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}
+        if(tipoUsuario == 4 || tipoUsuario == 7 || tipoUsuario == 10 )   
+            await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES_ADMIN', objApi) 
+        else
+            await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 
+
         listaActidadesTipo = tipoCalendario === false 
         ? await store.getters['Actividades/GET_ACTIVIDADES_MENSUALES'](objApi)
         : eventos_calendario_formato(objApi)                       

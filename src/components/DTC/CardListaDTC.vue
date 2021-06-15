@@ -6,9 +6,9 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6 font-titulo">
         <div class="flex justify-between">
-          <div class="font-semibold m-3">{{ infoCard.referenceNumber }}</div>           
-          <div class=" inline-flex sm:ml-10 ml-7">
-            <div class="m-3 ml-0 p-0 inline-block text-sm">
+          <div class="font-semibold">{{ infoCard.referenceNumber }}</div>           
+          <div class=" inline-flex sm:ml-10 ml-16">
+            <div class="m-3 p-0 inline-block text-sm">
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800">*Fecha Siniestro</span>
             </div>    
@@ -31,6 +31,7 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
+          <p class="text-left font-semibold text-sm">Referencia Diagnostico: {{ infoCard.technicalSheetReference }}</p>
           <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-semibold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-semibold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
@@ -206,7 +207,7 @@ export default {
         Sistemas: 3,
         Administracion: 4,
         Supervisor_Sitemas: 5,
-    })   
+    })  
   },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////

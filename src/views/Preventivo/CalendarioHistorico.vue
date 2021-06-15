@@ -1,11 +1,11 @@
 <template>
     <div>        
-        <div class="grid grid-cols-1 w-1/2 ml-72 sm:ml-8">   
+        <div class="grid grid-cols-1 w-78 sm:w-66 ml-48 sm:ml-8">   
         <!--//////////////////////////////////////////////////////////////////////
             ////                        FILTROS                              ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-10" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
-                <div class="border-2 px-16 shadow-lg z-10 justify-center sm:w-67 sm:-ml-4">
+            <div class="mt-8" :class="{ 'pointer-events-none': false, 'opacity-25': false}">      
+                <div class="border-2 px-16 shadow-lg z-10 rounded-lg justify-center sm:w-67 sm:-ml-4">
                     <div>   
                         <h1 class="text-black text-center text-3xl mt-3 mb-1 sm:mb-1 sm:text-sm font-titulo font-bold">Bitacora de Visitas de Mantenimiento Equipos De Peaje</h1>     
                     </div>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div> 
-            <div class="overflow-x-auto mx-auto sm:text-xs rounded-lg shadow h-66 mt-6 sm:w-67 sm:-ml-4" style="height:500px;">
+            <div class="overflow-x-auto mx-auto sm:text-xs rounded-lg shadow mb-16 mt-6 sm:mb-24 sm:w-67 sm:-ml-4" style="height:500px;">
                 <table class="border-collapse table-fixed">
                     <!--/////////////////////////////////////////////////////////////////
                     ////                           HEADER TABLA                      ////
