@@ -201,6 +201,12 @@ export default {
         },
         desargar_pdf(value){
             ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
+            if (this.typeUser != 4 && this.typeUser != 8)
+            {
+                setTimeout(()=>{
+                    ServiceReporte.generar_pdf_fotografico_correctivo(value.referenceDTC);               
+                },1000)
+            }
             this.$notify.success({
                 title: "Ok!",
                 msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
