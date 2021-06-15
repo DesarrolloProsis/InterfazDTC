@@ -284,6 +284,7 @@ beforeMount: async function () {
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
   this.infoDTC_Filtrado = this.infoDTC  
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
+  this.idUser = await this.$store.state.Login.cookiesUser.userId
   let listaPlazasValias = []
   //Lista Plaza Validas
   let todasPlazas = await  this.$store.state.Login.listaPlazas
@@ -541,7 +542,7 @@ methods: {
       this.modalLoading = true
       this.modalFirma = false    
       let agregar_firma_promise = new Promise((resolve, reject) => {              
-        this.$http.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
+        this.$http.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}/${this.idUser}`)
         .then(() => {           
           let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
