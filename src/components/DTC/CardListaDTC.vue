@@ -6,9 +6,9 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6 font-titulo">
         <div class="flex justify-between">
-          <div class="font-semibold">{{ infoCard.referenceNumber }}</div>           
+          <div class="font-semibold w-33">{{ infoCard.referenceNumber }}</div>           
           <div class=" inline-flex sm:ml-10 ml-16">
-            <div class="m-3 p-0 inline-block text-sm">
+            <div class="m-3 p-0 inline-block text-sm -ml-6">
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800">*Fecha Siniestro</span>
             </div>    
@@ -120,7 +120,6 @@
             </button>
           </div>
           <div class=" inline-flex">
-            <a @click="menos" class="text-gray-700 md:mr-4 mt-3 cursor-pointer mr-2">Menos ↑</a>
             <div v-if="infoCard.statusId == 1">
                 <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton" :class="{'hidden' :tipoUsuario == 4 || tipoUsuario == 10}">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
@@ -156,6 +155,10 @@
             <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>          
           </div>
         </div>
+        <div class="mt-62 flex justify-end">
+          <a @click="menos" class="text-gray-700 md:mr-4 cursor-pointer mr-2">Menos ↑</a>
+        </div>
+        
       </div>
     </div>   
   </div>
