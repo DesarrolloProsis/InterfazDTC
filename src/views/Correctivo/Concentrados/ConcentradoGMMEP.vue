@@ -130,7 +130,7 @@
                     </button>
                   </div>
                 </td>              
-                <td class="cuerpoTable">{{ item.referenceNumber }}</td>
+                <td class="cuerpoTable">{{ item.technicalSheetReference }}</td>
                 <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
                 <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
                 <td class="cuerpoTable">{{ item.dateStamp | formatDate}}</td>
@@ -147,10 +147,11 @@
                 <!-- Columna de las imagenes -->
                 <td class="cuerpoTable">
                   <div v-if="tipoUsuario != 7">
-                    <button @click="abrirCarrusel(item)" class="botonIconCrear" v-if="!item.imgbool" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
+                    {{ validar_imagenes_diagnostico(item) }}
+                    <button v-if="validar_imagenes_diagnostico(item)" @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': validar_imagenes_diagnostico(item) }" :disabled="!validar_imagenes_diagnostico(item)">
                       <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
                     </button>
-                    <button @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': item.imgbool }" :disabled=" item.imgbool " v-else >
+                    <button v-else @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': validar_imagenes_diagnostico(item) }" :disabled="validar_imagenes_diagnostico(item)" >
                       <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
                     </button>
                   </div>
@@ -232,6 +233,7 @@ import Carrusel from "../../../components/Carrusel";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import AgregarImg from "../../../components/ImagenesGenericas"
 
+
 export default {
   name: "ConcentradoDTC",
   components: {    
@@ -292,77 +294,85 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-abrirModal(item){
-  this.infoAcrualizar = item
-  console.log(this.infoAcrualizar)
-  this.modalActualizar = true
-},
-ActualizarComponentes: async function(){
-  let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
-  let userId = this.$store.state.Login.cookiesUser.userId
-  this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}/${userId}`)
-  this.modalActualizar = false
-},
-guardar_palabra_busqueda: function(newPalabra){  
-  if (newPalabra != "") {   
-    this.lista_DTC_Filtrada = [] 
-    this.loadingTabla = true
-    setTimeout(async () => {
-      let array_filtrado = this.infoDTC.filter(item => {
-        return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
-      })       
-      this.lista_DTC_Filtrada = array_filtrado;
-      this.loadingTabla = false
-    },1000)
-  }
-  else{
+  validar_imagenes_diagnostico:  function({ technicalSheetReference }){
+    if(technicalSheetReference != '--'){                
+        return this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${technicalSheetReference.split('-')[0]}/${technicalSheetReference}`)      
+          .then((response) => {                         
+            if(response.data.length === 0)
+              return false
+            else
+              return true
+          })                      
+    }
+    else {      
+      return false
+    }
+  } , 
+  abrirModal(item){
+    this.infoAcrualizar = item
+    console.log(this.infoAcrualizar)
+    this.modalActualizar = true
+  },
+  ActualizarComponentes: async function(){
+    let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
+    let userId = this.$store.state.Login.cookiesUser.userId
+    this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}/${userId}`)
+    this.modalActualizar = false
+  },
+  guardar_palabra_busqueda: function(newPalabra){  
+    if (newPalabra != "") {   
+      this.lista_DTC_Filtrada = [] 
+      this.loadingTabla = true
+      setTimeout(async () => {
+        let array_filtrado = this.infoDTC.filter(item => {
+          return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+        })       
+        this.lista_DTC_Filtrada = array_filtrado;
+        this.loadingTabla = false
+      },1000)
+    }
+    else{
+      this.lista_DTC_Filtrada = this.infoDTC
+    }
+  },  
+  abrirSubir: function (item) {
+    this.subirImgModal = true
+    this.datosImg = item
+  },
+  subirImg: async function (){
+    this.subirImgModal = false
+    let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+    await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+    this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
     this.lista_DTC_Filtrada = this.infoDTC
-  }
-},  
-abrirSubir: function (item) {
-  this.subirImgModal = true
-  this.datosImg = item
-},
-subirImg: async function (){
-  this.subirImgModal = false
-  let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']      
-  await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
-  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
-  this.lista_DTC_Filtrada = this.infoDTC
-},
-abrirCarrusel : async function (item){  
-  this.dtcImg = item
-  await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
-    .then((response) => {              
-        if(response.status != 404){                 
-          if(response.data.length > 0){
-            let array = response.data.map(imgData => {
-              return {
-                "fileName": imgData, 
-                "image": `${API}/dtcData/EquipoDañado/Images/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}/${imgData}`
-              }
-            })            
-            this.arrayImagenesCarrusel = {
-              array_img: array,
-              referenceNumber: item.referenceNumber,
-            };  
-            this.carruselModal = true
-          }
-          else{
-            this.$notify.warning({
-            title: "Ups!",
-            msg: `SIN FOTOS.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }   
-      }                   
-    })     
-},
-editar_status_dtc: function (){
+  },
+  abrirCarrusel : async function (item){  
+    this.dtcImg = item
+    await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+      .then((response) => {              
+          if(response.status != 404){                 
+            if(response.data.length > 0){
+              let array = response.data.map(imgData => {
+                return {
+                  "fileName": imgData, 
+                  "image": `${API}/dtcData/EquipoDañado/Images/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}/${imgData}`
+                }
+              })            
+              this.arrayImagenesCarrusel = { array_img: array, referenceNumber: item.referenceNumber };  
+              this.carruselModal = true
+            }
+            else{
+              this.$notify.warning({
+              title: "Ups!",
+              msg: `SIN FOTOS.`,
+              position: "bottom right",
+              styles: { height: 100, width: 500 },
+            });
+          }   
+        }                   
+      })     
+  },
+  editar_status_dtc: function (){
   let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
   //Crea un objeto con los elementos necesarios para hacer un evento post
   let objeActualizado = {
@@ -395,19 +405,19 @@ editar_status_dtc: function (){
           },
         });
     }
-},
-abrir_modal_editar : function (item){
+  },
+  abrir_modal_editar : function (item){
   this.modalCambiarStatus = true
   //Toma la variable y la iguala al objeto item que trae toda la fila 
   this.dtcEdit = item
-},
-descargar_PDF: function (infoDtc, status){
+  },
+  descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
     setTimeout(()=>{
     ServiceReportPDF.generar_pdf_fotografico_correctivo(infoDtc.referenceNumber);               
     },1000)
-},
-filtro_dtc: async function (objFiltro) {     
+  },
+  filtro_dtc: async function (objFiltro) {     
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
     this.lista_DTC_Filtrada = []
     this.loadingTabla = true    
@@ -430,30 +440,30 @@ filtro_dtc: async function (objFiltro) {
       },
     });
   }
-},
-limpiar_filtros: function() {             
+  },
+  limpiar_filtros: function() {             
   this.modalLoading = true                            
   this.$nextTick().then(() => {             
     this.lista_DTC_Filtrada = this.infoDTC
   })           
-},
-recibir_pdf_sellado(e, index) {           
-  var files = e.target.files || e.dataTransfer.files;
-  if (!files.length) return;
-  else {  
-    for (let item of files) {        
-      if(this.crearImage(item)){        
-        this.$nextTick().then(() => {
-          this.pdfSelladoBool = false
-          this.infoDTC[index].confirmpdf = true             
-          this.infoDTC.splice(index, 1 ,  Object.assign(this.infoDTC[index]))          
-          
-        })
-      }
-    }        
-  }
-},
-crearImage(file) {  
+  },
+  recibir_pdf_sellado(e, index) {           
+    var files = e.target.files || e.dataTransfer.files;
+    if (!files.length) return;
+    else {  
+      for (let item of files) {        
+        if(this.crearImage(item)){        
+          this.$nextTick().then(() => {
+            this.pdfSelladoBool = false
+            this.infoDTC[index].confirmpdf = true             
+            this.infoDTC.splice(index, 1 ,  Object.assign(this.infoDTC[index]))          
+
+          })
+        }
+      }        
+    }
+  },
+  crearImage(file) {  
   if(file.type.split('/')[1] == 'pdf'){
     var reader = new FileReader(); 
     reader.onload = (e) => {
@@ -480,8 +490,8 @@ crearImage(file) {
     this.pdfSellado = {}
     return false
   }         
-},
-base64ToFile(dataurl, fileName) {                    
+  },
+  base64ToFile(dataurl, fileName) {                    
     let url = "data:text/pdf;base64," + dataurl;  
     var arr = url.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
@@ -492,8 +502,8 @@ base64ToFile(dataurl, fileName) {
     u8arr[n] = bstr.charCodeAt(n);
   }
   return new File([u8arr], fileName + '.pdf', { type: mime });
-},
-enviar_pdf_sellado(index){                       
+  },
+  enviar_pdf_sellado(index){                       
   let formData = new FormData();
   let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
   formData.append("file", file);     
@@ -541,7 +551,7 @@ enviar_pdf_sellado(index){
         });  
       })      
     }, 3000);      
-},
+  },
 },
 
 /////////////////////////////////////////////////////////////////////
