@@ -109,7 +109,8 @@ const actions = {
   },
   async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idUser}/${value.numPlaza}`)
-      .then(response => {                      
+      .then(response => {            
+        console.log(response)          
         commit("LISTA_DTC_MUTATION", response.data.result);
       })
       .catch(() => {

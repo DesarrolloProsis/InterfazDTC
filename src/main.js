@@ -78,6 +78,9 @@ Vue.prototype.$http = AxiosManejador
 //Vlidaciones
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+//Youtube
+import VueYoutube from 'vue-youtube'
+Vue.use(VueYoutube)
 
 Vue.config.productionTip = false
 new Vue({

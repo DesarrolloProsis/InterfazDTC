@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex justify-center mt-2 mb-16 sm:mt-14">
+        <div class="flex justify-center mt-2 mb-16 sm:mt-14" :class="{'hidden': modal_videos}">
             <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
                 <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
                     <button @click="ventana_comentario" class="text-center">
@@ -56,26 +56,10 @@
         <!--////////////////////////////////////////////////////////////////////
         ////                      MODAL VIDEOS                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-            <div v-if="modal_videos" class="bg-white -mt-68 justify-center absolute inset-x-0 w-full mx-auto px-12 py-10 sm:p-2">
-                <span @click="modal_videos = false" class="absolute  top-1">
-                    <img  src="../assets/img/close.png" class="w-8 cursor-pointer " />
-                </span> 
-                <div class="border border-gray-400 rounded-xl">
-                    <div class="grid grid-cols-3">
-                        <div>
-                            <img src="../assets/img/guia.png" height="200" width="200" class="m-10 sm:m-1" />
-                            <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Manual de Usuario</h1>
-                        </div>
-                        <div>
-                            <img src="../assets/img/videos.png" height="200" width="200" class="m-10 sm:m-1" />
-                            <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Manual de Usuario</h1>
-                        </div>
-                        <div>
-                            <img src="../assets/img/comentarios.png" height="200" width="200" class="m-10 sm:m-1" />
-                            <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Manual de Usuario</h1>
-                        </div>
-                    </div>
+        <div class="sticky inset-0 mx-auto">
+            <div v-if="modal_videos" class="bg-white justify-center absolute w-full mx-auto px-12 py-10 sm:p-2">
+                <div class="flex mx-auto">
+                    <youtube :video-id="videoId" resize="true" width="100%" height="700" ref="youtube" @playing="playing"></youtube>                            
                 </div>
             </div>
         </div>
@@ -90,7 +74,8 @@ export default {
             modal_coment: false,
             modal_videos: false,
             comentario: '',
-            limite: 300
+            limite: 300,
+            videoId: 'lG0Ys-2d4MA'
         }
     },  
     methods:{
@@ -102,11 +87,18 @@ export default {
         },
         ventana_videos(){
             this.modal_videos = true
+            this.player.playVideo()            
+        },      
+        playing() {
+          console.log('o/ we are watching!!!')
         }
     },
     computed:{
         restante_comentario(){
             return this.comentario.length
+        },
+        player() {
+            return this.$refs.youtube.player
         }
     }
 }
