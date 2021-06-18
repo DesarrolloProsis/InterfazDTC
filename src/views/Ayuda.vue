@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex justify-center mt-2 mb-16 sm:mt-14" :class="{'hidden': modal_videos}">
+        <div v-if="boolBotones" class="flex justify-center mt-2 mb-16 sm:mt-14">
             <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
                 <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
                     <button @click="ventana_comentario" class="text-center">
@@ -9,7 +9,7 @@
                     </button>
                 </div>
                 <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
-                    <button @click="ventana_videos" class="text-center">
+                    <button @click="mostrar_videos_lista" class="text-center">
                         <img src="../assets/img/videos.png" height="200" width="200" class="m-10 sm:m-1" />
                         <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Videos</h1>              
                     </button>
@@ -20,6 +20,26 @@
                         <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Manual de Usuario</h1>
                     </button>
                 </div>   
+            </div>
+        </div>
+        <div v-if="boolListaVideos" class="flex justify-center mt-2 mb-16 sm:mt-14">
+            <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
+                <div v-for="(item, key) in arrayVideos" :key="key" class="botonesCorrectivo animacion sm:m-4 sm:p-3 w-72 p-6">
+                    <p class=" text-lg text-center">{{ item.titulo }}</p>
+                    <div class=" inline-flex">
+                        <div class="mt-6">
+                            <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1" />
+                        </div> 
+                        <div class="pt-20 pl-20">
+                            <div>
+                                <button @click="ventana_videos(item)">Reproducir</button>                                
+                            </div>  
+                            <div class="mt-3">
+                                {{ item.descripcion }}
+                            </div>                          
+                        </div>    
+                    </div>     
+                </div>         
             </div>
         </div>
         <!--////////////////////////////////////////////////////////////////////
@@ -75,17 +95,29 @@ export default {
             modal_videos: false,
             comentario: '',
             limite: 300,
-            videoId: 'lG0Ys-2d4MA'
+            videoId: '',
+            arrayVideos: [
+                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Ficha Falla", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.' },
+                {  videoId: 'CR-7c2HIUf0', titulo: "Subir Escaneados en Autorizado GMMEP", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.' },
+                {  videoId: 'Wx-AeJCf1eU', titulo: "CAmbiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.' }
+            ],
+            boolListaVideos: false,
+            boolBotones: true
         }
     },  
     methods:{
+        mostrar_videos_lista(){
+            this.boolBotones = false
+            this.boolListaVideos = true
+        },
         manual_pdf(){
             ReportesPDFService.manual_pdf()
         },
         ventana_comentario(){
             this.modal_coment = true
         },
-        ventana_videos(){
+        ventana_videos({videoId}){
+            this.videoId = videoId
             this.modal_videos = true
             this.player.playVideo()            
         },      
