@@ -76,10 +76,13 @@
         <!--////////////////////////////////////////////////////////////////////
         ////                      MODAL VIDEOS                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 mx-auto">
-            <div v-if="modal_videos" class="bg-white justify-center absolute w-full mx-auto px-12 py-10 sm:p-2">
-                <div class="flex mx-auto">
-                    <youtube :video-id="videoId" resize="true" width="100%" height="700" ref="youtube" @playing="playing"></youtube>                            
+        <div class="sticky inset-0 mx-auto">           
+            <div v-if="modal_videos" class="bg-white justify-center absolute w-full mx-auto px-12 py-10 sm:p-2">     
+                <span  @click="cerrar_video" class="absolute border rounded-full top-0 right-0">
+                    <img  src="@/assets/img/close.png" class="w-10 cursor-pointer " />
+                </span>        
+                <div class="flex mx-auto">                  
+                    <youtube :video-id="videoId" width="100%" height="700" ref="youtube" @playing="playing"></youtube>                            
                 </div>
             </div>
         </div>
@@ -106,6 +109,11 @@ export default {
         }
     },  
     methods:{
+        cerrar_video(){
+            this.modal_videos = false
+            this.boolListaVideos = false
+            this.boolBotones = true
+        },
         mostrar_videos_lista(){
             this.boolBotones = false
             this.boolListaVideos = true
@@ -117,12 +125,13 @@ export default {
             this.modal_coment = true
         },
         ventana_videos({videoId}){
+            this.boolListaVideos = false
             this.videoId = videoId
             this.modal_videos = true
             this.player.playVideo()            
         },      
         playing() {
-          console.log('o/ we are watching!!!')
+            console.log('o/ we are watching!!!')
         }
     },
     computed:{
