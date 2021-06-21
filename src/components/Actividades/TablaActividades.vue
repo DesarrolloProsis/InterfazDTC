@@ -381,59 +381,58 @@ methods: {
         }   
     },
     recibir_pdf_sellado(e, index) {           
-  var files = e.target.files || e.dataTransfer.files;
-  if (!files.length) return;
-  else {  
-    for (let item of files) {        
-      if(this.crearImage(item)){        
-        this.$nextTick().then(() => {
-          this.pdfSelladoBool = false           
-          this.listaActividadesMensuales.splice(index, 1 ,  Object.assign(this.listaActividadesMensuales[index]))          
-          
-        })
-      }
-    }        
-  }
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+        else {  
+            for (let item of files) {        
+                if(this.crearImage(item)){        
+                    this.$nextTick().then(() => {
+                    this.pdfSelladoBool = false           
+                    this.listaActividadesMensuales.splice(index, 1 ,  Object.assign(this.listaActividadesMensuales[index]))          
+                    })
+                }
+            }        
+        }
     },
     crearImage(file) {  
-  if(file.type.split('/')[1] == 'pdf'){
-    var reader = new FileReader(); 
-    reader.onload = (e) => {
-      this.$nextTick().then(() => {
-        this.pdfSellado = {
-          imgbase: e.target.result.split(',')[1],
-          name: file.name,
+    if(file.type.split('/')[1] == 'pdf'){
+        var reader = new FileReader(); 
+        reader.onload = (e) => {
+            this.$nextTick().then(() => {
+                this.pdfSellado = {
+                imgbase: e.target.result.split(',')[1],
+                name: file.name,
+                };
+            })        
         };
-      })        
-    };
-    reader.readAsDataURL(file);   
-    return true
-  }
-  else{
-    this.$notify.warning({
-      title: "Ups!",
-      msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-      position: "bottom right",
-      styles: {
-        height: 100,
-        width: 500,
-      },          
-    });
-    this.pdfSellado = {}
-    return false
-  }         
-    },
-    base64ToFile(dataurl, fileName) {                    
-    let url = "data:text/pdf;base64," + dataurl;  
-    var arr = url.split(","),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], fileName + '.pdf', { type: mime });
+        reader.readAsDataURL(file);   
+        return true
+    }
+    else{
+        this.$notify.warning({
+            title: "Ups!",
+            msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+            position: "bottom right",
+            styles: {
+                height: 100,
+                width: 500,
+            },          
+        });
+        this.pdfSellado = {}
+        return false
+    }         
+      },
+      base64ToFile(dataurl, fileName) {                    
+      let url = "data:text/pdf;base64," + dataurl;  
+      var arr = url.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName + '.pdf', { type: mime });
     },
 },
 }
