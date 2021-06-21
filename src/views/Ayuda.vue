@@ -31,9 +31,9 @@
                             <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1" />
                         </div> 
                         <div class="pt-20 pl-20">
-                            <div>
+                            <div class="w-16 ml-16">
                                 <button @click="ventana_videos(item)">
-                                    <img src="../assets/img/play.png" height="40" width="55" class=" ml-16 sm:m-1"/>
+                                    <img src="../assets/img/play.png" height="40" width="55" class="sm:m-1"/>
                                 </button>                                
                             </div>  
                             <div class="mt-3">
@@ -84,7 +84,7 @@
                     <img  src="@/assets/img/close.png" class="w-10 cursor-pointer " />
                 </span>        
                 <div class="flex mx-auto">                  
-                    <youtube :player-vars="playerVars" :video-id="videoId" width="100%" height="700" ref="youtube" @playing="playing"></youtube>                            
+                    <youtube :player-vars="playerVars" :video-id="videoId" width="100%" height="700" ref="youtube" ></youtube>                            
                 </div>
             </div>
         </div>
@@ -118,6 +118,7 @@ export default {
             this.modal_videos = false
             this.boolListaVideos = false
             this.boolBotones = true
+            this.mostrar_videos_lista()
         },
         mostrar_videos_lista(){
             this.boolBotones = false
@@ -135,9 +136,7 @@ export default {
             this.modal_videos = true
             this.player.playVideo()            
         },      
-        playing() {
-            console.log('o/ we are watching!!!')
-        }
+
     },
     computed:{
         restante_comentario(){
