@@ -52,12 +52,20 @@
                         <h1 class="mb-10 -mt-6 sm:text-sm text-center font-bold text-2xl">Ingresa tu comentario</h1> 
                         <div>
                             <div class="mt-5">
+                                <ValidationProvider name="tipoComentario" rules="required|max:300" v-slot="{ errors }"> 
+                                    <select v-model="tipoComentario" class="w-65" name="tipoComentario">
+                                        <option v-for="(item, key) in listaTipoComentario" :key="key" :value="item.typeId">{{ item.description }}</option>
+                                    </select>
+                                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                            <div class="mt-5">
                                 <ValidationProvider name="Comentario" rules="required|max:300" v-slot="{ errors }"> 
                                     <textarea
                                         v-model="comentario"                                        
                                         class="textAreaCalendario ph-center"
                                         placeholder="ingresa tus comentarios"
-                                        name="Observaciones"
+                                        name="Comentario"
                                         :maxlength="limite"
                                     />
                                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -66,7 +74,7 @@
                             </div>
                         </div>
                         <div class="justify-center flex mt-5">
-                            <button class="botonIconCrear m-4">Enviar</button>
+                            <button @click="enviar_comentario" class="botonIconCrear m-4">Enviar</button>
                             <button  @click="modal_coment = false, comentario = ''" class="botonIconCancelar font-boton m-4">Cancelar</button>
                         </div>
                     </div>
@@ -90,6 +98,7 @@
 </template>
 <script>
 import ReportesPDFService from '../services/ReportesPDFService'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: 'Ayuda',
     data(){
@@ -108,10 +117,44 @@ export default {
             boolBotones: true,
             playerVars: {
                 autoplay: 1
-            }
+            },
+            listaTipoComentario: [],
+            tipoComentario: 1
         }
-    },  
+    },
+    beforeMount(){
+        this.$http.get(`${API}/Comentario/comment/${this.$store.state.Login.plazaSelecionada.refereciaPlaza}/`)
+            .then((response) => {
+                this.listaTipoComentario = response.data.result
+            })
+    },
     methods:{
+        enviar_comentario(){
+            let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].idUser
+            let objComentario = {
+                textoComment: this.comentario,
+                commentId: this.tipoComentario,
+                userId: user
+            }
+            this.$http.post(`${API}/Comentario/Comment/${this.$store.state.Login.plazaSelecionada.refereciaPlaza}`,objComentario)
+                .then(() => {
+                    this.$notify.success({
+                        title: "Ok!",
+                        msg: `SE ENVIO CORRECTAMENTE TU COMENTARIO.`,
+                        position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                    }); 
+                })
+                .catch(() => {
+                    this.$notify.warning({
+                        title: "Ups!",
+                        msg: `NO SE PUDO ENVIAR TU COMENTARIO.`,
+                        position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                    }); 
+                })
+            this.modal_coment = false
+        },
         cerrar_video(){
             this.modal_videos = false
             this.boolListaVideos = false
