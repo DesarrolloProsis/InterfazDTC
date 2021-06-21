@@ -496,7 +496,6 @@ methods:{
             Object.entries(this.datosDiagnostico).forEach(item => {
                 if(item[0] != 'folioFalla' || item[0] != 'numeroReporte'){
                     if(item[1] == ""){
-                        alert(item[0])
                         validacion = false
                     }                                        
                 }
