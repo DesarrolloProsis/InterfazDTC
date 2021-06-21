@@ -82,7 +82,7 @@
                     <img  src="@/assets/img/close.png" class="w-10 cursor-pointer " />
                 </span>        
                 <div class="flex mx-auto">                  
-                    <youtube :video-id="videoId" width="100%" height="700" ref="youtube" @playing="playing"></youtube>                            
+                    <youtube :player-vars="playerVars" :video-id="videoId" width="100%" height="700" ref="youtube" @playing="playing"></youtube>                            
                 </div>
             </div>
         </div>
@@ -105,7 +105,10 @@ export default {
                 {  videoId: 'Wx-AeJCf1eU', titulo: "CAmbiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.' }
             ],
             boolListaVideos: false,
-            boolBotones: true
+            boolBotones: true,
+            playerVars: {
+                autoplay: 1
+            }
         }
     },  
     methods:{
