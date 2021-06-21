@@ -202,6 +202,13 @@ function generar_pdf_ficha_falla(referenceNumber){
         xml_hhtp_request(urlTopdf, namePdf)        
     }
 }
+function generar_pdf_sellado_preventivo(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')[0]
+    Axios.get(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${referenceNumber}`)
+    let urlTopdf = `${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${referenceNumber}`
+    let namePdf = referenceNumber + '-' + 'Sellado'
+    xml_hhtp_request(urlTopdf, namePdf) 
+}
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
     let namePdf = 'Manual de Usuario'
@@ -220,5 +227,6 @@ export default {
     generar_pdf_ficha_falla,
     manual_pdf,
     obtener_admin_id,
-    generar_pdf_fotografico_correctivo
+    generar_pdf_fotografico_correctivo,
+    generar_pdf_sellado_preventivo
 }

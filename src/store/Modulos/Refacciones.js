@@ -94,7 +94,6 @@ const actions = {
       .then(response => commit("LISTA_UBICACION_GENERAL_INVENTARIO_MUTATION", response.data.result))      
   },
   async FULL_COMPONETES({ commit, rootGetters }, value){
-    console.log(value)
     await Axios.get(`${API}/DtcData/InventoryComponentsList/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}`)
       .then(response => commit("FULL_COMPONENT_MUTATION", response.data.result))      
   },

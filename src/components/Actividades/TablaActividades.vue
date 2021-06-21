@@ -369,6 +369,9 @@ methods: {
             console.log(this.objSubir);
             this.modalSubirSellado = true
         }
+        if(this.value.title == 'Descargar Sellado'){
+            this.descargar_escaneado(item)
+        }
         this.value = ""
     },
     opticones_select_acciones({ statusMaintenance, pdfExists }){
@@ -388,10 +391,9 @@ methods: {
             }    
         }
         else{            
-            if(statusMaintenance){ 
-                console.log(pdfExists)    
+            if(statusMaintenance){  
                 if(pdfExists){
-                    return options.splice(1,3)     
+                    return options.splice(1,4)     
                 }
                 else{
                     let subir = options[4]
@@ -427,7 +429,6 @@ methods: {
                 imgbase: e.target.result.split(',')[1],
                 name: file.name,
                 };
-                console.log(this.pdfSellado);
             })        
         };
         reader.readAsDataURL(file);   
@@ -467,15 +468,28 @@ methods: {
         formData.append('file', file)
         console.log(formData);
         this.$http.post(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${this.objSubir}`, formData)
-        .then((response)=>{
+        .then(()=>{
+            this.$notify.success({
+                title: "Ok!",
+                msg: `Se subió el archivo correctamente.`,
+                position: "bottom right",
+                class:"font-titulo",
+                styles: {
+                height: 100,
+                width: 500,
+                },
+            });
             this.limpiar_filtros()
             this.modalSubirSellado = false
-            console.log(response);
+            this.pdfSelladoBool = true
         })
         .catch((ex)=>{
             console.log(ex);
         })
-    }
+    },
+    descargar_escaneado(value){
+        ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)
+    },
 },
 }
 </script>
