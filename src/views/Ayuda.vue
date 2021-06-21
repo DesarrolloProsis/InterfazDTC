@@ -27,12 +27,14 @@
                 <div v-for="(item, key) in arrayVideos" :key="key" class="botonesCorrectivo animacion sm:m-4 sm:p-3 w-72 p-6">
                     <p class=" text-lg text-center">{{ item.titulo }}</p>
                     <div class=" inline-flex">
-                        <div class="mt-6">
+                        <div class="">
                             <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1" />
                         </div> 
                         <div class="pt-20 pl-20">
                             <div>
-                                <button @click="ventana_videos(item)">Reproducir</button>                                
+                                <button @click="ventana_videos(item)">
+                                    <img src="../assets/img/play.png" height="40" width="55" class=" ml-16 sm:m-1"/>
+                                </button>                                
                             </div>  
                             <div class="mt-3">
                                 {{ item.descripcion }}
