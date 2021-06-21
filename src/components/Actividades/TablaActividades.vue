@@ -2,6 +2,35 @@
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
+            <!--/////////////////////////////////////////////////////////////////////
+            ////                         MODAL SELLADO                         /////
+            ////////////////////////////////////////////////////////////////////-->
+            <div class=" inset-0 font-titulo">
+                <div v-if="modalSubirSellado" class="carruselGMMEP border-gray-200 h-34 w-71"> 
+                    <span @click="modalSubirSellado = false" class="absolute  top-0 right-0">
+                        <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
+                    </span>         
+                    <div>                    
+                        <button class="mt-10  sm:w-32 sm:-ml-5 ml-2" v-if="pdfSelladoBool">
+                            <div class="botonIconSellado font-boton h-32 w-69 justify-center">
+                                <input type="file" class="opacity-0 border-black w-69 h-32 absolute" @change="recibir_pdf_sellado($event)"/>
+                                <img src="@/assets/img/pdf.png" class="mr-1" width="25" height="25"/>
+                                <p class="mt-1">Seleccionar Archivo</p>
+                            </div>                   
+                        </button>
+                        <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
+                            <div class="grid grid-cols-2">
+                                <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
+                                <p class="-ml-16 mt-16 font-bold sm:ml-0">{{ pdfSellado.name }}</p>
+                            </div>
+                            <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
+                                <button @click="subir_esaneado" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
+                                <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                            </div>            
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <h1 class=" text-3xl sm:text-lg font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
@@ -80,7 +109,7 @@
                     </div>                                        
                 </div> 
             </div>
-            <div class="sm:m-2 sm:w-full sm:-mb-32 sm:ml-1 relative sm:text-xs">
+            <div class="sm:m-2 sm:w-full sm:-mb-32 sm:ml-1 sm:text-xs">
                 <div class="divtabla font-titulo" style="height:600px;">
                     <!--//////////////////////////////////////////////////////////////////////
                     ////                           TABLA                             ////////
@@ -96,8 +125,7 @@
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Fecha de Actividad</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Tipo de Actividad</th>
                                 <th class="w-64 cabeceraTable font-titulo font-medium">Estatus</th>   
-                                <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>
-                                <th class="w-68 cabeceraTable font-titulo font-medium">PDF</th>                
+                                <th class="w-64 cabeceraTable font-titulo font-medium">Acciones</th>                
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////////
@@ -141,34 +169,7 @@
                                                 </div>
                                             </template>
                                         </multiselect>                                                                                                   
-                                    </td>
-                                    <td class="w-64 text-center cuerpoTable">
-                                        <div class="grid grid-cols-1 -ml-4">
-                                            <button  class="botonIconDescargar mb-1 sm:mt-2 w-32 sm:w-16 sm:h-8">
-                                                <img  src="../../assets/img/pdf-sellado.png" class="mr-2 sm:m-1"  width="15" height="15" />
-                                                <span class="text-xs sm:hidden">Sellado</span>
-                                            </button>
-                                            <div>                    
-                                                <button class="mt-1 sm:w-32 sm:-ml-5" v-if="pdfSelladoBool">
-                                                    <div class="botonIconSellado font-boton">
-                                                        <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
-                                                        <img src="@/assets/img/pdf.png" class="mr-1" width="15" height="15"/>
-                                                        <p class="text-xs mt-1">Subir Sellado</p>
-                                                    </div>                   
-                                                </button>
-                                                <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
-                                                    <div class="grid grid-cols-2">
-                                                        <img src="@/assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
-                                                        <p class="-ml-32 text-sm sm:ml-0">PDF Sellado</p>
-                                                    </div>
-                                                    <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
-                                                        <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subiar</button>
-                                                        <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
-                                                    </div>            
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>                                                                                     
+                                    </td>                                                                                    
                                 </tr>
                             </template>                                                                                                              
                         </tbody>       
@@ -176,6 +177,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 <script>
@@ -208,7 +210,9 @@ export default {
             tipoUsuario: '',
             value: '',           
             pdfSelladoBool: true,
-            pdfSellado:'' 
+            pdfSellado:'',
+            modalSubirSellado: false,
+            objSubir:'',
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -360,27 +364,48 @@ methods: {
         if(this.value.title == 'Descargar'){            
             this.reporte_pdf(item)
         }
+        if(this.value.title == 'Subir Sellado'){
+            this.objSubir = item.referenceNumber
+            console.log(this.objSubir);
+            this.modalSubirSellado = true
+        }
         this.value = ""
     },
-    opticones_select_acciones({ statusMaintenance }){
+    opticones_select_acciones({ statusMaintenance, pdfExists }){
         let options= [
             { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
             { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
             { title: 'Descargar', img: '/img/pdf.5b78f070.png' },
+            { title: 'Descargar Sellado', img: '/img/pdf.5b78f070.png'},
+            { title: 'Subir Sellado', img: '/img/pdf.5b78f070.png'},
         ]
         if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
-            return options.splice(2,1)
-        }      
+            if(pdfExists){
+                return options.splice(2,2)
+            }
+            else{
+                return options.splice(2,1)
+            }    
+        }
         else{            
-            if(statusMaintenance){     
-                return options.splice(1,2)     
+            if(statusMaintenance){ 
+                console.log(pdfExists)    
+                if(pdfExists){
+                    return options.splice(1,3)     
+                }
+                else{
+                    let subir = options[4]
+                    let array = options.splice(1,2)    
+                    array.push(subir)
+                    return array
+                }
             }
             else{                                                
                 return options.splice(0,1)
             }
         }   
     },
-    recibir_pdf_sellado(e, index) {           
+    recibir_pdf_sellado(e) {           
         var files = e.target.files || e.dataTransfer.files;
         if (!files.length) return;
         else {  
@@ -388,7 +413,6 @@ methods: {
                 if(this.crearImage(item)){        
                     this.$nextTick().then(() => {
                     this.pdfSelladoBool = false           
-                    this.listaActividadesMensuales.splice(index, 1 ,  Object.assign(this.listaActividadesMensuales[index]))          
                     })
                 }
             }        
@@ -403,6 +427,7 @@ methods: {
                 imgbase: e.target.result.split(',')[1],
                 name: file.name,
                 };
+                console.log(this.pdfSellado);
             })        
         };
         reader.readAsDataURL(file);   
@@ -421,19 +446,36 @@ methods: {
         this.pdfSellado = {}
         return false
     }         
-      },
-      base64ToFile(dataurl, fileName) {                    
-      let url = "data:text/pdf;base64," + dataurl;  
-      var arr = url.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], fileName + '.pdf', { type: mime });
     },
+    base64ToFile(dataurl, fileName) {                    
+        let url = "data:text/pdf;base64," + dataurl;  
+        var arr = url.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], fileName + '.pdf', { type: mime });
+    },
+    subir_esaneado(){
+        let clavePlaza = this.objSubir.split('-',1)
+        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')
+        console.log(file);
+        let formData = new FormData()
+        formData.append('file', file)
+        console.log(formData);
+        this.$http.post(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${this.objSubir}`, formData)
+        .then((response)=>{
+            this.limpiar_filtros()
+            this.modalSubirSellado = false
+            console.log(response);
+        })
+        .catch((ex)=>{
+            console.log(ex);
+        })
+    }
 },
 }
 </script>
