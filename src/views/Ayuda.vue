@@ -54,12 +54,9 @@
                         <h1 class="mb-10 -mt-6 sm:text-sm text-center font-bold text-2xl">Ingresa tu comentario</h1> 
                         <div>
                             <div class="mt-5">
-                                <ValidationProvider name="tipoComentario" rules="required|max:300" v-slot="{ errors }"> 
-                                    <select v-model="tipoComentario" class="w-65" name="tipoComentario">
+                                    <select v-model="tipoComentario" class="w-65 is_valid" name="tipoComentario">
                                         <option v-for="(item, key) in listaTipoComentario" :key="key" :value="item.typeId">{{ item.description }}</option>
                                     </select>
-                                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                                </ValidationProvider>
                             </div>
                             <div class="mt-5">
                                 <ValidationProvider name="Comentario" rules="required|max:300" v-slot="{ errors }"> 
