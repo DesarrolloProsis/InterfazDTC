@@ -145,7 +145,7 @@
                     </div>
                     <div class="mr-10 sm:w-32 sm:ml-16">
                         <ValidationProvider name="DiagnosticoFalla" rules="required|max:300" v-slot="{ errors }">
-                            <span>DIAGNOSTICO DE LA FALLA REPORTADA:</span>
+                            <span>DIAGNÓSTICO DE LA FALLA REPORTADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.diagnosticoFalla"
                                 class="mx-auto is_valid py-4 mb-0 h-40 ph-center-observaciones"
