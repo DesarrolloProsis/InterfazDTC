@@ -501,10 +501,7 @@ methods: {
             title: "Ok!",
             msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
+            styles: { height: 100, width: 500 },
         });  
       })      
     }, 3000);                                                                                   
