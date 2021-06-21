@@ -162,7 +162,7 @@ methods:{
                     })                                  
                     this.reporteInsertado = true                                                                       
                 })
-                .catch(() => {
+                .catch(() => {                    
                     this.$notify.warning({
                         title: "Ops!!",
                         msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",

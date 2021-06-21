@@ -490,15 +490,18 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-        try {                                 
-            let validacion = true
+        try {         
+            console.log(this.datosDiagnostico)                        
+            let validacion = false
             Object.entries(this.datosDiagnostico).forEach(item => {
                 if(item[0] != 'folioFalla' || item[0] != 'numeroReporte'){
                     if(item[1] == ""){
+                        alert(item[0])
                         validacion = false
-                    }
+                    }                                        
                 }
-            })                           
+            })   
+            console.log(validacion)                        
             if(!validacion){
                 if(value){                                                                        
                     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                              
@@ -507,7 +510,7 @@ methods:{
                     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
                 }         
             }  
-            else{
+            else{                
                 this.$notify.warning({
                     title: "Ops!!",
                     msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",

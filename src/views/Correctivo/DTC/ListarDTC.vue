@@ -53,7 +53,6 @@
                       <option value="3">Sellado</option>                                                                                                                               
                       <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
                   </select> 
-
                 </div>
                 <div class="mt-5">
                   <ValidationProvider name="Observaciones" rules="required|max:300" v-slot="{ errors }"> 
@@ -469,7 +468,6 @@ methods: {
                 this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
                   .then(() => resolve('ok'))   
                   .catch((error) => {
-
                     reject(error)
                   })                                     
               })
@@ -730,32 +728,42 @@ methods: {
     this.modalEditFechas = true
   },
   confirmar_edicion_fechas(){ 
-    this.$http.put(`${API}/DtcData/UpdateFechaDtc/PM`, {
-      Reference: this.refNum,
-      SinisterDate: this.fechaSiniestro,
-      FailureDate: this.fechaFalla,
-      ShippingDate: this.fechaEnvio,
-      ElaborationDate: this.fechaElaboracion
+    let promise_fechas = new Promise((resolve, reject) => { 
+      this.$http.put(`${API}/DtcData/UpdateFechaDtc/PM`, {
+        Reference: this.refNum,
+        SinisterDate: this.fechaSiniestro,
+        FailureDate: this.fechaFalla,
+        ShippingDate: this.fechaEnvio,
+        ElaborationDate: this.fechaElaboracion
+      })
+      .then(() => {
+        this.limpiar_filtros()
+          this.modalEditFechas = false
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE ACTUALIZARON LAS FECHAS PARA EL DTC ${this.refNum}`,
+            position: "bottom right",
+            styles: { height: 100, width: 500,},
+          });
+          resolve('ok')
+      })
+      .catch(() =>{
+        this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE ´PUDIERON ACTUALIZAR LA FECHAS DEL DTC ${this.refNum}`,
+            position: "bottom right",
+            styles: { height: 100, width: 500,},
+          });  
+          reject('Mal')    
+      })
     })
-    .then(() => {
-        this.$notify.success({
-           title: "Ok!",
-           msg: `SE ACTUALIZARON LAS FECHAS PARA EL DTC ${this.refNum}`,
-           position: "bottom right",
-           styles: { height: 100, width: 500,},
-        });
-    })
-    .catch(() =>{
-      this.$notify.warning({
-           title: "Ups!",
-           msg: `NO SE ´PUDIERON ACTUALIZAR LA FECHAS DEL DTC ${this.refNum}`,
-           position: "bottom right",
-           styles: { height: 100, width: 500,},
-        });      
-    })
-    this.refNum = ''; this.fechaSiniestro = ''; this.fechaFalla = ''; this.fechaElaboracion = ''; this.fechaEnvio = '';
-    this.modalEditFechas = false
-    this.limpiar_filtros()
+    setTimeout(() => {
+      promise_fechas
+        .then(async () => {
+            await this.limpiar_filtros()
+            this.refNum = ''; this.fechaSiniestro = ''; this.fechaFalla = ''; this.fechaElaboracion = ''; this.fechaEnvio = '';                        
+        })
+    },2000)
   },
   cancelar_edicion_fechas(){
     this.modalEditFechas = false
