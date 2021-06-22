@@ -175,6 +175,7 @@ export default {
             }
             this.$notify.success({
                 title: "Ok!",
+                class:'font-titulo',
                 msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
                 position: "bottom right",
                 styles: {
@@ -283,7 +284,7 @@ export default {
             if(this.value.title == 'Ficha Técnica'){    
                 this.imprimir_pdf_ficha(item.referenceNumber)
             }
-            if(this.value.title == 'DTC'){    
+            if(this.value.title == 'Dictamen (DTC)'){    
                 this.desargar_pdf(item)
             }
             this.value = ""
