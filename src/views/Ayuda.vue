@@ -27,12 +27,14 @@
                 <div v-for="(item, key) in arrayVideos" :key="key" class="botonesCorrectivo animacion sm:m-4 sm:p-3 w-72 p-6">
                     <p class=" text-lg text-center">{{ item.titulo }}</p>
                     <div class=" inline-flex">
-                        <div class="mt-6">
+                        <div class="">
                             <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1" />
                         </div> 
                         <div class="pt-20 pl-20">
-                            <div>
-                                <button @click="ventana_videos(item)">Reproducir</button>                                
+                            <div class="w-16 ml-16">
+                                <button @click="ventana_videos(item)">
+                                    <img src="../assets/img/play.png" height="40" width="55" class="sm:m-1"/>
+                                </button>                                
                             </div>  
                             <div class="mt-3">
                                 {{ item.descripcion }}
@@ -52,12 +54,9 @@
                         <h1 class="mb-10 -mt-6 sm:text-sm text-center font-bold text-2xl">Ingresa tu comentario</h1> 
                         <div>
                             <div class="mt-5">
-                                <ValidationProvider name="tipoComentario" rules="required|max:300" v-slot="{ errors }"> 
-                                    <select v-model="tipoComentario" class="w-65" name="tipoComentario">
+                                    <select v-model="tipoComentario" class="w-65 is_valid" name="tipoComentario">
                                         <option v-for="(item, key) in listaTipoComentario" :key="key" :value="item.typeId">{{ item.description }}</option>
                                     </select>
-                                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                                </ValidationProvider>
                             </div>
                             <div class="mt-5">
                                 <ValidationProvider name="Comentario" rules="required|max:300" v-slot="{ errors }"> 
@@ -90,7 +89,7 @@
                     <img  src="@/assets/img/close.png" class="w-10 cursor-pointer " />
                 </span>        
                 <div class="flex mx-auto">                  
-                    <youtube :player-vars="playerVars" :video-id="videoId" width="100%" height="700" ref="youtube" @playing="playing"></youtube>                            
+                    <youtube :player-vars="playerVars" :video-id="videoId" width="100%" height="700" ref="youtube" ></youtube>                            
                 </div>
             </div>
         </div>
@@ -159,6 +158,7 @@ export default {
             this.modal_videos = false
             this.boolListaVideos = false
             this.boolBotones = true
+            this.mostrar_videos_lista()
         },
         mostrar_videos_lista(){
             this.boolBotones = false
@@ -176,9 +176,7 @@ export default {
             this.modal_videos = true
             this.player.playVideo()            
         },      
-        playing() {
-            console.log('o/ we are watching!!!')
-        }
+
     },
     computed:{
         restante_comentario(){
