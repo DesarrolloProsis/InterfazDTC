@@ -79,7 +79,7 @@ select:focus {
     @apply bg-white;
 }
 .Home{
-    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl h-73;
+    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl h-66;
 }
 .Home:hover{
     @apply bg-gray-400;
@@ -355,7 +355,7 @@ select:focus {
     @apply bg-gray-300;
 }
 .inputDiag{
-    @apply bg-white border-none w-full;
+    @apply bg-white border-none w-69;
 }
 .inputFicha{
     @apply bg-gray-300 border-none w-full cursor-not-allowed;

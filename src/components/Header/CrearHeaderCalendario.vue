@@ -3,55 +3,56 @@
     <!--///////////////////////////////////////////////////////////////////
           ////                             HEADER                          ////
           ////////////////////////////////////////////////////////////////////-->
-        <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-10">
+        <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-1">
             <div class=" w-auto mx-auto flex justify-center sm:ml-16 sm:-mb-6">
                 <div class="border-gray-800 w-66 border-none p-5">
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
                 </div>
             </div>
             <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm sm:-mb-6 flex justify-start sm:justify-center">
-                <div class="border-gray-200 p-5 pt-0">
+                <div class="border-gray-200 p-5 pt-0 -ml-20 sm:ml-0">
                     <h1 class="mt-5 border-purple-800 w-72 sm:w-full font-titulo font-bold">{{ `Calendario de Actividades` }}</h1>            
                 </div>
             </div>
         </div>
-        <div class="inline-flex sm:inline-block  w-full">
+        <div class="inline-flex sm:inline-block mb-10 w-full sm:w-48">
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA IZQUIERDA                        ////
               ////////////////////////////////////////////////////////////////////-->
             <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
-                <div class="w-1/2 sm:w-full p-8 sm:p-2">
-                    <div class="flex justify-starts m-5">
+                <div class="w-1/2 sm:w-full p-8 sm:p-2 -mb-12">
+                    <div class="flex justify-starts m-5 w-full sm:w-66">
                         <p class="font-titulo font-semibold">Correspondiente al mes de:</p>
                         <h2 class="ml-5 font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>                    
-                    <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>                                                    
+                    <div class="md:flex lg:flex grid grid-cols-1 justify-start sm:grid-cols-1 ml-5">
+                        <span class="font-titulo font-semibold">Plaza/Encargado</span>
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" class="w-66"></SelectPlaza>                                                    
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-1 sm:mb-8">
+                    <div class="grid grid-cols-1 sm:mb-8">
                         <div class="flex justify-start m-5">
                             <button @click="generar_pdf" class="botonIconCrear">
                                 <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
                                 <span class="">Crear</span>
                             </button>
                         </div>
-                        <div class="grid grid-cols-2 justify-center h-12 w-full mt-5" >
-                            <div class="ml-32 -mt-1 sm:ml-35 ">
+                        <div class="grid grid-cols-2 justify-center h-12 w-full mt-1 ml-6 sm:ml-3" >
+                            <div class="ml-32 -mt-1 sm:ml-33">
                                 <button @click="obtener_escaneado_calendario" class="botonIconDescargar w-auto h-12 font-bold mb-1" :disabled="!calendarioEscaneado" :class="{'bg-gray-400 border-b-2 hidden border-black hover:bg-gray-400 hover:border-black hover:text-black cursor-not-allowed': !calendarioEscaneado}">
                                     <img src="../../assets/img/pdf.png"  class="mr-2 -ml-4 sm:-ml-3" width="25" height="25" />
                                         <span class="mr-2">Descargar</span>
                                 </button>
                             </div>
-                            <div class="-ml-34">
-                                <div  class="grid grid-cols-2 -mt-3" v-if="escaneadoBool"> 
+                            <div class="-ml-48 sm:-ml-24">
+                                <div  class="grid grid-cols-2 -mt-3 sm:ml-8" v-if="escaneadoBool"> 
                                     <div class="inline-flex">
                                         <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
                                         <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
-                                        <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-16 mr-2 -ml-32 px-2 py-2 h-10 text-sm justify-center w-24 sm:mt-16 sm:w-12 sm:-ml-45">Subir</button>
+                                        <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-16 mr-2 -ml-32 px-2 py-2 h-10 text-sm justify-center w-24 sm:mt-16 sm:w-12 sm:-mr-2 sm:-ml-24">Subir</button>
                                         <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-16 ml-4 h-10 text-sm justify-center px-1 sm:ml-4 sm:mt-16">Cancelar</button>
                                     </div>                                
                                 </div>                        
-                                <div v-else class="justify-center botonIconDescargar font-bold">
+                                <div v-else class="justify-center -ml-24 botonIconDescargar font-bold">
                                     <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-32 h-10 absolute" multiple/>
                                         <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
                                         <span>Cargar</span>                                                                       
@@ -60,8 +61,8 @@
                         </div>
                     </div>          
                 </div>
-                <ValidationObserver ref="observer">  
-                    <div class="w-69 ml-20 sm:m-0 sm:w-full p-8 sm:p-2">
+                <ValidationObserver ref="observer" class="-ml-16">  
+                    <div class="w-69 ml-20 sm:ml-20 sm:m-0 sm:mt-10 sm:w-62 p-8 sm:p-2">
                         <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
                             <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:-ml-16">Observaciones</span>          
                             <textarea
@@ -72,7 +73,7 @@
                                 :maxlength="limite"
                             />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-xs text-gray-500 sm:ml-40">{{ restante }}/500</span>    
+                            <span class="text-xs text-gray-500 sm:ml-20">{{ restante }}/500</span>    
                         </ValidationProvider>                    
                     </div>  
                 </ValidationObserver>            
@@ -80,7 +81,7 @@
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA INDICACIONES                    ////
               ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/4 sm:w-full uppercase text-xs p-10 sm:p-5">
+            <div class="w-1/4 ml-16 sm:-ml-1 sm:w-67 uppercase text-xs p-10 sm:p-5">
                 <p class="font-titulo font-semibold">Codigo de Colores:</p>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Semanal</p>

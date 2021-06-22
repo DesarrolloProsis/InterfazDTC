@@ -1,10 +1,10 @@
 <template>
-  <div class="container-login100">
+  <div class="container-login100 ">
     <div class="wrap-login100">
         <!-- //////////////////////////////////////////////////////////////////
         ////                 FORMULARIO PRINCIPAL                         ////
         ///////////////////////////////////////////////////////////////////// -->        
-      <div :class="{ 'blur-content': modal }">
+      <div :class="{ 'blur-content': modal }" class="">
         <p class="text-center text-black font-titulo font-medium text-4xl">Bienvenido</p>
         <div>
           <div class="flex">
@@ -41,7 +41,7 @@
               </ValidationProvider>            
             </div>          
           </div>
-          <div class="container-login100-form-btn">
+          <div class="container-login100-form-btn mb-10">
             <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn text-blue-600 outline-none" :disabled="invalid">Login</button>
           </div>        
         </ValidationObserver>

@@ -2,20 +2,49 @@
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto">     
             <div class="sm:m-2 border shadow-lg rounded-md w-full mt-5 sm:ml-1">
-                <h1 class=" text-3xl sm:text-2xl font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
+            <!--/////////////////////////////////////////////////////////////////////
+            ////                         MODAL SELLADO                         /////
+            ////////////////////////////////////////////////////////////////////-->
+            <div class=" inset-0 font-titulo">
+                <div v-if="modalSubirSellado" class="carruselGMMEP border-gray-200 h-34 w-71"> 
+                    <span @click="modalSubirSellado = false" class="absolute  top-0 right-0">
+                        <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
+                    </span>         
+                    <div>                    
+                        <button class="mt-10  sm:w-32 sm:-ml-5 ml-2" v-if="pdfSelladoBool">
+                            <div class="botonIconSellado font-boton h-32 w-69 justify-center">
+                                <input type="file" class="opacity-0 border-black w-69 h-32 absolute" @change="recibir_pdf_sellado($event)"/>
+                                <img src="@/assets/img/pdf.png" class="mr-1" width="25" height="25"/>
+                                <p class="mt-1">Seleccionar Archivo</p>
+                            </div>                   
+                        </button>
+                        <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
+                            <div class="grid grid-cols-2">
+                                <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
+                                <p class="-ml-16 mt-16 font-bold sm:ml-0">{{ pdfSellado.name }}</p>
+                            </div>
+                            <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
+                                <button @click="subir_esaneado" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
+                                <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                            </div>            
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <h1 class=" text-3xl sm:text-lg font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
                         ////////////////////////////////////////////////////////////////////-->                        
-                        <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1 font-titulo">
+                        <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1 font-titulo sm:text-xs">
                             <div class="ml-2 md:hidden lg:hidden xl:hidden">
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                             </div>
                             <div class="grid grid-cols-4 sm:w-full sm:ml-3 w-full xl:text-center">                                       
                                 <div class="sm:hidden -mt-2"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza></div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
-                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
+                                    <p class="text-sm sm:text-xs text-gray-900 mr-2 mb-1 font-semibold">Mes:</p>                                
                                     <p class="w-32 input ml-16 sm:ml-0">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32  border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
@@ -34,7 +63,7 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-4 sm:mt-4 sm:ml-20">
-                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 font-semibold">Año:</p>
+                                    <p class="text-sm sm:text-xs text-gray-900 mr-2 font-semibold">Año:</p>
                                     <p class="w-32 input ml-16 sm:ml-0">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
@@ -43,7 +72,7 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-5 sm:mt-20 sm:-ml-1">
-                                    <p class="text-sm sm:text-sm text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
+                                    <p class="text-sm sm:text-xs text-gray-900 -ml-1 font-bold sm:ml-0">Carril:</p>
                                     <p class="w-32 input ml-16 sm:ml-0">
                                     <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 border-none"  type="text">
                                         <option value="">Selecionar...</option>
@@ -51,7 +80,7 @@
                                     </select></p>
                                 </div> 
                                 <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
-                                    <p class="text-sm sm:text-sm text-gray-900 mr-2 mb-1 font-bold">Status:</p>
+                                    <p class="text-sm sm:text-xs text-gray-900 mr-2 mb-1 font-bold">Status:</p>
                                     <p class="w-48 input ml-20 sm:ml-0 sm:w-32">
                                     <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option value="">Todos</option>
@@ -60,7 +89,7 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
-                                    <p class="text-sm sm:text-sm font-semibold text-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia:</p>
+                                    <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-3 mr-2 sm:ml-0 sm:mb-1">Referencia:</p>
                                     <input v-model="referenceNumber" class="text-center input sm:w-32" placeholder="PM-00000" type="text">
                                 </div>
                                 <div class="mt-2 ml-4 sm:ml-16">
@@ -80,7 +109,7 @@
                     </div>                                        
                 </div> 
             </div>
-            <div class="sm:m-2 sm:w-full sm:ml-1 relative">
+            <div class="sm:m-2 sm:w-full sm:-mb-32 sm:ml-1 sm:text-xs">
                 <div class="divtabla font-titulo" style="height:600px;">
                     <!--//////////////////////////////////////////////////////////////////////
                     ////                           TABLA                             ////////
@@ -125,41 +154,43 @@
                                     <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                    <td class="w-64 text-center cuerpoTable">
-                                        <div class="ml-2" v-if="item.statusMaintenance == false">                               
-                                            <button @click="crear_reporte_carril(item)" class="botonIconCrear sm:w-16 sm:h-8">
-                                                <img src="../../assets/img/nuevoDtc.png" class="mr-2 sm:m-0" width="15" height="15" />
-                                                <span class="text-xs sm:hidden">Crear</span>
-                                            </button>
-                                        </div>
-                                        <div class="mr-5 grid grid-cols-1 sm:-ml-3" v-else>
-                                            <button @click="reporte_pdf(item)" class="botonIconDescargar mb-1 sm:mt-2 w-32 sm:w-16 sm:h-8">
-                                                <img src="../../assets/img/pdf.png"  class="mr-2 sm:m-1" width="15" height="15" />
-                                                <span class="text-xs sm:hidden">Descargar</span>
-                                            </button>
-                                            <button @click="editar_reporte_carril(item)" class="botonIconActualizar mb-1 w-32 sm:w-16 sm:h-8">
-                                                <img  src="../../assets/img/pencil.png" class="mr-2 sm:m-1"  width="15" height="15" />
-                                                <span class="text-xs sm:hidden">Actualizar</span>
-                                            </button>                                   
-                                        </div>
-                                    </td>                                                                                     
+                                    <td class="w-69 text-center cuerpoTable">                                            
+                                        <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                                            <template slot="singleLabel" slot-scope="props">
+                                                <div class=" inline-flex">
+                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                                    <span class="option__title">{{ props.option.title }}</span>
+                                                </div>
+                                            </template>
+                                            <template slot="option" slot-scope="props">                                                
+                                                <div class="option__desc"><span class="option__title inline-flex">
+                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                    {{ props.option.title }}</span>
+                                                </div>
+                                            </template>
+                                        </multiselect>                                                                                                   
+                                    </td>                                                                                    
                                 </tr>
                             </template>                                                                                                              
                         </tbody>       
-                    </table>
+                    </table>                
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 <script>
+
+import Multiselect from "vue-multiselect";
 import ServicioActividades from '../../services/ActividadesService.js'
 import SelectPlaza from '../Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
-        SelectPlaza
+        SelectPlaza,
+        Multiselect
     },
     data(){
         return{
@@ -175,7 +206,13 @@ export default {
             referenceNumber:'',
             mesNombre: '',
             blockSelect: false,
-            loadingTabla: false
+            loadingTabla: false,
+            tipoUsuario: '',
+            value: '',           
+            pdfSelladoBool: true,
+            pdfSellado:'',
+            modalSubirSellado: false,
+            objSubir:'',
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -193,7 +230,8 @@ beforeMount: async function(){
     this.año = cargaInicial.año
     this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
-    this.loadingTabla = false          
+    this.loadingTabla = false  
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId            
 },
 computed:{
     carriles_plaza(){
@@ -275,9 +313,9 @@ methods: {
         this.limpiar_filtros()
     },
     reporte_pdf: async function(item){          
-        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
+        //let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
         let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
-        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${item.referenceNumber.split('-')[0]}/${item.calendarId}`)
         .then((response) => {                  
             let referenceNumber = response.data.result.table[0].referenceNumber
             ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
@@ -312,7 +350,146 @@ methods: {
                 'header': item,                
             }
         })
+    },
+    customLabel ({ title }) {
+        return `${title}`
+    },
+    acciones_mapper(item){                
+        if(this.value.title == 'Crear'){
+            this.crear_reporte_carril(item)
+        }
+        if(this.value.title == 'Editar'){
+            this.editar_reporte_carril(item)
+        }   
+        if(this.value.title == 'Reporte de Mantenimiento'){            
+            this.reporte_pdf(item)
+        }
+        if(this.value.title == 'Reporte Mtto. Sellado'){
+            this.objSubir = item.referenceNumber
+            console.log(this.objSubir);
+            this.modalSubirSellado = true
+        }
+        if(this.value.title == 'Reporte M. Sellado'){
+            this.descargar_escaneado(item)
+        }
+        this.value = ""
+    },
+    opticones_select_acciones({ statusMaintenance, pdfExists }){
+        let options= [
+            { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
+            { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
+            { title: 'Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },
+            { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
+            { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
+        ]
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
+            if(pdfExists){
+                return options.splice(2,2)
+            }
+            else{
+                return options.splice(2,1)
+            }    
+        }
+        else{            
+            if(statusMaintenance){  
+                if(pdfExists){
+                    return options.splice(1,4)     
+                }
+                else{
+                    let subir = options[4]
+                    let array = options.splice(1,2)    
+                    array.push(subir)
+                    return array
+                }
+            }
+            else{                                                
+                return options.splice(0,1)
+            }
+        }   
+    },
+    recibir_pdf_sellado(e) {           
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+        else {  
+            for (let item of files) {        
+                if(this.crearImage(item)){        
+                    this.$nextTick().then(() => {
+                    this.pdfSelladoBool = false           
+                    })
+                }
+            }        
+        }
+    },
+    crearImage(file) {  
+    if(file.type.split('/')[1] == 'pdf'){
+        var reader = new FileReader(); 
+        reader.onload = (e) => {
+            this.$nextTick().then(() => {
+                this.pdfSellado = {
+                imgbase: e.target.result.split(',')[1],
+                name: file.name,
+                };
+            })        
+        };
+        reader.readAsDataURL(file);   
+        return true
     }
+    else{
+        this.$notify.warning({
+            title: "Ups!",
+            msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+            position: "bottom right",
+            styles: {
+                height: 100,
+                width: 500,
+            },          
+        });
+        this.pdfSellado = {}
+        return false
+    }         
+    },
+    base64ToFile(dataurl, fileName) {                    
+        let url = "data:text/pdf;base64," + dataurl;  
+        var arr = url.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], fileName + '.pdf', { type: mime });
+    },
+    subir_esaneado(){
+        let clavePlaza = this.objSubir.split('-',1)
+        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')
+        console.log(file);
+        let formData = new FormData()
+        formData.append('file', file)
+        console.log(formData);
+        this.$http.post(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${this.objSubir}`, formData)
+        .then(()=>{
+            this.$notify.success({
+                title: "Ok!",
+                msg: `Se subió el archivo correctamente.`,
+                position: "bottom right",
+                class:"font-titulo",
+                styles: {
+                height: 100,
+                width: 500,
+                },
+            });
+            this.limpiar_filtros()
+            this.modalSubirSellado = false
+            this.pdfSelladoBool = true
+        })
+        .catch((ex)=>{
+            console.log(ex);
+        })
+    },
+    descargar_escaneado(value){
+        ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)
+    },
 },
 }
 </script>

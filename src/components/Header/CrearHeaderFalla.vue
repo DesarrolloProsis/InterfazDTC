@@ -1,39 +1,41 @@
 <template>
-    <div>    
+    <div class="sm:w-56">    
         <ValidationObserver ref="observer">             
             <!--/////////////////////////////////////////////////////////////////////
             /////                   DATOS DEL REPORTE                           ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mb-2">
+            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-0 mb-10 sm:mb-2">
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA UNO                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-5 w-full sm:grid grid-cols-1 sm:ml-4 font-titulo">
+            <div class="mt-6 ml-10 w-full sm:grid grid-cols-1 sm:ml-1 font-titulo">
                 <div class="grid grid-cols-2 sm:grid md:grid">
-                    <span class="">No. De Reporte:</span>
-                    <p class="-ml-66 sm:-ml-16 sm:w-24">{{ datosDiagnostico.referenceNumber }}</p>
+                    <span class="sm:ml-2">No. De Reporte:</span>
+                    <p class="-ml-34 sm:-ml-1 sm:w-32" >{{ datosDiagnostico.referenceNumber }}</p>
                 </div>
                 <div class="mt-5 grid grid-cols-2 sm:grid">
                     <div>
-                        <span>Plaza de Cobro:</span>
+                        <span class="sm:ml-2">Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-66 sm:-ml-16" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
+                    <div class="-ml-34 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
-                    <div class="-ml-66 -mb-4" :class="{'hidden': blockInput == true}">
+                    <div class="-ml-34 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista == 'Crear' }">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <span v-if="blockInput" class="block m-1 text-red-600 text-xs font-titulo font-normal">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                     </div>
-                    <div class="-ml-66 -mb-4 sm:-ml-16 sm:-mt-1" :class="{'hidden': blockInput == false}">
+                    <div class="-ml-34 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <span v-if="blockInput" class="block m-1 text-red-400 text-center text-xs font-titulo font-normal sm:-ml-32">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                        <div class="sm:-ml-8 sm:w-66">
+                            <span v-if="blockInput" class="block -ml-44 text-red-400 text-xs font-titulo font-normal sm:-ml-20">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                        </div>
+                        
                     </div>
                 </div>
-                <div class="mt-5 grid sm:grid grid-cols-2">
+                <div class="mt-1 grid sm:grid grid-cols-2">
                     <div>
-                        <span class="mr-20 sm:mr-0">Ubicación:</span>
+                        <span class="mr-20 sm:mr-0 sm:ml-8">Ubicación:</span>
                     </div>
-                    <div class="-ml-66 w-64 sm:-ml-16 sm:w-40" :class="{'cursor-not-allowed':blockInput==true}">
+                    <div class="-ml-34 w-64 sm:-ml-1 sm:w-40" :class="{'cursor-not-allowed':blockInput==true}">
                         <ValidationProvider name="Carriles" rules="required"  v-slot="{ errors }">                            
                             <multiselect
                                 :disabled="blockInput"
@@ -60,25 +62,25 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-65 sm:ml-4 font-titulo">
+            <div class="mt-6 ml-48 sm:ml-4 font-titulo">
                 <div>
                     <ValidationProvider name="FechaDiagnostico" rules="required"  v-slot="{ errors }">                   
-                        <span class="">Fecha:</span>
-                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag" type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/>
+                        <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>
+                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
                     <ValidationProvider name="HoraInicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La HoraInicio debe ser menor que la HoraFin' }"  v-slot="{ errors }">
-                        <span class="">Hora INICIO:</span>
-                        <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/>
+                        <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora INICIO:</span>
+                        <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
                     <ValidationProvider name="HoraFin" :rules="{required: true}" v-slot="{ errors }">
-                        <span class="">Hora FIN:</span>
-                        <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-12" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" />
+                        <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora FIN:</span>
+                        <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" />
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -87,37 +89,37 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                             FOLIOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div v-if="blockInput" class="text-center ml-68 -mb-6 sm:ml-1 sm:text-xs sm:-mb-1"><span class="text-red-400">Estos datos no se puede modificar, vienen del Diagnóstico de Falla</span></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
-            <div class="mt-6 ml-5 w-full sm:-ml-6">
-                <div class="text-center w-32 ml-64 mr-40 sm:ml-0">
-                    <span class="">Folio de FALLA:</span>                    
+            <div v-if="blockInput" class="ml-69 -mb-6 sm:-ml-1 sm:w-69 text-xs sm:-mb-1"><span class="text-red-400">Este dato no se puede modificar, vienen del Diagnóstico de Falla</span></div>
+            <div class="ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo">
+                <div class="mt-6 -ml-32 w-full sm:-ml-6">
+                    <div class="text-center w-32 ml-64 mr-40 sm:ml-1 sm:-mt-1">
+                        <span class="">Folio de FALLA:</span>                    
+                    </div>
+                    <div class="mt-5 text-center w-32 ml-64 sm:ml-2 sm:mt-1">
+                        <span class="">No. De Siniestro:</span>
+                    </div>
+                    <div class="mt-5 text-center w-56 ml-40 sm:-ml-12 sm:mt-1">
+                        <span class="sm:hidden">Técnico Responsable PROSIS:</span>
+                        <span class="sm:show sm:ml-4 md:show lg:hidden xl:hidden">Tec.Res. PROSIS:</span>
+                    </div>
                 </div>
-                <div class="mt-5 text-center w-32 ml-64 sm:ml-0">
-                    <span class="">No. De Siniestro:</span>
+                <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2" :class="{'w-10':tipo == 'FICHA'}">
+                    <div class="-ml-69 sm:-ml-56">
+                        <ValidationProvider name="FolioFalla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
+                            <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_folio }}/20</span>
+                        </ValidationProvider>
+                    </div>
+                    <div class="-mt-1 -ml-69 sm:-ml-56 sm:mt-1">
+                        <ValidationProvider name="NumeroReporte" rules="required|max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
+                            <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
+                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_siniestro }}/30</span>
+                        </ValidationProvider>                    
+                    </div>
+                    <div class="-mt-1 -ml-69 sm:-ml-49 sm:mt-1">
+                        <p class="border-gray-400 w-69 text-center sm:w-35">{{ nombre_usuario }}</p>
+                    </div>
                 </div>
-                <div class="mt-5 text-center w-56 ml-40 sm:-ml-12">
-                    <span class="sm:hidden">Técnico Responsable PROSIS:</span>
-                    <span class="sm:show md:show lg:hidden xl:hidden">Tec.Res. PROSIS:</span>
-                </div>
-            </div>
-            <div class="mt-5 mr-16 grid grid-cols-1 sm:mr-2">
-                <div class="-ml-69 sm:-ml-16">
-                    <ValidationProvider name="FolioFalla" rules="required|max:20" v-slot="{ errors }">                   
-                        <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
-                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs">{{ restante_folio }}/20</span>
-                    </ValidationProvider>
-                </div>
-                <div class="-mt-1 -ml-69 sm:-ml-16">
-                    <ValidationProvider name="NumeroReporte" rules="required|max:30" v-slot="{ errors }">    
-                        <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
-                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs">{{ restante_siniestro }}/30</span>
-                    </ValidationProvider>                    
-                </div>
-                <div class="-mt-1 -ml-69 sm:-ml-16">
-                    <p class="border-gray-400 w-full text-center">{{ nombre_usuario }}</p>
-                </div>
-            </div>
             </div>
             <!--/////////////////////////////////////////////////////////////////////
             /////                       DECSRIPCION                             ////
@@ -126,8 +128,8 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA TRES                           ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 w-full grid grid-cols-3 sm:grid-cols-2">
-                    <div class="mr-10 sm:w-32 sm:mb-10">
+            <div class="mt-16 w-full ml-5 grid grid-cols-3 sm:grid-cols-2">
+                    <div class="mr-10 sm:w-32 sm:mb-10 sm:-ml-6">
                         <ValidationProvider name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">
                             <span>DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                             <textarea
@@ -138,12 +140,12 @@
                                 :maxlength="limite"
                             />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-gray-500">{{ restante_desc }}/300</span>
+                            <span class="text-gray-500 ml-33 sm:ml-12">{{ restante_desc }}/300</span>
                         </ValidationProvider>
                     </div>
-                    <div class="mr-10 sm:w-32">
+                    <div class="mr-10 sm:w-32 sm:ml-16">
                         <ValidationProvider name="DiagnosticoFalla" rules="required|max:300" v-slot="{ errors }">
-                            <span>DIAGNOSTICO DE LA FALLA REPORTADA:</span>
+                            <span>DIAGNÓSTICO DE LA FALLA REPORTADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.diagnosticoFalla"
                                 class="mx-auto is_valid py-4 mb-0 h-40 ph-center-observaciones"
@@ -152,10 +154,10 @@
                                 :maxlength="limite"
                             />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-gray-500">{{ restante_diag }}/300</span>
+                            <span class="text-gray-500 ml-33 sm:ml-12">{{ restante_diag }}/300</span>
                         </ValidationProvider>
                     </div> 
-                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10">
+                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 sm:-ml-6">
                         <ValidationProvider name="CausaFalla" rules="required|max:300" v-slot="{ errors }">
                             <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                             <textarea
@@ -166,7 +168,7 @@
                                 :maxlength="limite"
                             />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-gray-500">{{ restante_causa }}/300</span>
+                            <span class="text-gray-500 ml-33 sm:ml-12">{{ restante_causa }}/300</span>
                         </ValidationProvider>
                     </div>         
                 </div>
@@ -188,7 +190,7 @@
                 </div>
                 <div class="flex justify-center">
                     <ValidationObserver ref="observerModal">                        
-                        <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
+                        <ValidationProvider immediate name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
                             <p class="text-md mb-1 font-semibold text-gray-900 mt-5">Motivo</p>
                             <textarea v-model="comentarioBorrarDtc" class="bg-white is_valid appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 w-69 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -201,20 +203,20 @@
                 </div>
             </div>
             <div class="grid sm:grid-cols-1 grid-cols-2 ml-5 sm:text-xs sm:ml-1">
-                <div class="">
+                <div class="sm:ml-2">
                     <span>TIPO DE FALLA:</span>
                 </div>
-                <div class="grid grid-cols-1 sm:mx-auto -ml-69">
-                    <ValidationProvider name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3">    
-                        <div class="text-center">
+                <div class="grid grid-cols-1 sm:mx-auto -ml-62 sm:w-20 sm:ml-56">
+                    <ValidationProvider name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3 sm:grid-cols-2">    
+                        <div class="text-center -ml-66 sm:mr-8">
                             <p>POR OPERACIÓN</p>                        
                             <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="TipoFalla" :disabled="blockCheckBox[0]">
                         </div>
-                        <div class="text-center">
+                        <div class="text-center -ml-66 sm:-ml-32">
                             <p>POR SINIESTRO</p>
                             <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" name="TipoFalla" :disabled="blockCheckBox[1]">
                         </div>
-                        <div class="text-center">
+                        <div class="text-center -ml-66 sm:-ml-67">
                             <p>POR FIN DE VIDA ÚTIL</p>
                             <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" name="TipoFalla" :disabled="blockCheckBox[2]">
                         </div>
@@ -224,28 +226,29 @@
             </div>
             <div class="ml-5 sm:text-xs sm:ml-1">   
                 <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-2">
-                    <div class="mr-10 sm:mr-1 sm:mb-6">
+                    <div class="mr-10 sm:mr-1 sm:mb-6 w-74">
                         <ValidationProvider name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">    
                             <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.descripcionFalla"
-                                class="mx-auto py-4 mb-0 h-40 textareaFicha ph-center-observaciones"
+                                class="mx-auto py-4 mb-0 h-40 textareaFicha ph-center-observaciones sm:w-66 sm:ml-1"
                                 placeholder="jane@example.com"
                                 name="DescripcionFalla"
                                 :maxlength="limite"
                                 readonly
                             />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-gray-500 sm:ml-32">{{ restante_desc }}/300 <span class="text-red-400 ml-32 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
-                            <div class="text-red-400 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
+                            <span class="text-gray-500 sm:ml-33">{{ restante_desc }}/300 <span class="text-red-400 ml-1 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
+                            <div class="text-red-400 sm:-ml-2 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
                         </ValidationProvider>
                     </div>
-                    <div class="mr-10 sm:mr-1">
+                    <div class="mr-10 ml-1 sm:mr-1 w-73">
                         <ValidationProvider name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">    
-                            <span class="">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
+                            <span class=" sm:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
+                            <span class="xl:hidden lg:hidden md:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.solucionFalla"
-                                class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones"
+                                class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones sm:w-66 sm:-ml-1"
                                 placeholder="Intervencion Realizada"
                                 name="SolucionFallas"
                                 :maxlength="limite"
@@ -411,10 +414,10 @@ computed:{
         return 0
     },
     restante_folio(){
-        return this.datosDiagnostico.folioFalla.length
+        return this.datosDiagnostico.folioFalla.trim().length
     },
     restante_siniestro(){
-        return this.datosDiagnostico.numeroReporte.length
+        return this.datosDiagnostico.numeroReporte.trim().length
     }
 },
 watch:{
@@ -487,10 +490,37 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-/*         let isValid = await this.$refs.observer.validate();        
-        if(isValid){ */
-            this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
-       /*  }  */        
+        try {         
+            console.log(this.datosDiagnostico)                        
+            let validacion = false
+            Object.entries(this.datosDiagnostico).forEach(item => {
+                if(item[0] != 'folioFalla' || item[0] != 'numeroReporte'){
+                    if(item[1] == ""){
+                        validacion = false
+                    }                                        
+                }
+            })   
+            console.log(validacion)                        
+            if(!validacion){
+                if(value){                                                                        
+                    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                              
+                }   
+                else{                 
+                    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
+                }         
+            }  
+            else{                
+                this.$notify.warning({
+                    title: "Ops!!",
+                    msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
+                    position: "bottom right",
+                    styles: { height: 100, width: 500 },
+                });
+            } 
+        }
+        catch(error){            
+            console.log(error)
+        }
     },
     label_multi_select(value){            
         if(value != 'Sin Actividad')

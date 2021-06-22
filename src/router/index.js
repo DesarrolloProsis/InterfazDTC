@@ -67,6 +67,11 @@ const routes = [
     component: Configuracion,  
   },
   {
+    path: '/Ayuda',
+    name: 'Ayuda',
+    component: () => import('../views/Ayuda')
+  },
+  {
     path: '/Usuarios',
     name: 'Usuarios',
     component: () => import('../views/Usuarios')

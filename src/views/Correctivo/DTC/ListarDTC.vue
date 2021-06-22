@@ -53,7 +53,6 @@
                       <option value="3">Sellado</option>                                                                                                                               
                       <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
                   </select> 
-
                 </div>
                 <div class="mt-5">
                   <ValidationProvider name="Observaciones" rules="required|max:300" v-slot="{ errors }"> 
@@ -112,7 +111,7 @@
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 sm:text-xs font-titulo">               
-          <div v-if="modalEdit" class="absolute w-73 sm:w-66  mx-auto  justify-center inset-x-0 pointer-events-auto">     
+          <div v-if="modalEdit" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto">     
             <ValidationObserver ref="observer">      
               <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
                 <p class="text-gray-900 font-semibold text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
@@ -123,14 +122,14 @@
                   <div class="mt-2 mr-3">       
                     <ValidationProvider name="NoSiniestro" rules="uniqueSinester"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
-                      <input v-model="dtcEdit.sinisterNumber" class="w-full" type="text" name="NoSiniestro" placeholder="S/M"/>
+                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
                   <div class="mt-2">  
                     <ValidationProvider name="NoReporte" rules="uniqueReport" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
-                      <input v-model="dtcEdit.reportNumber" class="w-full" type="text" name="NoReporte" placeholder="S/M"/>
+                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
@@ -142,14 +141,14 @@
                   <div class="mt-2 mr-3">  
                     <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
-                      <input v-model="dtcEdit.failureNumber" class="w-full" name="FolioFalla" type="text" placeholder="S/M"/>
+                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
                   <div class="mt-2">   
                     <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
-                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48" type="text" name="TipoDescripcion">
+                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
                         <option disabled value>Selecionar...</option>
                         <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.typeDescriptionId" :key="index">
                           {{ desc.description }}
@@ -166,14 +165,14 @@
                   <div class="mt-2 mr-3">     
                     <ValidationProvider name="Observaciones" rules="max:300"  v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">Observaciones:</p>
-                      <textarea v-model="dtcEdit.observation" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
+                      <textarea v-model="dtcEdit.observation" readonly class="bg-white appearance-none block is_valid bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
                   <div class="mt-2 ">    
                     <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">  
                       <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
-                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
+                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>            
@@ -188,7 +187,64 @@
               </div>     
             </ValidationObserver>         
           </div>                  
-        </div>      
+        </div>    
+      <!--/////////////////////////////////////////////////////////////////
+        ////                      MODAL FECHAS DTC                       ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0 sm:text-xs font-titulo">               
+          <div v-if="modalEditFechas" class="absolute w-73 sm:w-66  mx-auto  justify-center inset-x-0 pointer-events-auto">     
+            <ValidationObserver ref="observer" v-slot="{ invalid  }">      
+              <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
+                <p class="text-gray-900 font-semibold text-lg text-center">Editar Fechas del DTC {{ refNum }}</p>
+                <!--/////////////////////////////////////////////////////////////////
+                  ////                   FILA NUMERO 1                         ////
+                  ////////////////////////////////////////////////////////////////-->
+                <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
+                  <div class="mt-2 mr-3">       
+                    <ValidationProvider immediate name="FechaSiniestro" rules="required" v-slot="{ errors }"> 
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Siniestro:</p>
+                      <input v-model="fechaSiniestro" class="w-full" type="date" name="FechaSiniestro"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                  <div class="mt-2">  
+                    <ValidationProvider immediate name="FechaFalla" rules="required" v-slot="{ errors }">      
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Falla:</p>
+                      <input v-model="fechaFalla" class="w-full" type="date" name="FechaFalla"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                </div>
+                <!--/////////////////////////////////////////////////////////////////////
+                  ////                      FILA NUMERO 2                         ////
+                  ////////////////////////////////////////////////////////////////////-->
+                <div class="justify-center grid grid-cols-2 mt-5">       
+                  <div class="mt-2 mr-3">       
+                    <ValidationProvider immediate name="FechaEnvio" rules="required" v-slot="{ errors }"> 
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Envio:</p>
+                      <input v-model="fechaEnvio" class="w-full" type="date" name="FechaEnvio"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                  <div class="mt-2">  
+                    <ValidationProvider immediate name="FechaElaboracion" rules="required" v-slot="{ errors }">      
+                      <p class="text-md mb-1 font-semibold text-gray-900">Fecha de Elaboracion:</p>
+                      <input v-model="fechaElaboracion" class="w-full" type="date" name="FechaElaboracion"/>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                </div>                                          
+              <!--/////////////////////////////////////////////////////////////////////
+                  ////                        BOTONES MODAL EDIT                         ////
+                  ////////////////////////////////////////////////////////////////////-->
+                <div class="text-center grid grid-cols-2  mt-10">  
+                  <div><button @click="confirmar_edicion_fechas" :disabled="invalid" class="botonIconCrear">Actualizar Fechas</button></div>     
+                  <div><button @click="cancelar_edicion_fechas" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
+                </div>
+              </div>     
+            </ValidationObserver>         
+          </div>                  
+        </div>        
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
@@ -202,6 +258,7 @@
                 @editar-status="editar_status_dtc"
                 @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
                 @enviar_pdf_sellado="enviar_pdf_sellado"
+                @editar-fechas-dtc="editar_fechas_dtc"
                 :plazasValidas="plazasValidas"
                 :infoCard="dtc"              
               ></CardListDTC>
@@ -260,7 +317,13 @@ export default {
       tipoUsuario: '',                                                             
       moreCard: true,                  
       filtroVista: false,
-      flecha: false
+      flecha: false,
+      //Modal Fechas
+      modalEditFechas: false,
+      fechaSiniestro: '',
+      fechaFalla: '',
+      fechaEnvio: '',
+      fechaElaboracion: ''           
     };
   },
   components: {    
@@ -283,6 +346,7 @@ beforeMount: async function () {
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
   this.infoDTC_Filtrado = this.infoDTC  
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
+  this.userId = await this.$store.state.Login.cookiesUser.userId
   let listaPlazasValias = []
   //Lista Plaza Validas
   let todasPlazas = await  this.$store.state.Login.listaPlazas
@@ -499,10 +563,7 @@ methods: {
             title: "Ok!",
             msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
+            styles: { height: 100, width: 500 },
         });  
       })      
     }, 3000);                                                                                   
@@ -540,7 +601,7 @@ methods: {
       this.modalLoading = true
       this.modalFirma = false    
       let agregar_firma_promise = new Promise((resolve, reject) => {              
-        this.$http.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}`)
+        this.$http.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}/${this.userId}`)
         .then(() => {           
           let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
@@ -654,6 +715,55 @@ methods: {
             }                                               
         }    
     };
+  },
+  editar_fechas_dtc(value){    
+    this.refNum = value.referenceNumber
+    this.fechaSiniestro = value.sinisterDate.slice(0,10)
+    this.fechaFalla = value.failureDate.slice(0,10)
+    this.fechaElaboracion = value.elaborationDate.slice(0,10)
+    this.fechaEnvio = value.shippingDate.slice(0,10)
+    this.modalEditFechas = true
+  },
+  confirmar_edicion_fechas(){ 
+    let promise_fechas = new Promise((resolve, reject) => { 
+      this.$http.put(`${API}/DtcData/UpdateFechaDtc/PM`, {
+        Reference: this.refNum,
+        SinisterDate: this.fechaSiniestro,
+        FailureDate: this.fechaFalla,
+        ShippingDate: this.fechaEnvio,
+        ElaborationDate: this.fechaElaboracion
+      })
+      .then(() => {
+        this.limpiar_filtros()
+          this.modalEditFechas = false
+          this.$notify.success({
+            title: "Ok!",
+            msg: `SE ACTUALIZARON LAS FECHAS PARA EL DTC ${this.refNum}`,
+            position: "bottom right",
+            styles: { height: 100, width: 500,},
+          });
+          resolve('ok')
+      })
+      .catch(() =>{
+        this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE ´PUDIERON ACTUALIZAR LA FECHAS DEL DTC ${this.refNum}`,
+            position: "bottom right",
+            styles: { height: 100, width: 500,},
+          });  
+          reject('Mal')    
+      })
+    })
+    setTimeout(() => {
+      promise_fechas
+        .then(async () => {
+            await this.limpiar_filtros()
+            this.refNum = ''; this.fechaSiniestro = ''; this.fechaFalla = ''; this.fechaElaboracion = ''; this.fechaEnvio = '';                        
+        })
+    },2000)
+  },
+  cancelar_edicion_fechas(){
+    this.modalEditFechas = false
   }
 },
 computed: {

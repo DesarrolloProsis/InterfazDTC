@@ -81,8 +81,8 @@
           </div>
         </div>
       </div>
-      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo"
-        :class="{'overflow-x-auto bg-white rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo' : !carruselModal && !modalCambiarStatus && !modalActualizar}"  style="height:550px;">
+      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16"
+        :class="{'overflow-x-auto bg-white rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar}"  style="height:550px;">
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
           <!--/////////////////////////////////////////////////////////////////
           ////                           HEADER TABLA                      ////
@@ -126,11 +126,11 @@
                 <td class="cuerpoTable" v-if="tipoUsuario == 1">
                   <div>
                     <button @click="abrirModal(item)" class="botonTodos">
-                      <img src="@/assets/img/todos.png" class="justify-center w-5"/>
+                      <img src="@/assets/img/todos.png" class="mr-4 ml-1 sm:mr-2" width="35" height="35"/>
                     </button>
                   </div>
                 </td>              
-                <td class="cuerpoTable">{{ item.referenceNumber }}</td>
+                <td class="cuerpoTable">{{ item.technicalSheetReference }}</td>
                 <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
                 <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
                 <td class="cuerpoTable">{{ item.dateStamp | formatDate}}</td>
@@ -144,12 +144,14 @@
                   <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
                 </td>
                 <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
+                <!-- Columna de las imagenes -->
                 <td class="cuerpoTable">
                   <div v-if="tipoUsuario != 7">
-                    <button @click="abrirCarrusel(item)" class="botonIconCrear" v-if="!item.imgbool" :class="{'bg-gray-400 hover:bg-gray-400': item.imgbool }" :disabled=" item.imgbool ">
+                    <!-- {{ validar_imagenes_diagnostico(item) }} -->
+                    <button  @click="abrirCarrusel(item)" class="botonIconCrear hidden" :class="{'bg-gray-400 hover:bg-gray-400': validar_imagenes_diagnostico(item) }" :disabled="!validar_imagenes_diagnostico(item)">
                       <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
                     </button>
-                    <button @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': item.imgbool }" :disabled=" item.imgbool " v-else >
+                    <button  @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': validar_imagenes_diagnostico(item) }" :disabled="validar_imagenes_diagnostico(item)" >
                       <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
                     </button>
                   </div>
@@ -159,18 +161,19 @@
                     </button>
                   </div>
                 </td>
+                <!-- Columna de cambios de status -->
                 <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
                   <div>
                     <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Estatus</button>
                   </div>
                 </td>
                 <td class="cuerpoTable">
-                  <div class="grid grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24" v-if="tipoUsuario != 8">          
-                      <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 -mr-24 sm:-ml-1 ml-2" :class="{'ml-8': pdfSellado.name}">
+                  <div class="grid grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 mr-32" v-if="tipoUsuario != 8">          
+                      <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 -mr-24 sm:-ml-1 ml-5" :class="{'ml-8': pdfSellado.name}">
                           <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:mr-2 " width="15" height="15" />
                           <span class="text-xs">Firmado</span>
                       </button>
-                      <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:-ml-1 ml-2" :class="{'hidden': item.escaneadobool, 'ml-8': pdfSellado.name}" :disabled=" item.escaneadobool ">
+                      <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:-ml-1 ml-5" :class="{'hidden': item.escaneadobool, 'ml-8': pdfSellado.name}" :disabled=" item.escaneadobool ">
                           <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:mr-2" width="15" height="15" />
                           <span class="text-xs">Sellado</span>
                       </button>
@@ -179,7 +182,7 @@
                     ///////////////////////////////////////////////////////////////////// -->        
                     <div class="" v-if="tipoUsuario != 7">
                       <div v-if="item.escaneadobool">                    
-                        <button class="mt-1 sm:w-32 sm:-ml-5" v-if="!item.confirmpdf">
+                        <button class="mt-1 w-32 ml-1 sm:w-32 sm:-ml-5" v-if="!item.confirmpdf">
                           <div class="botonIconSellado font-boton">
                             <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
                             <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
@@ -189,11 +192,11 @@
                         <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
                           <div class="grid grid-cols-2">
                           <img src="../../../assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
-                          <p class="-ml-32 text-sm sm:ml-0">{{ pdfSellado.name }}</p>
+                          <p class="ml-5 text-sm font-bold sm:ml-1">PDF Sellado</p>
                           </div>
-                          <div class="grid grid-cols-2 -ml-10 sm:grid-cols-1 sm:-ml-1">
-                            <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton mr-2 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                            <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar font-boton -ml-2 h-6 text-sm justify-center px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                          <div class="grid grid-cols-1 -ml-10 sm:grid-cols-1 sm:-ml-1">
+                            <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton px-1 ml-12 sm:ml-0 py-1 h-6 text-sm justify-center w-24">Subir</button>
+                            <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar font-boton ml-12 sm:ml-0 h-6 text-sm justify-center w-24 px-1 sm:w-24">Cancelar</button>                  
                           </div>            
                         </div>
                       </div>
@@ -229,6 +232,7 @@ import ServiceReportPDF from "../../../services/ReportesPDFService"
 import Carrusel from "../../../components/Carrusel";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import AgregarImg from "../../../components/ImagenesGenericas"
+
 
 export default {
   name: "ConcentradoDTC",
@@ -290,77 +294,85 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-abrirModal(item){
-  this.infoAcrualizar = item
-  console.log(this.infoAcrualizar)
-  this.modalActualizar = true
-},
-ActualizarComponentes: async function(){
-  let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
-  let userId = this.$store.state.Login.cookiesUser.userId
-  this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}/${userId}`)
-  this.modalActualizar = false
-},
-guardar_palabra_busqueda: function(newPalabra){  
-  if (newPalabra != "") {   
-    this.lista_DTC_Filtrada = [] 
-    this.loadingTabla = true
-    setTimeout(async () => {
-      let array_filtrado = this.infoDTC.filter(item => {
-        return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
-      })       
-      this.lista_DTC_Filtrada = array_filtrado;
-      this.loadingTabla = false
-    },1000)
-  }
-  else{
+  validar_imagenes_diagnostico:  function({ technicalSheetReference }){
+    if(technicalSheetReference != '--'){                
+        return this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${technicalSheetReference.split('-')[0]}/${technicalSheetReference}`)      
+          .then((response) => {                         
+            if(response.data.length === 0)
+              return false
+            else
+              return true
+          })                      
+    }
+    else {      
+      return false
+    }
+  } , 
+  abrirModal(item){
+    this.infoAcrualizar = item
+    console.log(this.infoAcrualizar)
+    this.modalActualizar = true
+  },
+  ActualizarComponentes: async function(){
+    let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
+    let userId = this.$store.state.Login.cookiesUser.userId
+    this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}/${userId}`)
+    this.modalActualizar = false
+  },
+  guardar_palabra_busqueda: function(newPalabra){  
+    if (newPalabra != "") {   
+      this.lista_DTC_Filtrada = [] 
+      this.loadingTabla = true
+      setTimeout(async () => {
+        let array_filtrado = this.infoDTC.filter(item => {
+          return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+        })       
+        this.lista_DTC_Filtrada = array_filtrado;
+        this.loadingTabla = false
+      },1000)
+    }
+    else{
+      this.lista_DTC_Filtrada = this.infoDTC
+    }
+  },  
+  abrirSubir: function (item) {
+    this.subirImgModal = true
+    this.datosImg = item
+  },
+  subirImg: async function (){
+    this.subirImgModal = false
+    let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+    await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+    this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
     this.lista_DTC_Filtrada = this.infoDTC
-  }
-},  
-abrirSubir: function (item) {
-  this.subirImgModal = true
-  this.datosImg = item
-},
-subirImg: async function (){
-  this.subirImgModal = false
-  let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']      
-  await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
-  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
-  this.lista_DTC_Filtrada = this.infoDTC
-},
-abrirCarrusel : async function (item){  
-  this.dtcImg = item
-  await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
-    .then((response) => {              
-        if(response.status != 404){                 
-          if(response.data.length > 0){
-            let array = response.data.map(imgData => {
-              return {
-                "fileName": imgData, 
-                "image": `${API}/dtcData/EquipoDañado/Images/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}/${imgData}`
-              }
-            })            
-            this.arrayImagenesCarrusel = {
-              array_img: array,
-              referenceNumber: item.referenceNumber,
-            };  
-            this.carruselModal = true
-          }
-          else{
-            this.$notify.warning({
-            title: "Ups!",
-            msg: `SIN FOTOS.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }   
-      }                   
-    })     
-},
-editar_status_dtc: function (){
+  },
+  abrirCarrusel : async function (item){  
+    this.dtcImg = item
+    await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
+      .then((response) => {              
+          if(response.status != 404){                 
+            if(response.data.length > 0){
+              let array = response.data.map(imgData => {
+                return {
+                  "fileName": imgData, 
+                  "image": `${API}/dtcData/EquipoDañado/Images/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}/${imgData}`
+                }
+              })            
+              this.arrayImagenesCarrusel = { array_img: array, referenceNumber: item.referenceNumber };  
+              this.carruselModal = true
+            }
+            else{
+              this.$notify.warning({
+              title: "Ups!",
+              msg: `SIN FOTOS.`,
+              position: "bottom right",
+              styles: { height: 100, width: 500 },
+            });
+          }   
+        }                   
+      })     
+  },
+  editar_status_dtc: function (){
   let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
   //Crea un objeto con los elementos necesarios para hacer un evento post
   let objeActualizado = {
@@ -393,22 +405,27 @@ editar_status_dtc: function (){
           },
         });
     }
-},
-abrir_modal_editar : function (item){
+  },
+  abrir_modal_editar : function (item){
   this.modalCambiarStatus = true
   //Toma la variable y la iguala al objeto item que trae toda la fila 
   this.dtcEdit = item
-},
-descargar_PDF: function (infoDtc, status){
+  },
+  descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
     if (this.tipoUsuario != 4 && this.tipoUsuario != 8)
     {
       setTimeout(()=>{
         ServiceReportPDF.generar_pdf_fotografico_correctivo(infoDtc.referenceNumber);               
     },1000)
+
     }
-},
-filtro_dtc: async function (objFiltro) {     
+  },
+
+
+  },
+  filtro_dtc: async function (objFiltro) {     
+
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
     this.lista_DTC_Filtrada = []
     this.loadingTabla = true    
@@ -431,30 +448,30 @@ filtro_dtc: async function (objFiltro) {
       },
     });
   }
-},
-limpiar_filtros: function() {             
+  },
+  limpiar_filtros: function() {             
   this.modalLoading = true                            
   this.$nextTick().then(() => {             
     this.lista_DTC_Filtrada = this.infoDTC
   })           
-},
-recibir_pdf_sellado(e, index) {           
-  var files = e.target.files || e.dataTransfer.files;
-  if (!files.length) return;
-  else {  
-    for (let item of files) {        
-      if(this.crearImage(item)){        
-        this.$nextTick().then(() => {
-          this.pdfSelladoBool = false
-          this.infoDTC[index].confirmpdf = true             
-          this.infoDTC.splice(index, 1 ,  Object.assign(this.infoDTC[index]))          
-          
-        })
-      }
-    }        
-  }
-},
-crearImage(file) {  
+  },
+  recibir_pdf_sellado(e, index) {           
+    var files = e.target.files || e.dataTransfer.files;
+    if (!files.length) return;
+    else {  
+      for (let item of files) {        
+        if(this.crearImage(item)){        
+          this.$nextTick().then(() => {
+            this.pdfSelladoBool = false
+            this.infoDTC[index].confirmpdf = true             
+            this.infoDTC.splice(index, 1 ,  Object.assign(this.infoDTC[index]))          
+
+          })
+        }
+      }        
+    }
+  },
+  crearImage(file) {  
   if(file.type.split('/')[1] == 'pdf'){
     var reader = new FileReader(); 
     reader.onload = (e) => {
@@ -481,8 +498,8 @@ crearImage(file) {
     this.pdfSellado = {}
     return false
   }         
-},
-base64ToFile(dataurl, fileName) {                    
+  },
+  base64ToFile(dataurl, fileName) {                    
     let url = "data:text/pdf;base64," + dataurl;  
     var arr = url.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
@@ -493,8 +510,8 @@ base64ToFile(dataurl, fileName) {
     u8arr[n] = bstr.charCodeAt(n);
   }
   return new File([u8arr], fileName + '.pdf', { type: mime });
-},
-enviar_pdf_sellado(index){                       
+  },
+  enviar_pdf_sellado(index){                       
   let formData = new FormData();
   let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
   formData.append("file", file);     
@@ -542,8 +559,8 @@ enviar_pdf_sellado(index){
         });  
       })      
     }, 3000);      
-},
-},
+  },
+
 
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
