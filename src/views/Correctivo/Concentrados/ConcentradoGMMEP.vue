@@ -130,7 +130,7 @@
                     </button>
                   </div>
                 </td>              
-                <td class="cuerpoTable">{{ item.technicalSheetReference }}</td>
+                <td class="cuerpoTable">{{ item.referenceNumber }}</td>
                 <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
                 <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
                 <td class="cuerpoTable">{{ item.dateStamp | formatDate}}</td>
@@ -151,7 +151,10 @@
                     <button  @click="abrirCarrusel(item)" class="botonIconCrear hidden" :class="{'bg-gray-400 hover:bg-gray-400': validar_imagenes_diagnostico(item) }" :disabled="!validar_imagenes_diagnostico(item)">
                       <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
                     </button>
-                    <button  @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': validar_imagenes_diagnostico(item) }" :disabled="validar_imagenes_diagnostico(item)" >
+                    <!-- <button  @click="abrirSubir(item)" class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': validar_imagenes_diagnostico(item) }" :disabled="validar_imagenes_diagnostico(item)" >
+                      <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
+                    </button> -->
+                    <button  class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default">
                       <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
                     </button>
                   </div>
