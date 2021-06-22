@@ -25,7 +25,7 @@
         <div v-if="boolListaVideos" class="flex justify-center mt-2 mb-16 sm:mt-14">
             <div class="grid grid-cols-2 sm:grid-cols-1 sm:mb-20">
                 <div v-for="(item, key) in arrayVideos" :key="key" class="botonesCorrectivo animacion sm:m-4 sm:p-3 sm:w-auto w-72 p-6">
-                    <p class=" text-lg text-center">{{ item.titulo }}</p>
+                    <p class=" text-lg text-center font-titulo">{{ item.titulo }}</p>
                     <div class=" inline-flex">
                         <div class="">
                             <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1 sm:ml-8 sm:mt-10" />
@@ -36,7 +36,7 @@
                                     <img src="../assets/img/play.png" height="40" width="55" class="sm:m-1"/>
                                 </button>                                
                             </div>  
-                            <div class="mt-3">
+                            <div class="mt-3 font-titulo">
                                 {{ item.descripcion }}
                             </div>                          
                         </div>    
@@ -108,9 +108,9 @@ export default {
             limite: 300,
             videoId: '',
             arrayVideos: [
-                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Ficha Falla", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.' },
-                {  videoId: 'CR-7c2HIUf0', titulo: "Subir Escaneados en Autorizado GMMEP", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.' },
-                {  videoId: 'Wx-AeJCf1eU', titulo: "CAmbiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.' }
+                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Ficha Falla", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'},
+                {  videoId: 'CR-7c2HIUf0', titulo: "Subir Escaneados en Autorizado GMMEP", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'},
+                {  videoId: 'Wx-AeJCf1eU', titulo: "Cambiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'}
             ],
             boolListaVideos: false,
             boolBotones: true,
