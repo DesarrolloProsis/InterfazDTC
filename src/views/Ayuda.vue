@@ -47,7 +47,7 @@
         <!--////////////////////////////////////////////////////////////////////
         ////                      MODAL AYUDA                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
+        <div class="sticky inset-0 font-titulo">
             <div v-if="modal_coment" class="rounded-lg  -mt-68 justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2">
                 <ValidationObserver ref="observer">      
                     <div class="rounded-lg border bg-white border-gray-400 px-12 py-10 shadow-2xl">

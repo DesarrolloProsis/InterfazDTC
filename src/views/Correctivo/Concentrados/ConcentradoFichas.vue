@@ -175,6 +175,7 @@ export default {
             }
             this.$notify.success({
                 title: "Ok!",
+                class:'font-titulo',
                 msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
                 position: "bottom right",
                 styles: {
