@@ -23,15 +23,15 @@
             </div>
         </div>
         <div v-if="boolListaVideos" class="flex justify-center mt-2 mb-16 sm:mt-14">
-            <div class="grid grid-cols-2 sm:grid-cols-2 sm:mb-20">
-                <div v-for="(item, key) in arrayVideos" :key="key" class="botonesCorrectivo animacion sm:m-4 sm:p-3 w-72 p-6">
+            <div class="grid grid-cols-2 sm:grid-cols-1 sm:mb-20">
+                <div v-for="(item, key) in arrayVideos" :key="key" class="botonesCorrectivo animacion sm:m-4 sm:p-3 sm:w-auto w-72 p-6">
                     <p class=" text-lg text-center">{{ item.titulo }}</p>
                     <div class=" inline-flex">
                         <div class="">
-                            <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1" />
+                            <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1 sm:ml-8 sm:mt-10" />
                         </div> 
                         <div class="pt-20 pl-20">
-                            <div class="w-16 ml-16">
+                            <div class="w-16 ml-16 sm:ml-6 sm:-mt-16">
                                 <button @click="ventana_videos(item)">
                                     <img src="../assets/img/play.png" height="40" width="55" class="sm:m-1"/>
                                 </button>                                
