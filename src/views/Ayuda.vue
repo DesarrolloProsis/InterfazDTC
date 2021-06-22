@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="justify-center flex mt-5">
-                            <button @click="enviar_comentario, comentario = ''" class="botonIconCrear m-4">Enviar</button>
+                            <button @click="enviar_comentario" class="botonIconCrear m-4">Enviar</button>
                             <button  @click="modal_coment = false, comentario = ''" class="botonIconCancelar font-boton m-4">Cancelar</button>
                         </div>
                     </div>
@@ -143,7 +143,8 @@ export default {
                         msg: `SE ENVIO CORRECTAMENTE TU COMENTARIO.`,
                         position: "bottom right",
                             styles: { height: 100, width: 500 },
-                    }); 
+                    });
+                    this.comentario = '' 
                 })
                 .catch(() => {
                     this.$notify.warning({

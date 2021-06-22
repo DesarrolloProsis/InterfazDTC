@@ -127,8 +127,8 @@
                 </button>
             </div>
             <div v-else class="text-xs inline-flex">
-              <div v-if="tipoUsuario != 8 && tipoUsuario != 4">
-                <button  @click="fotografico" class="botonIconBorrarCard font-boton">
+              <div v-if="tipoUsuario != 8">
+                <button v-if="tipoUsuario != 4" @click="fotografico" class="botonIconBorrarCard font-boton">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
                   <span>Fotografico</span>                
                 </button> 
