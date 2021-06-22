@@ -10,6 +10,6 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 // Start of CachFirst Strategy##################
 // all the api request which matchs the following pattern will use CacheFirst strategy for caching
 workbox.routing.registerRoute(
-/https:\/\/get\.geojs\.io\/v1\/ip\/country\.json/,
-new  workbox.strategies.CacheFirst()
+    /https:\/\/get\.geojs\.io\/v1\/ip\/country\.json/,
+    new  workbox.strategies.CacheFirst()
 );
