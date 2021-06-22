@@ -2,6 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
 
 @tailwind base;
+.info{
+    @apply w-64;
+    @apply h-32;
+    @apply mr-33;
+    @apply border-blue-700;
+    @apply border;
+    @apply p-5
+  
+}
+
 .is_validPlaza {
     @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
 }

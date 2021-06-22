@@ -10,7 +10,9 @@ import './registerServiceWorker'
 import moment from "moment";
 import * as rules from 'vee-validate/dist/rules';
 import VTooltip from 'v-tooltip'
-Vue.use(VTooltip)
+Vue.use(VTooltip,{
+  defaultHtml: true,
+})
 //Rputer
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
