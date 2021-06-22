@@ -23,7 +23,7 @@
             </div>
         </div>
         <div v-if="boolListaVideos" class="flex justify-center mt-2 mb-16 sm:mt-14">
-            <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
+            <div class="grid grid-cols-2 sm:grid-cols-2 sm:mb-20">
                 <div v-for="(item, key) in arrayVideos" :key="key" class="botonesCorrectivo animacion sm:m-4 sm:p-3 w-72 p-6">
                     <p class=" text-lg text-center">{{ item.titulo }}</p>
                     <div class=" inline-flex">
