@@ -283,7 +283,7 @@ export default {
             if(this.value.title == 'Ficha Técnica'){    
                 this.imprimir_pdf_ficha(item.referenceNumber)
             }
-            if(this.value.title == 'DTC'){    
+            if(this.value.title == 'Dictamen (DTC)'){    
                 this.desargar_pdf(item)
             }
             this.value = ""
