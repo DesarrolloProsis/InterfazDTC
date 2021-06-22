@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="justify-center flex mt-5">
-                            <button @click="enviar_comentario" class="botonIconCrear m-4">Enviar</button>
+                            <button @click="enviar_comentario, comentario = ''" class="botonIconCrear m-4">Enviar</button>
                             <button  @click="modal_coment = false, comentario = ''" class="botonIconCancelar font-boton m-4">Cancelar</button>
                         </div>
                     </div>
@@ -135,7 +135,8 @@ export default {
                 commentId: this.tipoComentario,
                 userId: user
             }
-            this.$http.post(`${API}/Comentario/Comment/${this.$store.state.Login.plazaSelecionada.refereciaPlaza}`,objComentario)
+            if(objComentario.textoComment.length != 0){
+                this.$http.post(`${API}/Comentario/Comment/${this.$store.state.Login.plazaSelecionada.refereciaPlaza}`,objComentario)
                 .then(() => {
                     this.$notify.success({
                         title: "Ok!",
@@ -152,7 +153,16 @@ export default {
                             styles: { height: 100, width: 500 },
                     }); 
                 })
-            this.modal_coment = false
+                this.modal_coment = false
+            }
+            else{
+                this.$notify.warning({
+                        title: "Ups!",
+                        msg: `NO SE HAN ESCRITO UN COMENTARIO.`,
+                        position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                    }); 
+            }
         },
         cerrar_video(){
             this.modal_videos = false

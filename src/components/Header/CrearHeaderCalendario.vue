@@ -25,7 +25,8 @@
                         <p class="font-titulo font-semibold">Correspondiente al mes de:</p>
                         <h2 class="ml-5 font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>                    
-                    <div class="md:flex lg:flex xl:flex justify-start sm:grid-cols-1 ml-5">
+                    <div class="md:flex lg:flex grid grid-cols-1 justify-start sm:grid-cols-1 ml-5">
+                        <span class="font-titulo font-semibold">Plaza/Encargado</span>
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" class="w-66"></SelectPlaza>                                                    
                     </div>
                     <div class="grid grid-cols-1 sm:mb-8">
@@ -51,7 +52,7 @@
                                         <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-16 ml-4 h-10 text-sm justify-center px-1 sm:ml-4 sm:mt-16">Cancelar</button>
                                     </div>                                
                                 </div>                        
-                                <div v-else class="justify-center botonIconDescargar font-bold">
+                                <div v-else class="justify-center -ml-24 botonIconDescargar font-bold">
                                     <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-32 h-10 absolute" multiple/>
                                         <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
                                         <span>Cargar</span>                                                                       

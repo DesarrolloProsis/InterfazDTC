@@ -78,13 +78,13 @@
                                     <td class="cuerpoTable">
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                             <template slot="singleLabel" slot-scope="props">
-                                                <div class=" inline-flex">
+                                                <div class="inline-flex">
                                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
-                                                    <span class="option__title">{{ props.option.title }}</span>
+                                                    <span class="option__title bg-red-300">{{ props.option.title }}</span>
                                                 </div>
                                             </template>
                                             <template slot="option" slot-scope="props">                                                
-                                                <div class="option__desc"><span class="option__title inline-flex">
+                                                <div class="option__desc "><span class="option__title inline-flex">
                                                     <img :src="props.option.img" class="mr-5" width="15" height="15">    
                                                     {{ props.option.title }}</span>
                                                 </div>
@@ -277,10 +277,10 @@ export default {
             if(this.value.title == 'Borrar'){       
                 this.confirmarBorrar(item)     
             }
-            if(this.value.title == 'Dignostico'){     
+            if(this.value.title == 'Dignóstico de Falla'){     
                 this.imprimir_pdf_diagnostico(item.referenceNumber)       
             }
-            if(this.value.title == 'Ficha'){    
+            if(this.value.title == 'Ficha Técnica'){    
                 this.imprimir_pdf_ficha(item.referenceNumber)
             }
             if(this.value.title == 'DTC'){    
@@ -295,9 +295,9 @@ export default {
                 { title: 'Terminar DTC', img: '/img/nuevoDtc.90090632.png' },
                 { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //2
                 { title: 'Borrar', img: '/img/borrar.16664eed.png' },
-                { title: 'Dignostico', img: '/img/pdf.5b78f070.png' }, //4
-                { title: 'Ficha', img: '/img/pdf.5b78f070.png' },
-                { title: 'DTC', img: '/img/pdf.5b78f070.png' }, //6
+                { title: 'Dignóstico de Falla', img: '/img/download.ea0ec6db.png' }, //4
+                { title: 'Ficha Técnica', img: '/img/download.ea0ec6db.png' },
+                { title: 'Dictamen (DTC)', img: '/img/download.ea0ec6db.png' }, //6
             ]
             let filtroOpciones = []
             //Diagnostico Descargar Siempre va

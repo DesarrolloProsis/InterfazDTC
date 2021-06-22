@@ -154,7 +154,7 @@
                                     <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                    <td class="w-64 text-center cuerpoTable">                                            
+                                    <td class="w-69 text-center cuerpoTable">                                            
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <div class=" inline-flex">
@@ -361,15 +361,15 @@ methods: {
         if(this.value.title == 'Editar'){
             this.editar_reporte_carril(item)
         }   
-        if(this.value.title == 'Descargar'){            
+        if(this.value.title == 'Reporte de Mantenimiento'){            
             this.reporte_pdf(item)
         }
-        if(this.value.title == 'Subir Sellado'){
+        if(this.value.title == 'Reporte Mtto. Sellado'){
             this.objSubir = item.referenceNumber
             console.log(this.objSubir);
             this.modalSubirSellado = true
         }
-        if(this.value.title == 'Descargar Sellado'){
+        if(this.value.title == 'Reporte M. Sellado'){
             this.descargar_escaneado(item)
         }
         this.value = ""
@@ -378,9 +378,9 @@ methods: {
         let options= [
             { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
             { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
-            { title: 'Descargar', img: '/img/pdf.5b78f070.png' },
-            { title: 'Descargar Sellado', img: '/img/pdf.5b78f070.png'},
-            { title: 'Subir Sellado', img: '/img/pdf.5b78f070.png'},
+            { title: 'Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },
+            { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
+            { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
         ]
         if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
             if(pdfExists){

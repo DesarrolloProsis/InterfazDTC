@@ -147,11 +147,11 @@
                 <!-- Columna de las imagenes -->
                 <td class="cuerpoTable">
                   <div v-if="tipoUsuario != 7">
-                    {{ validar_imagenes_diagnostico(item) }}
-                    <button v-if="validar_imagenes_diagnostico(item)" @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': validar_imagenes_diagnostico(item) }" :disabled="!validar_imagenes_diagnostico(item)">
+                    <!-- {{ validar_imagenes_diagnostico(item) }} -->
+                    <button  @click="abrirCarrusel(item)" class="botonIconCrear hidden" :class="{'bg-gray-400 hover:bg-gray-400': validar_imagenes_diagnostico(item) }" :disabled="!validar_imagenes_diagnostico(item)">
                       <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
                     </button>
-                    <button v-else @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': validar_imagenes_diagnostico(item) }" :disabled="validar_imagenes_diagnostico(item)" >
+                    <button  @click="abrirSubir(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': validar_imagenes_diagnostico(item) }" :disabled="validar_imagenes_diagnostico(item)" >
                       <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
                     </button>
                   </div>
