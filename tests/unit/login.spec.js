@@ -1,8 +1,8 @@
 
 import Login from '../../src/views/Login.vue'
 import { mount, config, createLocalVue } from "@vue/test-utils"
-import Vuex from "vuex";
-import createStoreLoginConfig from "../testStoreConfig";
+//import Vuex from "vuex";
+//import createStoreLoginConfig from "../testStoreConfig";
 config.showDeprecationWarnings = false
 import actions from "@/store/actions.js"
 
