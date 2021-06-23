@@ -26,7 +26,7 @@
                         <h2 class="ml-5 font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>                    
                     <div class="md:flex lg:flex grid grid-cols-1 justify-start sm:grid-cols-1 ml-5">
-                        <span class="font-titulo font-semibold">Plaza/Encargado</span>
+                        <span class="font-titulo font-semibold mr-4">Plaza/Encargado: </span>
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" class="w-66"></SelectPlaza>                                                    
                     </div>
                     <div class="grid grid-cols-1 sm:mb-8">
