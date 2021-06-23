@@ -11,33 +11,19 @@
                     </p>
                 </div>
                 <div class=" inline-flex">
-                    <!-- <button class="mr-5 font-semibold" v-tooltip="{
-                        content: msg,
-                        placement: 'bottom-center',
-                        classes: ['info'],
-                        targetClasses: ['it-has-a-tooltip'],
-                        offset: 20,
-                        delay: { show: 100, hide: 5000 },     
-                                    
-                        
-                    }">?</button> -->
-                    <v-popover offset="16" placement="bottom-center" classes="[info]"
->
-  <!-- This will be the popover target (for the events and position) -->
-  <button class="mr-5">?</button>
-
-  <!-- This will be the content of the popover -->
-  <template slot="popover">
-    <input class="tooltip-content" v-model="msg" placeholder="Tooltip content" />
-    <p>
-      {{ msg }}
-    </p>
-
-    <!-- You can put other components too -->
-    
-  </template>
-</v-popover>
-                    <p class="sm:text-xs text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.3</p>
+                    <p class="sm:hidden">
+                        <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
+                            <img src="@/assets/img/exclamacion.png" class=" w-6 h-5 my-auto mx-auto" />
+                        </span></p>
+                    <div ref="tooltipRef" class="tooltip-content">
+                      <p class="text-center text-gray-800">🎉 Nueva Version 1.6.3 !!! 🎉</p>
+                      <ol class="pl-5 mt-2 text-gray-800 pb-2">
+                        <li>*Enviar comentarios</li>
+                        <li>*Videos de ayuda</li>
+                        <li>*Manual de usuario</li>
+                      </ol>
+                    </div>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.3</p>
                 </div>
             </div>                                
         </div>        
@@ -59,5 +45,17 @@ export default {
     }   
 }
 </script>
+<style>
+.vue-tooltip.tooltip-custom {
+  width: 50rem;  
+  background-color: rgba(255, 255, 255, 0.685);  
+  border: 2px solid #2c5282;  
+  box-shadow: 1000;  
+}
+
+.vue-tooltip.tooltip-custom .tooltip-arrow {  
+    border: 3px solid #2c5282;  
+}
+</style>
 
 
