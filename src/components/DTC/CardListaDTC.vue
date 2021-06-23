@@ -38,6 +38,20 @@
           <p class="text-left text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
           <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
+          <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
+              <template slot="singleLabel" slot-scope="props">
+                  <div class=" inline-flex">
+                      <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                      <span class="option__title">{{ props.option.title }}</span>
+                  </div>
+              </template>
+              <template slot="option" slot-scope="props">                                                
+                  <div class="option__desc"><span class="option__title inline-flex">
+                      <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                      {{ props.option.title }}</span>
+                  </div>
+              </template>
+          </multiselect>    
           <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
@@ -216,6 +230,81 @@ export default {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
   methods: {
+    acciones_mapper(){            
+        if(this.value.title == 'Borrar DTC'){
+          this.borrar_dtc()
+        }
+        if(this.value.title == 'Editar Fechas'){
+          this.editar_fechas_calendario()
+        }
+        if(this.value.title == 'Editar Header'){
+          this.editar_header()
+        }
+        if(this.value.title == 'Editar Componentes'){
+          this.editar_dtc()
+        }
+        if(this.value.title == 'Cargar Sellado'){
+          this.editar_header()
+        }
+        if(this.value.title == 'Descargar Firmado'){
+          this.generar_pdf(2)
+        }
+        if(this.value.title == 'Descargar Sellado'){
+          this.generar_pdf(3)
+        }
+        if(this.value.title == 'Descargar Fotografico'){
+          this.fotografico()
+        }
+        if(this.value.title == 'Descargar Sin Firma'){
+          this.generar_pdf(1)
+        }
+        this.value = ''
+    },
+    opticones_select_acciones(){
+        let options = [
+            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, 
+            { title: 'Editar Fechas', img: '/img/pencil.04ec78bc.png' },
+            { title: 'Editar Header', img: '/img/pencil.04ec78bc.png' },       
+            { title: 'Editar Componentes', img: '/img/pencil.04ec78bc.png' },    
+            { title: 'Cargar Sellado', img: '/img/upload.ea0ec6db.png' },                                                                                
+            { title: 'Descargar Firmado', img: '/img/download.8d26bb4f.png'},
+            { title: 'Descargar Sellado', img: '/img/download.8d26bb4f.png'},
+            { title: 'Descargar Fotografico', img: '/img/download.8d26bb4f.png'},
+            { title: 'Descargar Sin Firma', img: '/img/download.8d26bb4f.png'},
+        ]
+        let array = []   
+        if(this.tipoUsuario == 4){
+          array.push(options[1])
+        }     
+        if(this.tipoUsuario == 4 || this.infoCard.statusId < 2 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3)){
+          array.push(options[0])
+        }
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2){
+          array.push(options[2])
+        }
+
+        if(this.infoCard.statusId == 1){
+          array.push(options[3])
+        }
+        else{
+          if(this.tipoUsuario != 8){
+            array.push(options[5])
+            if(this.tipoUsuario != 4){
+              array.push(options[7])
+            }
+            if(this.infoCard.statusId > 2){
+              array.push(options[6]) 
+            }
+          }
+          else{
+            array.push(options[8])
+          }          
+        }
+        return array       
+    },
+    customLabel ({ title }) {
+        return `${title}`
+    },
     editar_fechas_calendario(){
       this.$emit('editar-fechas-dtc', this.infoCard)
     },   
