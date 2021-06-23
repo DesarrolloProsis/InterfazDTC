@@ -16,14 +16,16 @@
                             <img src="@/assets/img/exclamacion.png" class=" w-6 h-5 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class="tooltip-content">
-                      <p class="text-center text-gray-800">🎉 Nueva Version 1.6.3 !!! 🎉</p>
-                      <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                        <li>*Enviar comentarios</li>
-                        <li>*Videos de ayuda</li>
-                        <li>*Manual de usuario</li>
-                      </ol>
+                        <p class="text-center text-gray-800">🎉 Nueva Version 1.6.5 !!! 🎉</p>
+                        <ol class="pl-5 mt-2 text-gray-800 pb-2">
+                            <li>*Subir PDF Sellado de Mtto Preventivo</li>
+                            <li>*Reporte Fotográfico DTC</li>
+                            <li>*Enviar comentarios</li>
+                            <li>*Videos de ayuda</li>
+                            <li>*Manual de usuario</li>
+                        </ol>
                     </div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.3</p>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.5</p>
                 </div>
             </div>                                
         </div>        

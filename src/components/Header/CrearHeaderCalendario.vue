@@ -52,7 +52,7 @@
                                         <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-16 ml-4 h-10 text-sm justify-center px-1 sm:ml-4 sm:mt-16">Cancelar</button>
                                     </div>                                
                                 </div>                        
-                                <div v-else class="justify-center -ml-24 botonIconDescargar font-bold">
+                                <div v-else class="justify-center ml-2 botonIconDescargar font-bold">
                                     <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-32 h-10 absolute" multiple/>
                                         <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
                                         <span>Cargar</span>                                                                       
