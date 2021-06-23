@@ -30,7 +30,21 @@
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" class="w-66"></SelectPlaza>                                                    
                     </div>
                     <div class="grid grid-cols-1 sm:mb-8">
-                        <div class="flex justify-start m-5">
+                        <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                            <template slot="singleLabel" slot-scope="props">
+                                <div class=" inline-flex">
+                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                    <span class="option__title">{{ props.option.title }}</span>
+                                </div>
+                            </template>
+                            <template slot="option" slot-scope="props">                                                
+                                <div class="option__desc"><span class="option__title inline-flex">
+                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                    {{ props.option.title }}</span>
+                                </div>
+                            </template>
+                        </multiselect>    
+                        <!-- <div class="flex justify-start m-5 mt-10">
                             <button @click="generar_pdf" class="botonIconCrear">
                                 <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
                                 <span class="">Crear</span>
@@ -58,7 +72,7 @@
                                         <span>Cargar</span>                                                                       
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>          
                 </div>
                 <ValidationObserver ref="observer" class="-ml-16">  
@@ -121,12 +135,14 @@
 <script>
 import ServiceActividades from '../../services/ActividadesService'
 import SelectPlaza from '../Header/SelectPlaza'
+import Multiselect from "vue-multiselect";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ReportesPDFService from '../../services/ReportesPDFService'
 
 export default {
     components:{
-        SelectPlaza
+        SelectPlaza,
+        Multiselect
     },
     props:{
         comentario:{
@@ -154,7 +170,8 @@ export default {
         return {                        
             limite:500,
             calendarEscaneado: null,      
-            escaneadoBool: false                  
+            escaneadoBool: false,
+            value: ''                  
         }
     },    
     destroyed(){        
@@ -184,6 +201,34 @@ export default {
         }                                    
     },    
     methods: {
+        acciones_mapper(){            
+            if(this.value.title == 'Crear Calendario'){
+                this.generar_pdf()
+            }
+            if(this.value.title == 'Cargar Sellado'){
+                this.obtener_escaneado_calendario()
+            }
+            if(this.value.title == 'Descargar Sellado'){
+                this.obtener_escaneado_calendario()
+            }
+            this.value = ''
+        },
+        opticones_select_acciones(){
+            let options = [
+                { title: 'Crear Calendario', img: '/img/nuevoDtc.90090632.png' },                                                
+                { title: 'Cargar Sellado', img: '/img/upload.8d26bb4f.png'},
+                { title: 'Descargar Sellado', img: '/img/download.ea0ec6db.png' }
+            ]
+            if(!this.calendarioEscaneado){
+                return options.splice(0,2)
+            }
+            else{
+                return options
+            }         
+        },
+        customLabel ({ title }) {
+            return `${title}`
+        },
         cambiar_plaza(numeroPlaza){                  
             this.$emit("actualizar-actividad", numeroPlaza);
         },

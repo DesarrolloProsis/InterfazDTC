@@ -2,7 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
 
 @tailwind base;
-
+.multiselect__option--highlight{
+    @apply bg-blue-800  
+}
 .is_validPlaza {
     @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
 }

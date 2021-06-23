@@ -315,8 +315,7 @@ methods: {
         this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect)
         this.limpiar_filtros()
     },
-    reporte_pdf: async function(item){          
-        //let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
+    reporte_pdf: async function(item){                  
         let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
         await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${item.referenceNumber.split('-')[0]}/${item.calendarId}`)
         .then((response) => {                  
