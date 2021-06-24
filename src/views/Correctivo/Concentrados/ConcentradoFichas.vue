@@ -202,7 +202,7 @@ export default {
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
                 let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
-                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase()) || item.referenceDTC.toUpperCase().includes(newPalabra.toUpperCase())
                 })       
                 this.listaFicha = array_filtrado;    
             }
