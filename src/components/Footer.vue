@@ -10,7 +10,7 @@
                         © 2021 Proyectos y Sistemas Informaticos.
                     </p>
                 </div>
-                <div class=" inline-flex">
+                <div class="inline-flex" v-if="$route != undefined && $route.name != 'login'">
                     <p class="sm:hidden">
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
                             <div class="-mt-3 ml-3">
@@ -20,14 +20,14 @@
                             </div>
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
-                    <div ref="tooltipRef" class="tooltip-content font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Version 1.6.5 !!! 🎉</p>
+                    <div ref="tooltipRef" class=" font-titulo">
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 1.6.5 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>*Subir PDF Sellado de Mtto Preventivo</li>
-                            <li>*Reporte Fotográfico DTC</li>
-                            <li>*Enviar comentarios</li>
-                            <li>*Videos de ayuda</li>
-                            <li>*Manual de usuario</li>
+                            <li>◾Subir PDF Sellado de Mtto Preventivo</li>
+                            <li>◾Reporte Fotográfico DTC</li>
+                            <li>◾Enviar comentarios</li>
+                            <li>◾Videos de ayuda</li>
+                            <li>◾Manual de usuario</li>
                         </ol>
                     </div>
                     <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.5</p>
@@ -60,14 +60,15 @@ export default {
 </script>
 <style>
 .vue-tooltip.tooltip-custom {
-  width: 50rem;  
-  background-color: rgba(255, 255, 255, 0.685);  
-  border: 2px solid #2c5282;  
-  box-shadow: 1000;  
+    width: 50rem;  
+    background-color: rgba(255, 255, 255, 0.685);  
+    border: 1px solid #466fa1;  
+    box-shadow: 1000;
+    border-radius: 15px;
 }
 
 .vue-tooltip.tooltip-custom .tooltip-arrow {  
-    border: 3px solid #2c5282;  
+    border: 3px solid #466fa1;  
 }
 </style>
 
