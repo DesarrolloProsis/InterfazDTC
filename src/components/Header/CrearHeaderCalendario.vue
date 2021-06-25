@@ -1,5 +1,31 @@
 <template>
     <div>
+        <div class=" inset-0 font-titulo">
+            <div v-if="modalSubirSellado" class="carruselGMMEP border-gray-200 h-34 w-71"> 
+                <span @click="modalSubirSellado = false" class="absolute  top-0 right-0">
+                    <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
+                </span>         
+                <div>                    
+                    <button class="mt-10  sm:w-32 sm:-ml-5 ml-2" v-if="escaneadoBool">
+                        <div class="botonIconSellado font-boton h-32 w-69 justify-center">
+                            <input type="file" class="opacity-0 border-black w-69 h-32 absolute" @change="recibir_calendario_escaneado($event)"/>
+                            <img src="@/assets/img/pdf.png" class="mr-1" width="25" height="25"/>
+                            <p class="mt-1">Seleccionar Archivo</p>
+                        </div>                   
+                    </button>
+                    <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
+                        <div class="grid grid-cols-2">
+                            <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
+                            <p class="-ml-16 mt-16 font-bold sm:ml-0">Calendario Escaneado</p>
+                        </div>
+                        <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
+                            <button @click="enviar_calendario_escaneado" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
+                            <button @click="escaneadoBool = true" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
     <!--///////////////////////////////////////////////////////////////////
           ////                             HEADER                          ////
           ////////////////////////////////////////////////////////////////////-->
@@ -29,7 +55,8 @@
                         <span class="font-titulo font-semibold mr-4">Plaza/Encargado: </span>
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" class="w-66"></SelectPlaza>                                                    
                     </div>
-                    <div class="grid grid-cols-1 sm:mb-8">
+                    <div class="grid grid-cols-1 sm:mb-8 ml-5 mt-2">
+                        <span class="font-titulo font-semibold mr-4">Acciones:</span>
                         <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
                                 <div class=" inline-flex">
@@ -170,8 +197,10 @@ export default {
         return {                        
             limite:500,
             calendarEscaneado: null,      
-            escaneadoBool: false,
-            value: ''                  
+            escaneadoBool: true,
+            value: '',
+            modalSubirSellado:false,
+            pdfSellado:''            
         }
     },    
     destroyed(){        
@@ -206,7 +235,7 @@ export default {
                 this.generar_pdf()
             }
             if(this.value.title == 'Cargar Sellado'){
-                this.obtener_escaneado_calendario()
+                this.modalSubirSellado = true
             }
             if(this.value.title == 'Descargar Sellado'){
                 this.obtener_escaneado_calendario()
@@ -242,9 +271,8 @@ export default {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
             else {
-                this.escaneadoBool = true
                 for (let item of files) {        
-                if(this.crearImage(item) == false)
+                    if(this.crearImage(item))
                     this.escaneadoBool = false
                 }        
             }
@@ -282,8 +310,9 @@ export default {
             formFile.append('file', calendarioEscaneadoFile)                     
             this.$http.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${this.idUser}`, formFile)
                 .then(() => {                                   
-                    this.escaneadoBool = false
+                    this.escaneadoBool = true
                     this.calendarioEscaneado = false
+                    this.modalSubirSellado = false
                     let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
                     this.$emit("actualizar-actividad", numPlaza);                    
                     this.$notify.success({
