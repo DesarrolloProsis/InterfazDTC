@@ -272,6 +272,7 @@ import moment from "moment";
 import Multiselect from "vue-multiselect";
 import EventBus from '../../services/EventBus'
 import CookiesService from '../../services/CookiesService';
+
 export default {
 name: "Diagnostico",
 props:{
@@ -491,8 +492,7 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-        try {         
-            console.log(this.datosDiagnostico)                        
+        try {                                                   
             let validacion = false
             Object.entries(this.datosDiagnostico).forEach(item => {
                 if(item[0] != 'folioFalla' || item[0] != 'numeroReporte'){
@@ -500,8 +500,7 @@ methods:{
                         validacion = false
                     }                                        
                 }
-            })   
-            console.log(validacion)                        
+            })                                   
             if(!validacion){
                 if(value){                                                                        
                     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                              
@@ -517,7 +516,7 @@ methods:{
                     position: "bottom right",
                     styles: { height: 100, width: 500 },
                 });
-            } 
+            }                                                                                    
         }
         catch(error){            
             console.log(error)
