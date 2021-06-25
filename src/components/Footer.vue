@@ -13,7 +13,7 @@
                 <div class=" inline-flex">
                     <p class="sm:hidden">
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
-                            <img src="@/assets/img/exclamacion.png" class=" w-6 h-5 my-auto mx-auto" />
+                            <img src="@/assets/img/exclamacion.png" class=" w-10 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class="tooltip-content">
                         <p class="text-center text-gray-800">🎉 Nueva Version 1.6.5 !!! 🎉</p>

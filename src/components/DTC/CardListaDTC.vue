@@ -42,6 +42,7 @@
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
+          <p class="text-left font-semibold text-sm">Acciones:</p>
           <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
