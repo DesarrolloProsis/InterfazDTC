@@ -9,8 +9,9 @@ import es from 'vee-validate/dist/locale/es.json';
 import './registerServiceWorker'
 import moment from "moment";
 import * as rules from 'vee-validate/dist/rules';
-import VTooltip from 'v-tooltip'
-Vue.use(VTooltip)
+import tooltip from 'vue-directive-tooltip'
+import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
+Vue.use(tooltip)
 //Rputer
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)

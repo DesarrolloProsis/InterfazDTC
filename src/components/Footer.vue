@@ -10,8 +10,22 @@
                         © 2021 Proyectos y Sistemas Informaticos.
                     </p>
                 </div>
-                <div>
-                    <p class="sm:text-xs text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.4</p>
+                <div class=" inline-flex">
+                    <p class="sm:hidden">
+                        <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
+                            <img src="@/assets/img/exclamacion.png" class=" w-6 h-5 my-auto mx-auto" />
+                        </span></p>
+                    <div ref="tooltipRef" class="tooltip-content">
+                        <p class="text-center text-gray-800">🎉 Nueva Version 1.6.5 !!! 🎉</p>
+                        <ol class="pl-5 mt-2 text-gray-800 pb-2">
+                            <li>*Subir PDF Sellado de Mtto Preventivo</li>
+                            <li>*Reporte Fotográfico DTC</li>
+                            <li>*Enviar comentarios</li>
+                            <li>*Videos de ayuda</li>
+                            <li>*Manual de usuario</li>
+                        </ol>
+                    </div>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.5</p>
                 </div>
             </div>                                
         </div>        
@@ -19,11 +33,31 @@
 </template>
 <script>
 export default {  
+    data(){
+        return{
+            msg: `hola
+            dsakl
+            dflkjs`
+        }
+    },
     computed:{
         nombreRoll(){
-            return this.$store.state.Login.cookiesUser.nombreRoll
+            return this.$store.state.Login.cookiesUser.nombreRoll        
         }
     }   
 }
 </script>
+<style>
+.vue-tooltip.tooltip-custom {
+  width: 50rem;  
+  background-color: rgba(255, 255, 255, 0.685);  
+  border: 2px solid #2c5282;  
+  box-shadow: 1000;  
+}
+
+.vue-tooltip.tooltip-custom .tooltip-arrow {  
+    border: 3px solid #2c5282;  
+}
+</style>
+
 

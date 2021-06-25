@@ -48,10 +48,11 @@
                                 placeholder="Selecciona..."
                                 :options="carriles_plaza"
                                 :multiple="true"   
-                                name="Carriles"                     
+                                name="Carriles"    
+                                select-label=""                 
                             >
                                 <template slot="selection" slot-scope="{ values, isOpen }">
-                                    <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                                    <span class="" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                                 </template>
                             </multiselect>
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
