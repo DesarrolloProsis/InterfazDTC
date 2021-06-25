@@ -14,14 +14,11 @@
                     <p class="sm:hidden">
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
                             <div class="-mt-3 ml-3">
-                            <span class="flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75"></span>
-                                <div class="ml-1 -mt-1">
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                                </div>
+                            <span class="flex -mt-4 h-3 w-3">
+                                <span class="animate-ping absolute mt-2 inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75"></span>
                             </span>
                             </div>
-                            <img src="@/assets/img/exclamacion.png" class=" w-8 h-6 my-auto mx-auto" />
+                            <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class="tooltip-content font-titulo">
                         <p class="text-center text-gray-800">🎉 Nueva Version 1.6.5 !!! 🎉</p>
