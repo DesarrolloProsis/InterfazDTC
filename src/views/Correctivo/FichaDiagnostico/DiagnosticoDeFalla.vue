@@ -91,10 +91,38 @@ export default {
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(objHeader){        
+    actualizar_header(objHeader){                      
         this.datosHeader = objHeader.header
-        if(objHeader.crear)
-            this.insertar_diagnostico_falla(objHeader.value)
+        if(objHeader.value == false){
+            this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)
+                .then((response) => {
+                    console.log(response)
+                    if(response.data.length > 0){
+                        if(objHeader.crear)
+                            this.insertar_diagnostico_falla(objHeader.value)
+                    }  
+                    else{
+                        this.$notify.warning({
+                            title: "Ops!!",
+                            msg: "LAS FOTOS SON NECESARIAS.",
+                            position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                        });
+                    } 
+                })
+                .catch(() => {
+                    this.$notify.warning({
+                        title: "Ops!!",
+                        msg: "LAS FOTOS SON NECESARIAS.",
+                        position: "bottom right",
+                        styles: { height: 100, width: 500 },
+                    });
+                })
+        }
+        else {
+            if(objHeader.crear)
+                this.insertar_diagnostico_falla(objHeader.value)
+        }
     },
     enviar_header_diagnostico(value){            
         EventBus.$emit('validar_header_diagnostico', value)
