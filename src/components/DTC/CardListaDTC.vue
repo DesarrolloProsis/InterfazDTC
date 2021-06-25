@@ -35,31 +35,33 @@
           <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-semibold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-semibold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
-          <p class="text-left text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
+          <p class="text-left font-semibold text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
-          <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
-          <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
-              <template slot="singleLabel" slot-scope="props">
-                  <div class=" inline-flex">
-                      <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
-                      <span class="option__title">{{ props.option.title }}</span>
-                  </div>
-              </template>
-              <template slot="option" slot-scope="props">                                                
-                  <div class="option__desc"><span class="option__title inline-flex">
-                      <img :src="props.option.img" class="mr-5" width="15" height="15">    
-                      {{ props.option.title }}</span>
-                  </div>
-              </template>
-          </multiselect>    
-          <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
+          <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>  
+          <div class="w-64 break-words text-left text-gray-800 font-normal">
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
+          <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
+            <template slot="singleLabel" slot-scope="props">
+              <div class=" inline-flex">
+                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                <span class="option__title">{{ props.option.title }}</span>
+              </div>
+            </template>
+            <template slot="option" slot-scope="props">                                                
+              <div class="option__desc">
+                <span class="option__title inline-flex">
+                  <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                    {{ props.option.title }}
+                </span>
+              </div>
+            </template>
+          </multiselect>  
         <!-- //////////////////////////////////////////////////////////////////////
         ////                         SUBIR PDF SELLADO                        ////
         ///////////////////////////////////////////////////////////////////// -->        
-        <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
+        <div v-if="modalSubir">
           <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario" >
             <div class="flex justify-center" v-if="pdfSelladoBool == false">
               <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado"/>
@@ -210,7 +212,8 @@ export default {
       pdfSelladoBool: false,
       statusAgregarFimar: '',
       cambiarStatus: 0,
-      TIPO_USUARIO: 0 ,               
+      TIPO_USUARIO: 0 ,     
+      modalSubir: false          
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -244,7 +247,7 @@ export default {
           this.editar_dtc()
         }
         if(this.value.title == 'Cargar Sellado'){
-          this.editar_header()
+          this.modalSubir = true
         }
         if(this.value.title == 'Descargar Firmado'){
           this.generar_pdf(2)
@@ -282,7 +285,9 @@ export default {
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2){
           array.push(options[2])
         }
-
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2){
+          array.push(options[4])
+        }
         if(this.infoCard.statusId == 1){
           array.push(options[3])
         }
