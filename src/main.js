@@ -6,7 +6,7 @@ import "./assets/css/tailwind.css"
 import Multiselect from 'vue-multiselect'
 import { ValidationObserver, ValidationProvider, localize, extend  } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es.json';
-import './registerServiceWorker'
+//import './registerServiceWorker'
 import moment from "moment";
 import * as rules from 'vee-validate/dist/rules';
 import VTooltip from 'v-tooltip'
@@ -44,11 +44,12 @@ extend('maxTime', {
       return true
     }    
     else{
-      let horaISplite = value.split(':')            
-      let horaFSplite = args[0].split(':')            
-      let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-      let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-      return dateInicio < dateFin ? true : false    
+      // let horaISplite = value.split(':')            
+      // let horaFSplite = args[0].split(':')            
+      // let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
+      // let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
+      //return dateInicio < dateFin ? true : false    
+      return value < args[0] ? true : false    
     }   
   }
 });
@@ -81,6 +82,7 @@ Vue.use(Vuelidate)
 //Youtube
 import VueYoutube from 'vue-youtube'
 Vue.use(VueYoutube)
+import 'vue-datetime/dist/vue-datetime.css'
 
 Vue.config.productionTip = false
 new Vue({

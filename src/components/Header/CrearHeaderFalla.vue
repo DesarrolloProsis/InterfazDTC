@@ -73,14 +73,16 @@
                 <div class="mt-5">
                     <ValidationProvider name="HoraInicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La HoraInicio debe ser menor que la HoraFin' }"  v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora INICIO:</span>
-                        <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/>
+                        <datetime v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
+                        <!-- <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
                     <ValidationProvider name="HoraFin" :rules="{required: true}" v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora FIN:</span>
-                        <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" />
+                        <datetime v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
+                        <!-- <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" /> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -271,6 +273,7 @@ import moment from "moment";
 import Multiselect from "vue-multiselect";
 import EventBus from '../../services/EventBus'
 import CookiesService from '../../services/CookiesService';
+import { Datetime } from 'vue-datetime';
 export default {
 name: "Diagnostico",
 props:{
@@ -285,7 +288,8 @@ props:{
 },
 components:{
     SelectPlaza,
-    Multiselect,    
+    Multiselect, 
+    Datetime   
 },
 ///////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
@@ -317,7 +321,8 @@ data(){
         referenciaDtc: '',
         modalAdvertencia: false,
         comentarioBorrarDtc: '',
-        tipoFallaOriginal: ''        
+        tipoFallaOriginal: '',  
+        prueba: '2021-06-01T1:27:00'          
     }
 },
 created(){
@@ -368,22 +373,25 @@ beforeMount: async function(){
                 diagnosticoFalla:paramRoute.failureDiagnosis,
                 causaFalla:paramRoute.causeFailure
             }
-        }
+        }        
     }
     //Bloque para crear
-    else{                
+    else{                               
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)          
         //Bloque para crear Ficha      
-        if(this.$route.query.data != undefined){                    
-            this.datosDiagnostico = this.$route.query.data        
+        if(this.$route.query.data != undefined){                                
+            this.datosDiagnostico = this.$route.query.data  
+            alert(this.datosDiagnostico.horaFin)       
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
         }   
-    }   
-    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: undefined, crear: false })    
+    }               
+    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: undefined, crear: false })
+    //25-06-2021 1:27:00
+    //this.datosDiagnostico.horaFin = new Date().toISOString()
 },
 destroyed(){
     if(this.tipo == 'FICHA')
@@ -533,5 +541,8 @@ methods:{
 </script>
 
 <style>
+.vdatetime-popup__header{
+    background: #2c5282;
+}
 
 </style>

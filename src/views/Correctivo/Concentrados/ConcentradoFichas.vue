@@ -106,6 +106,7 @@ import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
+
 export default {
     name: "ConcentradoFichas",
     components:{        
@@ -163,7 +164,6 @@ export default {
             this.infoEliminar = item
             this.modalEliminar = true
             console.log(item)
-
         },
         desargar_pdf(value){
             ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
@@ -197,7 +197,6 @@ export default {
             .catch((err)=>{
                 console.log(err)
             })
-
         },
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
@@ -228,6 +227,20 @@ export default {
             this.listaFicha = this.infoFichasFallaCompleta
         },
         editar_diagnostico_falla(item){
+            let splitInicio = item.start.split(' ')            
+            let fecha = splitInicio[0].split('-')
+            let tiempo = splitInicio[1].split(':')                      
+            let fechaPArseInicio = new Date(fecha[2], fecha[1], fecha[0], tiempo[0], tiempo[1], 0)            
+
+            let splitFin = item.end.split(' ')                            
+            let fecha2 = splitFin[0].split('-')
+            let tiempo2 = splitFin[1].split(':')                                
+            let fechaPArseFin = new Date(fecha2[2], fecha2[1], fecha2[0], tiempo2[0], tiempo2[1], 0)            
+
+            item.end = fechaPArseFin.toISOString()
+            item.start = fechaPArseInicio.toISOString()
+
+            console.log(item)
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
         terminar_ficha_diagnostico(item){            
@@ -244,7 +257,7 @@ export default {
                         lane: carrilFull.lane
                     })
                 }
-            })
+            })       
             let data = {
                 causaFalla: item.causeFailure,
                 descripcionFalla: item.faultDescription,
@@ -256,7 +269,7 @@ export default {
                 numeroReporte: item.siniesterNumber,
                 referenceNumber: item.referenceNumber,
                 ubicacion: carrilesMapeados,
-            }            
+            }              
             this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
         },
         terminar_dtc(referencia, typeFaultId){
