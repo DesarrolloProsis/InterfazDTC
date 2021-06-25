@@ -15,7 +15,7 @@
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
                             <div class="-mt-3 ml-3">
                             <span class="flex -mt-4 h-3 w-3">
-                                <span class="animate-ping absolute mt-2 inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75"></span>
+                                <span v-if="this.mostrar" @mouseover="bandera" class="animate-ping absolute mt-2 inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75"></span>
                             </span>
                             </div>
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
@@ -42,12 +42,18 @@ export default {
         return{
             msg: `hola
             dsakl
-            dflkjs`
+            dflkjs`,
+            mostrar: true,   
         }
     },
     computed:{
         nombreRoll(){
             return this.$store.state.Login.cookiesUser.nombreRoll        
+        }
+    },
+    methods:{
+        bandera: function(){
+            this.mostrar = false
         }
     }   
 }
