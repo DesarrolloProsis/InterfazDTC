@@ -13,9 +13,17 @@
                 <div class=" inline-flex">
                     <p class="sm:hidden">
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
-                            <img src="@/assets/img/exclamacion.png" class=" w-10 h-6 my-auto mx-auto" />
+                            <div class="-mt-3 ml-3">
+                            <span class="flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75"></span>
+                                <div class="ml-1 -mt-1">
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                </div>
+                            </span>
+                            </div>
+                            <img src="@/assets/img/exclamacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
-                    <div ref="tooltipRef" class="tooltip-content">
+                    <div ref="tooltipRef" class="tooltip-content font-titulo">
                         <p class="text-center text-gray-800">🎉 Nueva Version 1.6.5 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
                             <li>*Subir PDF Sellado de Mtto Preventivo</li>
