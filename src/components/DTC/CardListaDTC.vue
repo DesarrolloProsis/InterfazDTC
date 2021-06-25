@@ -270,11 +270,11 @@ export default {
             { title: 'Editar Fechas', img: '/img/pencil.04ec78bc.png' },
             { title: 'Editar Header', img: '/img/pencil.04ec78bc.png' },       
             { title: 'Editar Componentes', img: '/img/pencil.04ec78bc.png' },    
-            { title: 'Cargar Sellado', img: '/img/upload.ea0ec6db.png' },                                                                                
-            { title: 'Descargar Firmado', img: '/img/download.8d26bb4f.png'},
-            { title: 'Descargar Sellado', img: '/img/download.8d26bb4f.png'},
-            { title: 'Descargar Fotografico', img: '/img/download.8d26bb4f.png'},
-            { title: 'Descargar Sin Firma', img: '/img/download.8d26bb4f.png'},
+            { title: 'Cargar Sellado', img: '/img/upload.8d26bb4f.png' },                                                                                
+            { title: 'Descargar Firmado', img: '/img/download.ea0ec6db.png'},
+            { title: 'Descargar Sellado', img: '/img/download.ea0ec6db.png'},
+            { title: 'Descargar Fotografico', img: '/img/download.ea0ec6db.png'},
+            { title: 'Descargar Sin Firma', img: '/img/download.ea0ec6db.png'},
         ]
         let array = []   
         if(this.tipoUsuario == 4){
