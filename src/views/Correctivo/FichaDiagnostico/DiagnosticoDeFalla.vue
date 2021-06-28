@@ -104,7 +104,8 @@ methods:{
                     else{
                         this.$notify.warning({
                             title: "Ops!!",
-                            msg: "LAS FOTOS SON NECESARIAS.",
+                            class:"font-titulo",
+                            msg: "SE NECESITA MINIMO UNA FOTO.",
                             position: "bottom right",
                             styles: { height: 100, width: 500 },
                         });

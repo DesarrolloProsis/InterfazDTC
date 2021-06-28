@@ -9,6 +9,12 @@
                     </button>
                 </div>
                 <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+                    <router-link to="/Comentarios" class="text-center cursor-pointer">
+                        <img src="../assets/img/videos.png" height="200" width="200" class="m-10 sm:m-1" />
+                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Lista de Comentaios</h1>              
+                    </router-link>
+                </div>
+                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
                     <button @click="mostrar_videos_lista" class="text-center">
                         <img src="../assets/img/videos.png" height="200" width="200" class="m-10 sm:m-1" />
                         <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Videos</h1>              
