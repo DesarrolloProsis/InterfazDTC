@@ -219,11 +219,13 @@ export default {
             }                 
         },
         eliminar_imagen(nombreImagen){                
-            if(this.arrayImagenes.length > 1){                 
+            if(this.arrayImagenes.length >= 1){                 
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     let urlDeleteImg = ''
-                    if(this.tipo == 'Actividades')
+                    if(this.tipo == 'Actividades'){
+                        alert()
                         urlDeleteImg = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                    }
                     else if(this.tipo == 'Diagnostico'){                               
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }

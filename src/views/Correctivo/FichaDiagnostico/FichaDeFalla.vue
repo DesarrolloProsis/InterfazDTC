@@ -93,14 +93,15 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
-        actualizar_header(objHeader){                    
+        actualizar_header(objHeader){    
+            alert()                
             this.datosHeader = objHeader.header  
             if(objHeader.value == false){  
-                this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
-                .then((response) => {  
-                    if(response.data.length > 0){
-                        if(objHeader.crear)      
-                            this.insertar_ficha_falla(objHeader.value)
+                this.$http.get(`${API}/FichaTecnicaAtencion/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                    .then((response) => {                        
+                        if(response.data.length > 0){
+                            if(objHeader.crear)      
+                                this.insertar_ficha_falla(objHeader.value)
                     }
                     else{
                         this.$notify.warning({
@@ -112,11 +113,10 @@ export default {
                         });
                     }
                 })
-
             }
             else {
                 if(objHeader.crear)
-                    this.insertar_diagnostico_falla(objHeader.value)
+                    this.insertar_ficha_falla(objHeader.value)
             }
         }, 
         cerrar_modal_imagenes(){
@@ -138,8 +138,13 @@ export default {
                 }                          
                 this.$http.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then(() => {                                  
-                        this.reporteInsertado = true    
-                        this.modalImage = true  
+                        this.reporteInsertado = true
+                        if(objFicha.typeFaultId == 1) {  
+                            this.modalImage = true
+                        }
+                        else{
+                            this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
+                        }
                         if(this.$route.params.tipoVista == 'Editar'){   
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
