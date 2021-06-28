@@ -212,6 +212,18 @@
             </button>
         </div>
         </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                   FILTROS DE COMENTARIOS                        ///         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'COMENTARIOS'" class="w-77 border mb-2 shadow-md rounded-lg font-titulo sm:w-67 sm:ml-1">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
+            <div class="text-center sm:ml-6 mb-6">
+                <p class="font-bold ml-10 sm:text-sm sm:text-center">Usuario / Tipo de Falla</p>
+                <input v-model="filtroComentario" class="border w-66 text-center ml-64 sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
+            </div>             
+        </div> 
+        </div>
     </div>
 </template>
 
@@ -279,6 +291,8 @@ export default {
             buscarUsuario: '',
             //data Concentrado DF
             buscarDF:'',
+            //data Comentarios
+            filtroComentario:''
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -393,6 +407,9 @@ export default {
         },
         buscarEncargado: function(newPalabra){
             this.$emit('buscar-encargado', newPalabra.trim())
+        },
+        filtroComentario: function(newPalabra){
+            this.$emit('filtrar-comentario', newPalabra.trim())
         }
     }
 }
