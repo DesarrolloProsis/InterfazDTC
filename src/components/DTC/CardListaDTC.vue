@@ -42,6 +42,7 @@
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
+          <p class="text-left font-semibold text-sm">Acciones:</p>
           <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
@@ -269,11 +270,11 @@ export default {
             { title: 'Editar Fechas', img: '/img/pencil.04ec78bc.png' },
             { title: 'Editar Header', img: '/img/pencil.04ec78bc.png' },       
             { title: 'Editar Componentes', img: '/img/pencil.04ec78bc.png' },    
-            { title: 'Cargar Sellado', img: '/img/upload.ea0ec6db.png' },                                                                                
-            { title: 'Descargar Firmado', img: '/img/download.8d26bb4f.png'},
-            { title: 'Descargar Sellado', img: '/img/download.8d26bb4f.png'},
-            { title: 'Descargar Fotografico', img: '/img/download.8d26bb4f.png'},
-            { title: 'Descargar Sin Firma', img: '/img/download.8d26bb4f.png'},
+            { title: 'Cargar Sellado', img: '/img/upload.8d26bb4f.png' },                                                                                
+            { title: 'Descargar Firmado', img: '/img/download.ea0ec6db.png'},
+            { title: 'Descargar Sellado', img: '/img/download.ea0ec6db.png'},
+            { title: 'Descargar Fotografico', img: '/img/download.ea0ec6db.png'},
+            { title: 'Descargar Sin Firma', img: '/img/download.ea0ec6db.png'},
         ]
         let array = []   
         if(this.tipoUsuario == 4){

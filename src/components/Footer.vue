@@ -10,19 +10,24 @@
                         © 2021 Proyectos y Sistemas Informaticos.
                     </p>
                 </div>
-                <div class=" inline-flex">
+                <div class="inline-flex" v-if="$route != undefined && $route.name != 'login'">
                     <p class="sm:hidden">
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
-                            <img src="@/assets/img/exclamacion.png" class=" w-6 h-5 my-auto mx-auto" />
+                            <div class="-mt-3 ml-3">
+                            <span class="flex -mt-4 h-3 w-3">
+                                <span v-if="this.mostrar" @mouseover="bandera" class="animate-ping absolute mt-2 inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75"></span>
+                            </span>
+                            </div>
+                            <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
-                    <div ref="tooltipRef" class="tooltip-content">
-                        <p class="text-center text-gray-800">🎉 Nueva Version 1.6.5 !!! 🎉</p>
+                    <div ref="tooltipRef" class=" font-titulo">
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 1.6.5 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>*Subir PDF Sellado de Mtto Preventivo</li>
-                            <li>*Reporte Fotográfico DTC</li>
-                            <li>*Enviar comentarios</li>
-                            <li>*Videos de ayuda</li>
-                            <li>*Manual de usuario</li>
+                            <li>◾Subir PDF Sellado de Mtto Preventivo</li>
+                            <li>◾Reporte Fotográfico DTC</li>
+                            <li>◾Enviar comentarios</li>
+                            <li>◾Videos de ayuda</li>
+                            <li>◾Manual de usuario</li>
                         </ol>
                     </div>
                     <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.5</p>
@@ -37,26 +42,33 @@ export default {
         return{
             msg: `hola
             dsakl
-            dflkjs`
+            dflkjs`,
+            mostrar: true,   
         }
     },
     computed:{
         nombreRoll(){
             return this.$store.state.Login.cookiesUser.nombreRoll        
         }
+    },
+    methods:{
+        bandera: function(){
+            this.mostrar = false
+        }
     }   
 }
 </script>
 <style>
 .vue-tooltip.tooltip-custom {
-  width: 50rem;  
-  background-color: rgba(255, 255, 255, 0.685);  
-  border: 2px solid #2c5282;  
-  box-shadow: 1000;  
+    width: 50rem;  
+    background-color: rgba(255, 255, 255, 0.685);  
+    border: 1px solid #466fa1;  
+    box-shadow: 1000;
+    border-radius: 15px;
 }
 
 .vue-tooltip.tooltip-custom .tooltip-arrow {  
-    border: 3px solid #2c5282;  
+    border: 3px solid #466fa1;  
 }
 </style>
 
