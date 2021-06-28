@@ -94,9 +94,30 @@ export default {
     /////////////////////////////////////////////////////////////////////
     methods:{
         actualizar_header(objHeader){                    
-            this.datosHeader = objHeader.header      
-            if(objHeader.crear)      
-                this.insertar_ficha_falla(objHeader.value)
+            this.datosHeader = objHeader.header  
+            if(objHeader.value == false){  
+                this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                .then((response) => {  
+                    if(response.data.length > 0){
+                        if(objHeader.crear)      
+                            this.insertar_ficha_falla(objHeader.value)
+                    }
+                    else{
+                        this.$notify.warning({
+                            title: "Ops!!",
+                            class:"font-titulo",
+                            msg: "SE NECESITA MINIMO UNA FOTO.",
+                            position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                        });
+                    }
+                })
+
+            }
+            else {
+                if(objHeader.crear)
+                    this.insertar_diagnostico_falla(objHeader.value)
+            }
         }, 
         cerrar_modal_imagenes(){
             this.modalImage = false
