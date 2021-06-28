@@ -107,7 +107,8 @@ const actions = {
         }
       }) 
   },
-  async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {    
+  async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {   
+    console.log(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idUser}/${value.numPlaza}`); 
     await Axios.get(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idUser}/${value.numPlaza}`)
       .then(response => {            
         console.log(response)          

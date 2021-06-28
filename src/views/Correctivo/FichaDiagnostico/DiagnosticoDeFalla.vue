@@ -88,15 +88,15 @@ export default {
         }
     },
 /////////////////////////////////////////////////////////////////////
-////                           METODOS                           ////
+////        {}                  METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
     actualizar_header(objHeader){                      
         this.datosHeader = objHeader.header
-        if(objHeader.value == false){
-            this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)
+        if(objHeader.value == false){             
+            this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
                 .then((response) => {
-                    console.log(response)
+                    console.log(response.data)
                     if(response.data.length > 0){
                         if(objHeader.crear)
                             this.insertar_diagnostico_falla(objHeader.value)
@@ -109,15 +109,7 @@ methods:{
                             styles: { height: 100, width: 500 },
                         });
                     } 
-                })
-                .catch(() => {
-                    this.$notify.warning({
-                        title: "Ops!!",
-                        msg: "LAS FOTOS SON NECESARIAS.",
-                        position: "bottom right",
-                        styles: { height: 100, width: 500 },
-                    });
-                })
+                })             
         }
         else {
             if(objHeader.crear)
