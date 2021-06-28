@@ -13,13 +13,29 @@
                             <th class="cabeceraTable">Comentario</th>
                         </tr>
                     </thead>
-                    <tbody name="table" is="transition-group">  
+                    <tbody name="table" is="transition-group">
+                        <template v-if="listaComentarios_filtrada.length == 0 && loadingTabla != true"> 
+                            <tr>
+                                <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
+                                    <div class="mt-8 mb-8">Sin Informacion</div>
+                                </td>
+                            </tr>  
+                        </template> 
+                        <template v-if="loadingTabla">  
+                            <tr>
+                                <td class="w-full" colspan="9">                                    
+                                    <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                                </td>                          
+                            </tr>  
+                        </template> 
+                        <template v-if="listaComentarios_filtrada.length > 0">
                         <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item,key) in listaComment" :key=key>
                             <td class="cuerpoTable">{{ item.userName }}</td>
                             <td class="cuerpoTable">{{ item.description }}</td>                                
                             <td class="cuerpoTable">{{ item.dateStamp | formatDate }}</td>
                             <td class="cuerpoTable">{{ item.comment }}</td>                                 
                         </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
@@ -41,15 +57,18 @@ export default {
         return{
             listaComentarios_completa:[],
             listaComentarios_filtrada:[],
-            listaComment:[]
+            listaComment:[],
+            loadingTabla: false,
         }
     },
     beforeMount: function () {
+        this.loadingTabla = true
         this.$http.get(`${API}/Comentario/ListarComentario`)
         .then((response)=>{
             this.listaComentarios_completa = response.data.result
             this.listaComentarios_filtrada = this.listaComentarios_completa
             this.listaComment = this.listaComentarios_filtrada
+            this.loadingTabla = false
         })
     },
     methods:{
