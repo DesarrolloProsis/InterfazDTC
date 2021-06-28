@@ -5,16 +5,18 @@
                 <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                     <thead>
                         <tr class="text-md text-gray-400 bg-blue-800">
-                            <th class="cabeceraTable">Referencia</th>
-                            <th class="cabeceraTable">Conteo de borrado</th>
-                            <th class="cabeceraTable">Acciones</th>
+                            <th class="cabeceraTable">Usuario</th>
+                            <th class="cabeceraTable">Tipo de Falla</th>
+                            <th class="cabeceraTable">Fecha</th>
+                            <th class="cabeceraTable">Comentario</th>
                         </tr>
                     </thead>
                     <tbody name="table" is="transition-group">  
                         <tr class="h-12 text-gray-900 text-sm text-center">
                             <td class="cuerpoTable"></td>
                             <td class="cuerpoTable"></td>                                
-                            <td class="cuerpoTable"></td>                                
+                            <td class="cuerpoTable"></td>
+                            <td class="cuerpoTable"></td>                                 
                         </tr>
                     </tbody>
                 </table>
