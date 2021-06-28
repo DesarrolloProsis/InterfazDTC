@@ -227,16 +227,18 @@ export default {
             this.listaFicha = this.infoFichasFallaCompleta
         },
         editar_diagnostico_falla(item){
-            let splitInicio = item.start.split(' ')            
+            console.log(item.start)
+            let splitInicio = item.start.split(' ') 
+            console.log(splitInicio)           
             let fecha = splitInicio[0].split('-')
             let tiempo = splitInicio[1].split(':')                      
-            let fechaPArseInicio = new Date(fecha[2], fecha[1], fecha[0], tiempo[0], tiempo[1], 0)            
-
+            let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]), fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0)            
+            console.log(fechaPArseInicio)
             let splitFin = item.end.split(' ')                            
             let fecha2 = splitFin[0].split('-')
             let tiempo2 = splitFin[1].split(':')                                
             let fechaPArseFin = new Date(fecha2[2], fecha2[1], fecha2[0], tiempo2[0], tiempo2[1], 0)            
-
+            console.log(fechaPArseFin)
             item.end = fechaPArseFin.toISOString()
             item.start = fechaPArseInicio.toISOString()
 
