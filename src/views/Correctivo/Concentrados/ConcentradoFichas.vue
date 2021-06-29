@@ -1,7 +1,11 @@
 <template>
     <div>        
         <div class="flex justify-center">
-            <div class="grid gap-4 grid-cols-1 py-3 px-3">
+            <div class="grid gap-4 grid-cols-1 py-3 px-3">                      
+                <!--/////////////////////////////////////////////////////////////////
+                ////                      ESCANEADO                             ////
+                ////////////////////////////////////////////////////////////////////-->
+                <PdfEscaneado :abrirModal="subirEscaneado"></PdfEscaneado>
                 <!--/////////////////////////////////////////////////////////////////
                 ////                      MODAL ELIMINAR                         ////
                 ////////////////////////////////////////////////////////////////////-->
@@ -106,11 +110,13 @@ import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
+import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 
 export default {
     name: "ConcentradoFichas",
     components:{        
-        HeaderGenerico
+        HeaderGenerico,
+        PdfEscaneado
     },
     data (){
         return {
@@ -122,7 +128,8 @@ export default {
             modalEliminar: false,
             infoEliminar:{},
             comentarioBorrar:'',
-            value: ''
+            value: '',
+            subirEscaneado: false
         }
     },
     beforeMount: function (){
@@ -302,6 +309,9 @@ export default {
             if(this.value.title == 'Dictamen (DTC)'){    
                 this.desargar_pdf(item)
             }
+            if(this.value.title == 'Escaneado'){
+                this.subirEscaneado = true
+            }
             this.value = ""
             
         },
@@ -314,6 +324,7 @@ export default {
                 { title: 'Dignóstico de Falla', img: '/img/download.ea0ec6db.png' }, //4
                 { title: 'Ficha Técnica', img: '/img/download.ea0ec6db.png' },
                 { title: 'Dictamen (DTC)', img: '/img/download.ea0ec6db.png' }, //6
+                { title: 'Escaneado', img: '/img/download.ea0ec6db.png' }, //7
             ]
             let filtroOpciones = []
             //Diagnostico Descargar Siempre va
@@ -334,6 +345,7 @@ export default {
             else{
                 filtroOpciones.push(options[0])
             }     
+            filtroOpciones.push(options[7])
             return filtroOpciones
         },
 
