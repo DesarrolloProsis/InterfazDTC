@@ -1,6 +1,6 @@
   <template>
   <div id="container">    
-    <div class="relative mb-16 " >
+    <div class="relative mb-16">
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
@@ -111,22 +111,22 @@
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 sm:text-xs font-titulo">               
-          <div v-if="modalEdit" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto">     
+          <div v-if="modalEdit" class="relative w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto">     
             <ValidationObserver ref="observer">      
               <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
-                <p class="text-gray-900 font-semibold text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
+                <p class="text-gray-900 font-semibold -mt-6 text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
                 <!--/////////////////////////////////////////////////////////////////
                   ////                   FILA NUMERO 1                         ////
                   ////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
-                  <div class="mt-2 mr-3">       
+                  <div class="-mt-2 mr-3">       
                     <ValidationProvider name="NoSiniestro" rules="uniqueSinester"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
                       <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
-                  <div class="mt-2">  
+                  <div class="-mt-2">  
                     <ValidationProvider name="NoReporte" rules="uniqueReport" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
                       <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M"/>
@@ -138,14 +138,14 @@
                   ////                      FILA NUMERO 2                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 mt-5">       
-                  <div class="mt-2 mr-3">  
+                  <div class="-mt-2 mr-3">  
                     <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
                       <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
-                  <div class="mt-2">   
+                  <div class="-mt-2">   
                     <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
                       <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
@@ -162,14 +162,14 @@
                   ////                      FILA NUMERO 3                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 mt-5">       
-                  <div class="mt-2 mr-3">     
+                  <div class="-mt-2 mr-3">     
                     <ValidationProvider name="Observaciones" rules="max:300"  v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">Observaciones:</p>
                       <textarea v-model="dtcEdit.observation" readonly class="bg-white appearance-none block is_valid bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
-                  <div class="mt-2 ">    
+                  <div class="-mt-2 ">    
                     <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">  
                       <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
                       <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
@@ -248,7 +248,7 @@
       <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
-      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
+      <div :class="{ 'pointer-events-none': modal,  'opacity-25': false, 'hidden':modalEdit}" class="flex justify-center w-full font-titulo font-medium">        
           <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
           <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
             <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc.referenceNumber">
@@ -266,7 +266,7 @@
           </div>   
           <!-- </transition-group>       -->                
       </div>
-      <div class="text-center" :class="{'hidden' : flecha}" v-if="moreCard != false">       
+      <div class="text-center" :class="{'hidden' : flecha, 'hidden':modalEdit}" v-if="moreCard != false">       
         <button @click="cargar_mas" class="botonBajar animate-bounce">
           <img src="@/assets/img/abajo.png" class="w-16 h-16 sm:w-12 sm:h-12"  />
         </button>          

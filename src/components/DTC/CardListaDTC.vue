@@ -5,7 +5,7 @@
       ////                         MODAL ACTUALIZAR                      /////
       ////////////////////////////////////////////////////////////////////-->
       <div class="sticky inset-0 font-titulo">
-        <div v-if="modalActualizar" class="carruselGMMEP h-62 mt-65">          
+        <div v-if="modalActualizar" class="carruselGMMEP h-62 mt-32">          
           <div class="justify-center text-center block"> 
             <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
               <img src="../../assets/img/warning.png" class="ml-6 mt-4 sm:-ml-6" width="25" height="25" />
@@ -66,7 +66,7 @@
           </div>
         </div>
           <p class="text-left font-semibold text-sm">Acciones:</p>
-          <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :modalActualizar}">
+          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :modalActualizar }">
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
                 <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -128,10 +128,10 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 MINI TABLA CARD                              ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div v-if="showmenosMas" class="-ml-2 sm:ml-0">
-        <div class="flex flex-col md:flex-row mb-6 mt-8">
+      <div v-if="showmenosMas" class="-ml-1 sm:ml-0">
+        <div class="flex flex-col ml-1 md:flex-row mb-6 mt-8">
           <div class="text-xs text-center divtabla">
-            <table class="ml-2  sm:ml-0 w-66 sm:w-full border-collapse table-auto bg-white">
+            <table class="sm:ml-0 w-66 sm:w-full border-collapse table-auto bg-white">
               <tr class="h-8 trTable">
                 <th class="w-1/3 cabeceraTable font-medium">Componete</th>
                 <th class="w-1/8 cabeceraTable font-medium">Cantidad</th>
@@ -153,7 +153,7 @@
       ///////////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
-          <div v-if="infoCard.statusId >= 2" class="ml-12">
+          <div v-if="infoCard.statusId >= 2" class="ml-16">
             <button  @click="actualizar(infoCard.referenceNumber)" class="botonIconActCard font-boton">
               <img src="../../assets/img/actualizado.png" class="mr-2" width="12" height="1"/>              
               <span>Actualizar Componentes</span>                
