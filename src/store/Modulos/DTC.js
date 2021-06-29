@@ -25,10 +25,12 @@ const getters = {
       return state.listaInfoDTC
         .filter(dtc => dtc.dtcView.statusId == 4)
         .map((item) => {
+          //valida img equipo dañado
           if(item.paths.length > 0)
             item.dtcView.imgbool = false
           else  
             item.dtcView.imgbool = true
+          //valida pdf Escaneado dtc
           if(item.pdfExists){
             item.dtcView.escaneadobool = false
             item.dtcView.confirmpdf = true
@@ -37,6 +39,10 @@ const getters = {
             item.dtcView.escaneadobool = true
             item.dtcView.confirmpdf = false
           }
+          //valida img deldiagnostico
+          item.pathImagesDF.length > 0 
+            ? item.dtcView.sinEscanedoDiagnostico = true
+            : item.dtcView.sinEscanedoDiagnostico = false                   
           return item.dtcView          
         })     
     }
