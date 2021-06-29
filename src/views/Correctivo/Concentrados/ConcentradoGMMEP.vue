@@ -320,6 +320,18 @@ methods:{
     let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
     let userId = this.$store.state.Login.cookiesUser.userId
     this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}/${userId}`)
+    .then(()=>{
+      this.$notify.success({
+            title: "Ok!",
+            class: "font-titulo",
+            msg: `DTC CON REFERENCIA ${this.infoAcrualizar.referenceNumber} ACTUALIZADO CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+              },
+            });
+    })
     this.modalActualizar = false
   },
   guardar_palabra_busqueda: function(newPalabra){  
