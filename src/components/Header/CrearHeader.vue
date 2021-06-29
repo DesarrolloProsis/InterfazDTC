@@ -354,7 +354,8 @@ methods: {
         this.fechaSiniestoEdit = true;
       }
   },
-  validar_header: async function(value){            
+  validar_header: async function(value){        
+    console.log(value) 
     if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != ''){ 
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)

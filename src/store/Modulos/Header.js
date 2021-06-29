@@ -104,6 +104,9 @@ const actions = {
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)
         }
+      })
+      .catch(er =>{
+        console.log(er);
       })   
   }
 };
