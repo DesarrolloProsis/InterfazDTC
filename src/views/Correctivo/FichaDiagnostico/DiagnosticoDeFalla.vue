@@ -140,8 +140,8 @@ methods:{
                 diagnosisDate: this.datosHeader.fechaDiagnostico,
                 start: fechaInicioTime,//this.datosHeader.horaInicio,
                 end: fechaFinTime,//this.datosHeader.horaFin,
-                sinisterNumber: this.datosHeader.numeroReporte == "" ? null : this.datosHeader.numeroReporte,
-                failureNumber: this.datosHeader.folioFalla == "" ? null : this.datosHeader.folioFalla,
+                sinisterNumber: this.datosHeader.numeroReporte,
+                failureNumber: this.datosHeader.folioFalla,
                 userId: userIdPlaza.idUser,
                 failureDescription: this.datosHeader.descripcionFalla,
                 failureDiagnosis: this.datosHeader.diagnosticoFalla,
@@ -187,7 +187,7 @@ methods:{
                     })                                  
                     this.reporteInsertado = true                                                                       
                 })
-                .catch(() => {                    
+                .catch(() => {       
                     this.$notify.warning({
                         title: "Ops!!",
                         msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
