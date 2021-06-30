@@ -90,9 +90,7 @@
         <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3 ml-66 mb-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10 font-bold text-md">Buscar</span>
-                <!--  <p class="input w-40 is_valid"> -->
-                    <input v-model="buscarPalabraInventario" placeholder="Componete/No Serie" class="bg-white input -mt-1 sm:w-full border-none w-40" />
-                <!--   </p> -->
+                    <input v-model="buscarPalabraInventario" placeholder="Componete/No Serie" class="bg-white input  -mt-1 sm:w-full border-none w-40" />
             </div>         
             <div class="text-sm sm:mt-4 mt-6">
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
@@ -100,8 +98,8 @@
             </div>
             <div class="mt-8 ml-8">
                     <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold sm:-ml-8 text-md">Carril:</p>
-                    <p class="w-32 input -ml-2 -mt-1 sm:ml-8">
-                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 border-none" name="Carriles" type="text">
+                    <p class="w-32  -ml-2 -mt-1 sm:ml-8">
+                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 border-none is_valid" name="Carriles" type="text">
                         <option value="">Selecionar...</option>
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select></p>
@@ -109,7 +107,6 @@
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
-
         </div>
         <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
             <button class="botonIconNext" @click="abrirModal">
