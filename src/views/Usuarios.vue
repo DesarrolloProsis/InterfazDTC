@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <div :class="{'mb-69': typeUser != 1}" class="grid grid-cols-1 w-78 ml-48 p-4 justify-center font-titulo sm:w-auto sm:ml-0">
+    <div class="flex justify-center p-4">
       <div class="mt-5">
       <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
@@ -21,14 +21,14 @@
                 <th class="w-56 cabeceraTable font-medium">Tipo de Usuario</th>
                 <th class="w-56 cabeceraTable font-medium">Plaza</th>   
                 <th class="w-56 cabeceraTable font-medium">Correo</th>                
-                <th class="w-48 cabeceraTable font-medium" v-if="typeUser">Acciones</th>
+                <th class="w-48 cabeceraTable font-medium">Acciones</th>
               </tr>
               <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in listaUsuarios" :key="key">
                 <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center">{{ item.plazas }}</td>
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
-                <td class="cuerpoTable text-center" v-if="typeUser">
+                <td class="cuerpoTable text-center">
                   <button @click="editarUsuario(item)" class="botonIconActualizar">
                     <img src="@/assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Editar</span>
