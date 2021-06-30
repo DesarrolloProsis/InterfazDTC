@@ -28,15 +28,29 @@
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center">{{ item.plazas }}</td>
                 <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
-                <td class="cuerpoTable text-center">
-                  <button @click="editarUsuario(item)" class="botonIconActualizar">
+                <td class="cuerpoTable">
+                  <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                    <template slot="singleLabel" slot-scope="props">
+                      <div class="inline-flex">
+                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                        <span class="option__title bg-red-300">{{ props.option.title }}</span>
+                      </div>
+                    </template>
+                    <template slot="option" slot-scope="props">                                                
+                      <div class="option__desc "><span class="option__title inline-flex">
+                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                        {{ props.option.title }}</span>
+                      </div>
+                    </template>
+                  </multiselect> 
+                  <!-- <button @click="editarUsuario(item)" class="botonIconActualizar">
                     <img src="@/assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Editar</span>
                   </button>
                   <button v-if="typeUser" @click="borrar_usuario(item)" class="botonIconLimpiar m-2">
                     <img src="@/assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                     <span class="text-xs sm:hidden">Borrar</span>
-                  </button>
+                  </button> -->
                 </td>
             </tr>
           </table>
@@ -211,7 +225,8 @@ export default {
         password: '',      
         tipoUsuario: '',
         plazas: []
-      }
+      },
+      value:''
       
     };
   },
@@ -398,6 +413,31 @@ export default {
       else{
         this.listaUsuarios = this.lista_Usuarios
       }
+    },
+    customLabel ({ title }) {
+      return `${title}`
+    },
+    acciones_mapper(item){                
+      if(this.value.title == 'Editar'){
+          this.terminar_ficha_diagnostico(item)
+      }
+      if(this.value.title == 'Borrar'){
+          this.terminar_dtc(item.referenceNumber, item.typeFaultId)
+      }   
+      this.value = ""  
+    },
+    opticones_select_acciones(){
+      const options= [                
+        { title: 'Editar', img: '/img/nuevoDtc.90090632.png' }, //0
+        { title: 'Borrar', img: '/img/nuevoDtc.90090632.png' },
+      ]
+      let filtroOpciones = []
+      //Diagnostico Descargar Siempre va
+      filtroOpciones.push(options[0])
+      if(this.typeUser){
+          filtroOpciones.push(options[4])   
+      }         
+      return filtroOpciones
     }
   },
   computed: {
