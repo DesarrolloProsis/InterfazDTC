@@ -5,7 +5,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             ////                         MODAL SELLADO                         /////
             ////////////////////////////////////////////////////////////////////-->
-            <div class=" inset-0 font-titulo">
+            <!-- <div class=" inset-0 font-titulo">
                 <div v-if="modalSubirSellado" class="carruselGMMEP border-gray-200 h-34 w-71"> 
                     <span @click="modalSubirSellado = false" class="absolute  top-0 right-0">
                         <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
@@ -30,7 +30,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+                <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>
+
                 <h1 class=" text-3xl sm:text-lg font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
@@ -189,11 +192,13 @@ import Multiselect from "vue-multiselect";
 import ServicioActividades from '../../services/ActividadesService.js'
 import SelectPlaza from '../Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService'
+import PdfEscaneado from '../PdfEscaneado.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
         SelectPlaza,
-        Multiselect
+        Multiselect,
+        PdfEscaneado
     },
     data(){
         return{
@@ -367,14 +372,20 @@ methods: {
             this.reporte_pdf(item)
         }
         if(this.value.title == 'Reporte Mtto. Sellado'){
-            this.objSubir = item.referenceNumber
-            console.log(this.objSubir);
+            this.objInsertEscaneado = {
+                referenceNumber: item.referenceNumber
+            }            
             this.modalSubirSellado = true
         }
         if(this.value.title == 'Reporte M. Sellado'){
             this.descargar_escaneado(item)
         }
         this.value = ""
+    },
+    limpiar_componete_escaneado(){
+        this.limpiar_filtros()
+        this.modalSubirSellado = false
+        this.objInsertEscaneado = {}
     },
     opticones_select_acciones({ statusMaintenance, pdfExists }){
         let options= [
@@ -409,59 +420,7 @@ methods: {
             }
         }   
     },
-    recibir_pdf_sellado(e) {           
-        var files = e.target.files || e.dataTransfer.files;
-        if (!files.length) return;
-        else {  
-            for (let item of files) {        
-                if(this.crearImage(item)){        
-                    this.$nextTick().then(() => {
-                    this.pdfSelladoBool = false           
-                    })
-                }
-            }        
-        }
-    },
-    crearImage(file) {  
-    if(file.type.split('/')[1] == 'pdf'){
-        var reader = new FileReader(); 
-        reader.onload = (e) => {
-            this.$nextTick().then(() => {
-                this.pdfSellado = {
-                imgbase: e.target.result.split(',')[1],
-                name: file.name,
-                };
-            })        
-        };
-        reader.readAsDataURL(file);   
-        return true
-    }
-    else{
-        this.$notify.warning({
-            title: "Ups!",
-            msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-            position: "bottom right",
-            styles: {
-                height: 100,
-                width: 500,
-            },          
-        });
-        this.pdfSellado = {}
-        return false
-    }         
-    },
-    base64ToFile(dataurl, fileName) {                    
-        let url = "data:text/pdf;base64," + dataurl;  
-        var arr = url.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new File([u8arr], fileName + '.pdf', { type: mime });
-    },
+
     subir_esaneado(){
         let clavePlaza = this.objSubir.split('-',1)
         let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')
@@ -481,8 +440,7 @@ methods: {
                 width: 500,
                 },
             });
-            this.limpiar_filtros()
-            this.modalSubirSellado = false
+
             this.pdfSelladoBool = true
         })
         .catch((ex)=>{

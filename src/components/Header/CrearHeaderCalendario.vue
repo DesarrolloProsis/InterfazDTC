@@ -221,6 +221,7 @@ export default {
         },      
         limpiar_componete_escaneado(){            
             this.modalSubirSellado = false
+            this.objInsertEscaneado = {}
             let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
             this.$emit("actualizar-actividad", numPlaza);  
         },

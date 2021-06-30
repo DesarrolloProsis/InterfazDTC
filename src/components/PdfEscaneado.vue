@@ -84,9 +84,13 @@ export default {
             let url = ''  
             let  formFile = new FormData()            
             if(this.tipoReporte == 'Calendario'){
-                url = `${API}/calendario/CalendarioEscaneado/${this.objInsert.referenciaPlaza}/${this.objInsert.mes}/${this.objInsert.año}/${this.objInsert.idUser}`
+                url = `${API}/calendario/CalendarioEscaneado/${this.objInsert.referenceNumber}/${this.objInsert.mes}/${this.objInsert.año}/${this.objInsert.idUser}`
                 formFile.append('file', this.pdfEscaneadoFile)     
             }
+            if(this.tipoReporte == "Calendario-Actividades"){
+                url = `${API}/MantenimientoPdf/TablaActEscaneado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`
+                formFile.append('file', this.pdfEscaneadoFile) 
+            }            
             this.$http.post(url, formFile)
                 .then((response) => {
                     console.log(response);
