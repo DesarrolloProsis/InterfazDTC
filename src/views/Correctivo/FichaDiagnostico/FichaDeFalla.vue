@@ -143,6 +143,7 @@ export default {
                             this.modalImage = true
                         }
                         else{
+                            ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
                             this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
                         }
                         if(this.$route.params.tipoVista == 'Editar'){   
