@@ -98,27 +98,28 @@
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
-            <div class="mt-8 ml-4">
-                <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
-                <p class="w-32 input ml-16 -mt-6 sm:ml-8">
-                <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 border-none" name="Carriles" type="text">
-                    <option value="">Selecionar...</option>
-                    <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                </select></p>
+            <div class="mt-8 ml-8">
+                    <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold sm:-ml-8 text-md">Carril:</p>
+                    <p class="w-32 input -ml-2 -mt-1 sm:ml-8">
+                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 border-none" name="Carriles" type="text">
+                        <option value="">Selecionar...</option>
+                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                    </select></p>
             </div>
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
-            <div class="mt-8 ml-16 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
-                <button class="botonIconNext" @click="abrirModal">
-                    <span>Mantenimiento</span>
-                </button>
-            </div>
+
+        </div>
+        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
+            <button class="botonIconNext" @click="abrirModal">
+                <span>Mantenimiento</span>
+            </button>
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
+        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-10 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-4" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
