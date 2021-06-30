@@ -91,12 +91,20 @@
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10 font-bold text-md">Buscar</span>
                 <!--  <p class="input w-40 is_valid"> -->
-                    <input v-model="buscarPalabraInventario" placeholder="Carril/Componete/Serie" class="bg-white input -mt-1 sm:w-full border-none w-40" />
+                    <input v-model="buscarPalabraInventario" placeholder="Componete/No Serie" class="bg-white input -mt-1 sm:w-full border-none w-40" />
                 <!--   </p> -->
             </div>         
             <div class="text-sm sm:mt-4 mt-6">
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
-                <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+            </div>
+            <div class="mt-8 ml-4">
+                <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
+                <p class="w-32 input ml-16 -mt-6 sm:ml-8">
+                <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 border-none" name="Carriles" type="text">
+                    <option value="">Selecionar...</option>
+                    <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                </select></p>
             </div>
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
@@ -230,7 +238,7 @@
 <script>
 import EventBus from '../../services/EventBus'
 import SelectPlaza from '../Header/SelectPlaza'
-
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "HeaderGenerico",
     components: {
@@ -292,7 +300,11 @@ export default {
             //data Concentrado DF
             buscarDF:'',
             //data Comentarios
-            filtroComentario:''
+            filtroComentario:'',
+            carrilFiltro: {
+                capufeLaneNum: '0000',
+                idGare: ''
+            }
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -302,10 +314,12 @@ export default {
         this.typeUser = this.$store.state.Login.cookiesUser.rollId  
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.carrilFiltro.idGare = this.plazaSeleccionada
+        this.buscar_inventario_new()    
     },
     computed:{
         carriles_plaza(){
-        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+            return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
         },
     },
     /////////////////////////////////////////////////////////////////////
@@ -315,14 +329,27 @@ export default {
         abrirModal: function (){
             this.$emit('abrir-modal')
         },
-        cambiar_plaza(numeroPlaza) {  
+        buscar_inventario_new(){       
+            let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${this.plazaSeleccionada}/${this.carrilFiltro.capufeLaneNum}/${this.carrilFiltro.idGare}`)
+            .then((response)=>{
+                console.log(response);
+                this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
+                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            })
+            .catch((er)=>{
+                console.log(er);
+            })
+        },
+        cambiar_plaza(numeroPlaza) {              
             this.plazaSeleccionada = numeroPlaza 
-            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
+            //this.carrilFiltro =  this.carriles_plaza[0].lane
+            //this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){           
             this.plazaFiltro = value 
-            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
+            //this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
             this.filtrar_encargados()
             this.filtar_dtc_generico()
             this.filtar_concentrado_diagnostico_falla()
@@ -384,7 +411,7 @@ export default {
                 //numeroReferencia: this.referenciaFiltro,
                 ubicacion: this.ubicacion
             })
-        }
+        },
     },
     watch:{
         buscarDTC: function(newPalabra){

@@ -106,7 +106,8 @@ export default {
             if(this.plazaSelect != ''){
                 if(this.tipo != 'filtro'){                                                            
                     this.convenioSelect = await ServiceCookies.actualizar_plaza(this.plazaSelect.administradorId).convenioSelect
-                    EventBus.$emit('ACTUALIZAR_INVENTARIO')
+                    //EventBus.$emit('ACTUALIZAR_INVENTARIO')
+                    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect.numeroPlaza)
                 }
                 this.$emit('actualizar-plaza', this.plazaSelect.numeroPlaza)   
             }
