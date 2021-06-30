@@ -5,35 +5,8 @@
             <!--/////////////////////////////////////////////////////////////////////
             ////                         MODAL SELLADO                         /////
             ////////////////////////////////////////////////////////////////////-->
-            <!-- <div class=" inset-0 font-titulo">
-                <div v-if="modalSubirSellado" class="carruselGMMEP border-gray-200 h-34 w-71"> 
-                    <span @click="modalSubirSellado = false" class="absolute  top-0 right-0">
-                        <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
-                    </span>         
-                    <div>                    
-                        <button class="mt-10  sm:w-32 sm:-ml-5 ml-2" v-if="pdfSelladoBool">
-                            <div class="botonIconSellado font-boton h-32 w-69 justify-center">
-                                <input type="file" class="opacity-0 border-black w-69 h-32 absolute" @change="recibir_pdf_sellado($event)"/>
-                                <img src="@/assets/img/pdf.png" class="mr-1" width="25" height="25"/>
-                                <p class="mt-1">Seleccionar Archivo</p>
-                            </div>                   
-                        </button>
-                        <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
-                            <div class="grid grid-cols-2">
-                                <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
-                                <p class="-ml-16 mt-16 font-bold sm:ml-0">{{ pdfSellado.name }}</p>
-                            </div>
-                            <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
-                                <button @click="subir_esaneado" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                                <button @click="pdfSelladoBool = true, pdfSellado = ''" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
-                            </div>            
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
                 <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>
-
+                
                 <h1 class=" text-3xl sm:text-lg font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
                 <div class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
@@ -202,8 +175,7 @@ export default {
     },
     data(){
         return{
-            listaActividadesMensuales:[],
-            listaPlazas: [],
+            listaActividadesMensuales:[],            
             plazaSelect: '',
             plazaNombre: '',
             año: '',
@@ -227,8 +199,7 @@ export default {
 ////                        CICLOS DE VIDA                       ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function(){  
-    this.loadingTabla = true        
-    this.listaPlazas = await this.$store.state.Login.cookiesUser.plazasUsuario
+    this.loadingTabla = true            
     let cargaInicial = this.$route.params.cargaInicial
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
     this.plazaNombre = cargaInicial.plazaNombre
@@ -420,7 +391,6 @@ methods: {
             }
         }   
     },
-
     subir_esaneado(){
         let clavePlaza = this.objSubir.split('-',1)
         let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')
@@ -440,7 +410,6 @@ methods: {
                 width: 500,
                 },
             });
-
             this.pdfSelladoBool = true
         })
         .catch((ex)=>{

@@ -90,7 +90,11 @@ export default {
             if(this.tipoReporte == "Calendario-Actividades"){
                 url = `${API}/MantenimientoPdf/TablaActEscaneado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`
                 formFile.append('file', this.pdfEscaneadoFile) 
-            }            
+            }  
+            if(this.tipoReporte == 'Card-DTC'){
+                url = `${API}/pdf/PdfSellado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}/${true}`
+                formFile.append("file", this.pdfEscaneadoFile);
+            }          
             this.$http.post(url, formFile)
                 .then((response) => {
                     console.log(response);

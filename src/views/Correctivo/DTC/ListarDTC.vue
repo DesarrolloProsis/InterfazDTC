@@ -534,13 +534,13 @@ methods: {
       this.$http.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}/${true}`, value.file)
         .then(() => {          
           this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-          .then(() => {               
+            .then(() => {               
               resolve('ok')                
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
               this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
               this.limpiar_filtros()                              
               resolve('ok')                                                                           
-          })                                  
+            })                                  
         })
         .catch((error) => {                      
           reject(error)                          
