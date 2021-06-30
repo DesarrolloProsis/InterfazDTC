@@ -97,9 +97,9 @@
                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
             <div class="mt-8 ml-8">
-                    <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold sm:-ml-8 text-md">Carril:</p>
-                    <p class="w-32  -ml-2 -mt-1 sm:ml-8">
-                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 border-none is_valid" name="Carriles" type="text">
+                    <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold sm:-ml-8 text-md">Seleecione un Carril</p>
+                    <p class="w-32 -ml-2 -mt-1 sm:-ml-8">
+                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 sm:w-48 border-none is_valid" name="Carriles" type="text">
                         <option value="">Selecionar...</option>
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select></p>
@@ -158,11 +158,11 @@
         <!--////////////////////////////////////////////////////////////////////
         ///         FILTROS DE NAVEGACION USUARIOS                          ////         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'USUARIO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
-        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
+        <div v-if="tipo == 'USUARIO'" class="w-full border mb-2 shadow-md rounded-lg font-titulo">
+        <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="buscarUsuario" class="ml-62 w-66 text-center sm:w-48 is_valid sm:ml-16" placeholder="Nombre Apellidos"/>
+                <input v-model="buscarUsuario" class="ml-70 w-66 text-center is_valid" placeholder="Nombre Apellidos"/>
             </div>             
         </div>
         <!--////////////////////////////////////////////////////////////////////
