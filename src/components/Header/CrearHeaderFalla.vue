@@ -74,7 +74,7 @@
                 <div class="mt-5">
                     <ValidationProvider name="HoraInicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La HoraInicio debe ser menor que la HoraFin' }"  v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora INICIO:</span>
-                        <datetime v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
+                        <datetime class="ml-31 -mt-6" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -82,7 +82,7 @@
                 <div class="mt-5">
                     <ValidationProvider name="HoraFin" :rules="{required: true}" v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora FIN:</span>
-                        <datetime v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
+                        <datetime class="ml-31 -mt-6" v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" /> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -108,13 +108,13 @@
                 </div>
                 <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2" :class="{'w-10':tipo == 'FICHA'}">
                     <div class="-ml-69 sm:-ml-56">
-                        <ValidationProvider name="FolioFalla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
+                        <ValidationProvider name="Folio de Falla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
                             <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_folio }}/20</span>
                         </ValidationProvider>
                     </div>
                     <div class="-mt-1 -ml-69 sm:-ml-56 sm:mt-1">
-                        <ValidationProvider name="NumeroReporte" rules="required|max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
+                        <ValidationProvider name="Numero de Reporte" rules="max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
                             <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_siniestro }}/30</span>
                         </ValidationProvider>                    
@@ -502,21 +502,16 @@ methods:{
         try {                                                   
             let validacion = false
             Object.entries(this.datosDiagnostico).forEach(item => {
-                if(item[0] != 'folioFalla' || item[0] != 'numeroReporte'){
+                if( item[0] != 'numeroReporte'){
                     if(item[1] == ""){
-                        validacion = false
+                        validacion = true
                     }                                        
                 }
             })                                   
-            if(!validacion){
-                if(value){                                                                        
-                    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                              
-                }   
-                else{                 
-                    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
-                }         
+            if(!validacion){                                                            
+                this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                                   
             }  
-            else{                
+            else{         
                 this.$notify.warning({
                     title: "Ops!!",
                     msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
