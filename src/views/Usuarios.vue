@@ -419,10 +419,10 @@ export default {
     },
     acciones_mapper(item){                
       if(this.value.title == 'Editar'){
-          this.terminar_ficha_diagnostico(item)
+          this.editarUsuario(item)
       }
       if(this.value.title == 'Borrar'){
-          this.terminar_dtc(item.referenceNumber, item.typeFaultId)
+          this.borrar_usuario(item)
       }   
       this.value = ""  
     },
@@ -435,7 +435,7 @@ export default {
       //Diagnostico Descargar Siempre va
       filtroOpciones.push(options[0])
       if(this.typeUser){
-          filtroOpciones.push(options[4])   
+          filtroOpciones.push(options[1])   
       }         
       return filtroOpciones
     }

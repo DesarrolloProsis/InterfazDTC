@@ -162,7 +162,7 @@
         <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="buscarUsuario" class="ml-70 w-66 text-center is_valid" placeholder="Nombre Apellidos"/>
+                <input v-model="buscarUsuario" class="ml-73 w-66 text-center is_valid" placeholder="Nombre Apellidos"/>
             </div>             
         </div>
         <!--////////////////////////////////////////////////////////////////////
