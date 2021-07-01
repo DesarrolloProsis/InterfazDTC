@@ -20,7 +20,7 @@
                         </div>
                         <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
                             <button @click="enviar_calendario_escaneado" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                            <button @click="escaneadoBool = false, abrirModal = false" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                            <button @click="abrirModal = false, pdfBase = {}" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
                         </div>            
                     </div>
                 </div>
@@ -33,6 +33,10 @@
 export default {
 
     props: {
+        tipoReporte: {
+            type: String,
+            require: true,            
+        },
         abrirModal: {
             type: Boolean,
             require: true,
@@ -46,9 +50,46 @@ export default {
     },
     data(){
         return{
-            escaneadoBool: true
+            escaneadoBool: true,
+            pdfFile: {}
         }
+    },
+    methods: {
+        enviar_calendario_escaneado(){
+
+            let urlSendEscaneado = ''
+            if(this.tipoReporte == "Diagnostico"){
+                urlSendEscaneado = ''
+            }
+            alert(urlSendEscaneado)
+        },  
+        recibir_calendario_escaneado(e) {                  
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            else {
+                for (let file of files) {                          
+                    if(file.type.split('/')[1] == 'pdf'){
+                        this.pdfFile = file
+                        this.escaneadoBool = false
+                    }
+                    else{
+                        this.$notify.warning({
+                            title: "Ups!",
+                            msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+                            position: "bottom right",
+                            styles: {
+                                height: 100,
+                                width: 500,
+                            },          
+                        });                        
+                        this.escaneadoBool = true
+                    }
+                    
+                }        
+            }
+        },      
     }
+    
 
 }
 </script>

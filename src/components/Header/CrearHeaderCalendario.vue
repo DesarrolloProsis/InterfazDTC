@@ -70,36 +70,7 @@
                                     {{ props.option.title }}</span>
                                 </div>
                             </template>
-                        </multiselect>    
-                        <!-- <div class="flex justify-start m-5 mt-10">
-                            <button @click="generar_pdf" class="botonIconCrear">
-                                <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
-                                <span class="">Crear</span>
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-2 justify-center h-12 w-full mt-1 ml-6 sm:ml-3" >
-                            <div class="ml-32 -mt-1 sm:ml-33">
-                                <button @click="obtener_escaneado_calendario" class="botonIconDescargar w-auto h-12 font-bold mb-1" :disabled="!calendarioEscaneado" :class="{'bg-gray-400 border-b-2 hidden border-black hover:bg-gray-400 hover:border-black hover:text-black cursor-not-allowed': !calendarioEscaneado}">
-                                    <img src="../../assets/img/pdf.png"  class="mr-2 -ml-4 sm:-ml-3" width="25" height="25" />
-                                        <span class="mr-2">Descargar</span>
-                                </button>
-                            </div>
-                            <div class="-ml-48 sm:-ml-24">
-                                <div  class="grid grid-cols-2 -mt-3 sm:ml-8" v-if="escaneadoBool"> 
-                                    <div class="inline-flex">
-                                        <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
-                                        <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
-                                        <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-16 mr-2 -ml-32 px-2 py-2 h-10 text-sm justify-center w-24 sm:mt-16 sm:w-12 sm:-mr-2 sm:-ml-24">Subir</button>
-                                        <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-16 ml-4 h-10 text-sm justify-center px-1 sm:ml-4 sm:mt-16">Cancelar</button>
-                                    </div>                                
-                                </div>                        
-                                <div v-else class="justify-center ml-2 botonIconDescargar font-bold">
-                                    <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-32 h-10 absolute" multiple/>
-                                        <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                        <span>Cargar</span>                                                                       
-                                </div>
-                            </div>
-                        </div> -->
+                        </multiselect>          
                     </div>          
                 </div>
                 <ValidationObserver ref="observer" class="-ml-16">  
@@ -278,28 +249,28 @@ export default {
             }
         },
         crearImage(file) {
-        if(file.type.split('/')[1] == 'pdf'){
-            var reader = new FileReader(); 
-            reader.onload = (e) => {
-            this.$nextTick().then(() => {
-                this.calendarEscaneado = e.target.result.split(',')[1]
-                })        
-            };
-            reader.readAsDataURL(file);   
-            return true
-        }
-        else{
-            this.$notify.warning({
-                title: "Ups!",
-                msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-                position: "bottom right",
-                styles: {
-                height: 100,
-                width: 500,
-            },          
-            });
-            this.pdfSellado = {}
-            return false
+            if(file.type.split('/')[1] == 'pdf'){
+                var reader = new FileReader(); 
+                reader.onload = (e) => {
+                this.$nextTick().then(() => {
+                    this.calendarEscaneado = e.target.result.split(',')[1]
+                    })        
+                };
+                reader.readAsDataURL(file);   
+                return true
+            }
+            else{
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },          
+                });
+                this.pdfSellado = {}
+                return false
             }         
         },
         enviar_calendario_escaneado(){
