@@ -383,8 +383,7 @@ beforeMount: async function(){
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)          
         //Bloque para crear Ficha      
         if(this.$route.query.data != undefined){                                
-            this.datosDiagnostico = this.$route.query.data  
-            alert(this.datosDiagnostico.horaFin)       
+            this.datosDiagnostico = this.$route.query.data                     
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
@@ -449,10 +448,7 @@ methods:{
                     title: "Ok!",
                     msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} SE ELIMINO CORRECTAMENTE.`,
                     position: "bottom right",
-                    styles: {
-                    height: 100,
-                    width: 500,
-                    },
+                    styles: { height: 100, width: 500 },
                 })    
             })
             .catch(() => {
@@ -460,10 +456,7 @@ methods:{
                     title: "Ups!",
                     msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} NO SE PUDO ELIMINAR.`,
                     position: "bottom right",
-                    styles: {
-                    height: 100,
-                    width: 500,
-                    },
+                    styles: { height: 100, width: 500 },
                 })
             }) 
         this.referenciaDtc = '--'
@@ -474,7 +467,8 @@ methods:{
         this.comentarioBorrarDtc = ''
         this.datosDiagnostico.tipoFalla = this.tipoFallaOriginal
     },
-    bloquear_checboxes(tipo){        
+    bloquear_checboxes(tipo){   
+        this.$emit('mapear-tipo-falla', tipo)     
         if(tipo == 1){
             this.blockCheckBox = [true, false, false]    
             if(this.referenciaDtc != '--')  

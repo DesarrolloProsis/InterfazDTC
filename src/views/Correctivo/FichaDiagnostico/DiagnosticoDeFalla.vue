@@ -31,7 +31,7 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar' || botonEditCreate == false" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
+                    <ImagenesFichaDiagnostico v-if="($route.params.tipoVista == 'Editar' || botonEditCreate == false)" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -138,8 +138,8 @@ methods:{
                 referenceNumber: this.datosHeader.referenceNumber,
                 squareId: userIdPlaza.numPlaza,
                 diagnosisDate: this.datosHeader.fechaDiagnostico,
-                start: fechaInicioTime,//this.datosHeader.horaInicio,
-                end: fechaFinTime,//this.datosHeader.horaFin,
+                start: fechaInicioTime,
+                end: fechaFinTime,
                 sinisterNumber: this.datosHeader.numeroReporte == "" ? null : this.datosHeader.numeroReporte,
                 failureNumber: this.datosHeader.folioFalla == "" ? null : this.datosHeader.folioFalla,
                 userId: userIdPlaza.idUser,
@@ -194,8 +194,7 @@ methods:{
                         position: "bottom right",
                         styles: { height: 100, width: 500 },
                     });
-                })
-                
+                })                
         }        
         else{
             this.type = 'FICHA' 

@@ -31,11 +31,11 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header"></HeaderFalla>  
+                    <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header" @mapear-tipo-falla="mapear_tipo_falla"></HeaderFalla>  
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar'  || botonEditCreate == false" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
+                    <ImagenesFichaDiagnostico v-if="($route.params.tipoVista == 'Editar'  || botonEditCreate == false) && tipoFalla <= 1" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
@@ -80,7 +80,8 @@ export default {
             type: 'DIAGNOSTICO',
             reporteInsertado: false  ,
             modalImage: false,
-            botonEditCreate: true               
+            botonEditCreate: true,
+            tipoFalla: 1               
         }
     },
     beforeMount(){
@@ -93,8 +94,10 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
-        actualizar_header(objHeader){    
-            alert()                
+        mapear_tipo_falla(item){
+            this.tipoFalla = item
+        },
+        actualizar_header(objHeader){                
             this.datosHeader = objHeader.header  
             if(objHeader.value == false){  
                 this.$http.get(`${API}/FichaTecnicaAtencion/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
