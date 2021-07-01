@@ -467,9 +467,7 @@ methods: {
                 let adminId = await ServicePDfReporte.obtener_admin_id(objEdit.referenceNumber) 
                 this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
                   .then(() => resolve('ok'))   
-                  .catch((error) => {
-                    reject(error)
-                  })                                     
+                  .catch((error) => { reject(error) })                                     
               })
               .catch((error) => {                              
                 reject(error)
@@ -477,10 +475,7 @@ methods: {
                   title: "ups!",
                   msg: error,
                   position: "bottom right",
-                  styles: {
-                    height: 100,
-                    width: 500,
-                  },
+                  styles: { height: 100, width: 500 },
                 });
               })  
           })
@@ -492,10 +487,7 @@ methods: {
                 title: "Ok!",
                 msg: `SE ACTUALIZO EL DTC ${objEdit.referenceNumber}.`,
                 position: "bottom right",
-                styles: {
-                  height: 100,
-                  width: 500,
-                },
+                styles: { height: 100, width: 500 },
               });
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
             })              
@@ -530,41 +522,29 @@ methods: {
   },
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
-    let pdf_sellado_promise = new Promise((resolve, reject) => {    
-      this.$http.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}/${true}`, value.file)
-        .then(() => {          
+    let pdf_sellado_promise = new Promise((resolve, reject) => {                         
           this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-          .then(() => {               
+            .then(() => {               
               resolve('ok')                
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
-              this.limpiar_filtros()                              
+              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
               resolve('ok')                                                                           
-          })                                  
-        })
+            })                                        
         .catch((error) => {                      
           reject(error)                          
           this.$notify.error({
             title: "ups!",
             msg: error,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
+            styles: { height: 100, width: 500 },
           });        
-        });              
-    })
+        });      
+    })        
+    
     setTimeout(() => {
       pdf_sellado_promise.then(() => {  
         this.modalLoading = false                  
         this.limpiar_filtros()
-        this.$notify.success({
-            title: "Ok!",
-            msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
-            position: "bottom right",
-            styles: { height: 100, width: 500 },
-        });  
       })      
     }, 3000);                                                                                   
   },
@@ -589,10 +569,7 @@ methods: {
           title: "Ups!",
           msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
           position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
+          styles: { height: 100, width: 500 },
         });
     }
   },  
@@ -615,9 +592,7 @@ methods: {
             title: "ups!",
             msg: error,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
+            styles: { height: 100,width: 500,
             },
           });
         });            
@@ -630,18 +605,15 @@ methods: {
             title: "Ok!",
             msg: `SE AUTORIZADO CORRECTAMENTE GMMEP.`,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
+            styles: { height: 100, width: 500 },
           });         
         })
       }, 3000)
     }
     else if(value === false){        
-        this.limpiar_filtros()
-        this.modalFirma = false
-        this.refNum = ''
+      this.limpiar_filtros()
+      this.modalFirma = false
+      this.refNum = ''
     }
     else{
       this.refNum = value
@@ -677,13 +649,10 @@ methods: {
           actualizar_status.then(() => {                       
           this.limpiar_filtros()
           this.$notify.success({
-                title: "Ok!",
-                msg: `Se actualizó el estatus.`,
-                position: "bottom right",
-                styles: {
-                  height: 100,
-                  width: 500,
-                },
+            title: "Ok!",
+            msg: `Se actualizó el estatus.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
           });  
         })        
       }, 1000);
@@ -692,24 +661,22 @@ methods: {
   cargar_mas(){
     let pos = document.documentElement.offsetHeight
     let index = this.lista_dtc.length
-            for(let i = index; i <= index + 5; i++){
-              if(i < this.infoDTC.length){
-                this.lista_dtc.push(this.infoDTC[i])
-                window.scrollTo(0, pos)         
-              }else 
-                this.moreCard = false                
-            }            
+    for(let i = index; i <= index + 5; i++){
+      if(i < this.infoDTC.length){
+        this.lista_dtc.push(this.infoDTC[i])
+        window.scrollTo(0, pos)         
+      } else 
+        this.moreCard = false                
+    }            
   },
   scroll_infinito(){
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
-        if (bottomOfWindow) {
-          // Do something, anything!                   
+        if (bottomOfWindow) {                     
             let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length){
-                this.lista_dtc.push(this.infoDTC[i])
-                //bottomOfWindow.scrollto = bottomOfWindow.scrollHeight;
+                this.lista_dtc.push(this.infoDTC[i])                
               }else 
                 this.moreCard = false                
             }                                               
@@ -760,7 +727,7 @@ methods: {
             await this.limpiar_filtros()
             this.refNum = ''; this.fechaSiniestro = ''; this.fechaFalla = ''; this.fechaElaboracion = ''; this.fechaEnvio = '';                        
         })
-    },2000)
+    }, 2000)
   },
   cancelar_edicion_fechas(){
     this.modalEditFechas = false

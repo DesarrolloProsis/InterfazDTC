@@ -248,7 +248,6 @@ export default {
             console.log(fechaPArseFin)
             item.end = fechaPArseFin.toISOString()
             item.start = fechaPArseInicio.toISOString()
-
             console.log(item)
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
