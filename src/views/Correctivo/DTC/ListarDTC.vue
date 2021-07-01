@@ -415,10 +415,7 @@ methods: {
           title: "Ok!",
           msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
           position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
+          styles: { height: 100, width: 500,},
         });
       }
       await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");

@@ -71,10 +71,7 @@ export default {
                             title: "Ups!",
                             msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
                             position: "bottom right",
-                            styles: {
-                                height: 100,
-                                width: 500,
-                            }
+                            styles: { height: 100, width: 500 }
                         })  
                     }  
                 }
@@ -84,17 +81,21 @@ export default {
             let url = ''  
             let  formFile = new FormData()            
             if(this.tipoReporte == 'Calendario'){
-                url = `${API}/calendario/CalendarioEscaneado/${this.objInsert.referenceNumber}/${this.objInsert.mes}/${this.objInsert.año}/${this.objInsert.idUser}`
-                formFile.append('file', this.pdfEscaneadoFile)     
+                url = `${API}/calendario/CalendarioEscaneado/${this.objInsert.referenceNumber}/${this.objInsert.mes}/${this.objInsert.año}/${this.objInsert.idUser}`                
             }
             if(this.tipoReporte == "Calendario-Actividades"){
-                url = `${API}/MantenimientoPdf/TablaActEscaneado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`
-                formFile.append('file', this.pdfEscaneadoFile) 
+                url = `${API}/MantenimientoPdf/TablaActEscaneado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`                
             }  
             if(this.tipoReporte == 'Card-DTC'){
-                url = `${API}/pdf/PdfSellado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}/${true}`
-                formFile.append("file", this.pdfEscaneadoFile);
-            }          
+                url = `${API}/pdf/PdfSellado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}/${true}`                
+            } 
+            if(this.tipoReporte == 'Diagnostico') {
+                url = `${API}/DiagnosticoFalla/Sellada/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`                
+            }
+            if(this.tipoReporte == 'Ficha') {
+                url = `${API}/FichaTecnicaAtencion/FichaTecnicaSellada/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`                
+            }
+            formFile.append("file", this.pdfEscaneadoFile);
             this.$http.post(url, formFile)
                 .then((response) => {
                     console.log(response);
@@ -103,10 +104,7 @@ export default {
                         title: "Ok!",
                         msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
                         position: "bottom right",
-                        styles: {
-                            height: 100,
-                            width: 500,
-                            },
+                        styles: { height: 100, width: 500 },
                     });
                     this.$emit('limpiar-componente-escaneado')                 
                 })
