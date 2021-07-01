@@ -67,7 +67,8 @@
                 <div>
                     <ValidationProvider name="FechaDiagnostico" rules="required"  v-slot="{ errors }">                   
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>
-                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/>
+                        <!-- <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/> -->
+                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-16 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -477,12 +478,14 @@ methods:{
         if(tipo == 3)
             this.blockCheckBox = [false, false, true]            
     },
-    crear_referencia: async function () {                   
-        let objReference  = await ServiceReportePDF.crear_referencia(
-            moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
-            this.headerSelecionado.referenceSquare, true
-        )    
-        this.datosDiagnostico.referenceNumber = objReference.referenceNumber              
+    crear_referencia: async function () {              
+        if(this.$route.params.tipoVista == 'Crear') {   
+            let objReference  = await ServiceReportePDF.crear_referencia(
+                moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
+                this.headerSelecionado.referenceSquare, true
+            )    
+            this.datosDiagnostico.referenceNumber = objReference.referenceNumber   
+        }           
     },
     async cambiar_plaza(numeroPlaza) {                 
         this.plazaSeleccionada = numeroPlaza 
