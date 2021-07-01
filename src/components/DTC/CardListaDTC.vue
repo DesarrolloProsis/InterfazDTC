@@ -84,26 +84,8 @@
           </multiselect>  
         <!-- //////////////////////////////////////////////////////////////////////
         ////                         SUBIR PDF SELLADO                        ////
-        ///////////////////////////////////////////////////////////////////// -->        
-        <div v-if="modalSubir">
-          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario" >
-            <div class="flex justify-center" v-if="pdfSelladoBool == false">
-              <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado"/>
-              <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
-              <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
-            </div>
-            <div class="grid grid-cols-2" v-else>
-              <div class="inline-flex">
-                <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
-                <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
-              </div>
-              <div class="inline-flex">
-                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
-                <button @click="status_dtc_sellado" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
-              </div>            
-            </div>
-          </div>
-        </div>        
+        ///////////////////////////////////////////////////////////////////// -->       
+        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Card-DTC'"></PdfEscaneado>    
           <!-- /////////////////////////////////////////////////////////////////////
               ////                         IMAGENES                             ////
               ///////////////////////////////////////////////////////////////////// -->
@@ -215,9 +197,14 @@ import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 import CookiesService from '../../services/CookiesService'
+import PdfEscaneado from '../PdfEscaneado.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
+  components: {
+    ImagenesCard,
+    PdfEscaneado    
+  },
   props: {
     infoCard: {
       type: Object,
@@ -227,9 +214,6 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  components: {
-    ImagenesCard,    
   },
   data: function () {
     return {
@@ -245,7 +229,10 @@ export default {
       TIPO_USUARIO: 0 ,     
       modalSubir: false  ,
       infoActualizar:'',
-      modalActualizar:false        
+      modalActualizar:false,        
+      modalSubirSellado: false,
+      objInsertEscaneado: {},          
+      value: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -278,8 +265,11 @@ export default {
         if(this.value.title == 'Terminar DTC'){
           this.editar_dtc()
         }
-        if(this.value.title == 'DTC Sellado'){
-          this.modalSubir = true
+        if(this.value.title == 'Cargar Sellado'){
+          this.modalSubirSellado = true
+          this.objInsertEscaneado = {
+            referenceNumber: this.infoCard.referenceNumber
+          }
         }
         if(this.value.title == 'DTC Firmado'){
           this.generar_pdf(2)
@@ -442,58 +432,11 @@ export default {
       this.$emit("borrar-card", this.infoCard.referenceNumber);
       this.menosMas = true;      
       this.showmenosMas = false;      
-    },
-    recibir_pdf_sellado(e) {                  
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      else {
-        this.pdfSelladoBool = true
-        for (let item of files) {        
-          if(this.crearImage(item) == false)
-            this.pdfSelladoBool = false
-        }        
-      }
-    },
-    crearImage(file) {
-      if(file.type.split('/')[1] == 'pdf'){
-        var reader = new FileReader(); 
-        reader.onload = (e) => {
-          this.$nextTick().then(() => {
-            this.pdfSellado = {
-              imgbase: e.target.result.split(',')[1],
-              name: this.infoCard.referenceNumber,
-            };
-          })        
-        };
-        reader.readAsDataURL(file);   
-        return true
-      }
-      else{
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },          
-        });
-        this.pdfSellado = {}
-        return false
-      }         
-    },
-    base64ToFile(dataurl, fileName) {                    
-        let url = "data:text/pdf;base64," + dataurl;  
-        var arr = url.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], fileName + '.pdf', { type: mime });
-    },    
+    },  
+    limpiar_componete_escaneado(){
+      this.modalSubirSellado = false
+      this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
+    },   
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        
           window.scroll(0, 0);
@@ -503,17 +446,6 @@ export default {
       else{
         this.statusAgregarFimar = false
       }
-    },
-    status_dtc_sellado(){                      
-      let formData = new FormData();
-      let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
-      formData.append("file", file);     
-      let obj = {
-        referenceNumber: this.infoCard.referenceNumber,
-        file: formData
-      }
-      this.pdfSelladoBool = false
-      this.$emit("enviar_pdf_sellado", obj);      
     },
     editar_status_dtc(){
       this.$emit("editar-status", this.infoCard.referenceNumber);

@@ -1,32 +1,10 @@
 <template>
     <div>
-        <div class=" inset-0 font-titulo">
-            <div v-if="modalSubirSellado" class="carruselGMMEP border-gray-200 h-34 w-71"> 
-                <span @click="modalSubirSellado = false" class="absolute  top-0 right-0">
-                    <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
-                </span>         
-                <div>                    
-                    <button class="mt-10  sm:w-32 sm:-ml-5 ml-2" v-if="escaneadoBool">
-                        <div class="botonIconSellado font-boton h-32 w-69 justify-center">
-                            <input type="file" class="opacity-0 border-black w-69 h-32 absolute" @change="recibir_calendario_escaneado($event)"/>
-                            <img src="@/assets/img/pdf.png" class="mr-1" width="25" height="25"/>
-                            <p class="mt-1">Seleccionar Archivo</p>
-                        </div>                   
-                    </button>
-                    <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
-                        <div class="grid grid-cols-2">
-                            <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
-                            <p class="-ml-16 mt-16 font-bold sm:ml-0">Calendario Escaneado</p>
-                        </div>
-                        <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
-                            <button @click="enviar_calendario_escaneado" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                            <button @click="escaneadoBool = true" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
-                        </div>            
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!--///////////////////////////////////////////////////////////////////
+        <!--///////////////////////////////////////////////////////////////////
+          ////                    Modal Escaneado                          ////
+          ////////////////////////////////////////////////////////////////////-->
+        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario'"></PdfEscaneado>
+        <!--///////////////////////////////////////////////////////////////////
           ////                             HEADER                          ////
           ////////////////////////////////////////////////////////////////////-->
         <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-1">
@@ -70,36 +48,7 @@
                                     {{ props.option.title }}</span>
                                 </div>
                             </template>
-                        </multiselect>    
-                        <!-- <div class="flex justify-start m-5 mt-10">
-                            <button @click="generar_pdf" class="botonIconCrear">
-                                <img src="../../assets/img/add.png" class="mr-2" width="25" height="25" />
-                                <span class="">Crear</span>
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-2 justify-center h-12 w-full mt-1 ml-6 sm:ml-3" >
-                            <div class="ml-32 -mt-1 sm:ml-33">
-                                <button @click="obtener_escaneado_calendario" class="botonIconDescargar w-auto h-12 font-bold mb-1" :disabled="!calendarioEscaneado" :class="{'bg-gray-400 border-b-2 hidden border-black hover:bg-gray-400 hover:border-black hover:text-black cursor-not-allowed': !calendarioEscaneado}">
-                                    <img src="../../assets/img/pdf.png"  class="mr-2 -ml-4 sm:-ml-3" width="25" height="25" />
-                                        <span class="mr-2">Descargar</span>
-                                </button>
-                            </div>
-                            <div class="-ml-48 sm:-ml-24">
-                                <div  class="grid grid-cols-2 -mt-3 sm:ml-8" v-if="escaneadoBool"> 
-                                    <div class="inline-flex">
-                                        <img src="../../assets/img/pdf.png" class="w-6 h-8 mt-5 border opacity-75" alt/>    
-                                        <p class="ml-2 mt-3 mr-1 text-sm font-bold">Calendario Escaneado</p>
-                                        <button @click="enviar_calendario_escaneado" Class="botonEnviarPDF mt-16 mr-2 -ml-32 px-2 py-2 h-10 text-sm justify-center w-24 sm:mt-16 sm:w-12 sm:-mr-2 sm:-ml-24">Subir</button>
-                                        <button @click="escaneadoBool = false, calendar_escaneado = ''" class="botonIconCancelar mt-16 ml-4 h-10 text-sm justify-center px-1 sm:ml-4 sm:mt-16">Cancelar</button>
-                                    </div>                                
-                                </div>                        
-                                <div v-else class="justify-center ml-2 botonIconDescargar font-bold">
-                                    <input type="file" @change="recibir_calendario_escaneado" class="opacity-0 w-32 h-10 absolute" multiple/>
-                                        <img src="../../assets/img/pdf-sellado.png" class="mr-2" width="25" height="25" />
-                                        <span>Cargar</span>                                                                       
-                                </div>
-                            </div>
-                        </div> -->
+                        </multiselect>             
                     </div>          
                 </div>
                 <ValidationObserver ref="observer" class="-ml-16">  
@@ -163,13 +112,15 @@
 import ServiceActividades from '../../services/ActividadesService'
 import SelectPlaza from '../Header/SelectPlaza'
 import Multiselect from "vue-multiselect";
-const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ReportesPDFService from '../../services/ReportesPDFService'
+import PdfEscaneado from '../PdfEscaneado.vue'
+
 
 export default {
     components:{
         SelectPlaza,
-        Multiselect
+        Multiselect,
+        PdfEscaneado
     },
     props:{
         comentario:{
@@ -195,12 +146,12 @@ export default {
     },
     data(){
         return {                        
-            limite:500,
-            calendarEscaneado: null,      
-            escaneadoBool: true,
-            value: '',
+            limite:500,                            
+            value: '',                
+            //Modal Escaneado   
             modalSubirSellado:false,
-            pdfSellado:''            
+            objInsertEscaneado: {}
+
         }
     },    
     destroyed(){        
@@ -234,7 +185,14 @@ export default {
             if(this.value.title == 'Crear Calendario'){
                 this.generar_pdf()
             }
-            if(this.value.title == 'Cargar Sellado'){
+            if(this.value.title == 'Cargar Sellado'){                
+                let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+                this.objInsertEscaneado = {
+                    referenceNumber: referenciaPlaza,
+                    mes: this.mes,
+                    año: this.año,
+                    idUser: this.idUser
+                }                
                 this.modalSubirSellado = true
             }
             if(this.value.title == 'Descargar Sellado'){
@@ -255,93 +213,22 @@ export default {
                 return options
             }         
         },
-        customLabel ({ title }) {
-            return `${title}`
-        },
-        cambiar_plaza(numeroPlaza){                  
-            this.$emit("actualizar-actividad", numeroPlaza);
-        },
         generar_pdf:  async function(){     
             let isValid = await this.$refs.observer.validate();    
             if(isValid){      
                 this.$emit('generar-pdf', this.comentario)
             }
-        },         
-        recibir_calendario_escaneado(e) {                  
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) return;
-            else {
-                for (let item of files) {        
-                    if(this.crearImage(item))
-                    this.escaneadoBool = false
-                }        
-            }
+        },      
+        limpiar_componete_escaneado(){            
+            this.modalSubirSellado = false
+            this.objInsertEscaneado = {}
+            let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
+            this.$emit("actualizar-actividad", numPlaza);  
         },
-        crearImage(file) {
-        if(file.type.split('/')[1] == 'pdf'){
-            var reader = new FileReader(); 
-            reader.onload = (e) => {
-            this.$nextTick().then(() => {
-                this.calendarEscaneado = e.target.result.split(',')[1]
-                })        
-            };
-            reader.readAsDataURL(file);   
-            return true
-        }
-        else{
-            this.$notify.warning({
-                title: "Ups!",
-                msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-                position: "bottom right",
-                styles: {
-                height: 100,
-                width: 500,
-            },          
-            });
-            this.pdfSellado = {}
-            return false
-            }         
-        },
-        enviar_calendario_escaneado(){
-            let calendarioEscaneadoFile = this.base64ToFile(this.calendarEscaneado, "CalendarioEscaneado" + this.mes + this.año)            
-            let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza            
-            //let idPlazaUser = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-            let  formFile = new FormData()
-            formFile.append('file', calendarioEscaneadoFile)                     
-            this.$http.post(`${API}/calendario/CalendarioEscaneado/${referenciaPlaza}/${this.mes}/${this.año}/${this.idUser}`, formFile)
-                .then(() => {                                   
-                    this.escaneadoBool = true
-                    this.calendarioEscaneado = false
-                    this.modalSubirSellado = false
-                    let numPlaza = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID'].numPlaza
-                    this.$emit("actualizar-actividad", numPlaza);                    
-                    this.$notify.success({
-                    title: "Ok!",
-                    msg: `SE SUBIO CORRECTAMENTE EL CALENDARIO.`,
-                    position: "bottom right",
-                    styles: {
-                        height: 100,
-                        width: 500,
-                        },
-                    });                                                                                                     
-                })           
-        },
-        base64ToFile(dataurl, fileName) {                    
-            let url = "data:text/pdf;base64," + dataurl;  
-            var arr = url.split(","),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-            while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-            return new File([u8arr], fileName + '.pdf', { type: mime });
-        }, 
-        obtener_escaneado_calendario(){
-            ReportesPDFService.generar_pdf_calendario_escaneado(this.año, this.mes)
-        }
-},
+        customLabel ({ title }) { return `${title}` },        
+        cambiar_plaza(numeroPlaza) { this.$emit("actualizar-actividad", numeroPlaza) },              
+        obtener_escaneado_calendario(){ ReportesPDFService.generar_pdf_calendario_escaneado(this.año, this.mes) },
+    },
     computed:{
         idUser(){
             return this.$store.state.Login.cookiesUser.userId

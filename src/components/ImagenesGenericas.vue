@@ -222,8 +222,7 @@ export default {
             if(this.arrayImagenes.length >= 1){                 
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     let urlDeleteImg = ''
-                    if(this.tipo == 'Actividades'){
-                        alert()
+                    if(this.tipo == 'Actividades'){                        
                         urlDeleteImg = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else if(this.tipo == 'Diagnostico'){                               
