@@ -390,8 +390,6 @@ beforeMount: async function(){
         }   
     }               
     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: undefined, crear: false })
-    //25-06-2021 1:27:00
-    //this.datosDiagnostico.horaFin = new Date().toISOString()
 },
 destroyed(){
     if(this.tipo == 'FICHA')

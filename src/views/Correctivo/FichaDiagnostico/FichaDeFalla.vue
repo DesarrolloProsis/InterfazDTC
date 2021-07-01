@@ -41,7 +41,7 @@
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-6 ml-77 sm:mb-6 sm:ml-1 sm:mt-6">
                         <div v-if="botonEditCreate">                            
-                            <button v-if="$route.params.tipoVista == 'Crear'" @click="enviar_header_ficha(true)" class="botonIconCrear">
+                            <button v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true" @click="enviar_header_ficha(true)" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Enviar Información de Ficha</span>
                             </button>                                                                                                  
@@ -119,7 +119,27 @@ export default {
             }
             else {
                 if(objHeader.crear)
-                    this.insertar_ficha_falla(objHeader.value)
+                    if(this.botonEditCreate == false && objHeader.header.tipoFalla <= 1){
+                        this.$http.get(`${API}/FichaTecnicaAtencion/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                            .then((response) => {                    
+                                if(response.data.length > 0){                                
+                                    this.insertar_ficha_falla(objHeader.value)
+                                }  
+                                else{
+                                    this.$notify.warning({
+                                        title: "Ops!!",
+                                        class:"font-titulo",
+                                        msg: "SE NECESITA MINIMO UNA FOTO.",
+                                        position: "bottom right",
+                                        styles: { height: 100, width: 500 },
+                                    });
+                                } 
+                            })    
+
+                    }
+                    else {
+                        this.insertar_ficha_falla(objHeader.value)
+                    }                    
             }
         }, 
         cerrar_modal_imagenes(){
@@ -142,8 +162,9 @@ export default {
                 this.$http.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then(() => {                                  
                         this.reporteInsertado = true
-                        if(objFicha.typeFaultId == 1) {  
-                            this.modalImage = true
+                        if(objFicha.typeFaultId == 1) {
+                            if(this.$route.params.tipoVista != 'Editar')  
+                                this.modalImage = true
                         }
                         else{
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
@@ -157,7 +178,7 @@ export default {
                             }
                             else
                                 this.$router.push('/Home')                          
-                        }                                                                               
+                        }                                                                                                       
                     })                             
             }
             else{                

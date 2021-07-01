@@ -36,7 +36,7 @@
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:ml-1 sm:-mt-16">
-                        <div v-if="$route.params.tipoVista == 'Crear'">                            
+                        <div v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Enviar Información del Diagnóstico</span>
@@ -92,12 +92,12 @@ export default {
 ////        {}                  METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(objHeader){                      
+    actualizar_header(objHeader){    
+                              
         this.datosHeader = objHeader.header
         if(objHeader.value == false){             
             this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
-                .then((response) => {
-                    console.log(response.data)
+                .then((response) => {                    
                     if(response.data.length > 0){
                         if(objHeader.crear)
                             this.insertar_diagnostico_falla(objHeader.value)
@@ -114,8 +114,28 @@ methods:{
                 })             
         }
         else {
-            if(objHeader.crear)
-                this.insertar_diagnostico_falla(objHeader.value)
+            if(objHeader.crear){
+                if(this.botonEditCreate == false){
+                    this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                        .then((response) => {                    
+                            if(response.data.length > 0){                                
+                                this.insertar_diagnostico_falla(objHeader.value)
+                            }  
+                            else{
+                                this.$notify.warning({
+                                    title: "Ops!!",
+                                    class:"font-titulo",
+                                    msg: "SE NECESITA MINIMO UNA FOTO.",
+                                    position: "bottom right",
+                                    styles: { height: 100, width: 500 },
+                                });
+                            } 
+                        })    
+                }
+                else{
+                    this.insertar_diagnostico_falla(objHeader.value)
+                }                
+            }
         }
     },
     enviar_header_diagnostico(value){            
@@ -183,6 +203,15 @@ methods:{
                                     query: { data: this.datosHeader, referenciaDtc }
                                 }) 
                             }  
+                            else if(this.botonEditCreate == false){
+                                this.type = 'FICHA' 
+                                ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
+                                let referenciaDtc = this.$route.query.referenciaDtc         
+                                this.$router.push({
+                                    path: 'FichaTecnicaDeFalla',
+                                    query: { data: this.datosHeader, referenciaDtc }
+                                }) 
+                            }
                         },2000)
                     })                                  
                     this.reporteInsertado = true                                                                       
