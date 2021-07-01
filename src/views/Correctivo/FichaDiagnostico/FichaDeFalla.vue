@@ -163,18 +163,22 @@ export default {
                     .then(() => {                                  
                         this.reporteInsertado = true
                         if(objFicha.typeFaultId == 1) {
-                            if(this.$route.params.tipoVista != 'Editar')  
+                            if(this.botonEditCreate != false)  
                                 this.modalImage = true
                         }
                         else{
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
-                            this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
+                            this.$route.params.tipoVista == 'Editar' 
+                                ? this.$router.push('/Home')  
+                                : this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
+
                         }
                         if(this.$route.params.tipoVista == 'Editar'){   
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                            if(this.datosHeader.tipoFalla > 1){
-                                this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`) 
+                            if(this.datosHeader.tipoFalla > 1) {
+                                console.log('No voy a editar el dtc jajajjaj')
+                                //this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`) 
                             }
                             else
                                 this.$router.push('/Home')                          
@@ -183,8 +187,10 @@ export default {
             }
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                if(this.datosHeader.tipoFalla > 1)
-                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)     
+                if(this.datosHeader.tipoFalla > 1){
+                    console.log('aqui')
+                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)    
+                } 
                 else
                     this.$router.push('/Home')   
             }

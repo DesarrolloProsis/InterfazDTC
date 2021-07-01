@@ -206,7 +206,7 @@ methods:{
                             else if(this.botonEditCreate == false){
                                 this.type = 'FICHA' 
                                 ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
-                                let referenciaDtc = this.$route.query.referenciaDtc         
+                                let referenciaDtc = this.$route.query.referenciaDtc                                        
                                 this.$router.push({
                                     path: 'FichaTecnicaDeFalla',
                                     query: { data: this.datosHeader, referenciaDtc }
