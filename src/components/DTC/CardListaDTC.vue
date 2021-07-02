@@ -40,7 +40,7 @@
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
             </div>   
-            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 w-5">
+            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 ml-4 w-5">
               <button @click="editar_fechas_calendario" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/schedule.png" class="" width="30" height="30" />              
               </button>
@@ -66,7 +66,7 @@
           </div>
         </div>
           <p class="text-left font-semibold text-sm">Acciones:</p>
-          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :modalActualizar }">
+          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :ocultarMulti || modalActualizar }">
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
                 <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -214,6 +214,11 @@ export default {
       type: Array,
       default: () => [],
     },
+    ocultarMulti: {
+      type: Boolean,
+      require: true,
+      default: () => false,
+    }
   },
   data: function () {
     return {
@@ -283,6 +288,9 @@ export default {
         if(this.value.title == 'DTC Sin Firma'){
           this.generar_pdf(1)
         }
+        if(this.value.title == 'Actualizar Componentes'){
+          this.actualizar()
+        }
         this.value = ''
     },
     opticones_select_acciones(){
@@ -296,6 +304,7 @@ export default {
             { title: 'Sellado', img: '/img/download.ea0ec6db.png'}, //6
             { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
+            { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
         ]
         let array = []   
         if(this.tipoUsuario == 4){
@@ -326,6 +335,9 @@ export default {
         }
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
           array.push(options[4])
+        }
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
+          array.push(options[9])
         }
         return array       
     },
