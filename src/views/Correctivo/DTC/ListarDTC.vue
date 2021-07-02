@@ -120,17 +120,19 @@
                   ////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
                   <div class="-mt-2 mr-3">       
-                    <ValidationProvider name="NoSiniestro" rules="uniqueSinester"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
+                    <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
-                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M"/>
+                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">  
-                    <ValidationProvider name="NoReporte" rules="uniqueReport" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
+                    <ValidationProvider name="N° de Reporte" rules="uniqueReport|max:30" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
-                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M"/>
+                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>
                     </ValidationProvider>
                   </div>
                 </div>
@@ -141,8 +143,9 @@
                   <div class="-mt-2 mr-3">  
                     <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
-                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M"/>
+                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M" maxlength="60"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">   
@@ -172,8 +175,9 @@
                   <div class="-mt-2 ">    
                     <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">  
                       <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
-                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
+                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico" maxlength="300"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs block">{{ return_Diag }}/300</span>
                     </ValidationProvider>
                   </div>            
                 </div>               
@@ -739,11 +743,24 @@ methods: {
   cancelar_edicion_fechas(){
     this.modalEditFechas = false
     this.ocultarMultiPadre = false
-  }
+  },
+
 },
 computed: {
   listaDescripcionDtc(){
     return this.$store.state.DTC.listaDescriptions
+  },
+  restante_Siniestro(){
+    return this.dtcEdit.sinisterNumber.trim().length
+  },
+  restante_Reporte(){
+    return this.dtcEdit.reportNumber.trim().length
+  },
+  return_Folio(){
+    return this.dtcEdit.failureNumber.trim().length
+  },
+  return_Diag(){
+    return this.dtcEdit.diagnosis.trim().length
   }
 }
 };
