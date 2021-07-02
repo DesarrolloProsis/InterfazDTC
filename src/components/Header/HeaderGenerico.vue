@@ -330,14 +330,11 @@ export default {
         buscar_inventario_new(){       
             let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
             this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${this.plazaSeleccionada}/${this.carrilFiltro.capufeLaneNum}/${this.carrilFiltro.idGare}`)
-            .then((response)=>{
-                console.log(response);
-                this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
-                EventBus.$emit('ACTUALIZAR_INVENTARIO')
-            })
-            .catch((er)=>{
-                console.log(er);
-            })
+                .then((response)=>{                
+                    this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
+                    EventBus.$emit('ACTUALIZAR_INVENTARIO')
+                })            
+              
         },
         cambiar_plaza(numeroPlaza) {              
             this.plazaSeleccionada = numeroPlaza 

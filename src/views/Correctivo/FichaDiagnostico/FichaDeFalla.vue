@@ -176,19 +176,15 @@ export default {
                         if(this.$route.params.tipoVista == 'Editar'){   
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                            if(this.datosHeader.tipoFalla > 1) {
-                                console.log('No voy a editar el dtc jajajjaj')
-                                //this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`) 
-                            }
-                            else
-                                this.$router.push('/Home')                          
+                            if(this.datosHeader.tipoFalla <= 1) {
+                                this.$router.push('/Home')                                                                   
+                            }                                                                                   
                         }                                                                                                       
                     })                             
             }
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                if(this.datosHeader.tipoFalla > 1){
-                    console.log('aqui')
+                if(this.datosHeader.tipoFalla > 1){                    
                     this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)    
                 } 
                 else

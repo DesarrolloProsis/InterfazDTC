@@ -110,8 +110,7 @@ export default {
         mostras_detalles_borrado(value){
             this.modalDetalles = true            
             this.$http.get(`${API}/DtcData/GetReferencesLogDetail/${value.refereceNumber}`)
-            .then((response)=>{
-                console.log(response.data.result);
+            .then((response)=>{ 
                 this.detallesDtcBorrado = { lista: response.data.result, ...value }       
             })
         }

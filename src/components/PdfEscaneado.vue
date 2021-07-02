@@ -61,7 +61,6 @@ export default {
             if (!files.length) return;
             else {
                 for (let file of files) {  
-                    console.log(file.type.split('/'));      
                     if(file.type.split('/')[1] == 'pdf'){
                         this.pdfEscaneadoFile = file
                         this.escaneadoBool = false
@@ -97,8 +96,7 @@ export default {
             }
             formFile.append("file", this.pdfEscaneadoFile);
             this.$http.post(url, formFile)
-                .then((response) => {
-                    console.log(response);
+                .then(() => {                    
                     this.escaneadoBool = true                      
                     this.$notify.success({
                         title: "Ok!",
@@ -107,10 +105,7 @@ export default {
                         styles: { height: 100, width: 500 },
                     });
                     this.$emit('limpiar-componente-escaneado')                 
-                })
-                .catch((error) => {
-                    console.log(error);
-                })            
+                })                          
         },                                              
     }
 }
