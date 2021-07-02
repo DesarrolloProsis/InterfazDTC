@@ -203,8 +203,8 @@ export default {
         opticones_select_acciones(){
             let options = [
                 { title: 'Crear Calendario', img: '/img/nuevoDtc.90090632.png' },                                                
-                { title: 'Cargar Sellado', img: '/img/upload.8d26bb4f.png'},
-                { title: 'Descargar Sellado', img: '/img/download.ea0ec6db.png' }
+                { title: 'Calendario Sellado', img: '/img/upload.8d26bb4f.png'},
+                { title: 'Calendario Sellado', img: '/img/download.ea0ec6db.png' }
             ]
             if(!this.calendarioEscaneado){
                 return options.splice(0,2)

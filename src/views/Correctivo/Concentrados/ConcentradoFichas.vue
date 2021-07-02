@@ -305,7 +305,7 @@ export default {
             if(this.value.title == 'Dictamen (DTC)'){    
                 this.desargar_pdf(item)
             }
-            if(this.value.title == 'Diagnostico Sellado'){
+            if(this.value.title == 'Diagnóstico Sellado'){
                 this.tipoEscaneado = 'Diagnostico'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
@@ -331,8 +331,8 @@ export default {
                 { title: 'Dignóstico de Falla', img: '/img/download.ea0ec6db.png' }, //4
                 { title: 'Ficha Técnica', img: '/img/download.ea0ec6db.png' },
                 { title: 'Dictamen (DTC)', img: '/img/download.ea0ec6db.png' }, //6
-                { title: 'Diagnostico Sellado', img: '/img/download.ea0ec6db.png' }, //7
-                { title: 'Ficha Sellada', img: '/img/download.ea0ec6db.png' }, //8
+                { title: 'Diagnóstico Sellado', img: '/img/upload.8d26bb4f.png' }, //7
+                { title: 'Ficha Sellada', img: '/img/upload.8d26bb4f.png' }, //8
             ]
             let filtroOpciones = []
             //Diagnostico Descargar Siempre va
