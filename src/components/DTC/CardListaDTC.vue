@@ -265,7 +265,7 @@ export default {
         if(this.value.title == 'Terminar DTC'){
           this.editar_dtc()
         }
-        if(this.value.title == 'Cargar Sellado'){
+        if(this.value.title == 'DTC Sellado'){
           this.modalSubirSellado = true
           this.objInsertEscaneado = {
             referenceNumber: this.infoCard.referenceNumber
@@ -287,15 +287,15 @@ export default {
     },
     opticones_select_acciones(){
         let options = [
-            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, 
-            { title: 'Fechas', img: '/img/pencil.04ec78bc.png' },
-            { title: 'Header', img: '/img/pencil.04ec78bc.png' },       
-            { title: 'Terminar DTC', img: '/img/add.36624e63.png' },    
-            { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' },                                                                                
-            { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'},
-            { title: 'Sellado', img: '/img/download.ea0ec6db.png'},
-            { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'},
-            { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'},
+            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, //0
+            { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
+            { title: 'Header', img: '/img/pencil.04ec78bc.png' }, //2   
+            { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
+            { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
+            { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'}, //5
+            { title: 'Sellado', img: '/img/download.ea0ec6db.png'}, //6
+            { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
+            { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
         ]
         let array = []   
         if(this.tipoUsuario == 4){
