@@ -209,6 +209,20 @@ function generar_pdf_sellado_preventivo(referenceNumber){
     let namePdf = referenceNumber + '-' + 'Sellado'
     xml_hhtp_request(urlTopdf, namePdf) 
 }
+function generar_pdf_ficha_sellada(referenceNumber,tipo){
+    let type = tipo
+    let clavePlaza = referenceNumber.split('-')[0]
+    if(type == 1){
+        let urlTopdf = `${API}/PDF/GetPdfGenerico/${clavePlaza}/${referenceNumber}/${type}`
+        let namePdf = referenceNumber + '-' + 'Sellado'
+        xml_hhtp_request(urlTopdf,namePdf)
+    }
+    else{
+        let urlTopdf = `${API}/PDF/GetPdfGenerico/${clavePlaza}/${referenceNumber}/${type}`
+        let namePdf = clavePlaza + '-' + 'FT' + '-' + referenceNumber.split('-')[0,2] + '-' + 'Sellado'
+        xml_hhtp_request(urlTopdf,namePdf)
+    }
+}
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
     let namePdf = 'Manual de Usuario'
@@ -228,5 +242,6 @@ export default {
     manual_pdf,
     obtener_admin_id,
     generar_pdf_fotografico_correctivo,
-    generar_pdf_sellado_preventivo
+    generar_pdf_sellado_preventivo,
+    generar_pdf_ficha_sellada
 }

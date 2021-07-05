@@ -214,7 +214,7 @@
                     <ValidationProvider immediate name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3 sm:grid-cols-2">    
                         <div class="text-center -ml-66 sm:mr-8">
                             <p>POR OPERACIÓN</p>                        
-                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="TipoFalla" :disabled="blockCheckBox[0]">
+                            <input v-if="hiddenCheck" v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="TipoFalla" :disabled="blockCheckBox[0]">
                         </div>
                         <div class="text-center -ml-66 sm:-ml-32">
                             <p>POR SINIESTRO</p>
@@ -324,7 +324,8 @@ data(){
         modalAdvertencia: false,
         comentarioBorrarDtc: '',
         tipoFallaOriginal: '',  
-        prueba: '2021-06-01T1:27:00'          
+        prueba: '2021-06-01T1:27:00',
+        hiddenCheck: true          
     }
 },
 created(){
@@ -332,6 +333,9 @@ created(){
 },
 beforeMount: async function(){      
     //Bloque para editar
+    if(this.$route.query.referenceNumberFinishDiagnostic != undefined){        
+        this.hiddenCheck = false
+    } 
     if(this.$route.params.tipoVista != 'Crear'){   
         //Editar Ficha            
         if(this.$route.query.data != undefined){      
