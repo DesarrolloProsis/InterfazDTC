@@ -291,6 +291,12 @@ export default {
         if(this.value.title == 'Actualizar Componentes'){
           this.actualizar(this.infoCard.referenceNumber)
         }
+        if(this.value.title == 'Terminar Diagnostico'){
+          this.$router.push({ 
+            path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla',
+            query: { referenceNumberFinishDiagnostic: this.infoCard.referenceNumber } 
+          })
+        }
         this.value = ''
     },
     opticones_select_acciones(){
@@ -305,8 +311,12 @@ export default {
             { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
+            { title: 'Terminar Diagnostico', img: '/img//img/add.36624e63.png'} //10
         ]
         let array = []   
+        if(this.infoCard.technicalSheetReference == '--'){
+          array.push(options[10])
+        }
         if(this.tipoUsuario == 4){
           array.push(options[1])
         }     
@@ -358,11 +368,8 @@ export default {
             class: "font-titulo",
             msg: `DTC CON REFERENCIA ${this.infoActualizar} ACTUALIZADO CORRECTAMENTE.`,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-              },
-            });
+            styles: { height: 100, width: 500 },
+        });
       })
       this.modalActualizar = false
     },
