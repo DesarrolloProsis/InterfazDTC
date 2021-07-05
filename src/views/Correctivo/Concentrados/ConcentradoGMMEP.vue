@@ -99,6 +99,7 @@
                 <th class="cabeceraTable font-medium">N° de Siniestro</th>
                 <th class="cabeceraTable font-medium">Fecha de Falla</th>
                 <th class="cabeceraTable font-medium">Fotografias</th>
+                <th class="cabeceraTable font-medium">Terminar Ficha</th>
                 <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
                 <th class="cabeceraTable font-medium">PDF</th>
               </tr>
@@ -158,6 +159,12 @@
                     <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': tipoUsuario == 4 || tipoUsuario == 10 }" :disabled=" tipoUsuario == 4 || tipoUsuario == 10 ">
                       <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                     </button>
+                  </div>
+                </td>
+                <td class="cuerpoTable">
+                  <div>
+                    <button v-if="item.technicalSheetReference == '--'" @click="terminar_diagnostico_falla_dtc(item)" class="botonIconBuscar">Terminar Diagnostico</button>
+                    <p v-else class="text-green-700 font-semibold">Diagnostico Creado</p>
                   </div>
                 </td>
                 <!-- Columna de cambios de status -->
@@ -293,6 +300,12 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+  terminar_diagnostico_falla_dtc({referenceNumber}){
+    this.$router.push({ 
+      path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla',
+      query: { referenceNumberFinishDiagnostic: referenceNumber } 
+    })
+  },
   validar_imagenes_diagnostico:  function({ technicalSheetReference }){
     if(technicalSheetReference != '--'){                
         return this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${technicalSheetReference.split('-')[0]}/${technicalSheetReference}`)      
