@@ -31,6 +31,7 @@
                             <li>·Se puede realizar una busqueda por referencia de DTC en concentrado de Diagnóstico.</li>
                             <li>·Ahora el Tamaño del PDF con Imagenes es Más Pequeño.</li>
                             <li>·Ficha Técnica Por Fin de Vida Útil y Por Siniestro, Ocupa las Imágenes del Diagnóstico.</li>
+                            <li>·Acomodo de Botones.</li>
                         </ol>
                     </div>
                     <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.6</p>
