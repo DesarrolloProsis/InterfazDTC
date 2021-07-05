@@ -333,7 +333,7 @@ created(){
 },
 beforeMount: async function(){      
     //Bloque para editar
-    if(this.$route.query.referenceNumberFinishDiagnostic != undefined){
+    if(this.$route.query.referenceNumberFinishDiagnostic != undefined){        
         this.hiddenCheck = false
     } 
     if(this.$route.params.tipoVista != 'Crear'){   
