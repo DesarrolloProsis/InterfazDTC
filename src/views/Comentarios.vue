@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="flex justify-center p-4">
+        <div class="flex justify-center p-4 sm:text-xs">
             <div>
             <HeaderGenerico @filtrar-comentario="guardar_palabra_busqueda" :titulo="'Concentrado Comentarios'" :tipo="'COMENTARIOS'"></HeaderGenerico>
-            <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-77 sm:w-67 sm:ml-32 mb-20" style="height:500px;">
-                <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+            <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-77 sm:w-67 mb-20" style="height:500px;">
+                <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
                     <thead>
                         <tr class="text-md text-gray-400 bg-blue-800">
                             <th class="cabeceraTable">Usuario</th>
@@ -30,10 +30,10 @@
                         </template> 
                         <template v-if="listaComentarios_filtrada.length > 0">
                         <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item,key) in listaComment" :key=key>
-                            <td class="cuerpoTable">{{ item.userName }}</td>
-                            <td class="cuerpoTable">{{ item.description }}</td>                                
-                            <td class="cuerpoTable">{{ item.dateStamp | formatDate }}</td>
-                            <td class="cuerpoTable">{{ item.comment }}</td>                                 
+                            <td class="cuerpoTable sm:text-xs">{{ item.userName }}</td>
+                            <td class="cuerpoTable sm:text-xs">{{ item.description }}</td>                                
+                            <td class="cuerpoTable sm:text-xs">{{ item.dateStamp | formatDate }}</td>
+                            <td class="cuerpoTable sm:text-xs">{{ item.comment }}</td>                                 
                         </tr>
                         </template>
                     </tbody>

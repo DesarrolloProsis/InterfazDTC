@@ -225,8 +225,8 @@
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
             <div class="text-center sm:ml-6 mb-6">
-                <p class="font-bold ml-10 sm:text-sm sm:text-center">Usuario / Tipo de Falla</p>
-                <input v-model="filtroComentario" class="border w-66 text-center ml-64 sm:w-32 is_valid sm:ml-20" placeholder="Usuario/Tipo de Falla"/>
+                <p class="font-bold ml-10 sm:text-sm sm:text-center sm:-ml-1">Usuario / Tipo de Falla</p>
+                <input v-model="filtroComentario" class="border w-66 text-center ml-64 sm:w-32 is_valid sm:ml-24" placeholder="Usuario/Tipo de Falla"/>
             </div>             
         </div> 
         </div>
