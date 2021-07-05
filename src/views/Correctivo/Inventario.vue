@@ -102,7 +102,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                             TABLA                               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1 font-titulo" style="height:650px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1 font-titulo" style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -313,7 +313,7 @@ export default {
         let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza
         console.log(numeroPlaza)                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
-        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
+        //await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false

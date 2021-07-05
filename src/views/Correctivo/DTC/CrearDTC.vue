@@ -193,7 +193,7 @@ methods: {
     if(this.numeroComponentesDmg > 0)
       EventBus.$emit("validar_header_dtc", value);
     else{
-       this.$notify.warning({
+      this.$notify.warning({
           title: "Ups!",
           msg: `FALTA AGREGAR COMPONENTES DAÑADOS.`,
           position: "bottom right",
@@ -205,8 +205,7 @@ methods: {
     }
   },
   crear_dtc: async function (status) {
-      console.log(status);
-      this.modalLoading = true      
+      console.log(status);     
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
@@ -224,6 +223,7 @@ methods: {
       });
       //Valida si se inserto header
       if (this.$store.getters["Header/getInsertHeaderComplete"]) {
+        this.modalLoading = true 
         if(status == 2){
           this.$notify.success({
             title: "Ok!",
@@ -252,10 +252,11 @@ methods: {
         await EventBus.$emit('insertar-componetes-dañados', value_insert)        
       } 
       else {
+        window.scrollTo(0, top);
         this.modalLoading = false
         this.$notify.warning({
           title: "Ups!",
-          msg: `NO SE CREO EL DTC CON LA REFERENCIA ${this.refNum}.`,
+          msg: `NO SE CREO EL DTC, VERIFIQUE LOS DATOS`,
           position: "bottom right",
           styles: {
             height: 100,

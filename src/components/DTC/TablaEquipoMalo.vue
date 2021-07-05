@@ -419,7 +419,7 @@ beforeMount: async function () {
           vitalComponent: item.vitalComponent,
         };            
         this.arrayPartidas.push(new_partida);
-        
+        EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
       }
     } 
 },

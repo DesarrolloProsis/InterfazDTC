@@ -61,11 +61,8 @@
                 </ValidationProvider>
             </template>
             <template v-else>
-                <ValidationProvider name="NoReporte" immediate rules="uniqueReport|max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
                   <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Reporte:</p>
                   <input v-model="datosSinester.ReportNumber" class="w-full is_valid" type="text" name="NoReporte"/>  
-                  <span class="text-red-600 text-xs block">{{ errors[0] }}</span>                
-                </ValidationProvider>
             </template>
           </div>      
           <div class="pr-2 font-titulo">
@@ -354,7 +351,8 @@ methods: {
         this.fechaSiniestoEdit = true;
       }
   },
-  validar_header: async function(value){            
+  validar_header: async function(value){        
+    console.log(value) 
     if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != ''){ 
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)

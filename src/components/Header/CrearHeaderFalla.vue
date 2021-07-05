@@ -66,7 +66,8 @@
                 <div>
                     <ValidationProvider name="FechaDiagnostico" rules="required"  v-slot="{ errors }">                   
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>
-                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/>
+                        <!-- <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/> -->
+                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-16 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -107,13 +108,13 @@
                 </div>
                 <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2" :class="{'w-10':tipo == 'FICHA'}">
                     <div class="-ml-69 sm:-ml-56">
-                        <ValidationProvider name="FolioFalla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
+                        <ValidationProvider name="Folio de Falla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
                             <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_folio }}/20</span>
                         </ValidationProvider>
                     </div>
                     <div class="-mt-1 -ml-69 sm:-ml-56 sm:mt-1">
-                        <ValidationProvider name="NumeroReporte" rules="required|max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
+                        <ValidationProvider name="Numero de Reporte" rules="max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
                             <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_siniestro }}/30</span>
                         </ValidationProvider>                    
@@ -485,11 +486,13 @@ methods:{
             this.blockCheckBox = [false, false, true]            
     },
     crear_referencia: async function () {                   
-        let objReference  = await ServiceReportePDF.crear_referencia(
-            moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
-            this.headerSelecionado.referenceSquare, true
-        )    
-        this.datosDiagnostico.referenceNumber = objReference.referenceNumber              
+        if(this.$route.params.tipoVista == 'Crear') {   
+            let objReference  = await ServiceReportePDF.crear_referencia(
+                moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
+                this.headerSelecionado.referenceSquare, true
+            )    
+            this.datosDiagnostico.referenceNumber = objReference.referenceNumber   
+        }                
     },
     async cambiar_plaza(numeroPlaza) {                 
         this.plazaSeleccionada = numeroPlaza 
@@ -502,20 +505,14 @@ methods:{
             console.log(this.datosDiagnostico)                        
             let validacion = false
             Object.entries(this.datosDiagnostico).forEach(item => {
-                if(item[0] != 'folioFalla' || item[0] != 'numeroReporte'){
+                if(item[0] != 'numeroReporte'){
                     if(item[1] == ""){
-                        validacion = false
+                        validacion = true
                     }                                        
                 }
-            })   
-            console.log(validacion)                        
-            if(!validacion){
-                if(value){                                                                        
-                    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                              
-                }   
-                else{                 
+            })                       
+            if(!validacion){                                                                      
                     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
-                }         
             }  
             else{                
                 this.$notify.warning({

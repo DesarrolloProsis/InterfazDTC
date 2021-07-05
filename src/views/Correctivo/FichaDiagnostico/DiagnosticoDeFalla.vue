@@ -60,7 +60,7 @@ import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 import EventBus from '../../../services/EventBus'
-import moment from 'moment'
+//import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -111,15 +111,15 @@ methods:{
             let flagInsert = this.$route.params.tipoVista == 'Editar' ? 0 : 1
             flagInsert = this.botonEditCreate == false ? 0 : 1
             //Fecha nuevo Formato
-            let fechaInicioTime = moment(this.datosHeader.horaInicio).format('DD-MM-YYYY h:mm:ss');
-            let fechaFinTime = moment(this.datosHeader.horaFin).format('DD-MM-YYYY h:mm:ss');
+            //let fechaInicioTime = moment(this.datosHeader.horaInicio).format('DD-MM-YYYY h:mm:ss');
+            //let fechaFinTime = moment(this.datosHeader.horaFin).format('DD-MM-YYYY h:mm:ss');
             let objDiagnostico = {
                 referenceNumber: this.datosHeader.referenceNumber,
                 squareId: userIdPlaza.numPlaza,
                 diagnosisDate: this.datosHeader.fechaDiagnostico,
-                start: fechaInicioTime,//this.datosHeader.horaInicio,
-                end: fechaFinTime,//this.datosHeader.horaFin,
-                sinisterNumber: this.datosHeader.numeroReporte == "" ? null : this.datosHeader.numeroReporte,
+                start: this.datosHeader.horaInicio,
+                end: this.datosHeader.horaFin,
+                sinisterNumber: this.datosHeader.numeroReporte,
                 failureNumber: this.datosHeader.folioFalla == "" ? null : this.datosHeader.folioFalla,
                 userId: userIdPlaza.idUser,
                 failureDescription: this.datosHeader.descripcionFalla,

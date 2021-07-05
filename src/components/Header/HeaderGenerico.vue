@@ -96,16 +96,24 @@
             </div>         
             <div class="text-sm sm:mt-4 mt-6">
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
-                <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+            </div>
+            <div class="mt-8 ml-8">
+                <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold sm:-ml-8 text-md">Carril:</p>
+                <p class="w-32 -ml-2 -mt-1 sm:ml-8">
+                <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 border-none is_valid" name="Carriles" type="text">
+                    <option value="">Selecionar...</option>
+                    <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                </select></p>
             </div>
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
-            <div class="mt-8 ml-16 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
-                <button class="botonIconNext" @click="abrirModal">
-                    <span>Mantenimiento</span>
-                </button>
-            </div>
+        </div>
+        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
+            <button class="botonIconNext" @click="abrirModal">
+                <span>Mantenimiento</span>
+            </button>
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
@@ -218,6 +226,7 @@
 <script>
 import EventBus from '../../services/EventBus'
 import SelectPlaza from '../Header/SelectPlaza'
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "HeaderGenerico",
@@ -279,6 +288,10 @@ export default {
             buscarUsuario: '',
             //data Concentrado DF
             buscarDF:'',
+            carrilFiltro: {
+                capufeLaneNum: '0000',
+                idGare: ''
+            },
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -288,6 +301,8 @@ export default {
         this.typeUser = this.$store.state.Login.cookiesUser.rollId  
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.carrilFiltro.idGare = this.plazaSeleccionada
+        this.buscar_inventario_new() 
     },
     computed:{
         carriles_plaza(){
@@ -301,14 +316,27 @@ export default {
         abrirModal: function (){
             this.$emit('abrir-modal')
         },
+        buscar_inventario_new(){       
+            let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${this.plazaSeleccionada}/${this.carrilFiltro.capufeLaneNum}/${this.carrilFiltro.idGare}`)
+            .then((response)=>{
+                console.log(response);
+                this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
+                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            })
+            .catch((er)=>{
+                console.log(er);
+            })
+        },
         cambiar_plaza(numeroPlaza) {  
             this.plazaSeleccionada = numeroPlaza 
-            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
+            //this.carrilFiltro =  this.carriles_plaza[0].lane
+            //this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){           
             this.plazaFiltro = value 
-            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
+            //this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
             this.filtrar_encargados()
             this.filtar_dtc_generico()
             this.filtar_concentrado_diagnostico_falla()
