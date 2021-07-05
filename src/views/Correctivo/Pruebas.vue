@@ -7,6 +7,7 @@
         <img src="@/assets/img/download.png" class="ml-2 sm:-ml-4" width="35" height="35" />
         <img src="@/assets/img/upload.png" class="ml-2 sm:-ml-4" width="35" height="35" />
         <img src="@/assets/img/nuevoDtc.png" class="ml-2 sm:-ml-4" width="35" height="35" />
+        <img src="@/assets/img/actualizado.png" class="ml-2 sm:-ml-4" width="35" height="35" />
       </base-progress>
       <div class="ml-2 mt-1 flex">
         <button

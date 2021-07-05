@@ -1,6 +1,6 @@
   <template>
   <div id="container">    
-    <div class="relative mb-16 " >
+    <div class="relative mb-16">
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
@@ -19,7 +19,7 @@
         <div class="sticky inset-0 font-titulo">
           <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
             <div class="justify-center text-center block">            
-                <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
+                <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false, ocultarMultiPadre = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
         </div>   
@@ -69,7 +69,7 @@
               </div>
               <div class="justify-end flex mt-5">
                 <button @click="actualizar_dtc_status" class="botonIconCrear m-4">Aceptar</button>
-                <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = ''" class="botonIconCancelar m-4">Cancelar</button>
+                <button  @click="modalCambiarStatus = false, modal = false, statusEdit = '', motivoCambioStatus = '', ocultarMultiPadre = false" class="botonIconCancelar m-4">Cancelar</button>
               </div>
             </div>
           </ValidationObserver>
@@ -79,11 +79,11 @@
         ////                      MODAL CONFIRMAR GMMEP                 ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
+        <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
             <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
             <div class="mt-5 text-center">
               <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
-              <button @click="modalFirma = false" class="botonIconCancelar">No</button>
+              <button @click="modalFirma = false, ocultarMultiPadre = false" class="botonIconCancelar">No</button>
             </div>
           
         </div>
@@ -92,17 +92,17 @@
         ////                      MODAL ELIMINAR                         ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-          <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-700 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+          <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
             <ValidationObserver ref="observer">
               <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
               <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
                 <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
-                <textarea v-model="comentarioBorrar" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
+                <textarea v-model="comentarioBorrar" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
               </ValidationProvider>
               <div class="mt-5 text-center">
                 <button @click="borrar(true)" class="botonIconCrear">Si</button>
-                <button @click="(modal = modalEliminar = false), (refNum = '')" class="botonIconCancelar">No</button>
+                <button @click="(modal = modalEliminar = false), (refNum = ''), (ocultarMultiPadre = false)" class="botonIconCancelar">No</button>
               </div>
             </ValidationObserver>
           </div>
@@ -114,23 +114,25 @@
           <div v-if="modalEdit" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto">     
             <ValidationObserver ref="observer">      
               <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
-                <p class="text-gray-900 font-semibold text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
+                <p class="text-gray-900 font-semibold -mt-6 text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
                 <!--/////////////////////////////////////////////////////////////////
                   ////                   FILA NUMERO 1                         ////
                   ////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
-                  <div class="mt-2 mr-3">       
-                    <ValidationProvider name="NoSiniestro" rules="uniqueSinester"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
+                  <div class="-mt-2 mr-3">       
+                    <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
-                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M"/>
+                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>
                     </ValidationProvider>
                   </div>
-                  <div class="mt-2">  
-                    <ValidationProvider name="NoReporte" rules="uniqueReport" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
+                  <div class="-mt-2">  
+                    <ValidationProvider name="N° de Reporte" rules="uniqueReport|max:30" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
-                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M"/>
+                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>
                     </ValidationProvider>
                   </div>
                 </div>
@@ -138,14 +140,15 @@
                   ////                      FILA NUMERO 2                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 mt-5">       
-                  <div class="mt-2 mr-3">  
+                  <div class="-mt-2 mr-3">  
                     <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
-                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M"/>
+                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M" maxlength="60"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>
                     </ValidationProvider>
                   </div>
-                  <div class="mt-2">   
+                  <div class="-mt-2">   
                     <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
                       <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
@@ -162,18 +165,19 @@
                   ////                      FILA NUMERO 3                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 mt-5">       
-                  <div class="mt-2 mr-3">     
+                  <div class="-mt-2 mr-3">     
                     <ValidationProvider name="Observaciones" rules="max:300"  v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">Observaciones:</p>
                       <textarea v-model="dtcEdit.observation" readonly class="bg-white appearance-none block is_valid bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Observaciones"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
-                  <div class="mt-2 ">    
+                  <div class="-mt-2 ">    
                     <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">  
                       <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
-                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico"/>              
+                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico" maxlength="300"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                      <span class="text-gray-500 text-xs block">{{ return_Diag }}/300</span>
                     </ValidationProvider>
                   </div>            
                 </div>               
@@ -182,7 +186,7 @@
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center grid grid-cols-2  mt-10">  
                   <div><button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button></div>     
-                  <div><button @click="(modalEdit = modal = false), (refNum = '')" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
+                  <div><button @click="(modalEdit = modal = false), (refNum = ''), (ocultarMultiPadre = false)" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
                 </div>
               </div>     
             </ValidationObserver>         
@@ -260,13 +264,14 @@
                 @enviar_pdf_sellado="enviar_pdf_sellado"
                 @editar-fechas-dtc="editar_fechas_dtc"
                 :plazasValidas="plazasValidas"
-                :infoCard="dtc"              
+                :infoCard="dtc"
+                :ocultarMulti="ocultarMultiPadre"              
               ></CardListDTC>
             </div>
           </div>   
           <!-- </transition-group>       -->                
       </div>
-      <div class="text-center" :class="{'hidden' : flecha}" v-if="moreCard != false">       
+      <div class="text-center" :class="{'hidden' : flecha, 'hidden':modalEdit}" v-if="moreCard != false">       
         <button @click="cargar_mas" class="botonBajar animate-bounce">
           <img src="@/assets/img/abajo.png" class="w-16 h-16 sm:w-12 sm:h-12"  />
         </button>          
@@ -323,7 +328,8 @@ export default {
       fechaSiniestro: '',
       fechaFalla: '',
       fechaEnvio: '',
-      fechaElaboracion: ''           
+      fechaElaboracion: '',
+      ocultarMultiPadre: false           
     };
   },
   components: {    
@@ -338,8 +344,11 @@ created(){
   EventBus.$on('abrir_modal_carrusel', (arrayImagenes) => {      
     this.arrayImagenesCarrusel = arrayImagenes
     this.carruselModal = true
-    this.modal = true      
-  });    
+    this.modal = true   
+    if(this.carruselModal){
+      this.ocultarMultiPadre = true 
+    }
+  }, );    
 },
 beforeMount: async function () {
   this.filtroVista = false  
@@ -415,10 +424,7 @@ methods: {
           title: "Ok!",
           msg: `EL DTC CON LA REFERENCIA ${this.refNum} SE ELIMINO CORRECTAMENTE.`,
           position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
+          styles: { height: 100, width: 500,},
         });
       }
       await this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
@@ -435,13 +441,15 @@ methods: {
       this.refNum = refNum;
       this.modalEliminar = true;
       this.modal = true
+      this.ocultarMultiPadre = true
   },
-  editar_header_dtc: async function(refNum){        
+  editar_header_dtc: async function(refNum){  
+    this.ocultarMultiPadre = true       
       if(typeof refNum === 'boolean'){         
         let isValid = await this.$refs.observer.validate(); 
           if(isValid){ 
           this.modalEdit = false
-          this.modalLoading = true          
+          this.modalLoading = true         
           let objEdit = {
             referenceNumber: this.dtcEdit.referenceNumber,
             numSiniestro: this.dtcEdit.sinisterNumber,
@@ -467,9 +475,7 @@ methods: {
                 let adminId = await ServicePDfReporte.obtener_admin_id(objEdit.referenceNumber) 
                 this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
                   .then(() => resolve('ok'))   
-                  .catch((error) => {
-                    reject(error)
-                  })                                     
+                  .catch((error) => { reject(error) })                                     
               })
               .catch((error) => {                              
                 reject(error)
@@ -477,10 +483,7 @@ methods: {
                   title: "ups!",
                   msg: error,
                   position: "bottom right",
-                  styles: {
-                    height: 100,
-                    width: 500,
-                  },
+                  styles: { height: 100, width: 500 },
                 });
               })  
           })
@@ -492,10 +495,7 @@ methods: {
                 title: "Ok!",
                 msg: `SE ACTUALIZO EL DTC ${objEdit.referenceNumber}.`,
                 position: "bottom right",
-                styles: {
-                  height: 100,
-                  width: 500,
-                },
+                styles: { height: 100, width: 500 },
               });
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
             })              
@@ -530,41 +530,29 @@ methods: {
   },
   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
-    let pdf_sellado_promise = new Promise((resolve, reject) => {    
-      this.$http.post(`${API}/pdf/PdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}/${true}`, value.file)
-        .then(() => {          
+    let pdf_sellado_promise = new Promise((resolve, reject) => {                         
           this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-          .then(() => {               
+            .then(() => {               
               resolve('ok')                
               let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)   
-              this.limpiar_filtros()                              
+              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
               resolve('ok')                                                                           
-          })                                  
-        })
+            })                                        
         .catch((error) => {                      
           reject(error)                          
           this.$notify.error({
             title: "ups!",
             msg: error,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
+            styles: { height: 100, width: 500 },
           });        
-        });              
-    })
+        });      
+    })        
+    
     setTimeout(() => {
       pdf_sellado_promise.then(() => {  
         this.modalLoading = false                  
         this.limpiar_filtros()
-        this.$notify.success({
-            title: "Ok!",
-            msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
-            position: "bottom right",
-            styles: { height: 100, width: 500 },
-        });  
       })      
     }, 3000);                                                                                   
   },
@@ -589,17 +577,14 @@ methods: {
           title: "Ups!",
           msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
           position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
+          styles: { height: 100, width: 500 },
         });
     }
   },  
   agregar_autorizacion_gmmep(value){
     if(value === true){      
       this.modalLoading = true
-      this.modalFirma = false    
+      this.modalFirma = false          
       let agregar_firma_promise = new Promise((resolve, reject) => {              
         this.$http.get(`${API}/pdf/Autorizado/${this.refNum.split('-')[0]}/${this.refNum}/${this.userId}`)
         .then(() => {           
@@ -615,9 +600,7 @@ methods: {
             title: "ups!",
             msg: error,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
+            styles: { height: 100,width: 500,
             },
           });
         });            
@@ -630,28 +613,27 @@ methods: {
             title: "Ok!",
             msg: `SE AUTORIZADO CORRECTAMENTE GMMEP.`,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
+            styles: { height: 100, width: 500 },
           });         
         })
       }, 3000)
     }
     else if(value === false){        
-        this.limpiar_filtros()
-        this.modalFirma = false
-        this.refNum = ''
+      this.limpiar_filtros()
+      this.modalFirma = false      
+      this.refNum = ''
     }
     else{
       this.refNum = value
       this.modalFirma = true
+      this.ocultarMultiPadre = true
     }
   },
   editar_status_dtc(info){
     this.modalCambiarStatus = true
     this.refNum = info
     this.modal = true    
+    this.ocultarMultiPadre = true
   },
   actualizar_dtc_status: async function(){
     let isValid = await this.$refs.observer.validate(); 
@@ -677,13 +659,10 @@ methods: {
           actualizar_status.then(() => {                       
           this.limpiar_filtros()
           this.$notify.success({
-                title: "Ok!",
-                msg: `Se actualizó el estatus.`,
-                position: "bottom right",
-                styles: {
-                  height: 100,
-                  width: 500,
-                },
+            title: "Ok!",
+            msg: `Se actualizó el estatus.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
           });  
         })        
       }, 1000);
@@ -692,24 +671,22 @@ methods: {
   cargar_mas(){
     let pos = document.documentElement.offsetHeight
     let index = this.lista_dtc.length
-            for(let i = index; i <= index + 5; i++){
-              if(i < this.infoDTC.length){
-                this.lista_dtc.push(this.infoDTC[i])
-                window.scrollTo(0, pos)         
-              }else 
-                this.moreCard = false                
-            }            
+    for(let i = index; i <= index + 5; i++){
+      if(i < this.infoDTC.length){
+        this.lista_dtc.push(this.infoDTC[i])
+        window.scrollTo(0, pos)         
+      } else 
+        this.moreCard = false                
+    }            
   },
   scroll_infinito(){
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;      
-        if (bottomOfWindow) {
-          // Do something, anything!                   
+        if (bottomOfWindow) {                     
             let index = this.lista_dtc.length
             for(let i = index; i <= index + 5; i++){
               if(i < this.infoDTC.length){
-                this.lista_dtc.push(this.infoDTC[i])
-                //bottomOfWindow.scrollto = bottomOfWindow.scrollHeight;
+                this.lista_dtc.push(this.infoDTC[i])                
               }else 
                 this.moreCard = false                
             }                                               
@@ -723,6 +700,7 @@ methods: {
     this.fechaElaboracion = value.elaborationDate.slice(0,10)
     this.fechaEnvio = value.shippingDate.slice(0,10)
     this.modalEditFechas = true
+    this.ocultarMultiPadre = true
   },
   confirmar_edicion_fechas(){ 
     let promise_fechas = new Promise((resolve, reject) => { 
@@ -760,15 +738,29 @@ methods: {
             await this.limpiar_filtros()
             this.refNum = ''; this.fechaSiniestro = ''; this.fechaFalla = ''; this.fechaElaboracion = ''; this.fechaEnvio = '';                        
         })
-    },2000)
+    }, 2000)
   },
   cancelar_edicion_fechas(){
     this.modalEditFechas = false
-  }
+    this.ocultarMultiPadre = false
+  },
+
 },
 computed: {
   listaDescripcionDtc(){
     return this.$store.state.DTC.listaDescriptions
+  },
+  restante_Siniestro(){
+    return this.dtcEdit.sinisterNumber.trim().length
+  },
+  restante_Reporte(){
+    return this.dtcEdit.reportNumber.trim().length
+  },
+  return_Folio(){
+    return this.dtcEdit.failureNumber.trim().length
+  },
+  return_Diag(){
+    return this.dtcEdit.diagnosis.trim().length
   }
 }
 };

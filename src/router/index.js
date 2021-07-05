@@ -77,6 +77,11 @@ const routes = [
     component: () => import('../views/Usuarios')
   },
   {
+    path: '/Comentarios',
+    name: 'Comentarios',
+    component: () => import('../views/Comentarios')
+  },
+  {
     path: '/EncargadosPlaza',
     name: 'Encargados',
     component: () => import('../views/Correctivo/EncargadosPlaza')

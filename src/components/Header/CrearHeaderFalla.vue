@@ -36,7 +36,7 @@
                         <span class="mr-20 sm:mr-0 sm:ml-8">Ubicación:</span>
                     </div>
                     <div class="-ml-34 w-64 sm:-ml-1 sm:w-40" :class="{'cursor-not-allowed':blockInput==true}">
-                        <ValidationProvider name="Carriles" rules="required"  v-slot="{ errors }">                            
+                        <ValidationProvider immediate name="Carriles" rules="required"  v-slot="{ errors }">                            
                             <multiselect
                                 :disabled="blockInput"
                                 v-model="datosDiagnostico.ubicacion"  
@@ -48,10 +48,11 @@
                                 placeholder="Selecciona..."
                                 :options="carriles_plaza"
                                 :multiple="true"   
-                                name="Carriles"                     
+                                name="Carriles"    
+                                select-label=""                 
                             >
                                 <template slot="selection" slot-scope="{ values, isOpen }">
-                                    <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                                    <span class="" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
                                 </template>
                             </multiselect>
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -64,7 +65,7 @@
             ////////////////////////////////////////////////////////////////////--> 
             <div class="mt-6 ml-48 sm:ml-4 font-titulo">
                 <div>
-                    <ValidationProvider name="FechaDiagnostico" rules="required"  v-slot="{ errors }">                   
+                    <ValidationProvider immediate name="FechaDiagnostico" rules="required"  v-slot="{ errors }">                   
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>
                         <!-- <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/> -->
                         <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-16 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
@@ -72,17 +73,17 @@
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
-                    <ValidationProvider name="HoraInicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La HoraInicio debe ser menor que la HoraFin' }"  v-slot="{ errors }">
+                    <ValidationProvider immediate name="HoraInicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La HoraInicio debe ser menor que la HoraFin' }"  v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora INICIO:</span>
-                        <datetime v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
+                        <datetime class="ml-31 -mt-6" :class="{'ml-37':tipo == 'FICHA'}" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
-                    <ValidationProvider name="HoraFin" :rules="{required: true}" v-slot="{ errors }">
+                    <ValidationProvider immediate name="HoraFin" :rules="{required: true}" v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Hora FIN:</span>
-                        <datetime v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
+                        <datetime class="ml-31 -mt-6" :class="{'ml-37':tipo == 'FICHA'}" v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" /> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -108,13 +109,13 @@
                 </div>
                 <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2" :class="{'w-10':tipo == 'FICHA'}">
                     <div class="-ml-69 sm:-ml-56">
-                        <ValidationProvider name="Folio de Falla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
+                        <ValidationProvider immediate name="Folio de Falla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
                             <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_folio }}/20</span>
                         </ValidationProvider>
                     </div>
                     <div class="-mt-1 -ml-69 sm:-ml-56 sm:mt-1">
-                        <ValidationProvider name="Numero de Reporte" rules="max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
+                        <ValidationProvider immediate name="Numero de Reporte" rules="max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
                             <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_siniestro }}/30</span>
                         </ValidationProvider>                    
@@ -133,7 +134,7 @@
             ////////////////////////////////////////////////////////////////////--> 
             <div class="mt-16 w-full ml-5 grid grid-cols-3 sm:grid-cols-2">
                     <div class="mr-10 sm:w-32 sm:mb-10 sm:-ml-6">
-                        <ValidationProvider name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">
+                        <ValidationProvider immediate name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">
                             <span>DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.descripcionFalla"
@@ -147,7 +148,7 @@
                         </ValidationProvider>
                     </div>
                     <div class="mr-10 sm:w-32 sm:ml-16">
-                        <ValidationProvider name="DiagnosticoFalla" rules="required|max:300" v-slot="{ errors }">
+                        <ValidationProvider immediate name="DiagnosticoFalla" rules="required|max:300" v-slot="{ errors }">
                             <span>DIAGNÓSTICO DE LA FALLA REPORTADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.diagnosticoFalla"
@@ -161,7 +162,7 @@
                         </ValidationProvider>
                     </div> 
                     <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 sm:-ml-6">
-                        <ValidationProvider name="CausaFalla" rules="required|max:300" v-slot="{ errors }">
+                        <ValidationProvider immediate name="CausaFalla" rules="required|max:300" v-slot="{ errors }">
                             <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.causaFalla"
@@ -210,7 +211,7 @@
                     <span>TIPO DE FALLA:</span>
                 </div>
                 <div class="grid grid-cols-1 sm:mx-auto -ml-62 sm:w-20 sm:ml-56">
-                    <ValidationProvider name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3 sm:grid-cols-2">    
+                    <ValidationProvider immediate name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3 sm:grid-cols-2">    
                         <div class="text-center -ml-66 sm:mr-8">
                             <p>POR OPERACIÓN</p>                        
                             <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="TipoFalla" :disabled="blockCheckBox[0]">
@@ -230,7 +231,7 @@
             <div class="ml-5 sm:text-xs sm:ml-1">   
                 <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-2">
                     <div class="mr-10 sm:mr-1 sm:mb-6 w-74">
-                        <ValidationProvider name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">    
+                        <ValidationProvider immediate name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">    
                             <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                             <textarea
                                 v-model="datosDiagnostico.descripcionFalla"
@@ -246,7 +247,7 @@
                         </ValidationProvider>
                     </div>
                     <div class="mr-10 ml-1 sm:mr-1 w-73">
-                        <ValidationProvider name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">    
+                        <ValidationProvider immediate name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">    
                             <span class=" sm:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
                             <span class="xl:hidden lg:hidden md:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA:</span>
                             <textarea
@@ -383,16 +384,13 @@ beforeMount: async function(){
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)          
         //Bloque para crear Ficha      
         if(this.$route.query.data != undefined){                                
-            this.datosDiagnostico = this.$route.query.data  
-            alert(this.datosDiagnostico.horaFin)       
+            this.datosDiagnostico = this.$route.query.data                     
             delete this.datosDiagnostico["diagnosticoFalla"]
             delete this.datosDiagnostico["causaFalla"]
             this.blockInput = true
         }   
     }               
     this.$emit('actualizar-header', { header: this.datosDiagnostico, value: undefined, crear: false })
-    //25-06-2021 1:27:00
-    //this.datosDiagnostico.horaFin = new Date().toISOString()
 },
 destroyed(){
     if(this.tipo == 'FICHA')
@@ -449,10 +447,7 @@ methods:{
                     title: "Ok!",
                     msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} SE ELIMINO CORRECTAMENTE.`,
                     position: "bottom right",
-                    styles: {
-                    height: 100,
-                    width: 500,
-                    },
+                    styles: { height: 100, width: 500 },
                 })    
             })
             .catch(() => {
@@ -460,10 +455,7 @@ methods:{
                     title: "Ups!",
                     msg: `EL DTC CON LA REFERENCIA ${this.referenciaDtc} NO SE PUDO ELIMINAR.`,
                     position: "bottom right",
-                    styles: {
-                    height: 100,
-                    width: 500,
-                    },
+                    styles: { height: 100, width: 500 },
                 })
             }) 
         this.referenciaDtc = '--'
@@ -474,7 +466,8 @@ methods:{
         this.comentarioBorrarDtc = ''
         this.datosDiagnostico.tipoFalla = this.tipoFallaOriginal
     },
-    bloquear_checboxes(tipo){        
+    bloquear_checboxes(tipo){   
+        this.$emit('mapear-tipo-falla', tipo)     
         if(tipo == 1){
             this.blockCheckBox = [true, false, false]    
             if(this.referenciaDtc != '--')  
@@ -485,14 +478,14 @@ methods:{
         if(tipo == 3)
             this.blockCheckBox = [false, false, true]            
     },
-    crear_referencia: async function () {                   
+    crear_referencia: async function () {              
         if(this.$route.params.tipoVista == 'Crear') {   
             let objReference  = await ServiceReportePDF.crear_referencia(
                 moment(this.datosDiagnostico.fechaDiagnostico,"YYYY-MM-DD").format("DD-MM-YYYY"), 
                 this.headerSelecionado.referenceSquare, true
             )    
             this.datosDiagnostico.referenceNumber = objReference.referenceNumber   
-        }                
+        }           
     },
     async cambiar_plaza(numeroPlaza) {                 
         this.plazaSeleccionada = numeroPlaza 
@@ -501,27 +494,26 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-        try {         
-            console.log(this.datosDiagnostico)                        
+        try {                                                   
             let validacion = false
             Object.entries(this.datosDiagnostico).forEach(item => {
-                if(item[0] != 'numeroReporte'){
+                if( item[0] != 'numeroReporte'){
                     if(item[1] == ""){
                         validacion = true
                     }                                        
                 }
-            })                       
-            if(!validacion){                                                                      
-                    this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
+            })                                   
+            if(!validacion){                                                            
+                this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                                   
             }  
-            else{                
+            else{         
                 this.$notify.warning({
                     title: "Ops!!",
                     msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
                     position: "bottom right",
                     styles: { height: 100, width: 500 },
                 });
-            } 
+            }                                                                                    
         }
         catch(error){            
             console.log(error)

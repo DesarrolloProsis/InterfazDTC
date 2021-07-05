@@ -222,8 +222,9 @@ export default {
             if(this.arrayImagenes.length > 1){                 
                 if(nombreImagen.split('_')[0] == this.referenceNumber){
                     let urlDeleteImg = ''
-                    if(this.tipo == 'Actividades')
+                    if(this.tipo == 'Actividades'){                        
                         urlDeleteImg = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                    }
                     else if(this.tipo == 'Diagnostico'){                               
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
@@ -236,10 +237,7 @@ export default {
                                 title: "Ok!",
                                 msg: `SE ELIMINO LA IMAGEN CORRECTAMENTE.`,
                                 position: "bottom right",
-                                styles: {
-                                    height: 100,
-                                    width: 500,
-                                },
+                                styles: { height: 100, width: 500 },
                             });                                                                                                           
                         })                    
                 }        
@@ -250,12 +248,12 @@ export default {
                 })               
             }
             else{
-                this.arrayImagenes = []
-                if(nombreImagen.split('_')[0] == this.referenceNumber){
-                    this.$http.get(`${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`)
-                    .then(() => {                                                                                                              
-                    })  
-                } 
+                this.$notify.warning({
+                    title: "Ok!",
+                    msg: `SIEMPRE DEBE TENER MINIMO UNA FOTO.`,
+                    position: "bottom right",
+                    styles: { height: 100, width: 500 },
+                });  
             }
         }
     }

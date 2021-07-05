@@ -31,12 +31,12 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar' || botonEditCreate == false" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
+                    <ImagenesFichaDiagnostico v-if="($route.params.tipoVista == 'Editar' || botonEditCreate == false)" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:ml-1 sm:-mt-16">
-                        <div v-if="$route.params.tipoVista == 'Crear'">                            
+                        <div v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Enviar Información del Diagnóstico</span>
@@ -60,7 +60,7 @@ import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
 import EventBus from '../../../services/EventBus'
-//import moment from 'moment'
+import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "Diagnostico",
@@ -89,13 +89,54 @@ export default {
         }
     },
 /////////////////////////////////////////////////////////////////////
-////                           METODOS                           ////
+////        {}                  METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(objHeader){        
+    actualizar_header(objHeader){    
+                              
         this.datosHeader = objHeader.header
-        if(objHeader.crear)
-            this.insertar_diagnostico_falla(objHeader.value)
+        if(objHeader.value == false){             
+            this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                .then((response) => {                    
+                    if(response.data.length > 0){
+                        if(objHeader.crear)
+                            this.insertar_diagnostico_falla(objHeader.value)
+                    }  
+                    else{
+                        this.$notify.warning({
+                            title: "Ops!!",
+                            class:"font-titulo",
+                            msg: "SE NECESITA MINIMO UNA FOTO.",
+                            position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                        });
+                    } 
+                })             
+        }
+        else {
+            if(objHeader.crear){
+                if(this.botonEditCreate == false){
+                    this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                        .then((response) => {                    
+                            if(response.data.length > 0){                                
+                                this.insertar_diagnostico_falla(objHeader.value)
+                            }  
+                            else{
+                                this.$notify.warning({
+                                    title: "Ops!!",
+                                    class:"font-titulo",
+                                    msg: "SE NECESITA MINIMO UNA FOTO.",
+                                    position: "bottom right",
+                                    styles: { height: 100, width: 500 },
+                                });
+                            } 
+                        })    
+                }
+                else{
+                    this.insertar_diagnostico_falla(objHeader.value)
+                }                
+            }
+        }
     },
     enviar_header_diagnostico(value){            
         EventBus.$emit('validar_header_diagnostico', value)
@@ -111,16 +152,16 @@ methods:{
             let flagInsert = this.$route.params.tipoVista == 'Editar' ? 0 : 1
             flagInsert = this.botonEditCreate == false ? 0 : 1
             //Fecha nuevo Formato
-            //let fechaInicioTime = moment(this.datosHeader.horaInicio).format('DD-MM-YYYY h:mm:ss');
-            //let fechaFinTime = moment(this.datosHeader.horaFin).format('DD-MM-YYYY h:mm:ss');
+            let fechaInicioTime = moment(this.datosHeader.horaInicio).format('DD-MM-YYYY h:mm:ss');
+            let fechaFinTime = moment(this.datosHeader.horaFin).format('DD-MM-YYYY h:mm:ss');
             let objDiagnostico = {
                 referenceNumber: this.datosHeader.referenceNumber,
                 squareId: userIdPlaza.numPlaza,
                 diagnosisDate: this.datosHeader.fechaDiagnostico,
-                start: this.datosHeader.horaInicio,
-                end: this.datosHeader.horaFin,
+                start: fechaInicioTime,
+                end: fechaFinTime,
                 sinisterNumber: this.datosHeader.numeroReporte,
-                failureNumber: this.datosHeader.folioFalla == "" ? null : this.datosHeader.folioFalla,
+                failureNumber: this.datosHeader.folioFalla,
                 userId: userIdPlaza.idUser,
                 failureDescription: this.datosHeader.descripcionFalla,
                 failureDiagnosis: this.datosHeader.diagnosticoFalla,
@@ -162,19 +203,27 @@ methods:{
                                     query: { data: this.datosHeader, referenciaDtc }
                                 }) 
                             }  
+                            else if(this.botonEditCreate == false){
+                                this.type = 'FICHA' 
+                                ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
+                                let referenciaDtc = this.$route.query.referenciaDtc                                        
+                                this.$router.push({
+                                    path: 'FichaTecnicaDeFalla',
+                                    query: { data: this.datosHeader, referenciaDtc }
+                                }) 
+                            }
                         },2000)
                     })                                  
                     this.reporteInsertado = true                                                                       
                 })
-                .catch(() => {                    
+                .catch(() => {       
                     this.$notify.warning({
                         title: "Ops!!",
                         msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
                         position: "bottom right",
                         styles: { height: 100, width: 500 },
                     });
-                })
-                
+                })                
         }        
         else{
             this.type = 'FICHA' 

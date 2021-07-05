@@ -102,7 +102,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                             TABLA                               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1 font-titulo" style="height:600px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-16 font-titulo" style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -138,7 +138,7 @@
               </template>  
               <template v-if="listComponent.length > 0">
                 <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
-                  <td class="cuerpoTable">{{ item.component }}</td>
+                  <td class="cuerpoTable">{{ item.component + " (" + item.brand  + " " + item.model + ")"}}</td>
                   <td class="cuerpoTable">{{ item.lane }}</td>
                   <td class="cuerpoTable">
                     <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
@@ -223,6 +223,7 @@ export default {
           this.loadingTabla = false      
         },1000)        
     });
+    
   },
   beforeMount: async function () { 
     this.loadingTabla = true
@@ -232,6 +233,7 @@ export default {
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
     this.loadingTabla = false
+    console.log(this.listComponent);
   },
   destroyed(){
     EventBus.$off('ACTUALIZAR_INVENTARIO')

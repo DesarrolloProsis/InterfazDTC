@@ -1,7 +1,11 @@
 <template>
     <div>        
         <div class="flex justify-center">
-            <div class="grid gap-4 grid-cols-1 py-3 px-3">
+            <div class="grid gap-4 grid-cols-1 py-3 px-3">                      
+                <!--/////////////////////////////////////////////////////////////////
+                ////                      ESCANEADO                             ////
+                ////////////////////////////////////////////////////////////////////-->
+                <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
                 <!--/////////////////////////////////////////////////////////////////
                 ////                      MODAL ELIMINAR                         ////
                 ////////////////////////////////////////////////////////////////////-->
@@ -106,11 +110,13 @@ import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
+import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 
 export default {
     name: "ConcentradoFichas",
     components:{        
-        HeaderGenerico
+        HeaderGenerico,
+        PdfEscaneado
     },
     data (){
         return {
@@ -122,7 +128,10 @@ export default {
             modalEliminar: false,
             infoEliminar:{},
             comentarioBorrar:'',
-            value: ''
+            value: '',
+            modalSubirSellado: false,
+            objInsertEscaneado: {},
+            tipoEscaneado: 'Diagnostico'
         }
     },
     beforeMount: function (){
@@ -144,21 +153,21 @@ export default {
     },
     methods: {  
         actualizarTabla(){
-        this.typeUser = this.$store.state.Login.cookiesUser.rollId 
-        this.loadingTabla = true
-        let userId = this.$store.state.Login.cookiesUser.userId
-        this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
-        .then((response) => {            
-            this.infoFichasFallaCompleta = response.data.result
-            this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
-            this.listaFicha = this.infoFichasFallaFiltrada
-            this.loadingTabla = false
-        })
-        .catch(() => {
-            this.loadingTabla = false
-            this.infoFichasFallaCompleta = []
-            this.infoFichasFallaFiltrada = []                       
-        })
+            this.typeUser = this.$store.state.Login.cookiesUser.rollId 
+            this.loadingTabla = true
+            let userId = this.$store.state.Login.cookiesUser.userId
+            this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
+            .then((response) => {            
+                this.infoFichasFallaCompleta = response.data.result
+                this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+                this.listaFicha = this.infoFichasFallaFiltrada
+                this.loadingTabla = false
+            })
+            .catch(() => {
+                this.loadingTabla = false
+                this.infoFichasFallaCompleta = []
+                this.infoFichasFallaFiltrada = []                       
+            })
         },
         confirmarBorrar (item){
             this.infoEliminar = item
@@ -167,8 +176,7 @@ export default {
         },
         desargar_pdf(value){
             ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
-            if (this.typeUser != 4 && this.typeUser != 8)
-            {
+            if (this.typeUser != 4 && this.typeUser != 8){
                 setTimeout(()=>{
                     ServiceReporte.generar_pdf_fotografico_correctivo(value.referenceDTC);               
                 },1000)
@@ -178,10 +186,7 @@ export default {
                 class:'font-titulo',
                 msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
                 position: "bottom right",
-                styles: {
-                height: 100,
-                width: 500,
-                },
+                styles: { height: 100, width: 500 },
             }); 
         },
         borrar(){
@@ -201,7 +206,7 @@ export default {
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
                 let array_filtrado = this.infoFichasFallaFiltrada.filter(item => {
-                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase()) || item.referenceDTC.toUpperCase().includes(newPalabra.toUpperCase())
                 })       
                 this.listaFicha = array_filtrado;    
             }
@@ -226,21 +231,17 @@ export default {
         limpiar_filtros(){
             this.listaFicha = this.infoFichasFallaCompleta
         },
-        editar_diagnostico_falla(item){
-            let splitInicio = item.start.split(' ')            
+        editar_diagnostico_falla(item){            
+            let splitInicio = item.start.split(' ')                      
             let fecha = splitInicio[0].split('-')
             let tiempo = splitInicio[1].split(':')                      
-            let fechaPArseInicio = new Date(fecha[2], fecha[1], fecha[0], tiempo[0], tiempo[1], 0)            
-
+            let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]) - 1, fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0)                        
             let splitFin = item.end.split(' ')                            
             let fecha2 = splitFin[0].split('-')
             let tiempo2 = splitFin[1].split(':')                                
-            let fechaPArseFin = new Date(fecha2[2], fecha2[1], fecha2[0], tiempo2[0], tiempo2[1], 0)            
-
+            let fechaPArseFin = new Date(fecha2[2], parseInt(fecha2[1]) - 1, fecha2[0], tiempo2[0], tiempo2[1], 0)                        
             item.end = fechaPArseFin.toISOString()
-            item.start = fechaPArseInicio.toISOString()
-
-            console.log(item)
+            item.start = fechaPArseInicio.toISOString()            
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
         terminar_ficha_diagnostico(item){            
@@ -278,6 +279,10 @@ export default {
         customLabel ({ title }) {
             return `${title}`
         },
+        limpiar_componete_escaneado(){
+            this.modalSubirSellado = false
+            this.objInsertEscaneado = {}
+        },
         acciones_mapper(item){                
             if(this.value.title == 'Terminar Ficha'){
                 this.terminar_ficha_diagnostico(item)
@@ -300,6 +305,20 @@ export default {
             if(this.value.title == 'Dictamen (DTC)'){    
                 this.desargar_pdf(item)
             }
+            if(this.value.title == 'Diagnóstico Sellado'){
+                this.tipoEscaneado = 'Diagnostico'
+                this.modalSubirSellado = true
+                this.objInsertEscaneado = {
+                    referenceNumber: item.referenceNumber
+                }
+            }
+            if(this.value.title == 'Ficha Sellada'){
+                this.tipoEscaneado = 'Ficha'
+                this.modalSubirSellado = true
+                this.objInsertEscaneado = {
+                    referenceNumber: item.referenceNumber
+                }
+            }
             this.value = ""
             
         },
@@ -312,6 +331,8 @@ export default {
                 { title: 'Dignóstico de Falla', img: '/img/download.ea0ec6db.png' }, //4
                 { title: 'Ficha Técnica', img: '/img/download.ea0ec6db.png' },
                 { title: 'Dictamen (DTC)', img: '/img/download.ea0ec6db.png' }, //6
+                { title: 'Diagnóstico Sellado', img: '/img/upload.8d26bb4f.png' }, //7
+                { title: 'Ficha Sellada', img: '/img/upload.8d26bb4f.png' }, //8
             ]
             let filtroOpciones = []
             //Diagnostico Descargar Siempre va
@@ -328,13 +349,15 @@ export default {
                     filtroOpciones.push(options[2])
                     filtroOpciones.push(options[3])
                 }
+                filtroOpciones.push(options[7])
+                filtroOpciones.push(options[8])
             }     
             else{
+                filtroOpciones.push(options[7])
                 filtroOpciones.push(options[0])
-            }     
+            }                             
             return filtroOpciones
         },
-
     },
     filters: {
         formato_concentrado(fecha){            
