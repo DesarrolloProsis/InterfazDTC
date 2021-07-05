@@ -313,7 +313,7 @@ export default {
         let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza
         console.log(numeroPlaza)                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
-        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
+        //await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false

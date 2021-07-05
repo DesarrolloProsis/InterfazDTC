@@ -115,7 +115,7 @@ methods:{
                 diagnosisDate: this.datosHeader.fechaDiagnostico,
                 start: this.datosHeader.horaInicio,
                 end: this.datosHeader.horaFin,
-                sinisterNumber: this.datosHeader.numeroReporte == "" ? null : this.datosHeader.numeroReporte,
+                sinisterNumber: this.datosHeader.numeroReporte,
                 failureNumber: this.datosHeader.folioFalla == "" ? null : this.datosHeader.folioFalla,
                 userId: userIdPlaza.idUser,
                 failureDescription: this.datosHeader.descripcionFalla,
