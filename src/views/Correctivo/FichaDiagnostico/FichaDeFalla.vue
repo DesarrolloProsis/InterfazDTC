@@ -135,7 +135,6 @@ export default {
                                     });
                                 } 
                             })    
-
                     }
                     else {
                         this.insertar_ficha_falla(objHeader.value)
