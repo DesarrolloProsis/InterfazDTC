@@ -383,6 +383,7 @@ export default {
               width: 500,
             },
           });
+          this.refrescar_usuarios()  
           this.modal = false;
         }
         this.limpiar_usuario();      
