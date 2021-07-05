@@ -48,13 +48,13 @@
               <span class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
           </div>
           <div class="sm:flex-col pr-2 inline-block font-titulo">
-            <ValidationProvider name="NoSiniestro" immediate rules="uniqueSinester|max:30" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
+            <ValidationProvider name="NoSiniestro" immediate rules="max:30" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
                 <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
                 <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" name="NoSiniestro" type="text"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
             </ValidationProvider>                                      
             <template v-if="$route.params.tipoFalla == 3">
-                <ValidationProvider name="NoOficio" immediate rules="uniqueReport|max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
+                <ValidationProvider name="NoOficio" immediate rules="max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
                   <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Oficio:</p>
                   <input v-model="datosSinester.ReportNumber" immediate class="w-full is_valid" type="text" name="NoOficio"/>  
                   <span class="text-red-600 text-xs block">{{ errors[0] }}</span>                
