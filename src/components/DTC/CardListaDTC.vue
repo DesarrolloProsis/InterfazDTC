@@ -311,7 +311,7 @@ export default {
             { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
-            { title: 'Terminar Diagnostico', img: '/img//img/add.36624e63.png'} //10
+            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'} //10
         ]
         let array = []   
         if(this.infoCard.technicalSheetReference == '--'){
