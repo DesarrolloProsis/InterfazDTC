@@ -283,6 +283,10 @@ export default {
             this.modalSubirSellado = false
             this.objInsertEscaneado = {}
         },
+        descargar_diag_ficha(referenceNumber,tipo){
+            ServiceReporte.generar_pdf_ficha_sellada(referenceNumber,tipo)
+        },
+
         acciones_mapper(item){                
             if(this.value.title == 'Terminar Ficha'){
                 this.terminar_ficha_diagnostico(item)
@@ -305,19 +309,25 @@ export default {
             if(this.value.title == 'Dictamen (DTC)'){    
                 this.desargar_pdf(item)
             }
-            if(this.value.title == 'Diagnóstico Sellado'){
+            if(this.value.title == 'Subir DF Sellado'){
                 this.tipoEscaneado = 'Diagnostico'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
                     referenceNumber: item.referenceNumber
                 }
             }
-            if(this.value.title == 'Ficha Sellada'){
+            if(this.value.title == 'Subir FT Sellada'){
                 this.tipoEscaneado = 'Ficha'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
                     referenceNumber: item.referenceNumber
                 }
+            }
+            if(this.value.title ==  'Bajar FT Sellada'){
+                this.descargar_diag_ficha(item.referenceNumber,2)
+            }
+            if(this.value.title == 'Bajar DF Sellado'){
+                this.descargar_diag_ficha(item.referenceNumber,1)
             }
             this.value = ""
             
@@ -325,35 +335,38 @@ export default {
         opticones_select_acciones(item){
             const options= [                
                 { title: 'Terminar Ficha', img: '/img/nuevoDtc.90090632.png' }, //0
-                { title: 'Terminar DTC', img: '/img/nuevoDtc.90090632.png' },
+                { title: 'Terminar DTC', img: '/img/nuevoDtc.90090632.png' },//1
                 { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //2
-                { title: 'Borrar', img: '/img/borrar.16664eed.png' },
+                { title: 'Borrar', img: '/img/borrar.16664eed.png' },//3
                 { title: 'Dignóstico de Falla', img: '/img/download.ea0ec6db.png' }, //4
-                { title: 'Ficha Técnica', img: '/img/download.ea0ec6db.png' },
+                { title: 'Ficha Técnica', img: '/img/download.ea0ec6db.png' },//5
                 { title: 'Dictamen (DTC)', img: '/img/download.ea0ec6db.png' }, //6
-                { title: 'Diagnóstico Sellado', img: '/img/upload.8d26bb4f.png' }, //7
-                { title: 'Ficha Sellada', img: '/img/upload.8d26bb4f.png' }, //8
+                { title: 'Subir DF Sellado', img: '/img/upload.8d26bb4f.png' }, //7
+                { title: 'Subir FT Sellada', img: '/img/upload.8d26bb4f.png' }, //8
+                { title: 'Bajar FT Sellada', img: '/img/download.ea0ec6db.png' },//9
+                { title: 'Bajar DF Sellado', img: '/img/download.ea0ec6db.png' },//10
             ]
             let filtroOpciones = []
             //Diagnostico Descargar Siempre va
             filtroOpciones.push(options[4])
+            filtroOpciones.push(options[7]) 
+            filtroOpciones.push(options[10])
             if(item.validacionFichaTecnica){
-                filtroOpciones.push(options[5])   
+                filtroOpciones.push(options[5]) 
+                filtroOpciones.push(options[8])
+                filtroOpciones.push(options[9]) 
                 if(!item.validacionDTC && item.typeFaultId  >= 2){
                     filtroOpciones.push(options[1])
                 }           
                 if(item.validacionDTC && item.validacionFichaTecnica){
                     filtroOpciones.push(options[6])
-                }   
+                }
                 if(this.typeUser != 7 || this.typeUser != 10 || this.typeUser != 4){
                     filtroOpciones.push(options[2])
                     filtroOpciones.push(options[3])
                 }
-                filtroOpciones.push(options[7])
-                filtroOpciones.push(options[8])
             }     
             else{
-                filtroOpciones.push(options[7])
                 filtroOpciones.push(options[0])
             }                             
             return filtroOpciones

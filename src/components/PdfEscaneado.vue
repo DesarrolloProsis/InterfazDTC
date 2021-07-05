@@ -16,7 +16,7 @@
                     <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
                         <div class="grid grid-cols-2">
                             <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
-                            <p class="-ml-16 mt-16 font-bold sm:ml-0">Calendario Escaneado</p>
+                            <p class="-ml-16 mt-16 font-bold sm:ml-0">PDF Escaneado</p>
                         </div>
                         <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
                             <button @click="buscar_ruta_envio" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
