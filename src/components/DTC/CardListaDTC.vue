@@ -289,7 +289,7 @@ export default {
           this.generar_pdf(1)
         }
         if(this.value.title == 'Actualizar Componentes'){
-          this.actualizar()
+          this.actualizar(this.infoCard.referenceNumber)
         }
         this.value = ''
     },
