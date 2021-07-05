@@ -31,11 +31,11 @@
         <div class="flex justify-between">
           <div class="font-semibold w-33">{{ infoCard.referenceNumber }}</div>           
           <div class=" inline-flex sm:ml-10 ml-16">
-            <div class="mt-1 p-0 inline-block text-sm -ml-6"> 
+            <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800 -ml-3">*Fecha Siniestro</span>
             </div>    
-            <div class="mt-2 ml-5 mr-3 w-5" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
+<!--             <div class="mt-2 ml-5 mr-3 w-5 hidden" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
@@ -44,7 +44,7 @@
               <button @click="editar_fechas_calendario" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/schedule.png" class="" width="30" height="30" />              
               </button>
-            </div>        
+            </div>  -->       
           </div>
         </div>
         <hr />
@@ -264,7 +264,7 @@ export default {
         if(this.value.title == 'Fechas'){
           this.editar_fechas_calendario()
         }
-        if(this.value.title == 'Header'){
+        if(this.value.title == 'Editar Campos'){
           this.editar_header()
         }
         if(this.value.title == 'Terminar DTC'){
@@ -303,7 +303,7 @@ export default {
         let options = [
             { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, //0
             { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
-            { title: 'Header', img: '/img/pencil.04ec78bc.png' }, //2   
+            { title: 'Editar Campos', img: '/img/pencil.04ec78bc.png' }, //2   
             { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
             { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
             { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'}, //5
