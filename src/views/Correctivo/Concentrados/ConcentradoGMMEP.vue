@@ -101,7 +101,8 @@
                 <th class="cabeceraTable font-medium">Fotografias</th>
                 <th class="cabeceraTable font-medium">Terminar Ficha</th>
                 <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
-                <th class="cabeceraTable font-medium">PDF</th>
+                <th class="cabeceraTable font-medium hidden">PDF</th>
+                <th class="cabeceraTable font-medium">Acciones</th>
               </tr>
           </thead>
           <!--/////////////////////////////////////////////////////////////////
@@ -173,7 +174,7 @@
                     <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Estatus</button>
                   </div>
                 </td>
-                <td class="cuerpoTable">
+                <td class="cuerpoTable hidden">
                   <div class="grid grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 mr-32" v-if="tipoUsuario != 8">          
                       <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 -mr-24 sm:-ml-1 ml-5" :class="{'ml-8': pdfSellado.name}">
                           <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:mr-2 " width="15" height="15" />
@@ -220,6 +221,22 @@
                       <span class="text-xs sm:hidden w-24">Sin Firma</span>
                     </button>
                   </div>
+                </td>
+                <td>
+                  <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                    <template slot="singleLabel" slot-scope="props">
+                      <div class="inline-flex">
+                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                        <span class="option__title bg-red-300">{{ props.option.title }}</span>
+                      </div>
+                    </template>
+                    <template slot="option" slot-scope="props">                                                
+                      <div class="option__desc "><span class="option__title inline-flex">
+                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                        {{ props.option.title }}</span>
+                      </div>
+                    </template>
+                  </multiselect>
                 </td>
               </tr>
             </template>
@@ -271,7 +288,8 @@ data: function (){
       datosImg:{},        
       pdfSellado:'',
       modalActualizar: false,
-      infoAcrualizar:{}                        
+      infoAcrualizar:{},
+      value:''                     
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -300,6 +318,47 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+  customLabel ({ title }) {
+    return `${title}`
+  },
+  acciones_mapper(item){                
+    if(this.value.title == 'Editar'){
+        this.editarUsuario(item)
+    }
+    if(this.value.title == 'Borrar'){
+        this.borrar_usuario(item)
+    }   
+    this.value = ""  
+  },
+  opticones_select_acciones(item){
+    const options= [                
+      { title: 'DTC Firmado', img: '/img/pencil.04ec78bc.png' }, //0
+      { title: 'Terminar Diagnostico', img: '/img/borrar.16664eed.png' },//1
+      { title: 'Cambiar Estatus', img: '/img/borrar.16664eed.png' },//2
+      { title: 'DTC Firmado', img: '/img/borrar.16664eed.png' },//3
+      { title: 'DTC Sellado', img: '/img/borrar.16664eed.png' },//4
+      { title: 'Subir DTC Sellado', img: '/img/borrar.16664eed.png' },//5
+      { title: 'Actualizar Componentes', img: '/img/borrar.16664eed.png' },//6
+    ]
+    let filtroOpciones = []
+    filtroOpciones.push(options[0])
+    if(item.technicalSheetReference == '--'){
+      filtroOpciones.push(options[1])   
+    }
+    if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+      filtroOpciones.push(options[2])
+    }
+    if(this.tipoUsuario != 8){
+      filtroOpciones.push(options[3])
+    }
+    if(item.statusId >= 3 && item.escaneadobool == false){
+      filtroOpciones.push(options[4])
+    }
+    if(this.tipoUsuario != 7 && item.escaneadobool == true){
+      filtroOpciones.push(options[5])
+    }
+    return filtroOpciones
+  },
   terminar_diagnostico_falla_dtc({referenceNumber}){
     this.$router.push({ 
       path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla',
@@ -432,9 +491,6 @@ methods:{
     },1000)
 
     }
-  },
-
-
   },
   filtro_dtc: async function (objFiltro) {     
 
@@ -573,6 +629,9 @@ methods:{
     }, 3000);      
   },
 
+  },
+  
+  
 
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
