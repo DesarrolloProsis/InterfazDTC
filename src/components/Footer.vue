@@ -21,13 +21,17 @@
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class=" font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Versión 1.6.5 !!! 🎉</p>
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 1.6.6 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>◾Subir PDF Sellado de Mtto Preventivo</li>
-                            <li>◾Reporte Fotográfico DTC</li>
-                            <li>◾Enviar comentarios</li>
-                            <li>◾Videos de ayuda</li>
-                            <li>◾Manual de usuario</li>
+                            <li>·Se agregaron los Subcomponentes en Inventario.</li>
+                            <li>·Ya Aparece Marca y Modelo en Inventario.</li>
+                            <li>·Botón Actualizar Folio y Fechas de Componentes (DTC).</li>
+                            <li>·Actualizar Ubicación en Editar Diagnóstico.</li>
+                            <li>·Ahora el Tamaño del PDF con Imagenes es Más Pequeño.</li>
+                            <li>·Se puede realizar una busqueda por referencia de DTC en concentrado de Diagnóstico.</li>
+                            <li>·Ahora el Tamaño del PDF con Imagenes es Más Pequeño.</li>
+                            <li>·Ficha Técnica Por Fin de Vida Útil y Por Siniestro, Ocupa las Imágenes del Diagnóstico.</li>
+                            <li>·Acomodo de Botones.</li>
                         </ol>
                     </div>
                     <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.6</p>

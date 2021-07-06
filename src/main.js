@@ -45,11 +45,6 @@ extend('maxTime', {
       return true
     }    
     else{
-      // let horaISplite = value.split(':')            
-      // let horaFSplite = args[0].split(':')            
-      // let dateInicio = new Date(1995,11,17,horaISplite[0],horaISplite[1],0);
-      // let dateFin = new Date(1995,11,17,horaFSplite[0],horaFSplite[1],0);             
-      //return dateInicio < dateFin ? true : false    
       return value < args[0] ? true : false    
     }   
   }

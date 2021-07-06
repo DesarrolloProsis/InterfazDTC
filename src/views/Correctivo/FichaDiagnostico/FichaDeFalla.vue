@@ -135,7 +135,6 @@ export default {
                                     });
                                 } 
                             })    
-
                     }
                     else {
                         this.insertar_ficha_falla(objHeader.value)
@@ -168,10 +167,15 @@ export default {
                         }
                         else{
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
-                            this.$route.params.tipoVista == 'Editar' 
-                                ? this.$router.push('/Home')  
-                                : this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
-
+                            if(this.$route.params.tipoVista == 'Editar'){ 
+                                this.$router.push('/Home')  
+                            }
+                            else {
+                                if(this.$route.query.referenceNumberFinishDiagnostic == undefined)
+                                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
+                                else
+                                    this.$router.push('/Home')
+                            }
                         }
                         if(this.$route.params.tipoVista == 'Editar'){   
                             this.modalImage = false                         
@@ -184,8 +188,11 @@ export default {
             }
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                if(this.datosHeader.tipoFalla > 1){                    
-                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)    
+                if(this.datosHeader.tipoFalla > 1){  
+                    if(this.$route.query.referenceNumberFinishDiagnostic == undefined)                  
+                        this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)    
+                    else
+                        this.$router.push('/Home')    
                 } 
                 else
                     this.$router.push('/Home')   

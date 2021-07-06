@@ -4,7 +4,7 @@
 @tailwind base;
 
 .multiselect__option--highlight{
-    @apply bg-blue-500  
+    @apply bg-blue-300  
 }
 .vdatetime-popup__header {
     @apply bg-red-800

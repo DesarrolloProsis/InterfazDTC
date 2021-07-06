@@ -383,6 +383,7 @@ export default {
               width: 500,
             },
           });
+          this.refrescar_usuarios()  
           this.modal = false;
         }
         this.limpiar_usuario();      
@@ -428,8 +429,8 @@ export default {
     },
     opticones_select_acciones(){
       const options= [                
-        { title: 'Editar', img: '/img/nuevoDtc.90090632.png' }, //0
-        { title: 'Borrar', img: '/img/nuevoDtc.90090632.png' },
+        { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //0
+        { title: 'Borrar', img: '/img/borrar.16664eed.png' },
       ]
       let filtroOpciones = []
       //Diagnostico Descargar Siempre va

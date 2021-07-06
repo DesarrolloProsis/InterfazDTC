@@ -92,8 +92,7 @@ export default {
 ////        {}                  METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(objHeader){    
-                              
+    actualizar_header(objHeader){                                  
         this.datosHeader = objHeader.header
         if(objHeader.value == false){             
             this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
@@ -170,7 +169,21 @@ methods:{
                 updateFlag: flagInsert // 1 -> Insertar || 0 -> editar
             }                          
             this.$http.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
-                .then(() => {                
+                .then(() => { 
+                    let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic 
+                    if(referenceDtcFinish != undefined){                                    
+                        this.$http.put(`${API}/DtcData/UpdateDtcDFReference/${objDiagnostico.referenceNumber.split('-')[0]}/${referenceDtcFinish}/${objDiagnostico.referenceNumber}`)
+                            .then((response) => {
+                                console.log(response);
+                                this.$notify.success({
+                                    title: "Ok!",
+                                    class: "font-titulo",
+                                    msg: `SE INSERTO EL DIAGNOSTICO AL DTC CON REFERENCIA ${referenceDtcFinish}.`,
+                                    position: "bottom right",
+                                    styles: { height: 100, width: 500 },
+                                });
+                            })
+                    }               
                     let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                         let newCarril = {}
                         newCarril["referenceNumber"] = objDiagnostico.referenceNumber
@@ -185,7 +198,7 @@ methods:{
                     .then(() =>{                        
                         carrilesInsertDiagnostic.forEach(carril => {                                                     
                             this.$http.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                                .then(() => { 
+                                .then(() => {                                
                                     if(this.botonEditCreate != false)
                                         this.modalImage = true                                                                    
                                 })                                 
@@ -206,10 +219,11 @@ methods:{
                             else if(this.botonEditCreate == false){
                                 this.type = 'FICHA' 
                                 ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
-                                let referenciaDtc = this.$route.query.referenciaDtc                                        
+                                let referenciaDtc = this.$route.query.referenciaDtc     
+                                let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic                                    
                                 this.$router.push({
                                     path: 'FichaTecnicaDeFalla',
-                                    query: { data: this.datosHeader, referenciaDtc }
+                                    query: { data: this.datosHeader, referenciaDtc, referenceNumberFinishDiagnostic: referenceDtcFinish }
                                 }) 
                             }
                         },2000)
@@ -228,10 +242,11 @@ methods:{
         else{
             this.type = 'FICHA' 
             ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
-            let referenciaDtc = this.$route.query.referenciaDtc         
+            let referenciaDtc = this.$route.query.referenciaDtc  
+            let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic          
             this.$router.push({
                 path: 'FichaTecnicaDeFalla',
-                query: { data: this.datosHeader, referenciaDtc }
+                query: { data: this.datosHeader, referenciaDtc, referenceNumberFinishDiagnostic: referenceDtcFinish }
             }) 
         }       
     }

@@ -16,11 +16,11 @@
                     <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
                         <div class="grid grid-cols-2">
                             <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
-                            <p class="-ml-16 mt-16 font-bold sm:ml-0">Calendario Escaneado</p>
+                            <p class="-ml-16 mt-16 font-bold sm:ml-0">PDF Escaneado</p>
                         </div>
                         <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
                             <button @click="buscar_ruta_envio" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                            <button @click="escaneadoBool = false, abrirModal = false" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                            <button @click="escaneadoBool = true, abrirModal = false" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
                         </div>            
                     </div>
                 </div>

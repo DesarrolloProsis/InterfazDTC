@@ -31,20 +31,20 @@
         <div class="flex justify-between">
           <div class="font-semibold w-33">{{ infoCard.referenceNumber }}</div>           
           <div class=" inline-flex sm:ml-10 ml-16">
-            <div class="mt-1 p-0 inline-block text-sm -ml-6"> 
+            <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800 -ml-3">*Fecha Siniestro</span>
             </div>    
-            <div class="mt-2 ml-5 mr-3 w-5" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
+<!--             <div class="mt-2 ml-5 mr-3 w-5 hidden" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
             </div>   
-            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 w-5">
+            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 ml-4 w-5">
               <button @click="editar_fechas_calendario" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/schedule.png" class="" width="30" height="30" />              
               </button>
-            </div>        
+            </div>  -->       
           </div>
         </div>
         <hr />
@@ -66,7 +66,7 @@
           </div>
         </div>
           <p class="text-left font-semibold text-sm">Acciones:</p>
-          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :modalActualizar }">
+          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :ocultarMulti || modalActualizar }">
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
                 <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -214,6 +214,11 @@ export default {
       type: Array,
       default: () => [],
     },
+    ocultarMulti: {
+      type: Boolean,
+      require: true,
+      default: () => false,
+    }
   },
   data: function () {
     return {
@@ -259,13 +264,13 @@ export default {
         if(this.value.title == 'Fechas'){
           this.editar_fechas_calendario()
         }
-        if(this.value.title == 'Header'){
+        if(this.value.title == 'Editar Campos'){
           this.editar_header()
         }
         if(this.value.title == 'Terminar DTC'){
           this.editar_dtc()
         }
-        if(this.value.title == 'Cargar Sellado'){
+        if(this.value.title == 'DTC Sellado'){
           this.modalSubirSellado = true
           this.objInsertEscaneado = {
             referenceNumber: this.infoCard.referenceNumber
@@ -283,21 +288,35 @@ export default {
         if(this.value.title == 'DTC Sin Firma'){
           this.generar_pdf(1)
         }
+        if(this.value.title == 'Actualizar Componentes'){
+          this.actualizar(this.infoCard.referenceNumber)
+        }
+        if(this.value.title == 'Terminar Diagnostico'){
+          this.$router.push({ 
+            path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla',
+            query: { referenceNumberFinishDiagnostic: this.infoCard.referenceNumber } 
+          })
+        }
         this.value = ''
     },
     opticones_select_acciones(){
         let options = [
-            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, 
-            { title: 'Fechas', img: '/img/pencil.04ec78bc.png' },
-            { title: 'Header', img: '/img/pencil.04ec78bc.png' },       
-            { title: 'Terminar DTC', img: '/img/add.36624e63.png' },    
-            { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' },                                                                                
-            { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'},
-            { title: 'Sellado', img: '/img/download.ea0ec6db.png'},
-            { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'},
-            { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'},
+            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, //0
+            { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
+            { title: 'Editar Campos', img: '/img/pencil.04ec78bc.png' }, //2   
+            { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
+            { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
+            { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'}, //5
+            { title: 'Sellado', img: '/img/download.ea0ec6db.png'}, //6
+            { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
+            { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
+            { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
+            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'} //10
         ]
         let array = []   
+        if(this.infoCard.technicalSheetReference == '--'){
+          array.push(options[10])
+        }
         if(this.tipoUsuario == 4){
           array.push(options[1])
         }     
@@ -327,6 +346,9 @@ export default {
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
           array.push(options[4])
         }
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
+          array.push(options[9])
+        }
         return array       
     },
     customLabel ({ title }) {
@@ -346,11 +368,8 @@ export default {
             class: "font-titulo",
             msg: `DTC CON REFERENCIA ${this.infoActualizar} ACTUALIZADO CORRECTAMENTE.`,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-              },
-            });
+            styles: { height: 100, width: 500 },
+        });
       })
       this.modalActualizar = false
     },
