@@ -226,9 +226,7 @@ export default {
     
   },
   beforeMount: async function () { 
-    this.loadingTabla = true
-    let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza             
-    await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
+    this.loadingTabla = true        
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
@@ -272,10 +270,20 @@ export default {
         .then(async()=>{
           this.modalAdv = false
           this.modalLoading = true
+          let capufeNum = this.datosmtto.ubicacion.capufeLaneNum
+          let idGare = this.datosmtto.ubicacion.idGare
           this.datosmtto.folio = ''
           this.datosmtto.ubicacion = ''
-          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
-          await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza }); 
+          let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${this.plazaSeleccionada}/${capufeNum}/${idGare}`)
+            .then((response)=>{
+                console.log(response);
+                this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
+                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            })
+            .catch((er)=>{
+                console.log(er);
+            })
           this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
           this.loadingTabla = false       
           this.listEditados = [];
