@@ -1,7 +1,8 @@
 <template>
   <div>    
     <div class="flex justify-center -mt-6">
-      <div class="grid gap-4 grid-cols-1 py-3 px-3">                        
+      <div class="grid gap-4 grid-cols-1 py-3 px-3"> 
+      <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>                           
       <!--/////////////////////////////////////////////////////////////////////
       ////                         MODAL CARRUSEL                        /////
       ////////////////////////////////////////////////////////////////////-->
@@ -82,25 +83,24 @@
         </div>
       </div>
       <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16"
-        :class="{'overflow-x-auto bg-white rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar}"  style="height:550px;">
+        :class="{'overflow-x-auto bg-white rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
           <!--/////////////////////////////////////////////////////////////////
           ////                           HEADER TABLA                      ////
           ////////////////////////////////////////////////////////////////////-->
           <thead class="">
-              <tr class="text-md text-gray-400 font-normal bg-blue-800">   
-                <th class="cabeceraTable font-medium" v-if="tipoUsuario == 1">Actualizar</th>             
+              <tr class="text-md text-gray-400 font-normal bg-blue-800">               
                 <th class="cabeceraTable font-medium">Referencia</th>
-                <th class="cabeceraTable font-medium">Fecha de Elaboracion</th>
+                <th class="cabeceraTable font-medium">Fecha de Elaboración</th>
                 <th class="cabeceraTable font-medium">Fecha de Siniestro</th>
                 <th class="cabeceraTable font-medium">Registro en Sistema</th>
                 <th class="cabeceraTable font-medium">Folio</th>
                 <th class="cabeceraTable font-medium">N° de Reporte</th>
                 <th class="cabeceraTable font-medium">N° de Siniestro</th>
                 <th class="cabeceraTable font-medium">Fecha de Falla</th>
-                <th class="cabeceraTable font-medium">Fotografias</th>
-                <th class="cabeceraTable font-medium">Terminar Ficha</th>
-                <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
+                <th class="cabeceraTable font-medium">Fotografías</th>
+                <th class="cabeceraTable font-medium hidden">Terminar Ficha</th>
+                <th class="cabeceraTable font-medium hidden" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
                 <th class="cabeceraTable font-medium hidden">PDF</th>
                 <th class="cabeceraTable font-medium">Acciones</th>
               </tr>
@@ -125,7 +125,7 @@
             </template>   
             <template v-if="lista_DTC_Filtrada.length > 0">
               <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_DTC_Filtrada" :key="key">  
-                <td class="cuerpoTable" v-if="tipoUsuario == 1">
+                <td class="cuerpoTable hidden" v-if="tipoUsuario == 1">
                   <div>
                     <button @click="abrirModal(item)" class="botonTodos">
                       <img src="@/assets/img/todos.png" class="mr-4 ml-1 sm:mr-2" width="35" height="35"/>
@@ -162,19 +162,19 @@
                     </button>
                   </div>
                 </td>
-                <td class="cuerpoTable">
+<!--                 <td class="cuerpoTable hidden">
                   <div>
                     <button v-if="item.technicalSheetReference == '--'" @click="terminar_diagnostico_falla_dtc(item)" class="botonIconBuscar">Terminar Diagnostico</button>
                     <p v-else class="text-green-700 font-semibold">Diagnostico Creado</p>
                   </div>
-                </td>
+                </td> -->
                 <!-- Columna de cambios de status -->
-                <td class="cuerpoTable" v-if="tipoUsuario == 4 || tipoUsuario == 10">
+<!--                 <td class="cuerpoTable hidden" v-if="tipoUsuario == 4 || tipoUsuario == 10">
                   <div>
                     <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Estatus</button>
                   </div>
-                </td>
-                <td class="cuerpoTable hidden">
+                </td> -->
+<!--                 <td class="cuerpoTable hidden">
                   <div class="grid grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 mr-32" v-if="tipoUsuario != 8">          
                       <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 -mr-24 sm:-ml-1 ml-5" :class="{'ml-8': pdfSellado.name}">
                           <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:mr-2 " width="15" height="15" />
@@ -183,11 +183,11 @@
                       <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:-ml-1 ml-5" :class="{'hidden': item.escaneadobool, 'ml-8': pdfSellado.name}" :disabled=" item.escaneadobool ">
                           <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:mr-2" width="15" height="15" />
                           <span class="text-xs">Sellado</span>
-                      </button>
+                      </button> -->
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                       SUBIR PDF SELLADO                      ////
                     ///////////////////////////////////////////////////////////////////// -->        
-                    <div class="" v-if="tipoUsuario != 7">
+<!--                     <div class="" v-if="tipoUsuario != 7">
                       <div v-if="item.escaneadobool">                    
                         <button class="mt-1 w-32 ml-1 sm:w-32 sm:-ml-5" v-if="!item.confirmpdf">
                           <div class="botonIconSellado font-boton">
@@ -207,8 +207,8 @@
                           </div>            
                         </div>
                       </div>
-                    </div> 
-                    <div class="-ml-2" v-if="item.escaneadobool && tipoUsuario == 7">
+                    </div>  -->
+<!--                     <div class="-ml-2" v-if="item.escaneadobool && tipoUsuario == 7">
                       <button class="botonIconBorrarCardDes font-boton w-24 sm:w-10 sm:ml-8"  :disabled=" item.escaneadobool ">
                         <img src="@/assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
                         <span class="text-xs sm:hidden">Sellado</span>
@@ -221,7 +221,7 @@
                       <span class="text-xs sm:hidden w-24">Sin Firma</span>
                     </button>
                   </div>
-                </td>
+                </td> -->
                 <td>
                   <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                     <template slot="singleLabel" slot-scope="props">
@@ -255,14 +255,15 @@ import ServiceReportPDF from "../../../services/ReportesPDFService"
 import Carrusel from "../../../components/Carrusel";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import AgregarImg from "../../../components/ImagenesGenericas"
-
+import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 
 export default {
   name: "ConcentradoDTC",
   components: {    
     Carrusel,
     HeaderGenerico,
-    AgregarImg
+    AgregarImg,
+    PdfEscaneado,
   },
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
@@ -289,7 +290,10 @@ data: function (){
       pdfSellado:'',
       modalActualizar: false,
       infoAcrualizar:{},
-      value:''                     
+      value:'',
+      modalSubirSellado: false,
+      objInsertEscaneado: {},
+      tipoEscaneado: 'GMMEP'                    
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -318,44 +322,70 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+  limpiar_componete_escaneado(){
+    this.modalSubirSellado = false
+    this.objInsertEscaneado = {}
+  },
   customLabel ({ title }) {
     return `${title}`
   },
-  acciones_mapper(item){                
-    if(this.value.title == 'Editar'){
-        this.editarUsuario(item)
+  acciones_mapper(item){
+    if(this.value.title == 'Bajar DTC Sin Firma'){
+      this.descargar_PDF(item,1)
+    }                
+    if(this.value.title == 'Bajar DTC Firmado'){
+      this.descargar_PDF(item,2)
     }
-    if(this.value.title == 'Borrar'){
-        this.borrar_usuario(item)
-    }   
+    if(this.value.title == 'Bajar DTC Sellado'){
+      this.descargar_PDF(item,3)
+    }
+    if(this.value.title == 'Terminar Diagnostico'){
+      this.terminar_diagnostico_falla_dtc(item)
+    }
+    if(this.value.title == 'Cambiar Estatus'){
+      this.abrir_modal_editar(item)
+    }
+    if(this.value.title == 'Actualizar Componentes'){
+      this.abrirModal(item)
+    }
+    if(this.value.title == 'Subir DTC Sellado'){
+      this.tipoEscaneado = 'GMMEP'
+      this.modalSubirSellado = true
+      this.objInsertEscaneado = {
+          referenceNumber: item.referenceNumber
+      }
+    }
     this.value = ""  
   },
   opticones_select_acciones(item){
     const options= [                
-      { title: 'DTC Firmado', img: '/img/pencil.04ec78bc.png' }, //0
+      { title: 'Bajar DTC Firmado', img: '/img/download.ea0ec6db.png' }, //0
       { title: 'Terminar Diagnostico', img: '/img/borrar.16664eed.png' },//1
-      { title: 'Cambiar Estatus', img: '/img/borrar.16664eed.png' },//2
-      { title: 'DTC Firmado', img: '/img/borrar.16664eed.png' },//3
-      { title: 'DTC Sellado', img: '/img/borrar.16664eed.png' },//4
-      { title: 'Subir DTC Sellado', img: '/img/borrar.16664eed.png' },//5
-      { title: 'Actualizar Componentes', img: '/img/borrar.16664eed.png' },//6
+      { title: 'Cambiar Estatus', img: '/img/flechas.a7d6bd28.png' },//2
+      { title: 'Bajar DTC Sellado', img: '/img/download.ea0ec6db.png' },//3
+      { title: 'Subir DTC Sellado', img: '/img/upload.8d26bb4f.png' },//4
+      { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png' },//5
+      { title: 'Bajar DTC Sin Firma', img: '/img/upload.8d26bb4f.png' },//6
     ]
     let filtroOpciones = []
     filtroOpciones.push(options[0])
-    if(item.technicalSheetReference == '--'){
+    if(item.technicalSheetReference == '--' && this.tipoUsuario == 1){
       filtroOpciones.push(options[1])   
+    }
+    if(item.statusId >= 3 && item.escaneadobool == false){
+      filtroOpciones.push(options[3])
+    }
+    if(this.tipoUsuario != 7 && this.tipoUsuario != 4 ){
+      filtroOpciones.push(options[4])
+    }
+    if(this.tipoUsuario == 1){
+      filtroOpciones.push(options[5])
     }
     if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
     }
-    if(this.tipoUsuario != 8){
-      filtroOpciones.push(options[3])
-    }
-    if(item.statusId >= 3 && item.escaneadobool == false){
-      filtroOpciones.push(options[4])
-    }
-    if(this.tipoUsuario != 7 && item.escaneadobool == true){
-      filtroOpciones.push(options[5])
+    if(this.tipoUsuario == 8){
+      filtroOpciones.push(options[6])
     }
     return filtroOpciones
   },
@@ -523,116 +553,7 @@ methods:{
     this.lista_DTC_Filtrada = this.infoDTC
   })           
   },
-  recibir_pdf_sellado(e, index) {           
-    var files = e.target.files || e.dataTransfer.files;
-    if (!files.length) return;
-    else {  
-      for (let item of files) {        
-        if(this.crearImage(item)){        
-          this.$nextTick().then(() => {
-            this.pdfSelladoBool = false
-            this.infoDTC[index].confirmpdf = true             
-            this.infoDTC.splice(index, 1 ,  Object.assign(this.infoDTC[index]))          
-
-          })
-        }
-      }        
-    }
   },
-  crearImage(file) {  
-  if(file.type.split('/')[1] == 'pdf'){
-    var reader = new FileReader(); 
-    reader.onload = (e) => {
-      this.$nextTick().then(() => {
-        this.pdfSellado = {
-          imgbase: e.target.result.split(',')[1],
-          name: file.name,
-        };
-      })        
-    };
-    reader.readAsDataURL(file);   
-    return true
-  }
-  else{
-    this.$notify.warning({
-      title: "Ups!",
-      msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-      position: "bottom right",
-      styles: {
-        height: 100,
-        width: 500,
-      },          
-    });
-    this.pdfSellado = {}
-    return false
-  }         
-  },
-  base64ToFile(dataurl, fileName) {                    
-    let url = "data:text/pdf;base64," + dataurl;  
-    var arr = url.split(","),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], fileName + '.pdf', { type: mime });
-  },
-  enviar_pdf_sellado(index){                       
-  let formData = new FormData();
-  let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
-  formData.append("file", file);     
-  let obj = {
-    referenceNumber: this.infoDTC[index].referenceNumber,
-    file: formData,
-  }
-  this.infoDTC[index].escaneadobool = false        
-  this.infoDTC.splice(index, 1, Object.assign(this.infoDTC[index]))  
-  let pdf_sellado_promise = new Promise((resolve, reject) => {    
-  this.$http.post(`${API}/pdf/PdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}/${false}`, obj.file)
-    .then(() => {          
-      this.$http.get(`${API}/pdf/GetPdfSellado/${obj.referenceNumber.split('-')[0]}/${obj.referenceNumber}`)
-      .then(() => {                         
-          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                                     
-          resolve('ok')                                                                           
-      })                                  
-    })
-    .catch((error) => {                      
-      reject(error)                          
-      this.$notify.error({
-        title: "ups!",
-        msg: error,
-        position: "bottom right",
-        styles: {
-          height: 100,
-          width: 500,
-        },
-      });        
-    });              
-  })
-    setTimeout(() => {
-      pdf_sellado_promise.then(() => {  
-        this.modalLoading = false                  
-        this.limpiar_filtros()
-        this.$notify.success({
-            title: "Ok!",
-            msg: `SE SUBIO CORRECTAMENTE EL ARCHIVO.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-        });  
-      })      
-    }, 3000);      
-  },
-
-  },
-  
-  
-
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
 /////////////////////////////////////////////////////////////////////
@@ -641,11 +562,5 @@ methods:{
       return moment(value.substring(0, 10)).format("DD/MM/YYYY");
     },
   }, 
-
 };
-
 </script>
-
-<style>
-
-</style>
