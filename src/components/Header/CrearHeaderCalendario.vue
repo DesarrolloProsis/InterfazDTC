@@ -75,31 +75,31 @@
                 <p class="font-titulo font-semibold">Codigo de Colores:</p>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Semanal</p>
-                    <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Verde</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Mensual</p>
-                    <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Rojo</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Trimestral</p>
-                    <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Azul</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Semestral</p>
-                    <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Rosa</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Anual</p>
-                    <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">NARANJA</p>
                     </div>
                 </div>
