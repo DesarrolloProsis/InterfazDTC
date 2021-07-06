@@ -12,14 +12,6 @@
           <button @click="navbarOpen == true ? navbarOpen = false : navbarOpen = true" class="mt-1 mr-3">
             <img class="h-8 w-8" src="@/assets/img/lista.png" alt="" />
           </button>
-          <!-- <button class="bg-white rounded-lg flex items-center w-10 mt-3 ml-4 mr-0">
-            <span>
-              <svg class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-              </svg>
-            </span>
-          </button> 
-          -->  
         </div>              
       </div>     
     </nav>
@@ -61,7 +53,7 @@ export default {
       navbarOpen: false
     }
   },
-  computed:{
+  computed:{    
     rollUsuario(){
       return this.$store.state.Login.cookiesUser.rollId
     },
@@ -78,6 +70,11 @@ export default {
   methods:{
     manual_pdf(){
       ReportesPDFService.manual_pdf()
+    }
+  },
+  watch: {
+    '$route' (){
+      this.navbarOpen = false      
     }
   }    
 };
