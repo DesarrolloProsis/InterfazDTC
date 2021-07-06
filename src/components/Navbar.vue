@@ -7,27 +7,35 @@
           Inicio          
         </router-link>     
       </div>      
-      <div class="flex">                
+      <div class="flex">   
+        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
         <div class="group inline-block font-titulo">
           <button @click="navbarOpen == true ? navbarOpen = false : navbarOpen = true" class="mt-1 mr-3">
-            <img class="h-8 w-8" src="@/assets/img/lista.png" alt="" />
+            <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" />
           </button>
         </div>              
       </div>     
     </nav>
-    <div v-if="$route != undefined && $route.name != 'login'" class="relative">
+    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 rounded rounded-2xl">      
       <transition name="fade">
-      <div v-if="navbarOpen" class="absolute top-0 right-0 bg-blue-800 rounded w-auto sm:w-full">    
-        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left">Bienvenido: {{ nombreUsuario }}</p>   
-        <div v-for="(item, key) in listaAccesoRapido" :key="key" class="m-3 text-center">
-          <button @click="navbarOpen = false">
-            <router-link :to="item.path" class="text-white text-left ml-2">
-              {{ item.texto}}
-            </router-link>
-          </button>
-        </div>                
-      </div>
-      </transition >
+        <div v-if="navbarOpen" class="absolute top-0 right-0 bg-blue-800 w-auto sm:w-full rounded-lg">    
+          <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left md:hidden lg:hidden xl:hidden">Bienvenido: {{ nombreUsuario }}</p>   
+          <div v-for="(item, key) in listaAccesoRapido" :key="key" class="p-1 text-center w-full border border-gray-800" :class="{'bg-blue-600': key % 2 == 0, 'bg-blue-700': key % 2 != 0 }">        
+            <button @click="navbarOpen = false" class="flex text-left w-65">
+              <router-link :to="item.path" class="text-white ml-2 mt-1 w-full">
+                {{ item.texto}}              
+              </router-link>            
+            </button>
+          </div> 
+           <div class="p-1 text-center w-full border border-gray-800 bg-red-600">        
+            <button @click="navbarOpen = false" class="flex text-left w-65">
+              <router-link to="/" class="text-white ml-2 mt-1 w-full">
+                Salir            
+              </router-link>            
+            </button>
+          </div>                
+        </div>
+      </transition >      
     </div>
     
   </div>
@@ -47,8 +55,7 @@ export default {
         { texto: 'Revisar DTC', path: '/ListarDtc', rollValidos: [4, 7]},
         { texto: 'Calendario Historico', path: '/CalendarioHistorico', rollValidos: [4, 7]},
         { texto: 'Inventario', path: '/Inventario', rollValidos: [7, 10]},
-        { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]},
-        { texto: 'Salir', path: '/', rollValidos: [1, 10, 4, 7]}
+        { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]}        
       ],
       navbarOpen: false
     }
