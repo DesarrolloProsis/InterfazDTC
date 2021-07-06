@@ -275,7 +275,8 @@ export default {
           this.datosmtto.folio = ''
           this.datosmtto.ubicacion = ''
           let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${this.plazaSeleccionada}/${capufeNum}/${idGare}`)
+          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
+            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${numeroPlaza}/${capufeNum}/${idGare}`)
             .then((response)=>{
                 console.log(response);
                 this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
