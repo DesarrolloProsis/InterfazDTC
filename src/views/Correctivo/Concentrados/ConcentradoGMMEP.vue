@@ -82,6 +82,9 @@
           </div>
         </div>
       </div>
+      <!--////////////////////////////////////////////////////////////////////
+      ////                   TABLA CONCENTRADO GMMEP                   //////
+      ////////////////////////////////////////////////////////////////////-->
       <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16"
         :class="{'overflow-x-auto bg-white rounded-lg relative shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
@@ -162,66 +165,6 @@
                     </button>
                   </div>
                 </td>
-<!--                 <td class="cuerpoTable hidden">
-                  <div>
-                    <button v-if="item.technicalSheetReference == '--'" @click="terminar_diagnostico_falla_dtc(item)" class="botonIconBuscar">Terminar Diagnostico</button>
-                    <p v-else class="text-green-700 font-semibold">Diagnostico Creado</p>
-                  </div>
-                </td> -->
-                <!-- Columna de cambios de status -->
-<!--                 <td class="cuerpoTable hidden" v-if="tipoUsuario == 4 || tipoUsuario == 10">
-                  <div>
-                    <button class="botonIconBuscar" @click="abrir_modal_editar(item)">Cambiar Estatus</button>
-                  </div>
-                </td> -->
-<!--                 <td class="cuerpoTable hidden">
-                  <div class="grid grid-cols-1 md:mr-24 sm:grid-cols-1 sm:mr-24 mr-32" v-if="tipoUsuario != 8">          
-                      <button @click="descargar_PDF(item,2)" class="botonIconBorrarCard font-boton w-24 -mr-24 sm:-ml-1 ml-5" :class="{'ml-8': pdfSellado.name}">
-                          <img src="../../../assets/img/pdf-firmado.png" class="mr-2 ml-1 sm:mr-2 " width="15" height="15" />
-                          <span class="text-xs">Firmado</span>
-                      </button>
-                      <button v-if="item.statusId >= 3" @click="descargar_PDF(item,3)" class="botonIconBorrarCard font-boton w-24 sm:-ml-1 ml-5" :class="{'hidden': item.escaneadobool, 'ml-8': pdfSellado.name}" :disabled=" item.escaneadobool ">
-                          <img src="../../../assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:mr-2" width="15" height="15" />
-                          <span class="text-xs">Sellado</span>
-                      </button> -->
-                    <!-- /////////////////////////////////////////////////////////////////////
-                    ////                       SUBIR PDF SELLADO                      ////
-                    ///////////////////////////////////////////////////////////////////// -->        
-<!--                     <div class="" v-if="tipoUsuario != 7">
-                      <div v-if="item.escaneadobool">                    
-                        <button class="mt-1 w-32 ml-1 sm:w-32 sm:-ml-5" v-if="!item.confirmpdf">
-                          <div class="botonIconSellado font-boton">
-                            <input type="file" class="opacity-0 w-24 h-4 absolute" @change="recibir_pdf_sellado($event, key)"/>
-                            <img src="../../../assets/img/pdf.png" class="mr-1" width="15" height="15"/>
-                            <p class="text-xs mt-1">Subir Sellado</p>
-                          </div>                   
-                        </button>
-                        <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
-                          <div class="grid grid-cols-2">
-                          <img src="../../../assets/img/pdf.png" class="w-4 h-4 -ml-4 sm:hidden opacity-75" alt/>     
-                          <p class="ml-5 text-sm font-bold sm:ml-1">PDF Sellado</p>
-                          </div>
-                          <div class="grid grid-cols-1 -ml-10 sm:grid-cols-1 sm:-ml-1">
-                            <button @click="enviar_pdf_sellado(key)" class="botonEnviarPDF font-boton px-1 ml-12 sm:ml-0 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                            <button @click="item.confirmpdf = false, pdfSellado = ''" class="botonIconCancelar font-boton ml-12 sm:ml-0 h-6 text-sm justify-center w-24 px-1 sm:w-24">Cancelar</button>                  
-                          </div>            
-                        </div>
-                      </div>
-                    </div>  -->
-<!--                     <div class="-ml-2" v-if="item.escaneadobool && tipoUsuario == 7">
-                      <button class="botonIconBorrarCardDes font-boton w-24 sm:w-10 sm:ml-8"  :disabled=" item.escaneadobool ">
-                        <img src="@/assets/img/pdf-sellado.png" class="mr-2 ml-1 sm:m-0 sm:ml-1" width="15" height="15" />
-                        <span class="text-xs sm:hidden">Sellado</span>
-                      </button>
-                    </div>
-                  </div>                                 
-                  <div v-else>
-                    <button @click="descargar_PDF(item,1)" class="botonIconBorrarCard mr-2">
-                      <img src="@/assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />                      
-                      <span class="text-xs sm:hidden w-24">Sin Firma</span>
-                    </button>
-                  </div>
-                </td> -->
                 <td>
                   <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                     <template slot="singleLabel" slot-scope="props">
@@ -458,8 +401,7 @@ methods:{
     this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
     this.lista_DTC_Filtrada = this.infoDTC
   },
-  abrirCarrusel : async function ({ technicalSheetReference }){                                                                     
-        
+  abrirCarrusel : async function ({ technicalSheetReference }){       
     let array = this.$store.state.DTC.listaInfoDTC
       .find(item => item.dtcView.technicalSheetReference == technicalSheetReference).pathImagesDF
       .map(imgData => {        
@@ -523,7 +465,6 @@ methods:{
     }
   },
   filtro_dtc: async function (objFiltro) {     
-
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
     this.lista_DTC_Filtrada = []
     this.loadingTabla = true    
