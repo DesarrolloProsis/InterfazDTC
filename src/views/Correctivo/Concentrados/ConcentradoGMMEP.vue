@@ -467,8 +467,7 @@ methods:{
           "fileName": imgData, 
           "image": `${API}/DiagnosticoFalla/Images/${technicalSheetReference.split('-')[0]}/${technicalSheetReference}/${imgData}`
         }
-      })    
-    console.log(array)        
+      })        
     this.arrayImagenesCarrusel = { array_img: array, referenceNumber: technicalSheetReference };  
     this.carruselModal = true                                 
                                   

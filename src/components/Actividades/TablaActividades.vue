@@ -393,28 +393,23 @@ methods: {
     },
     subir_esaneado(){
         let clavePlaza = this.objSubir.split('-',1)
-        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')
-        console.log(file);
+        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')        
         let formData = new FormData()
-        formData.append('file', file)
-        console.log(formData);
+        formData.append('file', file)        
         this.$http.post(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${this.objSubir}`, formData)
-        .then(()=>{
-            this.$notify.success({
-                title: "Ok!",
-                msg: `Se subió el archivo correctamente.`,
-                position: "bottom right",
-                class:"font-titulo",
-                styles: {
-                height: 100,
-                width: 500,
-                },
-            });
-            this.pdfSelladoBool = true
-        })
-        .catch((ex)=>{
-            console.log(ex);
-        })
+            .then(()=>{
+                this.$notify.success({
+                    title: "Ok!",
+                    msg: `Se subió el archivo correctamente.`,
+                    position: "bottom right",
+                    class:"font-titulo",
+                    styles: {
+                    height: 100,
+                    width: 500,
+                    },
+                });
+                this.pdfSelladoBool = true
+            })         
     },
     descargar_escaneado(value){
         ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)

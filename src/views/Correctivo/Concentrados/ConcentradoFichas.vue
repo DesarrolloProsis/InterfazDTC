@@ -171,8 +171,7 @@ export default {
         },
         confirmarBorrar (item){
             this.infoEliminar = item
-            this.modalEliminar = true
-            console.log(item)
+            this.modalEliminar = true            
         },
         desargar_pdf(value){
             ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
@@ -193,15 +192,11 @@ export default {
             let userId = this.$store.state.Login.cookiesUser.userId 
             let clavePlaza = this.infoEliminar.referenceNumber.split('-')[0] 
             this.$http.post(`${API}/DiagnosticoFalla/BorraDiagnosticoFull/${clavePlaza}/${this.infoEliminar.referenceNumber}/${userId}/${this.comentarioBorrar}/${this.infoEliminar.referenceDTC}`)
-            .then((response)=>{
-                console.log(response)
-                this.modalEliminar = false
-                this.comentarioBorrar = ''
-                this.actualizarTabla()
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
+                .then(()=>{                
+                    this.modalEliminar = false
+                    this.comentarioBorrar = ''
+                    this.actualizarTabla()
+                })      
         },
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {

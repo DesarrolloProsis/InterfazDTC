@@ -113,11 +113,9 @@ const actions = {
         }
       }) 
   },
-  async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {   
-    console.log(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idUser}/${value.numPlaza}`); 
+  async BUSCAR_LISTA_DTC({ commit, rootGetters }, value) {       
     await Axios.get(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idUser}/${value.numPlaza}`)
-      .then(response => {            
-        console.log(response)          
+      .then(response => {                          
         commit("LISTA_DTC_MUTATION", response.data.result);
       })
       .catch(() => {

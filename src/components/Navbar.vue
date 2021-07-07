@@ -7,24 +7,37 @@
           Inicio          
         </router-link>     
       </div>      
-      <div class="flex sm:mt-4">        
-        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="sm:ml-6 mt-2 text-white inline-block sm:text-sm font-titulo sm:hidden">Bienvenido: {{ nombreUsuario }}</p>
-        <div class="group inline-block font-titulo sm:hidden">
-          <button class="bg-white rounded-lg flex items-center w-10 mt-3 ml-4 mr-0">
-            <span>
-              <svg class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-              </svg>
-            </span>
+      <div class="flex">   
+        <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
+        <div class="group inline-block font-titulo">
+          <button @click="navbarOpen == true ? navbarOpen = false : navbarOpen = true" class="mt-1 mr-3">
+            <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" />
           </button>
-          <ul id="testListaAccesoRapido" v-if="listaAccesoRapido.length > 0" class="bg-white border rounded-lg transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top min-w-32 -ml-16">            
-            <router-link v-for="(item, key) in listaAccesoRapido" :key="key" :to="item.path"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">{{ item.texto }}</li></router-link>                             
-            <button @click="manual_pdf"><li class="rounded-sm px-3 py-1 hover:bg-gray-100">Manual de Usuario</li></button>
-          </ul>   
-        </div>      
-        <router-link to="/" class="inline-block ml-2 mr-2 px-8 py-2 text-white text-xl leading-none rounded-lg font-titulo border-black hover:border-black hover:text-white hover:bg-red-700 sm:-mt-4">Salir</router-link>
-      </div>
+        </div>              
+      </div>     
     </nav>
+    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 rounded rounded-2xl">      
+      <transition name="fade">
+        <div v-if="navbarOpen" class="absolute top-0 right-0 bg-blue-800 w-auto sm:w-full rounded-lg">    
+          <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left md:hidden lg:hidden xl:hidden">Bienvenido: {{ nombreUsuario }}</p>   
+          <div v-for="(item, key) in listaAccesoRapido" :key="key" class="p-1 text-center w-full border border-gray-800" :class="{'bg-blue-600': key % 2 == 0, 'bg-blue-700': key % 2 != 0 }">        
+            <button @click="navbarOpen = false" class="flex text-left w-65">
+              <router-link :to="item.path" class="text-white ml-2 mt-1 w-full">
+                {{ item.texto}}              
+              </router-link>            
+            </button>
+          </div> 
+           <div class="p-1 text-center w-full border border-gray-800 bg-red-600">        
+            <button @click="navbarOpen = false" class="flex text-left w-65">
+              <router-link to="/" class="text-white ml-2 mt-1 w-full">
+                Salir            
+              </router-link>            
+            </button>
+          </div>                
+        </div>
+      </transition >      
+    </div>
+    
   </div>
 </template>
 <script>
@@ -42,11 +55,12 @@ export default {
         { texto: 'Revisar DTC', path: '/ListarDtc', rollValidos: [4, 7]},
         { texto: 'Calendario Historico', path: '/CalendarioHistorico', rollValidos: [4, 7]},
         { texto: 'Inventario', path: '/Inventario', rollValidos: [7, 10]},
-        { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]}
-      ]
+        { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]}        
+      ],
+      navbarOpen: false
     }
   },
-  computed:{
+  computed:{    
     rollUsuario(){
       return this.$store.state.Login.cookiesUser.rollId
     },
@@ -64,16 +78,19 @@ export default {
     manual_pdf(){
       ReportesPDFService.manual_pdf()
     }
+  },
+  watch: {
+    '$route' (){
+      this.navbarOpen = false      
+    }
   }    
 };
 </script>
 <style >
-  li>ul { transform: translatex(100%) scale(0) }
-  li:hover>ul { transform: translatex(101%) scale(1) }
-  li > button svg { transform: rotate(-90deg) }
-  li:hover > button svg { transform: rotate(-270deg) }
-  .group:hover .group-hover\:scale-100 { transform: scale(1) }
-  .group:hover .group-hover\:-rotate-180 { transform: rotate(180deg) }
-  .scale-0 { transform: scale(0) }
-  .min-w-32 { min-width: 8rem }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
+}
 </style>
