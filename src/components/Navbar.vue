@@ -16,24 +16,39 @@
         </div>              
       </div>     
     </nav>
-    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 rounded rounded-2xl">      
+    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3">      
       <transition name="fade">
-        <div v-if="navbarOpen" class="absolute top-0 right-0 bg-blue-800 w-auto sm:w-full rounded-lg">    
-          <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left md:hidden lg:hidden xl:hidden">Bienvenido: {{ nombreUsuario }}</p>   
-          <div v-for="(item, key) in listaAccesoRapido" :key="key" class="p-1 text-center w-full border border-gray-800" :class="{'bg-blue-600': key % 2 == 0, 'bg-blue-700': key % 2 != 0 }">        
-            <button @click="navbarOpen = false" class="flex text-left w-65">
-              <router-link :to="item.path" class="text-white ml-2 mt-1 w-full">
-                {{ item.texto}}              
-              </router-link>            
-            </button>
-          </div> 
-           <div class="p-1 text-center w-full border border-gray-800 bg-red-600">        
-            <button @click="navbarOpen = false" class="flex text-left w-65">
-              <router-link to="/" class="text-white ml-2 mt-1 w-full">
-                Salir            
-              </router-link>            
-            </button>
-          </div>                
+        <div v-if="navbarOpen" class="absolute top-0 right-0 w-auto sm:w-full rounded-lg inline-flex">     
+          <div class="bg-white border border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-t-none rounded-2xl">                  
+            <div v-for="(item, key) in listaMenuIzq" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
+              <p class="font-bold">{{ item.texto }}</p>
+              <button>
+                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
+                  <button class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
+                    <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
+                    <div  class="ml-4 text-left">
+                      <p class="font-semibold">{{ itemsub.texto }}</p>
+                      <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
+                    </div>
+                  </button>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="bg-white border border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-t-none rounded-2xl">                  
+            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
+              <p class="font-bold">{{ item.texto }}</p>                  
+                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
+                  <button class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
+                  <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
+                  <div  class="ml-4 text-left">
+                    <p class="font-semibold">{{ itemsub.texto }}</p>
+                    <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
+                  </div>  
+                  </button>                 
+                </div>                         
+            </div>                 
+          </div>
         </div>
       </transition >      
     </div>
@@ -56,6 +71,34 @@ export default {
         { texto: 'Calendario Historico', path: '/CalendarioHistorico', rollValidos: [4, 7]},
         { texto: 'Inventario', path: '/Inventario', rollValidos: [7, 10]},
         { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]}        
+      ],
+      listaMenuIzq: [
+        { texto: 'Mantenimiento Preventivo', subMenu: [
+            { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1] },
+            { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/CalendarioActividades', rollValidos: [1] },
+          ] 
+        },
+        { texto: 'Mantenimiento Correctivo', subMenu: [
+            { texto: 'Diagnóstico de Falla', img: '/img/documento.895fbd37.png', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 10]},
+            { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,4,10]},
+            { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1, 10]},
+            { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,4, 7, 10]},
+            { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [7, 10]},
+          ] 
+        },     
+      ],
+      listaMenuDer:[ 
+        { texto: 'Ayuda', subMenu: [
+            { texto: 'Comentarios', img: '/img/comentarios.d019c37b.png', path: '/Configuracion', rollValidos: [1, 10] },
+            { texto: 'Videos', img: '/img/videos.0bc9c45c.png', path: '/Configuracion', rollValidos: [1, 10] },
+            { texto: 'Manual de Usuario', img: '/img/guia.2bdce3ae.png', path: '/Configuracion', rollValidos: [1, 10] },
+          ] 
+        }, 
+        { texto: 'Configuracion', subMenu: [
+            { texto: 'Encargados de Plaza', img: '/img/encargado.cc1e52b0.png', path: '/Configuracion', rollValidos: [1, 10] },
+            { texto: 'Usuarios de Bitacora', img: '/img/customer.f1d7f9c9.png', path: '/Configuracion', rollValidos: [1, 10] },
+          ] 
+        }
       ],
       navbarOpen: false
     }
