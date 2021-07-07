@@ -18,9 +18,9 @@
     </nav>
     <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3">      
       <transition name="fade">
-        <div v-if="navbarOpen" class="absolute top-0 right-0 w-auto sm:w-full rounded-lg inline-flex">     
-          <div class="bg-white border border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-t-none rounded-2xl">                  
-            <div v-for="(item, key) in listaMenuIzq" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
+        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto sm:w-full inline-flex">     
+          <div class="bg-white border border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-lg">                  
+            <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>
               <button>
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
@@ -34,8 +34,14 @@
                 </div>
               </button>
             </div>
+            <button class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-300 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden">
+              <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
+              <div  class="ml-4 text-left">
+                <p class="font-semibold">Cerrar Sesion</p>                                
+              </div>  
+            </button>   
           </div>
-          <div class="bg-white border border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-t-none rounded-2xl">                  
+          <div class="bg-white border border-l-0 border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-lg sm:hidden">                  
             <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>                  
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
@@ -46,8 +52,14 @@
                     <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
                   </div>  
                   </button>                 
-                </div>                         
-            </div>                 
+                </div>                                     
+            </div> 
+            <button class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-300 pl-1 pr-1 pb-1 w-full h-12">
+              <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
+              <div  class="ml-4 text-left">
+                <p class="font-semibold">Cerrar Sesion</p>                                
+              </div>  
+            </button>                   
           </div>
         </div>
       </transition >      
@@ -61,29 +73,21 @@ export default {
   name: 'NavBar',
   data(){
     return{
-      accesoRapidoVistas: [
-        { texto: 'Diagnóstico de Falla', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 10]},
-        { texto: 'Concentrado Diag/Ficha', path: '/ConcentradoFichas', rollValidos:[1,4,10]},
-        { texto: 'Concentrado DTC', path: '/ListarDtc', rollValidos: [1, 10]},
-        { texto: 'Concentrado GMMEP', path: '/ConcentradoGMMEP', rollValidos: [1,4, 7, 10]},
-        { texto: 'Calendario de Actividades', path: '/CalendarioActividades', rollValidos: [1]},
-        { texto: 'Revisar DTC', path: '/ListarDtc', rollValidos: [4, 7]},
-        { texto: 'Calendario Historico', path: '/CalendarioHistorico', rollValidos: [4, 7]},
-        { texto: 'Inventario', path: '/Inventario', rollValidos: [7, 10]},
-        { texto: 'Configuración', path: '/Configuracion', rollValidos: [1, 10]}        
-      ],
       listaMenuIzq: [
         { texto: 'Mantenimiento Preventivo', subMenu: [
             { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1] },
             { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/CalendarioActividades', rollValidos: [1] },
+            { texto: 'Bitacora de Vistas de Mantenimiento Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioActividades', rollValidos: [4] },
+            { texto: 'Concentrado de Actividades de Mantenimiento Preventivo', img: '/img/report.f0a9dabd.png', path: '/CalendarioActividades', rollValidos: [4] }
           ] 
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [
             { texto: 'Diagnóstico de Falla', img: '/img/documento.895fbd37.png', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 10]},
             { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,4,10]},
-            { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1, 10]},
+            { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1, 4, 10]},
             { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,4, 7, 10]},
-            { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [7, 10]},
+            { texto: 'Concentrado DTC Borrados', img: '/img/borrados.ee2662d6.png', path: '/ConcentradoGMMEP', rollValidos: [4,10]},
+            { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [1, 7, 4, 10]},
           ] 
         },     
       ],
@@ -110,9 +114,20 @@ export default {
     nombreUsuario(){
       return this.$store.state.Login.cookiesUser.nombreUsuario
     },
-    listaAccesoRapido(){
-      if(this.rollUsuario != undefined){        
-        return this.accesoRapidoVistas.filter(boton => boton.rollValidos.includes(this.rollUsuario))
+    filtroMenuIzq(){
+      if(this.rollUsuario != undefined){   
+        let listaFiltrada = []     
+        this.listaMenuIzq.forEach(item => {
+            let arrayBotones = []
+            item.subMenu.map(itemSub => {
+              if(itemSub.rollValidos.includes(this.rollUsuario)){                              
+                arrayBotones.push(itemSub)
+              }
+            })
+            item.subMenu = arrayBotones
+            listaFiltrada.push(item)
+        })
+        return listaFiltrada
       }
       return []
     }
