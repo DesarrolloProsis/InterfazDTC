@@ -3,7 +3,6 @@
 <!--/////////////////////////////////////////////////////////////////////
 ////                          CORRECTIVO                           /////
 ////////////////////////////////////////////////////////////////////-->
-    <!-- <transition name="slide-fade">  -->
     <div class="flex justify-center mt-2 mb-16 sm:mt-14" v-if="tipoBotones">
       <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3 hidden">
@@ -42,12 +41,6 @@
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
             </router-link>
           </div>
-          <!-- <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
-            <router-link to="/Configuracion" class="text-center cursor-pointer">
-              <img src="../../assets/img/engranajes.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Configuración</h1>
-            </router-link>
-          </div>       -->
       </div>
     </div>
     <div class="flex justify-center mt-2 sm:mt-14" v-else>
