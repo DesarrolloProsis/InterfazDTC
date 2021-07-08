@@ -75,19 +75,19 @@ export default {
     return{
       listaMenuIzq: [
         { texto: 'Mantenimiento Preventivo', subMenu: [
-            { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1] },
-            { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1] },
-            { texto: 'Bitacora de Vistas de Mantenimiento Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioHistorico', rollValidos: [4] },
+            { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1,2, 5] },
+            { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1,2,5] },
+            { texto: 'Bitacora de Vistas de Mantenimiento Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioHistorico', rollValidos: [2,4] },
             { texto: 'Concentrado de Actividades de Mantenimiento Preventivo', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4] }
           ] 
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [
-            { texto: 'Diagnóstico de Falla', img: '/img/documento.895fbd37.png', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 10]},
-            { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,4,10]},
-            { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1, 4, 10]},
-            { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,4, 7, 10]},
+            { texto: 'Diagnóstico de Falla', img: '/img/documento.895fbd37.png', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1,2, 5, 10]},
+            { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,2,4,5,10]},
+            { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1,2, 4, 5, 10]},
+            { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 10]},
             { texto: 'Concentrado DTC Borrados', img: '/img/borrados.ee2662d6.png', path: '/ConcentradoBorrados', rollValidos: [4,10]},
-            { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [1, 7, 4, 10]},
+            { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
           ] 
         },     
       ],
