@@ -25,6 +25,20 @@ function xml_hhtp_request(urlTopdf,namePdf){
     };
     oReq.send();       
 }
+function xlsx_hhtp_request(urlToxls,namexls){
+    var oReq = new XMLHttpRequest();  
+    oReq.open("GET", urlToxls, true);    
+    oReq.responseType = "blob";  
+    let token = CookiesService.obtener_bearer_token('xls')
+    oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
+    oReq.onload = function () {         
+    var file = new Blob([oReq.response], {
+        type: "application/xlsx",
+    });       
+    saveAs(file, namexls);
+    };
+    oReq.send();       
+}
 async function obtener_admin_id(referenceNumber){
     let id = ''
     await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`)
@@ -223,6 +237,11 @@ function generar_pdf_ficha_sellada(referenceNumber,tipo){
         xml_hhtp_request(urlTopdf,namePdf)
     }
 }
+function reporte_componentes(){
+    let urlExcel = `${API}/Component/DescargarExcel`
+    let nameExcel = 'ReporteDeComponentes'
+    xlsx_hhtp_request(urlExcel,nameExcel)
+}
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
     let namePdf = 'Manual de Usuario'
@@ -243,5 +262,6 @@ export default {
     obtener_admin_id,
     generar_pdf_fotografico_correctivo,
     generar_pdf_sellado_preventivo,
-    generar_pdf_ficha_sellada
+    generar_pdf_ficha_sellada,
+    reporte_componentes
 }

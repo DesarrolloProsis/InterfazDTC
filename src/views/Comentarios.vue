@@ -29,7 +29,7 @@
                             </tr>  
                         </template> 
                         <template v-if="listaComentarios_filtrada.length > 0">
-                        <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item,key) in listaComment" :key=key>
+                        <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item,key) in listaComment" :key="key">
                             <td class="cuerpoTable sm:text-xs">{{ item.userName }}</td>
                             <td class="cuerpoTable sm:text-xs">{{ item.description }}</td>                                
                             <td class="cuerpoTable sm:text-xs">{{ item.dateStamp | formatDate }}</td>

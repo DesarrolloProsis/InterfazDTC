@@ -193,6 +193,7 @@ export default {
             pdfSellado:'',
             modalSubirSellado: false,
             objSubir:'',
+            objInsertEscaneado:{}
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -201,6 +202,7 @@ export default {
 beforeMount: async function(){  
     this.loadingTabla = true            
     let cargaInicial = this.$route.params.cargaInicial
+    console.log(cargaInicial);
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
     this.plazaNombre = cargaInicial.plazaNombre
     this.comentario = cargaInicial.comentario     
