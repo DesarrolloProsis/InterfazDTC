@@ -29,7 +29,7 @@ function xlsx_hhtp_request(urlToxls,namexls){
     var oReq = new XMLHttpRequest();  
     oReq.open("GET", urlToxls, true);    
     oReq.responseType = "blob";  
-    let token = CookiesService.obtener_bearer_token('xls')
+    let token = CookiesService.obtener_bearer_token('pdf')
     oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
     oReq.onload = function () {         
     var file = new Blob([oReq.response], {
@@ -239,7 +239,7 @@ function generar_pdf_ficha_sellada(referenceNumber,tipo){
 }
 function reporte_componentes(){
     let urlExcel = `${API}/Component/DescargarExcel`
-    let nameExcel = 'ReporteDeComponentes'
+    let nameExcel = 'ReporteDeComponentes.xlsx'
     xlsx_hhtp_request(urlExcel,nameExcel)
 }
 function manual_pdf(){
