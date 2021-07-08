@@ -82,9 +82,9 @@
           </div>
         </div>
       </div>
-      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16"
-        :class="{'overflow-x-auto bg-white rounded-lg  shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
-        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped static">
+      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16 static"
+        :class="{'overflow-x-auto bg-white rounded-lg static shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
+        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
           <!--/////////////////////////////////////////////////////////////////
           ////                           HEADER TABLA                      ////
           ////////////////////////////////////////////////////////////////////-->

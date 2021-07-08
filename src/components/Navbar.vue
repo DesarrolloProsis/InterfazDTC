@@ -45,13 +45,20 @@
             <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>                  
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
-                  <button @click="$router.push(itemsub.path)"  class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
+                  <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
                     <div  class="ml-4 text-left">
                       <p class="font-semibold">{{ itemsub.texto }}</p>
                       <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
                     </div>  
-                  </button>                 
+                  </button>
+                  <button v-else @click="manual_pdf" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
+                    <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
+                    <div  class="ml-4 text-left">
+                      <p class="font-semibold">{{ itemsub.texto }}</p>
+                      <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
+                    </div>  
+                  </button>                  
                 </div>                                     
             </div> 
             <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-300 pl-1 pr-1 pb-1 w-full h-12">
@@ -93,8 +100,8 @@ export default {
       ],
       listaMenuDer:[ 
         { texto: 'Ayuda', subMenu: [
-            { texto: 'Comentarios', img: '/img/comentarios.d019c37b.png', path: '/Configuracion', rollValidos: [1, 10] },
-            { texto: 'Videos', img: '/img/videos.0bc9c45c.png', path: '/Configuracion', rollValidos: [1, 10] },
+            { texto: 'Comentarios', img: '/img/comentarios.d019c37b.png', path: '/Ayuda', query: { tipo: 'comentario' }, rollValidos: [1, 10] },
+            { texto: 'Videos', img: '/img/videos.0bc9c45c.png', path: '/Ayuda', query: { tipo: 'videos' }, rollValidos: [1, 10] },
             { texto: 'Manual de Usuario', img: '/img/guia.2bdce3ae.png', path: '/Configuracion', rollValidos: [1, 10] },
           ] 
         }, 
@@ -135,7 +142,7 @@ export default {
   methods:{
     manual_pdf(){
       ReportesPDFService.manual_pdf()
-    }
+    },    
   },
   watch: {
     '$route' (){

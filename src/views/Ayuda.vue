@@ -128,6 +128,13 @@ export default {
         }
     },
     beforeMount(){
+        if(this.$route.query.tipo == 'comentario'){
+            this.modal_coment = true
+        }
+        if(this.$route.query.tipo == 'videos'){
+            this.boolBotones = false
+            this.boolListaVideos = true
+        }
         this.$http.get(`${API}/Comentario/comment/${this.$store.state.Login.plazaSelecionada.refereciaPlaza}/`)
             .then((response) => {
                 this.listaTipoComentario = response.data.result
