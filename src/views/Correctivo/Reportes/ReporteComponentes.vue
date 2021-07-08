@@ -2,7 +2,8 @@
     <div>
         <div class="flex justify-center p-4 sm:text-xs">
             <div>
-                <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-full sm:w-67 mb-20" style="height:500px;">
+                <HeaderGenerico @descargar-reporte="descargar_reporte" :titulo="'Componentes Requeridos'" :tipo="'COMPONENTES'"></HeaderGenerico>
+                <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-79 sm:w-67 mb-20" style="height:500px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
                         <thead>
                             <tr class="text-md text-gray-400 bg-blue-800">
@@ -13,7 +14,6 @@
                                 <th class="cabeceraTable">Solicitante</th>
                                 <th class="cabeceraTable">Tipo DTC</th>
                                 <th class="cabeceraTable">Referencia</th>
-                                <th class="cabeceraTable">Acciones</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">
@@ -35,16 +35,11 @@
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_Filtrada" :key="key">
                                 <td class="cuerpoTable sm:text-xs">{{ item.plaza }}</td>
                                 <td class="cuerpoTable sm:text-xs">{{ item.carril }}</td>                                
-                                <td class="cuerpoTable sm:text-xs">{{ item.componente }}</td>
+                                <td class="cuerpoTable text-left sm:text-xs">{{ item.componente }}</td>
                                 <td class="cuerpoTable sm:text-xs">${{ item.precio }}</td> 
                                 <td class="cuerpoTable sm:text-xs">{{ item.solicitante }}</td>
                                 <td class="cuerpoTable sm:text-xs">{{ item.tipoDTC }}</td>                                
-                                <td class="cuerpoTable sm:text-xs">{{ item.referencia }}</td>
-                                <td class="cuerpoTable sm:text-xs">
-                                <button @click="descargar_reporte">
-                                    DESCARGAR EXCEL
-                                </button>
-                                </td>                                 
+                                <td class="cuerpoTable sm:text-xs">{{ item.referencia }}</td>                                
                             </tr>
                             </template>
                         </tbody>
@@ -56,9 +51,13 @@
 </template>
 <script>
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import HeaderGenerico from "@/components/Header/HeaderGenerico";
 import ServiceReportPDF from "../../../services/ReportesPDFService"
 export default {
     name:'ReporteComponentes',
+    components:{
+        HeaderGenerico,
+    },
     data(){
         return {
             lista_Componentes:[],
@@ -71,7 +70,6 @@ export default {
         this.loadingTabla = true
         this.$http.get(`${API}/Component/ReporteComponente`)
         .then((response)=>{
-            console.log(response.data.result);
             this.lista_Componentes = response.data.result
             this.lista_Filtrada = this.lista_Componentes
             this.lista = this.lista_Filtrada
