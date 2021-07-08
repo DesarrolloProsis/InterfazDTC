@@ -223,6 +223,11 @@ function generar_pdf_ficha_sellada(referenceNumber,tipo){
         xml_hhtp_request(urlTopdf,namePdf)
     }
 }
+function reporte_componentes(){
+    let urlExcel = `${API}/Component/DescargarExcel`
+    let nameExcel = 'ReporteDeComponentes'
+    xml_hhtp_request(urlExcel,nameExcel)
+}
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
     let namePdf = 'Manual de Usuario'
@@ -243,5 +248,6 @@ export default {
     obtener_admin_id,
     generar_pdf_fotografico_correctivo,
     generar_pdf_sellado_preventivo,
-    generar_pdf_ficha_sellada
+    generar_pdf_ficha_sellada,
+    reporte_componentes
 }

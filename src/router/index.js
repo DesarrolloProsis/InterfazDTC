@@ -72,6 +72,16 @@ const routes = [
     component: () => import('../views/Ayuda')
   },
   {
+    path: '/Reportes',
+    name: 'Reportes',
+    component: () => import('../views/Correctivo/Reportes/Reportes'),
+  },
+  {
+    path: '/ReporteComponentes',
+    name:'ReporteComponentes',
+    component: () => import('../views/Correctivo/Reportes/ReporteComponentes')
+  },
+  {
     path: '/Usuarios',
     name: 'Usuarios',
     component: () => import('../views/Usuarios')
