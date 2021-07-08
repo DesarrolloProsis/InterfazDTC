@@ -108,7 +108,7 @@
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
-        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
+        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
             <button class="botonIconNext" @click="abrirModal">
                 <span>Mantenimiento</span>
             </button>
