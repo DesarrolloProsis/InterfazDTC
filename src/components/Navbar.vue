@@ -145,7 +145,7 @@ export default {
     },    
   },
   watch: {
-    '$route' (){
+    '$route' (){      
       this.navbarOpen = false      
     }
   }    
