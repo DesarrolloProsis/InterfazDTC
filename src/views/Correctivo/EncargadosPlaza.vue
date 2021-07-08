@@ -6,13 +6,8 @@
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
                 <HeaderGenerico @filtrar-encargados="filtrar_encargados" @buscar-encargado="guardar_palabra_busqueda" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
-                <button @click="agregarUsuario()" class=" botonIconBuscar relative justify-center mb-6 -mt-4">
-                    <img
-                        src="../../assets/img/plus.png"
-                        class="mr-2 sm:m-1"
-                        width="20"
-                        height="20"
-                    />
+                <button @click="agregarUsuario()" class=" botonIconBuscar  justify-center mb-6 -mt-4">
+                    <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
                     <span class="">Agregar Nuevo Encargado</span>
                 </button>
                 <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>

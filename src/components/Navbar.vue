@@ -77,8 +77,8 @@ export default {
         { texto: 'Mantenimiento Preventivo', subMenu: [
             { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1,2, 5] },
             { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1,2,5] },
-            { texto: 'Bitacora de Vistas de Mantenimiento Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioHistorico', rollValidos: [2,4] },
-            { texto: 'Concentrado de Actividades de Mantenimiento Preventivo', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4] }
+            { texto: 'Bitacora de Vistas de Mantenimiento Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioHistorico', rollValidos: [2,4,7, 10] },
+            { texto: 'Concentrado de Actividades de Mantenimiento Preventivo', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4,7, 10], }
           ] 
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [

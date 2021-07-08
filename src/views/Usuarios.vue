@@ -7,14 +7,14 @@
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
         <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
-        <button @click="modalEditar = true" class="w-full botonIconBuscar relative justify-center mb-1" v-if="typeUser">
+        <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
           <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto relative" style="height:600px;">
+        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
@@ -42,15 +42,7 @@
                         {{ props.option.title }}</span>
                       </div>
                     </template>
-                  </multiselect> 
-                  <!-- <button @click="editarUsuario(item)" class="botonIconActualizar">
-                    <img src="@/assets/img/pencil.png" class="mr-2 sm:m-1" width="15" height="15"/>
-                    <span class="text-xs sm:hidden">Editar</span>
-                  </button>
-                  <button v-if="typeUser" @click="borrar_usuario(item)" class="botonIconLimpiar m-2">
-                    <img src="@/assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
-                    <span class="text-xs sm:hidden">Borrar</span>
-                  </button> -->
+                  </multiselect>      
                 </td>
             </tr>
           </table>
