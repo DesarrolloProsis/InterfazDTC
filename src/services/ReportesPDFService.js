@@ -227,7 +227,12 @@ function generar_pdf_ficha_sellada(referenceNumber,tipo){
 function reporte_componentes(){
     let urlExcel = `${API}/Component/DescargarExcel`
     let nameExcel = 'ReporteDeComponentes.xlsx'
-    xml_hhtp_request(urlExcel,nameExcel,2)
+    xml_hhtp_request(urlExcel,nameExcel)
+}
+function dtc_no_sellados(){
+    let urlExcel = `${API}/DtcData/DescargarExcelDTCNoSellado`
+    let nameExcel = 'ReporteNoSellados.xlsx'
+    xml_hhtp_request(urlExcel,nameExcel)
 }
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
@@ -250,5 +255,6 @@ export default {
     generar_pdf_fotografico_correctivo,
     generar_pdf_sellado_preventivo,
     generar_pdf_ficha_sellada,
-    reporte_componentes
+    reporte_componentes,
+    dtc_no_sellados
 }

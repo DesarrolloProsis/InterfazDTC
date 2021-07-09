@@ -82,9 +82,9 @@ const routes = [
     component: () => import('../views/Correctivo/Reportes/ReporteComponentes')
   },
   {
-    path: '/ReporteDTCSellados',
-    name: 'ReporteDTCSellados',
-    component: () => import('../views/Correctivo/Reportes/ReporteDTCSellados')
+    path: '/ReporteNoSellados',
+    name: 'ReporteNoSellados',
+    component: () => import('../views/Correctivo/Reportes/ReporteNoSellados')
   },
   {
     path: '/Usuarios',
