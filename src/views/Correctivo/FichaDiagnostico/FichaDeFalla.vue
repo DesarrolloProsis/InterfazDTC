@@ -13,8 +13,8 @@
                         <!-- /////////////////////////////////////////////////////////////////////
                         ////                         IMAGENES                             ////
                         ///////////////////////////////////////////////////////////////////// -->
-                        <ImagenesFichaDiagnostico :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                        <button @click="enviar_header_ficha(false)" class="botonIconCrear mt-4 sm:mt-12">
+                        <ImagenesFichaDiagnostico @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                        <button @click="enviar_header_ficha(false)" :disabled="blockBotonModal" class="botonIconCrear mt-4 sm:mt-12" :class="{'bg-gray-700': blockBotonModal, 'hover:bg-gray-700': blockBotonModal }">
                             <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Generar Ficha Técnica</span>
                         </button>  
@@ -81,7 +81,8 @@ export default {
             reporteInsertado: false  ,
             modalImage: false,
             botonEditCreate: true,
-            tipoFalla: 1               
+            tipoFalla: 1,
+            blockBotonModal: false               
         }
     },
     beforeMount(){
@@ -94,6 +95,9 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
+        bloquear_boton_diagnostioc_img(value){
+            this.blockBotonModal = value
+        },
         mapear_tipo_falla(item){
             this.tipoFalla = item
         },

@@ -1,5 +1,5 @@
 <template>
-    <div class>               
+    <div>               
         
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION   DTC                 ////         
@@ -381,8 +381,7 @@ export default {
                 .then((response)=>{                
                     this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
                     EventBus.$emit('ACTUALIZAR_INVENTARIO')
-                })            
-              
+                })                          
         },
         cambiar_plaza(numeroPlaza) {              
             this.plazaSeleccionada = numeroPlaza 

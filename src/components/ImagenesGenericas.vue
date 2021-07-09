@@ -140,7 +140,8 @@ export default {
         }
     },
     methods: {
-        recibir_imagenes: async function (e){                      
+        recibir_imagenes: async function (e){  
+            this.$emit('bloquear-boton-diagnostico', true)                    
             await this.enviar_imagenes(e)
             this.cargandoImagen = true            
             this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
@@ -152,6 +153,7 @@ export default {
                 if(this.expires_in === 1){
                     this.progress = 20
                     this.cargandoImagen = false
+                    this.$emit('bloquear-boton-diagnostico', false)
                 }
                 else if (this.expires_in === 0) {                    
                     clearInterval(this.interval);

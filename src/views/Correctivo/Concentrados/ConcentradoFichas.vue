@@ -79,21 +79,21 @@
                                     <td class="cuerpoTable sm:text-xs">{{ item.failuerNumber }}</td>
                                     <td class="cuerpoTable sm:text-xs">{{ item.siniesterNumber }}</td>                              
                                     <td class="cuerpoTable">{{ item.referenceDTC }}</td>
-                                    <td class="cuerpoTable">
+                                    <td class="cuerpoTable">                                               
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                                            <template slot="singleLabel" slot-scope="props">
+                                            <template slot="singleLabel" slot-scope="props" class="static">
                                                 <div class="inline-flex">
                                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
                                                     <span class="option__title bg-red-300">{{ props.option.title }}</span>
                                                 </div>
                                             </template>
-                                            <template slot="option" slot-scope="props">                                                
+                                            <template slot="option" slot-scope="props" class="static">                                                
                                                 <div class="option__desc "><span class="option__title inline-flex">
                                                     <img :src="props.option.img" class="mr-5" width="15" height="15">    
                                                     {{ props.option.title }}</span>
                                                 </div>
                                             </template>
-                                        </multiselect> 
+                                        </multiselect>                                                                                                                                                                                
                                     </td>
                                 </tr>
                             </template>  

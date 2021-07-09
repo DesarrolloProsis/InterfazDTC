@@ -5,12 +5,6 @@
 ////////////////////////////////////////////////////////////////////-->
     <div class="flex justify-center mt-2 mb-16 sm:mt-14" v-if="tipoBotones">
       <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
-          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3 hidden">
-            <router-link to="/NuevoDtc/Crear" class="text-center">
-              <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Nuevo DTC</h1>
-            </router-link>
-          </div>
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/Correctivo/PreDTC/Crear/DiagnosticoDeFalla" class="text-center">
               <img src="../../assets/img/document.png" height="200" width="200" class="m-10 sm:m-1" />
@@ -65,7 +59,7 @@
                 <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado de</h1>                            
                 <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Calendarios</h1>
             </router-link>                     
-          </div>
+          </div>           
       </div>
     </div>
     <!-- </transition> -->
