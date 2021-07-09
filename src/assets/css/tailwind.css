@@ -3,6 +3,7 @@
 
 @tailwind base;
 
+
 .multiselect__option--highlight{
     @apply bg-blue-300  
 }

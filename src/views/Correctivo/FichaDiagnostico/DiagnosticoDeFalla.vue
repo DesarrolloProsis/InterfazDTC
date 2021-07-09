@@ -13,8 +13,8 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_diagnostico(false)" class="botonIconCrear mt-6">
+                    <ImagenesFichaDiagnostico @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
+                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-700': blockBotonModal, 'hover:bg-gray-700': blockBotonModal }">
                         <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Diagnóstico</span>
                     </button>  
@@ -78,7 +78,8 @@ export default {
             type: 'Diagnostico',
             reporteInsertado: false,
             modalImage: false,
-            botonEditCreate: true                 
+            botonEditCreate: true,
+            blockBotonModal: false                 
         }
     },
     beforeMount(){
@@ -92,6 +93,9 @@ export default {
 ////        {}                  METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+    bloquear_boton_diagnostioc_img(value){
+        this.blockBotonModal = value
+    },
     actualizar_header(objHeader){                                  
         this.datosHeader = objHeader.header
         if(objHeader.value == false){             

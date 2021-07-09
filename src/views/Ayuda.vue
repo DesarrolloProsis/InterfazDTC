@@ -127,7 +127,14 @@ export default {
             tipoComentario: 1
         }
     },
-    beforeMount(){
+    beforeMount(){        
+        if(this.$route.query.tipo == 'comentario'){
+            this.modal_coment = true
+        }
+        if(this.$route.query.tipo == 'videos'){
+            this.boolBotones = false
+            this.boolListaVideos = true
+        }
         this.$http.get(`${API}/Comentario/comment/${this.$store.state.Login.plazaSelecionada.refereciaPlaza}/`)
             .then((response) => {
                 this.listaTipoComentario = response.data.result
@@ -204,6 +211,22 @@ export default {
         },
         rollUsuario(){
             return this.$store.state.Login.cookiesUser.rollId
+        }
+    },
+    watch: {
+        '$route' (from, to){      
+            if(from.path == to.path){
+                if(this.$route.query.tipo == 'comentario'){
+                    this.boolBotones = true
+                    this.boolListaVideos = false
+                    this.modal_coment = true
+                }
+                if(this.$route.query.tipo == 'videos'){
+                    this.modal_coment = false
+                    this.boolBotones = false
+                    this.boolListaVideos = true
+                }
+            }
         }
     }
 }
