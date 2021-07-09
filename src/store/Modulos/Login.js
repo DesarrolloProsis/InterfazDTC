@@ -53,10 +53,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       let objLogin = { username: objUserLogin.user, password: objUserLogin.password  }     
       Axios.post(`${API}/login`,objLogin)
-      .then(async (response) => {                                  
-        commit("COOKIES_USER_MUTATION", await CookiesService.formato_cookies_usuario(response.data.result))
-        resolve(true)                                                 
-      })
+        .then(async (response) => {                                  
+          commit("COOKIES_USER_MUTATION", await CookiesService.formato_cookies_usuario(response.data.result))
+          resolve(true)                                                 
+        })
       .catch(() => reject(false));
     }) 
   },
