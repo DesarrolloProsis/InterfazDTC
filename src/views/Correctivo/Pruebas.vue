@@ -10,6 +10,7 @@
         <img src="@/assets/img/actualizado.png" class="ml-2 sm:-ml-4" width="35" height="35" />
         <img src="@/assets/img/flechas.png" class="ml-2 sm:-ml-4" width="35" height="35" />
         <img src="@/assets/img/details.png" class="ml-2 sm:-ml-4" width="35" height="35" />
+        <img src="@/assets/img/reportar.png" class="ml-2 sm:-ml-4" width="35" height="35" />
       </base-progress>
       <div class="ml-2 mt-1 flex">
         <button
