@@ -95,6 +95,7 @@ export default {
             { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 8,10]},
             { texto: 'Concentrado DTC Borrados', img: '/img/borrados.ee2662d6.png', path: '/ConcentradoBorrados', rollValidos: [4,10]},
             { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
+            { texto: 'Reportes', img: '/img/reportar.91999abb.png', path: '/Reportes', rollValidos: [4]},
           ] 
         },     
       ],
