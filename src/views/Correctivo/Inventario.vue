@@ -7,6 +7,7 @@
             @filtra-palabra="guardar_palabra_busqueda"
             @guardar-cambios="guardar_cambios_inventario" 
             @abrir-modal="abrirModal"
+            @abrir-agregar="abrirAgregar"
             :tipo="'INV'">               
         </HeaderGenerico> 
         <!--/////////////////////////////////////////////////////////////////
@@ -100,6 +101,53 @@
             </div>
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
+        ///                    MODAL INSERTAR COMPONENTE                    ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div v-if="modalmtto" class="mt-16 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
+          <ValidationObserver ref="observer">      
+            <div><h1 class="text-center font-titulo text-4xl sm:text-md">Agregar Componente</h1></div>
+                <div class="grid grid-cols-2 mt-10 sm:grid-cols-1">
+                    <div class="ml-2 sm:-ml-4">
+                      <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
+                      <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
+                    </div>
+                    <div class="mt-8 ml-4">
+                      <!-- <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }">  -->
+                        <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
+                        <p class="w-32 input ml-16 -mt-6 sm:ml-8">
+                        <select v-model="datosmtto.ubicacion" immediate class="w-32 border-none" name="Carriles" type="text">
+                            <option value="">Selecionar...</option>
+                            <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                        </select></p>
+                        <!-- <span class="text-red-600 text-xs block">{{ errors[0] }}</span> -->
+                      <!-- </ValidationProvider> -->
+                    </div>
+                </div>
+                <div class="mt-6">
+                  <ValidationProvider name="FechaMantenimiento" immediate rules="required" v-slot="{ errors }"> 
+                    <p class="text-sm mb-1 font-semibold text-gray-700">Fecha de Mantenimineto</p>
+                    <input  class="w-full is_valid" type="date" name="FechaMantenimiento" v-model="datosmtto.fecha"/>
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+                <div class="mt-3">
+                  <ValidationProvider immediate name="FolioMantenimiento" rules="required" v-slot="{ errors }"> 
+                    <p class="text-sm mb-1 font-semibold text-gray-700">Folio de Mantenimiento</p>
+                    <input v-model="datosmtto.folio" class="w-full is_valid" type="text" name="FolioMantenimiento" />
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+                <div class="mt-8 flex justify-center sm:ml-6">
+                    <button class="botonIconCrear font-boton" :disabled="invalid" @click="modalAdver">
+                        <span class="">Aceptar</span>
+                    </button>
+                    <button class="botonIconCancelar font-boton" @click="modalmtto = false, datosmtto.folio = '', datosmtto.ubicacion = ''">
+                        <span class="">Cancelar</span>
+                    </button>
+                </div>
+          </ValidationObserver>
+        </div>
+        <!-- ////////////////////////////////////////////////////////////////////
         ///                             TABLA                               ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-16 font-titulo" style="height:600px;">
@@ -153,10 +201,24 @@
                     <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.maintenanceFolio" type="text"/>
                   </td>
                   <td class="cuerpoTable">
-                    <button @click="mostrar_mas(item)" class="botonIconCrear">
+                    <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                      <template slot="singleLabel" slot-scope="props">
+                        <div class="inline-flex">
+                          <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                          <span class="option__title bg-red-300">{{ props.option.title }}</span>
+                        </div>
+                      </template>
+                      <template slot="option" slot-scope="props">                                                
+                        <div class="option__desc "><span class="option__title inline-flex">
+                          <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                          {{ props.option.title }}</span>
+                        </div>
+                      </template>
+                    </multiselect>
+<!--                     <button @click="mostrar_mas(item)" class="botonIconCrear">
                       <img src="../../assets/img/more.png" class="mr-2 sm:-ml-4 sm:mr-1" width="15" height="15" />
                       <span class="text-xs">Mas</span>
-                    </button>
+                    </button> -->
                   </td>
                 </tr>
               </template>
@@ -203,6 +265,8 @@ export default {
       arrayCarriles: {},
       modalmtto: false,
       modalAdv: false,
+      modalAdd: false,
+      value:'',
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -226,9 +290,7 @@ export default {
     
   },
   beforeMount: async function () { 
-    this.loadingTabla = true
-    let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza             
-    await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
+    this.loadingTabla = true        
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
@@ -246,6 +308,10 @@ export default {
         this.modalmtto = true
         let fechaInicial = new Date()
         this.datosmtto.fecha = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");
+    },
+    abrirAgregar: function (){
+      this.modalAdd = true
+      console.log('agregar');
     },
     modalAdver: async function (){      
       let isValid = await this.$refs.observer.validate();       
@@ -272,10 +338,21 @@ export default {
         .then(async()=>{
           this.modalAdv = false
           this.modalLoading = true
+          let capufeNum = this.datosmtto.ubicacion.capufeLaneNum
+          let idGare = this.datosmtto.ubicacion.idGare
           this.datosmtto.folio = ''
           this.datosmtto.ubicacion = ''
-          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
-          await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza }); 
+          let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
+            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${numeroPlaza}/${capufeNum}/${idGare}`)
+            .then((response)=>{
+                console.log(response);
+                this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
+                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            })
+            .catch((er)=>{
+                console.log(er);
+            })
           this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
           this.loadingTabla = false       
           this.listEditados = [];
@@ -376,6 +453,26 @@ export default {
     cambiar_plaza(numeroPlaza) {  
       this.plazaSeleccionada = numeroPlaza 
       this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
+    },
+    customLabel ({ title }) {
+      return `${title}`
+    },
+    acciones_mapper(item){
+      console.log(item);
+      if(this.value.title == 'Más'){
+        this.mostrar_mas(item)
+      }
+      this.value = ""  
+    },
+    opticones_select_acciones(){
+      const options= [                
+        { title: 'Detalles', img: '/img/details.4d70003e.png' }, //0
+        { title: 'Duplicar', img: '/img/more.b0fdb1af.png' }
+      ]
+      let filtroOpciones = []
+      filtroOpciones.push(options[0])
+      filtroOpciones.push(options[1])
+      return filtroOpciones
     },
   },
   filters:{

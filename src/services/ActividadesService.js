@@ -29,7 +29,7 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
     else{   
         let tipoUsuario = store.state.Login.cookiesUser.rollId
         let objApi = { "userId": user.idUser, "squareId": user.numPlaza, "month": mes, "year": año,}
-        if(tipoUsuario == 4 || tipoUsuario == 7 || tipoUsuario == 10 )   
+        if(tipoUsuario == 4 || tipoUsuario == 7 || tipoUsuario == 10 || tipoUsuario == 2 || tipoUsuario == 5 )   
             await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES_ADMIN', objApi) 
         else
             await store.dispatch('Actividades/OBTENER_ACTIVIDADES_MESNUALES', objApi) 

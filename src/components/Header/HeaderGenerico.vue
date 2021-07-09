@@ -108,9 +108,14 @@
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
-        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
+        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
             <button class="botonIconNext" @click="abrirModal">
                 <span>Mantenimiento</span>
+            </button>
+        </div>
+        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
+            <button class="botonIconNext" @click="abrirModal">
+                <span>Agregar Componente</span>
             </button>
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
@@ -230,6 +235,42 @@
             </div>             
         </div> 
         </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                   FILTROS DE COMENTARIOS                        ///         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'COMPONENTES'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4 hidden">
+            <div class="text-center sm:ml-6 mb-6 justify-center">
+                <p class="font-bold -ml-10 sm:text-sm sm:text-center sm:-ml-1">Usuario / Tipo de Falla</p>
+                <input  class="border ml-65 w-66 text-center sm:w-32 is_valid sm:ml-24" placeholder="Usuario/Tipo de Falla"/>
+            </div>             
+        </div>
+        <div class="mb-4 ml-67 sm:ml-40 sm:-mt-4">
+            <button class="botonIconExcel" @click="descargarReporte">
+                <img src="@/assets/img/excel.png" class="mr-2" width="25" height="25" />
+                <span>Descargar Reporte</span>
+            </button>
+        </div>
+        </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                   FILTROS DE COMENTARIOS                        ///         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'NOSELLADOS'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
+            <div class="text-center ml-6 sm:ml-6 mb-6 justify-center">
+                <p class="font-bold -ml-10 sm:text-sm sm:text-center sm:-ml-1">Referencia</p>
+                <input v-model="buscarNoSellado" class="border ml-65 w-66 text-center sm:w-32 is_valid sm:ml-24" placeholder="PM-00000"/>
+            </div>             
+        </div>
+        <div class="mb-4 ml-76 -mt-16 sm:ml-40 sm:-mt-4">
+            <button class="botonIconExcel" @click="descargarReporte">
+                <img src="@/assets/img/excel.png" class="mr-2" width="25" height="25" />
+                <span>Descargar Reporte</span>
+            </button>
+        </div>
+        </div>
     </div>
 </template>
 
@@ -302,7 +343,8 @@ export default {
             carrilFiltro: {
                 capufeLaneNum: '0000',
                 idGare: ''
-            }
+            },
+            buscarNoSellado:'',
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -326,6 +368,12 @@ export default {
     methods:{
         abrirModal: function (){
             this.$emit('abrir-modal')
+        },
+        abrirAgregarComponente: function (){
+            this.$emit('abrir-agregar')
+        },
+        descargarReporte: function (){
+            this.$emit('descargar-reporte')
         },
         buscar_inventario_new(){       
             let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
@@ -432,6 +480,9 @@ export default {
         },
         filtroComentario: function(newPalabra){
             this.$emit('filtrar-comentario', newPalabra.trim())
+        },
+        buscarNoSellado: function(newPalabra){
+            this.$emit('buscar-nosellado', newPalabra.trim())
         }
     }
 }
