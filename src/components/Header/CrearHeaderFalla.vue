@@ -65,9 +65,8 @@
             ////////////////////////////////////////////////////////////////////--> 
             <div class="mt-6 ml-48 sm:ml-4 font-titulo">
                 <div>
-                    <ValidationProvider immediate name="FechaDiagnostico" rules="required"  v-slot="{ errors }">                   
-                        <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>
-                        <!-- <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/> -->
+                    <ValidationProvider immediate name="FechaDiagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
+                        <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>                        
                         <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-16 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -506,8 +505,12 @@ methods:{
                         validacion = true
                     }                                        
                 }
-            })                                   
-            if(!validacion){                                                            
+            })    
+            let fechaActual = Date.now()
+            let fechaDiagnostico = Date.parse(this.datosDiagnostico.fechaDiagnostico) 
+            let horaInicio = Date.parse(this.datosDiagnostico.horaInicio)
+            let horaFin = Date.parse(this.datosDiagnostico.horaFin)                                                      
+            if(!validacion && fechaDiagnostico < fechaActual && horaInicio < horaFin){                                                            
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                                   
             }  
             else{         

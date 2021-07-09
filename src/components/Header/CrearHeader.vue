@@ -84,7 +84,7 @@
               <span class="inline ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.position }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FechaSiniestro" immediate rules="required" v-slot="{ errors }">
+              <ValidationProvider name="FechaSiniestro" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Siniestro:</p>
                 <input v-model="datosSinester.SinisterDate" @change="crear_referencia_dtc()" class="w-full font-titulo is_valid" :disabled="fechaSiniestoEdit" name="FechaSiniestro" type="date" onkeydown="return false"/>              
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -123,7 +123,7 @@
               <span class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ headerSelecionado.plaza }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <ValidationProvider name="FechaFalla" immediate rules="required"  v-slot="{ errors }">
+              <ValidationProvider name="FechaFalla" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Falla:</p>
                 <input v-model="datosSinester.FailureDate" class="w-full is_valid" name="FechaFalla" type="date" onkeydown="return false"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -352,8 +352,16 @@ methods: {
       }
   },
   validar_header: async function(value){        
-    console.log(value) 
-    if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != ''){ 
+    console.log(value)
+    let fechaActual = Date.now()
+    let fechaSinisestro = Date.parse(this.datosSinester.SinisterDate)
+    let fechaFalla = Date.parse(this.datosSinester.FailureDate)
+    console.log({
+      fechaActual,
+      fechaSinisestro,
+      fechaFalla
+    })
+    if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != '' && fechaSinisestro < fechaActual && fechaFalla < fechaActual){ 
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)
     }

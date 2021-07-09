@@ -75,39 +75,40 @@ const actions = {
         }
       })
   },
-  async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {         
+  async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {   
+        
     let newObject = {
-      ReferenceNumber: state.referenciaDtc,
-      SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
-      ReportNumber: state.datosSinester.ReportNumber,
-      SinisterDate: state.datosSinester.SinisterDate,
-      FailureDate: state.datosSinester.FailureDate == '' ? null : state.datosSinester.FailureDate,
-      FailureNumber: state.datosSinester.FailureNumber == null ? ' ' : state.datosSinester.FailureNumber,
-      ShippingDate: state.datosSinester.ShippingElaboracionDate,
-      ElaborationDate: state.datosSinester.ShippingElaboracionDate,
-      TypeDescriptionId: state.datosSinester.TypeDescriptionId,
-      Diagnosis: state.diagnostico,
-      Observation: 'NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.',
-      UserId: value.header.userId,
-      AgremmentInfoId: value.header.agremmentInfoId,
-      flag: value.flag,
-      DTCStatus: value.status,
-      OpenFlag: value.openFlag,
-      SquareId: value.header.plaza.slice(0,3),
-      adminId: value.adminIdPlaza,
-      diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
-      //tipofalla: value.tipofalla
-    }            
-    console.log(newObject);    
-    await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
-      .then(response => {        
-        if (response.status === 201) {
-          commit('insertHeaderCompleteMutation', true)
-        }
-      })
-      .catch(er =>{
-        console.log(er);
-      })   
+        ReferenceNumber: state.referenciaDtc,
+        SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,
+        ReportNumber: state.datosSinester.ReportNumber,
+        SinisterDate: state.datosSinester.SinisterDate,
+        FailureDate: state.datosSinester.FailureDate == '' ? null : state.datosSinester.FailureDate,
+        FailureNumber: state.datosSinester.FailureNumber == null ? ' ' : state.datosSinester.FailureNumber,
+        ShippingDate: state.datosSinester.ShippingElaboracionDate,
+        ElaborationDate: state.datosSinester.ShippingElaboracionDate,
+        TypeDescriptionId: state.datosSinester.TypeDescriptionId,
+        Diagnosis: state.diagnostico,
+        Observation: 'NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.',
+        UserId: value.header.userId,
+        AgremmentInfoId: value.header.agremmentInfoId,
+        flag: value.flag,
+        DTCStatus: value.status,
+        OpenFlag: value.openFlag,
+        SquareId: value.header.plaza.slice(0,3),
+        adminId: value.adminIdPlaza,
+        diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
+        //tipofalla: value.tipofalla
+      } 
+      console.log(newObject);    
+      await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
+        .then(response => {        
+          if (response.status === 201) {
+            commit('insertHeaderCompleteMutation', true)
+          }
+        })
+        .catch(er =>{
+          console.log(er);
+        })               
   }
 };
 export default {
