@@ -210,7 +210,7 @@ methods: {
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
       let referenceFicha = this.referenciaFicha
-      let tipoFalla = this.$route.params.tipoFalla
+      let tipoFalla = this.$route.params.tipoFalla      
       //Inserta Header
       await this.$store.dispatch("Header/CREAR_HEADER_DTC", {
         header: header,

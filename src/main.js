@@ -34,10 +34,18 @@ extend('uniqueSinester', {
   }
 })
 extend('uniqueReport', {
+  getMessage: (field) => `La ${field} debe ser menor que la HoraFin`,
   validate(value){
     return store.getters['Header/GET_UNIQUE_REPORT_NUMBER'](value)
   }
 })
+extend('fechaMenorNow', { 
+  getMessage: (field) => `La ${field} debe ser menor que la fecha actual`, 
+  validate: (value) => {
+    console.log(value)
+    return Date.parse(value) < Date.now() ? true : false
+  }
+});
 extend('maxTime', {
   getMessage: (field) => `La ${field} debe ser menor que la HoraFin`,
   validate: (value, args) => {
