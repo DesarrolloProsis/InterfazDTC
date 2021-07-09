@@ -90,27 +90,33 @@
         <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3 ml-66 mb-3">
             <div class="mr-3 sm:mr-1 mt-6">
                 <span class="mr-10 font-bold text-md">Buscar</span>
-                <!--  <p class="input w-40 is_valid"> -->
-                    <input v-model="buscarPalabraInventario" placeholder="Carril/Componete/Serie" class="bg-white input -mt-1 sm:w-full border-none w-40" />
-                <!--   </p> -->
+                    <input v-model="buscarPalabraInventario" placeholder="Componete/No Serie" class="bg-white input  -mt-1 sm:w-full border-none w-40" />
             </div>         
             <div class="text-sm sm:mt-4 mt-6">
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
-                <SelectPlaza :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+            </div>
+            <div class="mt-8 ml-8">
+                    <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold sm:-ml-8 text-md">Seleecione un Carril</p>
+                    <p class="w-32 -ml-2 -mt-1 sm:-ml-8">
+                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 sm:w-48 border-none is_valid" name="Carriles" type="text">
+                        <option value="">Selecionar...</option>
+                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                    </select></p>
             </div>
             <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
-            <div class="mt-8 ml-16 sm:ml-40 sm:-mt-4" v-if="typeUser == 1">
-                <button class="botonIconNext" @click="abrirModal">
-                    <span>Mantenimiento</span>
-                </button>
-            </div>
+        </div>
+        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
+            <button class="botonIconNext" @click="abrirModal">
+                <span>Mantenimiento</span>
+            </button>
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs mt-5 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
+        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-10 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-4" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
@@ -152,11 +158,11 @@
         <!--////////////////////////////////////////////////////////////////////
         ///         FILTROS DE NAVEGACION USUARIOS                          ////         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'USUARIO'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
-        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
+        <div v-if="tipo == 'USUARIO'" class="w-full border mb-2 shadow-md rounded-lg font-titulo">
+        <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
             <div class="text-center sm:ml-6 mb-6">
                 <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="buscarUsuario" class="ml-62 w-66 text-center sm:w-48 is_valid sm:ml-16" placeholder="Nombre Apellidos"/>
+                <input v-model="buscarUsuario" class="ml-73 w-66 text-center is_valid" placeholder="Nombre Apellidos"/>
             </div>             
         </div>
         <!--////////////////////////////////////////////////////////////////////
@@ -212,13 +218,25 @@
             </button>
         </div>
         </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                   FILTROS DE COMENTARIOS                        ///         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'COMENTARIOS'" class="w-77 border mb-2 shadow-md rounded-lg font-titulo sm:w-67 sm:ml-1">
+        <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
+            <div class="text-center sm:ml-6 mb-6">
+                <p class="font-bold ml-10 sm:text-sm sm:text-center sm:-ml-1">Usuario / Tipo de Falla</p>
+                <input v-model="filtroComentario" class="border w-66 text-center ml-64 sm:w-32 is_valid sm:ml-24" placeholder="Usuario/Tipo de Falla"/>
+            </div>             
+        </div> 
+        </div>
     </div>
 </template>
 
 <script>
 import EventBus from '../../services/EventBus'
 import SelectPlaza from '../Header/SelectPlaza'
-
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     name: "HeaderGenerico",
     components: {
@@ -279,6 +297,12 @@ export default {
             buscarUsuario: '',
             //data Concentrado DF
             buscarDF:'',
+            //data Comentarios
+            filtroComentario:'',
+            carrilFiltro: {
+                capufeLaneNum: '0000',
+                idGare: ''
+            }
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -288,10 +312,12 @@ export default {
         this.typeUser = this.$store.state.Login.cookiesUser.rollId  
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.carrilFiltro.idGare = this.plazaSeleccionada
+        this.buscar_inventario_new()    
     },
     computed:{
         carriles_plaza(){
-        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+            return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
         },
     },
     /////////////////////////////////////////////////////////////////////
@@ -301,14 +327,27 @@ export default {
         abrirModal: function (){
             this.$emit('abrir-modal')
         },
-        cambiar_plaza(numeroPlaza) {  
+        buscar_inventario_new(){       
+            let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${this.plazaSeleccionada}/${this.carrilFiltro.capufeLaneNum}/${this.carrilFiltro.idGare}`)
+            .then((response)=>{
+                console.log(response);
+                this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
+                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            })
+            .catch((er)=>{
+                console.log(er);
+            })
+        },
+        cambiar_plaza(numeroPlaza) {              
             this.plazaSeleccionada = numeroPlaza 
-            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
+            //this.carrilFiltro =  this.carriles_plaza[0].lane
+            //this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)   
         },
         //Metodos Internos Componente
         actualizar_plaza_filtro(value){           
             this.plazaFiltro = value 
-            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
+            //this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaFiltro)
             this.filtrar_encargados()
             this.filtar_dtc_generico()
             this.filtar_concentrado_diagnostico_falla()
@@ -370,7 +409,7 @@ export default {
                 //numeroReferencia: this.referenciaFiltro,
                 ubicacion: this.ubicacion
             })
-        }
+        },
     },
     watch:{
         buscarDTC: function(newPalabra){
@@ -393,6 +432,9 @@ export default {
         },
         buscarEncargado: function(newPalabra){
             this.$emit('buscar-encargado', newPalabra.trim())
+        },
+        filtroComentario: function(newPalabra){
+            this.$emit('filtrar-comentario', newPalabra.trim())
         }
     }
 }

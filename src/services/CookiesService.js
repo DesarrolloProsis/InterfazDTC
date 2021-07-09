@@ -72,7 +72,7 @@ async function actualizar_plaza(adminId){
         let objConvenio = { id: null, numPlaza: plazaSelect.numeroPlaza, numConvenio: convenioSelect.agrement, idConvenio: convenioSelect.agremmentInfoId }  
         store.commit('Header/CONVENIO_ACTUAL_MUTATION', objConvenio)
         store.commit('Header/HEADER_SELECCIONADO_MUTATION',convenioSelect)
-        store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                             
+        //store.dispatch('Refacciones/FULL_COMPONETES', objConvenio)                             
         return { plazaSelect, convenioSelect } 
     }    
     if(adminId != undefined)

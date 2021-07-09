@@ -102,7 +102,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                             TABLA                               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-1 font-titulo" style="height:650px;">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 mb-16 font-titulo" style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
@@ -138,7 +138,7 @@
               </template>  
               <template v-if="listComponent.length > 0">
                 <tr class="h-12 text-gray-900 text-sm" v-for="(item, key) in listComponent" :key="key">                
-                  <td class="cuerpoTable">{{ item.component }}</td>
+                  <td class="cuerpoTable">{{ item.component + " (" + item.brand  + " " + item.model + ")"}}</td>
                   <td class="cuerpoTable">{{ item.lane }}</td>
                   <td class="cuerpoTable">
                     <input class="is_valid" :disabled="disableInputs" @change="guardar_editado(item)" v-model="item.serialNumber" type="text"/>
@@ -223,15 +223,15 @@ export default {
           this.loadingTabla = false      
         },1000)        
     });
+    
   },
   beforeMount: async function () { 
-    this.loadingTabla = true
-    let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza             
-    await this.$store.dispatch('Refacciones/FULL_COMPONETES',{ numPlaza: numeroPlaza})          
+    this.loadingTabla = true        
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
     this.loadingTabla = false
+    console.log(this.listComponent);
   },
   destroyed(){
     EventBus.$off('ACTUALIZAR_INVENTARIO')
@@ -270,10 +270,21 @@ export default {
         .then(async()=>{
           this.modalAdv = false
           this.modalLoading = true
+          let capufeNum = this.datosmtto.ubicacion.capufeLaneNum
+          let idGare = this.datosmtto.ubicacion.idGare
           this.datosmtto.folio = ''
           this.datosmtto.ubicacion = ''
-          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza                 
-          await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza }); 
+          let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+          let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
+            this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${numeroPlaza}/${capufeNum}/${idGare}`)
+            .then((response)=>{
+                console.log(response);
+                this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
+                EventBus.$emit('ACTUALIZAR_INVENTARIO')
+            })
+            .catch((er)=>{
+                console.log(er);
+            })
           this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
           this.loadingTabla = false       
           this.listEditados = [];
@@ -313,7 +324,7 @@ export default {
         let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza
         console.log(numeroPlaza)                 
         await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
-        await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
+        //await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false

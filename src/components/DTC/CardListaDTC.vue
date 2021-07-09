@@ -1,6 +1,29 @@
 <template>
   <div>
     <div class="w-66 sm:w-auto">
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                         MODAL ACTUALIZAR                      /////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 font-titulo">
+        <div v-if="modalActualizar" class="carruselGMMEP h-62 mt-32">          
+          <div class="justify-center text-center block"> 
+            <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+              <img src="../../assets/img/warning.png" class="ml-6 mt-4 sm:-ml-6" width="25" height="25" />
+              <p class="-mt-6 text-black sm:ml-6 -ml-1 sm:-mt-6 text-xl">Advertencia</p>
+              <img src="../../assets/img/warning.png" class="ml-64 -mt-8 sm:-mt-10 sm:ml-49" width="25" height="25" />
+            </h1>     
+            <p class="m-4 sm:ml-0 sm:w-full text-justify">Se van a Actualizar los componentes requeridos del DTC con Referencia {{ infoCard.referenceNumber }}</p> 
+          </div>
+          <div class="mt-12 flex justify-center">
+              <button class="botonIconCrear font-boton" >
+                  <span class="" @click="actualizarComponentes">Aceptar</span>
+              </button>
+              <button class="botonIconCancelar font-boton" @click="modalActualizar = false">
+                  <span class="">Cancelar</span>
+              </button>
+          </div>
+        </div>
+      </div>
       <!-- //////////////////////////////////////////////////////////////////////
       ///    /                      REFERENCIA                              ////
       ///////////////////////////////////////////////////////////////////// -->
@@ -8,20 +31,20 @@
         <div class="flex justify-between">
           <div class="font-semibold w-33">{{ infoCard.referenceNumber }}</div>           
           <div class=" inline-flex sm:ml-10 ml-16">
-            <div class="m-3 p-0 inline-block text-sm -ml-6">
+            <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
-              <span class="text-xs text-gray-800">*Fecha Siniestro</span>
+              <span class="text-xs text-gray-800 -ml-3">*Fecha Siniestro</span>
             </div>    
-            <div class="mt-2 ml-5 mr-3 w-5" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
+<!--             <div class="mt-2 ml-5 mr-3 w-5 hidden" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
               <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
               </button>
             </div>   
-            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 w-5">
+            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 ml-4 w-5">
               <button @click="editar_fechas_calendario" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
                 <img src="../../assets/img/schedule.png" class="" width="30" height="30" />              
               </button>
-            </div>        
+            </div>  -->       
           </div>
         </div>
         <hr />
@@ -35,35 +58,34 @@
           <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
           <p class="text-left font-semibold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
           <p class="text-left font-semibold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
-          <p class="text-left text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
+          <p class="text-left font-semibold text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
-          <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
-          <div class="w-64 break-words text-left text-gray-800 font-normal mt-6">
+          <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>  
+          <div class="w-64 break-words text-left text-gray-800 font-normal">
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
         </div>
+          <p class="text-left font-semibold text-sm">Acciones:</p>
+          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :ocultarMulti || modalActualizar }">
+            <template slot="singleLabel" slot-scope="props">
+              <div class=" inline-flex">
+                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                <span class="option__title">{{ props.option.title }}</span>
+              </div>
+            </template>
+            <template slot="option" slot-scope="props">                                                
+              <div class="option__desc">
+                <span class="option__title inline-flex">
+                  <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                    {{ props.option.title }}
+                </span>
+              </div>
+            </template>
+          </multiselect>  
         <!-- //////////////////////////////////////////////////////////////////////
         ////                         SUBIR PDF SELLADO                        ////
-        ///////////////////////////////////////////////////////////////////// -->        
-        <div v-if="infoCard.statusId == 2 && !showmenosMas == true">
-          <div class="border-2 border-gray-500 flex-col justify-center h-12 border-dashed w-full mt-5" v-if="TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario" >
-            <div class="flex justify-center" v-if="pdfSelladoBool == false">
-              <input type="file" class="opacity-0 w-auto h-12 absolute" @change="recibir_pdf_sellado"/>
-              <img src="../../assets/img/pdf.png" class="w-6 mr-3 mt-3 border"/>
-              <p class="text-base text-gray-900 mt-3">PDF Sellado</p>
-            </div>
-            <div class="grid grid-cols-2" v-else>
-              <div class="inline-flex">
-                <img src="../../assets/img/pdf.png" class="w-6 h-8 m-2 border opacity-75" alt/>    
-                <p class="ml-2 mt-3 mr-1 text-sm">{{ pdfSellado.name }}</p>
-              </div>
-              <div class="inline-flex">
-                <button @click="pdfSelladoBool = false, pdfSellado = ''" class="botonIconCancelar ml-4 h-10 text-sm justify-center px-1">Cancelar</button>
-                <button @click="status_dtc_sellado" class="botonEnviarPDF mr-2 px-2 py-2 h-10 text-sm justify-center w-24">Subir</button>
-              </div>            
-            </div>
-          </div>
-        </div>        
+        ///////////////////////////////////////////////////////////////////// -->       
+        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Card-DTC'"></PdfEscaneado>    
           <!-- /////////////////////////////////////////////////////////////////////
               ////                         IMAGENES                             ////
               ///////////////////////////////////////////////////////////////////// -->
@@ -88,10 +110,10 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 MINI TABLA CARD                              ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div v-if="showmenosMas" class="-ml-2 sm:ml-0">
-        <div class="flex flex-col md:flex-row mb-6 mt-8">
+      <div v-if="showmenosMas" class="-ml-1 sm:ml-0">
+        <div class="flex flex-col ml-1 md:flex-row mb-6 mt-8">
           <div class="text-xs text-center divtabla">
-            <table class="ml-2  sm:ml-0 w-66 sm:w-full border-collapse table-auto bg-white">
+            <table class="sm:ml-0 w-66 sm:w-full border-collapse table-auto bg-white">
               <tr class="h-8 trTable">
                 <th class="w-1/3 cabeceraTable font-medium">Componete</th>
                 <th class="w-1/8 cabeceraTable font-medium">Cantidad</th>
@@ -108,25 +130,31 @@
           </div>
         </div>
       </div>
-      <!-- /////////////////////////////////////////////////////////////////////
-          ////                           BOTONES                            ////
-          ///////////////////////////////////////////////////////////////////// -->
+      <!-- /////////////////////////////////////////////////////////////////////////
+      ////                           BOTONES                                   ////
+      ///////////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
-          <div class="inline-flex">
+          <div v-if="infoCard.statusId >= 2" class="ml-16">
+            <button  @click="actualizar(infoCard.referenceNumber)" class="botonIconActCard font-boton">
+              <img src="../../assets/img/actualizado.png" class="mr-2" width="12" height="1"/>              
+              <span>Actualizar Componentes</span>                
+            </button>  
+          </div>
+          <div class="inline-flex hidden">
             <button v-if="tipoUsuario == 4 || infoCard.statusId < 2 || (tipoUsuario == 10 && infoCard.statusId <= 3)" @click.prevent="borrar_dtc" class="botonIconBorrarCard font-boton">
               <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
               <span>Borrar</span>
             </button>
           </div>
-          <div class=" inline-flex">
+          <div class=" inline-flex hidden">
             <div v-if="infoCard.statusId == 1">
                 <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton" :class="{'hidden' :tipoUsuario == 4 || tipoUsuario == 10}">
                   <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
                   <span class="text-xs">Editar</span>
                 </button>
             </div>
-            <div v-else class="text-xs inline-flex">
+            <div v-else class="text-xs inline-flex hidden">
               <div v-if="tipoUsuario != 8">
                 <button v-if="tipoUsuario != 4" @click="fotografico" class="botonIconBorrarCard font-boton">
                   <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
@@ -155,7 +183,7 @@
             <a @click="menos" class="text-gray-700 md:mr-4 md:mt-2 cursor-pointer mr-2">Menos ↑</a>          
           </div>
         </div>
-        <div class="mt-62 flex justify-end">
+        <div class="mt-48 flex justify-end">
           <a @click="menos" class="text-gray-700 md:mr-4 cursor-pointer mr-2">Menos ↑</a>
         </div>
         
@@ -169,9 +197,14 @@ import moment from "moment";
 import ServiceReporte from '../../services/ReportesPDFService'
 import ImagenesCard from "../DTC/ImagenesCard.vue";
 import CookiesService from '../../services/CookiesService'
+import PdfEscaneado from '../PdfEscaneado.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
+  components: {
+    ImagenesCard,
+    PdfEscaneado    
+  },
   props: {
     infoCard: {
       type: Object,
@@ -181,9 +214,11 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  components: {
-    ImagenesCard,    
+    ocultarMulti: {
+      type: Boolean,
+      require: true,
+      default: () => false,
+    }
   },
   data: function () {
     return {
@@ -196,7 +231,13 @@ export default {
       pdfSelladoBool: false,
       statusAgregarFimar: '',
       cambiarStatus: 0,
-      TIPO_USUARIO: 0 ,               
+      TIPO_USUARIO: 0 ,     
+      modalSubir: false  ,
+      infoActualizar:'',
+      modalActualizar:false,        
+      modalSubirSellado: false,
+      objInsertEscaneado: {},          
+      value: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -216,6 +257,122 @@ export default {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
   methods: {
+    acciones_mapper(){            
+        if(this.value.title == 'Borrar DTC'){
+          this.borrar_dtc()
+        }
+        if(this.value.title == 'Fechas'){
+          this.editar_fechas_calendario()
+        }
+        if(this.value.title == 'Editar Campos'){
+          this.editar_header()
+        }
+        if(this.value.title == 'Terminar DTC'){
+          this.editar_dtc()
+        }
+        if(this.value.title == 'DTC Sellado'){
+          this.modalSubirSellado = true
+          this.objInsertEscaneado = {
+            referenceNumber: this.infoCard.referenceNumber
+          }
+        }
+        if(this.value.title == 'DTC Firmado'){
+          this.generar_pdf(2)
+        }
+        if(this.value.title == 'Sellado'){
+          this.generar_pdf(3)
+        }
+        if(this.value.title == 'Reporte Fotografico'){
+          this.fotografico()
+        }
+        if(this.value.title == 'DTC Sin Firma'){
+          this.generar_pdf(1)
+        }
+        if(this.value.title == 'Actualizar Componentes'){
+          this.actualizar(this.infoCard.referenceNumber)
+        }
+        if(this.value.title == 'Terminar Diagnostico'){
+          this.$router.push({ 
+            path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla',
+            query: { referenceNumberFinishDiagnostic: this.infoCard.referenceNumber } 
+          })
+        }
+        this.value = ''
+    },
+    opticones_select_acciones(){
+        let options = [
+            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, //0
+            { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
+            { title: 'Editar Campos', img: '/img/pencil.04ec78bc.png' }, //2   
+            { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
+            { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
+            { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'}, //5
+            { title: 'Sellado', img: '/img/download.ea0ec6db.png'}, //6
+            { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
+            { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
+            { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
+            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'} //10
+        ]
+        let array = []   
+        if(this.infoCard.technicalSheetReference == '--'){
+          array.push(options[10])
+        }
+        if(this.tipoUsuario == 4){
+          array.push(options[1])
+        }     
+        if(this.tipoUsuario == 4 || this.infoCard.statusId < 2 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3)){
+          array.push(options[0])
+        }
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2){
+          array.push(options[2])
+        }
+        if(this.infoCard.statusId == 1){
+          array.push(options[3])
+        }
+        else{
+          if(this.tipoUsuario != 8){
+            array.push(options[5])
+            if(this.tipoUsuario != 4){
+              array.push(options[7])
+            }
+            if(this.infoCard.statusId > 2){
+              array.push(options[6]) 
+            }
+          }
+          else{
+            array.push(options[8])
+          }          
+        }
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
+          array.push(options[4])
+        }
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
+          array.push(options[9])
+        }
+        return array       
+    },
+    customLabel ({ title }) {
+        return `${title}`
+    },
+    actualizar(item){
+      this.infoActualizar = item
+      this.modalActualizar = true
+    },
+    actualizarComponentes: async function(){
+      let clavePlaza = this.infoActualizar.split('-')[0]
+      let userId = this.$store.state.Login.cookiesUser.userId
+      this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoActualizar}/${userId}`)
+      .then(()=>{
+        this.$notify.success({
+            title: "Ok!",
+            class: "font-titulo",
+            msg: `DTC CON REFERENCIA ${this.infoActualizar} ACTUALIZADO CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
+        });
+      })
+      this.modalActualizar = false
+    },
     editar_fechas_calendario(){
       this.$emit('editar-fechas-dtc', this.infoCard)
     },   
@@ -294,58 +451,11 @@ export default {
       this.$emit("borrar-card", this.infoCard.referenceNumber);
       this.menosMas = true;      
       this.showmenosMas = false;      
-    },
-    recibir_pdf_sellado(e) {                  
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      else {
-        this.pdfSelladoBool = true
-        for (let item of files) {        
-          if(this.crearImage(item) == false)
-            this.pdfSelladoBool = false
-        }        
-      }
-    },
-    crearImage(file) {
-      if(file.type.split('/')[1] == 'pdf'){
-        var reader = new FileReader(); 
-        reader.onload = (e) => {
-          this.$nextTick().then(() => {
-            this.pdfSellado = {
-              imgbase: e.target.result.split(',')[1],
-              name: this.infoCard.referenceNumber,
-            };
-          })        
-        };
-        reader.readAsDataURL(file);   
-        return true
-      }
-      else{
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `SOLO SE PUEDEN SUBIR ARCHIVOS .PDF`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },          
-        });
-        this.pdfSellado = {}
-        return false
-      }         
-    },
-    base64ToFile(dataurl, fileName) {                    
-        let url = "data:text/pdf;base64," + dataurl;  
-        var arr = url.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], fileName + '.pdf', { type: mime });
-    },    
+    },  
+    limpiar_componete_escaneado(){
+      this.modalSubirSellado = false
+      this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
+    },   
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        
           window.scroll(0, 0);
@@ -355,17 +465,6 @@ export default {
       else{
         this.statusAgregarFimar = false
       }
-    },
-    status_dtc_sellado(){                      
-      let formData = new FormData();
-      let file = this.base64ToFile(this.pdfSellado.imgbase, this.pdfSellado.name)
-      formData.append("file", file);     
-      let obj = {
-        referenceNumber: this.infoCard.referenceNumber,
-        file: formData
-      }
-      this.pdfSelladoBool = false
-      this.$emit("enviar_pdf_sellado", obj);      
     },
     editar_status_dtc(){
       this.$emit("editar-status", this.infoCard.referenceNumber);

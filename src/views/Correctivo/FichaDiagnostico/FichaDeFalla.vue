@@ -31,17 +31,17 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->      
-                    <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header"></HeaderFalla>  
+                    <HeaderFalla :tipo="'FICHA'" @actualizar-header="actualizar_header" @mapear-tipo-falla="mapear_tipo_falla"></HeaderFalla>  
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar'  || botonEditCreate == false" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
+                    <ImagenesFichaDiagnostico v-if="($route.params.tipoVista == 'Editar'  || botonEditCreate == false) && tipoFalla <= 1" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>         
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-6 ml-77 sm:mb-6 sm:ml-1 sm:mt-6">
                         <div v-if="botonEditCreate">                            
-                            <button v-if="$route.params.tipoVista == 'Crear'" @click="enviar_header_ficha(true)" class="botonIconCrear">
+                            <button v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true" @click="enviar_header_ficha(true)" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Enviar Información de Ficha</span>
                             </button>                                                                                                  
@@ -80,7 +80,8 @@ export default {
             type: 'DIAGNOSTICO',
             reporteInsertado: false  ,
             modalImage: false,
-            botonEditCreate: true               
+            botonEditCreate: true,
+            tipoFalla: 1               
         }
     },
     beforeMount(){
@@ -93,10 +94,52 @@ export default {
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
-        actualizar_header(objHeader){                    
-            this.datosHeader = objHeader.header      
-            if(objHeader.crear)      
-                this.insertar_ficha_falla(objHeader.value)
+        mapear_tipo_falla(item){
+            this.tipoFalla = item
+        },
+        actualizar_header(objHeader){                
+            this.datosHeader = objHeader.header  
+            if(objHeader.value == false){  
+                this.$http.get(`${API}/FichaTecnicaAtencion/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                    .then((response) => {                        
+                        if(response.data.length > 0){
+                            if(objHeader.crear)      
+                                this.insertar_ficha_falla(objHeader.value)
+                    }
+                    else{
+                        this.$notify.warning({
+                            title: "Ops!!",
+                            class:"font-titulo",
+                            msg: "SE NECESITA MINIMO UNA FOTO.",
+                            position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                        });
+                    }
+                })
+            }
+            else {
+                if(objHeader.crear)
+                    if(this.botonEditCreate == false && objHeader.header.tipoFalla <= 1){
+                        this.$http.get(`${API}/FichaTecnicaAtencion/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                            .then((response) => {                    
+                                if(response.data.length > 0){                                
+                                    this.insertar_ficha_falla(objHeader.value)
+                                }  
+                                else{
+                                    this.$notify.warning({
+                                        title: "Ops!!",
+                                        class:"font-titulo",
+                                        msg: "SE NECESITA MINIMO UNA FOTO.",
+                                        position: "bottom right",
+                                        styles: { height: 100, width: 500 },
+                                    });
+                                } 
+                            })    
+                    }
+                    else {
+                        this.insertar_ficha_falla(objHeader.value)
+                    }                    
+            }
         }, 
         cerrar_modal_imagenes(){
             this.modalImage = false
@@ -117,23 +160,43 @@ export default {
                 }                          
                 this.$http.post(`${API}/FichaTecnicaAtencion/Insert/${objFicha.referenceNumber.split('-')[0]}`, objFicha)
                     .then(() => {                                  
-                        this.reporteInsertado = true    
-                        this.modalImage = true  
+                        this.reporteInsertado = true
+                        if(objFicha.typeFaultId == 1) {
+                            if(this.botonEditCreate != false)  
+                                this.modalImage = true
+                        }
+                        else{
+                            ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
+                            if(this.$route.params.tipoVista == 'Editar'){ 
+                                this.$router.push('/Home')  
+                            }
+                            else {
+                                if(this.$route.query.referenceNumberFinishDiagnostic == undefined)
+                                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
+                                else
+                                    this.$router.push('/Home')
+                            }
+                        }
                         if(this.$route.params.tipoVista == 'Editar'){   
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                            if(this.datosHeader.tipoFalla > 1){
-                                this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`) 
+                            if(this.datosHeader.tipoFalla > 1) {
+                                console.log('No voy a editar el dtc jajajjaj')
+                                //this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`) 
                             }
                             else
                                 this.$router.push('/Home')                          
-                        }                                                                               
+                        }                                                                                                       
                     })                             
             }
             else{                
                 ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
-                if(this.datosHeader.tipoFalla > 1)
-                    this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)     
+                if(this.datosHeader.tipoFalla > 1){  
+                    if(this.$route.query.referenceNumberFinishDiagnostic == undefined)                  
+                        this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)    
+                    else
+                        this.$router.push('/Home')    
+                } 
                 else
                     this.$router.push('/Home')   
             }

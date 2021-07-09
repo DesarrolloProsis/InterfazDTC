@@ -31,12 +31,12 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesFichaDiagnostico v-if="$route.params.tipoVista == 'Editar' || botonEditCreate == false" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
+                    <ImagenesFichaDiagnostico v-if="($route.params.tipoVista == 'Editar' || botonEditCreate == false)" :reporteDataInsertada="true" :tipo="type" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>       
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
                     <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:ml-1 sm:-mt-16">
-                        <div v-if="$route.params.tipoVista == 'Crear'">                            
+                        <div v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                                 <span>Enviar Información del Diagnóstico</span>
@@ -89,13 +89,53 @@ export default {
         }
     },
 /////////////////////////////////////////////////////////////////////
-////                           METODOS                           ////
+////        {}                  METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-    actualizar_header(objHeader){        
+    actualizar_header(objHeader){                                  
         this.datosHeader = objHeader.header
-        if(objHeader.crear)
-            this.insertar_diagnostico_falla(objHeader.value)
+        if(objHeader.value == false){             
+            this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                .then((response) => {                    
+                    if(response.data.length > 0){
+                        if(objHeader.crear)
+                            this.insertar_diagnostico_falla(objHeader.value)
+                    }  
+                    else{
+                        this.$notify.warning({
+                            title: "Ops!!",
+                            class:"font-titulo",
+                            msg: "SE NECESITA MINIMO UNA FOTO.",
+                            position: "bottom right",
+                            styles: { height: 100, width: 500 },
+                        });
+                    } 
+                })             
+        }
+        else {
+            if(objHeader.crear){
+                if(this.botonEditCreate == false){
+                    this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
+                        .then((response) => {                    
+                            if(response.data.length > 0){                                
+                                this.insertar_diagnostico_falla(objHeader.value)
+                            }  
+                            else{
+                                this.$notify.warning({
+                                    title: "Ops!!",
+                                    class:"font-titulo",
+                                    msg: "SE NECESITA MINIMO UNA FOTO.",
+                                    position: "bottom right",
+                                    styles: { height: 100, width: 500 },
+                                });
+                            } 
+                        })    
+                }
+                else{
+                    this.insertar_diagnostico_falla(objHeader.value)
+                }                
+            }
+        }
     },
     enviar_header_diagnostico(value){            
         EventBus.$emit('validar_header_diagnostico', value)
@@ -117,10 +157,10 @@ methods:{
                 referenceNumber: this.datosHeader.referenceNumber,
                 squareId: userIdPlaza.numPlaza,
                 diagnosisDate: this.datosHeader.fechaDiagnostico,
-                start: fechaInicioTime,//this.datosHeader.horaInicio,
-                end: fechaFinTime,//this.datosHeader.horaFin,
-                sinisterNumber: this.datosHeader.numeroReporte == "" ? null : this.datosHeader.numeroReporte,
-                failureNumber: this.datosHeader.folioFalla == "" ? null : this.datosHeader.folioFalla,
+                start: fechaInicioTime,
+                end: fechaFinTime,
+                sinisterNumber: this.datosHeader.numeroReporte,
+                failureNumber: this.datosHeader.folioFalla,
                 userId: userIdPlaza.idUser,
                 failureDescription: this.datosHeader.descripcionFalla,
                 failureDiagnosis: this.datosHeader.diagnosticoFalla,
@@ -129,7 +169,21 @@ methods:{
                 updateFlag: flagInsert // 1 -> Insertar || 0 -> editar
             }                          
             this.$http.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
-                .then(() => {                
+                .then(() => { 
+                    let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic 
+                    if(referenceDtcFinish != undefined){                                    
+                        this.$http.put(`${API}/DtcData/UpdateDtcDFReference/${objDiagnostico.referenceNumber.split('-')[0]}/${referenceDtcFinish}/${objDiagnostico.referenceNumber}`)
+                            .then((response) => {
+                                console.log(response);
+                                this.$notify.success({
+                                    title: "Ok!",
+                                    class: "font-titulo",
+                                    msg: `SE INSERTO EL DIAGNOSTICO AL DTC CON REFERENCIA ${referenceDtcFinish}.`,
+                                    position: "bottom right",
+                                    styles: { height: 100, width: 500 },
+                                });
+                            })
+                    }               
                     let carrilesInsertDiagnostic = this.datosHeader.ubicacion.map(carril => {
                         let newCarril = {}
                         newCarril["referenceNumber"] = objDiagnostico.referenceNumber
@@ -144,7 +198,7 @@ methods:{
                     .then(() =>{                        
                         carrilesInsertDiagnostic.forEach(carril => {                                                     
                             this.$http.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                                .then(() => { 
+                                .then(() => {                                
                                     if(this.botonEditCreate != false)
                                         this.modalImage = true                                                                    
                                 })                                 
@@ -162,27 +216,37 @@ methods:{
                                     query: { data: this.datosHeader, referenciaDtc }
                                 }) 
                             }  
+                            else if(this.botonEditCreate == false){
+                                this.type = 'FICHA' 
+                                ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
+                                let referenciaDtc = this.$route.query.referenciaDtc     
+                                let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic                                    
+                                this.$router.push({
+                                    path: 'FichaTecnicaDeFalla',
+                                    query: { data: this.datosHeader, referenciaDtc, referenceNumberFinishDiagnostic: referenceDtcFinish }
+                                }) 
+                            }
                         },2000)
                     })                                  
                     this.reporteInsertado = true                                                                       
                 })
-                .catch(() => {                    
+                .catch(() => {       
                     this.$notify.warning({
                         title: "Ops!!",
                         msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
                         position: "bottom right",
                         styles: { height: 100, width: 500 },
                     });
-                })
-                
+                })                
         }        
         else{
             this.type = 'FICHA' 
             ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
-            let referenciaDtc = this.$route.query.referenciaDtc         
+            let referenciaDtc = this.$route.query.referenciaDtc  
+            let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic          
             this.$router.push({
                 path: 'FichaTecnicaDeFalla',
-                query: { data: this.datosHeader, referenciaDtc }
+                query: { data: this.datosHeader, referenciaDtc, referenceNumberFinishDiagnostic: referenceDtcFinish }
             }) 
         }       
     }

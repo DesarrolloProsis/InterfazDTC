@@ -99,6 +99,7 @@
                 <th class="cabeceraTable font-medium">N° de Siniestro</th>
                 <th class="cabeceraTable font-medium">Fecha de Falla</th>
                 <th class="cabeceraTable font-medium">Fotografias</th>
+                <th class="cabeceraTable font-medium">Terminar Ficha</th>
                 <th class="cabeceraTable font-medium" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
                 <th class="cabeceraTable font-medium">PDF</th>
               </tr>
@@ -146,22 +147,24 @@
                 <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
                 <!-- Columna de las imagenes -->
                 <td class="cuerpoTable">
-                  <div v-if="tipoUsuario != 7">
-                    <!-- {{ validar_imagenes_diagnostico(item) }} -->
-                    <button  @click="abrirCarrusel(item)" class="botonIconCrear hidden" :class="{'bg-gray-400 hover:bg-gray-400': validar_imagenes_diagnostico(item) }" :disabled="!validar_imagenes_diagnostico(item)">
+                  <div v-if="tipoUsuario != 7">                                                  
+                    <button  v-if="!item.sinEscanedoDiagnostico" class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default">
+                      <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
+                    </button>
+                    <button v-else @click="abrirCarrusel(item)" class="botonIconCrear">
                       <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
-                    </button>
-                    <!-- <button  @click="abrirSubir(item)" class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default" :class="{'bg-gray-400 hover:bg-gray-400 cursor-default': validar_imagenes_diagnostico(item) }" :disabled="validar_imagenes_diagnostico(item)" >
-                      <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
-                    </button> -->
-                    <button  class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default">
-                      <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
-                    </button>
+                    </button>   
                   </div>
                   <div v-if="tipoUsuario == 7">
                     <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': tipoUsuario == 4 || tipoUsuario == 10 }" :disabled=" tipoUsuario == 4 || tipoUsuario == 10 ">
                       <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
                     </button>
+                  </div>
+                </td>
+                <td class="cuerpoTable">
+                  <div>
+                    <button v-if="item.technicalSheetReference == '--'" @click="terminar_diagnostico_falla_dtc(item)" class="botonIconBuscar">Terminar Diagnostico</button>
+                    <p v-else class="text-green-700 font-semibold">Diagnostico Creado</p>
                   </div>
                 </td>
                 <!-- Columna de cambios de status -->
@@ -297,6 +300,12 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
+  terminar_diagnostico_falla_dtc({referenceNumber}){
+    this.$router.push({ 
+      path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla',
+      query: { referenceNumberFinishDiagnostic: referenceNumber } 
+    })
+  },
   validar_imagenes_diagnostico:  function({ technicalSheetReference }){
     if(technicalSheetReference != '--'){                
         return this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${technicalSheetReference.split('-')[0]}/${technicalSheetReference}`)      
@@ -312,14 +321,25 @@ methods:{
     }
   } , 
   abrirModal(item){
-    this.infoAcrualizar = item
-    console.log(this.infoAcrualizar)
+    this.infoAcrualizar = item    
     this.modalActualizar = true
   },
   ActualizarComponentes: async function(){
     let clavePlaza = this.infoAcrualizar.referenceNumber.split('-')[0] 
     let userId = this.$store.state.Login.cookiesUser.userId
     this.$http.post(`${API}/Component/updateInventory/${clavePlaza}/${this.infoAcrualizar.referenceNumber}/${userId}`)
+    .then(()=>{
+      this.$notify.success({
+            title: "Ok!",
+            class: "font-titulo",
+            msg: `DTC CON REFERENCIA ${this.infoAcrualizar.referenceNumber} ACTUALIZADO CORRECTAMENTE.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+              },
+            });
+    })
     this.modalActualizar = false
   },
   guardar_palabra_busqueda: function(newPalabra){  
@@ -349,31 +369,20 @@ methods:{
     this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
     this.lista_DTC_Filtrada = this.infoDTC
   },
-  abrirCarrusel : async function (item){  
-    this.dtcImg = item
-    await this.$http.get(`${API}/dtcData/EquipoDañado/Images/GetPaths/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}`)
-      .then((response) => {              
-          if(response.status != 404){                 
-            if(response.data.length > 0){
-              let array = response.data.map(imgData => {
-                return {
-                  "fileName": imgData, 
-                  "image": `${API}/dtcData/EquipoDañado/Images/${item.referenceNumber.split('-')[0]}/${item.referenceNumber}/${imgData}`
-                }
-              })            
-              this.arrayImagenesCarrusel = { array_img: array, referenceNumber: item.referenceNumber };  
-              this.carruselModal = true
-            }
-            else{
-              this.$notify.warning({
-              title: "Ups!",
-              msg: `SIN FOTOS.`,
-              position: "bottom right",
-              styles: { height: 100, width: 500 },
-            });
-          }   
-        }                   
-      })     
+  abrirCarrusel : async function ({ technicalSheetReference }){                                                                     
+        
+    let array = this.$store.state.DTC.listaInfoDTC
+      .find(item => item.dtcView.technicalSheetReference == technicalSheetReference).pathImagesDF
+      .map(imgData => {        
+        return {
+          "fileName": imgData, 
+          "image": `${API}/DiagnosticoFalla/Images/${technicalSheetReference.split('-')[0]}/${technicalSheetReference}/${imgData}`
+        }
+      })    
+    console.log(array)        
+    this.arrayImagenesCarrusel = { array_img: array, referenceNumber: technicalSheetReference };  
+    this.carruselModal = true                                 
+                                  
   },
   editar_status_dtc: function (){
   let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']

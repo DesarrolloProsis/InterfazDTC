@@ -2,11 +2,17 @@
     <div>
         <div v-if="boolBotones" class="flex justify-center mt-2 mb-16 sm:mt-14">
             <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
-                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="rollUsuario != 10">
                     <button @click="ventana_comentario" class="text-center">
                         <img src="../assets/img/comentarios.png" height="200" width="200" class="m-10 sm:m-1"/>
                         <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Comentarios</h1>
                     </button>
+                </div>
+                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="rollUsuario == 10">
+                    <router-link to="/Comentarios" class="text-center cursor-pointer">
+                        <img src="../assets/img/listcommit.png" height="200" width="200" class="m-10 sm:m-1" />
+                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Lista de Comentaios</h1>              
+                    </router-link>
                 </div>
                 <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
                     <button @click="mostrar_videos_lista" class="text-center">
@@ -195,6 +201,9 @@ export default {
         },
         player() {
             return this.$refs.youtube.player
+        },
+        rollUsuario(){
+            return this.$store.state.Login.cookiesUser.rollId
         }
     }
 }
