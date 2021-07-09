@@ -113,6 +113,11 @@
                 <span>Mantenimiento</span>
             </button>
         </div>
+        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
+            <button class="botonIconNext" @click="abrirModal">
+                <span>Agregar Componente</span>
+            </button>
+        </div>
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->
@@ -363,6 +368,9 @@ export default {
     methods:{
         abrirModal: function (){
             this.$emit('abrir-modal')
+        },
+        abrirAgregarComponente: function (){
+            this.$emit('abrir-agregar')
         },
         descargarReporte: function (){
             this.$emit('descargar-reporte')
