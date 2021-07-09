@@ -2,7 +2,7 @@
     <div>
         <div class="flex justify-center p-4 sm:text-xs">
             <div>
-                <HeaderGenerico @descargar-reporte="descargar_reporte" :titulo="'DTC No Sellados'" :tipo="'COMPONENTES'"></HeaderGenerico>
+                <HeaderGenerico @descargar-reporte="descargar_reporte" @buscar-nosellado='guardar_palabra_busqueda' :titulo="'DTC No Sellados'" :tipo="'NOSELLADOS'"></HeaderGenerico>
                 <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-78 sm:w-67 mb-20" style="height:500px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
                         <thead>
@@ -28,7 +28,7 @@
                                 </tr>  
                             </template>  -->
                             <template v-if="lista_Filtrada.length > 0">
-                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_Filtrada" :key="key">
+                            <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista" :key="key">
                                 <td class="cuerpoTable sm:text-xs">{{ item.referenceNumber }}</td>
                                 <td class="cuerpoTable sm:text-xs">{{ item.statusId }}</td>                                
                                 <td class="cuerpoTable sm:text-xs">{{ item.fechaIngreso | formatDate }}</td>                             
@@ -73,7 +73,19 @@ export default {
     methods:{
         descargar_reporte: function(){
             ServiceReportPDF.dtc_no_sellados()
-        }
+        },
+        guardar_palabra_busqueda: function(newPalabra){        
+            if (newPalabra != "") {
+                console.log(newPalabra);
+                let array_filtrado = this.lista_Filtrada.filter(item => {
+                    return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+                })       
+                this.lista = array_filtrado;
+            }
+            else{
+                this.lista = this.lista_Filtrada
+            }
+        },
     },
     /////////////////////////////////////////////////////////////////////
     ////                           FILTROS                           ////

@@ -11,7 +11,7 @@
             </div>
             <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
                 <router-link to="/ReporteNoSellados" class="text-center cursor-pointer">
-                    <img src="@/assets/img/listcommit.png" height="200" width="200" class="m-10 sm:m-1" />
+                    <img src="@/assets/img/rechazado.png" height="200" width="200" class="m-10 sm:m-1" />
                     <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Reporte DTC Sellados</h1>              
                 </router-link>
             </div>
