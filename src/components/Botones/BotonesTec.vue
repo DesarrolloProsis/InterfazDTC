@@ -43,8 +43,8 @@
           </div>
       </div>
     </div>
-    <div class="flex justify-center mt-2 sm:mt-14" v-else>
-      <div class="grid grid-cols-2" :class="{'grid grid-cols-3':typeUser == 2}">     
+    <div class="flex justify-center mb-16 mt-2 sm:mt-14" v-else>
+      <div class="grid grid-cols-2" :class="{'grid grid-cols-3':typeUser == 2 && typeUser == 5}">     
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/CalendarioActividades" class="text-center cursor-pointer">
               <img src="../../assets/img/schedule.png" height="200" width="200" class="m-10 sm:m-1"/>
@@ -64,14 +64,6 @@
                 <img src="../../assets/img/buscar.png" height="200" width="200" class="m-10 sm:m-1" />
                 <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado de</h1>                            
                 <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Calendarios</h1>
-            </router-link>                     
-          </div>   
-          <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="typeUser == 2 || typeUser == 5">
-            <router-link to="/ReportesMantenimiento/TablaActividades" class="text-center cursor-pointer">
-                <img src="../../assets/img/calendarioreport.png" height="200" width="200" class="m-10 sm:m-1" />
-                <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado de Actividades</h1>                            
-                <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium"></h1>
-                <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium mb-1">Mantenimiento Preventivo</h1>
             </router-link>                     
           </div>
       </div>
