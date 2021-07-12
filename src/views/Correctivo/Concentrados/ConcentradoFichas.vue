@@ -355,15 +355,17 @@ export default {
                 }           
                 if(item.validacionDTC && item.validacionFichaTecnica){
                     filtroOpciones.push(options[6])
-                }
-                if(this.typeUser != 7 || this.typeUser != 10 || this.typeUser != 4){
+                } 
+                if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                   
+                //if(this.typeUser != 7 || this.typeUser != 10 || this.typeUser != 4){                    
                     filtroOpciones.push(options[2])
                     filtroOpciones.push(options[3])
                 }
             }     
             else{
                 filtroOpciones.push(options[0])
-            }                             
+            }       
+                                
             return filtroOpciones
         },
     },
