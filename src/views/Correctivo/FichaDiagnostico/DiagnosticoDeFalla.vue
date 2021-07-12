@@ -177,8 +177,7 @@ methods:{
                     let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic 
                     if(referenceDtcFinish != undefined){                                    
                         this.$http.put(`${API}/DtcData/UpdateDtcDFReference/${objDiagnostico.referenceNumber.split('-')[0]}/${referenceDtcFinish}/${objDiagnostico.referenceNumber}`)
-                            .then((response) => {
-                                console.log(response);
+                            .then(() => {                                
                                 this.$notify.success({
                                     title: "Ok!",
                                     class: "font-titulo",

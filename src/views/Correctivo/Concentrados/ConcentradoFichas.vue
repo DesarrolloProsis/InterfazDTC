@@ -324,8 +324,7 @@ export default {
             if(this.value.title == 'Bajar DF Sellado'){
                 this.descargar_diag_ficha(item.referenceNumber,1)
             }
-            this.value = ""
-            
+            this.value = ""            
         },
         opticones_select_acciones(item){
             const options= [                
@@ -364,8 +363,7 @@ export default {
             }     
             else{
                 filtroOpciones.push(options[0])
-            }       
-                                
+            }                                       
             return filtroOpciones
         },
     },

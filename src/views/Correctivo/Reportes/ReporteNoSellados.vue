@@ -62,8 +62,7 @@ export default {
     beforeMount(){
         this.loadingTabla = true
         this.$http.get(`${API}/DtcData/GetDTCNoSellado`)
-        .then((response)=>{
-            console.log(response.data.result);
+        .then((response)=>{            
             this.lista_Componentes = response.data.result
             this.lista_Filtrada = this.lista_Componentes
             this.lista = this.lista_Filtrada
@@ -75,8 +74,7 @@ export default {
             ServiceReportPDF.dtc_no_sellados()
         },
         guardar_palabra_busqueda: function(newPalabra){        
-            if (newPalabra != "") {
-                console.log(newPalabra);
+            if (newPalabra != "") {                
                 let array_filtrado = this.lista_Filtrada.filter(item => {
                     return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
                 })       

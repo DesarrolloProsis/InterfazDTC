@@ -294,8 +294,7 @@ export default {
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
-    this.loadingTabla = false
-    console.log(this.listComponent);
+    this.loadingTabla = false    
   },
   destroyed(){
     EventBus.$off('ACTUALIZAR_INVENTARIO')
@@ -310,8 +309,7 @@ export default {
         this.datosmtto.fecha = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");
     },
     abrirAgregar: function (){
-      this.modalAdd = true
-      console.log('agregar');
+      this.modalAdd = true      
     },
     modalAdver: async function (){      
       let isValid = await this.$refs.observer.validate();       
@@ -345,13 +343,12 @@ export default {
           let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
           let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza 
             this.$http.get(`${API}/DtcData/InventoryComponentsList/${clavePlaza}/${numeroPlaza}/${capufeNum}/${idGare}`)
-            .then((response)=>{
-                console.log(response);
+            .then((response)=>{                
                 this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
                 EventBus.$emit('ACTUALIZAR_INVENTARIO')
             })
-            .catch((er)=>{
-                console.log(er);
+            .catch((error)=>{
+                console.log(error);
             })
           this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
           this.loadingTabla = false       
@@ -388,11 +385,8 @@ export default {
     guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
         let numAct = this.listEditados
-        this.modalLoading = true
-        let numeroPlaza = this.$store.state.Login.plazaSelecionada.numeroPlaza
-        console.log(numeroPlaza)                 
-        await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);
-        //await this.$store.dispatch("Refacciones/FULL_COMPONETES", { numPlaza: numeroPlaza });        
+        this.modalLoading = true                
+        await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);        
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false
@@ -457,8 +451,7 @@ export default {
     customLabel ({ title }) {
       return `${title}`
     },
-    acciones_mapper(item){
-      console.log(item);
+    acciones_mapper(item){      
       if(this.value.title == 'Más'){
         this.mostrar_mas(item)
       }
