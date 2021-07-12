@@ -90,9 +90,9 @@ export default {
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [
             { texto: 'Diagnóstico de Falla', img: '/img/documento.895fbd37.png', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1,2, 5, 10]},
-            { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,2,4,5, 7,10]},
+            { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,2,4,5, 7, 9,10]},
             { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1,2, 4, 5, 7, 10]},
-            { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 8,10]},
+            { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 8,9,10]},
             { texto: 'Concentrado DTC Borrados', img: '/img/borrados.ee2662d6.png', path: '/ConcentradoBorrados', rollValidos: [4,10]},
             { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
             { texto: 'Reportes', img: '/img/reportar.91999abb.png', path: '/Reportes', rollValidos: [4]},
@@ -123,7 +123,7 @@ export default {
       return this.$store.state.Login.cookiesUser.nombreUsuario
     },
     filtroMenuIzq: function(){
-      if(this.rollUsuario != undefined){   
+      if(this.rollUsuario != undefined){    
         let listaFiltrada = []     
         this.listaMenuIzq.forEach(item => {
             let arrayBotones = []
@@ -132,8 +132,10 @@ export default {
                 arrayBotones.push(itemSub)
               }
             })
-            item.subMenu = arrayBotones
-            listaFiltrada.push(item)
+            if(arrayBotones.length > 0){
+              item.subMenu = arrayBotones
+              listaFiltrada.push(item)
+            }
         })
         return listaFiltrada
       }

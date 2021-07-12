@@ -201,8 +201,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function(){  
     this.loadingTabla = true            
-    let cargaInicial = this.$route.params.cargaInicial
-    console.log(cargaInicial);
+    let cargaInicial = this.$route.params.cargaInicial    
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
     this.plazaNombre = cargaInicial.plazaNombre
     this.comentario = cargaInicial.comentario     
