@@ -135,12 +135,6 @@
       ///////////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
-          <div v-if="infoCard.statusId >= 2" class="ml-16">
-            <button  @click="actualizar(infoCard.referenceNumber)" class="botonIconActCard font-boton">
-              <img src="../../assets/img/actualizado.png" class="mr-2" width="12" height="1"/>              
-              <span>Actualizar Componentes</span>                
-            </button>  
-          </div>
           <div class="inline-flex hidden">
             <button v-if="tipoUsuario == 4 || infoCard.statusId < 2 || (tipoUsuario == 10 && infoCard.statusId <= 3)" @click.prevent="borrar_dtc" class="botonIconBorrarCard font-boton">
               <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
@@ -237,13 +231,15 @@ export default {
       modalActualizar:false,        
       modalSubirSellado: false,
       objInsertEscaneado: {},          
-      value: ''
+      value: '',
+      info: this.infoCard
     };
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 ////////////////////////////////////////////////////////////////////
-  beforeMount: function () {          
+  beforeMount: function () {   
+    console.log(this.$store.state.Login.cookiesUser.userId);
     this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
@@ -314,23 +310,23 @@ export default {
             { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'} //10
         ]
         let array = []   
-        if(this.infoCard.technicalSheetReference == '--'){
+        if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
         if(this.tipoUsuario == 4){
           array.push(options[1])
         }     
-        if(this.tipoUsuario == 4 || this.infoCard.statusId < 2 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3)){
+        if((this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId < 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
-        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2){
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[2])
         }
-        if(this.infoCard.statusId == 1){
+        if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId == 1){
           array.push(options[3])
         }
         else{
-          if(this.tipoUsuario != 8){
+          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){
             array.push(options[5])
             if(this.tipoUsuario != 4){
               array.push(options[7])
@@ -346,7 +342,7 @@ export default {
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
           array.push(options[4])
         }
-        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
         }
         return array       

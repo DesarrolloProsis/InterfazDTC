@@ -14,7 +14,7 @@
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesFichaDiagnostico @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-700': blockBotonModal, 'hover:bg-gray-700': blockBotonModal }">
+                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-500 hover:text-black border-black hover:border-black': blockBotonModal, 'hover:bg-gray-500 hove:border-black': blockBotonModal }">
                         <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Diagnóstico</span>
                     </button>  
