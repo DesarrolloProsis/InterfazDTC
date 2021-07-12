@@ -114,9 +114,10 @@ export default {
             limite: 300,
             videoId: '',
             arrayVideos: [
-                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Ficha Falla", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'},
-                {  videoId: 'CR-7c2HIUf0', titulo: "Subir Escaneados en Autorizado GMMEP", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'},
-                {  videoId: 'Wx-AeJCf1eU', titulo: "Cambiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'}
+                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Falla", descripcion: 'Muestra como generar un diagnóstico de falla y una ficha técnica.'},
+                {  videoId: 'CR-7c2HIUf0', titulo: "Subir Escaneados en Autorizado GMMEP", descripcion: 'Muestra como subir documentos pdf escaneados en el concentrado GMMEP.'},
+                {  videoId: 'Wx-AeJCf1eU', titulo: "Cambiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de los tecnicos.'},
+                {  videoId: 'Sl3S-D3vxW0', titulo: "Crear Diagnóstico en un DTC que no tenga", descripcion: 'Muestra como crear un diagnóstico y ficha técnica en un DTC que no lo tenga.'}
             ],
             boolListaVideos: false,
             boolBotones: true,
