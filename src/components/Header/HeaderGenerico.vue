@@ -54,22 +54,24 @@
         <div v-if="tipo == 'GMMEP'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
         <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-3" 
+        <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-1" 
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
-            <div class="mr-4 mt-4">
-                <p class="dtcpendientes font-bold sm:text-sm sm:text-center">Seleccione una Plaza</p>
-                <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+            <div class="mr-4 sm:m-3 sm:ml-1 mt-4">
+                <p class="dtcpendientes font-bold sm:text-sm sm:text-center">Seleccione una Plaza:</p>
+                <p class="-ml-20 sm:ml-1">
+                    <SelectPlaza :fullPlazas="true" :vista="'GMMEP'" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                </p>
             </div>
             <div class="m-3">
-                <p class="pdtcpendientes sm:text-sm">Seleccione una Fecha</p>
-                <p class="input w-40 sm:w-full"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Fecha:</p>
+                <p class="input w-40 sm:w-66 sm:-ml-2"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
                 <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
-                <p class="pdtcpendientes sm:text-sm">Escriba la Referencia</p>
-                <p class="input w-40 sm:w-full"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-full" placeholder="PM-000000"/></p>
+                <p class="pdtcpendientes sm:text-sm sm:text-center">Escriba la Referencia:</p>
+                <p class="input w-40 sm:w-66 sm:-ml-2"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-66" placeholder="PM-000000"/></p>
             </div>     
-    </div>
+        </div>
     <!-- ////////////////////////////////////////////////////////////////////
         ///                    BOTONES DE NAVEGACION  DTC               ////
        ////////////////////////////////////////////////////////////////////-->
