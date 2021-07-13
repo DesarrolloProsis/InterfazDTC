@@ -11,7 +11,9 @@
             :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
             <div class="mr-4 mt-4">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Plaza</p>
-                <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                <p class="-ml-20 sm:ml-4">
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                </p>
             </div>
             <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Fecha</p>
