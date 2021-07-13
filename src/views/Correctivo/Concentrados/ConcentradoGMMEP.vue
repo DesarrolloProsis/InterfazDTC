@@ -300,7 +300,7 @@ methods:{
   opticones_select_acciones(item){
     const options= [                
       { title: 'Bajar DTC Firmado', img: '/img/download.ea0ec6db.png' }, //0
-      { title: 'Terminar Diagnostico', img: '/img/borrar.16664eed.png' },//1
+      { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png' },//1
       { title: 'Cambiar Estatus', img: '/img/flechas.a7d6bd28.png' },//2
       { title: 'Bajar DTC Sellado', img: '/img/download.ea0ec6db.png' },//3
       { title: 'Subir DTC Sellado', img: '/img/upload.8d26bb4f.png' },//4
@@ -309,14 +309,14 @@ methods:{
     ]
     let filtroOpciones = []
     filtroOpciones.push(options[0])
-    if(item.technicalSheetReference == '--' && this.tipoUsuario == 1){
-      filtroOpciones.push(options[1])   
-    }
-    if(item.statusId >= 3 && item.escaneadobool == false){
+    if(item.statusId >= 3 && !item.escaneadobool){
       filtroOpciones.push(options[3])
     }
-    if(this.tipoUsuario != 7 && this.tipoUsuario != 4 ){
+    if(this.tipoUsuario != 7 && this.tipoUsuario != 4 && item.escaneadobool){
       filtroOpciones.push(options[4])
+    }
+    if(item.technicalSheetReference == '--' && this.tipoUsuario == 1){
+      filtroOpciones.push(options[1])   
     }
     if(this.tipoUsuario == 1){
       filtroOpciones.push(options[5])
