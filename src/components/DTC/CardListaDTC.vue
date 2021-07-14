@@ -34,17 +34,7 @@
             <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800 -ml-3">*Fecha Siniestro</span>
-            </div>    
-<!--             <div class="mt-2 ml-5 mr-3 w-5 hidden" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
-              <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
-                <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
-              </button>
-            </div>   
-            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 ml-4 w-5">
-              <button @click="editar_fechas_calendario" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
-                <img src="../../assets/img/schedule.png" class="" width="30" height="30" />              
-              </button>
-            </div>  -->       
+            </div>     
           </div>
         </div>
         <hr />
@@ -239,7 +229,6 @@ export default {
 ////                       CICLOS DE VIDA                        ////
 ////////////////////////////////////////////////////////////////////
   beforeMount: function () {   
-    console.log(this.$store.state.Login.cookiesUser.userId);
     this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,

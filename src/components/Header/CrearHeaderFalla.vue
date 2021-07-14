@@ -509,18 +509,24 @@ methods:{
             })                                   
             if(!validacion){                                                            
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                                   
-            }  
-            else{         
+            }                 
+            if(validacion){
                 this.$notify.warning({
                     title: "Ops!!",
                     msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
                     position: "bottom right",
                     styles: { height: 100, width: 500 },
-                });
-            }                                                                                    
+                }); 
+            }                                                                    
         }
         catch(error){            
             console.log(error)
+            this.$notify.warning({
+                    title: "Ops!!",
+                    msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
+                    position: "bottom right",
+                    styles: { height: 100, width: 500 },
+                });
         }
     },
     label_multi_select(value){            
