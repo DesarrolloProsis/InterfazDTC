@@ -120,7 +120,7 @@ export default {
                 {  videoId: 'Sl3S-D3vxW0', titulo: "Crear Diagnóstico en un DTC que no tenga.", descripcion: 'Muestra como crear un diagnóstico y ficha técnica en un DTC que no lo tenga.'},
                 {  videoId: 'MCyD8-ZynOQ', titulo: "Actualizar Componentes en Concentrado DTC.", descripcion: 'Muestra como actualizar los componentes que se tienen en un DTC, desde la vista de Concentrado DTC.'},
                 {  videoId: 'MiyD5BHzSUI', titulo: "Actualizar Componentes en Concentrado GMMEP.", descripcion: 'Muestra como actualizar los componentes que se tienen en un DTC, desde la vista de Concentrado GMMEP.'},
-                {  videoId: 'MiyD5BHzSUI', titulo: "Terminar Diganóstico y Ficha desde Concentrado GMMEP.", descripcion: 'Muestra como generar un Diagnóstico y una Ficha Técnica para DTC desde Concentrado GMMEP.'}
+                {  videoId: 'Ok0ZDnpkO5U', titulo: "Terminar Diganóstico y Ficha desde Concentrado GMMEP.", descripcion: 'Muestra como generar un Diagnóstico y una Ficha Técnica para DTC desde Concentrado GMMEP.'}
             ],
             boolListaVideos: false,
             boolBotones: true,
