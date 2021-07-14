@@ -294,7 +294,7 @@ export default {
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
-    this.loadingTabla = false    
+    this.loadingTabla = false 
   },
   destroyed(){
     EventBus.$off('ACTUALIZAR_INVENTARIO')

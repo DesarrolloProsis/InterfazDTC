@@ -1,5 +1,6 @@
 <template>
-    <div>        
+    <div>          
+        <button @click="nodo">noda</button>        
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">                      
                 <!--/////////////////////////////////////////////////////////////////
@@ -55,7 +56,7 @@
                         <!--/////////////////////////////////////////////////////////////////
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table" class="">
+                        <tbody name="table" class="" id="multi">
                             <template v-if="infoFichasFallaFiltrada.length == 0 && loadingTabla != true"> 
                                 <tr>
                                     <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
@@ -152,6 +153,13 @@ export default {
         })
     },
     methods: {  
+        nodo(){
+            let nodo = document.getElementById('multi') 
+            for(let i = 0; i < nodo.children.length; i++){
+                nodo.children[i].children[7].children[0].classList.add('static')
+            }
+            //console.log(nodo.childNodes[0].classList.add('static')) 
+        },
         actualizarTabla(){
             this.typeUser = this.$store.state.Login.cookiesUser.rollId 
             this.loadingTabla = true
@@ -374,3 +382,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.mystyle {
+    position: static;
+}
+</style>

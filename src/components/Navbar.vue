@@ -7,7 +7,10 @@
           Inicio          
         </router-link>     
       </div>      
-      <div class="flex">   
+      <div class="flex">  
+        <button @click="nodo" class="mt-1 mr-3">
+            <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" />
+        </button> 
         <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
         <div class="group inline-block font-titulo">
           <button @click="navbarOpen == true ? navbarOpen = false : navbarOpen = true" class="mt-1 mr-3">
@@ -143,6 +146,14 @@ export default {
     }
   },
   methods:{
+    nodo(){
+      let nodo = document.getElementById('multi') 
+      for(let i = 0; i < nodo.children.length; i++){
+          nodo.children[i].children[7].children[0].classList.add('static')
+      }
+      this.navbarOpen = true
+      //console.log(nodo.childNodes[0].classList.add('static')) 
+    },
     manual_pdf(){
       ReportesPDFService.manual_pdf()
     },    
