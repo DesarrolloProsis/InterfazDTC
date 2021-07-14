@@ -114,10 +114,13 @@ export default {
             limite: 300,
             videoId: '',
             arrayVideos: [
-                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Falla", descripcion: 'Muestra como generar un diagnóstico de falla y una ficha técnica.'},
-                {  videoId: 'CR-7c2HIUf0', titulo: "Subir Escaneados en Autorizado GMMEP", descripcion: 'Muestra como subir documentos pdf escaneados en el concentrado GMMEP.'},
-                {  videoId: 'Wx-AeJCf1eU', titulo: "Cambiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de los tecnicos.'},
-                {  videoId: 'Sl3S-D3vxW0', titulo: "Crear Diagnóstico en un DTC que no tenga", descripcion: 'Muestra como crear un diagnóstico y ficha técnica en un DTC que no lo tenga.'}
+                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Falla.", descripcion: 'Muestra como generar un diagnóstico de falla y una ficha técnica.'},
+                {  videoId: '7suvx1BCIAo', titulo: "Subir DTC Sellado en Concentrado GMMEP.", descripcion: 'Muestra como subir el DTC Sellado en el Concentrado GMMEP.'},
+                {  videoId: 'Wx-AeJCf1eU', titulo: "Cambiar Nombre Encargados Plaza.", descripcion: 'Muestra como actualizar el nombre de los tecnicos.'},
+                {  videoId: 'Sl3S-D3vxW0', titulo: "Crear Diagnóstico en un DTC que no tenga.", descripcion: 'Muestra como crear un diagnóstico y ficha técnica en un DTC que no lo tenga.'},
+                {  videoId: 'MCyD8-ZynOQ', titulo: "Actualizar Componentes en Concentrado DTC.", descripcion: 'Muestra como actualizar los componentes que se tienen en un DTC, desde la vista de Concentrado DTC.'},
+                {  videoId: 'MiyD5BHzSUI', titulo: "Actualizar Componentes en Concentrado GMMEP.", descripcion: 'Muestra como actualizar los componentes que se tienen en un DTC, desde la vista de Concentrado GMMEP.'},
+                {  videoId: 'Ok0ZDnpkO5U', titulo: "Terminar Diganóstico y Ficha desde Concentrado GMMEP.", descripcion: 'Muestra como generar un Diagnóstico y una Ficha Técnica para DTC desde Concentrado GMMEP.'}
             ],
             boolListaVideos: false,
             boolBotones: true,
