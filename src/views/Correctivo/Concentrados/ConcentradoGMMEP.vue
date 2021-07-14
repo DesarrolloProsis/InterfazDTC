@@ -264,12 +264,17 @@ computed:{
 methods:{
   limpiar_componete_escaneado: async function(){
     this.modalSubirSellado = false
-    this.loadingTabla = false
+    this.loadingTabla = true
+    this.lista_DTC_Filtrada = []
     this.objInsertEscaneado = {}
+    setTimeout(async()=>{
     let info = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
     await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                      
     this.infoDtc = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                    
     this.lista_DTC_Filtrada = this.infoDtc
+    this.loadingTabla = false
+    }, 500)
+    
   },
   customLabel ({ title }) {
     return `${title}`
@@ -294,8 +299,7 @@ methods:{
       this.abrirModal(item)
     }
     if(this.value.title == 'Subir DTC Sellado'){
-      this.lista_DTC_Filtrada = []
-      this.loadingTabla = true
+      this.limpiar_componete_escaneado
       this.tipoEscaneado = 'GMMEP'
       this.modalSubirSellado = true
       this.objInsertEscaneado = {
