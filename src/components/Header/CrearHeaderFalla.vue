@@ -511,15 +511,11 @@ methods:{
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                                   
             }                 
             if(validacion){
-                this.$notify.warning({
-                    title: "Ops!!",
-                    msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
-                    position: "bottom right",
-                    styles: { height: 100, width: 500 },
-                }); 
+                this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
             }                                                                    
         }
-        catch(error){            
+        catch(error){     
+            alert()       
             console.log(error)
             this.$notify.warning({
                     title: "Ops!!",
