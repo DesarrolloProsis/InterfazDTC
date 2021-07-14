@@ -1,7 +1,7 @@
 module.exports = {
     pwa: {
       themeColor: '#639bb4', //not required for service worker, but place theme color here if manifest.json doesn't change the color
-      workboxPluginMode: 'InjectManifest',
+      workboxPluginMode: 'InjectManifest',    
       workboxOptions: {
         // swSrc is required in InjectManifest mode.
         swSrc: 'src/service-worker.js'
