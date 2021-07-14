@@ -8,12 +8,9 @@
         </router-link>     
       </div>      
       <div class="flex">  
-        <button @click="nodo" class="mt-1 mr-3">
-            <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" />
-        </button> 
         <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
         <div class="group inline-block font-titulo">
-          <button @click="navbarOpen == true ? navbarOpen = false : navbarOpen = true" class="mt-1 mr-3">
+          <button @click="abrir_hamburguesa" class="mt-1 mr-3">
             <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" />
           </button>
         </div>              
@@ -115,7 +112,7 @@ export default {
           ] 
         }
       ],
-      navbarOpen: false
+      navbarOpen: false,      
     }
   },
   computed:{    
@@ -146,20 +143,33 @@ export default {
     }
   },
   methods:{
-    nodo(){
-      let nodo = document.getElementById('multi') 
-      for(let i = 0; i < nodo.children.length; i++){
-          nodo.children[i].children[7].children[0].classList.add('static')
+    abrir_hamburguesa(){
+      let url = document.URL
+      console.log(url)
+      if(this.navbarOpen){
+        this.navbarOpen = false
+        let nodo = document.getElementById('multiselectHamburguesa') 
+        console.log(nodo)        
+        for(let i = 0; i < nodo.children.length; i++){       
+            console.log(nodo.children[i].children[7].children[0].children[0].classList.remove('hidden'))     
+            nodo.children[i].children[7].children[0].classList.remove('static')
+        } 
       }
-      this.navbarOpen = true
-      //console.log(nodo.childNodes[0].classList.add('static')) 
+      else{
+        this.navbarOpen = true
+        let nodo = document.getElementById('multiselectHamburguesa') 
+        for(let i = 0; i < nodo.children.length; i++){       
+            console.log(nodo.children[i].children[7].children[0].children[0].classList.add('hidden'))     
+            nodo.children[i].children[7].children[0].classList.add('static')
+        }        
+      }      
     },
     manual_pdf(){
       ReportesPDFService.manual_pdf()
     },    
   },
   watch: {
-    '$route' (){      
+    '$route' (){            
       this.navbarOpen = false      
     }
   }    

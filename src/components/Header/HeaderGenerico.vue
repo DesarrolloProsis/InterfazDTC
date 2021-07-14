@@ -113,11 +113,11 @@
                 <span>Mantenimiento</span>
             </button>
         </div>
-        <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
+        <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
             <button class="botonIconNext" @click="abrirModal">
                 <span>Agregar Componente</span>
             </button>
-        </div>
+        </div> -->
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->

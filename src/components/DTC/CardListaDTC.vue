@@ -282,6 +282,9 @@ export default {
             query: { referenceNumberFinishDiagnostic: this.infoCard.referenceNumber } 
           })
         }
+        if(this.value.title ==  'Cambiar Usuario DTC'){
+          this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, squareId: this.infoCard.squareCatalogId })
+        }
         this.value = ''
     },
     opticones_select_acciones(){
@@ -296,7 +299,8 @@ export default {
             { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
-            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'} //10
+            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
+            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'} //11
         ]
         let array = []   
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
@@ -333,6 +337,9 @@ export default {
         }
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
+        }
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+          array.push(options[11])
         }
         return array       
     },

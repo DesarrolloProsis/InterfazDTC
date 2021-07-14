@@ -110,7 +110,7 @@
                         <!--/////////////////////////////////////////////////////////////////////
                         ////                           Body TABLA                     //////////
                         /////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table">   
+                        <tbody name="table" id="multiselectHamburguesa">   
                             <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
                                 <tr>
                                     <td class="w-full text-center text-red-500 m-10" colspan="6">                                    

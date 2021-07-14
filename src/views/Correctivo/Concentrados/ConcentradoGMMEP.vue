@@ -262,9 +262,14 @@ computed:{
 ////                           METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-  limpiar_componete_escaneado(){
+  limpiar_componete_escaneado: async function(){
     this.modalSubirSellado = false
+    this.loadingTabla = false
     this.objInsertEscaneado = {}
+    let info = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+    await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                      
+    this.infoDtc = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                    
+    this.lista_DTC_Filtrada = this.infoDtc
   },
   customLabel ({ title }) {
     return `${title}`
@@ -289,6 +294,8 @@ methods:{
       this.abrirModal(item)
     }
     if(this.value.title == 'Subir DTC Sellado'){
+      this.lista_DTC_Filtrada = []
+      this.loadingTabla = true
       this.tipoEscaneado = 'GMMEP'
       this.modalSubirSellado = true
       this.objInsertEscaneado = {
@@ -412,77 +419,72 @@ methods:{
                                   
   },
   editar_status_dtc: function (){
-  let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-  //Crea un objeto con los elementos necesarios para hacer un evento post
-  let objeActualizado = {
-        "ReferenceNumber": this.dtcEdit.referenceNumber,
-        "StatusId": parseInt(this.statusEdit),
-        "UserId": user.idUser,
-        "Comment": this.motivoCambio,
-      }        
-    if( this.statusEdit != '' && this.motivoCambio != ''){
-      //Evento post que llama a la api 
-    this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
-      .then(async() => {        
-        this.statusEdit = ''
-        this.motivoCambio = ''   
-        let info = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-        await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
-        this.modalCambiarStatus = false
-        this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                              
-      }) 
-      this.lista_DTC_Filtrada = this.infoDTC
+    this.lista_DTC_Filtrada = []
+    this.modalCambiarStatus = false
+    this.loadingTabla = true
+    let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']    
+    let objeActualizado = { "ReferenceNumber": this.dtcEdit.referenceNumber, "StatusId": parseInt(this.statusEdit), "UserId": user.idUser, "Comment": this.motivoCambio }        
+    if( this.statusEdit != '' && this.motivoCambio != ''){         
+      this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
+        .then(async() => {        
+          this.statusEdit = ''
+          this.motivoCambio = ''           
+          let info = await this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          await this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                      
+          this.infoDtc = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);                                    
+          this.lista_DTC_Filtrada = this.infoDtc
+          this.loadingTabla = false
+        }) 
     }
     else {
-          this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE HA LLENADO LOS CAMPOS.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
+        this.loadingTabla = false
+        this.lista_DTC_Filtrada = this.infoDtc
+        this.$notify.warning({
+        title: "Ups!",
+        msg: `NO SE HA LLENADO LOS CAMPOS.`,
+        position: "bottom right",
+        styles: {
+          height: 100,
+          width: 500,
+        },
+      });
     }
   },
   abrir_modal_editar : function (item){
-  this.modalCambiarStatus = true
-  //Toma la variable y la iguala al objeto item que trae toda la fila 
-  this.dtcEdit = item
+    this.modalCambiarStatus = true    
+    this.dtcEdit = item
   },
   descargar_PDF: function (infoDtc, status){
     ServiceReportPDF.generar_pdf_correctivo(infoDtc.referenceNumber, status, false)
-    if (this.tipoUsuario != 4 && this.tipoUsuario != 8)
-    {
+    if (this.tipoUsuario != 4 && this.tipoUsuario != 8) {
       setTimeout(()=>{
-        ServiceReportPDF.generar_pdf_fotografico_correctivo(infoDtc.referenceNumber);               
-    },1000)
-
+          ServiceReportPDF.generar_pdf_fotografico_correctivo(infoDtc.referenceNumber);               
+      }, 1000)
     }
   },
   filtro_dtc: async function (objFiltro) {     
-  if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
-    this.lista_DTC_Filtrada = []
-    this.loadingTabla = true    
-    setTimeout(async () => {
-      let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
-      this.$nextTick().then(() => {      
-          this.lista_DTC_Filtrada = listaFiltrada            
-          this.loadingTabla = false
-      }) 
-    },1000)
-  }  
-  else{
-    this.$notify.warning({
-      title: "Ups!",
-      msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
-      position: "bottom right",
-      styles: {
-        height: 100,
-        width: 500,
-      },
-    });
-  }
+    if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
+      this.lista_DTC_Filtrada = []
+      this.loadingTabla = true    
+      setTimeout(async () => {
+        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
+        this.$nextTick().then(() => {      
+            this.lista_DTC_Filtrada = listaFiltrada            
+            this.loadingTabla = false
+        }) 
+      },1000)
+    }  
+    else{
+      this.$notify.warning({
+        title: "Ups!",
+        msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+        position: "bottom right",
+        styles: {
+          height: 100,
+          width: 500,
+        },
+      });
+    }
   },
   limpiar_filtros: function() {             
   this.modalLoading = true                            
