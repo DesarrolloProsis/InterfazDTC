@@ -13,6 +13,19 @@ const state = {
 };
 const getters = {
   //Inventario
+  GET_LIST_LANE_FORMAT: () => {    
+    let iteradorSinRepetidos = [...new Set(state.listaLane)]; // Array sin duplicados          
+    let numerosUnicos = []
+    iteradorSinRepetidos.forEach(item => numerosUnicos.push(item))
+    return state.listaLane.map((lane, index) => {
+      let laneNew = {}
+      laneNew['lane'] = lane
+      numerosUnicos.includes(lane) 
+        ? laneNew['laneUnic'] = lane + index
+        : laneNew['laneUnic'] = lane      
+      return laneNew
+    })
+  },  
   GET_CARRILES_STATE: () => state.carriles.sort((a, b) => (a.lane > b.lane) ? 1 : -1),
   GET_CARRILES_LANE: (state) => (lanefind) => {
     return state.full_Component.filter(item => item.lane == lanefind) 
@@ -74,7 +87,7 @@ const actions = {
   },
   async BUSCAR_CARRILES({ commit }, plaza) {          
     Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
-      .then(response => {                       
+      .then(response => {                         
           if(response.status === 200){            
               commit("CARRILES_MUTATION", response.data.result);                         
           }                    
