@@ -7,8 +7,8 @@
             ////////////////////////////////////////////////////////////////////-->
                 <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>
                 
-                <h1 class=" text-3xl sm:text-lg font-titulo font-bold text-center">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
-                <div class="grid grid-cols-1 -mt-3">
+                <h1 class=" text-3xl sm:text-sm font-titulo font-bold text-center sm:mt-4">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
+                <div v-if="filtros" class="grid grid-cols-1 -mt-3">
                     <div class="grid grid-cols-1">
                         <!--//////////////////////////////////////////////////////////////////////
                         ////                   INFO DE PLAZA                             ////
@@ -24,7 +24,7 @@
                                     <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'TablaAct'" :fullPlazas="true"></SelectPlaza>
                                 </div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
-                                    <p class="text-sm sm:text-xs sm:ml-12 text-gray-900 ml-31 mb-1 font-semibold">Mes:</p>                                
+                                    <p class="text-sm sm:text-xs sm:ml-12 text-gray-900 ml-1 mb-1 font-semibold">Mes:</p>                                
                                     <p class="w-32 input ml-16 sm:ml-0">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32  border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
@@ -43,8 +43,8 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-4 sm:mt-4 sm:ml-20">
-                                    <p class="text-sm sm:text-xs sm:ml-12 text-gray-900 ml-31 font-semibold">Año:</p>
-                                    <p class="w-32 input ml-16 sm:ml-0">
+                                    <p class="text-sm sm:text-xs sm:ml-16 text-gray-900 ml-1 font-semibold">Año:</p>
+                                    <p class="w-32 input ml-16 sm:ml-2">
                                     <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="2020">2020</option>
@@ -52,8 +52,8 @@
                                     </select></p>
                                 </div>
                                 <div class="mb-4 ml-5 sm:mt-20 sm:-ml-1">
-                                    <p class="text-sm sm:text-xs text-gray-900 ml-31 font-bold sm:ml-10">Carril:</p>
-                                    <p class="w-32 input ml-16 sm:ml-0">
+                                    <p class="text-sm sm:text-xs text-gray-900 ml-1 font-bold sm:ml-13">Carril:</p>
+                                    <p class="w-32 input ml-16 sm:ml-2">
                                     <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 border-none"  type="text">
                                         <option value="">Selecionar...</option>
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
@@ -61,19 +61,19 @@
                                 </div> 
                                 <div v-if="this.tipoUsuario != 5 && this.tipoUsuario != 2" class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-xs sm:ml-10 text-gray-900 ml-33 mb-1 font-bold">Status:</p>
-                                    <p class="w-48 input ml-20 sm:ml-1 sm:w-32">
+                                    <p class="w-48 input ml-33 sm:ml-1 sm:w-32">
                                     <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option value="">Todos</option>
                                         <option :value=true>Concluido</option>
                                         <option :value=false>Inconcluso</option>                                        
                                     </select></p>
                                 </div>
-                                <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full" :class="{'-ml-1 mr-20':tipoUsuario == 2 || tipoUsuario == 5}">
-                                    <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-20 mr-2 sm:ml-10 sm:mb-1">Referencia:</p>
+                                <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full" :class="{'ml-18 sm:-ml-64 sm:mt-20':tipoUsuario == 2 || tipoUsuario == 5}">
+                                    <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-6 mr-2 sm:text-center sm:ml-8 sm:mb-1">Referencia:</p>
                                     <input v-model="referenceNumber" class="text-center input sm:w-32" placeholder="PM-00000" type="text">
                                 </div>
-                                <div class="mt-2 ml-16 sm:ml-16" :class="{'-ml-1':tipoUsuario == 2 || tipoUsuario == 5}">
-                                    <button @click="limpiar_filtros" class="botonTodos sm:w-32">
+                                <div class="mt-2 ml-4 sm:ml-18 sm:mt-3" :class="{'-ml-1 sm:-mt-1 sm:mb-3':tipoUsuario == 2 || tipoUsuario == 5}">
+                                    <button @click="limpiar_filtros" class="botonTodos sm:w-32 sm:h-8" :class="{'ml-10 sm:ml-2 sm:w-32 sm:h-8':tipoUsuario == 2 || tipoUsuario == 5}">
                                         <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                         <span class="">Todos</span>
                                     </button>
@@ -88,8 +88,16 @@
                         </div>                          
                     </div>                                        
                 </div> 
+                <div class="text-center md:hidden lg:hidden xl:hidden">
+                    <button @click="filtros=false" v-if="filtros">
+                        <img src="../../assets/img/up.png" width="25" height="2"/>
+                    </button>
+                    <button @click="filtros=true" v-else>
+                        <img src="../../assets/img/down.png" width="25" height="2"/>
+                    </button>
+                </div>
             </div>
-            <div class="sm:m-2 sm:w-full sm:-mb-32 sm:ml-1 sm:text-xs">
+            <div class="sm:-m-1 sm:w-full sm:-mb-32 sm:ml-1 sm:text-xs">
                 <div class="divtabla font-titulo" style="height:600px;">
                     <!--//////////////////////////////////////////////////////////////////////
                     ////                           TABLA                             ////////
@@ -194,7 +202,8 @@ export default {
             pdfSellado:'',
             modalSubirSellado: false,
             objSubir:'',
-            objInsertEscaneado:{}
+            objInsertEscaneado:{},
+            filtros: true
         }
     },
 /////////////////////////////////////////////////////////////////////
