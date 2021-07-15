@@ -418,8 +418,10 @@ destroyed(){
 methods: {
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != '')
+      if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
       this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
         .then((response) => {
+          this.filtro_dtc = []          
           console.log(response)
           this.userChangeDtc = ''
           this.itemCompleteChangeUserDTC = {}
@@ -430,7 +432,20 @@ methods: {
             position: "bottom right",
             styles: { height: 100, width: 500,},
           });
+          this.limpiar_filtros()
         })
+      }
+      else{
+        this.userChangeDtc = ''
+        this.itemCompleteChangeUserDTC = {}
+        this.modalCambiarUsuarioDTC = false
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `NECESITAS TERMIANR TU DIAGNOSTICO DE FALLA.`,
+          position: "bottom right",
+          styles: { height: 100, width: 500 },
+        });
+      }
     else{
         this.$notify.warning({
           title: "Ups!",
@@ -445,7 +460,7 @@ methods: {
     this.modalCambiarUsuarioDTC = true
     this.itemCompleteChangeUserDTC = item
     this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
-      .then((response) => this.listaTecnicosPlaza = response.data.result)
+      .then((response) =>this.listaTecnicosPlaza = response.data.result)
       .catch((error) => console.log(error))
   },
   guardar_palabra_busqueda: function(newPalabra){          
