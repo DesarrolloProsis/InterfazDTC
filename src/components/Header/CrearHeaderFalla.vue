@@ -65,16 +65,9 @@
             ////////////////////////////////////////////////////////////////////--> 
             <div class="mt-6 ml-48 sm:ml-4 font-titulo">
                 <div>
-<<<<<<< HEAD
                     <ValidationProvider immediate name="FechaDiagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>                        
                         <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-16 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
-=======
-                    <ValidationProvider immediate name="FechaDiagnostico" rules="required"  v-slot="{ errors }">                   
-                        <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha Siniestro:</span>
-                        <!-- <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" :class="{'fechaFicha':blockInput == true || $route.params.tipoVista != 'Crear'}" class="ml-16 fechaDiag sm:ml-4"  type="date" :disabled="blockInput || $route.params.tipoVista != 'Crear'" name="FechaDiagnostico"/> -->
-                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-10 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
->>>>>>> develop
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
