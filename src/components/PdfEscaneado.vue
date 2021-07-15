@@ -16,7 +16,7 @@
                     <div class="grid grid-cols-1 ml-6 sm:ml-0" v-else>
                         <div class="grid grid-cols-2">
                             <img src="@/assets/img/pdf.png" class="w-24 h-24 sm:hidden mt-6 opacity-75" alt/>     
-                            <p class="-ml-16 mt-16 font-bold sm:ml-0">PDF Escaneado</p>
+                            <p class="-ml-16 mt-16 font-bold sm:ml-0">{{this.nombrePdf}}</p>
                         </div>
                         <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
                             <button @click="buscar_ruta_envio" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
@@ -52,16 +52,17 @@ export default {
     data(){
         return{
             escaneadoBool: true,
-            pdfEscaneadoFile: {}
+            pdfEscaneadoFile: {},
+            nombrePdf:''
         }
     },
     methods: {
         recibir_calendario_escaneado(e){
             var files = e.target.files || e.dataTransfer.files;
+            this.nombrePdf = files[0].name
             if (!files.length) return;
             else {
                 for (let file of files) {  
-                    console.log(file.type.split('/'));      
                     if(file.type.split('/')[1] == 'pdf'){
                         this.pdfEscaneadoFile = file
                         this.escaneadoBool = false
@@ -95,10 +96,12 @@ export default {
             if(this.tipoReporte == 'Ficha') {
                 url = `${API}/FichaTecnicaAtencion/FichaTecnicaSellada/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`                
             }
+            if(this.tipoReporte == 'GMMEP'){
+                url = `${API}/pdf/PdfSellado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}/${false}`
+            }
             formFile.append("file", this.pdfEscaneadoFile);
             this.$http.post(url, formFile)
-                .then((response) => {
-                    console.log(response);
+                .then(() => {                    
                     this.escaneadoBool = true                      
                     this.$notify.success({
                         title: "Ok!",
@@ -107,10 +110,7 @@ export default {
                         styles: { height: 100, width: 500 },
                     });
                     this.$emit('limpiar-componente-escaneado')                 
-                })
-                .catch((error) => {
-                    console.log(error);
-                })            
+                })                          
         },                                              
     }
 }

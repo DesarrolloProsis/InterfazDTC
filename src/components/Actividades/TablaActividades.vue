@@ -58,7 +58,7 @@
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select></p>
                                 </div> 
-                                <div class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
+                                <div v-if="this.tipoUsuario != 5 && this.tipoUsuario != 2" class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
                                     <p class="text-sm sm:text-xs text-gray-900 ml-33 mb-1 font-bold">Status:</p>
                                     <p class="w-48 input ml-20 sm:ml-0 sm:w-32">
                                     <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-32 border-none" type="text" name="TipoDescripcion" >
@@ -67,11 +67,11 @@
                                         <option :value=false>Inconcluso</option>                                        
                                     </select></p>
                                 </div>
-                                <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full">
+                                <div class="mb-4 ml-10 font-bold sm:ml-0 sm:w-full" :class="{'-ml-1 mr-20':tipoUsuario == 2 || tipoUsuario == 5}">
                                     <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-20 mr-2 sm:ml-0 sm:mb-1">Referencia:</p>
                                     <input v-model="referenceNumber" class="text-center input sm:w-32" placeholder="PM-00000" type="text">
                                 </div>
-                                <div class="mt-2 ml-16 sm:ml-16">
+                                <div class="mt-2 ml-16 sm:ml-16" :class="{'-ml-1':tipoUsuario == 2 || tipoUsuario == 5}">
                                     <button @click="limpiar_filtros" class="botonTodos sm:w-32">
                                         <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
                                         <span class="">Todos</span>
@@ -110,7 +110,7 @@
                         <!--/////////////////////////////////////////////////////////////////////
                         ////                           Body TABLA                     //////////
                         /////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table">   
+                        <tbody name="table" id="multiselectHamburguesa">   
                             <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
                                 <tr>
                                     <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
@@ -193,6 +193,7 @@ export default {
             pdfSellado:'',
             modalSubirSellado: false,
             objSubir:'',
+            objInsertEscaneado:{}
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -200,7 +201,7 @@ export default {
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function(){  
     this.loadingTabla = true            
-    let cargaInicial = this.$route.params.cargaInicial
+    let cargaInicial = this.$route.params.cargaInicial    
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
     this.plazaNombre = cargaInicial.plazaNombre
     this.comentario = cargaInicial.comentario     
@@ -366,7 +367,7 @@ methods: {
             { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
             { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
         ]
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 7 || this.tipoUsuario == 5 || this.tipoUsuario == 2){
             if(pdfExists){
                 return options.splice(2,2)
             }
@@ -393,28 +394,23 @@ methods: {
     },
     subir_esaneado(){
         let clavePlaza = this.objSubir.split('-',1)
-        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')
-        console.log(file);
+        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')        
         let formData = new FormData()
-        formData.append('file', file)
-        console.log(formData);
+        formData.append('file', file)        
         this.$http.post(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${this.objSubir}`, formData)
-        .then(()=>{
-            this.$notify.success({
-                title: "Ok!",
-                msg: `Se subió el archivo correctamente.`,
-                position: "bottom right",
-                class:"font-titulo",
-                styles: {
-                height: 100,
-                width: 500,
-                },
-            });
-            this.pdfSelladoBool = true
-        })
-        .catch((ex)=>{
-            console.log(ex);
-        })
+            .then(()=>{
+                this.$notify.success({
+                    title: "Ok!",
+                    msg: `Se subió el archivo correctamente.`,
+                    position: "bottom right",
+                    class:"font-titulo",
+                    styles: {
+                    height: 100,
+                    width: 500,
+                    },
+                });
+                this.pdfSelladoBool = true
+            })         
     },
     descargar_escaneado(value){
         ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)

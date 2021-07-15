@@ -1,5 +1,5 @@
 <template>
-    <div>        
+    <div>                      
         <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">                      
                 <!--/////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@
                         <!--/////////////////////////////////////////////////////////////////
                         ////                          BODY TABLA                          ////
                         ////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table" class="">
+                        <tbody name="table" id="multiselectHamburguesa">
                             <template v-if="infoFichasFallaFiltrada.length == 0 && loadingTabla != true"> 
                                 <tr>
                                     <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
@@ -79,21 +79,21 @@
                                     <td class="cuerpoTable sm:text-xs">{{ item.failuerNumber }}</td>
                                     <td class="cuerpoTable sm:text-xs">{{ item.siniesterNumber }}</td>                              
                                     <td class="cuerpoTable">{{ item.referenceDTC }}</td>
-                                    <td class="cuerpoTable">
+                                    <td class="cuerpoTable">                                               
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                                            <template slot="singleLabel" slot-scope="props">
+                                            <template slot="singleLabel" slot-scope="props" class="static">
                                                 <div class="inline-flex">
                                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
                                                     <span class="option__title bg-red-300">{{ props.option.title }}</span>
                                                 </div>
                                             </template>
-                                            <template slot="option" slot-scope="props">                                                
+                                            <template slot="option" slot-scope="props" class="static">                                                
                                                 <div class="option__desc "><span class="option__title inline-flex">
                                                     <img :src="props.option.img" class="mr-5" width="15" height="15">    
                                                     {{ props.option.title }}</span>
                                                 </div>
                                             </template>
-                                        </multiselect> 
+                                        </multiselect>                                                                                                                                                                                
                                     </td>
                                 </tr>
                             </template>  
@@ -152,6 +152,13 @@ export default {
         })
     },
     methods: {  
+        nodo(){
+            let nodo = document.getElementById('multi') 
+            for(let i = 0; i < nodo.children.length; i++){
+                nodo.children[i].children[7].children[0].classList.add('static')
+            }
+            //console.log(nodo.childNodes[0].classList.add('static')) 
+        },
         actualizarTabla(){
             this.typeUser = this.$store.state.Login.cookiesUser.rollId 
             this.loadingTabla = true
@@ -171,8 +178,7 @@ export default {
         },
         confirmarBorrar (item){
             this.infoEliminar = item
-            this.modalEliminar = true
-            console.log(item)
+            this.modalEliminar = true            
         },
         desargar_pdf(value){
             ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
@@ -193,15 +199,11 @@ export default {
             let userId = this.$store.state.Login.cookiesUser.userId 
             let clavePlaza = this.infoEliminar.referenceNumber.split('-')[0] 
             this.$http.post(`${API}/DiagnosticoFalla/BorraDiagnosticoFull/${clavePlaza}/${this.infoEliminar.referenceNumber}/${userId}/${this.comentarioBorrar}/${this.infoEliminar.referenceDTC}`)
-            .then((response)=>{
-                console.log(response)
-                this.modalEliminar = false
-                this.comentarioBorrar = ''
-                this.actualizarTabla()
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
+                .then(()=>{                
+                    this.modalEliminar = false
+                    this.comentarioBorrar = ''
+                    this.actualizarTabla()
+                })      
         },
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
@@ -329,8 +331,7 @@ export default {
             if(this.value.title == 'Bajar DF Sellado'){
                 this.descargar_diag_ficha(item.referenceNumber,1)
             }
-            this.value = ""
-            
+            this.value = ""            
         },
         opticones_select_acciones(item){
             const options= [                
@@ -360,15 +361,16 @@ export default {
                 }           
                 if(item.validacionDTC && item.validacionFichaTecnica){
                     filtroOpciones.push(options[6])
-                }
-                if(this.typeUser != 7 || this.typeUser != 10 || this.typeUser != 4){
+                } 
+                if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                   
+                //if(this.typeUser != 7 || this.typeUser != 10 || this.typeUser != 4){                    
                     filtroOpciones.push(options[2])
                     filtroOpciones.push(options[3])
                 }
             }     
             else{
                 filtroOpciones.push(options[0])
-            }                             
+            }                                       
             return filtroOpciones
         },
     },
@@ -379,3 +381,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.mystyle {
+    position: static;
+}
+</style>

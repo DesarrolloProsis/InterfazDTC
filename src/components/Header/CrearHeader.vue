@@ -356,11 +356,6 @@ methods: {
     let fechaActual = Date.now()
     let fechaSinisestro = Date.parse(this.datosSinester.SinisterDate)
     let fechaFalla = Date.parse(this.datosSinester.FailureDate)
-    console.log({
-      fechaActual,
-      fechaSinisestro,
-      fechaFalla
-    })
     if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != '' && fechaSinisestro < fechaActual && fechaFalla < fechaActual){ 
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)
