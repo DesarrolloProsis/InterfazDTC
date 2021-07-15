@@ -170,20 +170,23 @@ export default {
 
       if(this.navbarOpen){
         this.navbarOpen = false
-        let nodo = document.getElementById('multiselectHamburguesa')                
-        for(let i = 0; i < nodo.children.length; i++){       
-            nodo.children[i].children[indexNodo].children[0].children[0].classList.remove('hidden')
-            nodo.children[i].children[indexNodo].children[0].classList.remove('static')
-        } 
+        if(indexNodo > 0){
+          let nodo = document.getElementById('multiselectHamburguesa')                
+          for(let i = 0; i < nodo.children.length; i++){       
+              nodo.children[i].children[indexNodo].children[0].children[0].classList.remove('hidden')
+              nodo.children[i].children[indexNodo].children[0].classList.remove('static')
+          } 
+        }
       }
       else{
         this.navbarOpen = true
-        let nodo = document.getElementById('multiselectHamburguesa') 
-        console.log(nodo.children[0].children) 
-        for(let i = 0; i < nodo.children.length; i++){       
-            nodo.children[i].children[indexNodo].children[0].children[0].classList.add('hidden')     
-            nodo.children[i].children[indexNodo].children[0].classList.add('static')
-        }        
+        if(indexNodo > 0){
+          let nodo = document.getElementById('multiselectHamburguesa')           
+          for(let i = 0; i < nodo.children.length; i++){       
+              nodo.children[i].children[indexNodo].children[0].children[0].classList.add('hidden')     
+              nodo.children[i].children[indexNodo].children[0].classList.add('static')
+          } 
+        }       
       }      
     },
     manual_pdf(){

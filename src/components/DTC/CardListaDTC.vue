@@ -283,7 +283,7 @@ export default {
           })
         }
         if(this.value.title ==  'Cambiar Usuario DTC'){
-          this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, squareId: this.infoCard.squareCatalogId })
+          this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, referenceNumberDiagnosis: this.infoCard.technicalSheetReference, squareId: this.infoCard.squareCatalogId })
         }
         this.value = ''
     },
