@@ -18,55 +18,54 @@
     </nav>
     <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3">      
       <transition name="fade">
-        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto sm:w-full inline-flex">     
-          <div class="bg-white border border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-lg">                  
-            <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
+        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex">     
+          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg">                  
+            <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>
               <button>
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
-                  <button @click="$router.push(itemsub.path)" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
+                  <button @click="$router.push(itemsub.path)" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
                     <div  class="ml-4 text-left">
-                      <p class="font-semibold">{{ itemsub.texto }}</p>
-                      <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
+                      <p class="font-semibold">{{ itemsub.texto }}</p>                      
                     </div>
                   </button>
                 </div>
               </button>
             </div>
-            <button class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-300 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden">
+            <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-300 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden">
               <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
               <div  class="ml-4 text-left">
                 <p class="font-semibold">Cerrar Sesion</p>                                
               </div>  
             </button>   
           </div>
-          <div class="bg-white border border-l-0 border-blue-800 inline-block p-3 pr-0 pt-0 w-69 rounded-lg sm:hidden">                  
-            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl inline-block p-1 pl-0 mt-1">
+          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden">                  
+            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>                  
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
-                  <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
+                  <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
                     <div  class="ml-4 text-left">
-                      <p class="font-semibold">{{ itemsub.texto }}</p>
-                      <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
+                      <p class="font-semibold">{{ itemsub.texto }}</p>                    
                     </div>  
                   </button>
-                  <button v-else @click="manual_pdf" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1">
+                  <button v-else @click="manual_pdf" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
                     <div  class="ml-4 text-left">
-                      <p class="font-semibold">{{ itemsub.texto }}</p>
-                      <p class="">Lorem ipsum dolor sit amet consectetur adipisicing</p>                  
+                      <p class="font-semibold">{{ itemsub.texto }}</p>                                       
                     </div>  
                   </button>                  
                 </div>                                     
-            </div> 
-            <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-300 pl-1 pr-1 pb-1 w-full h-12">
+            </div>
+            <div class="rounded-2xl p-1 pl-0 mt-1">
+            <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
               <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
               <div  class="ml-4 text-left">
                 <p class="font-semibold">Cerrar Sesion</p>                                
               </div>  
-            </button>                   
+            </button> 
+            </div>                  
           </div>
         </div>
       </transition >      
