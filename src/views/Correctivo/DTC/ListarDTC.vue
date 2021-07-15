@@ -97,14 +97,14 @@
                 <div class="mt-10">
                   <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione el nuevo usuario</p>
                   <ValidationProvider name="Observaciones" rules="required" v-slot="{ errors }"> 
-                    <select class="w-full border-none">
-                      <option v-for="(item, key) in listaTecnicosPlaza" :key="key">{{  item.nombre }}</option>
+                    <select v-model="userChangeDtc" class="w-full border-none">
+                      <option v-for="(item, key) in listaTecnicosPlaza" :key="key" :value="item.userId">{{  item.nombre }}</option>
                     </select> 
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                    </ValidationProvider>
                 </div>                          
                 <div class="mt-10 text-center">
-                  <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
+                  <button @click="actualizar_user_id_dtc" class="botonIconCrear">Si</button>
                   <button @click="modalCambiarUsuarioDTC = false, refNum = ''" class="botonIconCancelar">No</button>
                 </div>  
               </ValidationObserver>          
@@ -342,6 +342,8 @@ export default {
       dtcEdit: {}, 
       //cambiar User DTC
       modalCambiarUsuarioDTC: false,
+      userChangeDtc: '',
+      itemCompleteChangeUserDTC: {},
       listaTecnicosPlaza: [],
       //otros      
       refNum: "",    
@@ -414,9 +416,34 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  actualizar_user_id_dtc(){
+    if(this.userChangeDtc != '')
+      this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
+        .then((response) => {
+          console.log(response)
+          this.userChangeDtc = ''
+          this.itemCompleteChangeUserDTC = {}
+          this.modalCambiarUsuarioDTC = false
+          this.$notify.success({
+            title: "Ok!",
+            msg: `EL DTC CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500,},
+          });
+        })
+    else{
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `FALTA LLENAR LOS CAMPOS.`,
+          position: "bottom right",
+          styles: { height: 100, width: 500 },
+        });
+    }
+  },
   modal_cambiar_usurio_dtc(item){
     this.refNum = item.referenceNumber
     this.modalCambiarUsuarioDTC = true
+    this.itemCompleteChangeUserDTC = item
     this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
       .then((response) => this.listaTecnicosPlaza = response.data.result)
       .catch((error) => console.log(error))
