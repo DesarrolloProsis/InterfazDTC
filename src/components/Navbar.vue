@@ -181,7 +181,7 @@ export default {
       else{
         this.navbarOpen = true
         if(indexNodo > 0){
-          let nodo = document.getElementById('multiselectHamburguesa')           
+          let nodo = document.getElementById('multiselectHamburguesa')          
           for(let i = 0; i < nodo.children.length; i++){       
               nodo.children[i].children[indexNodo].children[0].children[0].classList.add('hidden')     
               nodo.children[i].children[indexNodo].children[0].classList.add('static')
