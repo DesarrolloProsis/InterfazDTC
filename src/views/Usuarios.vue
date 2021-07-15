@@ -16,6 +16,7 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+            <thead>
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
                 <th class="w-56 cabeceraTable font-medium">Tipo de Usuario</th>
@@ -23,7 +24,24 @@
                 <th class="w-56 cabeceraTable font-medium">Correo</th>                
                 <th class="w-48 cabeceraTable font-medium">Acciones</th>
               </tr>
-              <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in listaUsuarios" :key="key">
+            </thead>
+            <tbody id="multiselectHamburguesa">
+              <template v-if="listaUsuarios.length == 0 && loadingTabla != true"> 
+                <tr>
+                    <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
+                        <div class="mt-8 mb-8">Sin Informacion</div>
+                    </td>
+                </tr>  
+              </template> 
+              <template v-if="loadingTabla">  
+                  <tr>
+                      <td class="w-full" colspan="10">                                    
+                          <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                      </td>                          
+                  </tr>  
+              </template>  
+              <template v-if="listaUsuarios.length > 0">
+                <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in listaUsuarios" :key="key">
                 <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
                 <td class="cuerpoTable text-center">{{ item.roll }}</td>
                 <td class="cuerpoTable text-center">{{ item.plazas }}</td>
@@ -44,7 +62,9 @@
                     </template>
                   </multiselect>      
                 </td>
-            </tr>
+                </tr>
+              </template>
+            </tbody>            
           </table>
         </div>
       </div>
@@ -218,7 +238,8 @@ export default {
         tipoUsuario: '',
         plazas: []
       },
-      value:''
+      value:'',
+      loadingTabla: false
       
     };
   },
@@ -248,6 +269,7 @@ export default {
       }
     },
     refrescar_usuarios: function(){
+      this.loadingTabla = true 
       this.listaUsuarios = []
       this.lista_Usuarios_Filtrada = []
       let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -257,6 +279,7 @@ export default {
         this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
+        this.loadingTabla = false
       },100)
     },
     borrar_usuario(item) {

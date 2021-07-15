@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">    
+  <div class="">    
     <div class="flex justify-center">
       <div class="grid gap-4 grid-cols-1 py-3 px-3">
         <HeaderGenerico :titulo="'Inventario'" :contadorInventario="listEditados.length"
@@ -169,7 +169,7 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->            
-            <tbody name="table">  
+            <tbody name="table" id="multiselectHamburguesa">  
               <template v-if="listComponent.length == 0 && loadingTabla != true"> 
                   <tr>
                       <td class="w-full text-center text-red-500 m-10" colspan="10">                                    

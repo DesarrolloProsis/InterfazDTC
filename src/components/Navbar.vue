@@ -144,23 +144,46 @@ export default {
   },
   methods:{
     abrir_hamburguesa(){
-      let url = document.URL
+      let url = document.URL.split('/')
+      url = url[url.length - 1]
       console.log(url)
+      var indexNodo = null
+      switch (url) {
+        case 'ConcentradoFichas': 
+          indexNodo = 7;
+        break
+        case 'TablaActividades':
+          indexNodo = 5;
+        break
+        case 'ConcentradoGMMEP':
+          indexNodo = 10
+        break
+        case 'Inventario':
+          indexNodo = 6
+        break
+        case 'Usuarios':
+          indexNodo = 4
+        break
+        default: 
+          indexNodo = 0;
+        break
+      }
+
       if(this.navbarOpen){
         this.navbarOpen = false
-        let nodo = document.getElementById('multiselectHamburguesa') 
-        console.log(nodo)        
+        let nodo = document.getElementById('multiselectHamburguesa')                
         for(let i = 0; i < nodo.children.length; i++){       
-            console.log(nodo.children[i].children[7].children[0].children[0].classList.remove('hidden'))     
-            nodo.children[i].children[7].children[0].classList.remove('static')
+            nodo.children[i].children[indexNodo].children[0].children[0].classList.remove('hidden')
+            nodo.children[i].children[indexNodo].children[0].classList.remove('static')
         } 
       }
       else{
         this.navbarOpen = true
         let nodo = document.getElementById('multiselectHamburguesa') 
+        console.log(nodo.children[0].children) 
         for(let i = 0; i < nodo.children.length; i++){       
-            console.log(nodo.children[i].children[7].children[0].children[0].classList.add('hidden'))     
-            nodo.children[i].children[7].children[0].classList.add('static')
+            nodo.children[i].children[indexNodo].children[0].children[0].classList.add('hidden')     
+            nodo.children[i].children[indexNodo].children[0].classList.add('static')
         }        
       }      
     },

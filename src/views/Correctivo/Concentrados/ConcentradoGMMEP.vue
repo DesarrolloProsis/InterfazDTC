@@ -108,7 +108,7 @@
           <!--/////////////////////////////////////////////////////////////////
           ////                          BODY TABLA                          ////
           ////////////////////////////////////////////////////////////////////-->
-          <tbody name="table">  
+          <tbody name="table" id="multiselectHamburguesa">  
             <template v-if="lista_DTC_Filtrada.length == 0 && loadingTabla != true"> 
                 <tr>
                     <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
