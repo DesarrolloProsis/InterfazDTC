@@ -51,7 +51,7 @@
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION GMMEP                 ////         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'GMMEP'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
+        <div v-if="tipo == 'GMMEP'" class="mt-1 sm:-mt-8 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
         <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-1" 
@@ -64,19 +64,19 @@
             </div>
             <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Fecha:</p>
-                <p class="input w-40 sm:w-66 sm:-ml-2"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
-                <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
+                <p class="input w-40 sm:w-62 sm:ml-1"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
+                <span class="block text-xs text-gray-600 sm:ml-2">*Fecha de Elaboración</span>
             </div>
             <div class="m-3">
                 <p class="pdtcpendientes sm:text-sm sm:text-center">Escriba la Referencia:</p>
-                <p class="input w-40 sm:w-66 sm:-ml-2"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-66" placeholder="PM-000000"/></p>
+                <p class="input w-40 sm:w-62 sm:ml-1"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-62" placeholder="PM-000000"/></p>
             </div>     
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
         ///                    BOTONES DE NAVEGACION  DTC               ////
        ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 text-center justify-items-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton">
+            <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton sm:h-8">
                 <img src="../../assets/img/todos.png" class="mr-4" width="25" height="2"/>
                 <span class="-ml-2">Todos</span>
             </button>
