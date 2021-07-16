@@ -433,10 +433,7 @@ methods:{
 
     }
   },
-
-
-  },
-  filtro_dtc: async function (objFiltro) {     
+    filtro_dtc: async function (objFiltro) {     
 
   if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
     this.lista_DTC_Filtrada = []
@@ -572,6 +569,9 @@ methods:{
       })      
     }, 3000);      
   },
+
+  },
+
 
 
 /////////////////////////////////////////////////////////////////////
