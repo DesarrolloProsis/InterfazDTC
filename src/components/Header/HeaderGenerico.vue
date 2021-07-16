@@ -143,14 +143,14 @@
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
             <div class="sm:-ml-24">
-                <div class="ml-32">
-                    <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
+                <div class="ml-32 sm:ml-30">
+                    <span class="mr-10 font-bold text-md sm:ml-20">Seleccione una Plaza:</span>
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                
             </div>
             <div class="text-center sm:-ml-33 sm:mt-2">
-                <p class="font-bold sm:text-sm sm:-ml-20">Nombre</p>
-                <input v-model="buscarEncargado" class="border-none w-40 text-center sm:w-auto sm:mt-1" placeholder="Nombre Apellido"/>
+                <p class="font-bold sm:text-sm sm:ml-33">Nombre:</p>
+                <input v-model="buscarEncargado" class="border-none w-40 text-center sm:w-65 sm:ml-33 sm:mt-1" placeholder="Nombre Apellido"/>
             </div>             
         </div>
         <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
@@ -158,7 +158,7 @@
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
             </button>
-            <button class="botonTodos font-boton" @click="limpiar_encargados">
+            <button class="botonTodos font-boton sm:h-8" @click="limpiar_encargados">
                 <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" />
                 <span>Todos</span>
             </button>
