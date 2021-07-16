@@ -204,8 +204,7 @@ methods: {
         });
     }
   },
-  crear_dtc: async function (status) {
-      console.log(status);     
+  crear_dtc: async function (status) {      
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 

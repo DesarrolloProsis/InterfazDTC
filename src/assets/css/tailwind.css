@@ -3,6 +3,7 @@
 
 @tailwind base;
 
+
 .multiselect__option--highlight{
     @apply bg-blue-300  
 }
@@ -249,6 +250,15 @@ select:focus {
     @apply border-blue-600 bg-blue-300 text-white transition duration-500;
 }
 .botonIconNext:focus{
+    @apply outline-none;
+}
+.botonIconExcel{
+    @apply bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-green-700 shadow-md py-2 px-6 inline-flex items-center;
+}
+.botonIconExcel:hover{
+    @apply border-green-700 bg-green-400 text-white transition duration-500;
+}
+.botonIconExcel:focus{
     @apply outline-none;
 }
 .botonIconBorrarCard{

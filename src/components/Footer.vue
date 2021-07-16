@@ -3,7 +3,7 @@
         <div class="w-full px-6 bg-blue-800">                
             <div class="inline-flex justify-between  py-3 w-full">
                 <div id="nombreRollShow" v-if="$route != undefined && $route.name != 'login'">
-                    <p id="testNombreRoll" class="text-xs sm:mt-1 text-blue-400">{{ nombreRoll }}</p>
+                    <p id="testNombreRoll" class="text-xs sm:mt-1 text-blue-400 w-32">{{ nombreRoll }}</p>
                 </div>
                 <div class="w-full ml-16 sm:ml-0 text-center">
                     <p class="text-sm text-white font-titulo">
@@ -21,20 +21,17 @@
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class=" font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Versión 1.6.6 !!! 🎉</p>
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·Se agregaron los Subcomponentes en Inventario.</li>
-                            <li>·Ya Aparece Marca y Modelo en Inventario.</li>
-                            <li>·Botón Actualizar Folio y Fechas de Componentes (DTC).</li>
-                            <li>·Actualizar Ubicación en Editar Diagnóstico.</li>
-                            <li>·Ahora el Tamaño del PDF con Imagenes es Más Pequeño.</li>
-                            <li>·Se puede realizar una busqueda por referencia de DTC en concentrado de Diagnóstico.</li>
-                            <li>·Ahora el Tamaño del PDF con Imagenes es Más Pequeño.</li>
-                            <li>·Ficha Técnica Por Fin de Vida Útil y Por Siniestro, Ocupa las Imágenes del Diagnóstico.</li>
-                            <li>·Acomodo de Botones.</li>
+                            <li>·Se pueden ver los DTC de los técnicos que pertenecen a las mismas plaza.</li>
+                            <li>·Diseño de botones en todos los concentrados.</li>
+                            <li>·Video de Actualizar Componentes en Concentrad GMMEP y Concentrado DTC.</li>
+                            <li>·Video de Terminar un Diagnóstio y Ficha Técnica en un DTC que no tenga, desde Concentrado DTC.</li>
+                            <li>·Video de Video de Terminar un Diagnóstio y Ficha Técnica en un DTC que no tenga, desde Concentrado GMMEP.</li>
+                            <li>·Botón de access rápidos en la parte superir derecha.</li>
                         </ol>
                     </div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V1.6.6</p>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0</p>
                 </div>
             </div>                                
         </div>        

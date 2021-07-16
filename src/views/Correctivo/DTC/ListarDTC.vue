@@ -1,6 +1,6 @@
   <template>
   <div id="container">    
-    <div class="relative mb-16">
+    <div class=" mb-16">
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
@@ -79,14 +79,36 @@
         ////                      MODAL CONFIRMAR GMMEP                 ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-        <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
-            <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
-            <div class="mt-5 text-center">
-              <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
-              <button @click="modalFirma = false, ocultarMultiPadre = false" class="botonIconCancelar">No</button>
-            </div>
-          
+          <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
+              <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
+              <div class="mt-5 text-center">
+                <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>
+                <button @click="modalFirma = false, ocultarMultiPadre = false" class="botonIconCancelar">No</button>
+              </div>            
+          </div>
         </div>
+        <!--/////////////////////////////////////////////////////////////////
+        ////                 MODAL CAMBIAR USUARIO A DTC                 ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+          <div v-if="modalCambiarUsuarioDTC" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
+              <ValidationObserver ref="observer">  
+                <p class="text-gray-900 font-thin text-md">Cambiar de Usuario el Siguiente DTC {{ refNum }}</p> 
+                <div class="mt-10">
+                  <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione el nuevo usuario</p>
+                  <ValidationProvider name="Observaciones" rules="required" v-slot="{ errors }"> 
+                    <select v-model="userChangeDtc" class="w-full border-none">
+                      <option v-for="(item, key) in listaTecnicosPlaza" :key="key" :value="item.userId">{{  item.nombre }}</option>
+                    </select> 
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                   </ValidationProvider>
+                </div>                          
+                <div class="mt-10 text-center">
+                  <button @click="actualizar_user_id_dtc" class="botonIconCrear">Si</button>
+                  <button @click="modalCambiarUsuarioDTC = false, refNum = ''" class="botonIconCancelar">No</button>
+                </div>  
+              </ValidationObserver>          
+          </div>
         </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL ELIMINAR                         ////
@@ -263,6 +285,7 @@
                 @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
                 @enviar_pdf_sellado="enviar_pdf_sellado"
                 @editar-fechas-dtc="editar_fechas_dtc"
+                @cambiar-usuario-dtc="modal_cambiar_usurio_dtc"
                 :plazasValidas="plazasValidas"
                 :infoCard="dtc"
                 :ocultarMulti="ocultarMultiPadre"              
@@ -317,7 +340,12 @@ export default {
       modalEdit: false,
       statusEdit: '',
       dtcEdit: {}, 
-      //otros
+      //cambiar User DTC
+      modalCambiarUsuarioDTC: false,
+      userChangeDtc: '',
+      itemCompleteChangeUserDTC: {},
+      listaTecnicosPlaza: [],
+      //otros      
       refNum: "",    
       tipoUsuario: '',                                                             
       moreCard: true,                  
@@ -388,6 +416,53 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  actualizar_user_id_dtc(){
+    if(this.userChangeDtc != '')
+      if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
+      this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
+        .then((response) => {
+          this.filtro_dtc = []          
+          console.log(response)
+          this.userChangeDtc = ''
+          this.itemCompleteChangeUserDTC = {}
+          this.modalCambiarUsuarioDTC = false
+          this.$notify.success({
+            title: "Ok!",
+            msg: `EL DTC CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500,},
+          });
+          this.limpiar_filtros()
+        })
+      }
+      else{
+        this.userChangeDtc = ''
+        this.itemCompleteChangeUserDTC = {}
+        this.modalCambiarUsuarioDTC = false
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `NECESITAS TERMIANR TU DIAGNOSTICO DE FALLA.`,
+          position: "bottom right",
+          styles: { height: 100, width: 500 },
+        });
+      }
+    else{
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `FALTA LLENAR LOS CAMPOS.`,
+          position: "bottom right",
+          styles: { height: 100, width: 500 },
+        });
+    }
+  },
+  modal_cambiar_usurio_dtc(item){
+    this.refNum = item.referenceNumber
+    this.modalCambiarUsuarioDTC = true
+    this.itemCompleteChangeUserDTC = item
+    this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
+      .then((response) =>this.listaTecnicosPlaza = response.data.result)
+      .catch((error) => console.log(error))
+  },
   guardar_palabra_busqueda: function(newPalabra){          
     if (newPalabra != "") {
       let array_filtrado = this.infoDTC_Filtrado.filter(item => {

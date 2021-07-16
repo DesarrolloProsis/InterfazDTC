@@ -7,7 +7,8 @@
         <!--///////////////////////////////////////////////////////////////////
           ////                             HEADER                          ////
           ////////////////////////////////////////////////////////////////////-->
-        <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-1">
+        <div>
+            <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-1">
             <div class=" w-auto mx-auto flex justify-center sm:ml-16 sm:-mb-6">
                 <div class="border-gray-800 w-66 border-none p-5">
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
@@ -24,7 +25,7 @@
               ////                     COLUMNA IZQUIERDA                        ////
               ////////////////////////////////////////////////////////////////////-->
             <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
-                <div class="w-1/2 sm:w-full p-8 sm:p-2 -mb-12">
+                <div class="w-1/2 sm:w-66 p-8 sm:p-2 sm:-ml-2 -mb-12">
                     <div class="flex justify-starts m-5 w-full sm:w-66">
                         <p class="font-titulo font-semibold">Correspondiente al mes de:</p>
                         <h2 class="ml-5 font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
@@ -35,7 +36,7 @@
                     </div>
                     <div class="grid grid-cols-1 sm:mb-8 ml-5 mt-2">
                         <span class="font-titulo font-semibold mr-4">Acciones:</span>
-                        <multiselect v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                        <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
                                 <div class=" inline-flex">
                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -51,59 +52,62 @@
                         </multiselect>             
                     </div>          
                 </div>
-                <ValidationObserver ref="observer" class="-ml-16">  
-                    <div class="w-69 ml-20 sm:ml-20 sm:m-0 sm:mt-10 sm:w-62 p-8 sm:p-2">
-                        <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
-                            <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:-ml-16">Observaciones</span>          
-                            <textarea
-                                v-model="comentario"                                                               
-                                class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 sm:-ml-16 textAreaCalendario mt-6"
-                                placeholder="jane@example.com"
-                                name="ComentarioCalendario"
-                                :maxlength="limite"
-                            />
-                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-xs text-gray-500 sm:ml-20">{{ restante }}/500</span>    
-                        </ValidationProvider>                    
-                    </div>  
-                </ValidationObserver>            
+                <div class="sm:-mt-31 sm:-ml-1">
+                    <ValidationObserver ref="observer" class="-ml-16">  
+                        <div class="w-69 ml-20 sm:ml-20 sm:m-0 sm:mt-10 sm:w-62 p-8 sm:p-2">
+                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
+                                <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:-ml-16">Observaciones</span>          
+                                <textarea
+                                    v-model="comentario"                                                               
+                                    class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 sm:-ml-16 textAreaCalendario mt-6"
+                                    placeholder="jane@example.com"
+                                    name="ComentarioCalendario"
+                                    :maxlength="limite"
+                                />
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                <span class="text-xs text-gray-500 sm:ml-20">{{ restante }}/500</span>    
+                            </ValidationProvider>                    
+                        </div>  
+                    </ValidationObserver>            
+                </div>
             </div>
             <!--///////////////////////////////////////////////////////////////////
               ////                     COLUMNA INDICACIONES                    ////
               ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/4 ml-16 sm:-ml-1 sm:w-67 uppercase text-xs p-10 sm:p-5">
+            <div class="w-1/4 ml-16 sm:ml-1 sm:w-67 uppercase text-xs p-10 sm:p-5">
                 <p class="font-titulo font-semibold">Codigo de Colores:</p>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Semanal</p>
-                    <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Verde</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Mensual</p>
-                    <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Rojo</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Trimestral</p>
-                    <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Azul</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Semestral</p>
-                    <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">Rosa</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-2 ml-2">
                     <p class="font-titulo">Anual</p>
-                    <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center is_valid -mt-1">
+                    <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
                         <p class="mt-1 font-titulo">NARANJA</p>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </template>

@@ -11,20 +11,21 @@ const STATUS_REPORTE_CORRECTIVO = Object.freeze({
     firmado: 2,
     sellado: 3
 })
-function xml_hhtp_request(urlTopdf,namePdf){
+function xml_hhtp_request(urlToFile,nameFile){
     var oReq = new XMLHttpRequest();  
-    oReq.open("GET", urlTopdf, true);    
+    oReq.open("GET", urlToFile, true);    
     oReq.responseType = "blob";  
     let token = CookiesService.obtener_bearer_token('pdf')
     oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
-    oReq.onload = function () {         
+    oReq.onload = function () { 
     var file = new Blob([oReq.response], {
         type: "application/pdf",
     });       
-    saveAs(file, namePdf);
+    saveAs(file, nameFile);
     };
     oReq.send();       
 }
+
 async function obtener_admin_id(referenceNumber){
     let id = ''
     await Axios.get(`${API}/dtcData/${referenceNumber.split('-')[0]}/${referenceNumber}`)
@@ -223,6 +224,16 @@ function generar_pdf_ficha_sellada(referenceNumber,tipo){
         xml_hhtp_request(urlTopdf,namePdf)
     }
 }
+function reporte_componentes(){
+    let urlExcel = `${API}/Component/DescargarExcel`
+    let nameExcel = 'ReporteDeComponentes.xlsx'
+    xml_hhtp_request(urlExcel,nameExcel)
+}
+function dtc_no_sellados(){
+    let urlExcel = `${API}/DtcData/DescargarExcelDTCNoSellado`
+    let nameExcel = 'ReporteNoSellados.xlsx'
+    xml_hhtp_request(urlExcel,nameExcel)
+}
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
     let namePdf = 'Manual de Usuario'
@@ -243,5 +254,7 @@ export default {
     obtener_admin_id,
     generar_pdf_fotografico_correctivo,
     generar_pdf_sellado_preventivo,
-    generar_pdf_ficha_sellada
+    generar_pdf_ficha_sellada,
+    reporte_componentes,
+    dtc_no_sellados
 }

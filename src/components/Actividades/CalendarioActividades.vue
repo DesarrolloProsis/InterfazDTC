@@ -1,6 +1,6 @@
 <template>
 <div class=" static">
-  <div class="relative">    
+  <div class="">    
     <!--////////////////////////////////////////////////////////////////////
     ////                      MODAL AGREGAR                            ////
     ////////////////////////////////////////////////////////////////////-->
@@ -319,8 +319,7 @@ export default {
           SquareId: user.numPlaza,
           AdminId: adminId,
           Year: this.año
-        }        
-        console.log(objComentario);        
+        }                
         this.$http.post(`${API}/Calendario/ObservacionesInsert/${refPlaza}`,objComentario)
         .then(() => {                              
           ServicePDF.generar_pdf_calendario(refPlaza, {

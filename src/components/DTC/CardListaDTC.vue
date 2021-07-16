@@ -34,17 +34,7 @@
             <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p>{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800 -ml-3">*Fecha Siniestro</span>
-            </div>    
-<!--             <div class="mt-2 ml-5 mr-3 w-5 hidden" v-if="(TIPO_USUARIO.Supervisor_Sitemas == tipoUsuario || TIPO_USUARIO.Sistemas == tipoUsuario || TIPO_USUARIO.Tecnico == tipoUsuario || TIPO_USUARIO.Supervisor_Tecnico  == tipoUsuario) && infoCard.statusId == 2">
-              <button @click="editar_header" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
-                <img src="../../assets/img/pencil.png" class="" width="30" height="30" />              
-              </button>
-            </div>   
-            <div v-if="(TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10)" class="mt-2 ml-4 w-5">
-              <button @click="editar_fechas_calendario" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold px-1 py-1 rounded inline-flex items-center border-b-2 border-yellow-600">
-                <img src="../../assets/img/schedule.png" class="" width="30" height="30" />              
-              </button>
-            </div>  -->       
+            </div>     
           </div>
         </div>
         <hr />
@@ -135,12 +125,6 @@
       ///////////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
-          <div v-if="infoCard.statusId >= 2" class="ml-16">
-            <button  @click="actualizar(infoCard.referenceNumber)" class="botonIconActCard font-boton">
-              <img src="../../assets/img/actualizado.png" class="mr-2" width="12" height="1"/>              
-              <span>Actualizar Componentes</span>                
-            </button>  
-          </div>
           <div class="inline-flex hidden">
             <button v-if="tipoUsuario == 4 || infoCard.statusId < 2 || (tipoUsuario == 10 && infoCard.statusId <= 3)" @click.prevent="borrar_dtc" class="botonIconBorrarCard font-boton">
               <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
@@ -237,13 +221,14 @@ export default {
       modalActualizar:false,        
       modalSubirSellado: false,
       objInsertEscaneado: {},          
-      value: ''
+      value: '',
+      info: this.infoCard
     };
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 ////////////////////////////////////////////////////////////////////
-  beforeMount: function () {          
+  beforeMount: function () {   
     this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
     this.TIPO_USUARIO = Object.freeze({
         Tecnico: 1,
@@ -297,6 +282,9 @@ export default {
             query: { referenceNumberFinishDiagnostic: this.infoCard.referenceNumber } 
           })
         }
+        if(this.value.title ==  'Cambiar Usuario DTC'){
+          this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, referenceNumberDiagnosis: this.infoCard.technicalSheetReference, squareId: this.infoCard.squareCatalogId })
+        }
         this.value = ''
     },
     opticones_select_acciones(){
@@ -311,26 +299,27 @@ export default {
             { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
-            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'} //10
+            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
+            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'} //11
         ]
         let array = []   
-        if(this.infoCard.technicalSheetReference == '--'){
+        if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
         if(this.tipoUsuario == 4){
           array.push(options[1])
         }     
-        if(this.tipoUsuario == 4 || this.infoCard.statusId < 2 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3)){
+        if((this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId < 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
-        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2){
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[2])
         }
-        if(this.infoCard.statusId == 1){
+        if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId == 1){
           array.push(options[3])
         }
         else{
-          if(this.tipoUsuario != 8){
+          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){
             array.push(options[5])
             if(this.tipoUsuario != 4){
               array.push(options[7])
@@ -346,8 +335,11 @@ export default {
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
           array.push(options[4])
         }
-        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
+        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
+        }
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+          array.push(options[11])
         }
         return array       
     },

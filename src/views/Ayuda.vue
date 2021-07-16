@@ -114,9 +114,13 @@ export default {
             limite: 300,
             videoId: '',
             arrayVideos: [
-                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Ficha Falla", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'},
-                {  videoId: 'CR-7c2HIUf0', titulo: "Subir Escaneados en Autorizado GMMEP", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'},
-                {  videoId: 'Wx-AeJCf1eU', titulo: "Cambiar Nombre Encargados Plaza", descripcion: 'Muestra como actualizar el nombre de la plaza para los tecnicos.'}
+                {  videoId: '_q6AWCDovek', titulo: "Diagnostico de Falla.", descripcion: 'Muestra como generar un diagnóstico de falla y una ficha técnica.'},
+                {  videoId: '7suvx1BCIAo', titulo: "Subir DTC Sellado en Concentrado GMMEP.", descripcion: 'Muestra como subir el DTC Sellado en el Concentrado GMMEP.'},
+                {  videoId: 'Wx-AeJCf1eU', titulo: "Cambiar Nombre Encargados Plaza.", descripcion: 'Muestra como actualizar el nombre de los tecnicos.'},
+                {  videoId: 'Sl3S-D3vxW0', titulo: "Crear Diagnóstico en un DTC que no tenga.", descripcion: 'Muestra como crear un diagnóstico y ficha técnica en un DTC que no lo tenga.'},
+                {  videoId: 'MCyD8-ZynOQ', titulo: "Actualizar Componentes en Concentrado DTC.", descripcion: 'Muestra como actualizar los componentes que se tienen en un DTC, desde la vista de Concentrado DTC.'},
+                {  videoId: 'MiyD5BHzSUI', titulo: "Actualizar Componentes en Concentrado GMMEP.", descripcion: 'Muestra como actualizar los componentes que se tienen en un DTC, desde la vista de Concentrado GMMEP.'},
+                {  videoId: 'Ok0ZDnpkO5U', titulo: "Terminar Diganóstico y Ficha desde Concentrado GMMEP.", descripcion: 'Muestra como generar un Diagnóstico y una Ficha Técnica para DTC desde Concentrado GMMEP.'}
             ],
             boolListaVideos: false,
             boolBotones: true,
@@ -127,7 +131,14 @@ export default {
             tipoComentario: 1
         }
     },
-    beforeMount(){
+    beforeMount(){        
+        if(this.$route.query.tipo == 'comentario'){
+            this.modal_coment = true
+        }
+        if(this.$route.query.tipo == 'videos'){
+            this.boolBotones = false
+            this.boolListaVideos = true
+        }
         this.$http.get(`${API}/Comentario/comment/${this.$store.state.Login.plazaSelecionada.refereciaPlaza}/`)
             .then((response) => {
                 this.listaTipoComentario = response.data.result
@@ -204,6 +215,22 @@ export default {
         },
         rollUsuario(){
             return this.$store.state.Login.cookiesUser.rollId
+        }
+    },
+    watch: {
+        '$route' (from, to){      
+            if(from.path == to.path){
+                if(this.$route.query.tipo == 'comentario'){
+                    this.boolBotones = true
+                    this.boolListaVideos = false
+                    this.modal_coment = true
+                }
+                if(this.$route.query.tipo == 'videos'){
+                    this.modal_coment = false
+                    this.boolBotones = false
+                    this.boolListaVideos = true
+                }
+            }
         }
     }
 }

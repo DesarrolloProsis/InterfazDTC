@@ -113,7 +113,7 @@ export default {
         });
     },
     beforeMount: async function(){                
-        if(!this.$route.query.edicion == true){              
+        if(!this.$route.query.edicion == true){                      
             this.reporteInsert = true          
             this.header = this.$route.query.header 
             let refPlaza = await this.$store.getters['Login/GET_REFERENCIA_PLAZA_TO_NOMBRE'](this.$route.query.header.plazaNombre)        
