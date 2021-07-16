@@ -170,8 +170,8 @@
         <div v-if="tipo == 'USUARIO'" class="w-full border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
             <div class="text-center sm:ml-6 mb-6">
-                <p class="font-bold sm:text-sm sm:text-center">Nombre</p>
-                <input v-model="buscarUsuario" class="ml-73 w-66 text-center is_valid" placeholder="Nombre Apellidos"/>
+                <p class="font-bold  sm:text-sm sm:-ml-6 sm:text-center">Nombre</p>
+                <input v-model="buscarUsuario" class=" ml-67 w-66 text-center is_valid sm:-ml-4" placeholder="Nombre Apellidos"/>
             </div>             
         </div>
         <!--////////////////////////////////////////////////////////////////////

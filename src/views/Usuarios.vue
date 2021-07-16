@@ -1,8 +1,8 @@
 <template>
   <div>    
     <div class="flex justify-center p-4">
-      <div class="mt-5">
-      <!--///////////////////////////////////////////////////////////////////
+      <div class="grid gap-2 grid-cols-1">
+      <!--//////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
