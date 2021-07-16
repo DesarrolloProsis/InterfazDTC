@@ -10,7 +10,7 @@
       <div class="flex">  
         <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
         <div class="group inline-block font-titulo">
-          <button @click="abrir_hamburguesa" class="mt-1 mr-3">
+          <button @click="abrir_hamburguesa" class="mt-1 mr-3 font-titulo">
             <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" />
           </button>
         </div>              
@@ -18,7 +18,7 @@
     </nav>
     <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3">      
       <transition name="fade">
-        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex">     
+        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex font-titulo">     
           <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg">                  
             <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>
@@ -27,7 +27,7 @@
                   <button @click="$router.push(itemsub.path)" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
                     <div  class="ml-4 text-left">
-                      <p class="font-semibold">{{ itemsub.texto }}</p>                      
+                      <p class="font-semibold mt-2 font-titulo">{{ itemsub.texto }}</p>                      
                     </div>
                   </button>
                 </div>
@@ -47,13 +47,13 @@
                   <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
                     <div  class="ml-4 text-left">
-                      <p class="font-semibold">{{ itemsub.texto }}</p>                    
+                      <p class="font-semibold mt-2">{{ itemsub.texto }}</p>                    
                     </div>  
                   </button>
                   <button v-else @click="manual_pdf" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
                     <div  class="ml-4 text-left">
-                      <p class="font-semibold">{{ itemsub.texto }}</p>                                       
+                      <p class="font-semibold mt-2">{{ itemsub.texto }}</p>                                       
                     </div>  
                   </button>                  
                 </div>                                     
@@ -62,7 +62,7 @@
             <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
               <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
               <div  class="ml-4 text-left">
-                <p class="font-semibold">Cerrar Sesion</p>                                
+                <p class="font-semibold mt-2">Cerrar Sesion</p>                                
               </div>  
             </button> 
             </div>                  
