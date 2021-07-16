@@ -3,7 +3,7 @@
 <!--/////////////////////////////////////////////////////////////////////
 ////                          CORRECTIVO                           /////
 ////////////////////////////////////////////////////////////////////-->
-    <div class="flex justify-center mt-2 mb-16 sm:mt-14" v-if="tipoBotones">
+    <div class="flex justify-center mt-2 sm:mb-1 mb-16 sm:mt-14" v-if="tipoBotones">
       <div class="grid grid-cols-3 sm:grid-cols-2 sm:mb-20">
           <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
             <router-link to="/Correctivo/PreDTC/Crear/DiagnosticoDeFalla" class="text-center">
