@@ -306,7 +306,7 @@ export default {
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
-        if(this.tipoUsuario == 4){
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
           array.push(options[1])
         }     
         if((this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId < 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
