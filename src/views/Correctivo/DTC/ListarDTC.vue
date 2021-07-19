@@ -417,28 +417,35 @@ destroyed(){
 /////////////////////////////////////////////////////////////////////
 methods: {
   actualizar_user_id_dtc(){
-    if(this.userChangeDtc != '')
+    if(this.userChangeDtc != ''){ 
+      this.modalLoading = true
       if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
-      this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
-        .then((response) => {
-          this.filtro_dtc = []          
-          console.log(response)
-          this.userChangeDtc = ''
-          this.itemCompleteChangeUserDTC = {}
-          this.modalCambiarUsuarioDTC = false
-          this.$notify.success({
-            title: "Ok!",
-            msg: `EL DTC CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
-            position: "bottom right",
-            styles: { height: 100, width: 500,},
-          });
-          this.limpiar_filtros()
-        })
+        this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
+          .then(() => {                  
+            let index = this.infoDTC.map(item =>  { 
+              return item.referenceNumber }
+            ).indexOf(this.itemCompleteChangeUserDTC.referenceNumber)                             
+            let objUpdate = Object.assign(this.infoDTC[index])
+            objUpdate['userId'] = this.userChangeDtc
+            this.infoDTC.splice(index, 0, objUpdate)
+            this.infoDTC_Filtrado = this.infoDTC
+            this.userChangeDtc = ''
+            this.itemCompleteChangeUserDTC = {}
+            this.modalCambiarUsuarioDTC = false
+            this.$notify.success({
+              title: "Ok!",
+              msg: `EL DTC CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
+              position: "bottom right",
+              styles: { height: 100, width: 500,},
+            }); 
+            this.modalLoading = false         
+          })
       }
       else{
         this.userChangeDtc = ''
         this.itemCompleteChangeUserDTC = {}
         this.modalCambiarUsuarioDTC = false
+        this.modalLoading = false
         this.$notify.warning({
           title: "Ups!",
           msg: `NECESITAS TERMIANR TU DIAGNOSTICO DE FALLA.`,
@@ -446,7 +453,9 @@ methods: {
           styles: { height: 100, width: 500 },
         });
       }
+    }
     else{
+      this.modalLoading = false
         this.$notify.warning({
           title: "Ups!",
           msg: `FALTA LLENAR LOS CAMPOS.`,
