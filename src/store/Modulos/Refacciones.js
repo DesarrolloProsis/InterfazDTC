@@ -85,9 +85,11 @@ const actions = {
           }       
       })      
   },
-  async BUSCAR_CARRILES({ commit }, plaza) {          
+  async BUSCAR_CARRILES({ commit }, plaza) { 
+    console.log(plaza)         
     Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
-      .then(response => {                         
+      .then(response => {
+        console.log(response)                         
           if(response.status === 200){            
               commit("CARRILES_MUTATION", response.data.result);                         
           }                    

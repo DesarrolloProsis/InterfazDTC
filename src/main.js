@@ -42,7 +42,6 @@ extend('uniqueReport', {
 extend('fechaMenorNow', { 
   getMessage: (field) => `La ${field} debe ser menor que la fecha actual`, 
   validate: (value) => {
-    console.log(value)
     return Date.parse(value) < Date.now() ? true : false
   }
 });

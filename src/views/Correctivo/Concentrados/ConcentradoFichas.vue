@@ -110,6 +110,7 @@ import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
+import ServiceCookies from '../../../services/CookiesService'
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 
 export default {
@@ -246,34 +247,50 @@ export default {
             item.start = fechaPArseInicio.toISOString()            
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
-        terminar_ficha_diagnostico(item){            
+        terminar_ficha_diagnostico: async function(item){   
+            let splitInicio = item.start.split(' ')                      
+            let fecha = splitInicio[0].split('-')
+            let tiempo = splitInicio[1].split(':')                      
+            let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]) - 1, fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0)                        
+            let splitFin = item.end.split(' ')                            
+            let fecha2 = splitFin[0].split('-')
+            let tiempo2 = splitFin[1].split(':')                                
+            let fechaPArseFin = new Date(fecha2[2], parseInt(fecha2[1]) - 1, fecha2[0], tiempo2[0], tiempo2[1], 0)                        
+            item.end = fechaPArseFin.toISOString()
+            item.start = fechaPArseInicio.toISOString()     
             let carrilesMapeados = []            
-            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId)            
-            this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)
-            let carriles = this.$store.getters["Refacciones/GET_CARRILES_STATE"];   
-            item.lanes.split(',').forEach(lane => {
-                let carrilFull = carriles.find(carril => carril.lane == lane)
-                if(carrilFull != undefined){
-                    carrilesMapeados.push({
-                        capufeLaneNum: carrilFull.capufeLaneNum,
-                        idGare: carrilFull.idGare,
-                        lane: carrilFull.lane
-                    })
-                }
-            })       
-            let data = {
-                causaFalla: item.causeFailure,
-                descripcionFalla: item.faultDescription,
-                diagnosticoFalla: item.failureDiagnosis,
-                fechaDiagnostico: moment(item.diagnosisDate,"YYYY-MM-DD").format("YYYY-MM-DD"),
-                folioFalla: item.failuerNumber,
-                horaFin: item.end,
-                horaInicio: item.start,
-                numeroReporte: item.siniesterNumber,
-                referenceNumber: item.referenceNumber,
-                ubicacion: carrilesMapeados,
-            }              
-            this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })            
+            let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza   
+            ServiceCookies.actualizar_plaza(item.adminSquareId)
+            await this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)        
+            setTimeout(() => {
+                let carriles =  this.$store.getters["Refacciones/GET_CARRILES_STATE"];  
+                console.log(carriles)        
+                item.lanes.split(',').forEach(lane => {
+                    console.log(lane);
+                    let carrilFull = carriles.find(carril => carril.lane == lane)
+                    console.log(carrilFull);
+                    if(carrilFull != undefined){
+                        carrilesMapeados.push({
+                            capufeLaneNum: carrilFull.capufeLaneNum,
+                            idGare: carrilFull.idGare,
+                            lane: carrilFull.lane
+                        })
+                    }
+                })       
+                let data = {
+                    causaFalla: item.causeFailure,
+                    descripcionFalla: item.faultDescription,
+                    diagnosticoFalla: item.failureDiagnosis,
+                    fechaDiagnostico: moment(item.diagnosisDate,"YYYY-MM-DD").format("YYYY-MM-DD"),
+                    folioFalla: item.failuerNumber,
+                    horaFin: item.end,
+                    horaInicio: item.start,
+                    numeroReporte: item.siniesterNumber,
+                    referenceNumber: item.referenceNumber,
+                    ubicacion: carrilesMapeados,
+                }              
+                this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })    
+            },500)        
         },
         terminar_dtc(referencia, typeFaultId){
             this.$router.push(`/NuevoDtc/Crear/${referencia}/${typeFaultId}`) 

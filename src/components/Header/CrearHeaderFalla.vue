@@ -381,8 +381,10 @@ beforeMount: async function(){
         }        
     }
     //Bloque para crear
-    else{                               
+    else{        
+                           
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
+        console.log(this.plazaSeleccionada)
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)          
         //Bloque para crear Ficha      
