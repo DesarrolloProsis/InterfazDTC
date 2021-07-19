@@ -452,7 +452,7 @@ export default {
       return `${title}`
     },
     acciones_mapper(item){      
-      if(this.value.title == 'Más'){
+      if(this.value.title == 'Detalles'){
         this.mostrar_mas(item)
       }
       this.value = ""  
@@ -460,7 +460,7 @@ export default {
     opticones_select_acciones(){
       const options= [                
         { title: 'Detalles', img: '/img/details.4d70003e.png' }, //0
-        { title: 'Duplicar', img: '/img/more.b0fdb1af.png' }
+        //{ title: 'Duplicar', img: '/img/more.b0fdb1af.png' }
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])
