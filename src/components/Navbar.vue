@@ -19,7 +19,7 @@
     <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3">      
       <transition name="fade">
         <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex font-titulo">     
-          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg">                  
+          <div class="bg-white  border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg">                  
             <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>
               <button>
