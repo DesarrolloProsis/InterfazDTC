@@ -30,7 +30,9 @@
                             <li>·Video de Video de Terminar un Diagnóstio y Ficha Técnica en un DTC que no tenga, desde Concentrado GMMEP.</li>
                             <li>·Botón de access rápidos en la parte superir derecha.</li>
                         </ol>
-                    </div>
+                    </div>                    
+                </div>
+                <div>
                     <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0</p>
                 </div>
             </div>                                
