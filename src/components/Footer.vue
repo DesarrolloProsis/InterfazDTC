@@ -5,7 +5,7 @@
                 <div id="nombreRollShow" v-if="$route != undefined && $route.name != 'login'">
                     <p id="testNombreRoll" class="text-xs sm:mt-1 text-blue-400 w-32">{{ nombreRoll }}</p>
                 </div>
-                <div class="w-full ml-16 sm:ml-0 text-center">
+                <div class="w-full ml-16 sm:-ml-16 text-center">
                     <p class="text-sm text-white font-titulo">
                         © 2021 Proyectos y Sistemas Informaticos.
                     </p>
