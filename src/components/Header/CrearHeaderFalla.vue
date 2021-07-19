@@ -17,15 +17,15 @@
                     <div>
                         <span class="sm:ml-2">Plaza de Cobro:</span>
                     </div>
-                    <div class="-ml-34 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
+                    <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
-                    <div class="-ml-34 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista == 'Crear' }">
+                    <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista == 'Crear' }">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
                     </div>
-                    <div class="-ml-34 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == false}">
+                    <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == false}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <div class="sm:-ml-8 sm:w-66">
+                        <div class="ml-20 sm:-ml-8 sm:w-66">
                             <span v-if="blockInput" class="block -ml-44 text-red-400 text-xs font-titulo font-normal sm:-ml-20">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
                         </div>
                         
@@ -67,14 +67,14 @@
                 <div>
                     <ValidationProvider immediate name="FechaDiagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>                        
-                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-16 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
+                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-32 fechaDiag sm:ml-4"  type="date" name="FechaDiagnostico"/>
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
                     <ValidationProvider immediate name="Fecha/Hora Inicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La Fecha/Hora Inicio debe ser menor que la Fecha/Hora Fin' }"  v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha/Hora INICIO:</span>
-                        <datetime class="ml-33 -mt-6" :class="{'ml-37':tipo == 'FICHA'}" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
+                        <datetime class="ml-33 -mt-6" :class="{'ml-63':tipo == 'FICHA'}" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -82,7 +82,7 @@
                 <div class="mt-5">
                     <ValidationProvider immediate name="Fecha/Hora Fin" :rules="{required: true}" v-slot="{ errors }">
                         <span :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha/Hora FIN:</span>
-                        <datetime class="ml-33 -mt-6" :class="{'ml-37':tipo == 'FICHA'}" v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
+                        <datetime class="ml-33 -mt-6" :class="{'ml-63':tipo == 'FICHA'}" v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" /> -->
                         <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
