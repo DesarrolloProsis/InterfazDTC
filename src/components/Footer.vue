@@ -11,7 +11,7 @@
                     </p>
                 </div>
                 <div class="inline-flex" v-if="$route != undefined && $route.name != 'login'">
-                    <p class="sm:hidden">
+                    <p class="sm:hidden md:hidden">
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
                             <div class="-mt-3 ml-3">
                             <span class="flex -mt-4 h-3 w-3">
