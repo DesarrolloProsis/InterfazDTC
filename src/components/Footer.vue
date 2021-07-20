@@ -21,19 +21,14 @@
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class=" font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0 !!! 🎉</p>
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.1 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·Se pueden ver los DTC de los técnicos que pertenecen a las mismas plaza.</li>
-                            <li>·Diseño de botones en todos los concentrados.</li>
-                            <li>·Video de Actualizar Componentes en Concentrad GMMEP y Concentrado DTC.</li>
-                            <li>·Video de Terminar un Diagnóstio y Ficha Técnica en un DTC que no tenga, desde Concentrado DTC.</li>
-                            <li>·Video de Video de Terminar un Diagnóstio y Ficha Técnica en un DTC que no tenga, desde Concentrado GMMEP.</li>
-                            <li>·Botón de access rápidos en la parte superir derecha.</li>
+                            <li>·</li>
                         </ol>
                     </div>                    
                 </div>
                 <div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0</p>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.1</p>
                 </div>
             </div>                                
         </div>        
