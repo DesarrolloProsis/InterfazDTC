@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="h-screen">
+    <div></div>
     <h2 class="ml-6 pt-3 text-lg font-semibold">Content</h2>
     <div class="flex flex-wrap p-4">
       <base-progress :color="'blue'" :percentage="contentProgress" class="mx-2 mb-2 h-5">
