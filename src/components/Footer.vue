@@ -23,7 +23,7 @@
                     <div ref="tooltipRef" class=" font-titulo">
                         <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.1 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·</li>
+                            <li>·responsive</li>
                         </ol>
                     </div>                    
                 </div>
