@@ -21,7 +21,7 @@
                             <div class="grid grid-cols-4 sm:w-full sm:ml-3 w-full xl:text-center">                                       
                                 <div class="sm:hidden -mt-2">
                                     <p class="text-sm sm:text-xs text-gray-900 ml-20 mb-1 font-semibold">Plaza:</p>
-                                    <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'TablaAct'" :fullPlazas="true"></SelectPlaza>
+                                    <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                                 </div>                                                    
                                 <div class="mb-4 ml-5 sm:ml-0 sm:mt-4">
                                     <p class="text-sm sm:text-xs sm:ml-12 text-gray-900 ml-1 mb-1 font-semibold">Mes:</p>                                
