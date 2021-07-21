@@ -48,7 +48,9 @@
                                     <img src="../assets/img/flecha-hacia-arriba.png" class="w-5 h-5" alt="">
                                 </button>
                             </div>                           
-                        </td>                        
+                        </td>  
+                        <td>
+                        </td>                      
                     </tr>                   
                 </template>  
             </tbody>
@@ -67,26 +69,7 @@ export default {
             loadingTabla: false,
             windowWidth: '',
             normalheaderKey: ['referenceNumber', 'squareName', 'squareName', 'diagnosisDate', 'lanes', 'failuerNumber', 'siniesterNumber', 'referenceDTC', 'Acciones'],
-            movilHeaderKey: ['referenceNumber', 'diagnosisDate', 'Acciones']
-        }
-    },
-    mounted() {
-        window.onresize = () => {
-            if(window.innerWidth >= 320 && window.innerWidth < 895){
-                this.windowWidth = 'sm'   
-            }
-            else if(window.innerWidth >= 895 && window.innerWidth < 1024){
-                this.windowWidth = 'md'
-            }
-            else if(window.innerWidth >= 1024 && window.innerWidth < 1279){
-                this.windowWidth = 'lg'
-            }
-            else if(window.innerWidth >= 1279 && window.innerWidth < 2040){
-                this.windowWidth = 'xl'
-            }
-            else{
-                this.windowWidth = '4k'
-            }   
+            movilHeaderKey: ['referenceNumber', 'squareName', 'Acciones']
         }
     },
     beforeMount(){
@@ -105,13 +88,30 @@ export default {
     },
     methods: {
         insertar_more_infomacion(index){
-            this.disableFilasMovil(true, index)        
+            let objInfo = this.disableFilasMovil(true, index)        
             index += this.lista.length   
             let nodo = document.getElementById('filaTablaMovil')                     
             let nodoBefore = nodo.children[index + 1]              
-            let nodoNew = document.createElement('tr')                                  
+            let nodoNew = document.createElement('tr')    
+            let innerMoreInformation = ''
+            
+            this.normalheaderKey.forEach(item => {
+                if(!this.movilHeaderKey.includes(item)){               
+                    innerMoreInformation += `
+                        <div class="flex mx-auto">
+                            <div class="inline-flex w-full">
+                                <div class="w-1/2 text-left px-10">${item}</div>
+                                <div class="w-1/2 text-center">${objInfo[item]}</div>
+                            </div>
+                        </div>
+
+                    `                    
+                }
+            })            
             nodoNew.innerHTML = `
-                <td colspan="${this.movilHeaderKey.length}" class="bg-blue-600">hola mundo</td>                
+                <td colspan="${this.movilHeaderKey.length}" class="bg-blue-600">                    
+                    ${innerMoreInformation}                                                               
+                </td>                
             `            
             nodo.insertBefore(nodoNew, nodoBefore)
         },
@@ -122,7 +122,7 @@ export default {
             let nodoDelete = nodo.children[index + 1]            
             nodo.removeChild(nodoDelete)
         },
-        disableFilasMovil(statusChange, index){
+        disableFilasMovil(statusChange, index){            
             this.lista.forEach((item, indexfor, listafor) => {
                 let updateObj = Object.assign(item)       
                 if(indexfor == index)                   
@@ -131,6 +131,7 @@ export default {
                     updateObj['disableMoreInformation'] = statusChange
                 listafor.slice(index, 1, updateObj)   
             })
+            return this.lista[index]
         }
     },           
 }
