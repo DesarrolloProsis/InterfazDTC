@@ -20,17 +20,17 @@
                                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                             </div>
                             <!-- Filtros -->
-                            <div class="grid grid-cols-4 sm:w-full sm:ml-2 w-full xl:text-center">                                       
+                            <div class="grid grid-cols-4 sm:w-full sm:ml-2 w-full md:grid-cols-3 md:-ml-18 xl:text-center">                                       
                                 <!-- Plaza -->
                                 <div class="sm:hidden -mt-2">
-                                    <p class="text-sm sm:text-xs text-gray-900 ml-20 mb-1 font-semibold">Plaza:</p>
+                                    <p class="text-sm sm:text-xs text-gray-900 ml-20 mb-1 font-semibold md:ml-33">Plaza:</p>
                                     <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                                 </div> 
                                 <!-- Mes -->                                                   
-                                <div class="mb-4 ml-5 sm:ml-1 sm:mt-4">
-                                    <p class="text-sm sm:text-xs sm:ml-12 text-gray-900 ml-1 mb-1 font-semibold">Mes:</p>                                
-                                    <p class="w-32 input ml-16 sm:ml-0">
-                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32  border-none" type="text" name="TipoDescripcion" >
+                                <div class="mb-4 ml-5 sm:ml-1 sm:mt-4 md:-mt-1 md:ml-1">
+                                    <p class="text-sm sm:text-xs sm:ml-12 md:mx-33 text-gray-900 ml-1 mb-1 font-semibold">Mes:</p>                                
+                                    <p class="w-32 input ml-16 sm:ml-0 md:w-48 md:-mt-2">
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="1">Enero</option>
                                         <option value="2">Febrero</option>
@@ -47,10 +47,10 @@
                                     </select></p>
                                 </div>
                                 <!-- Año -->
-                                <div class="mb-4 ml-4 sm:mt-4 sm:ml-21">
-                                    <p class="text-sm sm:text-xs sm:ml-16 text-gray-900 ml-1 font-semibold">Año:</p>
-                                    <p class="w-32 input ml-16 sm:ml-2">
-                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 border-none" type="text" name="TipoDescripcion" >
+                                <div class="mb-4 ml-4 sm:mt-4 sm:ml-21 md:-mt-1">
+                                    <p class="text-sm sm:text-xs sm:ml-16 md:ml-32 text-gray-900 ml-1 font-semibold">Año:</p>
+                                    <p class="w-32 input ml-16 sm:ml-2 md:w-48 md:-mt-1 md:ml-10">
+                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
                                         <option disabled value>Selecionar...</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>                                        
@@ -58,17 +58,17 @@
                                 </div>
                                 <!-- Carril -->
                                 <div class="mb-4 ml-5 sm:mt-20 sm:ml-1">
-                                    <p class="text-sm sm:text-xs text-gray-900 ml-1 font-bold sm:ml-13">Carril:</p>
-                                    <p class="w-32 input ml-16 sm:ml-2">
-                                    <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 border-none"  type="text">
+                                    <p class="text-sm sm:text-xs text-gray-900 ml-1 font-bold sm:ml-13 md:ml-32">Carril:</p>
+                                    <p class="w-32 input ml-16 sm:ml-2 md:w-48 md:ml-14">
+                                    <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 md:w-48 border-none"  type="text">
                                         <option value="">Selecionar...</option>
                                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                                     </select></p>
                                 </div> 
                                 <!-- Status -->
                                 <div v-if="this.tipoUsuario != 5 && this.tipoUsuario != 2" class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
-                                    <p class="text-sm sm:text-xs sm:ml-10 text-gray-900 ml-33 mb-1 font-bold">Status:</p>
-                                    <p class="w-48 input ml-33 sm:ml-1 sm:w-32">
+                                    <p class="text-sm sm:text-xs sm:ml-10 text-gray-900 ml-33 mb-1 font-bold md:ml-49">Status:</p>
+                                    <p class="w-48 input ml-33 sm:ml-1 sm:w-32 md:ml-22">
                                     <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-32 border-none" type="text" name="TipoDescripcion" >
                                         <option value="">Todos</option>
                                         <option :value=true>Concluido</option>
@@ -77,14 +77,14 @@
                                 </div>
                                 <!-- Referencia -->
                                 <div class="mb-4 ml-10 font-bold sm:ml-1 sm:w-full" :class="{'ml-18 sm:-ml-64 sm:mt-20':tipoUsuario == 2 || tipoUsuario == 5}">
-                                    <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-6 mr-2 sm:text-center sm:ml-8 sm:mb-1">Referencia:</p>
-                                    <input v-model="referenceNumber" class="text-center input sm:w-32" placeholder="PM-00000" type="text">
+                                    <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-6 mr-2 sm:text-center sm:ml-8 sm:mb-1 md:ml-20">Referencia:</p>
+                                    <input v-model="referenceNumber" class="text-center input sm:w-32 md:ml-4" placeholder="PM-00000" type="text">
                                 </div>
                                 <!-- Botón -->
-                                <div class="mt-2 ml-4 sm:ml-20 sm:mt-3" :class="{'-ml-1 sm:-mt-1 sm:mb-3':tipoUsuario == 2 || tipoUsuario == 5}">
-                                    <button @click="limpiar_filtros" class="botonTodos sm:w-32 sm:h-8" :class="{'ml-10 sm:ml-2 sm:w-32 sm:h-8':tipoUsuario == 2 || tipoUsuario == 5}">
-                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-0" width="25" height="2"/>
-                                        <span class="">Todos</span>
+                                <div class="mt-2 ml-4 sm:ml-20 sm:mt-3 md:ml-61 md:-mt-2" :class="{'-ml-1 sm:-mt-1 sm:mb-3':tipoUsuario == 2 || tipoUsuario == 5}">
+                                    <button @click="limpiar_filtros" class="botonTodos sm:w-32 sm:h-8 md:h-8 md:mb-4" :class="{'ml-10 sm:ml-2 sm:w-32 sm:h-8':tipoUsuario == 2 || tipoUsuario == 5}">
+                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:-ml-4" width="25" height="2"/>
+                                        <span class="md:mr-2">Todos</span>
                                     </button>
                                 </div>
                             </div>                           

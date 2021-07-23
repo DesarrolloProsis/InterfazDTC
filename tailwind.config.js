@@ -13,17 +13,19 @@ module.exports = {
     ],
     screens:{
       'sm': {'min': '320px', 'max': '765px'},
-      'md': {'min': '766px', 'max': '1024px'},
-      'lg': {'min': '1025px', 'max': '1279px'},
+      'md': {'min': '766px', 'max': '1023px'},
+      'lg': {'min': '1024px', 'max': '1279px'},
       'xl': {'min': '1280px', 'max':'2040px'},
       '4k': {'min': '2040px', 'max':'3840px'}
     },
     extend: {
       spacing: {
         '13':'3.5rem',
+        '14':'3.8rem',
         '17':'4.7rem',
         '18':'4.5rem',
         '21':'5.2rem',
+        '22':'9.3rem',
         '30': '7.3rem',
         '31': '6.5rem',
         '33': '9.5rem',
@@ -33,6 +35,7 @@ module.exports = {
         '37': '13rem',
         '49': '14.5rem',
         '50': '15.2rem',
+        '61': '21.5rem',
         '62': '18.5rem',
         '63': '17rem',
         '64': '16rem',
