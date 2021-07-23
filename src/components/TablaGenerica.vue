@@ -7,7 +7,11 @@
             ////////////////////////////////////////////////////////////////////-->
             <thead id="">
                 <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
-                    <th v-for="(item, keyCompu) in normalheaderKey" :key="keyCompu" class="cabeceraTable sm:text-xs">{{ item }}</th>
+                    <th colspan="movilHeaderKey.length" class="inline-flex w-full">
+                        <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable inline-flex sm:text-xs w-48  md:mx-auto border-none">
+                            {{ item }}
+                        </div>
+                    </th>      
                 </tr>
                  <tr class="text-md text-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
                     <th colspan="movilHeaderKey.length" class="inline-flex  w-full">
@@ -35,15 +39,9 @@
                         </td>                          
                     </tr>  
                 </template>                            
-                <template v-if="lista.length > 0">
-                    <tr v-for="(item, keyCompu) in lista" :key="'C' + keyCompu" class="h-12 text-gray-900 text-sm text-center sm:hidden md:hidden">                    
-
-                        <td v-for="(itemSub, keyCompuSub) in normalheaderKey" :key="'CS' +keyCompuSub " class="border-dashed border-t border-gray-200 px-3 sm:text-xs">
-                            <template v-if="itemSub != 'Acciones'">{{ item[itemSub] }}</template>
-                            <template v-else>Acciones</template>
-                        </td>                      
-                    </tr>                    
-                    <RowHelper v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" :itemRow="item" :headerRow="movilHeaderKey" :keyNormalFull="normalheaderKey"></RowHelper>                                                                        
+                <template v-if="lista.length > 0">   
+                    <RowHelper v-for="(item, keyMovil) in lista" :key="'P' + keyMovil" :itemRow="item" :keyRow="normalheaderKey" :keyNormalFull="normalheaderKey" class="sm:hidden md:hidden"></RowHelper>                
+                    <RowHelper v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" :itemRow="item" :keyRow="movilHeaderKey" :keyNormalFull="normalheaderKey" :tipoRow="'Movil'" class="lg:hidden, xl:hidden 4k:hidden"></RowHelper>                                                                        
                 </template>  
             </tbody>
         </table>
@@ -82,7 +80,7 @@ export default {
         })                       
     },
     methods: {
-               
+
     },           
 }
 </script>
