@@ -73,8 +73,10 @@ const actions = {
   },
   //Cosnsulta API Listar Carriles
   async buscarComponenteId({ commit, rootGetters }, value) {      
+    console.log(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
     await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
-      .then(response => {                            
+      .then(response => {
+          console.log(response)                            
           if(response.data.result != null){
             commit("LISTA_REFACCIONES_VALIDAS_MUTATION", response.data.result.listaFiltro);
             commit("LISTA_LANE_MUTATION", response.data.result.listLane); 
