@@ -9,8 +9,13 @@
                 <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
                     <th v-for="(item, keyCompu) in normalheaderKey" :key="keyCompu" class="cabeceraTable sm:text-xs">{{ item }}</th>
                 </tr>
-                 <tr class="text-md text-gray-400 font-normal bg-red-800 lg:hidden xl:hidden">
-                    <th v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable sm:text-xs">{{ item }}</th>
+                 <tr class="text-md text-gray-400 font-normal  bg-red-800 lg:hidden xl:hidden">
+                    <!-- <th v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable sm:text-xs">{{ item }}</th> -->
+                    <th colspan="movilHeaderKey.length" class="inline-flex">
+                        <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable sm:text-xs w-1/3">
+                            {{ item }}
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <!--/////////////////////////////////////////////////////////////////
@@ -26,16 +31,19 @@
                 </template> 
                 <template v-if="loadingTabla">  
                     <tr>
-                        <td class="w-full" colspan="9">                                    
+                        <td colspan="9">                                    
                             <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
                         </td>                          
                     </tr>  
                 </template>                            
                 <template v-if="lista.length > 0">
-                    <tr v-for="(item, keyCompu) in lista" :key="'C' + keyCompu" class="h-12 text-gray-900 text-sm text-center sm:hidden md:hidden">                                        
+                    <!-- <tr v-for="(item, keyCompu) in lista" :key="'C' + keyCompu" class="h-12 text-gray-900 text-sm text-center sm:hidden md:hidden">                                        
                         <td v-for="(itemSub, keyCompuSub) in normalheaderKey" :key="'CS' +keyCompuSub " class="border-dashed border-t border-gray-200 px-3 sm:text-xs">{{ item[itemSub] }}</td>                      
-                    </tr>
-                    <tr v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" class="h-12 text-gray-900 text-sm text-center lg:hidden xl:hidden 4k:hidden">                                        
+                    </tr> -->
+                    <!-- <div v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" class="h-12 text-gray-900 text-sm text-center lg:hidden xl:hidden 4k:hidden">  -->
+                        <RowHelper v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" :itemRow="item" :headerRow="movilHeaderKey"></RowHelper>
+                    <!-- </div> -->
+                    <!-- <tr v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" class="h-12 text-gray-900 text-sm text-center lg:hidden xl:hidden 4k:hidden">                                        
                         <td v-for="(itemSub, keyMovilSub) in movilHeaderKey" :key="'MS' + keyMovilSub" class="border-dashed border-t border-gray-200 px-3 sm:text-xs">
                             <div v-if="itemSub != 'Acciones'">
                                 {{ item[itemSub] }}
@@ -48,8 +56,8 @@
                                     <img src="../assets/img/flecha-hacia-arriba.png" class="w-5 h-5" alt="">
                                 </button>
                             </div>                           
-                        </td>                        
-                    </tr>                   
+                        </td>                                             
+                    </tr>                                                            -->
                 </template>  
             </tbody>
         </table>
@@ -58,16 +66,19 @@
 </template>
 
 <script>
-
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import RowHelper from '../components/RowHelper.vue'
 export default {
+    components: {
+        RowHelper
+    },
     data(){
         return{
             lista: [],
             loadingTabla: false,
             windowWidth: '',
             normalheaderKey: ['referenceNumber', 'squareName', 'squareName', 'diagnosisDate', 'lanes', 'failuerNumber', 'siniesterNumber', 'referenceDTC', 'Acciones'],
-            movilHeaderKey: ['referenceNumber', 'diagnosisDate', 'Acciones']
+            movilHeaderKey: ['referenceNumber', 'referenceNumber', 'Acciones']
         }
     },
     mounted() {
@@ -111,7 +122,9 @@ export default {
             let nodoBefore = nodo.children[index + 1]              
             let nodoNew = document.createElement('tr')                                  
             nodoNew.innerHTML = `
-                <td colspan="${this.movilHeaderKey.length}" class="bg-blue-600">hola mundo</td>                
+                <td colspan="${this.movilHeaderKey.length}" class="bg-blue-600"> 
+                    <slot></slot>                   
+                </td>                
             `            
             nodo.insertBefore(nodoNew, nodoBefore)
         },
