@@ -1,9 +1,8 @@
 <template>
     <div>
         <tr class="h-12 sm:text-xs text-gray-900 text-center w-full">
-           <td :colspan="keyRow.length" class="w-full lg:ml-20">
-               
-            <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center inline-flex sm:w-32 w-48 ml-1">
+           <td :colspan="keyRow.length" class="w-full lg:ml-20">               
+                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center inline-flex sm:w-32 w-48 ml-1">
                     <template v-if="itemSub != 'Acciones'" class="sm:text-xs">
                         {{ itemRow[itemSub] }}
                     </template>
@@ -75,7 +74,7 @@ export default {
         //Solo en Movil
         keyNormalFull: {
             type: Array,
-            require: true,
+            require: false,
             default: () => []
         }
     },

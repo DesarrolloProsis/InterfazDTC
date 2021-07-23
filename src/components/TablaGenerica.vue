@@ -39,9 +39,21 @@
                         </td>                          
                     </tr>  
                 </template>                            
-                <template v-if="lista.length > 0">   
-                    <RowHelper v-for="(item, keyMovil) in lista" :key="'P' + keyMovil" :itemRow="item" :keyRow="normalheaderKey" :keyNormalFull="normalheaderKey" class="sm:hidden md:hidden"></RowHelper>                
-                    <RowHelper v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" :itemRow="item" :keyRow="movilHeaderKey" :keyNormalFull="normalheaderKey" :tipoRow="'Movil'" class="lg:hidden, xl:hidden 4k:hidden"></RowHelper>                                                                        
+                <template v-if="lista.length > 0">  
+                    <!-- VersionPC  -->
+                    <RowHelper v-for="(item, keyPc) in lista" :key="'P' + keyPc" 
+                        :itemRow="item" 
+                        :keyRow="normalheaderKey"                         
+                        class="sm:hidden md:hidden">
+                    </RowHelper>
+                    <!-- VersionMovil  -->
+                    <RowHelper v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" 
+                        :itemRow="item" 
+                        :keyRow="movilHeaderKey" 
+                        :keyNormalFull="normalheaderKey" 
+                        :tipoRow="'Movil'" 
+                        class="lg:hidden, xl:hidden 4k:hidden">
+                    </RowHelper>                                                                        
                 </template>  
             </tbody>
         </table>
