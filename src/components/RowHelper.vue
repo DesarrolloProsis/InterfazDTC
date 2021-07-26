@@ -16,7 +16,20 @@
                             </button>
                         </div>
                         <div v-else>
-                            'Acciones'
+                            <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                                <template slot="singleLabel" slot-scope="props" class="static">
+                                    <div class="inline-flex">
+                                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                        <span class="option__title bg-red-300">{{ props.option.title }}</span>
+                                    </div>
+                                </template>
+                                <template slot="option" slot-scope="props" class="static">                                                
+                                    <div class="option__desc "><span class="option__title inline-flex">
+                                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                        {{ props.option.title }}</span>
+                                    </div>
+                                </template>
+                            </multiselect>  
                         </div>
                     </template> 
                 </div>
@@ -32,7 +45,7 @@
                         </div>
                     </div>
                     <div>
-                        <!-- <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                        <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props" class="static">
                                 <div class="inline-flex">
                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -45,7 +58,7 @@
                                     {{ props.option.title }}</span>
                                 </div>
                             </template>
-                        </multiselect>  -->
+                        </multiselect> 
                     </div>
                 </td>
             </tr>
@@ -60,6 +73,11 @@ export default {
             type: String,
             require: false,
             default: () => 'PC'
+        },
+        listaAcciones: {
+            type: Array,
+            require: true,
+            default: () => []
         },
         itemRow: {
             type: Object,
@@ -81,7 +99,8 @@ export default {
     data(){
         return {
             boolMoreInformation: false,
-            keyLimpio: []
+            keyLimpio: [],
+            value: '',
         }
     },
     methods: {
@@ -93,7 +112,17 @@ export default {
                         this.keyLimpio.push(item)               
                 }
             })
-        }
+        },
+        acciones_mapper(){
+            console.log(this.value)
+            if(this.value != ''){
+                this.$emit('acciones-mapper', { acciones: this.value, itemRow: this.itemRow})
+                this.value = ''
+            }
+        },
+        customLabel ({ title }) {
+            return `${title}`
+        },
     }
 }
 </script>

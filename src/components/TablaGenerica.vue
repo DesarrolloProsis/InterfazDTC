@@ -25,7 +25,7 @@
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
             <tbody id="filaTablaMovil" name="table">
-                <template v-if="lista.length == 0 && loadingTabla != true"> 
+                <template v-if="listaDataTable.length == 0 && loadingTabla != true"> 
                     <tr>
                         <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
                             <div class="mt-8 mb-8">Sin Informacion</div>
@@ -39,16 +39,20 @@
                         </td>                          
                     </tr>  
                 </template>                            
-                <template v-if="lista.length > 0">  
+                <template v-if="listaDataTable.length > 0">  
                     <!-- VersionPC  -->
-                    <RowHelper v-for="(item, keyPc) in lista" :key="'P' + keyPc" 
+                    <RowHelper v-for="(item, keyPc) in listaDataTable" :key="'P' + keyPc"
+                        @acciones-mapper="acciones_mapper"
                         :itemRow="item" 
+                        :listaAcciones="validarAcciones(item)"
                         :keyRow="normalheaderKey"                         
                         class="sm:hidden md:hidden">
                     </RowHelper>
                     <!-- VersionMovil  -->
-                    <RowHelper v-for="(item, keyMovil) in lista" :key="'M' + keyMovil" 
+                    <RowHelper v-for="(item, keyMovil) in listaDataTable" :key="'M' + keyMovil" 
+                        @acciones-mapper="acciones_mapper"
                         :itemRow="item" 
+                        :listaAcciones="validarAcciones(item)"
                         :keyRow="movilHeaderKey" 
                         :keyNormalFull="normalheaderKey" 
                         :tipoRow="'Movil'" 
@@ -62,37 +66,44 @@
 </template>
 
 <script>
-const API = process.env.VUE_APP_URL_API_PRODUCCION
 import RowHelper from '../components/RowHelper.vue'
 export default {
     components: {
         RowHelper
     },
+    props:{
+        listaDataTable: {
+            type: Array,
+            require: true,
+            default: () => []
+        },
+        validarAcciones:{
+            type: Function,
+            require: true,
+            default: () => []
+        },
+        normalheaderKey: {
+            type: Array,
+            require: true,
+            default: () => []
+        },
+        movilHeaderKey: {
+            type: Array,
+            require: true,
+            default: () => []
+        } 
+    },
     data(){
         return{
             lista: [],
             loadingTabla: false,
-            windowWidth: '',
-            normalheaderKey: ['referenceNumber', 'squareName', 'squareName', 'diagnosisDate', 'lanes', 'failuerNumber', 'siniesterNumber', 'referenceDTC', 'Acciones'],
-            movilHeaderKey: ['referenceNumber', 'referenceNumber', 'Acciones']
+            windowWidth: '',                        
         }
-    },
-    beforeMount(){
-        let userId = this.$store.state.Login.cookiesUser.userId
-        this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
-        .then((response) => { 
-            console.log(response)           
-            this.lista = response.data.result.map(item => {
-                item['moreInformationMovil'] = false
-                item['disableMoreInformation'] = false
-                return item
-            })          
-        })
-        .catch(() => {                                                        
-        })                       
-    },
-    methods: {
-
+    },   
+    methods: {        
+        acciones_mapper(item){
+            this.$emit('acciones-mapper', item)
+        }
     },           
 }
 </script>

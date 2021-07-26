@@ -34,7 +34,21 @@
                 <!--/////////////////////////////////////////////////////////////////////
                 /////                    FILTROS DE NAVEGACION                      ////
                 ////////////////////////////////////////////////////////////////////-->   
-                <HeaderGenerico @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" @limpiar-concentrado-diagnostico="limpiar_filtros" @buscar-df="guardar_palabra_busqueda" :titulo="'Concentrado Diagnostico/Ficha'" :tipo="'DF'"></HeaderGenerico>                       
+                <HeaderGenerico 
+                    @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" 
+                    @limpiar-concentrado-diagnostico="limpiar_filtros" 
+                    @buscar-df="guardar_palabra_busqueda" 
+                    :titulo="'Concentrado Diagnostico/Ficha'" 
+                    :tipo="'DF'">
+                </HeaderGenerico>
+                <TablaGenerica  
+                    @acciones-mapper="acciones_mapper"              
+                    :listaDataTable="listaFicha"
+                    :validarAcciones="opticones_select_acciones"
+                    :normalheaderKey="['referenceNumber', 'squareName', 'squareName', 'diagnosisDate', 'lanes', 'failuerNumber', 'siniesterNumber', 'referenceDTC', 'Acciones']"
+                    :movilHeaderKey="['referenceNumber', 'referenceNumber', 'Acciones']"
+                >
+                </TablaGenerica>                       
                 <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 font-titulo mb-12 sm:text-xs" style="height:550px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <!--/////////////////////////////////////////////////////////////////
@@ -112,12 +126,14 @@ import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
 import ServiceCookies from '../../../services/CookiesService'
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
+import TablaGenerica from '../../../components/TablaGenerica.vue'
 
 export default {
     name: "ConcentradoFichas",
     components:{        
         HeaderGenerico,
-        PdfEscaneado
+        PdfEscaneado,
+        TablaGenerica
     },
     data (){
         return {
@@ -152,14 +168,7 @@ export default {
             this.infoFichasFallaFiltrada = []                       
         })
     },
-    methods: {  
-        nodo(){
-            let nodo = document.getElementById('multi') 
-            for(let i = 0; i < nodo.children.length; i++){
-                nodo.children[i].children[7].children[0].classList.add('static')
-            }
-            //console.log(nodo.childNodes[0].classList.add('static')) 
-        },
+    methods: {    
         actualizarTabla(){
             this.typeUser = this.$store.state.Login.cookiesUser.rollId 
             this.loadingTabla = true
@@ -263,12 +272,9 @@ export default {
             ServiceCookies.actualizar_plaza(item.adminSquareId)
             await this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)        
             setTimeout(() => {
-                let carriles =  this.$store.getters["Refacciones/GET_CARRILES_STATE"];  
-                console.log(carriles)        
-                item.lanes.split(',').forEach(lane => {
-                    console.log(lane);
-                    let carrilFull = carriles.find(carril => carril.lane == lane)
-                    console.log(carrilFull);
+                let carriles =  this.$store.getters["Refacciones/GET_CARRILES_STATE"];                  
+                item.lanes.split(',').forEach(lane => {                    
+                    let carrilFull = carriles.find(carril => carril.lane == lane)                    
                     if(carrilFull != undefined){
                         carrilesMapeados.push({
                             capufeLaneNum: carrilFull.capufeLaneNum,
@@ -305,50 +311,50 @@ export default {
         descargar_diag_ficha(referenceNumber,tipo){
             ServiceReporte.generar_pdf_ficha_sellada(referenceNumber,tipo)
         },
-
-        acciones_mapper(item){                
-            if(this.value.title == 'Terminar Ficha'){
-                this.terminar_ficha_diagnostico(item)
+        acciones_mapper({ acciones, itemRow }){  
+            alert()              
+            if(acciones.title == 'Terminar Ficha'){
+                this.terminar_ficha_diagnostico(itemRow)
             }
-            if(this.value.title == 'Terminar DTC'){
-                this.terminar_dtc(item.referenceNumber, item.typeFaultId)
+            if(acciones.title == 'Terminar DTC'){
+                this.terminar_dtc(itemRow.referenceNumber, itemRow.typeFaultId)
             }   
-            if(this.value.title == 'Editar'){            
-                this.editar_diagnostico_falla(item)
+            if(acciones.title == 'Editar'){            
+                this.editar_diagnostico_falla(itemRow)
             }
-            if(this.value.title == 'Borrar'){       
-                this.confirmarBorrar(item)     
+            if(acciones.title == 'Borrar'){       
+                this.confirmarBorrar(itemRow)     
             }
-            if(this.value.title == 'Dignóstico de Falla'){     
-                this.imprimir_pdf_diagnostico(item.referenceNumber)       
+            if(acciones.title == 'Dignóstico de Falla'){     
+                this.imprimir_pdf_diagnostico(itemRow.referenceNumber)       
             }
-            if(this.value.title == 'Ficha Técnica'){    
-                this.imprimir_pdf_ficha(item.referenceNumber)
+            if(acciones.title == 'Ficha Técnica'){    
+                this.imprimir_pdf_ficha(itemRow.referenceNumber)
             }
-            if(this.value.title == 'Dictamen (DTC)'){    
-                this.desargar_pdf(item)
+            if(acciones.title == 'Dictamen (DTC)'){    
+                this.desargar_pdf(itemRow)
             }
-            if(this.value.title == 'Subir DF Sellado'){
+            if(acciones.title == 'Subir DF Sellado'){
                 this.tipoEscaneado = 'Diagnostico'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
-                    referenceNumber: item.referenceNumber
+                    referenceNumber: itemRow.referenceNumber
                 }
             }
-            if(this.value.title == 'Subir FT Sellada'){
+            if(acciones.title == 'Subir FT Sellada'){
                 this.tipoEscaneado = 'Ficha'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
-                    referenceNumber: item.referenceNumber
+                    referenceNumber: itemRow.referenceNumber
                 }
             }
-            if(this.value.title ==  'Bajar FT Sellada'){
-                this.descargar_diag_ficha(item.referenceNumber,2)
+            if(acciones.title ==  'Bajar FT Sellada'){
+                this.descargar_diag_ficha(itemRow.referenceNumber,2)
             }
-            if(this.value.title == 'Bajar DF Sellado'){
-                this.descargar_diag_ficha(item.referenceNumber,1)
+            if(acciones.title == 'Bajar DF Sellado'){
+                this.descargar_diag_ficha(itemRow.referenceNumber,1)
             }
-            this.value = ""            
+            //this.value = ""            
         },
         opticones_select_acciones(item){
             const options= [                
