@@ -5,18 +5,18 @@
           ////////////////////////////////////////////////////////////////////-->
         <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario'"></PdfEscaneado>
         <div class="felx-auto ml-2 mr-2 mt-2 -mb-6">
-            <div class="grid grid-cols-1 xl:grid-cols-2 sm:grid-cols-1 sm:px-2">
+            <div class="grid grid-cols-1 xl:grid-cols-2 sm:grid-cols-1 sm:px-2 ">
                 <!--Logo-->
-                <div class="flex mx-auto w-auto m-2 sm:grid-cols-1">    
+                <div class="flex mx-auto w-auto m-2 sm:grid-cols-1 ">    
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-auto m-2"/>
                 </div>
                 <!--Titulo-->
-                <div class="flex font-titulo font-bold mx-auto">
+                <div class="flex font-titulo font-bold mx-auto ">
                     <h1 class="mx-auto my-auto w-auto text-center text-4xl sm:text-sm">Calendario de Actividades</h1>
                 </div>
                 <!--Mes y Acciones-->
                 <div class="grid grid-cols-1 mx-auto ">
-                    <div class="flex m-3">
+                    <div class="flex m-3 sm:flex-col sm:mx-auto">
                         <p class="font-titulo font-semibold">Correspondiente al mes de:</p>
                         <h2 class="mx-auto font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
@@ -39,10 +39,10 @@
                     </div>
                 </div>
                 <!--Plaza y Codigo de Colores-->
-                <div class="grid grid-cols-1 mx-auto">
-                    <div class="flex m-3 sm:grid sm:grid-cols-1">
+                <div class="grid grid-cols-1 mx-auto ">
+                    <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto">
                         <span class="font-titulo font-semibold mx-auto">Plaza/Encargado: </span>
-                        <p class="sm:ml-2">
+                        <p class="sm:-ml-3">
                             <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Calendario'" :fullPlazas="true" :tipo="'tipoPlazaSelect'">
                             </SelectPlaza>
                         </p>
@@ -50,7 +50,7 @@
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:-mt-2">
                         <span class="font-titulo font-semibold sm:mx-auto">Código de Colores: </span>
                             <p class="">
-                                <select class="ml-20 w-48 is_valid sm:w-62 sm:ml-5">
+                                <select class="ml-20 w-48 is_valid sm:w-62 sm:mx-auto">
                                     <option value="">Códgio de Colores</option>
                                     <option class="bg-green-500 text-center text-gray-200" value="1">Semanal</option>
                                     <option class="bg-red-500 text-center text-gray-200" value="2">Mensual</option>
@@ -62,20 +62,20 @@
                     </div>
                 </div>
                 <!-- Observaciones-->
-                <div class="grid grid-cols-1 col-span-2 hidden">
+                <div class="grid grid-cols-1 col-span-2 sm:col-auto sm:flex sm:flex-col">
                     <ValidationObserver ref="observer" class="">  
                         <div class="w-auto xl:ml-56 xl:mr-61  mx-auto">
                             <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
-                                <span class="text-center font-titulo font-semibold text-gray-800">Observaciones</span>          
+                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col">Observaciones</span>          
                                 <textarea
                                     v-model="comentario"                                                               
-                                    class="block container placeholder-gray-500 textAreaCalendario mt-3 ml-13"
+                                    class="block container placeholder-gray-500 textAreaCalendario mt-3 ml-13 sm:mx-auto"
                                     placeholder="jane@example.com"
                                     name="ComentarioCalendario"
                                     :maxlength="limite"
                                 />
                                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                                <span class="text-xs text-gray-500 ml-76">{{ restante }}/500</span>    
+                                <span class="text-xs text-gray-500 ml-76 sm:ml-33">{{ restante }}/500</span>    
                             </ValidationProvider>                    
                         </div>  
                     </ValidationObserver>
