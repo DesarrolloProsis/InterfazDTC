@@ -51,8 +51,8 @@
                     <!-- Carril -->
                     <div class="mx-auto my-auto flex sm:w-auto sm:text-xs sm:mb-2 ">
                         <p class="text-sm font-titulo text-gray-900 font-bold mt-1 sm:text-xs">Carril:</p>
-                        <p class="w-32 input xl:ml-1 sm:ml-0 md:w-48 md:ml-0 xl:w-48">
-                            <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 md:w-48 xl:w-48 border-none"  type="text">
+                        <p class="w-32 input xl:ml-1 sm:ml-0 md:w-48 md:ml-0 lg:w-48 lg:ml-1 xl:w-48">
+                            <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 md:w-48 lg:w-48 xl:w-48 border-none"  type="text">
                                 <option value="">Selecionar...</option>
                                 <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                             </select>

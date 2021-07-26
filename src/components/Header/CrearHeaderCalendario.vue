@@ -20,9 +20,9 @@
                         <p class="font-titulo font-semibold md:mx-auto">Correspondiente al mes de:</p>
                         <h2 class="mx-auto font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
-                    <div class="flex m-3 h-12 sm:grid sm:grid-cols-1 sm:mx-auto sm:-mt-2 md:grid ">
-                        <p class="font-titulo font-semibold sm:text-center md:mx-auto">Acciones:</p>
-                        <multiselect v-model="value" @close="acciones_mapper()" class="w-68 sm:w-65 md:w-37 xl:-mt-2" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="100" :custom-label="customLabel" :show-labels="false">
+                    <div class="flex m-3 h-12 sm:grid sm:grid-cols-2 sm:m-0 sm:-mt-1 sm:h-11 md:grid ">
+                        <p class="font-titulo font-semibold sm:text-center sm:-ml-17 sm:my-auto md:mx-auto">Acciones:</p>
+                        <multiselect v-model="value" @close="acciones_mapper()" class="w-68 sm:w-auto sm:-ml-16 sm:h-8 md:w-37 xl:-mt-2" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="100" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
                                 <div class=" inline-flex">
                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -46,7 +46,7 @@
                             <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Calendario'" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
                         </p>
                     </div>
-                    <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:-mt-2 md:grid xl:mx-auto ">
+                    <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:mt-1 md:grid xl:mx-auto ">
                         <span class="font-titulo font-semibold sm:mx-auto w-69 sm:w-32 md:w-32 md:mx-auto lg:ml-10 xl:w-auto">Código de Colores: </span>
                         <p class="md:mx-auto my-auto xl:-mt-1">
                             <select class="ml-20 w-48 is_valid sm:w-63 sm:ml-2 sm:mx-auto md:ml-0">
