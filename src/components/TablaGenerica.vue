@@ -101,7 +101,7 @@ export default {
         }
     },   
     methods: {        
-        acciones_mapper(item){
+        acciones_mapper(item){            
             this.$emit('acciones-mapper', item)
         }
     },           

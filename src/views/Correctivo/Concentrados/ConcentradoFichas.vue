@@ -5,7 +5,13 @@
                 <!--/////////////////////////////////////////////////////////////////
                 ////                      ESCANEADO                             ////
                 ////////////////////////////////////////////////////////////////////-->
-                <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
+                <PdfEscaneado 
+                    @limpiar-componente-escaneado="limpiar_componete_escaneado" 
+                    :abrirModal="modalSubirSellado" 
+                    :objInsert="objInsertEscaneado" 
+                    :tipoReporte="tipoEscaneado"
+                >
+                </PdfEscaneado>    
                 <!--/////////////////////////////////////////////////////////////////
                 ////                      MODAL ELIMINAR                         ////
                 ////////////////////////////////////////////////////////////////////-->
@@ -25,7 +31,7 @@
                                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                             </ValidationProvider>
                             <div class="mt-5 text-center">
-                                <button @click="borrar()" class="botonIconCrear">Si</button>
+                                <button @click="borrar_diagnostico_falla()" class="botonIconCrear">Si</button>
                                 <button @click="modalEliminar = false" class="botonIconCancelar font-boton">No</button>
                             </div>
                         </ValidationObserver>
@@ -39,8 +45,12 @@
                     @limpiar-concentrado-diagnostico="limpiar_filtros" 
                     @buscar-df="guardar_palabra_busqueda" 
                     :titulo="'Concentrado Diagnostico/Ficha'" 
-                    :tipo="'DF'">
+                    :tipo="'DF'"
+                >
                 </HeaderGenerico>
+            <!--/////////////////////////////////////////////////////////////////////
+                /////                       TABLA GENERICA                      ////
+                ////////////////////////////////////////////////////////////////////-->  
                 <TablaGenerica  
                     @acciones-mapper="acciones_mapper"              
                     :listaDataTable="listaFicha"
@@ -48,72 +58,7 @@
                     :normalheaderKey="['referenceNumber', 'squareName', 'squareName', 'diagnosisDate', 'lanes', 'failuerNumber', 'siniesterNumber', 'referenceDTC', 'Acciones']"
                     :movilHeaderKey="['referenceNumber', 'referenceNumber', 'Acciones']"
                 >
-                </TablaGenerica>                       
-                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 font-titulo mb-12 sm:text-xs" style="height:550px;">
-                    <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
-                        <!--/////////////////////////////////////////////////////////////////
-                        ////                           HEADER TABLA                      ////
-                        ////////////////////////////////////////////////////////////////////-->
-                        <thead>
-                            <tr class="text-md text-gray-400 font-normal bg-blue-800">                
-                                <th class="cabeceraTable font-medium">Referencia</th>
-                                <th class="cabeceraTable font-medium">Plaza</th>
-                                <th class="cabeceraTable font-medium">Fecha</th>
-                                <th class="cabeceraTable font-medium">Ubicacion</th>
-                                <th class="cabeceraTable font-medium">Folio de Falla</th>
-                                <th class="cabeceraTable font-medium">Folio de Siniestro</th>                                                                                                
-                                <th class="cabeceraTable font-medium">Referencia DTC</th>
-                                <th class="cabeceraTable font-medium">Acciones</th>
-                            </tr>
-                        </thead>
-                        <!--/////////////////////////////////////////////////////////////////
-                        ////                          BODY TABLA                          ////
-                        ////////////////////////////////////////////////////////////////////-->
-                        <tbody name="table" id="multiselectHamburguesa">
-                            <template v-if="infoFichasFallaFiltrada.length == 0 && loadingTabla != true"> 
-                                <tr>
-                                    <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
-                                        <div class="mt-8 mb-8">Sin Informacion</div>
-                                    </td>
-                                </tr>  
-                            </template> 
-                            <template v-if="loadingTabla">  
-                                <tr>
-                                    <td class="w-full" colspan="9">                                    
-                                        <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
-                                    </td>                          
-                                </tr>  
-                            </template>                            
-                            <template v-if="infoFichasFallaFiltrada.length > 0">
-                                <tr v-for="(item, key) in listaFicha" :key="key" class="h-12 text-gray-900 text-sm text-center">                
-                                    <td class="cuerpoTable sm:text-xs">{{ item.referenceNumber }}</td>
-                                    <td class="cuerpoTable sm:text-xs">{{ item.squareName }}</td>
-                                    <td class="cuerpoTable sm:text-xs">{{ item.diagnosisDate.slice(0,10) | formato_concentrado }}</td>
-                                    <td class="cuerpoTable sm:text-xs">{{ item.lanes }}</td>
-                                    <td class="cuerpoTable sm:text-xs">{{ item.failuerNumber }}</td>
-                                    <td class="cuerpoTable sm:text-xs">{{ item.siniesterNumber }}</td>                              
-                                    <td class="cuerpoTable">{{ item.referenceDTC }}</td>
-                                    <td class="cuerpoTable">                                               
-                                        <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                                            <template slot="singleLabel" slot-scope="props" class="static">
-                                                <div class="inline-flex">
-                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
-                                                    <span class="option__title bg-red-300">{{ props.option.title }}</span>
-                                                </div>
-                                            </template>
-                                            <template slot="option" slot-scope="props" class="static">                                                
-                                                <div class="option__desc "><span class="option__title inline-flex">
-                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
-                                                    {{ props.option.title }}</span>
-                                                </div>
-                                            </template>
-                                        </multiselect>                                                                                                                                                                                
-                                    </td>
-                                </tr>
-                            </template>  
-                        </tbody>
-                    </table>
-                </div>
+                </TablaGenerica>                                  
             </div>
         </div>    
     </div>
@@ -185,31 +130,12 @@ export default {
                 this.infoFichasFallaCompleta = []
                 this.infoFichasFallaFiltrada = []                       
             })
-        },
-        confirmarBorrar (item){
-            this.infoEliminar = item
-            this.modalEliminar = true            
-        },
-        desargar_pdf(value){
-            ServiceReporte.generar_pdf_correctivo(value.referenceDTC, 2, false, undefined)
-            if (this.typeUser != 4 && this.typeUser != 8){
-                setTimeout(()=>{
-                    ServiceReporte.generar_pdf_fotografico_correctivo(value.referenceDTC);               
-                },1000)
-            }
-            this.$notify.success({
-                title: "Ok!",
-                class:'font-titulo',
-                msg: `Se Descargo el DTC con Referencia ${value.referenceDTC}.`,
-                position: "bottom right",
-                styles: { height: 100, width: 500 },
-            }); 
-        },
-        borrar(){
+        },     
+        borrar_diagnostico_falla(){
             let userId = this.$store.state.Login.cookiesUser.userId 
             let clavePlaza = this.infoEliminar.referenceNumber.split('-')[0] 
             this.$http.post(`${API}/DiagnosticoFalla/BorraDiagnosticoFull/${clavePlaza}/${this.infoEliminar.referenceNumber}/${userId}/${this.comentarioBorrar}/${this.infoEliminar.referenceDTC}`)
-                .then(()=>{                
+                .then(() => {                                  
                     this.modalEliminar = false
                     this.comentarioBorrar = ''
                     this.actualizarTabla()
@@ -222,51 +148,37 @@ export default {
                 })       
                 this.listaFicha = array_filtrado;    
             }
-            else{
+            else {
                 this.listaFicha = this.infoFichasFallaCompleta
             }
-        },  
-        imprimir_pdf_diagnostico(referenceNumber){
-            ServiceReporte.generar_pdf_diagnostico_falla(referenceNumber)
-        },
-        imprimir_pdf_ficha(referenceNumber){
-            ServiceReporte.generar_pdf_ficha_falla(referenceNumber)
-        },
+        },          
         filtrar_concentrado_diagnostico(objFiltro){            
             this.listaFicha = []
             this.loadingTabla = true
             setTimeout(() => {
                 this.listaFicha = ServiceFiltros.filtros_concentrado_diagnostico(this.infoFichasFallaCompleta, objFiltro)
                 this.loadingTabla = false
-            },1000)
+            }, 1000)
         },
         limpiar_filtros(){
             this.listaFicha = this.infoFichasFallaCompleta
         },
-        editar_diagnostico_falla(item){            
-            let splitInicio = item.start.split(' ')                      
-            let fecha = splitInicio[0].split('-')
-            let tiempo = splitInicio[1].split(':')                      
-            let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]) - 1, fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0)                        
-            let splitFin = item.end.split(' ')                            
-            let fecha2 = splitFin[0].split('-')
-            let tiempo2 = splitFin[1].split(':')                                
+        editar_diagnostico_falla(item){         
+            //Encapsular este metodo junto con terminar_ficha_diagnostico!!!!   
+            let splitInicio = item.start.split(' '); let fecha = splitInicio[0].split('-'); let tiempo = splitInicio[1].split(':');                      
+            let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]) - 1, fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0);                        
+            let splitFin = item.end.split(' '); let fecha2 = splitFin[0].split('-'); let tiempo2 = splitFin[1].split(':');                                
             let fechaPArseFin = new Date(fecha2[2], parseInt(fecha2[1]) - 1, fecha2[0], tiempo2[0], tiempo2[1], 0)                        
-            item.end = fechaPArseFin.toISOString()
-            item.start = fechaPArseInicio.toISOString()            
+            item.end = fechaPArseFin.toISOString(); item.start = fechaPArseInicio.toISOString();           
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
         terminar_ficha_diagnostico: async function(item){   
-            let splitInicio = item.start.split(' ')                      
-            let fecha = splitInicio[0].split('-')
-            let tiempo = splitInicio[1].split(':')                      
+            //Encapsular este metodo junto con editar_diagnostico_falla!!!!
+            let splitInicio = item.start.split(' '); let fecha = splitInicio[0].split('-'); let tiempo = splitInicio[1].split(':');                      
             let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]) - 1, fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0)                        
-            let splitFin = item.end.split(' ')                            
-            let fecha2 = splitFin[0].split('-')
-            let tiempo2 = splitFin[1].split(':')                                
+            let splitFin = item.end.split(' '); let fecha2 = splitFin[0].split('-'); let tiempo2 = splitFin[1].split(':');                                
             let fechaPArseFin = new Date(fecha2[2], parseInt(fecha2[1]) - 1, fecha2[0], tiempo2[0], tiempo2[1], 0)                        
-            item.end = fechaPArseFin.toISOString()
-            item.start = fechaPArseInicio.toISOString()     
+            item.end = fechaPArseFin.toISOString(); item.start = fechaPArseInicio.toISOString();     
             let carrilesMapeados = []            
             let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza   
             ServiceCookies.actualizar_plaza(item.adminSquareId)
@@ -296,45 +208,43 @@ export default {
                     ubicacion: carrilesMapeados,
                 }              
                 this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })    
-            },500)        
-        },
-        terminar_dtc(referencia, typeFaultId){
-            this.$router.push(`/NuevoDtc/Crear/${referencia}/${typeFaultId}`) 
-        },
-        customLabel ({ title }) {
-            return `${title}`
-        },
+            }, 500)        
+        },             
         limpiar_componete_escaneado(){
             this.modalSubirSellado = false
             this.objInsertEscaneado = {}
-        },
-        descargar_diag_ficha(referenceNumber,tipo){
-            ServiceReporte.generar_pdf_ficha_sellada(referenceNumber,tipo)
-        },
-        acciones_mapper({ acciones, itemRow }){  
-            alert()              
+        },     
+        acciones_mapper({ acciones, itemRow }){     
+            console.log(acciones)                   
             if(acciones.title == 'Terminar Ficha'){
                 this.terminar_ficha_diagnostico(itemRow)
             }
             if(acciones.title == 'Terminar DTC'){
-                this.terminar_dtc(itemRow.referenceNumber, itemRow.typeFaultId)
+                this.$router.push(`/NuevoDtc/Crear/${itemRow.referenceNumber}/${itemRow.typeFaultId}`)                 
             }   
-            if(acciones.title == 'Editar'){            
+            if(acciones.title == 'Editar'){                     
                 this.editar_diagnostico_falla(itemRow)
             }
-            if(acciones.title == 'Borrar'){       
-                this.confirmarBorrar(itemRow)     
+            if(acciones.title == 'Borrar'){
+                //Acciones Api                       
+                this.infoEliminar = itemRow; this.modalEliminar = true;  
             }
             if(acciones.title == 'Dignóstico de Falla'){     
-                this.imprimir_pdf_diagnostico(itemRow.referenceNumber)       
+                ServiceReporte.generar_pdf_diagnostico_falla(itemRow.referenceNumber) 
             }
-            if(acciones.title == 'Ficha Técnica'){    
-                this.imprimir_pdf_ficha(itemRow.referenceNumber)
+            if(acciones.title == 'Ficha Técnica'){                    
+                ServiceReporte.generar_pdf_ficha_falla(itemRow.referenceNumber)
             }
-            if(acciones.title == 'Dictamen (DTC)'){    
-                this.desargar_pdf(itemRow)
+            if(acciones.title == 'Dictamen (DTC)'){                    
+                ServiceReporte.generar_pdf_correctivo(itemRow.referenceDTC, 2, false, undefined)
+                if (this.typeUser != 4 && this.typeUser != 8){
+                    setTimeout(() => {
+                        ServiceReporte.generar_pdf_fotografico_correctivo(itemRow.referenceDTC);               
+                    },1000)
+                }
             }
             if(acciones.title == 'Subir DF Sellado'){
+                //Acciones Api
                 this.tipoEscaneado = 'Diagnostico'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
@@ -342,36 +252,36 @@ export default {
                 }
             }
             if(acciones.title == 'Subir FT Sellada'){
+                //Acciones Api
                 this.tipoEscaneado = 'Ficha'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
                     referenceNumber: itemRow.referenceNumber
                 }
             }
-            if(acciones.title ==  'Bajar FT Sellada'){
-                this.descargar_diag_ficha(itemRow.referenceNumber,2)
+            if(acciones.title ==  'Bajar FT Sellada'){                
+                ServiceReporte.generar_pdf_ficha_sellada(itemRow.referenceNumber, 2)
             }
-            if(acciones.title == 'Bajar DF Sellado'){
-                this.descargar_diag_ficha(itemRow.referenceNumber,1)
-            }
-            //this.value = ""            
+            if(acciones.title == 'Bajar DF Sellado'){                
+                ServiceReporte.generar_pdf_ficha_sellada(itemRow.referenceNumber, 1)
+            }                     
         },
         opticones_select_acciones(item){
             const options= [                
-                { title: 'Terminar Ficha', img: '/img/nuevoDtc.90090632.png' }, //0
-                { title: 'Terminar DTC', img: '/img/nuevoDtc.90090632.png' },//1
-                { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //2
-                { title: 'Borrar', img: '/img/borrar.16664eed.png' },//3
-                { title: 'Dignóstico de Falla', img: '/img/download.ea0ec6db.png' }, //4
-                { title: 'Ficha Técnica', img: '/img/download.ea0ec6db.png' },//5
-                { title: 'Dictamen (DTC)', img: '/img/download.ea0ec6db.png' }, //6
-                { title: 'Subir DF Sellado', img: '/img/upload.8d26bb4f.png' }, //7
-                { title: 'Subir FT Sellada', img: '/img/upload.8d26bb4f.png' }, //8
-                { title: 'Bajar FT Sellada', img: '/img/download.ea0ec6db.png' },//9
-                { title: 'Bajar DF Sellado', img: '/img/download.ea0ec6db.png' },//10
+                { title: 'Terminar Ficha', accionCss: 'terminar', tipo: '', img: '/img/nuevoDtc.90090632.png' }, //0
+                { title: 'Terminar DTC', accionCss: 'terminar', img: '/img/nuevoDtc.90090632.png' },//1
+                { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //2
+                { title: 'Borrar', accionCss: 'borrar', img: '/img/borrar.16664eed.png' },//3
+                { title: 'Dignóstico de Falla', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //4
+                { title: 'Ficha Técnica', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//5
+                { title: 'Dictamen (DTC)', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //6
+                { title: 'Subir DF Sellado', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //7
+                { title: 'Subir FT Sellada', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //8
+                { title: 'Bajar FT Sellada', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//9
+                { title: 'Bajar DF Sellado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
             ]
             let filtroOpciones = []
-            //Diagnostico Descargar Siempre va
+            //Diagnostico Descargar Siempre
             filtroOpciones.push(options[4])
             filtroOpciones.push(options[7]) 
             filtroOpciones.push(options[10])
@@ -385,8 +295,7 @@ export default {
                 if(item.validacionDTC && item.validacionFichaTecnica){
                     filtroOpciones.push(options[6])
                 } 
-                if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                   
-                //if(this.typeUser != 7 || this.typeUser != 10 || this.typeUser != 4){                    
+                if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                                   
                     filtroOpciones.push(options[2])
                     filtroOpciones.push(options[3])
                 }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <tr class="h-12 sm:text-xs text-gray-900 text-center w-full">
-           <td :colspan="keyRow.length" class="w-full lg:ml-20">               
+           <td :colspan="keyRow.length" class="w-full lg:ml-20" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">               
                 <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center inline-flex sm:w-32 w-48 ml-1">
                     <template v-if="itemSub != 'Acciones'" class="sm:text-xs">
                         {{ itemRow[itemSub] }}
@@ -16,7 +16,7 @@
                             </button>
                         </div>
                         <div v-else>
-                            <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                            <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                 <template slot="singleLabel" slot-scope="props" class="static">
                                     <div class="inline-flex">
                                         <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div>
-                        <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                        <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props" class="static">
                                 <div class="inline-flex">
                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -100,7 +100,8 @@ export default {
         return {
             boolMoreInformation: false,
             keyLimpio: [],
-            value: '',
+            selectMulti: '',
+            rowCssColor: ''
         }
     },
     methods: {
@@ -113,11 +114,15 @@ export default {
                 }
             })
         },
-        acciones_mapper(){
-            console.log(this.value)
-            if(this.value != ''){
-                this.$emit('acciones-mapper', { acciones: this.value, itemRow: this.itemRow})
-                this.value = ''
+        acciones_mapper(){              
+            if(this.selectMulti != ''){
+                this.rowCssColor = this.selectMulti.accionCss
+                let acciones = this.selectMulti                
+                this.selectMulti = ''
+                setTimeout(() => {
+                    this.$emit('acciones-mapper', { acciones: acciones, itemRow: this.itemRow})                    
+                    this.rowCssColor = ''
+                },500)
             }
         },
         customLabel ({ title }) {
@@ -126,7 +131,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>
