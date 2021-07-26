@@ -1,5 +1,5 @@
 <template>
-    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full font-titulo" :class="{'sm:-ml-1': tipo =='Diagnostico', 'sm:-ml-1': tipo =='Ficha'}">        
+    <div class="mr-10 -mt-3 sm:mr-0 sm:ml-4 sm:mt-0 w-full font-titulo" :class="{'sm:ml-1 sm:mt-18': tipo =='Diagnostico', 'sm:-ml-1': tipo =='Ficha'}">        
         <p class="text-gray-800 font-titulo mt-2 mb-1 sm:text-sm sm:mb-4"
         :class="{'sm:ml-1 sm:mt-2 -mb-1 mt-4 ml-12 w-20': tipo =='Diagnostico', 'ml-5 mb-2 mt-6 lg:ml-73 sm:-ml-48 sm:-mb-1' : tipo == 'Ficha', 'sm:-mt-16' :$route.params.tipoVista == 'Editar'}">IMAGENES</p>
         <div v-if="reporteDataInsertada" class="sm:-ml-4" :class="{'w-75 ml-4 mr-4 mt-4 sm:w-auto border border-white -mb-4 sm:-mt-18' : tipo == 'Diagnostico', 
