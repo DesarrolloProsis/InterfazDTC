@@ -42,15 +42,14 @@
                 <div class="grid grid-cols-1 mx-auto ">
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto md:grid xl:w-auto ">
                         <span class="font-titulo font-semibold mx-auto ">Plaza/Encargado: </span>
-                        <p class="sm:-ml-3 xl:-mt-1">
-                            <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Calendario'" :fullPlazas="true" :tipo="'tipoPlazaSelect'">
-                            </SelectPlaza>
+                        <p class="sm:-ml-17 xl:-mt-1">
+                            <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Calendario'" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
                         </p>
                     </div>
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:-mt-2 md:grid xl:mx-auto ">
                         <span class="font-titulo font-semibold sm:mx-auto w-69 sm:w-32 md:w-32 md:mx-auto lg:ml-10 xl:w-auto">Código de Colores: </span>
                         <p class="md:mx-auto my-auto xl:-mt-1">
-                            <select class="ml-20 w-48 is_valid sm:w-62 sm:mx-auto md:ml-0">
+                            <select class="ml-20 w-48 is_valid sm:w-63 sm:ml-2 sm:mx-auto md:ml-0">
                                 <option value="">Códgio de Colores</option>
                                 <option class="bg-green-500 text-center text-gray-200" value="1">Semanal</option>
                                 <option class="bg-red-500 text-center text-gray-200" value="2">Mensual</option>

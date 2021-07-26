@@ -1,97 +1,90 @@
 <template>
     <div>
-        <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto sm:-ml-1">     
+        <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto sm:-ml-1 sm:pr-1 sm:pl-2">     
             <div class=" border shadow-lg rounded-md w-full mt-5 sm:mx-auto">
             <!--/////////////////////////////////////////////////////////////////////
             ////                         MODAL SELLADO                         /////
             ////////////////////////////////////////////////////////////////////-->
                 <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>
                 
-                <h1 class=" text-3xl sm:text-sm font-titulo font-bold text-center sm:mt-4">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
-                <div v-if="filtros" class="grid grid-cols-1 -mt-3">
-                    <div class="grid grid-cols-1">
-                        <!--//////////////////////////////////////////////////////////////////////
-                        ////                   INFO DE PLAZA                             ////
-                        ////////////////////////////////////////////////////////////////////-->                        
-                        <div class="pl-10 sm:pl-3 mt-6 grid grid-cols-1 font-titulo sm:text-xs">
-                            <!-- Plaza SM -->
-                            <div class="ml-2 md:hidden lg:hidden xl:hidden">
-                                <p class="text-sm sm:text-xs text-gray-900 ml-32 mb-1 font-semibold">Plaza:</p>
-                                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
-                            </div>
-                            <!-- Filtros -->
-                            <div class="grid grid-cols-4 sm:w-full sm:ml-2 w-full md:grid-cols-3 md:-ml-18 xl:text-center">                                       
-                                <!-- Plaza -->
-                                <div class="sm:hidden -mt-2">
-                                    <p class="text-sm sm:text-xs text-gray-900 ml-20 mb-1 font-semibold md:ml-33">Plaza:</p>
-                                    <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
-                                </div> 
-                                <!-- Mes -->                                                   
-                                <div class="mb-4 ml-5 sm:ml-1 sm:mt-4 md:-mt-1 md:ml-1">
-                                    <p class="text-sm sm:text-xs sm:ml-12 md:mx-33 text-gray-900 ml-1 mb-1 font-semibold">Mes:</p>                                
-                                    <p class="w-32 input ml-16 sm:ml-0 md:w-48 md:-mt-2">
-                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
-                                        <option disabled value>Selecionar...</option>
-                                        <option value="1">Enero</option>
-                                        <option value="2">Febrero</option>
-                                        <option value="3">Marzo</option>
-                                        <option value="4">Abril</option>
-                                        <option value="5">Mayo</option>
-                                        <option value="6">Junio</option>
-                                        <option value="7">Julio</option>
-                                        <option value="8">Agosto</option>
-                                        <option value="9">Septiembre</option>
-                                        <option value="10">Octubre</option>
-                                        <option value="11">Noviembre</option>
-                                        <option value="12">Diciembre</option>
-                                    </select></p>
-                                </div>
-                                <!-- Año -->
-                                <div class="mb-4 ml-4 sm:mt-4 sm:ml-21 md:-mt-1">
-                                    <p class="text-sm sm:text-xs sm:ml-16 md:ml-32 text-gray-900 ml-1 font-semibold">Año:</p>
-                                    <p class="w-32 input ml-16 sm:ml-2 md:w-48 md:-mt-1 md:ml-10">
-                                    <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
-                                        <option disabled value>Selecionar...</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2021">2021</option>                                        
-                                    </select></p>
-                                </div>
-                                <!-- Carril -->
-                                <div class="mb-4 ml-5 sm:mt-20 sm:ml-1">
-                                    <p class="text-sm sm:text-xs text-gray-900 ml-1 font-bold sm:ml-13 md:ml-32">Carril:</p>
-                                    <p class="w-32 input ml-16 sm:ml-2 md:w-48 md:ml-14">
-                                    <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 md:w-48 border-none"  type="text">
-                                        <option value="">Selecionar...</option>
-                                        <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                                    </select></p>
-                                </div> 
-                                <!-- Status -->
-                                <div v-if="this.tipoUsuario != 5 && this.tipoUsuario != 2" class="mb-4 sm:-ml-64 sm:mt-20 -ml-20">
-                                    <p class="text-sm sm:text-xs sm:ml-10 text-gray-900 ml-33 mb-1 font-bold md:ml-49">Status:</p>
-                                    <p class="w-48 input ml-33 sm:ml-1 sm:w-32 md:ml-22">
-                                    <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-48 sm:w-32 border-none" type="text" name="TipoDescripcion" >
-                                        <option value="">Todos</option>
-                                        <option :value=true>Concluido</option>
-                                        <option :value=false>Inconcluso</option>                                        
-                                    </select></p>
-                                </div>
-                                <!-- Referencia -->
-                                <div class="mb-4 ml-10 font-bold sm:ml-1 sm:w-full" :class="{'ml-18 sm:-ml-64 sm:mt-20':tipoUsuario == 2 || tipoUsuario == 5}">
-                                    <p class="text-sm sm:text-xs font-semibold text-gray-900 ml-6 mr-2 sm:text-center sm:ml-8 sm:mb-1 md:ml-20">Referencia:</p>
-                                    <input v-model="referenceNumber" class="text-center input sm:w-32 md:ml-4" placeholder="PM-00000" type="text">
-                                </div>
-                                <!-- Botón -->
-                                <div class="mt-2 ml-4 sm:ml-20 sm:mt-3 md:ml-61 md:-mt-2" :class="{'-ml-1 sm:-mt-1 sm:mb-3':tipoUsuario == 2 || tipoUsuario == 5}">
-                                    <button @click="limpiar_filtros" class="botonTodos sm:w-32 sm:h-8 md:h-8 md:mb-4" :class="{'ml-10 sm:ml-2 sm:w-32 sm:h-8':tipoUsuario == 2 || tipoUsuario == 5}">
-                                        <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:-ml-4" width="25" height="2"/>
-                                        <span class="md:mr-2">Todos</span>
-                                    </button>
-                                </div>
-                            </div>                           
-                        </div>                        
-                    </div>                                        
+                <h1 class=" text-3xl sm:text-xs font-titulo font-bold text-center sm:mt-4 m-5">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
+                <div v-if="filtros" class="grid grid-cols-3 mx-auto -mt-1 m-5 sm:grid-cols-2 md:grid-cols-2 ">
+                    <!--Plaza-->
+                    <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
+                        <p class="text-sm font-titulo mx-auto text-gray-900 font-semibold -mr-17 mt-1 sm:mr-0 sm:text-xs md:mr-3">Plaza:</p>
+                        <p class="">
+                            <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Actividades'" :fullPlazas="true"></SelectPlaza>
+                        </p>
+                    </div>
+                    <!-- Mes -->
+                    <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
+                        <p class="text-sm font-titulo text-gray-900 font-semibold mt-1 mr-3 sm:text-xs">Mes:</p>                                
+                        <p class="w-32 input sm:text-sm md:w-48">
+                            <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="mes" class="w-32 sm:w-32 sm:-ml-1 md:w-48 border-none" type="text" name="TipoDescripcion" >
+                                <option disabled value>Selecionar...</option>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </p>
+                    </div>
+                    <!-- Año -->
+                    <div class="mx-auto my-auto flex sm:w-auto sm:text-xs sm:mb-2 ">
+                        <p class="text-sm text-gray-900 font-titulo font-semibold mt-1 mr-2 sm:text-xs md:mr-1">Año:</p>
+                        <p class="w-32 input sm:ml-1 md:w-48 md:ml-5">
+                            <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
+                                <option disabled value>Selecionar...</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>                                        
+                            </select>
+                        </p>
+                    </div>
+                    <!-- Carril -->
+                    <div class="mx-auto my-auto flex sm:w-auto sm:text-xs sm:mb-2 ">
+                        <p class="text-sm font-titulo text-gray-900 font-bold mt-1 sm:text-xs">Carril:</p>
+                        <p class="w-32 input xl:ml-1 sm:ml-0 md:w-48 md:ml-0 xl:w-48">
+                            <select v-model="ubicacion" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 md:w-48 xl:w-48 border-none"  type="text">
+                                <option value="">Selecionar...</option>
+                                <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
+                            </select>
+                        </p>
+                    </div>
+                    <!-- Status -->
+                    <div class="mx-auto my-auto flex sm:w-auto sm:text-xs sm:mb-2 md:w-auto ">
+                        <p class="text-sm font-titulo text-gray-900 font-bold mt-1 sm:text-xs">Status:</p>
+                        <p class="w-32 input md:w-48 md:ml-2">
+                            <select  v-model="status" @change="filtrar_sin_referencia" :disabled="blockSelect" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
+                                <option value="">Todos</option>
+                                <option :value=true>Concluido</option>
+                                <option :value=false>Inconcluso</option>                                       
+                            </select>
+                        </p>
+                    </div>
+                    <!-- Referencia -->
+                    <div class="mx-auto my-auto flex sm:w-auto sm:text-xs sm:mb-2 ">
+                        <p class="text-sm font-semibold font-titulo text-gray-900 mx-auto mr-1 mt-2 sm:text-xs sm:mr-2 md:ml-1">Ref:</p>
+                        <input v-model="referenceNumber" class="text-center w-32 md:w-48 input ml-1" placeholder="PM-00000" type="text">
+                    </div>
+                    <!-- Vacio -->
+                    <div></div>
+                    <!-- Botón -->
+                    <div class="mx-auto my-auto flex mt-3 ">
+                        <button @click="limpiar_filtros" class="botonTodos sm:-ml-33 sm:w-32 sm:h-8 md:h-8 md:mb-4 md:-ml-51" :class="{'ml-10 sm:ml-2 sm:w-32 sm:h-8':tipoUsuario == 2 || tipoUsuario == 5}">
+                            <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-1" width="25" height="2"/>
+                            <span class="md:mr-2 sm:text-sm">Todos</span>
+                        </button>
+                    </div>
                 </div> 
-                <div class="text-center md:hidden lg:hidden xl:hidden">
+                <div class="text-center lg:hidden xl:hidden animate-bounce">
                     <button @click="filtros=false" v-if="filtros">
                         <img src="../../assets/img/up.png" width="25" height="2"/>
                     </button>
