@@ -138,7 +138,9 @@ export default {
                 .then(() => {                                  
                     this.modalEliminar = false
                     this.comentarioBorrar = ''
-                    this.actualizarTabla()
+                    let indexRowBorrar = this.listaFicha.indexOf(item => item.referenceNumber == this.infoEliminar.referenceNumber)
+                    console.log(indexRowBorrar)
+                    //this.actualizarTabla()
                 })      
         },
         guardar_palabra_busqueda: function(newPalabra){            
@@ -313,9 +315,3 @@ export default {
     }
 }
 </script>
-
-<style>
-.mystyle {
-    position: static;
-}
-</style>
