@@ -5,7 +5,7 @@
           ////////////////////////////////////////////////////////////////////-->
         <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario'"></PdfEscaneado>
         <div class="felx-auto ml-2 mr-2 mt-2 -mb-6">
-            <div class="grid grid-cols-1 xl:grid-cols-2 sm:grid-cols-1 sm:px-2 ">
+            <div class="grid grid-cols-1 xl:grid-cols-2 sm:grid-cols-1 sm:px-2 sm:text-sm">
                 <!--Logo-->
                 <div class="flex mx-auto w-auto m-2 sm:grid-cols-1 ">    
                     <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-auto m-2"/>
