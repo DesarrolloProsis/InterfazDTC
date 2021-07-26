@@ -23,10 +23,10 @@
                     <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista == 'Crear' }">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
                     </div>
-                    <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == false}">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-                        <div class="ml-20 sm:-ml-8 sm:w-66">
-                            <span v-if="blockInput" class="block -ml-44 text-red-400 text-xs font-titulo font-normal sm:-ml-20">Este dato no se puede modificar, viene del Diagnóstico de Falla</span>
+                    <div class="-ml-64 -mt-1 sm:-ml-10 border" :class="{'hidden': blockInput == false}">
+                        <p class="sm:-ml-1"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza></p>
+                        <div class="ml-20 sm:-ml-4 sm:w-66">
+                            <span v-if="blockInput" class="block -ml-44 text-red-400 text-xs font-titulo font-normal sm:-ml-20">No se puede modificar, viene del Diagnóstico de Falla</span>
                         </div>
                         
                     </div>
@@ -62,26 +62,26 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-32 sm:ml-4 font-titulo w-full sm:w-66 sm:-ml-1 sm:mr-1 sm:flex sm:flex-col ">
+            <div class="mt-6 ml-32 sm:ml-4 font-titulo w-full sm:w-66 sm:-ml-1 sm:mr-1 sm:flex sm:flex-col border">
                 <div class="">
                     <ValidationProvider immediate name="FechaDiagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
-                        <span class="sm:ml-2" :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha:</span>                        
-                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-32 fechaDiag sm:ml-31"  type="date" name="FechaDiagnostico"/>
+                        <span class="sm:ml-2" :class="{'ml-24 sm:ml-2':tipo == 'FICHA'}">Fecha:</span>                        
+                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-32 fechaDiag sm:ml-32"  type="date" name="FechaDiagnostico"/>
                         <span class="text-red-600 text-xs block sm:ml-8">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
                     <ValidationProvider immediate name="Fecha/Hora Inicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La Fecha/Hora Inicio debe ser menor que la Fecha/Hora Fin' }"  v-slot="{ errors }">
-                        <span class="sm:ml-2" :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha/Hora INICIO:</span>
-                        <datetime class="ml-33 -mt-6" :class="{'ml-63':tipo == 'FICHA'}" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
+                        <span class="sm:ml-2" :class="{'ml-24 sm:ml-2':tipo == 'FICHA'}">Fecha/Hora INICIO:</span>
+                        <datetime class="ml-33 -mt-6" :class="{'ml-63 sm:ml-34':tipo == 'FICHA'}" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/> -->
                         <span class="text-red-600 text-xs block sm:ml-8">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="mt-5">
                     <ValidationProvider immediate name="Fecha/Hora Fin" :rules="{required: true}" v-slot="{ errors }">
-                        <span class="sm:ml-2" :class="{'ml-24 sm:-ml-1':tipo == 'FICHA'}">Fecha/Hora FIN:</span>
-                        <datetime class="ml-33 -mt-6" :class="{'ml-63':tipo == 'FICHA'}" v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
+                        <span class="sm:ml-2" :class="{'ml-24 sm:ml-2':tipo == 'FICHA'}">Fecha/Hora FIN:</span>
+                        <datetime class="ml-33 -mt-6" :class="{'ml-63 sm:ml-34':tipo == 'FICHA'}" v-model="datosDiagnostico.horaFin" use12-hour type="datetime" name="HoraFin"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaFin" class="ml-10 fechaDiag sm:ml-8" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput" name="HoraFin" type="time" /> -->
                         <span class="text-red-600 text-xs block sm:ml-8">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -91,7 +91,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                             FOLIOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div v-if="blockInput" class="ml-69 -mb-6 sm:-ml-1 sm:w-69 text-xs sm:-mb-1 "><span class="text-red-400">Este dato no se puede modificar, vienen del Diagnóstico de Falla</span></div>
+            <div v-if="blockInput" class="ml-69 -mb-6 sm:ml-1 sm:w-69 text-xs sm:-mb-1 "><span class="text-red-400">No se puede modificar, vienen del Diagnóstico de Falla</span></div>
             <div class="ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 font-titulo ">
                 <div class="mt-6 -ml-32 w-full sm:-ml-6">
                     <div class="text-center w-32 ml-64 mr-40 sm:ml-1 sm:-mt-1">
@@ -170,7 +170,7 @@
                                 :maxlength="limite"
                             />
                             <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-gray-500 ml-33 sm:ml-12">{{ restante_causa }}/300</span>
+                            <span class="text-gray-600 ml-33 sm:ml-12">{{ restante_causa }}/300</span>
                         </ValidationProvider>
                     </div>         
                 </div>
@@ -212,17 +212,17 @@
                     <ValidationProvider immediate name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3 sm:grid-cols-2">    
                         <div class="text-center -ml-66 sm:mr-8">
                             <p>POR OPERACIÓN</p>                        
-                            <input v-if="hiddenCheck" v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="TipoFalla" :disabled="blockCheckBox[0]">
+                            <input v-if="hiddenCheck" v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="Tipo de Falla" :disabled="blockCheckBox[0]">
                         </div>
                         <div class="text-center -ml-66 sm:-ml-32">
                             <p>POR SINIESTRO</p>
-                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" name="TipoFalla" :disabled="blockCheckBox[1]">
+                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" name="Tipo de Falla" :disabled="blockCheckBox[1]">
                         </div>
                         <div class="text-center -ml-66 sm:-ml-67">
                             <p>POR FIN DE VIDA ÚTIL</p>
-                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" name="TipoFalla" :disabled="blockCheckBox[2]">
+                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" name="Tipo de Falla" :disabled="blockCheckBox[2]">
                         </div>
-                        <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                        <span class="text-red-600 text-xs block sm:-ml-22 sm:mt-6">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>   
             </div>
