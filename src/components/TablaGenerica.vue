@@ -32,14 +32,14 @@
                         </td>
                     </tr>  
                 </template> 
-                <template v-if="loadingTabla">  
+                <template v-else-if="loadingTabla">  
                     <tr>
                         <td colspan="9">                                    
                             <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
                         </td>                          
                     </tr>  
                 </template>                            
-                <template v-if="listaDataTable.length > 0">  
+                <template v-else>  
                     <!-- VersionPC  -->
                     <RowHelper v-for="(item, keyPc) in listaDataTable" :key="'P' + keyPc"
                         @acciones-mapper="acciones_mapper"
@@ -76,7 +76,7 @@ export default {
             type: Array,
             require: true,
             default: () => []
-        },
+        },     
         validarAcciones:{
             type: Function,
             require: true,
@@ -91,12 +91,16 @@ export default {
             type: Array,
             require: true,
             default: () => []
+        },
+        loadingTabla: {
+            type: Boolean,
+            require: true,
+            default: () => true
         } 
     },
     data(){
         return{
-            lista: [],
-            loadingTabla: false,                                   
+            lista: [],            
         }
     },   
     methods: {        

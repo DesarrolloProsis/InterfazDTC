@@ -54,6 +54,7 @@
                 <TablaGenerica  
                     @acciones-mapper="acciones_mapper"              
                     :listaDataTable="listaFicha"
+                    :loadingTabla="loadingTabla"
                     :validarAcciones="opticones_select_acciones"
                     :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC'},{text: 'Acciones', key: 'Acciones'}]"
                     :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Diagnostica', key: 'diagnosisDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
@@ -86,11 +87,10 @@ export default {
             infoFichasFallaFiltrada: [],
             listaFicha: [],
             loadingTabla: false,
-            typeUser:'', 
-            modalEliminar: false,
+            typeUser:'',             
             infoEliminar:{},
             comentarioBorrar:'',
-            value: '',
+            modalEliminar: false,            
             modalSubirSellado: false,
             objInsertEscaneado: {},
             tipoEscaneado: 'Diagnostico'
@@ -101,11 +101,13 @@ export default {
         this.loadingTabla = true
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
-        .then((response) => {            
-            this.infoFichasFallaCompleta = response.data.result
-            this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
-            this.listaFicha = this.infoFichasFallaFiltrada
-            this.loadingTabla = false
+        .then((response) => { 
+            setTimeout(() => {
+                this.infoFichasFallaCompleta = response.data.result
+                this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
+                this.listaFicha = this.infoFichasFallaFiltrada
+                this.loadingTabla = false
+            },500)           
         })
         .catch(() => {
             this.loadingTabla = false
@@ -134,14 +136,19 @@ export default {
         borrar_diagnostico_falla(){
             let userId = this.$store.state.Login.cookiesUser.userId 
             let clavePlaza = this.infoEliminar.referenceNumber.split('-')[0] 
+            let indexRowBorrar = this.listaFicha.findIndex(item => item.referenceNumber == this.infoEliminar.referenceNumber)
+            this.loadingTabla = true
+            this.listaFicha.splice(indexRowBorrar, 1)            
             this.$http.post(`${API}/DiagnosticoFalla/BorraDiagnosticoFull/${clavePlaza}/${this.infoEliminar.referenceNumber}/${userId}/${this.comentarioBorrar}/${this.infoEliminar.referenceDTC}`)
-                .then(() => {                                  
-                    this.modalEliminar = false
-                    this.comentarioBorrar = ''
-                    let indexRowBorrar = this.listaFicha.indexOf(item => item.referenceNumber == this.infoEliminar.referenceNumber)
-                    console.log(indexRowBorrar)
-                    //this.actualizarTabla()
-                })      
+            .then(() => {                                  
+                this.modalEliminar = false
+                this.comentarioBorrar = ''
+                setTimeout(() => {
+                    let indexRowBorrar = this.listaFicha.findIndex(item => item.referenceNumber == this.infoEliminar.referenceNumber)
+                    this.listaFicha.splice(indexRowBorrar, 1) 
+                    this.loadingTabla = false                                           
+                }, 1000)
+            })      
         },
         guardar_palabra_busqueda: function(newPalabra){            
             if (newPalabra != "") {
@@ -211,9 +218,13 @@ export default {
                 this.$router.push({ path: '/Correctivo/PreDTC/Crear/FichaTecnicaDeFalla', query: { data } })    
             }, 500)        
         },             
-        limpiar_componete_escaneado(){
-            this.modalSubirSellado = false
-            this.objInsertEscaneado = {}
+        limpiar_componete_escaneado(){            
+            this.loadingTabla = true  
+            this.modalSubirSellado = false          
+            setTimeout(() => {                
+                this.objInsertEscaneado = {}
+                this.loadingTabla = false
+            },500)           
         },     
         acciones_mapper({ acciones, itemRow }){     
             console.log(acciones)                   
@@ -226,8 +237,7 @@ export default {
             if(acciones.title == 'Editar'){                     
                 this.editar_diagnostico_falla(itemRow)
             }
-            if(acciones.title == 'Borrar'){
-                //Acciones Api                       
+            if(acciones.title == 'Borrar'){                             
                 this.infoEliminar = itemRow; this.modalEliminar = true;  
             }
             if(acciones.title == 'Dignóstico de Falla'){     
@@ -244,16 +254,14 @@ export default {
                     },1000)
                 }
             }
-            if(acciones.title == 'Subir DF Sellado'){
-                //Acciones Api
+            if(acciones.title == 'Subir DF Sellado'){                
                 this.tipoEscaneado = 'Diagnostico'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
                     referenceNumber: itemRow.referenceNumber
                 }
             }
-            if(acciones.title == 'Subir FT Sellada'){
-                //Acciones Api
+            if(acciones.title == 'Subir FT Sellada'){                
                 this.tipoEscaneado = 'Ficha'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
@@ -281,8 +289,7 @@ export default {
                 { title: 'Bajar FT Sellada', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//9
                 { title: 'Bajar DF Sellado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
             ]
-            let filtroOpciones = []
-            //Diagnostico Descargar Siempre
+            let filtroOpciones = []            
             filtroOpciones.push(options[4])
             filtroOpciones.push(options[7]) 
             filtroOpciones.push(options[10])
