@@ -165,23 +165,22 @@ export default {
         limpiar_filtros(){
             this.listaFicha = this.infoFichasFallaCompleta
         },
-        editar_diagnostico_falla(item){         
-            //Encapsular este metodo junto con terminar_ficha_diagnostico!!!!   
-            let splitInicio = item.start.split(' '); let fecha = splitInicio[0].split('-'); let tiempo = splitInicio[1].split(':');                      
-            let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]) - 1, fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0);                        
-            let splitFin = item.end.split(' '); let fecha2 = splitFin[0].split('-'); let tiempo2 = splitFin[1].split(':');                                
-            let fechaPArseFin = new Date(fecha2[2], parseInt(fecha2[1]) - 1, fecha2[0], tiempo2[0], tiempo2[1], 0)                        
-            item.end = fechaPArseFin.toISOString(); item.start = fechaPArseInicio.toISOString();           
+        formato_fecha_hora_diagnostico(dateInicio, dateFin){
+            let fechaInicio = dateInicio.split(' ')[0].split('-'); let horatInicio = dateInicio.split(' ')[1].split(':')
+            let fechaParseInicio = new Date(fechaInicio[2], parseInt(fechaInicio[1]) - 1, fechaInicio[0], parseInt(horatInicio[0]), parseInt(horatInicio[1]), 0);
+            let fechaFin = dateFin.split(' ')[0].split('-'); let horatFin = dateFin.split(' ')[1].split(':')
+            let fechaParseFin = new Date(fechaFin[2], parseInt(fechaFin[1]) - 1, fechaFin[0], parseInt(horatFin[0]), parseInt(horatFin[1]), 0);      
+            return { fechaInicio: fechaParseInicio.toISOString(), fechaFin: fechaParseFin.toISOString()  }
+        },
+        editar_diagnostico_falla(item){                      
+            let objDateParse = this.formato_fecha_hora_diagnostico(item.start, item.end)
+            item['start'] = objDateParse['fechaInicio']; item['end'] = objDateParse['fechaFin'];
             this.$router.push({ path: '/Correctivo/PreDTC/Editar/DiagnosticoDeFalla', query: { item, referenciaDtc: item.referenceDTC } })
         },
-        terminar_ficha_diagnostico: async function(item){   
-            //Encapsular este metodo junto con editar_diagnostico_falla!!!!
-            let splitInicio = item.start.split(' '); let fecha = splitInicio[0].split('-'); let tiempo = splitInicio[1].split(':');                      
-            let fechaPArseInicio = new Date(fecha[2], parseInt(fecha[1]) - 1, fecha[0], parseInt(tiempo[0]), parseInt(tiempo[1]), 0)                        
-            let splitFin = item.end.split(' '); let fecha2 = splitFin[0].split('-'); let tiempo2 = splitFin[1].split(':');                                
-            let fechaPArseFin = new Date(fecha2[2], parseInt(fecha2[1]) - 1, fecha2[0], tiempo2[0], tiempo2[1], 0)                        
-            item.end = fechaPArseFin.toISOString(); item.start = fechaPArseInicio.toISOString();     
+        terminar_ficha_diagnostico: async function(item){                 
             let carrilesMapeados = []            
+            let objDateParse = this.formato_fecha_hora_diagnostico(item.start, item.end)
+            item['start'] = objDateParse['fechaInicio']; item['end'] = objDateParse['fechaFin'];            
             let numeroPlaza = this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.administradorId == item.adminSquareId).numeroPlaza   
             ServiceCookies.actualizar_plaza(item.adminSquareId)
             await this.$store.dispatch('Refacciones/BUSCAR_CARRILES', numeroPlaza)        
