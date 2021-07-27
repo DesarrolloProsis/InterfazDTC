@@ -2,10 +2,13 @@
     <div>
         <tr class="h-12 sm:text-xs text-gray-900 text-center w-full">
            <td :colspan="keyRow.length" class="w-full lg:ml-20" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">               
-                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center inline-flex sm:w-32 w-48 ml-1">
-                    <template v-if="itemSub != 'Acciones'" class="sm:text-xs">
-                        {{ itemRow[itemSub] }}
+                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center inline-flex sm:w-32 w-48 ml-1">                    
+                     <template v-if="itemSub['formatoFecha']" class="sm:text-xs ">                         
+                        {{ itemRow[itemSub['key']] | dataRowFormat }}
                     </template>
+                    <template v-else-if="itemSub['text'] != 'Acciones'" class="sm:text-xs">
+                        {{ itemRow[itemSub['key']] }}
+                    </template>                   
                     <template v-else>
                         <div v-if="tipoRow != 'PC'">
                             <button v-if="!boolMoreInformation" @click="show_more_infomacion">
@@ -40,8 +43,10 @@
                 <td :colspan="keyRow.length" class="">
                     <div v-for="(item, key) in keyLimpio" :key="key" class="w-full">
                         <div class="inline-flex">
-                            <div class="w-32 ml-6">{{  item }}</div>
-                            <div class="w-32 ml-6">{{ itemRow[item] }}</div>
+                            <div class="w-32 ml-6">{{  item['text'] }}</div>
+                            <div v-if="item['formatoFecha']" class="w-32 ml-6">{{ itemRow[item['key']] | dataRowFormat }}</div>
+                            <div v-else class="w-32 ml-6">{{ itemRow[item['key']] }}</div>
+
                         </div>
                     </div>
                     <div>
@@ -67,6 +72,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
     props:{
         tipoRow: {
@@ -107,9 +113,10 @@ export default {
     methods: {
         show_more_infomacion(){
             this.boolMoreInformation = true
-            this.keyNormalFull.forEach((item) => {
-                if(!this.keyRow.includes(item)){
-                    if(item != 'Acciones')
+            let keyOnly = this.keyRow.map(item => item['key'])
+            this.keyNormalFull.forEach((item) => {                                                
+                if(!keyOnly.includes(item['key'])){
+                    if(item['key'] != 'Acciones')
                         this.keyLimpio.push(item)               
                 }
             })
@@ -128,6 +135,11 @@ export default {
         customLabel ({ title }) {
             return `${title}`
         },
+    },
+    filters: {
+        dataRowFormat(item){
+            return moment(item.substring(0, 10)).format("DD/MM/YYYY");            
+        }
     }
 }
 </script>

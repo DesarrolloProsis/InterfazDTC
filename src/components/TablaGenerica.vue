@@ -9,14 +9,14 @@
                 <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
                     <th colspan="movilHeaderKey.length" class="inline-flex w-full">
                         <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable inline-flex sm:text-xs w-48  md:mx-auto border-none">
-                            {{ item }}
+                            {{ item.text }}
                         </div>
                     </th>      
                 </tr>
                  <tr class="text-md text-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
                     <th colspan="movilHeaderKey.length" class="inline-flex  w-full">
                         <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable inline-flex sm:text-xs sm:ml-0 md:ml-6 md:mx-auto border-none">
-                            {{ item }}
+                            {{ item.text }}
                         </div>
                     </th>                  
                 </tr>
@@ -44,7 +44,7 @@
                     <RowHelper v-for="(item, keyPc) in listaDataTable" :key="'P' + keyPc"
                         @acciones-mapper="acciones_mapper"
                         :itemRow="item" 
-                        :listaAcciones="validarAcciones(item)"
+                        :listaAcciones="validarAcciones(item)"                        
                         :keyRow="normalheaderKey"                         
                         class="sm:hidden md:hidden">
                     </RowHelper>
@@ -96,8 +96,7 @@ export default {
     data(){
         return{
             lista: [],
-            loadingTabla: false,
-            windowWidth: '',                        
+            loadingTabla: false,                                   
         }
     },   
     methods: {        

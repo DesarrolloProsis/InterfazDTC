@@ -55,8 +55,8 @@
                     @acciones-mapper="acciones_mapper"              
                     :listaDataTable="listaFicha"
                     :validarAcciones="opticones_select_acciones"
-                    :normalheaderKey="['referenceNumber', 'squareName', 'squareName', 'diagnosisDate', 'lanes', 'failuerNumber', 'siniesterNumber', 'referenceDTC', 'Acciones']"
-                    :movilHeaderKey="['referenceNumber', 'referenceNumber', 'Acciones']"
+                    :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC'},{text: 'Acciones', key: 'Acciones'}]"
+                    :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Diagnostica', key: 'diagnosisDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
                 >
                 </TablaGenerica>                                  
             </div>
