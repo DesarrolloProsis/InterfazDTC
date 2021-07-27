@@ -8,7 +8,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA UNO                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-10 w-full sm:grid grid-cols-1 sm:ml-0 sm:mr-1 sm:w-66 md:w-auto md:mx-auto font-titulo ">
+            <div class="mt-6 ml-10 w-full sm:grid grid-cols-1 sm:ml-0 sm:mr-1 sm:w-66 md:w-auto md:mx-auto font-titulo border">
             <!-- Referencia -->
                 <div class="grid grid-cols-2 sm:grid md:grid ">
                     <span class="sm:ml-2">No. De Reporte:</span>
@@ -66,7 +66,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-32 sm:ml-4 font-titulo w-full sm:w-66 sm:-ml-1 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto  ">
+            <div class="mt-6 ml-32 sm:ml-1 font-titulo w-full sm:w-66 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto  border">
                 <!-- Fecha -->
                 <div class=" ">
                     <ValidationProvider immediate name="Fecha Diagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
@@ -99,48 +99,45 @@
             /////                             FOLIOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
             <div v-if="blockInput" class="ml-69 -mb-6 sm:ml-1 sm:w-69 text-xs sm:-mb-1 "><span class="text-red-400">No se puede modificar, vienen del Diagnóstico de Falla</span></div>
-            <div class="ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:ml-3 mb-10 sm:mt-0 md:mx-auto font-titulo ">
+            <div class="ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:w-66 sm:ml-1 mb-10 sm:mt-0 md:mx-auto font-titulo border">
                 <!-- Folios Span -->
-                <div class="mt-6 -ml-32 w-full sm:-ml-6 md:my-auto md:mx-0 md:w-51 md:ml-10 ">
-                    <div class="text-center w-32 ml-64 mr-40 sm:ml-1 sm:-mt-1 md:mx-30">
+                <div class="mt-6 -ml-32 w-full sm:-ml-6 sm:grid sm:grid-cols-1 md:my-auto md:mx-0 md:w-51 md:ml-10 ">
+                    <div class="text-center w-32 ml-64 mr-40 sm:ml-3 sm:-mt-1 md:mx-30">
                         <span class="">Folio de FALLA:</span>                   
                     </div>
-                    <div class="mt-5 text-center w-32 ml-64 sm:ml-2 sm:mt-6 md:mx-30 md:mt-6">
+                    <div class="mt-5 text-center w-32 ml-64 sm:ml-3 sm:mt-6 md:mx-30 md:mt-6 ">
                         <span class="">No. De Siniestro:</span>
                     </div>
-                    <div class="mt-5 text-center w-56 ml-40 sm:-ml-12 sm:mt-1 md:mt-6 md:-mx-4">
+                    <div class="mt-5 text-center w-56 ml-40 sm:ml-1 sm:mt-1 sm:w-auto md:mt-6 md:-mx-4 ">
                         <span class="sm:hidden">Técnico Responsable PROSIS:</span>
-                        <span class="sm:show sm:ml-4 md:hidden lg:hidden xl:hidden">Tec.Res. PROSIS:</span>
+                        <span class="sm:show sm:-ml-1 md:hidden lg:hidden xl:hidden">Tec.Res. PROSIS:</span>
                     </div>
                 </div>
                 <!-- Input Folios -->
-                <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2 md:-mt-1 md:-ml-21 " :class="{'w-10':tipo == 'FICHA'}">
-                    <div class="-ml-69 sm:-ml-56 md:mx-auto">
+                <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2 sm:-ml-8 sm:w-auto md:-mt-1 md:-ml-21 border" :class="{'w-10':tipo == 'FICHA'}">
+                    <div class="-ml-69 sm:ml-1 md:mx-auto">
                         <ValidationProvider immediate name="Folio de Falla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
                             <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 md:w-58 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
                             <span class="text-red-600 text-xs block sm:-ml-3 md:text-xs">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden md:ml-33" :class="{'ml-33':tipo == 'FICH66A'}">{{ restante_folio }}/20</span>
                         </ValidationProvider>
                     </div>
-                    <div class="-mt-1 -ml-69 sm:-ml-56 sm:mt-1 md:mx-auto">
+                    <div class="-mt-1 -ml-69 sm:ml-1 sm:mt-1 md:mx-auto">
                         <ValidationProvider immediate name="Numero de Reporte" rules="max:30" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">    
                             <input v-model="datosDiagnostico.numeroReporte" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 md:w-58 text-center" :disabled="blockInput" name="NumeroReporte" :maxlength="30"/>
                             <span class="text-red-600 text-xs block ">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden md:ml-33 md" :class="{'ml-33':tipo == 'FICHA'}">{{ restante_siniestro }}/30</span>
                         </ValidationProvider>                    
                     </div>
-                    <div class="-mt-1 -ml-69 sm:-ml-49 sm:mt-1 md:ml-1">
-                        <p class="border-gray-400 w-69 text-center sm:w-35 sm:ml-5 md:-ml-13">{{ nombre_usuario }}</p>
+                    <div class="-mt-1 -ml-69 sm:mx-auto sm:mt-1 md:ml-1">
+                        <p class="border-gray-400 w-69 text-center sm:w-35 sm:-mx-21 md:-ml-13">{{ nombre_usuario }}</p>
                     </div>
                 </div>
             </div>
             <!--/////////////////////////////////////////////////////////////////////
-            /////                       DECSRIPCION                             ////
+            /////                 DECSRIPCION DIAGNÓSTICO                       ////
             ////////////////////////////////////////////////////////////////////-->      
-            <div class="mt-2 sm:text-xs sm:ml-3 mb-16 mr-5 ml-5 font-titulo " v-if="tipo == 'DIAG'">
-            <!--/////////////////////////////////////////////////////////////////////
-            /////                           FILA TRES                           ////
-            ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-16 w-full ml-5 grid grid-cols-3 sm:grid-cols-2">
-                    <div class="mr-10 sm:w-32 sm:mb-10 sm:-ml-6">
+            <div class="mt-2 sm:text-xs sm:ml-1 mb-16 mr-5 ml-5 sm:w-66 font-titulo border" v-if="tipo == 'DIAG'">
+                <div class="mt-16 w-full ml-5 grid grid-cols-3 sm:grid-cols-2">
+                    <div class="mr-10 sm:w-32 sm:mb-10 sm:-mt-10 border">
                         <ValidationProvider immediate name="Descripción de Falla" rules="required|max:300" v-slot="{ errors }">
                             <span>DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                             <textarea
@@ -154,7 +151,7 @@
                             <span class="text-gray-500 ml-33 sm:ml-12 md:mx-16">{{ restante_desc }}/300</span>
                         </ValidationProvider>
                     </div>
-                    <div class="mr-10 sm:w-32 sm:ml-16">
+                    <div class="mr-10 sm:w-32 sm:-mt-10 border">
                         <ValidationProvider immediate name="Diagnóstico de Falla" rules="required|max:300" v-slot="{ errors }">
                             <span>DIAGNÓSTICO DE LA FALLA REPORTADA:</span>
                             <textarea
@@ -168,7 +165,7 @@
                             <span class="text-gray-500 ml-33 sm:ml-12 md:mx-16">{{ restante_diag }}/300</span>
                         </ValidationProvider>
                     </div> 
-                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 sm:-ml-6">
+                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 border">
                         <ValidationProvider immediate name="Causa de Falla" rules="required|max:300" v-slot="{ errors }">
                             <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                             <textarea
@@ -185,91 +182,93 @@
                 </div>
             </div>
             <!-- /////////////////////////////////////////////////////////////////////
-            ////                            FICHA                             ///////
+            ////                   DESCRIPCIÓN FICHA                          ///////
             //////////////////////////////////////////////////////////////////// -->
             <div class="font-titulo sm:-mt-6" v-if="tipo == 'FICHA'"> 
-            <div v-if="modalAdvertencia && this.$route.params.tipoVista != 'Crear'" class="absolute justify-items-center rounded-lg border border-gray-400 shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
-                <div>
-                    <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
-                        <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
-                        <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
-                        <img src="../../assets/img/warning.png" class="ml-68 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
-                    </h1>
+                <div v-if="modalAdvertencia && this.$route.params.tipoVista != 'Crear'" class="absolute justify-items-center rounded-lg border border-gray-400 shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
                     <div>
-                        <p>*Si cambia el tipo de falla para este diagnostico es necesario eliminar el DTC con referencia {{ referenciaDtc }}</p>                                   
+                        <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+                            <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
+                            <p class="-mt-10 text-black sm:ml-6 sm:-mt-6">Advertencia</p>
+                            <img src="../../assets/img/warning.png" class="ml-68 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+                        </h1>
+                        <div>
+                            <p>*Si cambia el tipo de falla para este diagnostico es necesario eliminar el DTC con referencia {{ referenciaDtc }}</p>                                   
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <ValidationObserver ref="observerModal">                        
+                            <ValidationProvider immediate name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
+                                <p class="text-md mb-1 font-semibold text-gray-900 mt-5">Motivo</p>
+                                <textarea v-model="comentarioBorrarDtc" class="bg-white is_valid appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 w-69 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                            <div class="mt-10 text-center">
+                                <button @click="aceptar_borrar_dtc" class="botonIconCrear">Confirmar</button>
+                                <button @click="cancelar_borrado_dtc" class="botonIconCancelar font-boton">Cancelar</button>
+                            </div>
+                        </ValidationObserver>                
                     </div>
                 </div>
-                <div class="flex justify-center">
-                    <ValidationObserver ref="observerModal">                        
-                        <ValidationProvider immediate name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
-                            <p class="text-md mb-1 font-semibold text-gray-900 mt-5">Motivo</p>
-                            <textarea v-model="comentarioBorrarDtc" class="bg-white is_valid appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 w-69 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
-                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                        <div class="mt-10 text-center">
-                            <button @click="aceptar_borrar_dtc" class="botonIconCrear">Confirmar</button>
-                            <button @click="cancelar_borrado_dtc" class="botonIconCancelar font-boton">Cancelar</button>
-                        </div>
-                    </ValidationObserver>                
-                </div>
-            </div>
-            <div class="grid sm:grid-cols-1 grid-cols-2 ml-5 sm:text-xs sm:ml-1">
-                <div class="sm:ml-2">
+                <!-- Tipo de Fallas -->
+                <div class="grid sm:grid-cols-1 grid-cols-2 ml-5 sm:text-xs sm:ml-0">
+                    <div class="sm:ml-2">
                     <span>TIPO DE FALLA:</span>
-                </div>
-                <div class="grid grid-cols-1 sm:mx-auto -ml-62 sm:w-20 sm:ml-56">
-                    <ValidationProvider immediate name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3 sm:grid-cols-2">    
-                        <div class="text-center -ml-66 sm:mr-8">
-                            <p>POR OPERACIÓN</p>                        
-                            <input v-if="hiddenCheck" v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="Tipo de Falla" :disabled="blockCheckBox[0]">
-                        </div>
-                        <div class="text-center -ml-66 sm:-ml-32">
-                            <p>POR SINIESTRO</p>
-                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" name="Tipo de Falla" :disabled="blockCheckBox[1]">
-                        </div>
-                        <div class="text-center -ml-66 sm:-ml-67">
-                            <p>POR FIN DE VIDA ÚTIL</p>
-                            <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" name="Tipo de Falla" :disabled="blockCheckBox[2]">
-                        </div>
-                        <span class="text-red-600 text-xs block sm:-ml-22 sm:mt-6">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>   
-            </div>
-            <div class="ml-5 sm:text-xs sm:ml-1">   
-                <div class="mt-6 w-full grid sm:grid-cols-1 grid-cols-2">
-                    <div class="mr-10 sm:mr-1 sm:mb-6 w-74">
-                        <ValidationProvider immediate name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">    
-                            <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
-                            <textarea
-                                v-model="datosDiagnostico.descripcionFalla"
-                                class="mx-auto py-4 mb-0 h-40 textareaFicha ph-center-observaciones sm:w-66 sm:ml-1"
-                                placeholder="jane@example.com"
-                                name="DescripcionFalla"
-                                :maxlength="limite"
-                                readonly
-                            />
-                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-gray-500 sm:ml-33">{{ restante_desc }}/300 <span class="text-red-400 ml-1 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
-                            <div class="text-red-400 sm:-ml-2 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
-                        </ValidationProvider>
                     </div>
-                    <div class="mr-10 ml-1 sm:mr-1 w-73">
-                        <ValidationProvider immediate name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">    
-                            <span class=" sm:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
-                            <span class="xl:hidden lg:hidden md:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA:</span>
-                            <textarea
-                                v-model="datosDiagnostico.solucionFalla"
-                                class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones sm:w-66 sm:-ml-1"
-                                placeholder="Intervencion Realizada"
-                                name="SolucionFallas"
-                                :maxlength="limite"
-                            />
-                            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                            <span class="text-gray-500 sm:ml-32">{{ restante_sol }}/300</span>
+                    <div class="grid grid-cols-1 sm:mx-auto -ml-62 sm:w-20 sm:ml-50">
+                        <ValidationProvider immediate name="TipoFalla" rules="required" v-slot="{ errors }" class="grid grid-cols-3 sm:grid-cols-2">    
+                            <div class="text-center -ml-66 sm:mr-8">
+                                <p>POR OPERACIÓN</p>                        
+                                <input v-if="hiddenCheck" v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="1" false-value="0" @change="bloquear_checboxes(1)" name="Tipo de Falla" :disabled="blockCheckBox[0]">
+                            </div>
+                            <div class="text-center -ml-66 sm:-ml-32">
+                                <p>POR SINIESTRO</p>
+                                <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="2" false-value="0" @change="bloquear_checboxes(2)" name="Tipo de Falla" :disabled="blockCheckBox[1]">
+                            </div>
+                            <div class="text-center -ml-66 sm:-ml-67">
+                                <p>POR FIN DE VIDA ÚTIL</p>
+                                <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" name="Tipo de Falla" :disabled="blockCheckBox[2]">
+                            </div>
+                            <span class="text-red-600 text-xs block sm:-ml-22 sm:mt-5">{{ errors[0] }}</span>
                         </ValidationProvider>
-                    </div>                                  
-                </div>                 
-            </div>            
+                    </div>   
+                </div>
+                <!-- Descripciones -->
+                <div class="ml-5 sm:text-xs sm:ml-0 sm:w-66">   
+                    <div class="mt-6 w-full grid sm:grid-cols-2 grid-cols-2">
+                        <div class="mr-10 sm:mr-1 sm:ml-3 sm:mb-6 sm:w-32 w-74">
+                            <ValidationProvider immediate name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">    
+                                <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
+                                <textarea
+                                    v-model="datosDiagnostico.descripcionFalla"
+                                    class="mx-auto py-4 mb-0 h-40 textareaFicha ph-center-observaciones sm:w-32 sm:mt-5 sm:ml-1"
+                                    placeholder="jane@example.com"
+                                    name="DescripcionFalla"
+                                    :maxlength="limite"
+                                    readonly
+                                />
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                <span class="text-gray-500 sm:ml-12">{{ restante_desc }}/300 <span class="text-red-400 ml-1 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
+                                <div class="text-red-400 sm:ml-2 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
+                            </ValidationProvider>
+                        </div>
+                        <div class="mr-10 ml-1 sm:ml-0 w-73 sm:ml-3 sm:w-32">
+                            <ValidationProvider immediate name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">    
+                                <span class=" sm:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
+                                <span class="xl:hidden lg:hidden md:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA:</span>
+                                <textarea
+                                    v-model="datosDiagnostico.solucionFalla"
+                                    class="mx-auto py-4 mb-0 h-40 is_valid ph-center-observaciones sm:w-32 sm:-ml-1"
+                                    placeholder="Intervencion Realizada"
+                                    name="SolucionFallas"
+                                    :maxlength="limite"
+                                />
+                                <span class="text-gray-500 sm:ml-6">{{ restante_sol }}/300</span>
+                                <span class="text-red-400 text-xs block sm:mt-0">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>                                  
+                    </div>                 
+                </div>            
             </div>
         </ValidationObserver>
     </div>

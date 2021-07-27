@@ -35,7 +35,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:ml-1 sm:-mt-16 md:mx-auto md:mb-18">
+                    <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:mx-6 sm:-mt-16 md:mx-auto md:mb-18">
                         <div v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
