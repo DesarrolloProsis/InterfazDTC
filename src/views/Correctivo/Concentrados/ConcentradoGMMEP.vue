@@ -2,113 +2,116 @@
   <div>    
     <div class="flex justify-center -mt-6">
       <div class="grid gap-4 grid-cols-1 py-3 px-3"> 
-      <PdfEscaneado 
-        @limpiar-componente-escaneado="limpiar_componete_escaneado" 
-        :abrirModal="modalSubirSellado" 
-        :objInsert="objInsertEscaneado" 
-        :tipoReporte="tipoEscaneado"
-      >
-      </PdfEscaneado>                           
-      <!--/////////////////////////////////////////////////////////////////////
-      ////                         MODAL CARRUSEL                        /////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="sticky inset-0">
-        <div v-if="carruselModal" class="carruselGMMEP">          
-          <div class="justify-center text-center block">            
-              <Carrusel @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
-          </div>
-        </div>
-      </div>
-      <!--/////////////////////////////////////////////////////////////////////
-      ////                    MODAL SUBIR IMAGENES                        /////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="sticky inset-0">
-        <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-44 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-66">          
-          <button @click="subirImgModal = false" class="ml-74 mt-1 -mb-10 justify-end sm:ml-66">
-            <img src="../../../assets/img/close.png" class="justify-center" width="30" height="30"/></button>
-          <div class="mt-1 ml-4 mr-4 -mb-10">
-            <AgregarImg :reporteDataInsertada="true" :tipo="'ConcentradoDTC'" :referenceNumber="datosImg.referenceNumber"></AgregarImg>
-          </div>
-          <div class="justify-center flex mt-5 sm:mt-8">
-            <button @click="subirImg" class="botonIconCrear m-4">Subir</button>
-          </div>
-        </div>
-      </div>
-      <!--/////////////////////////////////////////////////////////////////////
-      ////                         MODAL ACTUALIZAR                      /////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="sticky inset-0 font-titulo">
-        <div v-if="modalActualizar" class="carruselGMMEP h-62">          
-          <div class="justify-center text-center block">    
-            <p class="mt-10 text-black text-2xl font-bold sm:ml-6 sm:-mt-6">Advertencia</p>        
-            <p class="w-69 ml-24 sm:ml-0 sm:w-full text-justify">Se van a Actualizar los componentes requeridos del DTC con Referencia {{ infoAcrualizar.referenceNumber }}</p> 
-          </div>
-          <div class="mt-12 flex justify-center">
-              <button class="botonIconCrear font-boton" >
-                  <span class="" @click="actualizar_componentes_dtc">Aceptar</span>
-              </button>
-              <button class="botonIconCancelar font-boton" @click="modalActualizar = false">
-                  <span class="">Cancelar</span>
-              </button>
-          </div>
-        </div>
-      </div>
-      <!--/////////////////////////////////////////////////////////////////////
-      /////                    FILTROS DE NAVEGACION                      ////
-      ////////////////////////////////////////////////////////////////////-->   
-      <HeaderGenerico 
-        @limpiar-filtros="limpiar_filtros" 
-        @filtrar-dtc="filtro_dtc" 
-        @buscar-gmmep="guardar_palabra_busqueda" 
-        :titulo="'Concentrado GMMEP'" 
-        :tipo="'GMMEP'"
-      >
-      </HeaderGenerico>       
-      <!--////////////////////////////////////////////////////////////////////
-      ////                      MODAL CAMBIAR STATUS                   //////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="sticky inset-0">
-        <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 -mt-10 sm:-mt-32">
-          <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
-            <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ dtcEdit.referenceNumber }}</p>
-            <div>
-              <div class="mt-5">
-                <p class="mb-1 sm:text-sm">Status DTC</p>
-                <select v-model="statusEdit" class="w-full is_valid" type="text">
-                  <option value="">Selecionar...</option>     
-                  <option value="1">Inconcluso</option>  
-                  <option value="2">Concluido</option>                                                                  
-                  <option value="3">Sellado</option>                                                                                                                               
-                  <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
-                </select> 
-              </div>
-              <div class="mt-5">
-                <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
-                <textarea v-model="motivoCambio" class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker is_valid border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border" placeholder="Motivo del Cambio" v-bind:maxlength="limite"/>
-                <span class="text-gray-500">{{ restante }}/300</span>
-              </div>
-            </div>
-            <div class="justify-center flex mt-5">
-              <button @click="editar_status_dtc" class="botonIconCrear m-4">Aceptar</button>
-              <button @click="modalCambiarStatus = false, statusEdit = '', motivoCambio =''" class="botonIconCancelar m-4">Cancelar</button>
+        <PdfEscaneado 
+          @limpiar-componente-escaneado="limpiar_componete_escaneado" 
+          :abrirModal="modalSubirSellado" 
+          :objInsert="objInsertEscaneado" 
+          :tipoReporte="tipoEscaneado"
+        ></PdfEscaneado>                           
+        <!--/////////////////////////////////////////////////////////////////////
+        ////                         MODAL CARRUSEL                        /////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+          <div v-if="carruselModal" class="carruselGMMEP">          
+            <div class="justify-center text-center block">            
+                <Carrusel 
+                  @cerrar-modal-carrusel="carruselModal = false, arrayImagenesCarrusel = []" 
+                  :arrayImagenes="arrayImagenesCarrusel"
+                ></Carrusel>
             </div>
           </div>
         </div>
-      </div>
-      <TablaGenerica  
-          @acciones-mapper="acciones_mapper"              
-          :listaDataTable="lista_DTC_Filtrada"
-          :loadingTabla="loadingTabla"
-          :validarAcciones="opticones_select_acciones"
-          :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Fecha Siniestro', key: 'sinisterDate', formatoFecha: true},{text: 'Registro Sistema', key: 'dateStamp', formatoFecha: true},{text: 'Folio', key: 'failureNumber'},{text: 'N° Reporte', key:'reportNumber'},{text: 'N° Siniestro', key: 'sinisterNumber'},{text: 'Fecha Falla', key: 'sinisterNumber'},{text: 'Acciones', key: 'Acciones'}]"
-          :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
-      >
-      </TablaGenerica>     
-      <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16 static" :class="{'overflow-x-auto bg-white rounded-lg static shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
+        <!--/////////////////////////////////////////////////////////////////////
+        ////                    MODAL SUBIR IMAGENES                        /////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+          <div v-if="subirImgModal" class="rounded-lg border max-w-2xl h-44 justify-center absolute inset-x-0 bg-white mx-auto border-gray-400 shadow-2xl mt-66">          
+            <button @click="subirImgModal = false" class="ml-74 mt-1 -mb-10 justify-end sm:ml-66">
+              <img src="../../../assets/img/close.png" class="justify-center" width="30" height="30"/></button>
+            <div class="mt-1 ml-4 mr-4 -mb-10">
+              <AgregarImg 
+                :reporteDataInsertada="true" 
+                :tipo="'ConcentradoDTC'" 
+                :referenceNumber="datosImg.referenceNumber"
+              >
+              </AgregarImg>
+            </div>
+            <div class="justify-center flex mt-5 sm:mt-8">
+              <button @click="subirImg" class="botonIconCrear m-4">Subir</button>
+            </div>
+          </div>
+        </div>
+    <!--////////////////////////////////////////////////////////////////////
+        ////                      MODAL CAMBIAR STATUS                   //////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0">
+          <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 -mt-10 sm:-mt-32">
+            <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+              <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ dtcEdit.referenceNumber }}</p>
+              <div>
+                <div class="mt-5">
+                  <p class="mb-1 sm:text-sm">Status DTC</p>
+                  <select v-model="statusEdit" class="w-full is_valid" type="text">
+                    <option value="">Selecionar...</option>     
+                    <option value="1">Inconcluso</option>  
+                    <option value="2">Concluido</option>                                                                  
+                    <option value="3">Sellado</option>                                                                                                                               
+                    <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
+                  </select> 
+                </div>
+                <div class="mt-5">
+                  <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
+                  <textarea v-model="motivoCambio" class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker is_valid border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border" placeholder="Motivo del Cambio" v-bind:maxlength="limite"/>
+                  <span class="text-gray-500">{{ restante }}/300</span>
+                </div>
+              </div>
+              <div class="justify-center flex mt-5">
+                <button @click="editar_status_dtc" class="botonIconCrear m-4">Aceptar</button>
+                <button @click="modalCambiarStatus = false, statusEdit = '', motivoCambio =''" class="botonIconCancelar m-4">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/////////////////////////////////////////////////////////////////////
+        ////                         MODAL ACTUALIZAR                      /////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0 font-titulo">
+          <div v-if="modalActualizar" class="carruselGMMEP h-62">          
+            <div class="justify-center text-center block">    
+              <p class="mt-10 text-black text-2xl font-bold sm:ml-6 sm:-mt-6">Advertencia</p>        
+              <p class="w-69 ml-24 sm:ml-0 sm:w-full text-justify">Se van a Actualizar los componentes requeridos del DTC con Referencia {{ infoAcrualizar.referenceNumber }}</p> 
+            </div>
+            <div class="mt-12 flex justify-center">
+                <button class="botonIconCrear font-boton"><span class="" @click="actualizar_componentes_dtc">Aceptar</span></button>
+                <button class="botonIconCancelar font-boton" @click="modalActualizar = false"><span class="">Cancelar</span></button>
+            </div>
+          </div>
+        </div>
+        <!--/////////////////////////////////////////////////////////////////////
+        /////                    FILTROS DE NAVEGACION                      ////
+        ////////////////////////////////////////////////////////////////////-->   
+        <HeaderGenerico 
+          @limpiar-filtros="limpiar_filtros" 
+          @filtrar-dtc="filtro_dtc" 
+          @buscar-gmmep="guardar_palabra_busqueda" 
+          :titulo="'Concentrado GMMEP'" 
+          :tipo="'GMMEP'"
+        >
+        </HeaderGenerico>  
+    <!--/////////////////////////////////////////////////////////////////////
+        /////                    TABLA GMMEP                            ////
+        ////////////////////////////////////////////////////////////////////-->           
+        <TablaGenerica  
+            @acciones-mapper="acciones_mapper"              
+            :listaDataTable="lista_DTC_Filtrada"
+            :loadingTabla="loadingTabla"
+            :validarAcciones="opticones_select_acciones"
+            :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Fecha Siniestro', key: 'sinisterDate', formatoFecha: true},{text: 'Registro Sistema', key: 'dateStamp', formatoFecha: true},{text: 'Folio', key: 'failureNumber'},{text: 'N° Reporte', key:'reportNumber'},{text: 'N° Siniestro', key: 'sinisterNumber'},{text: 'Fecha Falla', key: 'sinisterNumber'},{text: 'Acciones', key: 'Acciones'}]"
+            :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
+        >
+        </TablaGenerica>     
+        <!-- <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16 static" :class="{'overflow-x-auto bg-white rounded-lg static shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
-          <!--/////////////////////////////////////////////////////////////////
-          ////                           HEADER TABLA                      ////
-          ////////////////////////////////////////////////////////////////////-->
           <thead class="">
               <tr class="text-md text-gray-400 font-normal bg-blue-800">               
                 <th class="cabeceraTable font-medium">Referencia</th>
@@ -126,9 +129,6 @@
                 <th class="cabeceraTable font-medium">Acciones</th>
               </tr>
           </thead>
-          <!--/////////////////////////////////////////////////////////////////
-          ////                          BODY TABLA                          ////
-          ////////////////////////////////////////////////////////////////////-->
           <tbody name="table" id="multiselectHamburguesa">  
             <template v-if="lista_DTC_Filtrada.length == 0 && loadingTabla != true"> 
                 <tr>
@@ -166,8 +166,7 @@
                 <td class="cuerpoTable">
                   <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
                 </td>
-                <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>
-                <!-- Columna de las imagenes -->
+                <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>               
                 <td class="cuerpoTable">
                   <div v-if="tipoUsuario != 7">                                                  
                     <button  v-if="!item.sinEscanedoDiagnostico" class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default">
@@ -203,8 +202,8 @@
             </template>
           </tbody>
         </table>
-      </div>  
-      </div>  
+      </div>   -->
+        </div>  
     </div> 
   </div>
 </template>
@@ -445,7 +444,7 @@ methods:{
       this.lista_DTC_Filtrada = []
       this.loadingTabla = true    
       setTimeout(async () => {
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false)    
+        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false, undefined)    
         this.$nextTick().then(() => {      
             this.lista_DTC_Filtrada = listaFiltrada            
             this.loadingTabla = false
