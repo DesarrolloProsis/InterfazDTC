@@ -19,7 +19,8 @@
                             </button>
                         </div>
                         <div v-else>
-                            <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                            <div class="">
+                            <multiselect :hideSelected="true" v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                 <template slot="singleLabel" slot-scope="props" class="static">
                                     <div class="inline-flex">
                                         <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -32,7 +33,8 @@
                                         {{ props.option.title }}</span>
                                     </div>
                                 </template>
-                            </multiselect>  
+                            </multiselect>
+                            </div>  
                         </div>
                     </div> 
                 </div>
@@ -51,6 +53,7 @@
                     <div class="inline-flex mb-3">
                         <div class="w-32 ml-6 mr-0">Acciones</div>
                         <div class="p-1 pl-0 m-0">
+                            <div class="">
                             <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title"  :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                 <template slot="singleLabel" slot-scope="props" class="static">
                                     <div class="inline-flex">
@@ -65,6 +68,7 @@
                                     </div>
                                 </template>
                             </multiselect> 
+                            </div>
                         </div>                       
                     </div>
                 </td>
@@ -145,3 +149,7 @@ export default {
     }
 }
 </script>
+
+<style>
+
+</style>

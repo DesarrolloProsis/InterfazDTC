@@ -313,11 +313,6 @@ export default {
             }                                       
             return filtroOpciones
         },
-    },
-    filters: {
-        formato_concentrado(fecha){            
-            return moment(fecha,"YYYY-MM-DD").format("DD/MM/YYYY")
-        }
-    }
+    },   
 }
 </script>

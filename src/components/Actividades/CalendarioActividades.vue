@@ -455,6 +455,9 @@ export default {
 .vuecal__cell--selected{
   z-index: auto;
 }
+.multiselect{
+  position: none;
+}
 </style>
 
 

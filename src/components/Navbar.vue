@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky inset-x-0 top-0 z-10">
     <nav class="flex justify-between bg-blue-800 p-3" id="navBarShow" v-if="$route != undefined && $route.name != 'login'">
       <div class="text-lg">
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl font-titulo">
@@ -10,7 +10,7 @@
       <div class="flex">  
         <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
         <div class="group inline-block font-titulo">
-          <button @click="abrir_hamburguesa" class="mt-1 mr-3 font-titulo">
+          <button @click="navbarOpen = navbarOpen ? false : true" class="mt-1 mr-3 font-titulo">
             <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" />
           </button>
         </div>              
@@ -147,56 +147,8 @@ export default {
     }
   },
   methods:{
-    abrir_hamburguesa(){
-      let url = document.URL.split('/')
-      url = url[url.length - 1]
-      console.log(url)
-      var indexNodo = null
-      switch (url) {
-        case 'ConcentradoFichas': 
-          indexNodo = 7;
-        break
-        case 'TablaActividades':
-          indexNodo = 5;
-        break
-        case 'ConcentradoGMMEP':
-          indexNodo = 10
-        break
-        case 'Inventario':
-          indexNodo = 6
-        break
-        case 'Usuarios':
-          indexNodo = 4
-        break
-        default: 
-          indexNodo = 0;
-        break
-      }                  
-      if(this.navbarOpen){
-        this.navbarOpen = false
-        if(indexNodo > 0){
-          let nodo = document.getElementById('multiselectHamburguesa')                        
-          for(let i = 0; i < nodo.children.length; i++){       
-              //nodo.children[i].children[indexNodo].children[0].children[0].classList.remove('hidden')
-              //nodo.children[i].children[indexNodo].children[0].classList.remove('static')
-              nodo.children[i].children[0].children[0].children[indexNodo].children[0].children[0].children[0].classList.remove('hidden')
-              nodo.children[i].children[0].children[0].children[indexNodo].children[0].children[0].classList.remove('static')
-          } 
-        }
-      }
-      else{
-        this.navbarOpen = true
-        if(indexNodo > 0){
-          let nodo = document.getElementById('multiselectHamburguesa')          
-          for(let i = 0; i < nodo.children.length; i++){       
-              //nodo.children[i].children[indexNodo].children[0].children[0].classList.add('hidden')     
-              //nodo.children[i].children[indexNodo].children[0].classList.add('static')
-              nodo.children[i].children[0].children[0].children[indexNodo].children[0].children[0].children[0].classList.add('static')
-              nodo.children[i].children[0].children[0].children[indexNodo].children[0].children[0].classList.add('static')
-          } 
-        }       
-      }      
-    },
+        
+    
     manual_pdf(){
       ReportesPDFService.manual_pdf()
     },    
