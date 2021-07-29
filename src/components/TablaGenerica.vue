@@ -24,7 +24,7 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                          BODY TABLA                          ////
             ////////////////////////////////////////////////////////////////////-->
-            <tbody id="filaTablaMovil" name="table">
+            <tbody id="multiselectHamburguesa" name="table">
                 <template v-if="listaDataTable.length == 0 && loadingTabla != true"> 
                     <tr>
                         <td class="w-full text-center text-red-500 m-10" colspan="9">                                    
@@ -97,11 +97,6 @@ export default {
             require: true,
             default: () => true
         } 
-    },
-    data(){
-        return{
-            lista: [],            
-        }
     },   
     methods: {        
         acciones_mapper(item){            

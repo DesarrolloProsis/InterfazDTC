@@ -50,7 +50,14 @@
       <!--/////////////////////////////////////////////////////////////////////
       /////                    FILTROS DE NAVEGACION                      ////
       ////////////////////////////////////////////////////////////////////-->   
-      <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" @buscar-gmmep="guardar_palabra_busqueda" :titulo="'Concentrado GMMEP'" :tipo="'GMMEP'"></HeaderGenerico>       
+      <HeaderGenerico 
+        @limpiar-filtros="limpiar_filtros" 
+        @filtrar-dtc="filtro_dtc" 
+        @buscar-gmmep="guardar_palabra_busqueda" 
+        :titulo="'Concentrado GMMEP'" 
+        :tipo="'GMMEP'"
+      >
+      </HeaderGenerico>       
       <!--////////////////////////////////////////////////////////////////////
       ////                      MODAL CAMBIAR STATUS                   //////
       ////////////////////////////////////////////////////////////////////-->
