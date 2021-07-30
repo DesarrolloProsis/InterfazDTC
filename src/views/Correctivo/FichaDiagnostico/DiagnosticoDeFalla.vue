@@ -155,8 +155,8 @@ methods:{
             let flagInsert = this.$route.params.tipoVista == 'Editar' ? 0 : 1
             flagInsert = this.botonEditCreate == false ? 0 : 1
             //Fecha nuevo Formato
-            let fechaInicioTime = moment(this.datosHeader.horaInicio).format('DD-MM-YYYY h:mm:ss');
-            let fechaFinTime = moment(this.datosHeader.horaFin).format('DD-MM-YYYY h:mm:ss');
+            let fechaInicioTime = moment(this.datosHeader.horaInicio).format('DD-MM-YYYY HH:mm:ss');
+            let fechaFinTime = moment(this.datosHeader.horaFin).format('DD-MM-YYYY HH:mm:ss');
             let objDiagnostico = {
                 referenceNumber: this.datosHeader.referenceNumber,
                 squareId: userIdPlaza.numPlaza,

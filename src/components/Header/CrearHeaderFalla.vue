@@ -1,8 +1,5 @@
 <template>
     <div class="sm:w-56">    
-        <button @click="ver_fecha_bug">presioname
-
-        </button>
         <ValidationObserver ref="observer">             
             <!--/////////////////////////////////////////////////////////////////////
             /////                   DATOS DEL REPORTE                           ////
@@ -532,15 +529,7 @@ methods:{
                     styles: { height: 100, width: 500 },
                 });
         }
-    },
-    ver_fecha_bug(){        
-        let fechaInicioTime = moment(this.datosDiagnostico.horaInicio).format('DD-MM-YYYY hh:mm:ss');
-        let fechaFinTime = moment(this.datosDiagnostico.horaFin).format('DD-MM-YYYY hh:mm:ss');
-        console.log({
-            fechaInicioTime,
-            fechaFinTime
-        })
-    }, 
+    },  
     label_multi_select(value){            
         if(value != 'Sin Actividad')
             return value.lane
