@@ -135,18 +135,20 @@
         <!--///////////////////////////////////////////////////////////////////
            ///         FILTROS DE NAVEGACION ENCARGADOS                   ////         
          ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'ENC'" class="w-full  border mb-2 shadow-md rounded-lg font-titulo">
+        <div v-if="tipo == 'ENC'" class="w-full   mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1">
-            <div class="sm:-ml-24">
-                <div class="ml-32 sm:ml-30">
-                    <span class="mr-10 font-bold text-md sm:ml-20">Seleccione una Plaza:</span>
-                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+        <div class="sm:w-full grid grid-cols-2 text-base sm:text-sm sm:grid-cols-1 sm:mx-auto ">
+            <div class="sm:mx-auto sm:w-full ">
+                <div class="ml-32 sm:mx-auto sm:ml-0 md:mx-auto">
+                    <span class="mr-10 font-bold text-md sm:mr-0 sm:mx-21 md:mx-21">Seleccione una Plaza:</span>
+                    <p class="lg:-mx-21 xl:-mx-20">
+                        <SelectPlaza :fullPlazas="true" :vista="'Encargados'" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                    </p>
                 </div>                
             </div>
-            <div class="text-center sm:-ml-33 sm:mt-2">
-                <p class="font-bold sm:text-sm sm:ml-33">Nombre:</p>
-                <input v-model="buscarEncargado" class="border-none w-40 text-center sm:w-65 sm:ml-33 sm:mt-1" placeholder="Nombre Apellido"/>
+            <div class="text-center sm:mt-2  ">
+                <p class="font-bold sm:text-sm ">Nombre:</p>
+                <input v-model="buscarEncargado" class="border-none w-40 text-center sm:w-full sm:mt-1" placeholder="Nombre Apellido"/>
             </div>             
         </div>
         <div class="flex justify-center ml-8 mb-4 mt-4 sm:ml-0">
@@ -165,9 +167,9 @@
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'USUARIO'" class="w-full border mb-2 shadow-md rounded-lg font-titulo">
         <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>      
-            <div class="text-center sm:ml-6 mb-6">
+            <div class="text-center sm:auto md:mx-auto lg:mx-auto xl:mx-auto mb-6">
                 <p class="font-bold  sm:text-sm sm:-ml-6 sm:text-center">Nombre</p>
-                <input v-model="buscarUsuario" class=" ml-67 w-66 text-center is_valid sm:-ml-4" placeholder="Nombre Apellidos"/>
+                <input v-model="buscarUsuario" class=" ml-67 w-66 text-center is_valid sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto" placeholder="Nombre Apellidos"/>
             </div>             
         </div>
         <!--////////////////////////////////////////////////////////////////////
