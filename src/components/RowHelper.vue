@@ -20,14 +20,14 @@
                         </div>
                         <div v-else>
                             <div class="">
-                            <multiselect :hideSelected="true" v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                                <template slot="singleLabel" slot-scope="props" class="static">
+                            <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="listaAcciones" :option-height="200" :custom-label="customLabel"  :show-labels="false">
+                                <template slot="singleLabel" slot-scope="props">
                                     <div class="inline-flex">
                                         <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
                                         <span class="option__title bg-red-300">{{ props.option.title }}</span>
                                     </div>
                                 </template>
-                                <template slot="option" slot-scope="props" class="static">                                                
+                                <template slot="option" slot-scope="props">                                                
                                     <div class="option__desc "><span class="option__title inline-flex">
                                         <img :src="props.option.img" class="mr-5" width="15" height="15">    
                                         {{ props.option.title }}</span>
@@ -54,14 +54,14 @@
                         <div class="w-32 ml-6 mr-0">Acciones</div>
                         <div class="p-1 pl-0 m-0">
                             <div class="">
-                            <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title"  :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                                <template slot="singleLabel" slot-scope="props" class="static">
+                            <multiselect v-model="selectMulti" @close="acciones_mapper()"  placeholder="Seleccione una Accion" label="title" track-by="title"  :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                                <template slot="singleLabel" slot-scope="props">
                                     <div class="inline-flex">
                                         <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
                                         <span class="option__title bg-red-300">{{ props.option.title }}</span>
                                     </div>
                                 </template>
-                                <template slot="option" slot-scope="props" class="static">                                                
+                                <template slot="option" slot-scope="props">                                                
                                     <div class="option__desc "><span class="option__title inline-flex">
                                         <img :src="props.option.img" class="mr-5" width="15" height="15">    
                                         {{ props.option.title }}</span>

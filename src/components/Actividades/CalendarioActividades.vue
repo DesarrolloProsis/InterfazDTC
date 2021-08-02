@@ -278,9 +278,12 @@ export default {
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )              
+      )     
+      console.log(actividadInsert)       
+      console.log(`${API}/Calendario/Actividad/${refPlaza}`)  
       await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
-        .then(async () => {                 
+        .then(async (response) => {
+            console.log(response)                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
       this.actividadSelect = ''      
@@ -291,7 +294,8 @@ export default {
       else 
         return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
     },
-    actualizar_actividades: async function(plaza){                
+    actualizar_actividades: async function(plaza){    
+                  
       this.plazaSelect = plaza
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
