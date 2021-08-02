@@ -39,7 +39,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-6 ml-77 sm:mb-6 sm:ml-1 sm:mt-6">
+                    <div class="mb-6 ml-77 sm:mb-6 sm:ml-1 sm:mt-6 lg:mx-auto xl:mx-auto">
                         <div v-if="botonEditCreate">                            
                             <button v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true" @click="enviar_header_ficha(true)" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />

@@ -8,7 +8,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA UNO                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="border mt-6 ml-10 w-full sm:grid grid-cols-1 sm:ml-0 sm:mr-1 sm:w-66 md:w-auto md:mx-auto font-titulo ">
+            <div class=" mt-6 ml-10 w-full sm:grid grid-cols-1 sm:ml-0 sm:mr-1 sm:w-66 md:w-auto md:mx-auto font-titulo ">
             <!-- Referencia -->
                 <div class="grid grid-cols-2 sm:grid md:grid ">
                     <span class="sm:ml-2">No. De Reporte:</span>
@@ -66,7 +66,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="border mt-6 ml-32 sm:ml-1 font-titulo w-full sm:w-66 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto lg:w-auto xl:w-auto">
+            <div class=" mt-6 ml-32 sm:ml-1 font-titulo w-full sm:w-66 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto lg:w-auto lg:ml-0 xl:w-auto border">
                 <!-- Fecha -->
                 <div class=" ">
                     <ValidationProvider immediate name="Fecha Diagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
@@ -99,7 +99,7 @@
             /////                             FOLIOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
             <div v-if="blockInput" class="ml-69 -mb-6 sm:ml-1 sm:w-auto text-xs sm:-mb-1 "><span class="text-red-400 sm:text-xs">No se puede modificar, vienen del Diagnóstico de Falla</span></div>
-            <div class="border ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:mx-auto lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:w-66 sm:ml-1 mb-10 sm:mt-0 md:mx-auto font-titulo ">
+            <div class="ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:mx-auto lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:w-66 sm:ml-1 mb-10 sm:mt-0 md:mx-auto font-titulo ">
                 <!-- Folios Span -->
                 <div class="mt-6 -ml-32 w-full sm:-ml-6 sm:grid sm:grid-cols-1 md:my-auto md:mx-0 md:w-51 md:ml-10 ">
                     <div class="text-center w-32 ml-64 mr-40 sm:ml-3 sm:-mt-1 md:mx-30 lg:mb-12 xl:mb-12">
@@ -118,7 +118,7 @@
                     <div class="-ml-69 sm:ml-1 md:mx-auto">
                         <ValidationProvider immediate name="Folio de Falla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
                             <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 md:w-58 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
-                            <span class="text-red-600 text-xs block sm:-ml-3 md:text-xs">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden md:ml-33" :class="{'ml-33':tipo == 'FICH66A'}">{{ restante_folio }}/20</span>
+                            <span class="text-red-600 text-xs block sm:-ml-3 md:text-xs">{{ errors[0] }}</span><span class="text-gray-500 text-xs ml-56 sm:hidden md:ml-33 " :class="{'mx-auto':tipo == 'FICHA'}">{{ restante_folio }}/20</span>
                         </ValidationProvider>
                     </div>
                     <div class="-mt-1 -ml-69 sm:ml-1 sm:mt-1 md:mx-auto">
@@ -233,10 +233,10 @@
                         </ValidationProvider>
                     </div>   
                 </div>
-                <!-- Descripciones -->
-                <div class="ml-5 sm:text-xs sm:ml-0 sm:w-66">   
-                    <div class="mt-6 w-full grid sm:grid-cols-2 grid-cols-2">
-                        <div class="mr-10 sm:mr-1 sm:ml-3 sm:mb-6 sm:w-32 w-74">
+                <!-- Descripciones Ficha -->
+                <div class="ml-5 sm:text-xs sm:ml-0 sm:w-66 xl:w-auto xl:ml-0">   
+                    <div class="mt-6 w-full grid sm:grid-cols-2 grid-cols-2 lg:grid-cols-2 xl:mx-24">
+                        <div class="mr-10 sm:mr-1 sm:ml-3 sm:mb-6 sm:w-32 lg:w-69 w-74">
                             <ValidationProvider immediate name="DescripcionFalla" rules="required|max:300" v-slot="{ errors }">    
                                 <span class="">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                                 <textarea
@@ -248,11 +248,11 @@
                                     readonly
                                 />
                                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                                <span class="text-gray-500 sm:ml-12">{{ restante_desc }}/300 <span class="text-red-400 ml-1 sm:hidden md:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
+                                <span class="text-gray-500 sm:ml-12">{{ restante_desc }}/300 <span class="text-red-400 ml-1 sm:hidden md:hidden text-xs">Este dato no se puede modificar, viene del Diagnóstico de Falla</span></span>            
                                 <div class="text-red-400 sm:ml-2 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
                             </ValidationProvider>
                         </div>
-                        <div class="mr-10 ml-1 sm:ml-0 w-73 sm:ml-3 sm:w-32">
+                        <div class="mr-10 ml-1 sm:ml-0 w-73 sm:ml-3 sm:w-32 lg:w-69">
                             <ValidationProvider immediate name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">    
                                 <span class=" sm:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
                                 <span class="xl:hidden lg:hidden md:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA:</span>
