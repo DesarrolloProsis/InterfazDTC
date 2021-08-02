@@ -1,17 +1,17 @@
 <template>
     <footer class="fixed inset-x-0 bottom-0">        
         <div class="w-full px-6 bg-blue-800">                
-            <div class="inline-flex justify-between  py-3 w-full">
+            <div class="inline-flex justify-between  py-3 w-full" :class="{'ml-3':$route.name == 'login'}">
                 <div id="nombreRollShow" v-if="$route != undefined && $route.name != 'login'">
                     <p id="testNombreRoll" class="text-xs sm:mt-1 text-blue-400 w-32">{{ nombreRoll }}</p>
                 </div>
                 <div class="w-full ml-16 sm:-ml-16 text-center">
-                    <p class="text-sm text-white font-titulo">
+                    <p class="text-sm text-white font-titulo sm:text-xs" :class="{'sm:ml-8':$route.name == 'login'}">
                         © 2021 Proyectos y Sistemas Informaticos.
                     </p>
                 </div>
                 <div class="inline-flex" v-if="$route != undefined && $route.name != 'login'">
-                    <p class="sm:hidden">
+                    <p class="sm:hidden md:hidden">
                         <span v-tooltip="{ ref: 'tooltipRef', offset: 25, class: 'tooltip-custom tooltip-other-custom' }">
                             <div class="-mt-3 ml-3">
                             <span class="flex -mt-4 h-3 w-3">
@@ -23,7 +23,7 @@
                     <div ref="tooltipRef" class=" font-titulo">
                         <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.1 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·</li>
+                            <li>·responsive</li>
                         </ol>
                     </div>                    
                 </div>

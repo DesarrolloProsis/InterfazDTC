@@ -41,7 +41,7 @@
             <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-300 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden">
               <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
               <div  class="ml-4 text-left ">
-                <p class="font-semibold">Cerrar Sesion</p>                                
+                <p class="font-semibold sm:mt-2">Cerrar Sesion</p>                                
               </div>  
             </button>   
           </div>
@@ -63,7 +63,7 @@
                   </button>                  
                 </div>                                     
             </div>
-            <div class="rounded-2xl p-1 pl-0 mt-1">
+            <div class="rounded-2xl p-1 pl-0 mt-2">
             <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">
               <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
               <div  class="ml-4 text-left">

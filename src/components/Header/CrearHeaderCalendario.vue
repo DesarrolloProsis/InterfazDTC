@@ -4,39 +4,25 @@
           ////                    Modal Escaneado                          ////
           ////////////////////////////////////////////////////////////////////-->
         <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario'"></PdfEscaneado>
-        <!--///////////////////////////////////////////////////////////////////
-          ////                             HEADER                          ////
-          ////////////////////////////////////////////////////////////////////-->
-        <div>
-            <div class="text-2xl text-center inline-flex sm:inline-block w-full mt-1">
-            <div class=" w-auto mx-auto flex justify-center sm:ml-16 sm:-mb-6">
-                <div class="border-gray-800 w-66 border-none p-5">
-                    <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-48"/>
+        <div class="felx-auto ml-2 mr-2 mt-2 -mb-6">
+            <div class="grid grid-cols-1 xl:grid-cols-2 sm:grid-cols-1 sm:px-2 sm:text-sm md:grid-cols-2 md:text-sm lg:grid-cols-2">
+                <!--Logo-->
+                <div class="flex mx-auto w-auto m-2 sm:grid-cols-1 ">    
+                    <img src="../../assets/img/prosis-logo.jpg" class="h-12 w-auto m-2"/>
                 </div>
-            </div>
-            <div class="w-2/3 sm:w-auto sm:mt-3 sm:text-sm sm:-mb-6 flex justify-start sm:justify-center">
-                <div class="border-gray-200 p-5 pt-0 -ml-20 sm:ml-0">
-                    <h1 class="mt-5 border-purple-800 w-72 sm:w-full font-titulo font-bold">{{ `Calendario de Actividades` }}</h1>            
+                <!--Titulo-->
+                <div class="flex font-titulo font-bold mx-auto">
+                    <h1 class="mx-auto my-auto w-auto text-center text-4xl sm:text-lg md:text-xl">Calendario de Actividades</h1>
                 </div>
-            </div>
-        </div>
-        <div class="inline-flex sm:inline-block mb-10 w-full sm:w-48">
-            <!--///////////////////////////////////////////////////////////////////
-              ////                     COLUMNA IZQUIERDA                        ////
-              ////////////////////////////////////////////////////////////////////-->
-            <div class="w-2/3 sm:w-full inline-flex sm:inline-block text-base sm:text-sm">
-                <div class="w-1/2 sm:w-66 p-8 sm:p-2 sm:-ml-2 -mb-12">
-                    <div class="flex justify-starts m-5 w-full sm:w-66">
-                        <p class="font-titulo font-semibold">Correspondiente al mes de:</p>
-                        <h2 class="ml-5 font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
-                    </div>                    
-                    <div class="md:flex lg:flex grid grid-cols-1 justify-start sm:grid-cols-1 ml-5">
-                        <span class="font-titulo font-semibold mr-4">Plaza/Encargado: </span>
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" class="w-66"></SelectPlaza>                                                    
+                <!--Mes y Acciones-->
+                <div class="grid grid-cols-1 mx-auto ">
+                    <div class="flex m-3 sm: sm:mx-auto md:grid ">
+                        <p class="font-titulo font-semibold md:mx-auto">Correspondiente al mes de:</p>
+                        <h2 class="mx-auto font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
-                    <div class="grid grid-cols-1 sm:mb-8 ml-5 mt-2">
-                        <span class="font-titulo font-semibold mr-4">Acciones:</span>
-                        <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                    <div class="flex m-3 h-12 sm:grid sm:grid-cols-2 sm:m-0 sm:-mt-1 sm:h-11 md:grid ">
+                        <p class="font-titulo font-semibold sm:text-center sm:-ml-17 sm:my-auto md:mx-auto">Acciones:</p>
+                        <multiselect v-model="value" @close="acciones_mapper()" class="w-68 sm:w-auto sm:-ml-16 sm:h-8 md:w-37 xl:-mt-2" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="100" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
                                 <div class=" inline-flex">
                                     <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -49,66 +35,53 @@
                                     {{ props.option.title }}</span>
                                 </div>
                             </template>
-                        </multiselect>             
-                    </div>          
+                        </multiselect>
+                    </div>
                 </div>
-                <div class="sm:-mt-31 sm:-ml-1">
-                    <ValidationObserver ref="observer" class="-ml-16">  
-                        <div class="w-69 ml-20 sm:ml-20 sm:m-0 sm:mt-10 sm:w-62 p-8 sm:p-2">
-                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500"  v-slot="{ errors }">
-                                <span class="text-center font-titulo font-bold text-sm text-gray-800 sm:-ml-16">Observaciones</span>          
+                <!--Plaza y Codigo de Colores-->
+                <div class="grid grid-cols-1 mx-auto ">
+                    <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto md:grid xl:w-auto ">
+                        <span class="font-titulo font-semibold mx-auto ">Plaza/Encargado: </span>
+                        <p class="sm:-ml-17 xl:-mt-1">
+                            <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Calendario'" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
+                        </p>
+                    </div>
+                    <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:mt-1 md:grid xl:mx-auto ">
+                        <span class="font-titulo font-semibold sm:mx-auto w-69 sm:w-32 md:w-32 md:mx-auto lg:ml-10 xl:w-auto">Código de Colores: </span>
+                        <p class="md:mx-auto my-auto xl:-mt-1">
+                            <select class="ml-20 w-48 is_valid sm:w-63 sm:ml-2 sm:mx-auto md:ml-0">
+                                <option value="">Códgio de Colores</option>
+                                <option class="bg-green-500 text-center text-gray-200" value="1">Semanal</option>
+                                <option class="bg-red-500 text-center text-gray-200" value="2">Mensual</option>
+                                <option class="bg-blue-500 text-center text-gray-200" value="3">Trimestral</option>
+                                <option class="bg-pink-500 text-center text-gray-200" value="4">Semestral</option>
+                                <option class="bg-orange-500 text-center text-gray-200" value="4">Anual</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+                <!-- Observaciones-->
+                <div class="grid grid-cols-1 col-span-2 sm:col-auto sm:flex sm:flex-col md:flex md:flex-col lg:flex-col">
+                    <ValidationObserver ref="observer" class="">  
+                        <div class="w-auto xl:ml-56 xl:mr-61  mx-auto md:mx-auto lg:mx-auto">
+                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>          
                                 <textarea
                                     v-model="comentario"                                                               
-                                    class="block container placeholder-gray-500 sm:mt-2 sm:mb-1 sm:-ml-16 textAreaCalendario mt-6"
+                                    class="block container placeholder-gray-500 textAreaCalendario mt-3 ml-13 sm:mx-auto md:mx-auto lg:mx-auto"
                                     placeholder="jane@example.com"
                                     name="ComentarioCalendario"
                                     :maxlength="limite"
                                 />
                                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                                <span class="text-xs text-gray-500 sm:ml-20">{{ restante }}/500</span>    
+                                <span class="text-xs text-gray-500 ml-76 sm:ml-33 md:mx-67 lg:mx-72">{{ restante }}/500</span>    
                             </ValidationProvider>                    
                         </div>  
-                    </ValidationObserver>            
-                </div>
-            </div>
-            <!--///////////////////////////////////////////////////////////////////
-              ////                     COLUMNA INDICACIONES                    ////
-              ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/4 ml-16 sm:ml-1 sm:w-67 uppercase text-xs p-10 sm:p-5">
-                <p class="font-titulo font-semibold">Codigo de Colores:</p>
-                <div class="flex justify-between mt-2 ml-2">
-                    <p class="font-titulo">Semanal</p>
-                    <div class="bg-green-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
-                        <p class="mt-1 font-titulo">Verde</p>
-                    </div>
-                </div>
-                <div class="flex justify-between mt-2 ml-2">
-                    <p class="font-titulo">Mensual</p>
-                    <div class="bg-red-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
-                        <p class="mt-1 font-titulo">Rojo</p>
-                    </div>
-                </div>
-                <div class="flex justify-between mt-2 ml-2">
-                    <p class="font-titulo">Trimestral</p>
-                    <div class="bg-blue-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
-                        <p class="mt-1 font-titulo">Azul</p>
-                    </div>
-                </div>
-                <div class="flex justify-between mt-2 ml-2">
-                    <p class="font-titulo">Semestral</p>
-                    <div class="bg-pink-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
-                        <p class="mt-1 font-titulo">Rosa</p>
-                    </div>
-                </div>
-                <div class="flex justify-between mt-2 ml-2">
-                    <p class="font-titulo">Anual</p>
-                    <div class="bg-orange-500 text-gray-200 border-gray-800 border w-16 h-6 ml-3 text-center rounded-xl border-none -mt-1">
-                        <p class="mt-1 font-titulo">NARANJA</p>
-                    </div>
+                    </ValidationObserver>
                 </div>
             </div>
         </div>
-        </div>
+
     </div>
 </template>
 
