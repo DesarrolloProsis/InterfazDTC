@@ -8,11 +8,11 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA UNO                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-10 w-full sm:grid grid-cols-1 sm:ml-0 sm:mr-1 sm:w-66 md:w-auto md:mx-auto font-titulo border">
+            <div class="border mt-6 ml-10 w-full sm:grid grid-cols-1 sm:ml-0 sm:mr-1 sm:w-66 md:w-auto md:mx-auto font-titulo ">
             <!-- Referencia -->
                 <div class="grid grid-cols-2 sm:grid md:grid ">
                     <span class="sm:ml-2">No. De Reporte:</span>
-                    <p class="-ml-34 sm:-ml-1 sm:w-32 md:ml-48" >{{ datosDiagnostico.referenceNumber }}</p>
+                    <p class="-ml-34 sm:-ml-1 sm:w-32 md:ml-48 lg:ml-1" >{{ datosDiagnostico.referenceNumber }}</p>
                 </div>
                 <!-- Plaza -->
                 <div class="mt-5 grid grid-cols-2 sm:grid ">
@@ -20,15 +20,15 @@
                         <span class="sm:ml-2">Plaza de Cobro:</span>
                     </div>
                     <!-- Diagnostico de Falla Crear -->
-                    <div class="-ml-64 -mt-1 sm:-ml-10 md:ml-22" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
+                    <div class="-ml-64 -mt-1 sm:-ml-10 md:ml-22 lg:-ml-31" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
                     </div>
                     <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista == 'Crear' }">
                         <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
                     </div>
-                    <div class="-ml-64 -mt-1 sm:-ml-10 border" :class="{'hidden': blockInput == false}">
+                    <div class="-ml-64 -mt-1 sm:-ml-10 " :class="{'hidden': blockInput == false}">
                         <p class="sm:-ml-1"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza></p>
-                        <div class="ml-20 sm:-ml-4 sm:w-66">
+                        <div class="ml-20 sm:-ml-10 sm:w-auto ">
                             <span v-if="blockInput" class="block -ml-44 text-red-400 text-xs font-titulo font-normal sm:-ml-20">No se puede modificar, viene del Diagnóstico de Falla</span>
                         </div>
                         
@@ -36,8 +36,8 @@
                 </div>
                 <!-- Carril -->
                 <div class="mt-1 grid sm:grid sm:grid-cols-2 ">
-                    <span class="mr-20 sm:mr-0 sm:ml-9 sm:mt-3 md:mt-3">Ubicación:</span>                   
-                    <div class="-ml-34 w-64 sm:-ml-9 sm:w-48 md:ml-68 md:-mt-8" :class="{'cursor-not-allowed':blockInput==true}">
+                    <span class="mr-20 sm:mr-0 sm:ml-9 sm:mt-3 md:mt-3 lg:mt-4 xl:mt-6">Ubicación:</span>                   
+                    <div class="-ml-34 w-64 sm:-ml-9 sm:w-48 md:ml-68 md:-mt-8 lg:ml-48 lg:-mt-8 xl:ml-48 xl:-mt-6" :class="{'cursor-not-allowed':blockInput==true}">
                         <ValidationProvider immediate name="Carriles" rules="required"  v-slot="{ errors }">                            
                             <multiselect
                                 :disabled="blockInput"
@@ -66,12 +66,12 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class="mt-6 ml-32 sm:ml-1 font-titulo w-full sm:w-66 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto  border">
+            <div class="border mt-6 ml-32 sm:ml-1 font-titulo w-full sm:w-66 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto lg:w-auto xl:w-auto">
                 <!-- Fecha -->
                 <div class=" ">
                     <ValidationProvider immediate name="Fecha Diagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
                         <span class="sm:ml-2" :class="{'ml-24 sm:ml-2':tipo == 'FICHA'}">Fecha:</span>                        
-                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-32 fechaDiag sm:ml-32 md:ml-48"  type="date" name="FechaDiagnostico"/>
+                        <input v-model="datosDiagnostico.fechaDiagnostico" @change="crear_referencia" class="ml-32  fechaDiag sm:ml-32 md:ml-48"  type="date" name="FechaDiagnostico"/>
                         <span class="text-red-600 text-xs block sm:ml-8 md:ml-16">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -79,7 +79,7 @@
                 <div class="mt-5 ">
                     <ValidationProvider immediate name="Fecha/Hora Inicio" :rules="{required: true, maxTime: datosDiagnostico.horaFin}" :custom-messages="{ maxTime: 'La Fecha/Hora Inicio debe ser menor que la Fecha/Hora Fin' }"  v-slot="{ errors }">
                         <span class="sm:ml-2" :class="{'ml-24 sm:ml-2':tipo == 'FICHA'}">Fecha/Hora INICIO:</span>
-                        <datetime class="ml-33 -mt-6 md:ml-49" :class="{'ml-63 sm:ml-34':tipo == 'FICHA'}" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
+                        <datetime class="ml-33 -mt-6 md:ml-49 " :class="{'ml-63 sm:ml-34':tipo == 'FICHA'}" v-model="datosDiagnostico.horaInicio"  use12-hour :max-datetime="datosDiagnostico.horaFin" type="datetime" name="HoraInicio"></datetime>
                         <!-- <input v-model="datosDiagnostico.horaInicio" class="ml-4 fechaDiag mr-4 sm:ml-3" :class="{'fechaFicha':blockInput == true}" :disabled="blockInput"  type="time" name="HoraInicio"/> -->
                         <span class="text-red-600 text-xs block sm:ml-8 md:ml-16">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -98,14 +98,14 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                             FOLIOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div v-if="blockInput" class="ml-69 -mb-6 sm:ml-1 sm:w-69 text-xs sm:-mb-1 "><span class="text-red-400">No se puede modificar, vienen del Diagnóstico de Falla</span></div>
-            <div class="ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:w-66 sm:ml-1 mb-10 sm:mt-0 md:mx-auto font-titulo border">
+            <div v-if="blockInput" class="ml-69 -mb-6 sm:ml-1 sm:w-auto text-xs sm:-mb-1 "><span class="text-red-400 sm:text-xs">No se puede modificar, vienen del Diagnóstico de Falla</span></div>
+            <div class="border ml-48 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:mx-auto lg:grid-cols-2 xl:grid-cols-2 mt-2 sm:text-xs sm:w-66 sm:ml-1 mb-10 sm:mt-0 md:mx-auto font-titulo ">
                 <!-- Folios Span -->
                 <div class="mt-6 -ml-32 w-full sm:-ml-6 sm:grid sm:grid-cols-1 md:my-auto md:mx-0 md:w-51 md:ml-10 ">
-                    <div class="text-center w-32 ml-64 mr-40 sm:ml-3 sm:-mt-1 md:mx-30">
+                    <div class="text-center w-32 ml-64 mr-40 sm:ml-3 sm:-mt-1 md:mx-30 lg:mb-12 xl:mb-12">
                         <span class="">Folio de FALLA:</span>                   
                     </div>
-                    <div class="mt-5 text-center w-32 ml-64 sm:ml-3 sm:mt-6 md:mx-30 md:mt-6 ">
+                    <div class="mt-5 text-center w-32 ml-64 sm:ml-3 sm:mt-6 md:mx-30 md:mt-6 lgm:mt-2">
                         <span class="">No. De Siniestro:</span>
                     </div>
                     <div class="mt-5 text-center w-56 ml-40 sm:ml-1 sm:mt-1 sm:w-auto md:mt-6 md:-mx-4 ">
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <!-- Input Folios -->
-                <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2 sm:-ml-8 sm:w-auto md:-mt-1 md:-ml-21 border" :class="{'w-10':tipo == 'FICHA'}">
+                <div class="mt-5 mr-16 ml-56 grid grid-cols-1 sm:mr-2 sm:-ml-12 sm:w-auto md:-mt-1 md:-ml-21 " :class="{'w-10':tipo == 'FICHA'}">
                     <div class="-ml-69 sm:ml-1 md:mx-auto">
                         <ValidationProvider immediate name="Folio de Falla" rules="required|max:20" v-slot="{ errors }" :class="{'-ml-1':tipo == 'FICHA'}">                   
                             <input v-model="datosDiagnostico.folioFalla" :class="{'inputFicha':blockInput == true}" class="inputDiag sm:w-48 md:w-58 text-center" :disabled="blockInput" name="FolioFalla" :maxlength="20" />
@@ -229,7 +229,7 @@
                                 <p>POR FIN DE VIDA ÚTIL</p>
                                 <input v-model="datosDiagnostico.tipoFalla" type="checkbox" true-value="3" false-value="0" @change="bloquear_checboxes(3)" name="Tipo de Falla" :disabled="blockCheckBox[2]">
                             </div>
-                            <span class="text-red-600 text-xs block sm:-ml-22 sm:mt-5">{{ errors[0] }}</span>
+                            <span class="text-red-400 text-xs block sm:-ml-22 sm:mt-5">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>   
                 </div>

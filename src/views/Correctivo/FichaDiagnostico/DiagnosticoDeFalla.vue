@@ -23,7 +23,7 @@
         </div>
             <div class="grid gap-4 grid-cols-1 py-3 px-3 sm:-ml-2 sm:px-2">      
                 <div class="mt-1  mb-16 sm:block sm:p-1 sm:pr-6 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center -ml-30 text-4xl mt-3 mb-1 sm:mb-1 sm:mx-auto sm:text-2xl md:mx-auto font-titulo font-bold">Diagnóstico de Falla</h1>        
+                    <h1 class="text-black text-center -ml-30 text-4xl mt-3 mb-1 sm:mb-1 sm:mx-auto sm:text-2xl md:mx-auto xl:mx-auto font-titulo font-bold">Diagnóstico de Falla</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
                     ////////////////////////////////////////////////////////////////////-->                
@@ -35,7 +35,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:mx-6 sm:-mt-16 md:mx-auto md:mb-18">
+                    <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:mx-6 sm:-mt-16 md:mx-auto md:mb-18 lg:mx-auto xl:mx-auto">
                         <div v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
