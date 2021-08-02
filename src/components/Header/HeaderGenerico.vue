@@ -190,29 +190,33 @@
         ///                    FILTROS DE NAVEGACION   DIAGNOSTICO         ////         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo" >
-        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-xl font-bold">{{ titulo }}</h1>
-        <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3" >
-            <div class="m-3 sm:ml-1">                                        
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-lg font-bold">{{ titulo }}</h1>
+        <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto" >
+            <div class="m-3 sm:m-0">                                        
                 <p class="font-bold mb-2 sm:text-xs sm:text-center">Seleccione una Plaza:</p>
-                <p class="-ml-20 sm:-ml-1">
+                <div class="sm:mx-16">
                     <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
-                </p>
+                </div>
             </div>
             <div class=" m-3">
                 <p class="font-bold mb-2 sm:text-xs sm:text-center">Seleccione una Fecha:</p>
-                <input v-model="fechaFiltro" class="border w-40 sm:text-xs sm:w-full is_valid" @change="filtar_concentrado_diagnostico_falla" type="date"/>
-                <span class="block text-xs text-gray-600">*Fecha de Elaboración</span>
+                <input v-model="fechaFiltro" class="border w-40 sm:text-xs sm:w-48 sm:mx-14 is_valid" @change="filtar_concentrado_diagnostico_falla" type="date"/>
+                <span class="block text-xs text-gray-600 sm:mx-16">*Fecha de Elaboración</span>
             </div>
-            <div class="m-3">
+            <div class="m-3 sm:hidden">
                 <p class="font-bold sm:text-xs mb-2 sm:text-center">Escriba la Referencia:</p>
                 <input v-model="buscarDF" class="border w-40 text-xs text-center sm:w-full is_valid" placeholder="PM-000000"/>
             </div> 
             <div class="m-3">
                 <p class="font-bold sm:text-xs mb-2 sm:text-center">Ubicación (Carril):</p>
-                <select class="is_valid" v-model="ubicacion" @change="filtar_concentrado_diagnostico_falla" type="text">
+                <select class="is_valid sm:w-48 sm:mx-16 sm:text-center" v-model="ubicacion" @change="filtar_concentrado_diagnostico_falla" type="text">
                     <option value="">Selecionar...</option>
                     <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                 </select>                
+            </div> 
+            <div class="m-3 md:hidden lg:hidden xl:hidden">
+                <p class="font-bold sm:text-xs mb-2 sm:text-center">Escriba la Referencia:</p>
+                <input v-model="buscarDF" class="border w-40 text-xs text-center sm:w-full is_valid" placeholder="PM-000000"/>
             </div>     
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
