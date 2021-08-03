@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="grid gap-4 grid-cols-1 py-3 px-3">
-                <div class="mt-1 mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
+                <div class="mt-1 mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20 md:mx-auto">
                     <h1 class="text-black text-center text-4xl ml-66 mt-3 mb-1 sm:mb-1 sm:text-xl font-titulo font-bold">
                         <span class="bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-gray-600  py-2 px-6 inline-flex items-center -ml-62 mr-4 sm:text-lg">
                             Ficha Técnica de Atención
@@ -39,7 +39,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-6 ml-77 sm:mb-6 sm:ml-1 sm:mt-6">
+                    <div class="mb-6 ml-77 sm:mb-6 sm:ml-1 sm:mt-6 lg:mx-auto xl:mx-auto">
                         <div v-if="botonEditCreate">                            
                             <button v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true" @click="enviar_header_ficha(true)" class="botonIconCrear">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />

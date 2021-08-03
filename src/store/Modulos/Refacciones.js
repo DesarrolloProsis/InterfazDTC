@@ -72,9 +72,10 @@ const actions = {
     await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)           
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit, rootGetters }, value) {      
+  async buscarComponenteId({ commit, rootGetters }, value) {          
     await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
-      .then(response => {                            
+      .then(response => {
+          console.log(response)                            
           if(response.data.result != null){
             commit("LISTA_REFACCIONES_VALIDAS_MUTATION", response.data.result.listaFiltro);
             commit("LISTA_LANE_MUTATION", response.data.result.listLane); 
@@ -88,8 +89,7 @@ const actions = {
   async BUSCAR_CARRILES({ commit }, plaza) { 
     console.log(plaza)         
     Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
-      .then(response => {
-        console.log(response)                         
+      .then(response => {                                
           if(response.status === 200){            
               commit("CARRILES_MUTATION", response.data.result);                         
           }                    

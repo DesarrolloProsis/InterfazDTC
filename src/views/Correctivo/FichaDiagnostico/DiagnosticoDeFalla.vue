@@ -5,7 +5,7 @@
         ////                     MODAL IMAGENES                        /////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0" v-if="modalImage">
-            <div v-if="true" class="modalCargarImg sm:mt-66 sm:m-4">          
+            <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66">          
                 <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
                     <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
                 </span> 
@@ -14,19 +14,19 @@
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesFichaDiagnostico @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-500 hover:text-black border-black hover:border-black cursor-not-allowed': blockBotonModal, 'hover:bg-gray-500 hove:border-black': blockBotonModal }">
+                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Diagnóstico</span>
                     </button>  
                 </div>
             </div>
         </div>
-            <div class="grid gap-4 grid-cols-1 py-3 px-3">      
-                <div class="mt-1  mb-16 sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
-                    <h1 class="text-black text-center -ml-30 text-4xl mt-3 mb-1 sm:mb-1 sm:text-2xl font-titulo font-bold">Diagnóstico de Falla</h1>        
+            <div class="grid gap-4 grid-cols-1 py-3 px-3 sm:-ml-2 sm:px-2">      
+                <div class="mt-1  mb-16 sm:block sm:p-1 sm:pr-6 border sm:m-1 shadow-md grid grid-cols sm:mb-20">
+                    <h1 class="text-black text-center -ml-30 text-4xl mt-3 mb-1 sm:mb-1 sm:mx-auto sm:text-2xl md:mx-auto xl:mx-auto font-titulo font-bold">Diagnóstico de Falla</h1>        
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                       DECSRIPCION                             ////
-                    ////////////////////////////////////////////////////////////////////-->                       
+                    ////////////////////////////////////////////////////////////////////-->                
                     <HeaderFalla :tipo="'DIAG'" :reporteInsertado="reporteInsertado" @actualizar-header="actualizar_header"></HeaderFalla>                      
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
@@ -35,7 +35,7 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:ml-1 sm:-mt-16">
+                    <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:mx-6 sm:-mt-16 md:mx-auto md:mb-18 lg:mx-auto xl:mx-auto">
                         <div v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
                                 <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -171,7 +171,8 @@ methods:{
                 causeFailure: this.datosHeader.causaFalla,
                 adminSquareId: administradorId,
                 updateFlag: flagInsert // 1 -> Insertar || 0 -> editar
-            }                          
+            }      
+            console.log(objDiagnostico)                    
             this.$http.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
                 .then(() => { 
                     let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic 
