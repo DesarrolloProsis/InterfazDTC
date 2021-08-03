@@ -23,7 +23,11 @@
                     <div ref="tooltipRef" class=" font-titulo">
                         <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.1 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·responsive</li>
+                            <li>·Mejora en vistas de celular.</li>
+                            <li>·Subir y Bajar Diagnóstico de Falla Sellado.</li>
+                            <li>·Subir y Bajar Ficha Técnica Sellada.</li>
+                            <li>·Acomodo de filtros en todas las vistas.</li>
+                            <li>Nuevo icono en barra de navegación.</li>
                         </ol>
                     </div>                    
                 </div>
