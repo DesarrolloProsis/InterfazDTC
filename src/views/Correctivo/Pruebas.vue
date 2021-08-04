@@ -1,6 +1,12 @@
 <template>
   <div class="p-5">
     <BaseProgress></BaseProgress>
+    <img src="../../assets/img/download.png" alt="">
+    <img src="../../assets/img/upload.png" alt="">
+    <img src="../../assets/img/nuevoDtc.png" alt="">
+    <img src="../../assets/img/flechas.png" alt="">    
+    <img src="../../assets/img/add.png" alt="">    
+    <img src="../../assets/img/actualizado.png" alt="">
   </div>
 </template>
 

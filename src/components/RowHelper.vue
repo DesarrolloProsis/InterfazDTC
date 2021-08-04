@@ -1,8 +1,9 @@
 <template>
     <div>
         <tr class="h-12 sm:text-xs text-gray-900 text-center">
-           <td :colspan="keyRow.length" class="hover:bg-gray-200 inline-flex w-full justify-center" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">               
-                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class="cuerpoTable mx-auto text-center inline-flex">                    
+           <td :colspan="keyRow.length" class=" text-sm hover:bg-gray-200" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">                              
+               <div class="grid grid-cols-8 grid-rows-1">
+                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center">                    
                      <template v-if="itemSub['formatoFecha']" class="sm:text-xs">                         
                         {{ itemRow[itemSub['key']] | dataRowFormat }}
                     </template>
@@ -10,7 +11,7 @@
                         {{ itemRow[itemSub['key']] == '' ? 'Sin informacion' : itemRow[itemSub['key']] }}                        
                     </template>                   
                     <template v-else>
-                        <div v-if="tipoRow != 'PC'">
+                        <div class="w-48" v-if="tipoRow != 'PC'">
                             <button v-if="!boolMoreInformation" @click="show_more_infomacion">
                                 <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5" alt="">                                    
                             </button>
@@ -19,7 +20,7 @@
                             </button>
                         </div>
                         <div v-else>
-                            <div class="">
+                            <div class="w-48">
                             <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="listaAcciones" :option-height="200" :custom-label="customLabel"  :show-labels="false">
                                 <template slot="singleLabel" slot-scope="props">
                                     <div class="inline-flex">
@@ -38,6 +39,7 @@
                         </div>
                     </template> 
                 </div>
+               </div>
             </td> 
         </tr>
         <transition name="slide-fade">  
