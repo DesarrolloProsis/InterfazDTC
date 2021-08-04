@@ -1,15 +1,15 @@
 <template>
     <div>
-        <tr class="h-12 sm:text-xs text-gray-900 text-center w-full">
-           <td :colspan="keyRow.length" class="w-full lg:ml-20 hover:bg-gray-200" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">               
-                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center inline-flex sm:w-32 w-48 ml-1">                    
-                     <div v-if="itemSub['formatoFecha']" class="sm:text-xs">                         
+        <tr class="h-12 sm:text-xs text-gray-900 text-center">
+           <td :colspan="keyRow.length" class="hover:bg-gray-200 inline-flex w-full justify-center" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">               
+                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class="cuerpoTable mx-auto text-center inline-flex">                    
+                     <template v-if="itemSub['formatoFecha']" class="sm:text-xs">                         
                         {{ itemRow[itemSub['key']] | dataRowFormat }}
-                    </div>
-                    <div v-else-if="itemSub['text'] != 'Acciones'" class="sm:text-xs">                        
+                    </template>
+                    <template v-else-if="itemSub['text'] != 'Acciones'" class="sm:text-xs">                        
                         {{ itemRow[itemSub['key']] == '' ? 'Sin informacion' : itemRow[itemSub['key']] }}                        
-                    </div>                   
-                    <div v-else>
+                    </template>                   
+                    <template v-else>
                         <div v-if="tipoRow != 'PC'">
                             <button v-if="!boolMoreInformation" @click="show_more_infomacion">
                                 <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5" alt="">                                    
@@ -36,7 +36,7 @@
                             </multiselect>
                             </div>  
                         </div>
-                    </div> 
+                    </template> 
                 </div>
             </td> 
         </tr>

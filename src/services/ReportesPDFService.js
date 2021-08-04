@@ -185,6 +185,7 @@ function generar_pdf_diagnostico_falla(referenceNumber){
 }
 function generar_pdf_fotografico_correctivo(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]
+    console.log(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
     Axios.get(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
     let urlTopdf = `${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`
     let namePdf = 'ReporteFotografico' + '-' + referenceNumber

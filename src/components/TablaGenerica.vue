@@ -8,7 +8,7 @@
             <thead id="">
                 <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
                     <th colspan="movilHeaderKey.length" class="inline-flex w-full">
-                        <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable inline-flex sm:text-xs w-48  md:mx-auto border-none">
+                        <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable inline-flex mx-auto border-none">
                             {{ item.text }}
                         </div>
                     </th>      

@@ -240,10 +240,7 @@ methods: {
             title: "Ok!",
             msg: `DTC CON REFERENCIA ${this.referenciaDtc} GUARDADO CORRECTAMENTE.`,
             position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-              },
+            styles: { height: 100, width: 500 },
             });  
           }
         }
