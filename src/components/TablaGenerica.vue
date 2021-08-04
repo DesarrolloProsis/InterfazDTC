@@ -6,21 +6,23 @@
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead id="">
+                <!-- VersionPC  -->
                 <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
                     <th colspan="movilHeaderKey.length">
-                        <div class="grid grid-cols-8 grid-rows-1">
-                            <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable border-none w-48">                                
+                        <div class="grid grid-rows-1" :class="{'grid-cols-8': normalheaderKey.length == 8, 'grid-cols-9': normalheaderKey.length == 9 }">
+                            <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable border-none">                                
                                 {{ item.text }}
                             </div>
                         </div>
                     </th>      
                 </tr>
+                <!-- VersionMovil  -->
                  <tr class="text-mdtext-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
                     <th colspan="movilHeaderKey.length">
                         <div class="grid grid-cols-3 grid-rows-1">
-                        <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable border-none">
-                            {{ item.text }}
-                        </div>
+                            <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable border-none">
+                                {{ item.text }}
+                            </div>
                         </div>
                     </th>                  
                 </tr>
