@@ -101,7 +101,7 @@ export default {
         this.loadingTabla = true
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
-        .then((response) => { 
+        .then((response) => {
             setTimeout(() => {
                 this.infoFichasFallaCompleta = response.data.result
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
@@ -221,7 +221,17 @@ export default {
         limpiar_componete_escaneado(){            
             this.loadingTabla = true  
             this.modalSubirSellado = false          
-            setTimeout(() => {                
+            setTimeout(() => {              
+                let indexRowUpdate = this.listaFicha.findIndex(item => item.referenceNumber == this.objInsertEscaneado.referenceNumber)
+                let objRowUpdate = Object.assign(this.listaFicha[indexRowUpdate])
+                this.listaFicha.splice(indexRowUpdate,1,objRowUpdate)
+                if(this.tipoEscaneado == 'Diagnostico'){
+                    objRowUpdate['diagnosticoSellado'] = true
+                    this.listaFicha.splice(indexRowUpdate,1,objRowUpdate)
+                }else{
+                    objRowUpdate['fichaSellado'] = true
+                    this.listaFicha.splice(indexRowUpdate,1,objRowUpdate)
+                } 
                 this.objInsertEscaneado = {}
                 this.loadingTabla = false
             },500)           
@@ -267,6 +277,7 @@ export default {
                 this.objInsertEscaneado = {
                     referenceNumber: itemRow.referenceNumber
                 }
+                
             }
             if(acciones.title ==  'Bajar FT Sellada'){                
                 ServiceReporte.generar_pdf_ficha_sellada(itemRow.referenceNumber, 2)
@@ -291,12 +302,16 @@ export default {
             ]
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
-            filtroOpciones.push(options[7]) 
-            filtroOpciones.push(options[10])
+            filtroOpciones.push(options[7])
+            if(item.diagnosticoSellado){
+                filtroOpciones.push(options[10])
+            } 
             if(item.validacionFichaTecnica){
                 filtroOpciones.push(options[5]) 
                 filtroOpciones.push(options[8])
-                filtroOpciones.push(options[9]) 
+                if(item.fichaSellado){
+                    filtroOpciones.push(options[9]) 
+                }
                 if(!item.validacionDTC && item.typeFaultId  >= 2){
                     filtroOpciones.push(options[1])
                 }           
