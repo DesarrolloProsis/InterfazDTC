@@ -3,7 +3,8 @@ import moment from "moment";
 import Axios from '../store/ManejoSolicitudes'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
-async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){        
+async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){   
+    console.log('service')
     let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let nombrePlaza = store.state.Login.plazaSelecionada.plazaNombre    
     store.dispatch('Refacciones/BUSCAR_CARRILES',user.numPlaza)
@@ -15,9 +16,9 @@ async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, 
     let listaActidadesTipo = []    
     if(ref != undefined){   
         //Consulta tecnicos y Admin capufe desarrollo  
-        let objApiNuevo = { "userId": user.idUser, referenceNumber: ref }        
+        let objApiNuevo = { "userId": user.idUser, referenceNumber: ref }                       
         listaActidadesTipo = await Axios.post(`${API}/Calendario/GetActividadesFiltroReferencia`, objApiNuevo)
-            .then((response) => {                
+            .then((response) => {                    
                 return response.data.result.map(actividad => { 
                     let ayudaFecha = new Date(parseInt(actividad.year), parseInt(actividad.month - 1), parseInt(actividad.day))                                                                     
                     actividad["day"] = moment(ayudaFecha).format("DD/MM/YYYY"); //`${actividad.day}/${obj.month}/${obj.year}`  

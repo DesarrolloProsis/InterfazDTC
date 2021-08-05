@@ -41,8 +41,8 @@
           </div>
         </div>
         <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
-          <button @click="agregar_actividad_dia" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1">Aceptar</span></button>
-          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar font-boton sm:w-full sm:ml-0"><span class="ml-1">Cancelar</span></button>
+          <button @click="agregar_actividad_dia" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1 sm:mx-auto">Aceptar</span></button>
+          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar font-boton sm:w-full sm:ml-0"><span class="ml-1 sm:mx-auto">Cancelar</span></button>
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
     </HeaderCalendario>            
-    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo" :class="{' pointer-events-none': modal}">              
+    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo sm:mb-20" :class="{' pointer-events-none': modal}">              
         <vue-cal 
           ref="vuecal"          
           :time="false"
@@ -108,7 +108,7 @@
             </template>
             <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
-        <span class="text-gray-700 font-titulo">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>      
+        <span class="text-gray-700 font-titulo sm:text-xs">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>      
     </div>      
   </div>
 </div>
@@ -278,9 +278,12 @@ export default {
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )              
+      )     
+      console.log(actividadInsert)       
+      console.log(`${API}/Calendario/Actividad/${refPlaza}`)  
       await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
-        .then(async () => {                 
+        .then(async (response) => {
+            console.log(response)                 
             await this.actualizar_actividades(this.plazaSelect)                                                    
         })
       this.actividadSelect = ''      
@@ -291,7 +294,8 @@ export default {
       else 
         return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
     },
-    actualizar_actividades: async function(plaza){                
+    actualizar_actividades: async function(plaza){    
+                  
       this.plazaSelect = plaza
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
@@ -454,6 +458,9 @@ export default {
 }
 .vuecal__cell--selected{
   z-index: auto;
+}
+.multiselect{
+  position: none;
 }
 </style>
 
