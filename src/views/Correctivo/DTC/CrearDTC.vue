@@ -60,9 +60,9 @@
             <br />
             <br />
             <br />
-            <span>Autorizacion comercial Director de Comercializacion</span>
+            <span>Autorización Comercial Director de Comercialización</span>
             <br />
-            <span style="font-size: 0.7vw">C.P. Hermilia Guzman</span>
+            <span style="font-size: 0.7vw">L.A.E. Nathalie Aguilar Mejía</span>
           </p>
         </div>
         <div></div>
