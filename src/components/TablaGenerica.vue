@@ -1,22 +1,28 @@
 <template>
   <div>    
-    <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-12 sm:text-xs" style="height:550px;">
+    <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-12 sm:text-xs w-full" style="height:550px;">
         <table class="border-collapse table-auto  whitespace-no-wrap bg-white table-striped">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead id="">
+                <!-- VersionPC  -->
                 <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
-                    <th colspan="movilHeaderKey.length" class="inline-flex w-full">
-                        <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable inline-flex sm:text-xs w-48  md:mx-auto border-none">
-                            {{ item.text }}
+                    <th colspan="movilHeaderKey.length">
+                        <div class="grid grid-rows-1" :class="{'grid-cols-8': normalheaderKey.length == 8, 'grid-cols-9': normalheaderKey.length == 9 }">
+                            <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable border-none">                                
+                                {{ item.text }}
+                            </div>
                         </div>
                     </th>      
                 </tr>
-                 <tr class="text-md text-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
-                    <th colspan="movilHeaderKey.length" class="inline-flex  w-full">
-                        <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable inline-flex sm:text-xs sm:ml-0 md:ml-6 md:mx-auto border-none">
-                            {{ item.text }}
+                <!-- VersionMovil  -->
+                 <tr class="text-mdtext-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
+                    <th colspan="movilHeaderKey.length">
+                        <div class="grid grid-cols-3 grid-rows-1">
+                            <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable border-none">
+                                {{ item.text }}
+                            </div>
                         </div>
                     </th>                  
                 </tr>

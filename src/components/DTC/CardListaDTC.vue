@@ -302,7 +302,7 @@ export default {
             { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
             { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'} //11
         ]
-        let array = []   
+        let array = []           
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
