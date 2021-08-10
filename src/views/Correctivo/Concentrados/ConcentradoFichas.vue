@@ -233,7 +233,7 @@ export default {
                     this.listaFicha.splice(indexRowUpdate,1,objRowUpdate)
                 } 
                 this.objInsertEscaneado = {}
-                this.loadingTabla = false
+                this.loadingTabla = false 
             },500)           
         },     
         acciones_mapper({ acciones, itemRow }){     
