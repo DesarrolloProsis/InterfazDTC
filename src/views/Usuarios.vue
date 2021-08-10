@@ -14,7 +14,7 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;">
+        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;" v-if="this.typeUser">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <thead>
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
@@ -66,6 +66,19 @@
               </template>
             </tbody>            
           </table>
+        </div>
+        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2" v-else>
+          <div class="border">Nombre:</div>
+          <div class="border">1</div>
+          <div class="border">Apellido Paterno</div>
+          <div class="border">1</div>
+          <div class="border">Apellido Materno</div> 
+          <div class="border">2</div>
+          <div class="border">Correo</div>
+          <div class="border">2</div>
+          <div class="border">Roll de Usuario</div>
+          <div class="border">3</div>
+          <div class="border">Cambiar Contraseña</div>
         </div>
       </div>
         <!--/////////////////////////////////////////////////////////////////////
