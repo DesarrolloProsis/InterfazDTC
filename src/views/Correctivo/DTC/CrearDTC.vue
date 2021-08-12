@@ -60,7 +60,7 @@
             <br />
             <br />
             <br />
-            <span>Autorización Comercial Director de Comercialización</span>
+            <span>Autorización Comercial Asistente Director Comercial</span>
             <br />
             <span style="font-size: 0.7vw">L.A.E. Nathalie Aguilar Mejía</span>
           </p>
