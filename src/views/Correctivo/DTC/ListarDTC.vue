@@ -733,7 +733,8 @@ methods: {
           this.motivoCambioStatus = ''   
           let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
           this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)           
-          resolve('ok')                     
+          resolve('ok')
+          this.ocultarMultiPadre = false
         })
         .catch(error => {                  
           reject(error)        
