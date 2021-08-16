@@ -27,7 +27,7 @@
                             <li>·Subir y Bajar Diagnóstico de Falla Sellado.</li>
                             <li>·Subir y Bajar Ficha Técnica Sellada.</li>
                             <li>·Acomodo de filtros en todas las vistas.</li>
-                            <li>Nuevo icono en barra de navegación.</li>
+                            <li>·Nuevo icono en barra de navegación.</li>
                         </ol>
                     </div>                    
                 </div>

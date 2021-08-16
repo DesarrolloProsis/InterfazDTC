@@ -66,7 +66,7 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                           FILA DOS                            ////
             ////////////////////////////////////////////////////////////////////--> 
-            <div class=" mt-6 ml-32 sm:ml-1 font-titulo w-full sm:w-66 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto lg:w-auto lg:ml-0 xl:w-auto border">
+            <div class=" mt-6 ml-32 sm:ml-1 font-titulo w-full sm:w-66 sm:mr-1 sm:flex sm:flex-col md:w-auto md:mx-auto lg:w-auto lg:ml-0 xl:w-auto ">
                 <!-- Fecha -->
                 <div class=" ">
                     <ValidationProvider immediate name="Fecha Diagnostico" rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">                   
@@ -135,9 +135,9 @@
             <!--/////////////////////////////////////////////////////////////////////
             /////                 DECSRIPCION DIAGNÓSTICO                       ////
             ////////////////////////////////////////////////////////////////////-->      
-            <div class="mt-2 sm:text-xs sm:ml-1 mb-16 mr-5 ml-5 sm:w-66 font-titulo border" v-if="tipo == 'DIAG'">
+            <div class="mt-2 sm:text-xs sm:ml-1 mb-16 mr-5 ml-5 sm:w-66 font-titulo " v-if="tipo == 'DIAG'">
                 <div class="mt-16 w-full ml-5 grid grid-cols-3 sm:grid-cols-2">
-                    <div class="mr-10 sm:w-32 sm:mb-10 sm:-mt-10 border">
+                    <div class="mr-10 sm:w-32 sm:mb-10 sm:-mt-10 ">
                         <ValidationProvider immediate name="Descripción de Falla" rules="required|max:300" v-slot="{ errors }">
                             <span>DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                             <textarea
@@ -151,7 +151,7 @@
                             <span class="text-gray-500 ml-33 sm:ml-12 md:mx-16">{{ restante_desc }}/300</span>
                         </ValidationProvider>
                     </div>
-                    <div class="mr-10 sm:w-32 sm:-mt-10 border">
+                    <div class="mr-10 sm:w-32 sm:-mt-10 ">
                         <ValidationProvider immediate name="Diagnóstico de Falla" rules="required|max:300" v-slot="{ errors }">
                             <span>DIAGNÓSTICO DE LA FALLA REPORTADA:</span>
                             <textarea
@@ -165,7 +165,7 @@
                             <span class="text-gray-500 ml-33 sm:ml-12 md:mx-16">{{ restante_diag }}/300</span>
                         </ValidationProvider>
                     </div> 
-                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 border">
+                    <div class="mr-10 sm:w-32 sm:mt-0 sm:mb-10 ">
                         <ValidationProvider immediate name="Causa de Falla" rules="required|max:300" v-slot="{ errors }">
                             <span class="">CAUSAS DE LA FALLA REPORTADA:</span>
                             <textarea
