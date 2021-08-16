@@ -152,7 +152,8 @@ export default {
                 idGare: headerCompuesto.idGare,
                 lane: headerCompuesto.lane,
                 plazaNombre: headerCompuesto.plazaCobro,
-                statusMaintenance: headerCompuesto.statusMaintenance
+                statusMaintenance: headerCompuesto.statusMaintenance,
+                adminId: headerCompuesto.adminId
             }            
             this.observaciones = headerCompuesto.comentarios
             this.horaInicio = headerCompuesto.horaInicio
@@ -273,7 +274,7 @@ methods:{
                 CapufeLaneNum: this.header.capufeLaneNum,
                 IdGare: this.header.idGare,
                 UserId: user.idUser,
-                AdminSquare: refPlaza.administradorId,
+                AdminSquare: this.header.adminId,
                 ReportDate: fechaInsercion,
                 Start: this.horaInicio,
                 End: this.horaFin,

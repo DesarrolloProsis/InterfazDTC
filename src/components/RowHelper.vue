@@ -13,10 +13,10 @@
                     <template v-else>
                         <div class="w-32" v-if="tipoRow != 'PC'">
                             <button v-if="!boolMoreInformation" @click="show_more_infomacion">
-                                <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5" alt="">                                    
+                                <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5 mx-auto" alt="">                                    
                             </button>
                              <button v-else @click="boolMoreInformation = false, keyLimpio = []">                                    
-                                <img src="../assets/img/flecha-hacia-arriba.png" class="w-5 h-5" alt="">
+                                <img src="../assets/img/flecha-hacia-arriba.png" class="w-5 h-5 mx-auto" alt="">
                             </button>
                         </div>
                         <div v-else>

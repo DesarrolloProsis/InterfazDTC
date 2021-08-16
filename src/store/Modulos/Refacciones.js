@@ -99,7 +99,9 @@ const actions = {
     await Axios.get(`${API}/component/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.idConvenio}`)            
       .then(response => commit("LISTA_REFACCIONES_MUTATION", response.data.result))    
   },
+  
   async BUSCAR_INFO_COMPONENTES_INVENTARIO({ commit, rootGetters }, value){
+    console.log(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
       .then(response => commit("INFO_COMPONENTE_INVENTARIO_MUTATION", response.data.result))      
   },
