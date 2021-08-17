@@ -173,6 +173,7 @@ props: {
 beforeMount: async function() {     
     this.listaPlazaAdminValid = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.numeroPlaza == this.header.squareId)
     this.adminIdCalendar = this.header.adminId      
+    this.$emit('guardar-adminId-nuevo', this.adminIdCalendar)
     this.tituloUbicacion = this.header.capufeLaneNum == '0000' ? 'Plaza' : 'Carril' 
     this.horaInicio = this.$route.query.horas.horaInicio
     this.horaFin = this.$route.query.horas.horaFin   

@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonIconActualizar font-black h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconActualizar font-black h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                         <img src="../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                         <span>Actualizar Reportes</span>                    
                     </button>
@@ -313,7 +313,7 @@ methods:{
                             date: this.objetoLogDate.fecha,
                             userId: user.idUser,
                             referenceNumber: this.referenceNumber,
-                            comment: this.objetoLogDate.motivo
+                            comment: this.objetoLogDate.motivo,
                         }
                         this.$http.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                             .then(() => {                                                                                                                                   
