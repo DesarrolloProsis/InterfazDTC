@@ -54,6 +54,7 @@ export default {
     data(){
         return {
             lista_Componentes:[],
+            
             lista_Filtrada:[],
             lista:[],
             loadingTabla: false,

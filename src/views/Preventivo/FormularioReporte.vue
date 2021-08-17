@@ -3,7 +3,13 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                HEADER REPORTE NIVEL CARRIL                   ////
         ////////////////////////////////////////////////////////////////////-->
-        <HeaderPreventivo :header="header" :referenceNumber="referenceNumber" @guarar-log-fecha="guardar_log_fecha"></HeaderPreventivo>
+        <HeaderPreventivo 
+            :header="header" 
+            :referenceNumber="referenceNumber" 
+            @guarar-log-fecha="guardar_log_fecha"
+            @guardar-adminId-nuevo="modificar_adminid"
+            
+            ></HeaderPreventivo>
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -98,7 +104,8 @@ export default {
             reporteInsert: true,
             modalLoading: false,
             letras: 0,
-            reporteInsertado: false
+            reporteInsertado: false,
+            adminIdCalendarModify: ''
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -152,7 +159,9 @@ export default {
                 idGare: headerCompuesto.idGare,
                 lane: headerCompuesto.lane,
                 plazaNombre: headerCompuesto.plazaCobro,
-                statusMaintenance: headerCompuesto.statusMaintenance
+                statusMaintenance: headerCompuesto.statusMaintenance,
+                adminId: headerCompuesto.adminId,
+                squareId: headerCompuesto.squareId
             }            
             this.observaciones = headerCompuesto.comentarios
             this.horaInicio = headerCompuesto.horaInicio
@@ -197,7 +206,10 @@ export default {
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-
+    modificar_adminid(item){
+        alert()
+        this.adminIdCalendarModify = item
+    },
     guardar_log_fecha(item){
         this.objetoLogDate = item
         this.referenceNumber = item.ref
@@ -273,7 +285,7 @@ methods:{
                 CapufeLaneNum: this.header.capufeLaneNum,
                 IdGare: this.header.idGare,
                 UserId: user.idUser,
-                AdminSquare: refPlaza.administradorId,
+                AdminSquare: this.adminIdCalendarModify,
                 ReportDate: fechaInsercion,
                 Start: this.horaInicio,
                 End: this.horaFin,
@@ -301,7 +313,7 @@ methods:{
                             date: this.objetoLogDate.fecha,
                             userId: user.idUser,
                             referenceNumber: this.referenceNumber,
-                            comment: this.objetoLogDate.motivo
+                            comment: this.objetoLogDate.motivo,
                         }
                         this.$http.post(`${API}/Calendario/CalendarDateLog/${refPlaza}`, dateLog)
                             .then(() => {                                                                                                                                   

@@ -18,6 +18,7 @@ function xml_hhtp_request(urlToFile,nameFile){
     let token = CookiesService.obtener_bearer_token('pdf')
     oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
     oReq.onload = function () { 
+        console.log(oReq.response)
     var file = new Blob([oReq.response], {
         type: "application/pdf",
     });       
@@ -235,6 +236,11 @@ function dtc_no_sellados(){
     let nameExcel = 'ReporteNoSellados.xlsx'
     xml_hhtp_request(urlExcel,nameExcel)
 }
+function dtc_no_sellados_excel(){
+    let urlExcel = `${API}/DtcData/DescargarExcelDTCNoSellado`
+    let nameExcel = 'ReporteNoSellados.xlsx'
+    xml_hhtp_request(urlExcel,nameExcel)
+}
 function manual_pdf(){
     let manual = `${API}/Manual/getManual`
     let namePdf = 'Manual de Usuario'
@@ -257,5 +263,6 @@ export default {
     generar_pdf_sellado_preventivo,
     generar_pdf_ficha_sellada,
     reporte_componentes,
-    dtc_no_sellados
+    dtc_no_sellados,
+    dtc_no_sellados_excel
 }
