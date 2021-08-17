@@ -3,7 +3,13 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                HEADER REPORTE NIVEL CARRIL                   ////
         ////////////////////////////////////////////////////////////////////-->
-        <HeaderPreventivo :header="header" :referenceNumber="referenceNumber" @guarar-log-fecha="guardar_log_fecha"></HeaderPreventivo>
+        <HeaderPreventivo 
+            :header="header" 
+            :referenceNumber="referenceNumber" 
+            @guarar-log-fecha="guardar_log_fecha"
+            @guardar-adminId-nuevo="modificar_adminid"
+            
+            ></HeaderPreventivo>
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -61,7 +67,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconActualizar font-black h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
+                    <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonIconActualizar font-black h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
                         <img src="../../assets/img/documento.png" class="mr-2" width="35" height="35" />
                         <span>Actualizar Reportes</span>                    
                     </button>
@@ -98,7 +104,8 @@ export default {
             reporteInsert: true,
             modalLoading: false,
             letras: 0,
-            reporteInsertado: false
+            reporteInsertado: false,
+            adminIdCalendarModify: ''
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -153,7 +160,8 @@ export default {
                 lane: headerCompuesto.lane,
                 plazaNombre: headerCompuesto.plazaCobro,
                 statusMaintenance: headerCompuesto.statusMaintenance,
-                adminId: headerCompuesto.adminId
+                adminId: headerCompuesto.adminId,
+                squareId: headerCompuesto.squareId
             }            
             this.observaciones = headerCompuesto.comentarios
             this.horaInicio = headerCompuesto.horaInicio
@@ -198,7 +206,10 @@ export default {
 ////                            METODOS                           ////
 /////////////////////////////////////////////////////////////////////
 methods:{
-
+    modificar_adminid(item){
+        alert()
+        this.adminIdCalendarModify = item
+    },
     guardar_log_fecha(item){
         this.objetoLogDate = item
         this.referenceNumber = item.ref
@@ -274,7 +285,7 @@ methods:{
                 CapufeLaneNum: this.header.capufeLaneNum,
                 IdGare: this.header.idGare,
                 UserId: user.idUser,
-                AdminSquare: this.header.adminId,
+                AdminSquare: this.adminIdCalendarModify,
                 ReportDate: fechaInsercion,
                 Start: this.horaInicio,
                 End: this.horaFin,

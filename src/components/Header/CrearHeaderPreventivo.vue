@@ -34,7 +34,7 @@
                         <p class="font-titulo ml-5">{{ header.lane }}</p>               
                     </div>
                 </div>
-                <div class="w-1/2 sm:w-full sm:-mt-10 p-8 sm:p-2">
+                <div class="w-1/2 sm:w-full sm:-mt-10 p-8 sm:p-2 ">
                     <div class="flex justify-start sm:ml-3 m-5">
                         <p class="font-titulo font-bold">Fecha:</p>                        
                         <p class="font-titulo ml-5">{{ header.day }}</p> 
@@ -47,6 +47,14 @@
                     <div class="flex justify-start m-5 sm:ml-3">
                         <p class="font-titulo font-bold">Hora Fin:</p>
                         <input v-model="horaFin" class="ml-10 w-40 is_valid font-titulo" type="time">
+                    </div>
+                    <div class="justify-start m-5 sm:ml-3 grid grid-cols-1">
+                        <p class="font-titulo font-bold">Encargado de Plaza:</p>
+                        <p>
+                            <select class="is_valid" v-model="adminIdCalendar" @change="enviar_nuevo_admin_id">
+                                <option v-for="(item, key) in listaPlazaAdminValid" :value="item.administradorId" :key="key">{{ item.plazaAdminNombre }}</option>
+                            </select>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -131,6 +139,7 @@
 import EventBus from "../../services/EventBus.js";
 import ServicesPDF from "../../services/ReportesPDFService.js";
 import moment from "moment";
+
 export default {
 /////////////////////////////////////////////////////////////////////
 ////                          DATA                               ////
@@ -143,7 +152,9 @@ data() {
         fechaCambio: '',
         motivoCambioFecha: '',
         limite: 300,
-        tituloUbicacion: ''
+        tituloUbicacion: '',
+        listaPlazaAdminValid: [],
+        adminIdCalendar: ''
     };
 },
 props: {
@@ -159,10 +170,12 @@ props: {
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
-beforeMount: async function() {   
+beforeMount: async function() {     
+    this.listaPlazaAdminValid = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.numeroPlaza == this.header.squareId)
+    this.adminIdCalendar = this.header.adminId      
     this.tituloUbicacion = this.header.capufeLaneNum == '0000' ? 'Plaza' : 'Carril' 
     this.horaInicio = this.$route.query.horas.horaInicio
-    this.horaFin = this.$route.query.horas.horaFin
+    this.horaFin = this.$route.query.horas.horaFin   
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -232,6 +245,9 @@ methods:{
         this.showModal = false
         this.fechaCambio = ''
         this.motivoCambioFecha = ''
+    },
+    enviar_nuevo_admin_id(){
+        this.$emit('guardar-adminId-nuevo', this.adminIdCalendar)
     }
 },
 /////////////////////////////////////////////////////////////////////
@@ -243,7 +259,7 @@ watch:{
     },
     horaFin: function(newHora){
         EventBus.$emit("actualizar_hora_fin", newHora);
-    }
+    }, 
 }
 
 
