@@ -525,8 +525,7 @@ methods:{
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
             }                                                                    
         }
-        catch(error){     
-            alert()       
+        catch(error){          
             console.log(error)
             this.$notify.warning({
                     title: "Ops!!",

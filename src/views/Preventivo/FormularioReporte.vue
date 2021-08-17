@@ -207,7 +207,6 @@ export default {
 /////////////////////////////////////////////////////////////////////
 methods:{
     modificar_adminid(item){
-        alert()
         this.adminIdCalendarModify = item
     },
     guardar_log_fecha(item){
