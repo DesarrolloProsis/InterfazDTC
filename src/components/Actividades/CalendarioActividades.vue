@@ -2,6 +2,26 @@
 <div class=" static">
   <div class="">    
     <!--////////////////////////////////////////////////////////////////////
+    ////                      MODAL ERROR                              ////
+    ////////////////////////////////////////////////////////////////////-->
+    <div class="sticky inset-0 z-50">
+      <div v-if="modalError" class="modalAgregarActPre mt-32  sm:w-64">
+        <div class="text-center">
+          <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+            <img src="../../assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
+            <p class="-mt-10 text-black sm:ml-6 ml-8 sm:-mt-6">Advertencia</p>
+            <img src="../../assets/img/warning.png" class="ml-61 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+          </h1>
+        </div>
+        <div>
+          <p v-for="(item, key) in datos" :key="key">{{ item }}</p>
+        </div>
+        <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
+          <button @click="modalError = false" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1 sm:mx-auto">Aceptar</span></button>
+        </div>
+      </div>
+    </div>
+    <!--////////////////////////////////////////////////////////////////////
     ////                      MODAL AGREGAR                            ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 z-50">
@@ -152,7 +172,9 @@ export default {
       fechaActual: '',   
       numeroActividades: 0,
       tipoUsuario: 0,
-      calendarioEscaneado: false 
+      calendarioEscaneado: false,
+      modalError: false,
+      datos:[],
     }
   },
   beforeMount(){
@@ -283,8 +305,12 @@ export default {
       console.log(`${API}/Calendario/Actividad/${refPlaza}`)  
       await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async (response) => {
-            console.log(response)                 
-            await this.actualizar_actividades(this.plazaSelect)                                                    
+            console.log(response.data.length)             
+              if(response.data.result.length > 0){
+                this.modalError = true 
+                this.datos = response.data.result           
+              }                            
+              await this.actualizar_actividades(this.plazaSelect)                                    
         })
       this.actividadSelect = ''      
     },
@@ -312,7 +338,7 @@ export default {
       this.validar_calendario_escaneado()   
     },    
     generar_pdf_calendario: function(comentario){        
-      if(this.events.length != 0 & comentario != ''){ 
+      if(this.events.length > 0 & comentario != ''){ 
         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
         let adminId = this.$store.state.Login.plazaSelecionada.administradorId
         let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
