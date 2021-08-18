@@ -5,8 +5,8 @@
       <!--//////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
-        <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Lista de Usuarios</h1>
-        <HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico>
+        <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser">Mi Perfil</h1>
+        <div v-if="typeUser"><HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico></div>  
         <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
           <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
@@ -67,17 +67,19 @@
             </tbody>            
           </table>
         </div>
-        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2" v-else>
-          <div class="border">Nombre:</div>
-          <div class="border">1</div>
-          <div class="border">Apellido Paterno</div>
-          <div class="border">1</div>
-          <div class="border">Apellido Materno</div> 
-          <div class="border">2</div>
-          <div class="border">Correo</div>
-          <div class="border">2</div>
-          <div class="border">Roll de Usuario</div>
-          <div class="border">3</div>
+        <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2"  v-for="(item, key) in listaUsuarios" :key="key" v-else>
+          <div class="border mx-auto my-auto">Nombre:</div>
+          <div class="border my-auto"><input type="text" v-model="item.name" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border mx-auto my-auto">Apellido Paterno</div>
+          <div class="border my-auto"><input v-model="item.lastName1" type="text" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border mx-auto my-auto">Apellido Materno</div> 
+          <div class="border my-auto"><input v-model="item.lastName2" type="text" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border mx-auto my-auto">Correo</div>
+          <div class="border my-auto"><input v-model="item.mail" type="text" class="w-full text-sm bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border mx-auto my-auto">Roll de Usuario</div>
+          <div class="border my-auto"><input v-model="item.roll" type="text" class="w-full text-center bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border mx-auto my-auto">Plazas</div>
+          <div class=" border-b-2 my-auto"><input v-model="item.plazas" type="text" class="w-full border border-none text-center" readonly></div>
           <div class="border">Cambiar Contraseña</div>
         </div>
       </div>
@@ -292,6 +294,7 @@ export default {
         this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
+        console.log(this.listaUsuarios)
         this.loadingTabla = false
       },100)
     },
