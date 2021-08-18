@@ -305,10 +305,20 @@ export default {
       console.log(`${API}/Calendario/Actividad/${refPlaza}`)  
       await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async (response) => {
-            console.log(response.data.length)             
+            console.log(response)             
               if(response.data.result.length > 0){
-                this.modalError = true 
-                this.datos = response.data.result           
+                let arrayNew = []
+                response.data.result.forEach(item => {
+                  console.log(item)
+                  if(item != 'Insertado'){
+                    arrayNew.push(item)
+                  }
+                })
+                console.log(arrayNew)
+                if(arrayNew.length > 0){
+                  this.modalError = true 
+                  this.datos = arrayNew           
+                }
               }                            
               await this.actualizar_actividades(this.plazaSelect)                                    
         })
