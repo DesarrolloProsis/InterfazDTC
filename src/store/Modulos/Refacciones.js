@@ -72,8 +72,9 @@ const actions = {
     await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)           
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit, rootGetters }, value) {          
-    await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}`)
+  async buscarComponenteId({ commit, rootGetters }, value) {  
+    console.log(value);        
+    await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}/${value.componentsStockId}`)
       .then(response => {
           console.log(response)                            
           if(response.data.result != null){

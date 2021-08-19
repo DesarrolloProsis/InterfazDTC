@@ -385,7 +385,8 @@ beforeMount: async function () {
       for (const item of componetesEdit.items) {                     
         newObject["attachedId"] = item.attachedId;
         newObject["componentsRelationship"] = item.relationship;
-        newObject["componentsRelationshipId"] = item.mainRelationship;                    
+        newObject["componentsRelationshipId"] = item.mainRelationship;
+        newObject["componentsStockId"] = item.componentsStockId;                    
         await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);          
         let array_ubicacion = [];
         let array_carril = [];
@@ -445,8 +446,9 @@ methods: {
     this.arrayPartidas.forEach(async(partida, index) => {      
       newObjectConvenio["attachedId"] = partida.row3.attachedId;
       newObjectConvenio["componentsRelationship"] = partida.row3.componentsRelationship;
-      newObjectConvenio["componentsRelationshipId"] = partida.row3.componentsRelationshipId;        
-      await this.$store.dispatch("Refacciones/buscarComponenteId", newObjectConvenio);      
+      newObjectConvenio["componentsRelationshipId"] = partida.row3.componentsRelationshipId;
+      newObjectConvenio["componentsStockId"] = partida.row3.componentsStockId;        
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObjectConvenio);            
       let nuevaPartidaInsert = await Service.obj_partida(partida.row8, this.listaRefaccionesValid, this.dateSinester, partida.row3.componentsRelationshipId, undefined, partida.row4)          
       let nuevoArray = nuevaPartidaInsert.map((item) => {
         item["IntPartida"] = index + 1
@@ -500,7 +502,8 @@ methods: {
       let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
       newObject["attachedId"] = this.componenteSeleccionado.attachedId;
       newObject["componentsRelationship"] = this.componenteSeleccionado.componentsRelationship;
-      newObject["componentsRelationshipId"] = this.componenteSeleccionado.componentsRelationshipId;        
+      newObject["componentsRelationshipId"] = this.componenteSeleccionado.componentsRelationshipId; 
+      newObject["componentsStockId"] = this.componenteSeleccionado.componentsStockId       
       await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
       this.listLane = await this.$store.state.Refacciones.listaLane
       this.relationShipPrincipal = this.componenteSeleccionado.componentsRelationship;      
