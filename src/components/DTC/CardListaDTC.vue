@@ -383,7 +383,8 @@ export default {
       await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber); 
       await this.$http.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`)
         .then(async (response) => {                                      
-          datosUser = response.data.result[0]                    
+          datosUser = response.data.result[0]    
+          console.log(datosUser)                
           await CookiesService.actualizar_plaza(datosUser.adminSquareId)          
         })         
       this.$store.commit('Header/LIBERAR_VALIDACION_NUMS', { numSiniestro: this.infoCard.sinisterNumber,  numReporte: this.infoCard.reportNumber })                         

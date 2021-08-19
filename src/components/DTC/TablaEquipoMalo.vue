@@ -418,6 +418,7 @@ beforeMount: async function () {
           componentsRelationship: item.relationship,
           componentsRelationshipId: item.mainRelationship,
           vitalComponent: item.vitalComponent,
+          componentsStockId: item.componentsStockId
         };            
         this.arrayPartidas.push(new_partida);
         EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)        
