@@ -68,19 +68,35 @@
           </table>
         </div>
         <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2"  v-for="(item, key) in listaUsuarios" :key="key" v-else>
-          <div class="border mx-auto my-auto">Nombre:</div>
-          <div class="border my-auto"><input type="text" v-model="item.name" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border mx-auto my-auto">Apellido Paterno</div>
-          <div class="border my-auto"><input v-model="item.lastName1" type="text" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border mx-auto my-auto">Apellido Materno</div> 
-          <div class="border my-auto"><input v-model="item.lastName2" type="text" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border mx-auto my-auto">Correo</div>
-          <div class="border my-auto"><input v-model="item.mail" type="text" class="w-full text-sm bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border mx-auto my-auto">Roll de Usuario</div>
-          <div class="border my-auto"><input v-model="item.roll" type="text" class="w-full text-center bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border mx-auto my-auto">Plazas</div>
-          <div class=" border-b-2 my-auto"><input v-model="item.plazas" type="text" class="w-full border border-none text-center" readonly></div>
-          <div class="border">Cambiar Contraseña</div>
+          <div class="hidden"><p>{{ editados.length }}</p></div>
+          <div class="col-span-2 grid-cols-2 mx-auto my-auto" v-if="editados.length > 0">
+            <button class="botonIconBorrarCard m-5" @click="cancelar_guardado">
+              <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+              <span>Cancelar</span>
+            </button>
+            <button class="botonIconSave m-5">
+              <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+              <span>Guardar</span>
+            </button>
+          </div>
+          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
+          <div class="my-auto"><input type="text" v-model="item.name"  @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Paterno:</p></div>
+          <div class="my-auto"><input type="text" v-model="item.lastName1" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div> 
+          <div class="my-auto"><input type="text" v-model="item.lastName2" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
+          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Correo:</p></div>
+          <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.mail }}</p></div>
+          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Roll de Usuario:</p></div>
+          <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.roll }}</p></div>
+          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Plazas:</p></div>
+          <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
+          <div class="col-span-2 mx-auto my-auto">
+            <button class="botonIconNext mx-32 my-auto">
+              <p class="">Cambiar Contraseña</p>
+            </button>
+          </div>
+          <div></div>
         </div>
       </div>
         <!--/////////////////////////////////////////////////////////////////////
@@ -254,7 +270,8 @@ export default {
         plazas: []
       },
       value:'',
-      loadingTabla: false
+      loadingTabla: false,
+      editados:[],
       
     };
   },
@@ -263,14 +280,33 @@ export default {
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
     this.refrescar_usuarios()    
-    if (this.$store.state.Login.cookiesUser.rollId == 1) {
+    if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                            METODOS                         ////
 ///////////////////////////////////////////////////////////////////// 
-  methods: {    
+  methods: { 
+    cancelar_guardado: function(){
+      this.editados= [];
+      this.refrescar_usuarios()
+    },
+    guardar_editado: function (value) {
+      if (this.editados.length == 0)
+        this.editados.push(Object.assign({}, value));
+      else {
+        if (this.editados.some((item) =>item["name"] == value["name"] && item["lastName1"] == value["lastName1"] && item["lastName2"] == value["lastName2"])) {
+          for (let i = 0; i < this.editados.length; i++) {
+            if (this.editados[i]["name"] == value["name"] && this.editados[i]["lastName1"] == value["lastName1"] && this.editados[i]["lastName2"] == value["lastName2"]) {
+              this.editados[i] = Object.assign({}, value);
+            }
+          }
+        } else {
+          this.editados.push(Object.assign({}, value));
+        }        
+      }
+    },  
     editar_password: function () {      
       if (this.enviarPassword) {
         this.enviarPassword = false;
