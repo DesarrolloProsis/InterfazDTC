@@ -66,18 +66,12 @@
               </template>
             </tbody>            
           </table>
-        </div>
-        <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2"  v-for="(item, key) in listaUsuarios" :key="key" v-else>
-          <div class="hidden"><p>{{ editados.length }}</p></div>
-          <div class="col-span-2 grid-cols-2 mx-auto my-auto" v-if="editados.length > 0">
-            <button class="botonIconBorrarCard m-5" @click="cancelar_guardado">
-              <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
-              <span>Cancelar</span>
-            </button>
-            <button class="botonIconSave m-5">
-              <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
-              <span>Guardar</span>
-            </button>
+        </div>    
+
+        <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2"  v-for="(item, key) in listaUsuarios" :key="key" v-else>
+          <div v-if="modalLoading" class="absolute mx-32 my-8">            
+            <img src="@/assets/img/load.gif"  class="h-48 w-48" />
+            <p class="text-gray-900 font-thin text-md mx-16">Espere ... </p>
           </div>
           <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
           <div class="my-auto"><input type="text" v-model="item.name"  @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
@@ -91,13 +85,25 @@
           <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.roll }}</p></div>
           <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Plazas:</p></div>
           <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
+          <div class="col-span-2 grid-cols-2 mx-auto my-auto">
+            <button class="botonIconSave m-1" @click="save_editado(item)">
+              <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+              <span>Guardar</span>
+            </button>
+            <button class="botonIconBorrarCard m-1" @click="cancelar_guardado">
+              <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+              <span>Cancelar</span>
+            </button>
+          </div>
+          <div></div>
           <div class="col-span-2 mx-auto my-auto">
-            <button class="botonIconNext mx-32 my-auto">
+            <button class="botonIconNext mx-32 my-auto" :class="{'deshabilitado':modalLoading}">
               <p class="">Cambiar Contraseña</p>
             </button>
           </div>
           <div></div>
         </div>
+        
       </div>
         <!--/////////////////////////////////////////////////////////////////////
         ////                     MODAL AGREGAR USUARIO                      ////
@@ -272,6 +278,7 @@ export default {
       value:'',
       loadingTabla: false,
       editados:[],
+      modalLoading:false,
       
     };
   },
@@ -307,6 +314,43 @@ export default {
         }        
       }
     },  
+    save_editado: function (item){
+      this.modalLoading = true
+      if(item.name != '' && item.lastName1 != '' && item.lastName2 != ''){
+        let UpUser = {
+          UserId: item.userId,
+          UserName: item.userName,
+          LastName1: item.lastName1,
+          LastName2: item.lastName2,
+          Name: item.name,
+          Mail: item.mail,
+          Rol: item.rollId,
+        };
+        this.$store.dispatch("Usuarios/Update_User", UpUser);
+        setTimeout(()=>{
+          this.$notify.success({
+          title: "Ops!!",
+          msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+        this.$router.push("/");
+        },2000)
+      }else{
+        this.$notify.error({
+          title: "Ops!!",
+          msg: "NINGUN CAMPO DEBE DE ESTAR VACÍO",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      }
+    },
     editar_password: function () {      
       if (this.enviarPassword) {
         this.enviarPassword = false;
@@ -431,7 +475,7 @@ export default {
             LastName2: this.User.LastName2,
             Name: this.User.Name,
             Mail: this.User.Mail,
-            Rol: this.User.Roll,
+            Rol: this.User.Rol,
           };
           this.$store.dispatch("Usuarios/Update_User", UpUser);                    
           let _UpUser = {
