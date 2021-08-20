@@ -97,8 +97,8 @@
                 <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :vista="'Inventario'" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
             <div class="mt-8 ml-8 sm:ml-0 ">
-                    <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold text-md">Seleecione un Carril</p>
-                    <p class="w-32 -ml-2 -mt-1 sm:ml-0 sm:w-full border">
+                    <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold text-md">Seleccione un Carril</p>
+                    <p class="w-32 -ml-2 -mt-1 sm:ml-0 sm:w-full">
                     <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 sm:w-full border-none is_valid" name="Carriles" type="text">
                         <option value="">Selecionar...</option>
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
