@@ -14,7 +14,7 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;" v-if="this.typeUser">
+        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <thead>
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
@@ -67,7 +67,7 @@
             </tbody>            
           </table>
         </div>
-        <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2"  v-for="(item, key) in listaUsuarios" :key="key" v-else>
+        <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2 hidden"  v-for="(item, key) in listaUsuarios" :key="key">
           <div class="hidden"><p>{{ editados.length }}</p></div>
           <div class="col-span-2 grid-cols-2 mx-auto my-auto" v-if="editados.length > 0">
             <button class="botonIconBorrarCard m-5" @click="cancelar_guardado">
