@@ -498,10 +498,10 @@ select:focus {
     @apply bg-blue-300 border-blue-600 text-white transition duration-500;
 }
 .deshabilitado{
-    @apply  bg-gray-400 border-b-2 border-black  opacity-50;
+    @apply  bg-gray-400 border-b-2 border-black text-gray-600  opacity-25;
 }
 .deshabilitado:hover{
-    @apply bg-gray-400 border-b-2 border-black text-gray-800 opacity-50 cursor-not-allowed;
+    @apply bg-gray-400 border-b-2 border-black text-gray-600 opacity-25 cursor-default;
 }
 @tailwind components;
 
