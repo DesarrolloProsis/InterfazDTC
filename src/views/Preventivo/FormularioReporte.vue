@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="border h-79 relative" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-5 -mb-33':modalLoading}">
         <!--/////////////////////////////////////////////////////////////////
         ////                HEADER REPORTE NIVEL CARRIL                   ////
         ////////////////////////////////////////////////////////////////////-->
@@ -14,10 +14,9 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0">
-            <div v-if="modalLoading" class="rounded-lg border w-64 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 px-12 py-10 shadow-2xl">          
+            <div v-if="modalLoading" class="rounded-lg border w-68 justify-center absolute  inset-x-0 bg-none mx-auto border-none px-12 py-10">          
                 <div class="justify-center text-center block">            
-                    <img src="https://media.giphy.com/media/jAYUbVXgESSti/source.gif"  class="h-48 w-48" />
-                    <p class="text-gray-900 font-thin text-md">Espere ... </p>
+                    <img src="@/assets/img/load.gif"  class="h-56 w-56" />
                 </div>
             </div>
         </div>
@@ -102,7 +101,7 @@ export default {
             limite: 300,
             objetoLogDate: {},
             reporteInsert: true,
-            modalLoading: false,
+            modalLoading: true,
             letras: 0,
             reporteInsertado: false,
             adminIdCalendarModify: ''
