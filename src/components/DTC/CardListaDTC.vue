@@ -29,10 +29,13 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6 font-titulo">
         <div class="flex justify-between">
-          <div class="font-semibold w-33">{{ infoCard.referenceNumber }}</div>           
+          <div class="font-semibold w-33">{{ infoCard.referenceNumber }}
+            <br>
+            <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 font-normal">Estatus {{ infoCard.statusId }}: <label class="font-semibold">{{ infoCard.statusDescription }}</label></a> 
+            </div>           
           <div class=" inline-flex sm:ml-10 ml-16">
             <div class="mt-1 p-0 inline-block text-sm ml-6"> 
-              <p>{{ infoCard.sinisterDate | formatDate }}</p>
+              <p class="font-semibold">{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800 -ml-3">*Fecha Siniestro</span>
             </div>     
           </div>
@@ -44,11 +47,11 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
-          <p class="text-left font-semibold text-sm">Referencia Diagnostico: {{ infoCard.technicalSheetReference }}</p>
-          <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
-          <p class="text-left font-semibold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
-          <p class="text-left font-semibold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
-          <p class="text-left font-semibold text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
+          <p class="text-left  text-sm">Referencia Diagnostico: <label class="font-semibold">{{ infoCard.technicalSheetReference }}</label></p>
+          <p class="text-left text-sm">N° Siniestro: <label class="font-semibold">{{ infoCard.sinisterNumber }}</label></p>
+          <p class="text-left text-sm">N° Reporte: <label class="font-semibold">{{ infoCard.reportNumber }}</label></p>
+          <p class="text-left text-sm break-words">Folio: <label class="font-semibold">{{ infoCard.failureNumber }}</label></p> 
+          <p class="text-left text-sm break-words">Registro en Sistema: <label class="font-semibold">{{ infoCard.dateStamp | formatDate }}</label></p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
           <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>  
           <div class="w-64 break-words text-left text-gray-800 font-normal">
@@ -90,12 +93,12 @@
           ////                 STATUS / VER MAS                             ////
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">
-        <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 ">Estatus {{ infoCard.statusId }}: {{ infoCard.statusDescription }}</a>        
+               
         <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
-        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 ">Ver Mas</a>
+        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 m-auto">Ver Más</a>
       </div>
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 MINI TABLA CARD                              ////
