@@ -277,7 +277,7 @@
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
           <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
           <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc.referenceNumber">
+            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6 border-2 rounded-lg border-gray-500" :class="{'border-green-500 border-4': dtc.statusId === 2, 'border-yellow-500 border-4': dtc.statusId === 1, 'border-blue-500 border-4': dtc.statusId === 3}" v-for="(dtc) in lista_dtc" :key="dtc.referenceNumber">
               <CardListDTC
                 @borrar-card="confimaBorrar"
                 @editar-card="editar_header_dtc"
