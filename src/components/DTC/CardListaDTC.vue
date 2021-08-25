@@ -461,8 +461,7 @@ export default {
     },
     editar_status_dtc(){
       this.$emit("editar-status", this.infoCard.referenceNumber);
-    }
-    
+    }    
   },
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
