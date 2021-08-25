@@ -14,7 +14,7 @@
                         ////                         IMAGENES                             ////
                         ///////////////////////////////////////////////////////////////////// -->
                         <ImagenesFichaDiagnostico @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
-                        <button @click="enviar_header_ficha(false)" :disabled="blockBotonModal" class="botonIconCrear mt-4 sm:mt-12" :class="{'bg-gray-700': blockBotonModal, 'hover:bg-gray-700': blockBotonModal }">
+                        <button @click="enviar_header_ficha(false)" :disabled="blockBotonModal" class="botonIconCrear mt-4 sm:mt-12" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal  }">
                             <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
                             <span>Generar Ficha Técnica</span>
                         </button>  
