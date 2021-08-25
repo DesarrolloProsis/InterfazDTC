@@ -302,13 +302,17 @@ export default {
             ]
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
-            filtroOpciones.push(options[7])
+            if(this.typeUser != 7){
+                filtroOpciones.push(options[7])
+            }
             if(item.diagnosticoSellado){
                 filtroOpciones.push(options[10])
             } 
             if(item.validacionFichaTecnica){
                 filtroOpciones.push(options[5]) 
-                filtroOpciones.push(options[8])
+                if(this.typeUser != 7){
+                    filtroOpciones.push(options[8])
+                }
                 if(item.fichaSellado){
                     filtroOpciones.push(options[9]) 
                 }
