@@ -38,7 +38,6 @@
                     <button class="botonIconCrear font-boton" >
                         <span class="" @click="modalDetalles = false, detallesDtcBorrado = {}">Aceptar</span>
                     </button>
-
                 </div>
                 </div>
                 <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-77 sm:w-67 sm:ml-32 mb-20" style="height:500px;">
@@ -104,7 +103,7 @@ export default {
                 this.listaborrados = array_filtrado;
             }
             else{
-                this.listaborrados = this.listaDTC_borrados
+                this.listaborrados 
             }
         },
         mostras_detalles_borrado(value){
