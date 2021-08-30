@@ -14,8 +14,8 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;" v-if="this.typeUser">
-          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:450px;" v-if="this.typeUser">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
             <thead>
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>

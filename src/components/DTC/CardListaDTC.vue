@@ -303,7 +303,9 @@ export default {
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
             { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
-            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'} //11
+            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'}, //11
+            { title: 'Subir RF Sellado', img: '/img/upload.8d26bb4f.png'}, //12
+            { title: 'Bajar RF Sellado', img: '/img/download.ea0ec6db.png'}, //13
         ]
         let array = []           
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
@@ -322,21 +324,21 @@ export default {
           array.push(options[3])
         }
         else{
-          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){
+          if((this.tipoUsuario == 1 || this.tipoUsuario == 2 || this.tipoUsuario == 3 || this.tipoUsuario == 5) && this.infoCard.statusId >= 2){
             array.push(options[5])
-            if(this.tipoUsuario != 4){
+            array.push(options[4])
+            array.push(options[6])
+          }
+          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){ 
+            if(this.tipoUsuario != 4 || this.tipoUsuario != 8){
               array.push(options[7])
-            }
-            if(this.infoCard.statusId > 2){
-              array.push(options[6]) 
+              array.push(options[12])
+              array.push(options[13])
             }
           }
-          else{
+          if(this.tipoUsuario == 8 ){
             array.push(options[8])
           }          
-        }
-        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
-          array.push(options[4])
         }
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
