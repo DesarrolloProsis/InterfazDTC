@@ -105,8 +105,7 @@ const actions = {
         state.newlistaDmg[i][g]['strLifeTimeReal'].toString()
         arrayDmg.push(state.newlistaDmg[i][g])
       }
-    }        
-    console.log(arrayDmg)        
+    }                 
     await Axios.post(`${API}/requestedComponent/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.flagCreate}`, arrayDmg)
       .then(response => {      
         if (response.status == 200) {
