@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex justify-center mt-2 sm:mt-14" v-if="tipoBotones">
-            <div class="mb-66">       
+            <div class="mb-66 xl:mb-12">       
                 <div class="grid grid-cols-2"> 
                     <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
                         <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
