@@ -247,6 +247,11 @@ function manual_pdf(){
     xml_hhtp_request(manual, namePdf)
 
 }
+function reporte_dtcborrados(){
+    let urlExcel = `${API}/DtcData/DescargarExcelBorradosDTC`
+    let nameExcel = 'DTCBorrados.xlsx'
+    xml_hhtp_request(urlExcel,nameExcel)
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
@@ -264,5 +269,6 @@ export default {
     generar_pdf_ficha_sellada,
     reporte_componentes,
     dtc_no_sellados,
-    dtc_no_sellados_excel
+    dtc_no_sellados_excel,
+    reporte_dtcborrados
 }

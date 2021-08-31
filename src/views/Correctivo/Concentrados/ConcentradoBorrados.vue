@@ -5,7 +5,7 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
-                <HeaderGenerico @filtrar-borrado="guardar_palabra_busqueda" :titulo="'Concentrado DTC Borrados'" :tipo="'BORRADO'"></HeaderGenerico>
+                <HeaderGenerico @descargar-reporte-dtc="descargar_reporte_dtc" @filtrar-borrado="guardar_palabra_busqueda" :titulo="'Concentrado DTC Borrados'" :tipo="'BORRADO'"></HeaderGenerico>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     MODAL COMENTARIOS                         ////
                 ////////////////////////////////////////////////////////////////////-->
@@ -46,14 +46,17 @@
                         <thead>
                             <tr class="text-md text-gray-400 bg-blue-800">
                                 <th class="cabeceraTable">Referencia</th>
+                                <th class="cabeceraTable">Fecha de eliminación</th>
                                 <th class="cabeceraTable hidden">Conteo de borrado</th>
+                
                                 <th class="cabeceraTable">Acciones</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">  
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaborrados" :key="key">
                                 <td class="cuerpoTable">{{ `${item.refereceNumber}` }}</td>
-                                <td class="cuerpoTable hidden">{{ `Numero de veces borrado ${item.conteos}` }}</td>                                
+                                <td class="cuerpoTable hidden">{{ `Numero de veces borrado ${item.conteos}` }}</td>
+                                <td class="cuerpoTable">{{item.ultimaFecha | formatDate }}</td>              
                                 <td class="cuerpoTable">
                                     <button class="botonIconCrear" @click="mostras_detalles_borrado(item)">
                                         <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15"/>
@@ -72,7 +75,7 @@
 import moment from "moment";
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
+import ServiceReportPDF from "../../../services/ReportesPDFService";
 export default {
     name: "DTCBorrados",
     components:{
@@ -113,7 +116,11 @@ export default {
             .then((response)=>{ 
                 this.detallesDtcBorrado = { lista: response.data.result, ...value }       
             })
-        }
+        },
+        //Metodo para crear el Excel de DTC borrados
+        descargar_reporte_dtc: function(){
+            ServiceReportPDF.reporte_dtcborrados()
+        },
     },
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
