@@ -612,34 +612,6 @@ methods: {
         },2000)                        
       })       
   },
-/*   enviar_pdf_sellado: async function(value){   
-    this.modalLoading = true
-    let pdf_sellado_promise = new Promise((resolve, reject) => {                         
-          this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-            .then(() => {               
-              resolve('ok')                
-              let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
-              resolve('ok')                                                                           
-            })                                        
-        .catch((error) => {                      
-          reject(error)                          
-          this.$notify.error({
-            title: "ups!",
-            msg: error,
-            position: "bottom right",
-            styles: { height: 100, width: 500 },
-          });        
-        });      
-    })        
-    
-    setTimeout(() => {
-      pdf_sellado_promise.then(() => {  
-        this.modalLoading = false                  
-        this.limpiar_filtros()
-      })      
-    }, 3000);                                                                                   
-  }, */
   filtro_dtc: async function (objFiltros) {     
     if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            
       this.infoDTC = []

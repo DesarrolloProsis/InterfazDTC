@@ -343,7 +343,8 @@ export default {
           if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){ 
             if(this.tipoUsuario != 4 || this.tipoUsuario != 8){
               array.push(options[7])
-              array.push(options[12])
+              if(this.tipoUsuario != 7)
+                array.push(options[12])
               if(this.info.pdfFotograficoSellado)
                 array.push(options[13])
             }
@@ -357,6 +358,11 @@ export default {
         }
         if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
           array.push(options[11])
+        }
+        if(this.tipoUsuario == 7){
+          array.push(options[5])
+          array.push(options[6])
+          array.push(options[13])
         }
         return array       
     },

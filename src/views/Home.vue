@@ -18,13 +18,13 @@
               <p class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Correctivo</p>
             </router-link>
           </div>
-          <div class="Home animacion sm:m-4 sm:p-3 sm:mb-16 sm:botonesCorrectivo sm:h-56">
+          <div class="Home animacion sm:m-4 sm:p-3 sm:mb-16 sm:botonesCorrectivo sm:h-56" v-if="typeUser != 7">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
               <img src="../assets/img/engranajes.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-4 sm:mb-4 md:mt-6 md:mb-6"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Configuración</h1>
             </router-link>
           </div> 
-          <div class="Home animacion sm:m-4 sm:p-3 sm:mb-16 sm:botonesCorrectivo sm:h-56">
+          <div class="Home animacion sm:m-4 sm:p-3 sm:mb-16 sm:botonesCorrectivo sm:h-56" v-if="typeUser != 7">
             <router-link to="/Ayuda" class="text-center cursor-pointer">
               <img src="../assets/img/ayuda.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-4 sm:mb-4 md:mt-6 md:mb-6"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Ayuda</h1>
