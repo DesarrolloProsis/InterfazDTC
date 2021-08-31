@@ -80,8 +80,7 @@ export default {
         },
         buscar_ruta_envio(){       
             let url = ''  
-            let  formFile = new FormData()     
-            alert(this.tipoReporte)       
+            let  formFile = new FormData()         
             if(this.tipoReporte == 'Calendario'){
                 url = `${API}/calendario/CalendarioEscaneado/${this.objInsert.referenceNumber}/${this.objInsert.mes}/${this.objInsert.año}/${this.objInsert.idUser}`                
             }

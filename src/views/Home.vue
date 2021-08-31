@@ -1,7 +1,7 @@
 <template>
   <div>    
     <transition name="slide-fade">
-    <div class="flex justify-center mt-12 mb-12 sm:mt-6 md:mt-2" v-if="acultarPrimerosBotones">
+    <div class="flex justify-center mt-12 mb-12 sm:mt-6 md:mt-2 xl:mt-1" v-if="acultarPrimerosBotones">
       <div class>
         <div class="grid grid-cols-2 sm:mt-4">
           <div class="Home animacion sm:m-4 sm:p-3 sm:botonesCorrectivo sm:h-56" v-if="typeUser == 7 || typeUser == 1 ||typeUser == 2 || typeUser == 3 || typeUser == 4 || typeUser == 5 || typeUser == 10">
