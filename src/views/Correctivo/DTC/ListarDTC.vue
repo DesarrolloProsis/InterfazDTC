@@ -283,7 +283,7 @@
                 @editar-card="editar_header_dtc"
                 @editar-status="editar_status_dtc"
                 @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
-                @enviar_pdf_sellado="enviar_pdf_sellado"
+                
                 @editar-fechas-dtc="editar_fechas_dtc"
                 @cambiar-usuario-dtc="modal_cambiar_usurio_dtc"
                 :plazasValidas="plazasValidas"
@@ -612,7 +612,7 @@ methods: {
         },2000)                        
       })       
   },
-  enviar_pdf_sellado: async function(value){   
+/*   enviar_pdf_sellado: async function(value){   
     this.modalLoading = true
     let pdf_sellado_promise = new Promise((resolve, reject) => {                         
           this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
@@ -639,7 +639,7 @@ methods: {
         this.limpiar_filtros()
       })      
     }, 3000);                                                                                   
-  },
+  }, */
   filtro_dtc: async function (objFiltros) {     
     if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            
       this.infoDTC = []

@@ -79,7 +79,7 @@
         <!-- //////////////////////////////////////////////////////////////////////
         ////                         SUBIR PDF SELLADO                        ////
         ///////////////////////////////////////////////////////////////////// -->       
-        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Card-DTC'"></PdfEscaneado>    
+        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
           <!-- /////////////////////////////////////////////////////////////////////
               ////                         IMAGENES                             ////
               ///////////////////////////////////////////////////////////////////// -->
@@ -226,7 +226,8 @@ export default {
       modalSubirSellado: false,
       objInsertEscaneado: {},          
       value: '',
-      info: this.infoCard
+      info: this.infoCard,
+      tipoEscaneado: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -260,6 +261,7 @@ export default {
           this.editar_dtc()
         }
         if(this.value.title == 'DTC Sellado'){
+          this.tipoEscaneado = 'Card-DTC'
           this.modalSubirSellado = true
           this.objInsertEscaneado = {
             referenceNumber: this.infoCard.referenceNumber
@@ -288,6 +290,14 @@ export default {
         }
         if(this.value.title ==  'Cambiar Usuario DTC'){
           this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, referenceNumberDiagnosis: this.infoCard.technicalSheetReference, squareId: this.infoCard.squareCatalogId })
+        }
+        if(this.value.title == 'Subir RF Sellado'){
+          this.tipoEscaneado = 'Fotografico'
+          this.modalSubirSellado = true
+          this.objInsertEscaneado = { referenceNumber: this.infoCard.referenceNumber }
+        }
+        if(this.value.title == 'Bajar RF Sellado'){
+          this.fotografico_sellado()
         }
         this.value = ''
     },
@@ -334,7 +344,8 @@ export default {
             if(this.tipoUsuario != 4 || this.tipoUsuario != 8){
               array.push(options[7])
               array.push(options[12])
-              array.push(options[13])
+              if(this.info.pdfFotograficoSellado)
+                array.push(options[13])
             }
           }
           if(this.tipoUsuario == 8 ){
@@ -435,6 +446,9 @@ export default {
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
+    fotografico_sellado(){
+      ServiceReporte.reporte_fotografico_sellado(this.infoCard.referenceNumber)
+    },
     fotografico(){
       ServiceReporte.generar_pdf_fotografico_correctivo(this.infoCard.referenceNumber)
     },
@@ -452,7 +466,7 @@ export default {
     },  
     limpiar_componete_escaneado(){
       this.modalSubirSellado = false
-      this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
+      //this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
     },   
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        

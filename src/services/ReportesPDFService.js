@@ -226,6 +226,12 @@ function generar_pdf_ficha_sellada(referenceNumber,tipo){
         xml_hhtp_request(urlTopdf,namePdf)
     }
 }
+function reporte_fotografico_sellado(referenceNumber){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/ReporteFotografico/dañado/reporteSellado/${clavePlaza}/${referenceNumber}`
+    let namePdf = 'ReporteFotografico' + '-' + referenceNumber + '-' + 'Sellado'
+    xml_hhtp_request(urlTopdf,namePdf)
+}
 function reporte_componentes(){
     let urlExcel = `${API}/Component/DescargarExcel`
     let nameExcel = 'ReporteDeComponentes.xlsx'
@@ -264,5 +270,6 @@ export default {
     generar_pdf_ficha_sellada,
     reporte_componentes,
     dtc_no_sellados,
-    dtc_no_sellados_excel
+    dtc_no_sellados_excel,
+    reporte_fotografico_sellado,
 }
