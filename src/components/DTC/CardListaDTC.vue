@@ -31,8 +31,9 @@
         <div class="flex justify-between">
           <div class="font-semibold w-33">{{ infoCard.referenceNumber }}
             <br>
-            <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 font-normal">Estatus {{ infoCard.statusId }}: <label class="font-semibold">{{ infoCard.statusDescription }}</label></a> 
-            </div>           
+            <a class="font-normal text-sm text-gray-900">Estatus {{ infoCard.statusId }}:<label class="font-semibold"> {{ infoCard.statusDescription }}</label></a>
+            </div>  
+                   
           <div class=" inline-flex sm:ml-10 ml-16">
             <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p class="font-semibold">{{ infoCard.sinisterDate | formatDate }}</p>
@@ -47,10 +48,9 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
-          <p class="text-left  text-sm">Usuario Asignado: <label class="font-semibold"></label></p>
-          <p class="text-left  text-sm">Referencia Diagnostico: <label class="font-semibold">{{ infoCard.technicalSheetReference }}</label></p>
+          <p class="text-left text-sm">Referencia Diagnostico: <label class="font-semibold">{{ infoCard.technicalSheetReference }}</label></p>
           <p class="text-left text-sm">N° Siniestro: <label class="font-semibold">{{ infoCard.sinisterNumber }}</label></p>
-          <p class="text-left text-sm">N° Reporte: <label class="font-semibold">{{ infoCard.reportNumber }}</label></p>
+          <p class="text-left text-sm">N° Reporte: <label class="font-semibold"> {{ infoCard.reportNumber }}</label></p>
           <p class="text-left text-sm break-words">Folio: <label class="font-semibold">{{ infoCard.failureNumber }}</label></p> 
           <p class="text-left text-sm break-words">Registro en Sistema: <label class="font-semibold">{{ infoCard.dateStamp | formatDate }}</label></p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
