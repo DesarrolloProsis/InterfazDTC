@@ -277,13 +277,13 @@
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
           <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
           <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc.referenceNumber">
+            <div class="shadow-2xl inline-block border-4 focus m-4 p-3 sm:m-6" :class="{'border-yellow-500 border-4 rounded-lg': dtc.statusId === 1,'border-green-500 border-4 rounded-lg': dtc.statusId === 2,'border-blue-500 border-4 rounded-lg': dtc.statusId === 3}" v-for="(dtc) in lista_dtc" :key="dtc.referenceNumber">
               <CardListDTC
                 @borrar-card="confimaBorrar"
                 @editar-card="editar_header_dtc"
                 @editar-status="editar_status_dtc"
                 @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
-                @enviar_pdf_sellado="enviar_pdf_sellado"
+                
                 @editar-fechas-dtc="editar_fechas_dtc"
                 @cambiar-usuario-dtc="modal_cambiar_usurio_dtc"
                 :plazasValidas="plazasValidas"
@@ -611,34 +611,6 @@ methods: {
           this.modal = false
         },2000)                        
       })       
-  },
-  enviar_pdf_sellado: async function(value){   
-    this.modalLoading = true
-    let pdf_sellado_promise = new Promise((resolve, reject) => {                         
-          this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-            .then(() => {               
-              resolve('ok')                
-              let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
-              resolve('ok')                                                                           
-            })                                        
-        .catch((error) => {                      
-          reject(error)                          
-          this.$notify.error({
-            title: "ups!",
-            msg: error,
-            position: "bottom right",
-            styles: { height: 100, width: 500 },
-          });        
-        });      
-    })        
-    
-    setTimeout(() => {
-      pdf_sellado_promise.then(() => {  
-        this.modalLoading = false                  
-        this.limpiar_filtros()
-      })      
-    }, 3000);                                                                                   
   },
   filtro_dtc: async function (objFiltros) {     
     if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            

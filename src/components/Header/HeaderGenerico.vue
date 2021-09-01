@@ -178,9 +178,17 @@
         <div v-if="tipo == 'BORRADO'" class="w-77 border mb-2 shadow-md rounded-lg font-titulo sm:w-67 sm:ml-1">
         <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="sm:w-full grid grid-cols-1 text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
-            <div class="text-center sm:ml-6 mb-6">
-                <p class="font-bold sm:text-sm sm:text-center">Referencia</p>
-                <input v-model="buscarBorrado" class="border w-66 text-center ml-64 sm:w-32 is_valid sm:ml-20" placeholder="PM-000000"/>
+            <div class="text-center sm:ml-6 mb-6 flex">  
+                <div class="mx-auto">
+                <p class="font-bold sm:text-sm sm:text-center -mr-32">Referencia</p>
+                <input v-model="buscarBorrado" class="border w-66 text-center sm:w-32 is_valid sm:ml-20 -mr-32" placeholder="PM-000000"/>
+                </div>
+                <div class="my-auto mr-12">
+                <button class="botonIconExcel" @click="descargarReportedtcborrados">
+                <img src="@/assets/img/excel.png" class="mr-2" width="25" height="25" />
+                </button>
+                </div>
+                
             </div>             
         </div> 
         </div>
@@ -190,10 +198,15 @@
         <div v-if="tipo == 'DF'" class="mt-1 mb-1 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols md:w-auto font-titulo" >
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-lg font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto md:mx-auto" >
-            <div class="m-3 sm:m-0  ">                                        
-                <p class="font-bold mb-2 sm:text-xs sm:text-center md:mx-12 lg:mx-6 xl:mx-21">Seleccione una Plaza:</p>
-                <div class="sm:mx-16 lg:-mx-18 xl:-mx-8">
-                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+            <div class="m-3 sm:m-0">                                        
+                
+                <p class="font-bold mb-2 sm:text-xs sm:text-center md:mx-12 lg:mx-6 xl:mx-21 inline-flex">Seleccione una Plaza: </p>
+                <div class="sm:mx-16 lg:-mx-18 xl:-mx-8 ">
+                    <div class="inline-flex mx-8">
+                        <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                    </div>
+                    
+                    
                 </div>
             </div>
             <div class=" m-3 md:mx-auto ">
@@ -446,6 +459,9 @@ export default {
             this.plazaSeleccionada = ''
         },
         //Metodos para Concentrado DTC Borrados
+        descargarReportedtcborrados: function (){
+            this.$emit('descargar-reporte-dtc')
+        },
         //Metodos Concentrado de Diagnostico Falla
         limpiar_filtros_diagnostico_falla: function(){
             this.buscarDF = ''
@@ -462,6 +478,9 @@ export default {
                 ubicacion: this.ubicacion
             })
         },
+        
+        
+        
     },
     watch:{
         buscarDTC: function(newPalabra){
@@ -494,3 +513,16 @@ export default {
     }
 }
 </script>
+<style>
+.vue-tooltip.tooltip-custom {
+    width: 50rem;  
+    background-color: rgba(255, 255, 255, 0.685);  
+    border: 1px solid #466fa1;  
+    box-shadow: 1000;
+    border-radius: 15px;
+}
+
+.vue-tooltip.tooltip-custom .tooltip-arrow {  
+    border: 3px solid #466fa1;  
+}
+</style>

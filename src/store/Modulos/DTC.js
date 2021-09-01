@@ -25,6 +25,7 @@ const getters = {
       return state.listaInfoDTC
         .filter(dtc => dtc.dtcView.statusId == 4)
         .map((item) => {
+          item.dtcView.pdfFotograficoSellado = item.pdfFotograficoSellado
           //valida img equipo dañado
           if(item.paths.length > 0)
             item.dtcView.imgbool = false
@@ -46,8 +47,13 @@ const getters = {
           return item.dtcView          
         })     
     }
-    else
-      return state.listaInfoDTC.filter(dtc => dtc.dtcView.statusId < 4).map(item => item.dtcView)
+    else{
+      
+      return state.listaInfoDTC.filter(dtc => dtc.dtcView.statusId < 4).map(item => {
+        item.dtcView.pdfFotograficoSellado = item.pdfFotograficoSellado
+        return item.dtcView
+      })
+    }
   },
   GET_FOTOS_EQUIPO_DAÑADO_REFERENCE: () => (numeroReferencia) => state.listaInfoDTC.find(dtc => dtc.dtcView.referenceNumber == numeroReferencia).paths,
   GET_TABLE_DTC_CARDS: () => state.tableFormComponent, 
@@ -105,8 +111,7 @@ const actions = {
         state.newlistaDmg[i][g]['strLifeTimeReal'].toString()
         arrayDmg.push(state.newlistaDmg[i][g])
       }
-    }        
-    console.log(arrayDmg)        
+    }                 
     await Axios.post(`${API}/requestedComponent/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.flagCreate}`, arrayDmg)
       .then(response => {      
         if (response.status == 200) {

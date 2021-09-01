@@ -300,21 +300,16 @@ export default {
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario
-      )     
-      console.log(actividadInsert)       
-      console.log(`${API}/Calendario/Actividad/${refPlaza}`)  
+      )                 
       await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
-        .then(async (response) => {
-            console.log(response)             
+        .then(async (response) => {                     
               if(response.data.result.length > 0){
                 let arrayNew = []
-                response.data.result.forEach(item => {
-                  console.log(item)
+                response.data.result.forEach(item => {                  
                   if(item != 'Insertado'){
                     arrayNew.push(item)
                   }
-                })
-                console.log(arrayNew)
+                })                
                 if(arrayNew.length > 0){
                   this.modalError = true 
                   this.datos = arrayNew           

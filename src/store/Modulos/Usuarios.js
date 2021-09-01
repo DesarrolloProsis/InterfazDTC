@@ -18,7 +18,8 @@ const actions = {
             })       
     },
     async Update_User({commit}, value){
-        commit        
+        commit      
+        console.log(value);  
         await Axios.put(`${API}/User/update`,value)
             .then(() => {})      
     },
@@ -35,8 +36,11 @@ const actions = {
     },
     async UPDATE_PASSWORD({commit}, value){
       commit            
+      console.log(value);
       await Axios.put(`${API}/User/newPassword`,value)
-          .then(() => {})                                        
+          .then((response) => {
+            console.log(response);
+          })                                        
   },
 }
 export default {
