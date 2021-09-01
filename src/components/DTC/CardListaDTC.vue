@@ -48,6 +48,7 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
+          <p class="text-left text-sm">Usuario Asignado: <label class="font-semibold">{{ infoCard.userName }}</label></p>
           <p class="text-left text-sm">Referencia Diagnostico: <label class="font-semibold">{{ infoCard.technicalSheetReference }}</label></p>
           <p class="text-left text-sm">N° Siniestro: <label class="font-semibold">{{ infoCard.sinisterNumber }}</label></p>
           <p class="text-left text-sm">N° Reporte: <label class="font-semibold"> {{ infoCard.reportNumber }}</label></p>
