@@ -385,7 +385,8 @@ export default {
       let datosUser = {}      
       await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber); 
       await this.$http.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`)
-        .then(async (response) => {  
+        .then(async (response) => { 
+          console.log(response) 
           datosUser = response.data.result.find(item => item.adminSquareId = this.infoCard.adminId)               
           await CookiesService.actualizar_plaza(datosUser.adminSquareId)          
         })         

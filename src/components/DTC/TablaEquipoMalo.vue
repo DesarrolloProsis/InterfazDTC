@@ -386,7 +386,8 @@ beforeMount: async function () {
         newObject["attachedId"] = item.attachedId;
         newObject["componentsRelationship"] = item.relationship;
         newObject["componentsRelationshipId"] = item.mainRelationship;
-        newObject["componentsStockId"] = item.componentsStockId;                    
+        newObject["componentsStockId"] = item.co
+                          
         await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);          
         let array_ubicacion = [];
         let array_carril = [];
@@ -474,6 +475,9 @@ methods: {
   },
   eliminar_partida(index){
     this.arrayPartidas.splice(index, 1)
+  //   this.arrayPartidas = this.arrayPartidas.map((item) => {
+  //  console.log()   
+  //   })
     EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
   },
   UnClick() { this.componenteSeleccionado = "" },
