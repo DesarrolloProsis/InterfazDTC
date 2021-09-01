@@ -3,7 +3,7 @@
     <transition name="slide-fade">
     <div class="flex justify-center mt-12 mb-12 sm:mt-6 md:mt-2 xl:mt-1" v-if="acultarPrimerosBotones">
       <div class>
-        <div class="grid grid-cols-2 sm:mt-4">
+        <div class="grid grid-cols-2 sm:mt-4" :class="{'mx-auto my-30':typeUser == 7}">
           <div class="Home animacion sm:m-4 sm:p-3 sm:botonesCorrectivo sm:h-56" v-if="typeUser == 7 || typeUser == 1 ||typeUser == 2 || typeUser == 3 || typeUser == 4 || typeUser == 5 || typeUser == 10">
             <router-link :to="`home/${typeUser}/preventivo`" class="text-center">
               <img src="../assets/img/wrench.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-2 sm:mb-4 md:mt-6 md:mb-6"/>
