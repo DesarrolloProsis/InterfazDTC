@@ -19,7 +19,7 @@
     <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3">      
       <transition name="fade">
         <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex font-titulo">     
-          <div class="bg-white  border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg">                  
+          <div class="bg-white  border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg" :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg': rollUsuario == 7}">                  
             <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
               <p class="font-bold">{{ item.texto }}</p>
               <button>
@@ -45,8 +45,8 @@
               </div>  
             </button>   
           </div>
-          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden">                  
-            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
+          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden" :class="{'h-18 border-l-0': rollUsuario == 7}">                  
+            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1" :class="{'hidden': rollUsuario == 7}">
               <p class="font-bold">{{ item.texto }}</p>                  
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub">
                   <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-300 pl-1 pr-1 pb-1 w-full">

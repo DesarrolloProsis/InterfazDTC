@@ -54,7 +54,7 @@ const actions = {
       let objLogin = { username: objUserLogin.user, password: objUserLogin.password  }     
       Axios.post(`${API}/login`,objLogin)
         .then(async (response) => {                                  
-          commit("COOKIES_USER_MUTATION", await CookiesService.formato_cookies_usuario(response.data.result))
+          commit("COOKIES_USER_MUTATION", await CookiesService.formato_cookies_usuario(response.data.result, objUserLogin.user))
           resolve(true)                                                 
         })
       .catch(() => reject(false));
