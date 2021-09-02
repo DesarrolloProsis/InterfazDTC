@@ -93,7 +93,7 @@ const evenstHub = new Vue()
 Vue.use(sesionExpire,{
   eventEmitter: evenstHub,
   store,
-  idleTime: 3000, // 3 seconds
+  idleTime: 300, // 3 seconds
   startAtIdle: false
 })
 
