@@ -65,7 +65,7 @@ module.exports = {
         '78': '59rem',
         '79': '90rem',
         '80': '95rem',        
-      }      
+      }
     }
   },
   variants: {    

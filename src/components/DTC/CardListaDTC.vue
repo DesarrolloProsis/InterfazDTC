@@ -31,8 +31,9 @@
         <div class="flex justify-between">
           <div class="font-semibold w-33">{{ infoCard.referenceNumber }}
             <br>
-            <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 font-normal">Estatus {{ infoCard.statusId }}: <label class="font-semibold">{{ infoCard.statusDescription }}</label></a> 
-            </div>           
+            <a class="font-normal text-sm text-gray-900">Estatus {{ infoCard.statusId }}:<label class="font-semibold"> {{ infoCard.statusDescription }}</label></a>
+            </div>  
+                   
           <div class=" inline-flex sm:ml-10 ml-16">
             <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p class="font-semibold">{{ infoCard.sinisterDate | formatDate }}</p>
@@ -47,9 +48,10 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
-          <p class="text-left  text-sm">Referencia Diagnostico: <label class="font-semibold">{{ infoCard.technicalSheetReference }}</label></p>
+          <p class="text-left text-sm">Usuario Asignado: <label class="font-semibold">{{ infoCard.userName }}</label></p>
+          <p class="text-left text-sm">Referencia Diagnostico: <label class="font-semibold">{{ infoCard.technicalSheetReference }}</label></p>
           <p class="text-left text-sm">N° Siniestro: <label class="font-semibold">{{ infoCard.sinisterNumber }}</label></p>
-          <p class="text-left text-sm">N° Reporte: <label class="font-semibold">{{ infoCard.reportNumber }}</label></p>
+          <p class="text-left text-sm">N° Reporte: <label class="font-semibold"> {{ infoCard.reportNumber }}</label></p>
           <p class="text-left text-sm break-words">Folio: <label class="font-semibold">{{ infoCard.failureNumber }}</label></p> 
           <p class="text-left text-sm break-words">Registro en Sistema: <label class="font-semibold">{{ infoCard.dateStamp | formatDate }}</label></p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
@@ -78,7 +80,7 @@
         <!-- //////////////////////////////////////////////////////////////////////
         ////                         SUBIR PDF SELLADO                        ////
         ///////////////////////////////////////////////////////////////////// -->       
-        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Card-DTC'"></PdfEscaneado>    
+        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
           <!-- /////////////////////////////////////////////////////////////////////
               ////                         IMAGENES                             ////
               ///////////////////////////////////////////////////////////////////// -->
@@ -225,7 +227,8 @@ export default {
       modalSubirSellado: false,
       objInsertEscaneado: {},          
       value: '',
-      info: this.infoCard
+      info: this.infoCard,
+      tipoEscaneado: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -259,6 +262,7 @@ export default {
           this.editar_dtc()
         }
         if(this.value.title == 'DTC Sellado'){
+          this.tipoEscaneado = 'Card-DTC'
           this.modalSubirSellado = true
           this.objInsertEscaneado = {
             referenceNumber: this.infoCard.referenceNumber
@@ -288,6 +292,14 @@ export default {
         if(this.value.title ==  'Cambiar Usuario DTC'){
           this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, referenceNumberDiagnosis: this.infoCard.technicalSheetReference, squareId: this.infoCard.squareCatalogId })
         }
+        if(this.value.title == 'Subir RF Sellado'){
+          this.tipoEscaneado = 'Fotografico'
+          this.modalSubirSellado = true
+          this.objInsertEscaneado = { referenceNumber: this.infoCard.referenceNumber }
+        }
+        if(this.value.title == 'Bajar RF Sellado'){
+          this.fotografico_sellado()
+        }
         this.value = ''
     },
     opticones_select_acciones(){
@@ -303,7 +315,9 @@ export default {
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
             { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
-            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'} //11
+            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'}, //11
+            { title: 'Subir RF Sellado', img: '/img/upload.8d26bb4f.png'}, //12
+            { title: 'Bajar RF Sellado', img: '/img/download.ea0ec6db.png'}, //13
         ]
         let array = []           
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
@@ -322,27 +336,34 @@ export default {
           array.push(options[3])
         }
         else{
-          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){
+          if((this.tipoUsuario == 1 || this.tipoUsuario == 2 || this.tipoUsuario == 3 || this.tipoUsuario == 5) && this.infoCard.statusId >= 2){
             array.push(options[5])
-            if(this.tipoUsuario != 4){
+            array.push(options[4])
+            array.push(options[6])
+          }
+          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){ 
+            if(this.tipoUsuario != 4 || this.tipoUsuario != 8){
               array.push(options[7])
-            }
-            if(this.infoCard.statusId > 2){
-              array.push(options[6]) 
+              if(this.tipoUsuario != 7)
+                array.push(options[12])
+              if(this.info.pdfFotograficoSellado)
+                array.push(options[13])
             }
           }
-          else{
+          if(this.tipoUsuario == 8 ){
             array.push(options[8])
           }          
-        }
-        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
-          array.push(options[4])
         }
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
         }
         if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
           array.push(options[11])
+        }
+        if(this.tipoUsuario == 7){
+          array.push(options[5])
+          array.push(options[6])
+          array.push(options[13])
         }
         return array       
     },
@@ -432,6 +453,9 @@ export default {
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
+    fotografico_sellado(){
+      ServiceReporte.reporte_fotografico_sellado(this.infoCard.referenceNumber)
+    },
     fotografico(){
       ServiceReporte.generar_pdf_fotografico_correctivo(this.infoCard.referenceNumber)
     },
@@ -449,7 +473,7 @@ export default {
     },  
     limpiar_componete_escaneado(){
       this.modalSubirSellado = false
-      this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
+      //this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
     },   
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        

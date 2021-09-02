@@ -1,11 +1,11 @@
 <template>
-  <div>    
-    <div class="flex justify-center p-4">
+  <div class="border h-75" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-8':modalLoading}">    
+    <div class="flex justify-center p-4" >
       <div class="grid gap-2 grid-cols-1">
       <!--//////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
-        <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser">Mi Perfil</h1>
+        <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser" :class="{'opacity-25':modalLoading}">Mi Perfil</h1>
         <div v-if="typeUser"><HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico></div>  
         <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
           <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
@@ -14,8 +14,8 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg -mb-66 shadow overflow-y-auto " style="height:600px;">
-          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:450px;" v-if="this.typeUser">
+          <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
             <thead>
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
                 <th class="w-64 cabeceraTable font-medium">Nombre</th>
@@ -66,42 +66,79 @@
               </template>
             </tbody>            
           </table>
-        </div>
-        <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto border grid grid-cols-2 hidden"  v-for="(item, key) in listaUsuarios" :key="key">
-          <div class="hidden"><p>{{ editados.length }}</p></div>
-          <div class="col-span-2 grid-cols-2 mx-auto my-auto" v-if="editados.length > 0">
-            <button class="botonIconBorrarCard m-5" @click="cancelar_guardado">
-              <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
-              <span>Cancelar</span>
-            </button>
-            <button class="botonIconSave m-5">
-              <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
-              <span>Guardar</span>
-            </button>
+        </div>    
+        <div  v-else>
+          <div v-if="modalLoading" class="absolute mx-32 my-8">            
+            <img src="@/assets/img/load.gif"  class="h-48 w-48" />
           </div>
-          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
-          <div class="my-auto"><input type="text" v-model="item.name"  @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Paterno:</p></div>
-          <div class="my-auto"><input type="text" v-model="item.lastName1" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div> 
-          <div class="my-auto"><input type="text" v-model="item.lastName2" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4"></div>
-          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Correo:</p></div>
-          <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.mail }}</p></div>
-          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Roll de Usuario:</p></div>
-          <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.roll }}</p></div>
-          <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Plazas:</p></div>
-          <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
-          <div class="col-span-2 mx-auto my-auto">
-            <button class="botonIconNext mx-32 my-auto">
-              <p class="">Cambiar Contraseña</p>
-            </button>
+          <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2" :class="{'bg-gray-600 bg-opacity-0':modalLoading}"  v-for="(item, key) in listaUsuarios" :key="key">
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading"  @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Paterno:</p></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName1" :disabled="modalLoading" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div> 
+            <div :class="{'opacity-25 cursor-default':modalLoading}" :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName2" :disabled="modalLoading" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Correo:</p></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.mail }}</p></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Roll de Usuario:</p></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.roll }}</p></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Plazas:</p></div>
+            <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
+            <div class="col-span-2 grid-cols-2 mx-auto my-auto">
+              <button class="botonIconSave m-1" :disabled="modalLoading" @click="save_editado(item)" :class="{'deshabilitado':modalLoading}">
+                <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                <span>Guardar</span>
+              </button>
+              <button class="botonIconBorrarCard m-1" :disabled="modalLoading" @click="cancelar_guardado" :class="{'deshabilitado':modalLoading}">
+                <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                <span>Cancelar</span>
+              </button>
+            </div>
+            <div></div>
+            <div class="col-span-2 mx-auto my-auto">
+              <button @click="modal_password=true" class="botonIconNext mx-32 my-auto" :disabled="modalLoading" :class="{'deshabilitado':modalLoading}">
+                <p>Cambiar Contraseña</p>
+              </button>
+            </div>
+            <div></div>
           </div>
-          <div></div>
-        </div>
+        </div>        
       </div>
         <!--/////////////////////////////////////////////////////////////////////
-        ////                     MODAL AGREGAR USUARIO                      ////
+        ////               MODAL AGREGAR CAMBIOAR USUARIO                   ////
         ////////////////////////////////////////////////////////////////////-->
+        <div v-if="modal_password" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto my-16 px-12 py-10 shadow-2xl" :class="{'hidden':modalLoading}">
+          <div>
+            <h1 class="text-4xl font-bold text-gray-800 text-center -mt-6">Cambiar contraseña</h1>
+            <div class="mt-3">
+              <p class="text-sm mb-1 font-semibold text-gray-700">Contraseña Actual:</p>
+              <input class="w-full is_valid" type="password" v-model="datos.password" placeholder="Contraseña Actual" name="Contraseña"/>
+            </div>
+            <div class="mt-3">
+              <p class="text-sm mb-1 font-semibold text-gray-700">Nueva Contraseña:</p>
+              <input v-model="User.Password" type="password" class="w-full is_valid" placeholder="Nueva Contraseña" :disabled="enviarPassword"/>
+            </div>
+            <div class="mt-3">
+              <p class="text-sm mb-1 font-semibold text-gray-700">Confirmar Contraseña:</p>
+              <input v-model="User.RePassword" type="password" class="w-full is_valid" placeholder="Confirmar Contraseña" :disabled="enviarPassword"/>
+            </div>
+            <div class="mx-auto my-6 -mb-8">
+              <div class="mx-20 grid grid-cols-2">
+                <button class="botonIconSave m-1"  :disabled="modalLoading" @click="cambiar_pass" :class="{'deshabilitado':modalLoading}">
+                  <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                  <span>Guardar</span>
+                </button>
+                <button class="botonIconBorrarCard m-1 grid grid-cols-2" :disabled="modalLoading" @click="modal_password=false, datos.password = '',User.RePassword = '', User.Password = ''" :class="{'deshabilitado':modalLoading}">
+                  <img src="../assets/img/borrar.png" class=" sm:mr-1 sm:ml-1" width="25" height="25">
+                  <span class="-ml-2">Cancelar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div> 
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                     MODAL AGREGAR USUARIO                      ////
+      ////////////////////////////////////////////////////////////////////-->
       <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
                     <p class="text-gray-900 font-semibold text-md sm:text-md sm:text-center text-center">Agregar Usuario</p>
                     <div class="grid grid-cols-2 mt-2">
@@ -146,7 +183,7 @@
                         <button @click="guardar_nuevo_usuario" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
                         <button @click="modalEditar = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
                     </div>
-                </div>
+      </div>
       <div class="flex absolute justify-center inset-x-0 mt-24">
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex -mr-10 -mt-6">
@@ -272,7 +309,13 @@ export default {
       value:'',
       loadingTabla: false,
       editados:[],
-      
+      modalLoading:false,
+      modal_password:false,
+      datos: {
+        user: "",
+        password: "",
+        checkLog: true,
+      },
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -283,6 +326,7 @@ export default {
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
     }
+    this.datos.user = this.$store.state.Login.cookiesUser.userName
   },
 /////////////////////////////////////////////////////////////////////
 ////                            METODOS                         ////
@@ -307,6 +351,126 @@ export default {
         }        
       }
     },  
+    cambiar_pass: async function (){
+      this.$store.dispatch("Login/INICIAR_SESION_LOGIN", this.datos)
+      .then(()=>{
+        this.modalLoading = true
+        if(this.User.Password.length < 8){
+          this.$notify.error({
+            title: "Ops!!",
+            msg: "LA NUEVA CONTRASEÑA ES DEMASIADO CORTA",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+          this.modalLoading = false
+        }else if(this.User.Password == this.User.RePassword){      
+          if (this.User.Password == "") {
+            this.$notify.error({
+              title: "Ops!!",
+              msg: "LAS CONTRASEÑAS ESTA VACIO",
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+          } 
+          else {  
+            let UpUser = {
+              UserId: this.listaUsuarios[0].userId,
+              UserName: this.listaUsuarios[0].userName,
+              LastName1: this.listaUsuarios[0].lastName1,
+              LastName2: this.listaUsuarios[0].lastName2,
+              Name: this.listaUsuarios[0].name,
+              Mail: this.listaUsuarios[0].mail,
+              Rol: this.listaUsuarios[0].rollId,
+            };
+            console.log(UpUser);
+            this.$store.dispatch("Usuarios/Update_User", UpUser);                    
+            let _UpUser = {
+              IdUser: this.listaUsuarios[0].userId,
+              Password: this.User.Password,
+            };          
+            if(_UpUser.Password != ""){              
+                this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
+            }                                                    
+            setTimeout(()=>{
+                        this.$notify.success({
+              title: "Ops!!",
+              msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+            });
+              this.$router.push("/");
+            },1000)
+          } 
+        }else{
+          this.$notify.error({
+            title: "Ops!!",
+            msg: "LAS CONTRASEÑAS NO COINCIDEN.",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        }
+      })
+      .catch(()=>{
+        this.$notify.error({
+            title: "Ops!!",
+            msg: "LA CONTRASEÑA ACTUAL NO ES CORRECTA",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+      })
+    },
+    save_editado: function (item){
+      this.modalLoading = true
+      if(item.name != '' && item.lastName1 != '' && item.lastName2 != ''){
+        let UpUser = {
+          UserId: item.userId,
+          UserName: item.userName,
+          LastName1: item.lastName1,
+          LastName2: item.lastName2,
+          Name: item.name,
+          Mail: item.mail,
+          Rol: item.rollId,
+        };
+        this.$store.dispatch("Usuarios/Update_User", UpUser);
+        setTimeout(()=>{
+          this.$notify.success({
+          title: "Ops!!",
+          msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+        this.$router.push("/");
+        },2000)
+      }else{
+        this.$notify.error({
+          title: "Ops!!",
+          msg: "NINGUN CAMPO DEBE DE ESTAR VACÍO",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      }
+    },
     editar_password: function () {      
       if (this.enviarPassword) {
         this.enviarPassword = false;
@@ -431,7 +595,7 @@ export default {
             LastName2: this.User.LastName2,
             Name: this.User.Name,
             Mail: this.User.Mail,
-            Rol: this.User.Roll,
+            Rol: this.User.Rol,
           };
           this.$store.dispatch("Usuarios/Update_User", UpUser);                    
           let _UpUser = {

@@ -474,6 +474,9 @@ methods: {
   },
   eliminar_partida(index){
     this.arrayPartidas.splice(index, 1)
+    this.arrayPartidas.map((item, index) => {
+      item.row1 = index + 1
+    })
     EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
   },
   UnClick() { this.componenteSeleccionado = "" },

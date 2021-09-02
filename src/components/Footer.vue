@@ -21,14 +21,14 @@
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class=" font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.2 !!! 🎉</p>
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.3 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
                             <li>·Se puede seleccionar distinto encargado de plaza en Reporte de Mantenimiento Preventivo.</li>
                         </ol>
                     </div>                    
                 </div>
                 <div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.2</p>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.3</p>
                 </div>
             </div>                                
         </div>        

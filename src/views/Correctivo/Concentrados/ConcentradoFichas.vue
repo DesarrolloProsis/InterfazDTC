@@ -316,7 +316,7 @@ export default {
                 if(item.fichaSellado){
                     filtroOpciones.push(options[9]) 
                 }
-                if(!item.validacionDTC && item.typeFaultId  >= 2){
+                if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7){
                     filtroOpciones.push(options[1])
                 }           
                 if(item.validacionDTC && item.validacionFichaTecnica){
@@ -328,6 +328,7 @@ export default {
                 }
             }     
             else{
+                if(this.typeUser != 7)
                 filtroOpciones.push(options[0])
             }                                       
             return filtroOpciones
