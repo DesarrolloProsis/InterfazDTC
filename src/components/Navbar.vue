@@ -43,8 +43,8 @@
               </div>  
             </button>   
           </div>
-          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden">                  
-            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
+          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden" :class="{'border-l-0 h-16':rollUsuario == 7}">                  
+            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1" :class="{'hidden':rollUsuario == 7}">
               <p class=" font-semibold text-gray-900 ml-4">{{ item.texto }}</p>                  
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
                   <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full bg-white">
