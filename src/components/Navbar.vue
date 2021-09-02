@@ -21,8 +21,7 @@
         <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex font-titulo">     
           <div class="bg-white  border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg" :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg': rollUsuario == 7}">                  
             <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
-              <p class="font-semibold text-gray-900 ml-4">{{ item.texto }}</p>
-              <button>
+              <p class="font-semibold text-gray-900 ml-4">{{ item.texto }}</p>              
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
                   <button @click="$router.push(itemsub.path)" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
@@ -31,12 +30,11 @@
                         <p class="mt-2" >{{ itemsub.texto }}</p> 
                       </template>     
                       <template v-else>
-                        <p v-for="(itemtext, key) in itemsub.texto.split('-')" :key="key" class="font-semibold mt-2">{{ itemtext }}</p> 
+                        <p v-for="(itemtext, key) in itemsub.texto.split('-')" :key="key" class="mt-2">{{ itemtext }}</p> 
                       </template>                                                       
                     </div>
                   </button>
-                </div>
-              </button>
+                </div>              
             </div>
             <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden">
               <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
