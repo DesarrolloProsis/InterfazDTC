@@ -12,7 +12,7 @@ import * as rules from 'vee-validate/dist/rules';
 import tooltip from 'vue-directive-tooltip'
 import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
 Vue.use(tooltip)
-//Rputer
+//Router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 //Img
@@ -79,13 +79,24 @@ Vue.use(VueNotify)
 //manejor de Solicitudes axios
 import AxiosManejador from './store/ManejoSolicitudes'
 Vue.prototype.$http = AxiosManejador
-//Vlidaciones
+//Validaciones
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 //Youtube
 import VueYoutube from 'vue-youtube'
 Vue.use(VueYoutube)
+//DateTime Picker
 import 'vue-datetime/dist/vue-datetime.css'
+//SesionExpire
+import sesionExpire from 'idle-vue'
+const evenstHub = new Vue()
+Vue.use(sesionExpire,{
+  eventEmitter: evenstHub,
+  store,
+  idleTime: 3000, // 3 seconds
+  startAtIdle: false
+})
+
 
 Vue.config.productionTip = false
 new Vue({

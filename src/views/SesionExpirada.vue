@@ -34,7 +34,7 @@ export default {
             setTimeout(() => {
                 localStorage.clear()
                 this.$router.push("/");                
-            },500)
+            },5000)
             // this._setInterval();
         
     },

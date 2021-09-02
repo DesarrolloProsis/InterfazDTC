@@ -1,6 +1,7 @@
 <template>
   <div id="app">   
     <NavBar></NavBar>
+    {{ isIdle }}
     <!-- <transition name="slide-fade">  -->      
       <router-view/>
     <!-- </transition> -->
@@ -28,7 +29,19 @@ import NavBar from '../src/components/Navbar'
         this.showUpgradeUI = false
         await this.$workbox.messageSW({ type: "SKIP_WAITING" });
       }
-    },  
+    }, 
+    computed:{
+     isIdle(){
+        return this.$store.state.idleVue.isIdle;
+      }
+    },
+    watch:{
+      isIdle(newState){
+        console.log(newState)
+        if(newState)
+          this.$router.push('/SesionExpirada')
+      }
+    }
   }
 </script>
 
