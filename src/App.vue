@@ -38,8 +38,9 @@ import NavBar from '../src/components/Navbar'
     watch:{
       isIdle(newState){
         console.log(newState)
-        if(newState)
-          this.$router.push('/SesionExpirada')
+        if(newState){          
+          this.$router.push({ path: '/SesionExpirada', replace: true  })
+        }
       }
     }
   }

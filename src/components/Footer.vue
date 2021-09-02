@@ -37,10 +37,7 @@
 <script>
 export default {  
     data(){
-        return{
-            msg: `hola
-            dsakl
-            dflkjs`,
+        return{        
             mostrar: true,   
         }
     },
