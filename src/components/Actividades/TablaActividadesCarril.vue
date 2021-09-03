@@ -65,7 +65,7 @@ export default {
         },
         deshabilitar:{
             type: Boolean,
-            default: () => true
+            default: () => false
         }
     },
     data(){

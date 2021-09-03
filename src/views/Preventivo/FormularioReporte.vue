@@ -101,7 +101,7 @@ export default {
             limite: 300,
             objetoLogDate: {},
             reporteInsert: true,
-            modalLoading: true,
+            modalLoading: false,
             letras: 0,
             reporteInsertado: false,
             adminIdCalendarModify: ''
