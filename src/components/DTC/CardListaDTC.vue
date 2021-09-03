@@ -33,7 +33,6 @@
             <br>
             <a class="font-normal text-sm text-gray-900">Estatus {{ infoCard.statusId }}:<label class="font-semibold"> {{ infoCard.statusDescription }}</label></a>
             </div>  
-                   
           <div class=" inline-flex sm:ml-10 ml-16">
             <div class="mt-1 p-0 inline-block text-sm ml-6"> 
               <p class="font-semibold">{{ infoCard.sinisterDate | formatDate }}</p>
@@ -94,8 +93,7 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 STATUS / VER MAS                             ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">
-               
+      <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">     
         <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
@@ -135,36 +133,6 @@
               <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
               <span>Borrar</span>
             </button>
-          </div>
-          <div class=" inline-flex hidden">
-            <div v-if="infoCard.statusId == 1">
-                <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton" :class="{'hidden' :tipoUsuario == 4 || tipoUsuario == 10}">
-                  <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
-                  <span class="text-xs">Editar</span>
-                </button>
-            </div>
-            <div v-else class="text-xs inline-flex hidden">
-              <div v-if="tipoUsuario != 8">
-                <button v-if="tipoUsuario != 4" @click="fotografico" class="botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
-                  <span>Fotografico</span>                
-                </button> 
-                <button  @click.prevent="generar_pdf(2)" class="botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
-                  <span>Firmado</span>                
-                </button>   
-                <button v-if="infoCard.statusId > 2" @click.prevent="generar_pdf(3)" class=" ml-1 botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
-                  <span>Sellado</span>
-                </button>  
-              </div> 
-              <div v-else>
-                <button  @click.prevent="generar_pdf(1)" class="botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
-                  <span>Sin Firma</span>
-                </button>  
-              </div>                
-            </div>          
           </div>
         </div>
         <div class="flex justify-end" v-else>        
@@ -261,17 +229,17 @@ export default {
         if(this.value.title == 'Terminar DTC'){
           this.editar_dtc()
         }
-        if(this.value.title == 'DTC Sellado'){
+        if(this.value.title == 'Subir DTC Escaneado'){
           this.tipoEscaneado = 'Card-DTC'
           this.modalSubirSellado = true
           this.objInsertEscaneado = {
             referenceNumber: this.infoCard.referenceNumber
           }
         }
-        if(this.value.title == 'DTC Firmado'){
+        if(this.value.title == 'Bajar Dictamen Técnico'){
           this.generar_pdf(2)
         }
-        if(this.value.title == 'Sellado'){
+        if(this.value.title == 'Bajar DTC Escaneado'){
           this.generar_pdf(3)
         }
         if(this.value.title == 'Reporte Fotografico'){
@@ -292,12 +260,12 @@ export default {
         if(this.value.title ==  'Cambiar Usuario DTC'){
           this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, referenceNumberDiagnosis: this.infoCard.technicalSheetReference, squareId: this.infoCard.squareCatalogId })
         }
-        if(this.value.title == 'Subir RF Sellado'){
+        if(this.value.title == 'Subir RF Escaneado'){
           this.tipoEscaneado = 'Fotografico'
           this.modalSubirSellado = true
           this.objInsertEscaneado = { referenceNumber: this.infoCard.referenceNumber }
         }
-        if(this.value.title == 'Bajar RF Sellado'){
+        if(this.value.title == 'Bajar RF Escaneado'){
           this.fotografico_sellado()
         }
         this.value = ''
@@ -308,16 +276,16 @@ export default {
             { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
             { title: 'Editar Campos', img: '/img/pencil.04ec78bc.png' }, //2   
             { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
-            { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
-            { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'}, //5
-            { title: 'Sellado', img: '/img/download.ea0ec6db.png'}, //6
+            { title: 'Subir DTC Escaneado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
+            { title: 'Bajar Dictamen Técnico', img: '/img/download.ea0ec6db.png'}, //5
+            { title: 'Bajar DTC Escaneado', img: '/img/download.ea0ec6db.png'}, //6
             { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
             { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
             { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'}, //11
-            { title: 'Subir RF Sellado', img: '/img/upload.8d26bb4f.png'}, //12
-            { title: 'Bajar RF Sellado', img: '/img/download.ea0ec6db.png'}, //13
+            { title: 'Subir RF Escaneado', img: '/img/upload.8d26bb4f.png'}, //12
+            { title: 'Bajar RF Escaneado', img: '/img/download.ea0ec6db.png'}, //13
         ]
         let array = []       
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
