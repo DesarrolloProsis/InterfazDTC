@@ -319,7 +319,7 @@ export default {
             { title: 'Subir RF Sellado', img: '/img/upload.8d26bb4f.png'}, //12
             { title: 'Bajar RF Sellado', img: '/img/download.ea0ec6db.png'}, //13
         ]
-        let array = []           
+        let array = []       
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
@@ -329,6 +329,9 @@ export default {
         if((this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId < 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 10 && this.infoCard.statusId == 2){
+          array.push(options[5])
+        } 
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[2])
         }
@@ -339,15 +342,24 @@ export default {
           if((this.tipoUsuario == 1 || this.tipoUsuario == 2 || this.tipoUsuario == 3 || this.tipoUsuario == 5) && this.infoCard.statusId >= 2){
             array.push(options[5])
             array.push(options[4])
+            
+          }
+          if(this.tipoUsuario == 1 && this.infoCard.statusId == 3){
+            array.push(options[6])
+          }
+          if(this.tipoUsuario == 10 && this.infoCard.statusId == 3){
+            array.push(options[5])
             array.push(options[6])
           }
           if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){ 
             if(this.tipoUsuario != 4 || this.tipoUsuario != 8){
               array.push(options[7])
-              if(this.tipoUsuario != 7)
+              if(this.tipoUsuario != 7 && this.tipoUsuario != 10){
                 array.push(options[12])
-              if(this.info.pdfFotograficoSellado)
+              }
+              if(this.info.pdfFotograficoSellado){
                 array.push(options[13])
+              }
             }
           }
           if(this.tipoUsuario == 8 ){
