@@ -27,7 +27,7 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10">          
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-10">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-4" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
@@ -101,7 +101,7 @@
                       <option v-for="(item, key) in listaTecnicosPlaza" :key="key" :value="item.userId">{{  item.nombre }}</option>
                     </select> 
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                   </ValidationProvider>
+                  </ValidationProvider>
                 </div>                          
                 <div class="mt-10 text-center">
                   <button @click="actualizar_user_id_dtc" class="botonIconCrear">Si</button>
@@ -420,7 +420,8 @@ methods: {
     if(this.userChangeDtc != ''){ 
       this.modalLoading = true
       if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
-        this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
+        let actualizar_user = new Promise ((resolve,reject) => {
+          this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
           .then(() => {                  
             let index = this.infoDTC.map(item =>  { 
               return item.referenceNumber }
@@ -431,15 +432,27 @@ methods: {
             this.infoDTC_Filtrado = this.infoDTC
             this.userChangeDtc = ''
             this.itemCompleteChangeUserDTC = {}
+            let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+            this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)  
+            resolve('ok')
             this.modalCambiarUsuarioDTC = false
+          })
+          .catch(error => {
+            reject(error)
+          })
+        })
+        setTimeout(()=>{
+          actualizar_user.then(()=>{
+            this.limpiar_filtros()
+            this.modalLoading = false
             this.$notify.success({
               title: "Ok!",
               msg: `EL DTC CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
               position: "bottom right",
               styles: { height: 100, width: 500,},
-            }); 
-            this.modalLoading = false         
+            });
           })
+        },1000)
       }
       else{
         this.userChangeDtc = ''
