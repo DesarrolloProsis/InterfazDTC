@@ -1,5 +1,9 @@
 <template>
   <div>
+      <!-- //////////////////////////////////////////////////////////////////////
+      ////                         SUBIR PDF SELLADO                        ////
+      ///////////////////////////////////////////////////////////////////// -->       
+        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" @cancelar-escaneado="cancelar_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
     <div class="w-66 sm:w-auto">
       <!--/////////////////////////////////////////////////////////////////////
       ////                         MODAL ACTUALIZAR                      /////
@@ -60,7 +64,7 @@
           </div>
         </div>
           <p class="text-left font-semibold text-sm">Acciones:</p>
-          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :ocultarMulti || modalActualizar }">
+          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :ocultarMulti || modalActualizar || modalSubirSellado}">
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
                 <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -76,10 +80,6 @@
               </div>
             </template>
           </multiselect>  
-        <!-- //////////////////////////////////////////////////////////////////////
-        ////                         SUBIR PDF SELLADO                        ////
-        ///////////////////////////////////////////////////////////////////// -->       
-        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
           <!-- /////////////////////////////////////////////////////////////////////
               ////                         IMAGENES                             ////
               ///////////////////////////////////////////////////////////////////// -->
@@ -451,9 +451,14 @@ export default {
       this.menosMas = true;      
       this.showmenosMas = false;      
     },  
+    cancelar_escaneado(){
+      this.modalSubirSellado = false
+    },
     limpiar_componete_escaneado(){
       this.modalSubirSellado = false
-      let bandera = 1
+      let bandera = 0
+      if(this.tipoEscaneado == 'Card-DTC')
+        bandera = 1
       if(this.tipoEscaneado == 'Fotografico')
         bandera = 2
       this.$emit("enviar_pdf_sellado", this.objInsertEscaneado, bandera);  

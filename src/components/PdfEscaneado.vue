@@ -1,8 +1,8 @@
 <template>
     <div class="">
-        <div class=" inset-0 font-titulo -mt-56">
+        <div class=" inset-0 font-titulo">
             <div v-if="abrirModal" class="carruselGMMEP border-gray-200 h-34 w-71"> 
-                <span @click="$emit('limpiar-componente-escaneado')" class="absolute  top-0 right-0">
+                <span @click="escaneadoBool = true, abrirModal = false, $emit('cancelar-escaneado')" class="absolute  top-0 right-0">
                     <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
                 </span> 
                 <div>                    
@@ -20,7 +20,7 @@
                         </div>
                         <div class="grid grid-cols-2 ml-10 sm:grid-cols-1 sm:-ml-1">
                             <button @click="buscar_ruta_envio" class="botonEnviarPDF font-boton mr-2 ml-20 mt-6 px-1 py-1 h-6 text-sm justify-center w-24">Subir</button>
-                            <button @click="escaneadoBool = true, abrirModal = false" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
+                            <button @click="escaneadoBool = true, abrirModal = false, $emit('cancelar-escaneado')" class="botonIconCancelar font-boton mt-6 -ml-2 h-6 text-sm justify-center w-24 px-1 sm:ml-0 sm:w-24">Cancelar</button>                  
                         </div>            
                     </div>
                 </div>
