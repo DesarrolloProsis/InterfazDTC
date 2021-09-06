@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class=" inset-0 font-titulo">
+    <div class="">
+        <div class=" inset-0 font-titulo -mt-56">
             <div v-if="abrirModal" class="carruselGMMEP border-gray-200 h-34 w-71"> 
                 <span @click="$emit('limpiar-componente-escaneado')" class="absolute  top-0 right-0">
                     <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />

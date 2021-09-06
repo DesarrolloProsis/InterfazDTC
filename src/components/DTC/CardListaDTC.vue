@@ -453,7 +453,10 @@ export default {
     },  
     limpiar_componete_escaneado(){
       this.modalSubirSellado = false
-      //this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
+      let bandera = 1
+      if(this.tipoEscaneado == 'Fotografico')
+        bandera = 2
+      this.$emit("enviar_pdf_sellado", this.objInsertEscaneado, bandera);  
     },   
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        

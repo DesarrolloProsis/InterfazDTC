@@ -283,7 +283,7 @@
                 @editar-card="editar_header_dtc"
                 @editar-status="editar_status_dtc"
                 @agregar_autorizacion_gmmep="agregar_autorizacion_gmmep"
-                
+                @enviar_pdf_sellado="enviar_pdf_sellado"
                 @editar-fechas-dtc="editar_fechas_dtc"
                 @cambiar-usuario-dtc="modal_cambiar_usurio_dtc"
                 :plazasValidas="plazasValidas"
@@ -357,7 +357,8 @@ export default {
       fechaFalla: '',
       fechaEnvio: '',
       fechaElaboracion: '',
-      ocultarMultiPadre: false           
+      ocultarMultiPadre: false,
+      typeUser: ''         
     };
   },
   components: {    
@@ -379,6 +380,7 @@ created(){
   }, );    
 },
 beforeMount: async function () {
+  this.typeUser = this.$store.state.Login.cookiesUser.rollId
   this.filtroVista = false  
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
   this.infoDTC_Filtrado = this.infoDTC  
@@ -624,6 +626,62 @@ methods: {
           this.modal = false
         },2000)                        
       })       
+  },
+    enviar_pdf_sellado: async function(value,bandera){   
+    this.modalLoading = true
+    if(bandera == 1){
+      let pdf_sellado_promise = new Promise((resolve, reject) => {                         
+      this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
+        .then(() => {               
+          resolve('ok')                
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
+          resolve('ok')                                                                           
+        })                                        
+        .catch((error) => {                      
+          reject(error)                          
+          this.$notify.error({
+            title: "ups!",
+            msg: error,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
+          });        
+        });      
+      })        
+      setTimeout(() => {
+        pdf_sellado_promise.then(() => {  
+          this.modalLoading = false                  
+          this.limpiar_filtros()
+          this.$router.push("/home/${this.typeUser}/correctivo");
+        })      
+      }, 3000);
+    }if( bandera == 2){
+        let pdf_sellado_promise = new Promise((resolve, reject) => {                         
+        this.$http.get(`${API}/ReporteFotografico/dañado/reporteSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
+          .then(() => {               
+            resolve('ok')                
+            let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+            this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
+            resolve('ok')                                                                           
+          })                                        
+        .catch((error) => {                      
+          reject(error)                          
+          this.$notify.error({
+            title: "ups!",
+            msg: error,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
+          });        
+        });      
+      })        
+      setTimeout(() => {
+        pdf_sellado_promise.then(() => {  
+          this.modalLoading = false                  
+          this.limpiar_filtros()
+          this.$router.push("/home/${this.typeUser}/correctivo");
+        })      
+      }, 3000);
+    }                                                                                   
   },
   filtro_dtc: async function (objFiltros) {     
     if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            
