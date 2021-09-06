@@ -1,7 +1,7 @@
 <template>
-<div>
+<div >
     <div class="flex justify-center p-2">
-        <div class="grid gap-4 grid-cols-1">
+        <div class="grid gap-4 grid-cols-1" :class="{'opacity-50':deshabilitar}">
             <div class="divtabla sm:text-xs" :class="{ 'overflow-x-auto': scrollBool}">
             <!--//////////////////////////////////////////////////////////////////////
                 ////                           TABLA                             ////
@@ -28,7 +28,7 @@
                             <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.componente }}</td>                                                         
                             <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.actividades }}</td>   
                             <td class="w-66 cuerpoTable font-titulo font-normal text-center">{{ item.ubicacion }}</td>                                                                                
-                            <td class="w-66 cuerpoTable font-titulo font-normal text-center " >                                                                
+                            <td class="w-66 cuerpoTable font-titulo font-normal text-center">                                                                
                                 <select v-model="item.jobStatus" @change="actualizar_actividad(item)" class="w-32 text-md text-gray-800 is_valid ml-20 sm:ml-0" :class="{'bg-green-500': item.jobStatus == 1, 'bg-yellow-500': item.jobStatus == 2, 'bg-orange-500': item.jobStatus == 3, 'bg-red-500': item.jobStatus == 4 }" >
                                     <option value="0">Seleccione...</option>
                                     <option class="bg-green-500" value="1">Ok</option>
@@ -62,6 +62,10 @@ export default {
         calendarioId:{
             type: Number,
             default: () => null
+        },
+        deshabilitar:{
+            type: Boolean,
+            default: () => false
         }
     },
     data(){

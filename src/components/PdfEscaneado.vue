@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class=" inset-0 font-titulo">
+    <div class="">
+        <div class=" inset-0 font-titulo -mt-56">
             <div v-if="abrirModal" class="carruselGMMEP border-gray-200 h-34 w-71"> 
                 <span @click="$emit('limpiar-componente-escaneado')" class="absolute  top-0 right-0">
                     <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
@@ -80,7 +80,7 @@ export default {
         },
         buscar_ruta_envio(){       
             let url = ''  
-            let  formFile = new FormData()            
+            let  formFile = new FormData()         
             if(this.tipoReporte == 'Calendario'){
                 url = `${API}/calendario/CalendarioEscaneado/${this.objInsert.referenceNumber}/${this.objInsert.mes}/${this.objInsert.año}/${this.objInsert.idUser}`                
             }
@@ -90,6 +90,9 @@ export default {
             if(this.tipoReporte == 'Card-DTC'){
                 url = `${API}/pdf/PdfSellado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}/${true}`                
             } 
+            if(this.tipoReporte == 'Fotografico'){
+                url = `${API}/ReporteFotografico/dañado/reporteSellado/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`
+            }
             if(this.tipoReporte == 'Diagnostico') {
                 url = `${API}/DiagnosticoFalla/Sellada/${this.objInsert.referenceNumber.split('-')[0]}/${this.objInsert.referenceNumber}`                
             }
@@ -101,7 +104,7 @@ export default {
             }
             formFile.append("file", this.pdfEscaneadoFile);
             this.$http.post(url, formFile)
-                .then(() => {                    
+                .then(() => {                   
                     this.escaneadoBool = true                      
                     this.$notify.success({
                         title: "Ok!",

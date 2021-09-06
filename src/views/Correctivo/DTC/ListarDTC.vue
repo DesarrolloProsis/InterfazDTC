@@ -27,7 +27,7 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10">          
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-10">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-4" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
@@ -101,7 +101,7 @@
                       <option v-for="(item, key) in listaTecnicosPlaza" :key="key" :value="item.userId">{{  item.nombre }}</option>
                     </select> 
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                   </ValidationProvider>
+                  </ValidationProvider>
                 </div>                          
                 <div class="mt-10 text-center">
                   <button @click="actualizar_user_id_dtc" class="botonIconCrear">Si</button>
@@ -277,7 +277,7 @@
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
           <!-- <transition-group class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1" name="list" tag="div"> -->
           <div class="flex-no-wrap grid grid-cols-3 gap-4 sm:grid-cols-1">
-            <div class="shadow-2xl inline-block focus m-4 p-3 sm:m-6" v-for="(dtc) in lista_dtc" :key="dtc.referenceNumber">
+            <div class="shadow-2xl inline-block border-4 focus m-4 p-3 sm:m-6" :class="{'border-yellow-500 border-4 rounded-lg': dtc.statusId === 1,'border-green-500 border-4 rounded-lg': dtc.statusId === 2,'border-blue-500 border-4 rounded-lg': dtc.statusId === 3}" v-for="(dtc) in lista_dtc" :key="dtc.referenceNumber">
               <CardListDTC
                 @borrar-card="confimaBorrar"
                 @editar-card="editar_header_dtc"
@@ -357,7 +357,8 @@ export default {
       fechaFalla: '',
       fechaEnvio: '',
       fechaElaboracion: '',
-      ocultarMultiPadre: false           
+      ocultarMultiPadre: false,
+      typeUser: ''         
     };
   },
   components: {    
@@ -379,6 +380,7 @@ created(){
   }, );    
 },
 beforeMount: async function () {
+  this.typeUser = this.$store.state.Login.cookiesUser.rollId
   this.filtroVista = false  
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
   this.infoDTC_Filtrado = this.infoDTC  
@@ -420,7 +422,8 @@ methods: {
     if(this.userChangeDtc != ''){ 
       this.modalLoading = true
       if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
-        this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
+        let actualizar_user = new Promise ((resolve,reject) => {
+          this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
           .then(() => {                  
             let index = this.infoDTC.map(item =>  { 
               return item.referenceNumber }
@@ -431,15 +434,27 @@ methods: {
             this.infoDTC_Filtrado = this.infoDTC
             this.userChangeDtc = ''
             this.itemCompleteChangeUserDTC = {}
+            let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+            this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)  
+            resolve('ok')
             this.modalCambiarUsuarioDTC = false
+          })
+          .catch(error => {
+            reject(error)
+          })
+        })
+        setTimeout(()=>{
+          actualizar_user.then(()=>{
+            this.limpiar_filtros()
+            this.modalLoading = false
             this.$notify.success({
               title: "Ok!",
               msg: `EL DTC CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
               position: "bottom right",
               styles: { height: 100, width: 500,},
-            }); 
-            this.modalLoading = false         
+            });
           })
+        },1000)
       }
       else{
         this.userChangeDtc = ''
@@ -612,16 +627,17 @@ methods: {
         },2000)                        
       })       
   },
-  enviar_pdf_sellado: async function(value){   
+    enviar_pdf_sellado: async function(value,bandera){   
     this.modalLoading = true
-    let pdf_sellado_promise = new Promise((resolve, reject) => {                         
-          this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
-            .then(() => {               
-              resolve('ok')                
-              let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
-              this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
-              resolve('ok')                                                                           
-            })                                        
+    if(bandera == 1){
+      let pdf_sellado_promise = new Promise((resolve, reject) => {                         
+      this.$http.get(`${API}/pdf/GetPdfSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
+        .then(() => {               
+          resolve('ok')                
+          let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+          this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
+          resolve('ok')                                                                           
+        })                                        
         .catch((error) => {                      
           reject(error)                          
           this.$notify.error({
@@ -631,14 +647,41 @@ methods: {
             styles: { height: 100, width: 500 },
           });        
         });      
-    })        
-    
-    setTimeout(() => {
-      pdf_sellado_promise.then(() => {  
-        this.modalLoading = false                  
-        this.limpiar_filtros()
-      })      
-    }, 3000);                                                                                   
+      })        
+      setTimeout(() => {
+        pdf_sellado_promise.then(() => {  
+          this.modalLoading = false                  
+          this.limpiar_filtros()
+          this.$router.push("/home/${this.typeUser}/correctivo");
+        })      
+      }, 3000);
+    }if( bandera == 2){
+        let pdf_sellado_promise = new Promise((resolve, reject) => {                         
+        this.$http.get(`${API}/ReporteFotografico/dañado/reporteSellado/${value.referenceNumber.split('-')[0]}/${value.referenceNumber}`)
+          .then(() => {               
+            resolve('ok')                
+            let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']  
+            this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)                 
+            resolve('ok')                                                                           
+          })                                        
+        .catch((error) => {                      
+          reject(error)                          
+          this.$notify.error({
+            title: "ups!",
+            msg: error,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
+          });        
+        });      
+      })        
+      setTimeout(() => {
+        pdf_sellado_promise.then(() => {  
+          this.modalLoading = false                  
+          this.limpiar_filtros()
+          this.$router.push("/home/${this.typeUser}/correctivo");
+        })      
+      }, 3000);
+    }                                                                                   
   },
   filtro_dtc: async function (objFiltros) {     
     if(objFiltros.plazaFiltro != '' || objFiltros.fechaFiltro != '' || objFiltros.referenciaFiltro != '' || objFiltros.statusFiltro != ''){            

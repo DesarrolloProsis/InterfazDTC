@@ -3,7 +3,7 @@ import router from '../router/index'
 import Axios from '../store/ManejoSolicitudes'
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-function formato_cookies_usuario(loginSesion){  
+function formato_cookies_usuario(loginSesion, username){  
     return new Promise((resolve, reject) => {
     let cookies = {}
     let tokenUser = {}
@@ -25,6 +25,7 @@ function formato_cookies_usuario(loginSesion){
         cookies['userId'] = loginSesion.userId
         cookies['plazasUsuario'] = plazasUsuario         
         cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false
+        cookies['userName'] = username
         Axios.post(`${API}/login/LoginInfo`, { userId: loginSesion.userId })    
         .then((response) => {                         
             cookies['nombreUsuario'] = response.data.result.loginList[0].nombre                                                                                          

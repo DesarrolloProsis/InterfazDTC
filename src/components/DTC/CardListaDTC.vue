@@ -29,10 +29,13 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex flex-row mb-6 font-titulo">
         <div class="flex justify-between">
-          <div class="font-semibold w-33">{{ infoCard.referenceNumber }}</div>           
+          <div class="font-semibold w-33">{{ infoCard.referenceNumber }}
+            <br>
+            <a class="font-normal text-sm text-gray-900">Estatus {{ infoCard.statusId }}:<label class="font-semibold"> {{ infoCard.statusDescription }}</label></a>
+            </div>  
           <div class=" inline-flex sm:ml-10 ml-16">
             <div class="mt-1 p-0 inline-block text-sm ml-6"> 
-              <p>{{ infoCard.sinisterDate | formatDate }}</p>
+              <p class="font-semibold">{{ infoCard.sinisterDate | formatDate }}</p>
               <span class="text-xs text-gray-800 -ml-3">*Fecha Siniestro</span>
             </div>     
           </div>
@@ -44,11 +47,12 @@
       ///////////////////////////////////////////////////////////////////// -->
       <div class="flex-col md:flex-row flex mb-4 font-titulo">
         <div class="md:w-2/3">
-          <p class="text-left font-semibold text-sm">Referencia Diagnostico: {{ infoCard.technicalSheetReference }}</p>
-          <p class="text-left font-semibold text-sm">N° Siniestro: {{ infoCard.sinisterNumber }}</p>
-          <p class="text-left font-semibold text-sm">N° Reporte: {{ infoCard.reportNumber }}</p>
-          <p class="text-left font-semibold text-sm break-words">Folio: {{ infoCard.failureNumber }}</p> 
-          <p class="text-left font-semibold text-sm break-words">Registro en Sistema: {{ infoCard.dateStamp | formatDate }}</p>        
+          <p class="text-left text-sm">Usuario Asignado: <label class="font-semibold">{{ infoCard.userName }}</label></p>
+          <p class="text-left text-sm">Referencia Diagnostico: <label class="font-semibold">{{ infoCard.technicalSheetReference }}</label></p>
+          <p class="text-left text-sm">N° Siniestro: <label class="font-semibold">{{ infoCard.sinisterNumber }}</label></p>
+          <p class="text-left text-sm">N° Reporte: <label class="font-semibold"> {{ infoCard.reportNumber }}</label></p>
+          <p class="text-left text-sm break-words">Folio: <label class="font-semibold">{{ infoCard.failureNumber }}</label></p> 
+          <p class="text-left text-sm break-words">Registro en Sistema: <label class="font-semibold">{{ infoCard.dateStamp | formatDate }}</label></p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
           <p @click="editar_status_dtc()" v-if="TIPO_USUARIO.Supervisor_Tecnico == tipoUsuario || TIPO_USUARIO.Administracion == tipoUsuario || tipoUsuario == 10"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>  
           <div class="w-64 break-words text-left text-gray-800 font-normal">
@@ -75,7 +79,7 @@
         <!-- //////////////////////////////////////////////////////////////////////
         ////                         SUBIR PDF SELLADO                        ////
         ///////////////////////////////////////////////////////////////////// -->       
-        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Card-DTC'"></PdfEscaneado>    
+        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
           <!-- /////////////////////////////////////////////////////////////////////
               ////                         IMAGENES                             ////
               ///////////////////////////////////////////////////////////////////// -->
@@ -89,13 +93,12 @@
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 STATUS / VER MAS                             ////
           ///////////////////////////////////////////////////////////////////// -->
-      <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">
-        <a @click="mas" v-show="menosMas" class="text-sm text-gray-900 ">Estatus {{ infoCard.statusId }}: {{ infoCard.statusDescription }}</a>        
+      <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">     
         <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
-        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 ">Ver Mas</a>
+        <a @click="mas" v-show="menosMas" class="cursor-pointer text-green-700 m-auto">Ver Más</a>
       </div>
       <!-- /////////////////////////////////////////////////////////////////////
           ////                 MINI TABLA CARD                              ////
@@ -130,36 +133,6 @@
               <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
               <span>Borrar</span>
             </button>
-          </div>
-          <div class=" inline-flex hidden">
-            <div v-if="infoCard.statusId == 1">
-                <button @click.prevent="editar_dtc" class="botonIconEditCard font-boton" :class="{'hidden' :tipoUsuario == 4 || tipoUsuario == 10}">
-                  <img src="../../assets/img/pencil.png" class="mr-2" width="12" height="1"/>
-                  <span class="text-xs">Editar</span>
-                </button>
-            </div>
-            <div v-else class="text-xs inline-flex hidden">
-              <div v-if="tipoUsuario != 8">
-                <button v-if="tipoUsuario != 4" @click="fotografico" class="botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
-                  <span>Fotografico</span>                
-                </button> 
-                <button  @click.prevent="generar_pdf(2)" class="botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>              
-                  <span>Firmado</span>                
-                </button>   
-                <button v-if="infoCard.statusId > 2" @click.prevent="generar_pdf(3)" class=" ml-1 botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
-                  <span>Sellado</span>
-                </button>  
-              </div> 
-              <div v-else>
-                <button  @click.prevent="generar_pdf(1)" class="botonIconBorrarCard font-boton">
-                  <img src="../../assets/img/pdf.png" class="mr-2" width="12" height="1"/>                              
-                  <span>Sin Firma</span>
-                </button>  
-              </div>                
-            </div>          
           </div>
         </div>
         <div class="flex justify-end" v-else>        
@@ -222,7 +195,8 @@ export default {
       modalSubirSellado: false,
       objInsertEscaneado: {},          
       value: '',
-      info: this.infoCard
+      info: this.infoCard,
+      tipoEscaneado: ''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -255,16 +229,17 @@ export default {
         if(this.value.title == 'Terminar DTC'){
           this.editar_dtc()
         }
-        if(this.value.title == 'DTC Sellado'){
+        if(this.value.title == 'Subir DTC Escaneado'){
+          this.tipoEscaneado = 'Card-DTC'
           this.modalSubirSellado = true
           this.objInsertEscaneado = {
             referenceNumber: this.infoCard.referenceNumber
           }
         }
-        if(this.value.title == 'DTC Firmado'){
+        if(this.value.title == 'Bajar Dictamen Técnico'){
           this.generar_pdf(2)
         }
-        if(this.value.title == 'Sellado'){
+        if(this.value.title == 'Bajar DTC Escaneado'){
           this.generar_pdf(3)
         }
         if(this.value.title == 'Reporte Fotografico'){
@@ -285,6 +260,14 @@ export default {
         if(this.value.title ==  'Cambiar Usuario DTC'){
           this.$emit('cambiar-usuario-dtc',{ referenceNumber: this.infoCard.referenceNumber, referenceNumberDiagnosis: this.infoCard.technicalSheetReference, squareId: this.infoCard.squareCatalogId })
         }
+        if(this.value.title == 'Subir RF Escaneado'){
+          this.tipoEscaneado = 'Fotografico'
+          this.modalSubirSellado = true
+          this.objInsertEscaneado = { referenceNumber: this.infoCard.referenceNumber }
+        }
+        if(this.value.title == 'Bajar RF Escaneado'){
+          this.fotografico_sellado()
+        }
         this.value = ''
     },
     opticones_select_acciones(){
@@ -293,16 +276,18 @@ export default {
             { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
             { title: 'Editar Campos', img: '/img/pencil.04ec78bc.png' }, //2   
             { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
-            { title: 'DTC Sellado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
-            { title: 'DTC Firmado', img: '/img/download.ea0ec6db.png'}, //5
-            { title: 'Sellado', img: '/img/download.ea0ec6db.png'}, //6
+            { title: 'Subir DTC Escaneado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
+            { title: 'Bajar Dictamen Técnico', img: '/img/download.ea0ec6db.png'}, //5
+            { title: 'Bajar DTC Escaneado', img: '/img/download.ea0ec6db.png'}, //6
             { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
             { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
             { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
             { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
-            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'} //11
+            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'}, //11
+            { title: 'Subir RF Escaneado', img: '/img/upload.8d26bb4f.png'}, //12
+            { title: 'Bajar RF Escaneado', img: '/img/download.ea0ec6db.png'}, //13
         ]
-        let array = []           
+        let array = []       
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
@@ -312,6 +297,9 @@ export default {
         if((this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId < 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 10 && this.infoCard.statusId == 2){
+          array.push(options[5])
+        } 
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[2])
         }
@@ -319,27 +307,43 @@ export default {
           array.push(options[3])
         }
         else{
-          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){
+          if((this.tipoUsuario == 1 || this.tipoUsuario == 2 || this.tipoUsuario == 3 || this.tipoUsuario == 5) && this.infoCard.statusId >= 2){
             array.push(options[5])
-            if(this.tipoUsuario != 4){
+            array.push(options[4])
+            
+          }
+          if(this.tipoUsuario == 1 && this.infoCard.statusId == 3){
+            array.push(options[6])
+          }
+          if(this.tipoUsuario == 10 && this.infoCard.statusId == 3){
+            array.push(options[5])
+            array.push(options[6])
+          }
+          if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){ 
+            if(this.tipoUsuario != 4 || this.tipoUsuario != 8){
               array.push(options[7])
-            }
-            if(this.infoCard.statusId > 2){
-              array.push(options[6]) 
+              if(this.tipoUsuario != 7 && this.tipoUsuario != 10){
+                array.push(options[12])
+              }
+              if(this.info.pdfFotograficoSellado){
+                array.push(options[13])
+              }
             }
           }
-          else{
+          if(this.tipoUsuario == 8 ){
             array.push(options[8])
           }          
-        }
-        if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2){
-          array.push(options[4])
         }
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
         }
         if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
           array.push(options[11])
+        }
+        if(this.tipoUsuario == 7){
+          array.push(options[5])
+          array.push(options[6])
+          array.push(options[13])
         }
         return array       
     },
@@ -429,6 +433,9 @@ export default {
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
     },
+    fotografico_sellado(){
+      ServiceReporte.reporte_fotografico_sellado(this.infoCard.referenceNumber)
+    },
     fotografico(){
       ServiceReporte.generar_pdf_fotografico_correctivo(this.infoCard.referenceNumber)
     },
@@ -446,7 +453,10 @@ export default {
     },  
     limpiar_componete_escaneado(){
       this.modalSubirSellado = false
-      this.$emit("enviar_pdf_sellado", this.objInsertEscaneado);  
+      let bandera = 1
+      if(this.tipoEscaneado == 'Fotografico')
+        bandera = 2
+      this.$emit("enviar_pdf_sellado", this.objInsertEscaneado, bandera);  
     },   
     status_autorizacion_gmmep(){
       if(this.statusAgregarFimar){        
@@ -460,8 +470,7 @@ export default {
     },
     editar_status_dtc(){
       this.$emit("editar-status", this.infoCard.referenceNumber);
-    }
-    
+    }    
   },
 /////////////////////////////////////////////////////////////////////
 ////                           FILTROS                           ////
