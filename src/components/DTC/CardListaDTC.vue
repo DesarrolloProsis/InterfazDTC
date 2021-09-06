@@ -312,7 +312,7 @@ export default {
             array.push(options[4])
             
           }
-          if((this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 3){
+          if((this.tipoUsuario == 1 || this.tipoUsuario == 2 || this.tipoUsuario == 4) && this.infoCard.statusId == 3){
             array.push(options[6])
           }
           if(this.tipoUsuario == 10 && this.infoCard.statusId == 3){
@@ -322,7 +322,7 @@ export default {
           if(this.tipoUsuario != 8 && this.infoCard.statusId >= 2){ 
             if(this.tipoUsuario != 4 || this.tipoUsuario != 8){
               array.push(options[7])
-              if(this.tipoUsuario != 7 && this.tipoUsuario != 10){
+              if(this.tipoUsuario != 7 && this.tipoUsuario != 10 && this.tipoUsuario != 4){
                 array.push(options[12])
               }
               if(this.info.pdfFotograficoSellado){
