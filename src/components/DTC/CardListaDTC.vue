@@ -312,7 +312,7 @@ export default {
             array.push(options[4])
             
           }
-          if(this.tipoUsuario == 1 && this.infoCard.statusId == 3){
+          if((this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId == 3){
             array.push(options[6])
           }
           if(this.tipoUsuario == 10 && this.infoCard.statusId == 3){
