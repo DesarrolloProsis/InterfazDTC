@@ -1,6 +1,6 @@
 <template>
   <div class="sticky inset-x-0 top-0 z-10">
-    <nav class="flex justify-between bg-blue-800 p-3" id="navBarShow" v-if="$route != undefined && $route.name != 'login'">
+    <nav class="flex justify-between bg-blue-800 p-3" id="navBarShow" v-if="$route != undefined && $route.name != 'login' && $route.name != 'SesionExpirada'">
       <div class="text-lg">
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl font-titulo">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
@@ -75,7 +75,6 @@
         </div>
       </transition >      
     </div>
-    
   </div>
 </template>
 <script>
