@@ -16,9 +16,9 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 font-titulo">
-          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
-            <div class="justify-center text-center block">            
+        <div class="sticky inset-0 font-titulo" :class="{'modal-container': carruselModal}">
+          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center items-center relative  inset-x-0 bg-none mx-auto border-none">          
+            <div class="justify-center items-center text-center block mt-54">            
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false, ocultarMultiPadre = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
@@ -894,7 +894,7 @@ computed: {
 };
 </script>
 
-<style>
+<style scoped>
 .list-item {  
   margin-right: 10px;
 }
@@ -904,5 +904,12 @@ computed: {
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;
   transform: translateY(30px);
+}
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>
