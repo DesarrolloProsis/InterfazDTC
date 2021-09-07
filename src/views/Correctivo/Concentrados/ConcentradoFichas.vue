@@ -44,7 +44,7 @@
                     @filtrar-concentrado-diagnostico="filtrar_concentrado_diagnostico" 
                     @limpiar-concentrado-diagnostico="limpiar_filtros" 
                     @buscar-df="guardar_palabra_busqueda" 
-                    :titulo="'Concentrado Diagnostico/Ficha'" 
+                    :titulo="'Concentrado de Diagnóstico y Ficha Técnica'" 
                     :tipo="'DF'"
                 >
                 </HeaderGenerico>
