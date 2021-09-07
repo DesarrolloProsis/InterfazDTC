@@ -27,15 +27,13 @@ export default {
             interval: null,
         }
     },
-    beforeMount () {
-        
-            this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
-            this.expires_in = this.seconds;
-            setTimeout(() => {
-                localStorage.clear()
-                this.$router.push("/");                
-            },500)
-            // this._setInterval();
+    beforeMount () {        
+        this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
+        this.expires_in = this.seconds;
+        setTimeout(() => {
+            localStorage.clear()        
+            this.$router.push("/");                
+        },5000)            
         
     },
     destroyed () {
@@ -45,8 +43,7 @@ export default {
         _setInterval: function() {
             this.interval = setInterval(() => {
                 if(this.expires_in === 1){
-                    localStorage.clear()
-                    //this.$router.push("/");
+                    localStorage.clear()                    
                 }
                 else if (this.expires_in === 0) {                    
                     clearInterval(this.interval);
