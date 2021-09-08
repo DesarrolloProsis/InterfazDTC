@@ -1,7 +1,6 @@
 <template>
   <div id="app">   
     <NavBar></NavBar>
-    {{ isIdle }}
     <!-- <transition name="slide-fade">  -->      
       <router-view/>
     <!-- </transition> -->
@@ -31,7 +30,7 @@ import NavBar from '../src/components/Navbar'
       }
     }, 
     computed:{
-     isIdle(){
+      isIdle(){
         return this.$store.state.idleVue.isIdle;
       }
     },
@@ -49,8 +48,6 @@ import NavBar from '../src/components/Navbar'
     }
   }
 </script>
-
-
 <style scoped>
   body {
     margin: 0%;
