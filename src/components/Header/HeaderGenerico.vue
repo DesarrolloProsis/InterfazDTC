@@ -104,7 +104,7 @@
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select></p>
             </div>
-            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
+            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3" :class="{'hidden':typeUser == 4 || typeUser == 7}">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
