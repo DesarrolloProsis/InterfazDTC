@@ -520,6 +520,7 @@ export default {
         position: "bottom right",
         styles: { height: 100, width: 500 },
       });
+      this.$router.push("/Configuracion");
     },  
     guardar_nuevo_usuario(){            
       let tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
@@ -673,7 +674,8 @@ export default {
         msg: `USUARIO HABILITADO`,
         position: "bottom right",
         styles: { height: 100, width: 500 },
-      });  
+      });
+      this.$router.push("/Configuracion");
     },
     customLabel ({ title }) {
       return `${title}`
