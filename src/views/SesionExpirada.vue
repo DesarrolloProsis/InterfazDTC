@@ -30,6 +30,7 @@ export default {
     beforeMount () {        
         this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
         this.expires_in = this.seconds;
+        this._setInterval()
         setTimeout(() => {
             localStorage.clear()        
             this.$router.push("/");                
@@ -44,12 +45,11 @@ export default {
             this.interval = setInterval(() => {
                 if(this.expires_in === 1){
                     localStorage.clear()                    
-                }
-                else if (this.expires_in === 0) {                    
                     clearInterval(this.interval);
-                } else {
+                }
+                else {
                     this.expires_in -= 1;
-                    this.countdown = moment.utc(this.expires_in * 1000).subtract(1, 'seconds').format('HH:mm:ss');
+                    this.countdown = moment.utc(this.expires_in * 1000).subtract(1, 'seconds').format('HH:mm:ss');                                       
                 }
             }, 1000);
         },

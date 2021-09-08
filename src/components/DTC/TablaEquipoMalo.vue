@@ -382,11 +382,13 @@ beforeMount: async function () {
     let componetesEdit = await this.$store.state.DTC.componetesEdit
     if (JSON.stringify(componetesEdit) != "{}") {   
       let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];                  
-      for (const item of componetesEdit.items) {                     
+      for (const item of componetesEdit.items) {   
+        console.log(item)                  
         newObject["attachedId"] = item.attachedId;
         newObject["componentsRelationship"] = item.relationship;
         newObject["componentsRelationshipId"] = item.mainRelationship;
-        newObject["componentsStockId"] = item.componentsStockId;                    
+        newObject["componentsStockId"] = item.componentsStockId
+                          
         await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);          
         let array_ubicacion = [];
         let array_carril = [];
@@ -472,7 +474,7 @@ methods: {
       
     }, 2000)
   },
-  eliminar_partida(index){
+  eliminar_partida(index){    
     this.arrayPartidas.splice(index, 1)
     this.arrayPartidas.map((item, index) => {
       item.row1 = index + 1

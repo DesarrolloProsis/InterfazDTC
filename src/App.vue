@@ -39,8 +39,7 @@ import NavBar from '../src/components/Navbar'
       isIdle(newState){        
         if(newState){             
           if(localStorage.getItem('token') != null){
-            let fechaExipracion = new Date(JSON.parse(localStorage.getItem('token')).expiration)
-            console.log(fechaExipracion)
+            let fechaExipracion = new Date(JSON.parse(localStorage.getItem('token')).expiration)            
             console.log(fechaExipracion >= new Date())
             if(new Date() >= fechaExipracion)
               this.$router.push({ path: '/SesionExpirada', replace: true  })
