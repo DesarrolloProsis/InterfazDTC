@@ -28,7 +28,7 @@
                     </div>                    
                 </div>
                 <div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.3</p>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.4</p>
                 </div>
             </div>                                
         </div>        
