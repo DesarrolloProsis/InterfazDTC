@@ -7,6 +7,7 @@
     <img src="../../assets/img/flechas.png" alt="">    
     <img src="../../assets/img/add.png" alt="">    
     <img src="../../assets/img/actualizado.png" alt="">
+    <img src="../../assets/img/comprobado.png" alt="">
     <button @click="descargar_excel" class="bg-red-600 w-64 h-51">Presioname para excel</button>
   </div>
 </template>

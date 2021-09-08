@@ -42,10 +42,10 @@
               </template>  
               <template v-if="listaUsuarios.length > 0">
                 <tr class="h-12 text-gray-900 text-sm sm:text-xs" v-for="(item, key) in listaUsuarios" :key="key">
-                <td class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
-                <td class="cuerpoTable text-center">{{ item.roll }}</td>
-                <td class="cuerpoTable text-center">{{ item.plazas }}</td>
-                <td class="cuerpoTable text-center break-all">{{ item.mail }}</td>
+                <td :class="{'opacity-50':!item.statusUser}" class="cuerpoTable text-center">{{ item.name + " " + item.lastName1 + " " + item.lastName2 }}</td>
+                <td :class="{'opacity-50':!item.statusUser}" class="cuerpoTable text-center">{{ item.roll }}</td>
+                <td :class="{'opacity-50':!item.statusUser}" class="cuerpoTable text-center">{{ item.plazas }}</td>
+                <td :class="{'opacity-50':!item.statusUser}" class="cuerpoTable text-center break-all">{{ item.mail }}</td>
                 <td class="cuerpoTable">
                   <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                     <template slot="singleLabel" slot-scope="props">
@@ -322,7 +322,19 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
-    this.refrescar_usuarios()    
+     this.loadingTabla = true 
+      this.listaUsuarios = []
+      this.lista_Usuarios_Filtrada = []
+      let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+      let params = { Id: user.idUser, Square: user.numPlaza}
+      this.$store.dispatch('Usuarios/Consulta_Users', params)
+      setTimeout(() => {
+        this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
+        this.lista_Usuarios_Filtrada = this.lista_Usuarios
+        this.listaUsuarios = this.lista_Usuarios_Filtrada
+        console.log(this.listaUsuarios)
+        this.loadingTabla = false
+      },1000)    
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
     }
@@ -496,12 +508,18 @@ export default {
         this.listaUsuarios = this.lista_Usuarios_Filtrada
         console.log(this.listaUsuarios)
         this.loadingTabla = false
-      },100)
+      },1000)
     },
     borrar_usuario(item) {
       let User = { id: item.userId, square: ""};
       this.$store.dispatch("Usuarios/BorrarUser", User);
       this.refrescar_usuarios()
+      this.$notify.success({
+        title: "Ok!",
+        msg: `USUARIO DESHABILITADO`,
+        position: "bottom right",
+        styles: { height: 100, width: 500 },
+      });
     },  
     guardar_nuevo_usuario(){            
       let tipoUsuario = this.listaTiposUsuario.find(item => item.nombre == this.objUsuarioNuevo.tipoUsuario).id
@@ -646,29 +664,45 @@ export default {
         this.listaUsuarios = this.lista_Usuarios
       }
     },
+    habilitar_usuario: function (item){
+      let User = { id: item.userId, plaza: '001'}
+      this.$http.put(`${API}/User/active`, User)
+      this.refrescar_usuarios()
+      this.$notify.success({
+        title: "Ok!",
+        msg: `USUARIO HABILITADO`,
+        position: "bottom right",
+        styles: { height: 100, width: 500 },
+      });  
+    },
     customLabel ({ title }) {
       return `${title}`
     },
     acciones_mapper(item){                
       if(this.value.title == 'Editar'){
-          this.editarUsuario(item)
+        this.editarUsuario(item)
+      }if(this.value.title == 'Deshabilitar'){
+        this.borrar_usuario(item)
+      }if(this.value.title == 'Habilitar'){
+        this.habilitar_usuario(item)
       }
-      if(this.value.title == 'Borrar'){
-          this.borrar_usuario(item)
-      }   
       this.value = ""  
     },
-    opticones_select_acciones(){
+    opticones_select_acciones(item){
       const options= [                
         { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //0
-        { title: 'Borrar', img: '/img/borrar.16664eed.png' },
+        { title: 'Deshabilitar', img: '/img/close.162602bc.png' },//1
+        { title: 'Habilitar', img: '/img/comprobado.da188ccb.png' },//2
       ]
       let filtroOpciones = []
       //Diagnostico Descargar Siempre va
       filtroOpciones.push(options[0])
-      if(this.typeUser){
-          filtroOpciones.push(options[1])   
-      }         
+      if(this.typeUser && item.statusUser){
+        filtroOpciones.push(options[1])   
+      }
+      if(this.typeUser && !item.statusUser){
+        filtroOpciones.push(options[2])
+      }       
       return filtroOpciones
     }
   },
