@@ -44,10 +44,10 @@
     <!--////////////////////////////////////////////////////////////////////
         ////                      MODAL CAMBIAR STATUS                   //////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-          <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 -mt-10 sm:-mt-32">
+        <div class="sticky inset-0" :class="{'modal-container': modalCambiarStatus}">
+          <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 mt-64 sm:-mt-32">
             <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
-              <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ dtcEdit.referenceNumber }}</p>
+              <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el estatus de la referencia <b class="font-bold">{{ dtcEdit.referenceNumber }}</b></p>
               <div>
                 <div class="mt-5">
                   <p class="mb-1 sm:text-sm">Status DTC</p>
@@ -75,8 +75,8 @@
         <!--/////////////////////////////////////////////////////////////////////
         ////                         MODAL ACTUALIZAR                      /////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 font-titulo">
-          <div v-if="modalActualizar" class="carruselGMMEP h-62">          
+        <div class="sticky inset-0 font-titulo" :class="{'modal-container': modalActualizar}">
+          <div v-if="modalActualizar" class="carruselGMMEP h-62 mt-66">          
             <div class="justify-center text-center block">    
               <p class="mt-10 text-black text-2xl font-bold sm:ml-6 sm:-mt-6">Advertencia</p>        
               <p class="w-69 ml-24 sm:ml-0 sm:w-full text-justify">Se van a Actualizar los componentes requeridos del DTC con Referencia {{ infoAcrualizar.referenceNumber }}</p> 
@@ -468,3 +468,13 @@ methods:{
   }
 };
 </script>
+
+<style>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

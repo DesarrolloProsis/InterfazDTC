@@ -16,9 +16,9 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 font-titulo">
-          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center absolute  inset-x-0 bg-white mx-auto border-gray-700 shadow-2xl">          
-            <div class="justify-center text-center block">            
+        <div class="sticky inset-0 font-titulo" :class="{'modal-container': carruselModal}">
+          <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center items-center relative  inset-x-0 bg-none mx-auto border-none">          
+            <div class="justify-center text-center block mt-54">            
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false, ocultarMultiPadre = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
@@ -37,16 +37,16 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL CAMBIAR STATUS                   ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-        <div v-if="modalCambiarStatus" class="rounded-lg  justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2">
+        <div class="sticky inset-0" :class="{'modal-container': modalCambiarStatus}">
+        <div v-if="modalCambiarStatus" class="rounded-lg  justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2 mt-54">
           <ValidationObserver ref="observer">      
             <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
-              <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia {{ refNum }}</p>
+              <p class="text-gray-900 font-thin text-md">Seguro que quieres cambiar el status de la referencia <b class="font-bold">{{ refNum }}</b></p>
               <div>
                 <div class="mt-5">
                 
                   <p class="mb-1 sm:text-sm">Status DTC</p>
-                  <select v-model="statusEdit" class="w-full" name="Status" type="text">
+                  <select v-model="statusEdit" class="w-full is_valid" name="Status" type="text">
                       <option value="">Selecionar...</option>     
                       <option value="1">Inconcluso</option>  
                       <option value="2">Concluido</option>                                                                  
@@ -59,8 +59,8 @@
                     <p class="mb-1 sm:text-sm">Motivo del Cambio</p>
                     <textarea
                       v-model="motivoCambioStatus"                                        
-                      class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
-                      placeholder="jane@example.com"
+                      class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-500 rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border"
+                      placeholder=" Indicar el motivo por el cual se cambia el estatus"
                       name="Observaciones"
                     />
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -90,8 +90,8 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                 MODAL CAMBIAR USUARIO A DTC                 ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-          <div v-if="modalCambiarUsuarioDTC" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
+        <div class="sticky inset-0" :class="{'modal-container': modalCambiarUsuarioDTC}">
+          <div v-if="modalCambiarUsuarioDTC" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66 mt-60">
               <ValidationObserver ref="observer">  
                 <p class="text-gray-900 font-thin text-md">Cambiar de Usuario el Siguiente DTC {{ refNum }}</p> 
                 <div class="mt-10">
@@ -113,8 +113,8 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL ELIMINAR                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-          <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl">
+        <div class="sticky inset-0" :class="{'modal-container': modalEliminar}">
+          <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl mt-60">
             <ValidationObserver ref="observer">
               <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
               <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
@@ -132,8 +132,8 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL EDITAR DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 sm:text-xs font-titulo">               
-          <div v-if="modalEdit" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto">     
+        <div class="sticky inset-0 sm:text-xs font-titulo" :class="{'modal-container': modalEdit}">               
+          <div v-if="modalEdit" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto mt-54">     
             <ValidationObserver ref="observer">      
               <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
                 <p class="text-gray-900 font-semibold -mt-6 text-lg text-center">Editar DTC {{ dtcEdit.referenceNumber }}</p>
@@ -217,8 +217,8 @@
       <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL FECHAS DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 sm:text-xs font-titulo">               
-          <div v-if="modalEditFechas" class="absolute w-73 sm:w-66  mx-auto  justify-center inset-x-0 pointer-events-auto">     
+        <div class="sticky inset-0 sm:text-xs font-titulo" :class="{'modal-container': modalEditFechas}">               
+          <div v-if="modalEditFechas" class="absolute w-73 sm:w-66  mx-auto  justify-center inset-x-0 pointer-events-auto mt-58">     
             <ValidationObserver ref="observer" v-slot="{ invalid  }">      
               <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
                 <p class="text-gray-900 font-semibold text-lg text-center">Editar Fechas del DTC {{ refNum }}</p>
@@ -894,7 +894,7 @@ computed: {
 };
 </script>
 
-<style>
+<style scoped>
 .list-item {  
   margin-right: 10px;
 }
@@ -904,5 +904,12 @@ computed: {
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;
   transform: translateY(30px);
+}
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>

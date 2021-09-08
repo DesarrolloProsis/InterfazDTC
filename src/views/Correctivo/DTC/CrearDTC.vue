@@ -86,26 +86,30 @@
     ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
-            <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading}" :disabled="modalLoading">
+            <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" />
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
-            <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading}" :disabled="modalLoading">
+            <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Crear</span>
             </button>
           </div>
         </div>
-      <div v-if="modalLoading" class=" inset-0 font-titulo -mt-66 mb-8">
-        <div class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-white mx-auto px-12 py-10 ">          
+        <div class="inset-0" :class="{'modal-container': modalLoading}">
+          <div v-if="modalLoading" class=" inset-0 font-titulo mt-66 mb-8">
+        <div class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-10 ">          
           <div class="justify-center text-center block">            
             <img src="@/assets/img/load.gif"  class="h-48 w-48" />
-            <p class="text-gray-900 font-thin text-md">Espere ... </p>
           </div>
         </div>
       </div>
+        </div>
+
+      
+
       </div>
     </div>
   </div>
@@ -307,5 +311,13 @@ watch: {
 };
 </script>
 
-
+<style>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>
 

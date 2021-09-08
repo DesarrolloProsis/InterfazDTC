@@ -4,8 +4,8 @@
     <!--////////////////////////////////////////////////////////////////////
     ////                      MODAL ERROR                              ////
     ////////////////////////////////////////////////////////////////////-->
-    <div class="sticky inset-0 z-50">
-      <div v-if="modalError" class="modalAgregarActPre mt-32  sm:w-64">
+    <div class="inset-0" :class="{'modal-container': modalError}">
+      <div v-if="modalError" class="modalAgregarActPre mt-66  sm:w-64">
         <div class="text-center">
           <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
             <img src="../../assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
@@ -24,8 +24,8 @@
     <!--////////////////////////////////////////////////////////////////////
     ////                      MODAL AGREGAR                            ////
     ////////////////////////////////////////////////////////////////////-->
-    <div class="sticky inset-0 z-50">
-      <div v-if="modalAgreagrActividad" class="modalAgregarActPre mt-32  sm:w-64">
+    <div class="inset-0" :class="{'modal-container': modalAgreagrActividad}">
+      <div v-if="modalAgreagrActividad" class="modalAgregarActPre mt-66 sm:w-64">
         <h class="text-grey-darkest text-2xl font-titulo sm:text-sm">Agregar Actividad</h>
         <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
         <div>
@@ -69,8 +69,8 @@
     <!--////////////////////////////////////////////////////////////////////
     ////            MODAL LISTA DE CARRILES                            ////
     ////////////////////////////////////////////////////////////////////-->
-    <div class="sticky inset-0 z-50 shadow-xl">
-      <div v-if="modalActividades" class="modalAgregarActPre mt-32 sm:w-64">        
+    <div class="inset-0 " :class="{'modal-container': modalActividades}">
+      <div v-if="modalActividades" class="modalAgregarActPre mt-66 sm:w-64">        
         <div class="text-center">                    
         <div class="mb-4">
             <h1 class="text-grey-darkest text-2xl font-titulo sm:text-sm">Lista de Carriles</h1>    
@@ -104,7 +104,7 @@
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
     </HeaderCalendario>            
-    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo sm:mb-20" :class="{' pointer-events-none': modal}">              
+    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo sm:mb-20" :class="{' pointer-events-none': modal,' scroll': modalAgreagrActividad}">              
         <vue-cal 
           ref="vuecal"          
           :time="false"
@@ -415,6 +415,14 @@ export default {
   watch: {
     events: function(newActividad){
         this.numeroActividades = newActividad.length
+    },
+    isModalVisible: function() {
+      if(this.modalAgreagrActividad){
+        document.documentElement.style.overflow = 'hidden'
+        return
+      }
+
+      document.documentElement.style.overflow = 'auto'
     }
   },
   filters:{
@@ -422,6 +430,8 @@ export default {
       return moment(fecha).format('DD/MM/YYYY')   
     }
   }
+
+
 }
 </script>
 <style >
@@ -493,6 +503,14 @@ export default {
 .multiselect{
   position: none;
 }
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+
 </style>
 
 

@@ -1,6 +1,6 @@
 <template>
     
-<div class="shadow-2xl bg-gray-300">
+<div class="shadow-2xl bg-gray-300 rounded-xl">
 	<div class="relative  w-full">
             <span @click="cerrar_carrusel" class="absolute  top-0 right-0">
                 <img  src="../assets/img/close.png" class="w-8 cursor-pointer " />

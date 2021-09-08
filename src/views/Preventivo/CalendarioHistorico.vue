@@ -101,10 +101,26 @@
                             <td class="cuerpoTable font-titulo font-normal">{{ item.fecha }}</td>                                                                                 
                             <td class="cuerpoTable font-titulo font-normal">{{ item.nombre  }}</td>
                             <td class="cuerpoTable font-titulo font-normal">
-                                <button @click="reporte_pdf(item)" class="botonIconDescargar">
+                               <!--  <button @click="reporte_pdf(item)" class="botonIconDescargar">
                                     <img src="../../assets/img/pdf.png" class="mr-2 sm:-ml-2" width="15" height="15" />
                                     <span class="text-xs">Descargar</span>
-                                </button>
+                                </button>-->
+                                <multiselect class="float:none" v-model="value"  @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                                    <template slot="singleLabel" slot-scope="props">
+                                    <div class=" inline-flex">
+                                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                        <span class="option__title">{{ props.option.title }}</span>
+                                    </div>
+                                    </template>
+                                    <template slot="option" slot-scope="props">                                                
+                                    <div class="option__desc">
+                                        <span class="option__title inline-flex">
+                                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                            {{ props.option.title }}
+                                        </span>
+                                    </div>
+                                    </template>
+                                </multiselect>  
                                 <!-- <button @click="reporte_pdf(item)" class="botonIconDescargar">
                                         <img src="../../assets/img/pdf.png" class="mr-2 sm:m-0" width="15" height="15" />
                                         <span class="text-xs sm:hidden">Reporte Fotografico</span>
@@ -133,7 +149,8 @@ export default {
             listaCompleta: [],
             listaCalendario: [], 
             listaPlazasValidas: [],
-            todasPlazas: []                       
+            todasPlazas: [],
+            value: ''                       
         }
     },
     beforeMount: async function() {        
@@ -195,9 +212,9 @@ export default {
                 });
             }            
         },
-        reporte_pdf: async function(item){            
-            let refPlaza = await this.$store.state.Login.cookiesUser.plazasUsuario.find(plaza => plaza.numeroPlaza == item.plazaId).refereciaPlaza        
-            ServicePDF.generar_pdf_calendario(refPlaza, {
+        reporte_pdf: function(item){            
+                
+            ServicePDF.generar_pdf_calendario(item.referenceSquare, {
                 mes: item.month,
                 año: item.year
             },
@@ -205,7 +222,32 @@ export default {
                 idUser: item.userId,
                 numPlaza: item.plazaId
             }) 
+        },
+        reporte_pdf_escaneado: function(item){ 
+            ServicePDF.generar_pdf_calendario_escaneado_capufe(item.referenceSquare,item.userId,item.year,item.month) 
+        },
+        opticones_select_acciones(item){
+            let options = [
+                { title: 'Bajar calendario', img: '/img/download.ea0ec6db.png' },//0
+                { title: 'Bajar rep. sellado', img: '/img/download.ea0ec6db.png' },//1
+            ]
+            let array = []
+            array.push(options[0])
+
+            if(item.calendarioEscaneado){
+                array.push(options[1])
+            }
+           return array
+        },
+        acciones_mapper(item){
+        if(this.value.title == 'Bajar calendario'){
+            this.reporte_pdf(item)
         }
+        if(this.value.title == 'Bajar rep. sellado'){
+            this.reporte_pdf_escaneado(item)
+        }
+            this.value = ''
+        },
     }
 
 

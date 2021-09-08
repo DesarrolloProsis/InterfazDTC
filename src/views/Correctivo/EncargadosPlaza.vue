@@ -48,8 +48,8 @@
             <!--////////////////////////////////////////////////////////////////////
             ////                      MODAL AGREGAR                            ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-10">
-                <div v-if="modalAgregar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+            <div class="sticky inset-0" :class="{'modal-container': modalAgregar}">
+                <div v-if="modalAgregar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-66">
                     <p class="text-gray-900 font-bold text-2xl mb-8 sm:text-sm sm:text-center text-center">Agregar Encargado de Plaza</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-6">Nombre(s)</p>
@@ -72,8 +72,8 @@
             <!--/////////////////////////////////////////////////////////////////
             ////                      MODAL ELIMINAR                         ////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-10">
-                <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+            <div class="sticky inset-0" :class="{'modal-container': modalEliminar}">
+                <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-68">
                     <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar a: <p class="text-center font-bold">{{ `${infoDelate.name} ${infoDelate.lastName1} ${infoDelate.lastName2}` }}</p>
                     <div class="mt-5 text-center">
                         <button @click="borrar()" class="botonIconCrear font-boton">Si</button>
@@ -84,8 +84,8 @@
             <!--////////////////////////////////////////////////////////////////////
             ////                      MODAL EDITAR                         ////////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="mt-10">
-                <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+            <div class="sticky inset-0" :class="{'modal-container': modalEditar}">
+                <div v-if="modalEditar" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-66">
                     <p class="text-gray-900 font-bold text-md sm:text-sm sm:mb-6 sm:text-center text-center">Editar Encargado de Plaza</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-6">Nombre(s)</p>
@@ -300,3 +300,13 @@ export default {
     },
 }
 </script>
+
+<style>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>
