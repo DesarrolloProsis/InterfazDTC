@@ -316,7 +316,7 @@ export default {
                 if(item.fichaSellado){
                     filtroOpciones.push(options[9]) 
                 }
-                if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7){
+                if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
                     filtroOpciones.push(options[1])
                 }           
                 if(item.validacionDTC && item.validacionFichaTecnica){
@@ -328,7 +328,7 @@ export default {
                 }
             }     
             else{
-                if(this.typeUser != 7)
+                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10)
                 filtroOpciones.push(options[0])
             }                                       
             return filtroOpciones
