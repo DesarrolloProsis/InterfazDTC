@@ -613,7 +613,7 @@ export default {
             LastName2: this.User.LastName2,
             Name: this.User.Name,
             Mail: this.User.Mail,
-            Rol: this.User.Rol,
+            Rol: this.User.Roll,
           };
           this.$store.dispatch("Usuarios/Update_User", UpUser);                    
           let _UpUser = {
