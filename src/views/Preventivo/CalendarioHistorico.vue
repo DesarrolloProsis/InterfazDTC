@@ -237,7 +237,7 @@ export default {
             if(item.calendarioEscaneado){
                 array.push(options[1])
             }
-           return array
+            return array
         },
         acciones_mapper(item){
         if(this.value.title == 'Bajar calendario'){
