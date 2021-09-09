@@ -218,7 +218,7 @@ import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 import TablaGenerica from '../../../components/TablaGenerica.vue'
 
 export default {
-  name: "ConcentradoDTC",
+  name: "ConcentradoGMMEP",
   components: {    
     Carrusel,
     HeaderGenerico,
