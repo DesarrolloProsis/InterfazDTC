@@ -1,4 +1,3 @@
-// import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index'
 import Home from '../views/Home.vue'
@@ -15,7 +14,6 @@ import CalendarioActividades from '../views/Preventivo/CalendarioForm'
 import servicioActividades from '../services/ActividadesService.js'
 import CalendarioHistorico from '../views/Preventivo/CalendarioHistorico'
 import CookiesService from '../services/CookiesService'
-// Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
@@ -228,7 +226,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+
   if (to.name == 'login' || to.name == 'register') next()
+  else if(from.name == 'SesionExpirada' && to.name != 'login')next(false)
   else if (to.name !== 'login' && store.getters['Login/GET_USER_IS_LOGIN']) next()
   else {
     let resultToken = await CookiesService.cache_token()        

@@ -28,11 +28,26 @@ import NavBar from '../src/components/Navbar'
         this.showUpgradeUI = false
         await this.$workbox.messageSW({ type: "SKIP_WAITING" });
       }
-    },  
+    }, 
+    computed:{
+      isIdle(){
+        return this.$store.state.idleVue.isIdle;
+      }
+    },
+    watch:{
+      isIdle(newState){        
+        if(newState){             
+          if(localStorage.getItem('token') != null){
+            let fechaExipracion = new Date(JSON.parse(localStorage.getItem('token')).expiration)            
+            console.log(fechaExipracion >= new Date())
+            if(new Date() >= fechaExipracion)
+              this.$router.push({ path: '/SesionExpirada', replace: true  })
+          }
+        }
+      }
+    }
   }
 </script>
-
-
 <style scoped>
   body {
     margin: 0%;
