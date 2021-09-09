@@ -1,5 +1,5 @@
 <template>
-  <div class="h-75" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-8':modalLoading}">    
+  <div class="h-75" :disabled="modalLoading">    
     <div class="flex justify-center p-4" >
       <div class="grid gap-2 grid-cols-1">
       <!--//////////////////////////////////////////////////////////////////
@@ -67,11 +67,14 @@
             </tbody>            
           </table>
         </div>    
-        <div  v-else>
-          <div v-if="modalLoading" class="absolute mx-32 my-8">            
-            <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-32" />
+        <div  v-else >
+          <div class="sticky inset-0" :class="{'modal-container' :modalLoading}">
+          <div v-if="modalLoading" class="absolute mx-73 my-65">            
+            <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-33" />
           </div>
-          <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2" :class="{'bg-gray-600 bg-opacity-0':modalLoading}"  v-for="(item, key) in listaUsuarios" :key="key">
+          </div>
+          
+          <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2"   v-for="(item, key) in listaUsuarios" :key="key">
             <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
             <div :class="{'opacity-25 cursor-default':modalLoading}" :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading"  @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
             <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Paterno:</p></div>
@@ -102,12 +105,14 @@
             </div>
             <div></div>
           </div>
+          
         </div>        
       </div>
         <!--/////////////////////////////////////////////////////////////////////
-        ////               MODAL AGREGAR CAMBIOAR USUARIO                   ////
+        ////               MODAL CAMBIAR CONTRASEÑA                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div v-if="modal_password" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto my-16 px-12 py-10 shadow-2xl" :class="{'hidden':modalLoading}">
+        <div class="sticky inset-0 " :class="{'modal-container': modal_password}">
+        <div v-if="modal_password" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto my-48 px-12 py-10 shadow-2xl" :class="{'hidden':modalLoading}">
           <div>
             <h1 class="text-4xl font-bold text-gray-800 text-center -mt-6">Cambiar contraseña</h1>
             <div class="mt-3">
@@ -136,10 +141,12 @@
             </div>
           </div>
         </div> 
+        </div>
       <!--/////////////////////////////////////////////////////////////////////
       ////                     MODAL AGREGAR USUARIO                      ////
       ////////////////////////////////////////////////////////////////////-->
-      <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+      <div class="sticky inset-0 " :class="{'modal-container': modalEditar}">
+      <div v-if="modalEditar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-48">
                     <p class="text-gray-900 font-semibold text-md sm:text-md sm:text-center text-center">Agregar Usuario</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-5">Nombre(s)</p>
@@ -151,12 +158,12 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Constraseña</p>
                         <input v-model="objUsuarioNuevo.password" type="text" class="w-full bg-white border-gray-400 mt-2 sm:w-33 sm:-ml-4">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Tipo Usuario</p>
-                        <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2 sm:w-33 sm:-ml-4">
+                        <select v-model="objUsuarioNuevo.tipoUsuario" class="w-full mt-2 sm:w-33 sm:-ml-4 is_valid">
                           <option disabled value>Selecionar...</option>     
                           <option v-for="(item, key) in listaTiposUsuario" :key="key">{{ item.nombre }}</option>                                                                         
                         </select>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Tramo</p>
-                        <select v-model="tramoSeleccionado" class="w-full mt-2 sm:w-33 sm:-ml-4">
+                        <select v-model="tramoSeleccionado" class="w-full mt-2 sm:w-33 sm:-ml-4 is_valid">
                           <option disabled value>Selecionar...</option>     
                           <option value="1">México Acapulco</option>     
                           <option value="2">México Irapuato</option>     
@@ -184,7 +191,10 @@
                         <button @click="modalEditar = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
                     </div>
       </div>
-      <div class="flex absolute justify-center inset-x-0 mt-24">
+      </div>
+
+      <div class="sticky inset-0" :class="{'modal-container': modal}">
+      <div class="flex absolute justify-center inset-x-0 mt-34">
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex -mr-10 -mt-6">
             <button @click="limpiar_usuario">
@@ -260,6 +270,8 @@
         </div>
       </div>
     </div>
+
+    </div>
   </div>
 </template>
 
@@ -334,7 +346,7 @@ export default {
         this.listaUsuarios = this.lista_Usuarios_Filtrada
         console.log(this.listaUsuarios)
         this.loadingTabla = false
-      },1000)    
+      },100)    
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
     }
@@ -718,3 +730,12 @@ export default {
   }
 };
 </script>
+<style>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>
