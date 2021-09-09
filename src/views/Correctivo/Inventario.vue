@@ -13,11 +13,10 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute inset-x-0 bg-white mx-auto px-12 py-10">          
+        <div class="sticky inset-0" :class="{'modal-container': modalLoading}">
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute inset-x-0 mx-auto px-12 py-10 mt-64">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48" />
-                <p class="text-gray-900 font-thin text-md">Espere ... </p>
             </div>
           </div>
         </div>

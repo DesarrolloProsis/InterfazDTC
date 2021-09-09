@@ -5,7 +5,7 @@
     ////                      MODAL ERROR                              ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="inset-0" :class="{'modal-container': modalError}">
-      <div v-if="modalError" class="modalAgregarActPre mt-66  sm:w-64">
+      <div v-if="modalError" class="modalAgregarActPre mt-64  sm:w-64">
         <div class="text-center">
           <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
             <img src="../../assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
@@ -25,7 +25,7 @@
     ////                      MODAL AGREGAR                            ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="inset-0" :class="{'modal-container': modalAgreagrActividad}">
-      <div v-if="modalAgreagrActividad" class="modalAgregarActPre mt-66 sm:w-64">
+      <div v-if="modalAgreagrActividad" class="modalAgregarActPre mt-64 sm:w-64">
         <h class="text-grey-darkest text-2xl font-titulo sm:text-sm">Agregar Actividad</h>
         <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
         <div>
@@ -70,7 +70,7 @@
     ////            MODAL LISTA DE CARRILES                            ////
     ////////////////////////////////////////////////////////////////////-->
     <div class="inset-0 " :class="{'modal-container': modalActividades}">
-      <div v-if="modalActividades" class="modalAgregarActPre mt-66 sm:w-64">        
+      <div v-if="modalActividades" class="modalAgregarActPre mt-64 sm:w-64">        
         <div class="text-center">                    
         <div class="mb-4">
             <h1 class="text-grey-darkest text-2xl font-titulo sm:text-sm">Lista de Carriles</h1>    

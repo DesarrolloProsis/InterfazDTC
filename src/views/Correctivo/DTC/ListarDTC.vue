@@ -18,7 +18,7 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo" :class="{'modal-container': carruselModal}">
           <div v-if="carruselModal" class="rounded-lg border max-w-2xl h-69 justify-center items-center relative  inset-x-0 bg-none mx-auto border-none">          
-            <div class="justify-center text-center block mt-54">            
+            <div class="justify-center text-center block mt-40">            
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false, ocultarMultiPadre = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
@@ -78,8 +78,8 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL CONFIRMAR GMMEP                 ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-          <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66">
+        <div class="sticky inset-0" :class="{'modal-container': modalFirma}">
+          <div v-if="modalFirma" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66 mt-66">
               <p class="text-gray-900 font-thin text-md">Seguro que quieres agregar autorizacion GMMEP a este DTC {{ refNum }}</p>
               <div class="mt-5 text-center">
                 <button @click="agregar_autorizacion_gmmep(true)" class="botonIconCrear">Si</button>

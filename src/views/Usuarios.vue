@@ -1,5 +1,5 @@
 <template>
-  <div class="border h-75" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-8':modalLoading}">    
+  <div class="h-75" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-8':modalLoading}">    
     <div class="flex justify-center p-4" >
       <div class="grid gap-2 grid-cols-1">
       <!--//////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@
         </div>    
         <div  v-else>
           <div v-if="modalLoading" class="absolute mx-32 my-8">            
-            <img src="@/assets/img/load.gif"  class="h-48 w-48" />
+            <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-32" />
           </div>
           <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2" :class="{'bg-gray-600 bg-opacity-0':modalLoading}"  v-for="(item, key) in listaUsuarios" :key="key">
             <div :class="{'opacity-25 cursor-default':modalLoading}" class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>

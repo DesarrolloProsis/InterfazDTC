@@ -228,8 +228,8 @@ export default {
         },
         opticones_select_acciones(item){
             let options = [
-                { title: 'Bajar calendario', img: '/img/download.ea0ec6db.png' },//0
-                { title: 'Bajar rep. sellado', img: '/img/download.ea0ec6db.png' },//1
+                { title: 'Bajar Calendario', img: '/img/download.ea0ec6db.png' },//0
+                { title: 'Bajar Cal. Escaneado', img: '/img/download.ea0ec6db.png' },//1
             ]
             let array = []
             array.push(options[0])
@@ -240,10 +240,10 @@ export default {
             return array
         },
         acciones_mapper(item){
-        if(this.value.title == 'Bajar calendario'){
+        if(this.value.title == 'Bajar Calendario'){
             this.reporte_pdf(item)
         }
-        if(this.value.title == 'Bajar rep. sellado'){
+        if(this.value.title == 'Bajar Cal. Escaneado'){
             this.reporte_pdf_escaneado(item)
         }
             this.value = ''

@@ -1,7 +1,7 @@
 <template>
     <div class="">
-        <div class=" inset-0 font-titulo">
-            <div v-if="abrirModal" class="carruselGMMEP border-gray-200 h-34 w-71 mt-70"> 
+        <div class=" inset-0 font-titulo" :class="{'modal-container': abrirModal}">
+            <div v-if="abrirModal" class="carruselGMMEP border-gray-200 h-34 w-71 mt-66"> 
                 <span @click="escaneadoBool = true, abrirModal = false, $emit('cancelar-escaneado')" class="absolute  top-0 right-0">
                     <img  src="@/assets/img/close.png" class="w-8 cursor-pointer " />
                 </span> 
@@ -119,3 +119,13 @@ export default {
 }
 
 </script>
+
+<style>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

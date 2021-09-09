@@ -245,7 +245,7 @@
     ////                         MODAL AGREGAR COMPONENTE            ////
     //////////////////////////////////////////////////////////////////-->
     <div class="sticky inset-0 font-titulo" :class="{'modal-container': showModal}">
-            <div v-if="showModal" class="rounded-lg justify-center items-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-77 mx-auto my-67 px-2 ">
+            <div v-if="showModal" class="rounded-lg justify-center items-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-77 mx-auto my-67 px-2 mt-64">
                 <div class="rounded-lg border bg-white border-gray-400 px-4 py-10 shadow-2xl sm:-mt-56">
                   <!--////////////////////////////////////////////////////////////////////
                   ////                        BOTONES MODAL AGREGAR COMP             ////
