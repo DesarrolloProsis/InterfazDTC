@@ -1,7 +1,7 @@
 <template>
   <div>    
     <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-12 sm:text-xs w-full" style="height:550px;">
-        <table class="border-collapse table-auto  whitespace-no-wrap bg-white table-striped">
+        <table class="border-collapse table-auto  whitespace-no-wrap bg-white table-striped w-full">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
@@ -9,7 +9,7 @@
                 <!-- VersionPC  -->
                 <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
                     <th colspan="movilHeaderKey.length">
-                        <div class="grid grid-rows-1" :class="{'grid-cols-8': normalheaderKey.length == 8, 'grid-cols-9': normalheaderKey.length == 9 }">
+                        <div class="grid grid-rows-1" :class="{'grid-cols-8': normalheaderKey.length == 8, 'grid-cols-9': normalheaderKey.length == 9, 'grid-cols-3': normalheaderKey.length == 3 }">
                             <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable border-none">                                
                                 {{ item.text }}
                             </div>
@@ -85,7 +85,7 @@ export default {
         },     
         validarAcciones:{
             type: Function,
-            require: true,
+            require: false,
             default: () => []
         },
         normalheaderKey: {

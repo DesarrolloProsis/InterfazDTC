@@ -7,6 +7,7 @@ import Login from '../views/Login.vue'
 import Inventario from '../views/Correctivo/Inventario.vue'
 import InventarioDetalle from '../views/Correctivo/InventarioDetalle.vue'
 import Configuracion from '../views/Configuracion.vue'
+import InicioSesion from '../views/IniciosSesion.vue'
 import Register from '../views/Register.vue'
 import ReportesMantenimiento from '../views/Preventivo/ReportesMantenimiento.vue'
 import FichaDiagnostico from '../views/Correctivo/FichaDiagnostico/FichaDiagnosticoInicio'
@@ -63,6 +64,11 @@ const routes = [
     path: '/Configuracion',
     name: 'Configuracion',
     component: Configuracion,  
+  },
+  {
+    path: '/IniciosSesion',
+    name: 'IniciosSesion',
+    component: InicioSesion,  
   },
   {
     path: '/Ayuda',

@@ -292,6 +292,24 @@
             </button>
         </div>
         </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                   FILTROS DE COMENTARIOS                        ///         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'InicioSesion'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
+            <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+            <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
+                <div class="text-center ml-24 inline-flex sm:ml-6 mb-6 justify-center">
+                    <div>
+                        <p class="font-bold sm:text-sm sm:text-center sm:-ml-1">Nombre Usuario</p>
+                        <input v-model="sesionName" @change="filtrar_inicios_sesion_nombre" class="border w-66 text-center sm:w-32 sm:ml-24" placeholder="Angel Daniel"/>
+                    </div>
+                    <div class="ml-6">
+                        <p class="font-bold  sm:text-sm sm:text-center sm:-ml-1">Dia Seleccionado</p>
+                        <input v-model="diaSesiones" @change="filtrar_inicios_sesion_fecha" type="date" class="border w-66 text-center sm:w-32 sm:ml-24"/>
+                    </div>
+                </div>             
+            </div>           
+        </div>
     </div>
 </template>
 
@@ -361,11 +379,11 @@ export default {
             buscarDF:'',
             //data Comentarios
             filtroComentario:'',
-            carrilFiltro: {
-                capufeLaneNum: '0000',
-                idGare: ''
-            },
+            carrilFiltro: { capufeLaneNum: '0000', idGare: ''},
             buscarNoSellado:'',
+            //datos InicioSesion
+            diaSesiones: new Date().toISOString().substring(0,10),
+            sesionName: ''
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -478,9 +496,16 @@ export default {
                 ubicacion: this.ubicacion
             })
         },
-        
-        
-        
+        //Metodos para SesionesIniciadas
+        filtrar_inicios_sesion_fecha(){
+            this.$emit('filtrar-inicios-sesion', this.diaSesiones)
+        },
+        filtrar_inicios_sesion_nombre(){
+            if(this.sesionName != '' && this.sesionName.length > 3)
+                this.$emit('filtrar-inicios-sesion-name', this.sesionName)            
+            else
+               this.$emit('filtrar-inicios-sesion', this.diaSesiones)  
+        }
     },
     watch:{
         buscarDTC: function(newPalabra){
@@ -507,7 +532,7 @@ export default {
         filtroComentario: function(newPalabra){
             this.$emit('filtrar-comentario', newPalabra.trim())
         },
-        buscarNoSellado: function(newPalabra){
+        buscarNoSellado: function(newPalabra){            
             this.$emit('buscar-nosellado', newPalabra.trim())
         }
     }

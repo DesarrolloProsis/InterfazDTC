@@ -3,7 +3,7 @@
         <tr class="h-12 sm:text-xs text-gray-900 text-center">
            <td :colspan="keyRow.length" class=" text-sm hover:bg-gray-200" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">                              
                <div class="grid grid-rows-1" :class="{'grid-cols-8': keyRow.length == 8, 'grid-cols-9': keyRow.length == 9, 'grid-cols-3': keyRow.length == 3 }">
-                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center sm:w-32 xl:w-64">                    
+                <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center sm:w-32" :class="{ 'w-64': keyRow.length == 9, 'w-64': keyRow.length == 8, 'w-56': keyRow.length == 3}">                    
                      <template v-if="itemSub['formatoFecha']" class="sm:text-xs">                         
                         {{ itemRow[itemSub['key']] | dataRowFormat }}
                     </template>
