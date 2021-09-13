@@ -51,7 +51,7 @@ export default {
             totalPages: 50,
             total: 40,
             perPage: 10,
-            currentPage: 2,
+            currentPage: 1,
             hasMorePages: true
         }
     },
@@ -72,7 +72,8 @@ export default {
             .catch(() => this.loadingTable = false) 
         },
         filtrar_inicios_sesion_name(nameFilter){            
-            let listaNueva = []; this.loadingTable = true;
+            let listaNueva = []; 
+            this.loadingTable = true;
             this.listaIniciosSesion.forEach(item => {                
                 if(item.name.toUpperCase().includes(nameFilter.toUpperCase()))
                     listaNueva.push(item)
@@ -83,8 +84,7 @@ export default {
         showMore(page) {
             console.log(page)
             this.page = page;
-            this.currentPage = page;
-
+            this.currentPage = page;  
             this.$router.push({path: 'IniciosSesion', query: { 'Pagina': page, 'nameFilter': null } })
         }
     }
