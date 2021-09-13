@@ -145,7 +145,7 @@ export default {
     filters: {
         dataRowFormat(item){
             return moment(item.substring(0, 10)).format("DD/MM/YYYY");            
-        }
+        },
     }
 }
 </script>

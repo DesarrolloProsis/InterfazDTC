@@ -299,14 +299,25 @@
             <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
 
             <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
-                <div class="text-center ml-2 mr-2 inline-flex sm:ml-6 mb-6 justify-center">
+                <div class="text-center ml-2 mr-2 grid grid-cols-2 sm:ml-6 mb-6 justify-center">
                     <div> 
                         <p class="font-bold sm:text-sm sm:text-center sm:-ml-1">Nombre Usuario</p>
-                        <input v-model="sesionName" @change="filtrar_inicios_sesion_nombre" class="border w-66 text-center sm:w-32 sm:ml-24" placeholder="Angel Daniel"/>
+                        <input v-model="sesionName"  class="border w-66 text-center sm:w-32 sm:ml-24" placeholder="Angel Daniel"/>
                     </div>
                     <div class="ml-6">
                         <p class="font-bold  sm:text-sm sm:text-center sm:-ml-1 mr-12">Dia Seleccionado</p>
-                        <input v-model="diaSesiones" @change="filtrar_inicios_sesion_fecha" type="date" class="border w-66 text-center sm:w-32 sm:ml-24"/>
+                        <input v-model="diaSesiones"  type="date" class="border w-66 text-center sm:w-32 sm:ml-24"/>
+                    </div>
+                    <div class="col-span-2 ">
+                        <button @click="filtrar_inicio_sesion_todos" class="w-32 botonTodos font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == false}">
+                        <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                        <span>Todos</span>
+                        </button>
+
+                        <button @click="filtrar_por_boton" class="w-32 botonBuscar font-boton sm:h-8 mt-4 ">
+                            <img src="../../assets/img/searchinicios.png" class="mr-2" width="25" height="2"/>
+                            <span>Buscar</span>
+                        </button>
                     </div>
                 </div>             
             </div>           
@@ -383,8 +394,9 @@ export default {
             carrilFiltro: { capufeLaneNum: '0000', idGare: ''},
             buscarNoSellado:'',
             //datos InicioSesion
-            diaSesiones: new Date().toISOString().substring(0,10),
-            sesionName: ''
+            diaSesiones: '',
+            sesionName: '',
+            sesioninicio: false
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -504,8 +516,28 @@ export default {
         filtrar_inicios_sesion_nombre(){
             if(this.sesionName != '' && this.sesionName.length > 3)
                 this.$emit('filtrar-inicios-sesion-name', this.sesionName)            
-            else
-               this.$emit('filtrar-inicios-sesion', this.diaSesiones)  
+/*             else
+               this.$emit('filtrar-inicios-sesion', this.diaSesiones)   */
+        },
+        filtrar_inicios_sesion_nombre_fecha(){
+            if(this.sesionName != '' && this.sesionName.length > 3 && this.diaSesiones != '')
+               this.$emit('filtrar-inicios-sesion-name-fecha',this.sesionName, this.diaSesiones)   
+        },
+        filtrar_por_boton(){
+            this.sesioninicio = true
+            if(this.sesionName != '' && this.diaSesiones == ''){
+                this.filtrar_inicios_sesion_nombre()
+            }else if(this.diaSesiones != '' && this.sesionName == ''){
+                this.filtrar_inicios_sesion_fecha()
+            }else if(this.diaSesiones != '' && this.sesionName != ''){
+                this.filtrar_inicios_sesion_nombre_fecha()
+            }
+        },
+        filtrar_inicio_sesion_todos(){
+            this.sesioninicio = false
+            this.sesionName = ''
+            this.diaSesiones = ''
+            this.$emit('filtrar-todos')
         }
     },
     watch:{
