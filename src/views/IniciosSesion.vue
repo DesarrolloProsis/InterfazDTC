@@ -13,7 +13,7 @@
                 <TablaGenerica 
                     :listaDataTable="listaIniciosSesion" 
                     :loadingTabla="loadingTable"
-                    :normalheaderKey="[{text: 'Nombre', key: 'name'},{text: 'Rol', key: 'rollDescription'},{text: 'Ultimo Inicio', key: 'dateStart', formatoFecha: true}]"
+                    :normalheaderKey="[{text: 'Nombre', key: 'name'},{text: 'Rol', key: 'rollDescription'},{text: 'Ultimo Inicio', key: 'dateStart', formatoFechaHora: true}]"
                     :movilHeaderKey="[{text: 'Nombre', key: 'name'},{text: 'Ultimo Inicio', key: 'dateStart', formatoFecha: true}]"
                 >
                 </TablaGenerica>
@@ -84,17 +84,16 @@ export default {
                 this.currentPage = response.data.result.paginaActual
                 this.loadingTable = false
             }) 
-            .catch(() => this.loadingTable = false) 
+            .catch((er) => {
+                console.log(er.response.status)
+                if(er.response.status == 404){
+                    this.loadingTable = false
+                    this.listaIniciosSesion = []
+                }
+            }
+            ) 
         },
         filtrar_inicios_sesion_name(nameFilter){            
-          /*   let listaNueva = []; 
-            this.loadingTable = true;
-            this.listaIniciosSesion.forEach(item => {                
-                if(item.name.toUpperCase().includes(nameFilter.toUpperCase()))
-                    listaNueva.push(item)
-            })
-            this.listaIniciosSesion = listaNueva
-            this.loadingTable = false */
             this.loadingTable = true
             this.username = nameFilter
             let userId = this.$store.state.Login.cookiesUser.userId
@@ -108,13 +107,18 @@ export default {
                 this.username = ''
             }) 
             .catch((er) => {
-                console.log(er)
-                this.loadingTable = false}) 
+                console.log(er.response.status)
+                if(er.response.status == 404){
+                    this.loadingTable = false
+                    this.listaIniciosSesion = []
+                }
+            }) 
         },
         filtrar_inicios_sesion_name_fecha(nameFilter,diaSesiones){            
             this.loadingTable = true
             this.username = nameFilter
             this.fechaActual = diaSesiones
+            console.log(this.fechaActual);
             let userId = this.$store.state.Login.cookiesUser.userId
             this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/${this.username}/${this.fechaActual}`)
             .then((response) => {

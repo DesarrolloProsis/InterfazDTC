@@ -301,12 +301,12 @@
             <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
                 <div class="text-center ml-2 mr-2 grid grid-cols-2 sm:ml-6 mb-6 justify-center">
                     <div> 
-                        <p class="font-bold sm:text-sm sm:text-center sm:-ml-1">Nombre Usuario</p>
-                        <input v-model="sesionName"  class="border w-66 text-center sm:w-32 sm:ml-24" placeholder="Angel Daniel"/>
+                        <p class="font-bold sm:text-sm sm:text-center sm:-ml-1">Nombre Usuario:</p>
+                        <input v-model="sesionName"  class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto" placeholder="Angel Daniel"/>
                     </div>
                     <div class="ml-6">
-                        <p class="font-bold  sm:text-sm sm:text-center sm:-ml-1 mr-12">Dia Seleccionado</p>
-                        <input v-model="diaSesiones"  type="date" class="border w-66 text-center sm:w-32 sm:ml-24"/>
+                        <p class="font-bold  sm:text-sm sm:text-center sm:-ml-1 mr-12 mx-4">Fecha:</p>
+                        <input v-model="diaSesiones" @change="filtrar_inicios_sesion_fecha"  type="date" class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto"/>
                     </div>
                     <div class="col-span-2 ">
                         <button @click="filtrar_inicio_sesion_todos" class="w-32 botonTodos font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == false}">

@@ -7,6 +7,9 @@
                      <template v-if="itemSub['formatoFecha']" class="sm:text-xs">                         
                         {{ itemRow[itemSub['key']] | dataRowFormat }}
                     </template>
+                    <template v-else-if="itemSub['formatoFechaHora']" class="sm:text-xs">                         
+                        {{ itemRow[itemSub['key']] | dataRowFormathour }}
+                    </template>
                     <template v-else-if="itemSub['text'] != 'Acciones'" class="sm:text-xs">                        
                         {{ itemRow[itemSub['key']] == '' ? 'Sin informacion' : itemRow[itemSub['key']] }}                        
                     </template>                   
@@ -145,6 +148,9 @@ export default {
     filters: {
         dataRowFormat(item){
             return moment(item.substring(0, 10)).format("DD/MM/YYYY");            
+        },
+        dataRowFormathour(item){
+            return moment(item.substring(0, 50)).format("DD/MM/YYYY HH:mm:ss");            
         },
     }
 }
