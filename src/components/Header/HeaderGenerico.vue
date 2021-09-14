@@ -306,7 +306,7 @@
                     </div>
                     <div class="ml-6">
                         <p class="font-bold  sm:text-sm sm:text-center sm:-ml-1 mr-12 mx-4">Fecha:</p>
-                        <input v-model="diaSesiones" @change="filtrar_inicios_sesion_fecha"  type="date" class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto"/>
+                        <input v-model="diaSesiones" @change="filtrar_inicios_sesion_fecha" type="date" class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto"/>
                     </div>
                     <div class="col-span-2 ">
                         <button @click="filtrar_inicio_sesion_todos" class="w-32 botonTodos font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == false}">
@@ -396,7 +396,7 @@ export default {
             //datos InicioSesion
             diaSesiones: '',
             sesionName: '',
-            sesioninicio: false
+            sesioninicio: false,
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -520,20 +520,34 @@ export default {
                this.$emit('filtrar-inicios-sesion', this.diaSesiones)   */
         },
         filtrar_inicios_sesion_nombre_fecha(){
-            if(this.sesionName != '' && this.sesionName.length > 3 && this.diaSesiones != '')
-               this.$emit('filtrar-inicios-sesion-name-fecha',this.sesionName, this.diaSesiones)   
+            if(this.sesionName != '' && this.sesionName.length > 3 && this.diaSesiones != ''){
+                this.$emit('filtrar-inicios-sesion-name-fecha',this.sesionName, this.diaSesiones)   
+            }
         },
         filtrar_por_boton(){
-            this.sesioninicio = true
             if(this.sesionName != '' && this.diaSesiones == ''){
+                this.sesioninicio = true
                 this.filtrar_inicios_sesion_nombre()
             }else if(this.diaSesiones != '' && this.sesionName == ''){
+                this.sesioninicio = true
                 this.filtrar_inicios_sesion_fecha()
             }else if(this.diaSesiones != '' && this.sesionName != ''){
+                this.sesioninicio = true
                 this.filtrar_inicios_sesion_nombre_fecha()
+            }else if(this.diaSesiones == '' && this.sesionName == ''){
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `LOS CAMPOS ESTAN VACIOS.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });         
             }
         },
         filtrar_inicio_sesion_todos(){
+            this.vacios = false
             this.sesioninicio = false
             this.sesionName = ''
             this.diaSesiones = ''

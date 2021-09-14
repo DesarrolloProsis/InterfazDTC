@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex justify-center mt-6">
+        <div class="flex justify-center">
             <div class="grid gap-4 grid-cols-1 py-3 px-3">             
                 <HeaderGenerico 
                     @filtrar-inicios-sesion="filtrar_inicios_sesion"
