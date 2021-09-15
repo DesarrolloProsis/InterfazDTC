@@ -44,13 +44,12 @@
 					class="rounded-sm border border-blue-100 px-3 py-2 bg-blue-100 no-underline text-blue-500 cursor-not-allowed mx-2"
 					v-if="isPageActive(page.name)"
 				>{{ page.name }}</span>
-				<a
+				<button
 					class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2"
-					href="#"
 					v-else
 					@click.prevent="onClickPage(page.name)"
 					role="button"
-				>{{ page.name }}</a>
+				>{{ page.name }}</button>
 				
 			</li>
 

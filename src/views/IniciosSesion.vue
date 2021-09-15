@@ -73,48 +73,94 @@ export default {
     },
     methods:{
         filtrar_inicios_sesion(diaSesiones){
-            this.loadingTable = true
-            let userId = this.$store.state.Login.cookiesUser.userId
-            this.fechaActual = diaSesiones
-            this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/null/${this.fechaActual}`)
-            .then((response) => {
-                console.log(response)
-                this.listaIniciosSesion = response.data.result.rowSesionLog
-                this.totalPages = response.data.result.numeroPaginas
-                this.currentPage = response.data.result.paginaActual
-                this.loadingTable = false
-            }) 
-            .catch((er) => {
-                console.log(er.response.status)
-                if(er.response.status == 404){
+            if(this.fechaActual == ''){
+                this.loadingTable = true
+                let userId = this.$store.state.Login.cookiesUser.userId
+                this.fechaActual = diaSesiones
+                this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/null/${this.fechaActual}`)
+                .then((response) => {
+                    console.log(response)
+                    this.listaIniciosSesion = response.data.result.rowSesionLog
+                    this.totalPages = response.data.result.numeroPaginas
+                    this.currentPage = response.data.result.paginaActual
                     this.loadingTable = false
-                    this.listaIniciosSesion = []
+                }) 
+                .catch((er) => {
+                    console.log(er.response.status)
+                    if(er.response.status == 404){
+                        this.loadingTable = false
+                        this.listaIniciosSesion = []
+                    }
                 }
-            }
-            ) 
+                ) 
+            }else{
+                this.loadingTable = true
+                let userId = this.$store.state.Login.cookiesUser.userId
+                this.fechaActual = this.fechaActual
+                this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/null/${this.fechaActual}`)
+                .then((response) => {
+                    console.log(response)
+                    this.listaIniciosSesion = response.data.result.rowSesionLog
+                    this.totalPages = response.data.result.numeroPaginas
+                    this.currentPage = response.data.result.paginaActual
+                    this.loadingTable = false
+                }) 
+                .catch((er) => {
+                    console.log(er.response.status)
+                    if(er.response.status == 404){
+                        this.loadingTable = false
+                        this.listaIniciosSesion = []
+                    }
+                }
+                )
+            }  
         },
         filtrar_inicios_sesion_name(nameFilter){            
-            this.loadingTable = true
-            this.username = nameFilter
-            let userId = this.$store.state.Login.cookiesUser.userId
-            this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/${this.username}`)
-            .then((response) => {
-                console.log(response)
-                this.listaIniciosSesion = response.data.result.rowSesionLog
-                this.totalPages = response.data.result.numeroPaginas
-                this.currentPage = response.data.result.paginaActual
-                this.loadingTable = false
-                this.username = ''
-            }) 
-            .catch((er) => {
-                console.log(er.response.status)
-                if(er.response.status == 404){
+            if(this.username == ''){
+                this.loadingTable = true
+                this.username = nameFilter
+                let userId = this.$store.state.Login.cookiesUser.userId
+                this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/${this.username}`)
+                .then((response) => {
+                    console.log(response)
+                    this.listaIniciosSesion = response.data.result.rowSesionLog
+                    this.totalPages = response.data.result.numeroPaginas
+                    this.currentPage = response.data.result.paginaActual
                     this.loadingTable = false
-                    this.listaIniciosSesion = []
-                }
-            }) 
+                    console.log(this.username);
+                }) 
+                .catch((er) => {
+                    console.log(er.response.status)
+                    if(er.response.status == 404){
+                        this.loadingTable = false
+                        this.listaIniciosSesion = []
+                    }
+                }) 
+            }else{
+                this.username = this.username
+                this.loadingTable = true
+                let userId = this.$store.state.Login.cookiesUser.userId
+                this.$http.get(`${API}/Login/SesionLog/${userId}/${this.currentPage}/${this.total}/${this.username}`)
+                .then((response) => {
+                    console.log(response)
+                    this.listaIniciosSesion = response.data.result.rowSesionLog
+                    this.totalPages = response.data.result.numeroPaginas
+                    this.currentPage = response.data.result.paginaActual
+                    this.loadingTable = false
+                    console.log(this.username);
+                }) 
+                .catch((er) => {
+                    console.log(er.response.status)
+                    if(er.response.status == 404){
+                        this.loadingTable = false
+                        this.listaIniciosSesion = []
+                    }
+                })
+            }
+            
         },
-        filtrar_inicios_sesion_name_fecha(nameFilter,diaSesiones){            
+        filtrar_inicios_sesion_name_fecha(nameFilter,diaSesiones){
+            if(this.username === '' && this.fechaActual === ''){
             this.loadingTable = true
             this.username = nameFilter
             this.fechaActual = diaSesiones
@@ -127,13 +173,42 @@ export default {
                 this.totalPages = response.data.result.numeroPaginas
                 this.currentPage = response.data.result.paginaActual
                 this.loadingTable = false
-                this.username = ''
             }) 
             .catch((er) => {
                 console.log(er)
-                this.loadingTable = false}) 
+                if(er.response.status == 404){
+                        this.loadingTable = false
+                        this.listaIniciosSesion = []
+                        this.totalPages = 1
+                    }
+                })
+            }else{
+            this.loadingTable = true
+            this.username = this.username
+            this.fechaActual = this.fechaActual
+            console.log(this.fechaActual);
+            let userId = this.$store.state.Login.cookiesUser.userId
+            this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/${this.username}/${this.fechaActual}`)
+            .then((response) => {
+                console.log(response)
+                this.listaIniciosSesion = response.data.result.rowSesionLog
+                this.totalPages = response.data.result.numeroPaginas
+                this.currentPage = response.data.result.paginaActual
+                this.loadingTable = false
+            }) 
+            .catch((er) => {
+                console.log(er)
+                if(er.response.status == 404){
+                        this.loadingTable = false
+                        this.listaIniciosSesion = []
+                    }
+                })
+            }           
+            
         },
         todos(){
+        this.username = ''
+        this.fechaActual = '' 
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}`)
             .then((response) => {
@@ -145,7 +220,6 @@ export default {
             .catch(() => this.loadingTable = false) 
         },
         showMore(page) {
-            console.log(page)
             this.page = page;
             this.currentPage = page;  
             this.$router.push({path: 'IniciosSesion', query: { 'Pagina': page, 'nameFilter': null } })
@@ -161,7 +235,9 @@ export default {
                 this.loadingTable = false
             }) 
             .catch(() => this.loadingTable = false) 
-            }else if (this.username != '' ){
+            }else if(this.username != '' && this.fechaActual != ''){
+                this.filtrar_inicios_sesion_name_fecha();
+            }else if (this.username != ''){
                 this.filtrar_inicios_sesion_name();
             }else if (this.fechaActual != ''){
                 this.filtrar_inicios_sesion();
