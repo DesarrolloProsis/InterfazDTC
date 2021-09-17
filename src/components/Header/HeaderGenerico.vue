@@ -314,7 +314,7 @@
                         <span>Todos</span>
                         </button>
 
-                        <button @click="filtrar_por_boton" class="w-32 botonBuscar font-boton sm:h-8 mt-4 ">
+                        <button @click="filtrar_por_boton" class="w-32 botonBuscar font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == true}">
                             <img src="../../assets/img/searchinicios.png" class="mr-2" width="25" height="2"/>
                             <span>Buscar</span>
                         </button>
