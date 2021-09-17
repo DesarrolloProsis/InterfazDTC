@@ -162,7 +162,7 @@ export default {
             if(this.value.title == 'Crear Calendario'){
                 this.generar_pdf()
             }
-            if(this.value.title == 'Sellado'){                
+            if(this.value.title == 'Subir Calendario Sellado'){                
                 let referenciaPlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
                 this.objInsertEscaneado = {
                     referenceNumber: referenciaPlaza,
@@ -172,7 +172,7 @@ export default {
                 }                
                 this.modalSubirSellado = true
             }
-            if(this.value.title == 'Calendario Sellado'){
+            if(this.value.title == 'Bajar Calendario Sellado'){
                 this.obtener_escaneado_calendario()
             }
             this.value = ''
@@ -180,8 +180,8 @@ export default {
         opticones_select_acciones(){
             let options = [
                 { title: 'Crear Calendario', img: '/img/nuevoDtc.90090632.png' },                                                
-                { title: 'Sellado', img: '/img/upload.8d26bb4f.png'},
-                { title: 'Calendario Sellado', img: '/img/download.ea0ec6db.png' }
+                { title: 'Subir Calendario Sellado', img: '/img/upload.8d26bb4f.png'},
+                { title: 'Bajar Calendario Sellado', img: '/img/download.ea0ec6db.png' }
             ]
             if(!this.calendarioEscaneado){
                 return options.splice(0,2)
