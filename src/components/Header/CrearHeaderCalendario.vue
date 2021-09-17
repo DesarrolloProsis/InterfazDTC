@@ -49,7 +49,7 @@
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:mt-1 md:grid xl:mx-auto ">
                         <span class="font-titulo font-semibold sm:mx-auto w-69 sm:w-32 md:w-32 md:mx-auto lg:ml-10 xl:w-auto">Código de Colores: </span>
                         <p class="md:mx-auto my-auto xl:-mt-1">
-                            <select class="ml-20 w-48 is_valid sm:w-63 sm:ml-2 sm:mx-auto md:ml-0">
+                            <select class="ml-20 w-48 is_valid sm:w-63 sm:ml-2 sm:mx-auto md:ml-0 font-titulo">
                                 <option value="">Códgio de Colores</option>
                                 <option class="bg-green-500 text-center text-gray-200" value="1">Semanal</option>
                                 <option class="bg-red-500 text-center text-gray-200" value="2">Mensual</option>
@@ -173,6 +173,7 @@ export default {
                 this.modalSubirSellado = true
             }
             if(this.value.title == 'Bajar Calendario Sellado'){
+                this.modalSubirSellado = false
                 this.obtener_escaneado_calendario()
             }
             this.value = ''
