@@ -56,7 +56,6 @@ export default {
         }
     },
     beforeMount(){ 
-        console.log(this.username.length);  
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}`)
             .then((response) => {
@@ -65,11 +64,7 @@ export default {
                 this.currentPage = response.data.result.paginaActual
                 this.loadingTable = false
             }) 
-            .catch((er) =>{
-                console.log(er);
-            this.loadingTable = false
-            }
-            ) 
+            .catch(() =>{ this.loadingTable = false }) 
     },
     methods:{
         filtrar_inicios_sesion(diaSesiones){
@@ -79,14 +74,12 @@ export default {
                 this.fechaActual = diaSesiones
                 this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/null/${this.fechaActual}`)
                 .then((response) => {
-                    console.log(response)
                     this.listaIniciosSesion = response.data.result.rowSesionLog
                     this.totalPages = response.data.result.numeroPaginas
                     this.currentPage = response.data.result.paginaActual
                     this.loadingTable = false
                 }) 
                 .catch((er) => {
-                    console.log(er.response.status)
                     if(er.response.status == 404){
                         this.loadingTable = false
                         this.listaIniciosSesion = []
@@ -99,14 +92,12 @@ export default {
                 this.fechaActual = this.fechaActual
                 this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/null/${this.fechaActual}`)
                 .then((response) => {
-                    console.log(response)
                     this.listaIniciosSesion = response.data.result.rowSesionLog
                     this.totalPages = response.data.result.numeroPaginas
                     this.currentPage = response.data.result.paginaActual
                     this.loadingTable = false
                 }) 
                 .catch((er) => {
-                    console.log(er.response.status)
                     if(er.response.status == 404){
                         this.loadingTable = false
                         this.listaIniciosSesion = []
@@ -122,15 +113,12 @@ export default {
                 let userId = this.$store.state.Login.cookiesUser.userId
                 this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/${this.username}`)
                 .then((response) => {
-                    console.log(response)
                     this.listaIniciosSesion = response.data.result.rowSesionLog
                     this.totalPages = response.data.result.numeroPaginas
                     this.currentPage = response.data.result.paginaActual
                     this.loadingTable = false
-                    console.log(this.username);
                 }) 
                 .catch((er) => {
-                    console.log(er.response.status)
                     if(er.response.status == 404){
                         this.loadingTable = false
                         this.listaIniciosSesion = []
@@ -142,15 +130,12 @@ export default {
                 let userId = this.$store.state.Login.cookiesUser.userId
                 this.$http.get(`${API}/Login/SesionLog/${userId}/${this.currentPage}/${this.total}/${this.username}`)
                 .then((response) => {
-                    console.log(response)
                     this.listaIniciosSesion = response.data.result.rowSesionLog
                     this.totalPages = response.data.result.numeroPaginas
                     this.currentPage = response.data.result.paginaActual
                     this.loadingTable = false
-                    console.log(this.username);
                 }) 
                 .catch((er) => {
-                    console.log(er.response.status)
                     if(er.response.status == 404){
                         this.loadingTable = false
                         this.listaIniciosSesion = []
@@ -164,18 +149,15 @@ export default {
             this.loadingTable = true
             this.username = nameFilter
             this.fechaActual = diaSesiones
-            console.log(this.fechaActual);
             let userId = this.$store.state.Login.cookiesUser.userId
             this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/${this.username}/${this.fechaActual}`)
             .then((response) => {
-                console.log(response)
                 this.listaIniciosSesion = response.data.result.rowSesionLog
                 this.totalPages = response.data.result.numeroPaginas
                 this.currentPage = response.data.result.paginaActual
                 this.loadingTable = false
             }) 
             .catch((er) => {
-                console.log(er)
                 if(er.response.status == 404){
                         this.loadingTable = false
                         this.listaIniciosSesion = []
@@ -186,18 +168,15 @@ export default {
             this.loadingTable = true
             this.username = this.username
             this.fechaActual = this.fechaActual
-            console.log(this.fechaActual);
             let userId = this.$store.state.Login.cookiesUser.userId
             this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}/${this.username}/${this.fechaActual}`)
             .then((response) => {
-                console.log(response)
                 this.listaIniciosSesion = response.data.result.rowSesionLog
                 this.totalPages = response.data.result.numeroPaginas
                 this.currentPage = response.data.result.paginaActual
                 this.loadingTable = false
             }) 
             .catch((er) => {
-                console.log(er)
                 if(er.response.status == 404){
                         this.loadingTable = false
                         this.listaIniciosSesion = []
@@ -228,7 +207,6 @@ export default {
             if(this.username == '' && this.fechaActual == ''){
                 this.$http.get(`${API}/Login/SesionLog/${userId}/${this.page}/${this.total}`)
             .then((response) => {
-                console.log(response)
                 this.listaIniciosSesion = response.data.result.rowSesionLog
                 this.totalPages = response.data.result.numeroPaginas
                 this.currentPage = response.data.result.paginaActual
