@@ -514,13 +514,13 @@ export default {
             this.$emit('filtrar-inicios-sesion', this.diaSesiones)
         },
         filtrar_inicios_sesion_nombre(){
-            if(this.sesionName != '' && this.sesionName.length > 3)
+            if(this.sesionName != '' && this.sesionName.length >= 3)
                 this.$emit('filtrar-inicios-sesion-name', this.sesionName)            
 /*             else
                this.$emit('filtrar-inicios-sesion', this.diaSesiones)   */
         },
         filtrar_inicios_sesion_nombre_fecha(){
-            if(this.sesionName != '' && this.sesionName.length > 3 && this.diaSesiones != ''){
+            if(this.sesionName != '' && this.sesionName.length >= 3 && this.diaSesiones != ''){
                 this.$emit('filtrar-inicios-sesion-name-fecha',this.sesionName, this.diaSesiones)   
             }
         },
