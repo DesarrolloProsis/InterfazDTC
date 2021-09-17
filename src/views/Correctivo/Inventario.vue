@@ -462,7 +462,7 @@ export default {
     },
     opticones_select_acciones(){
       const options= [                
-        { title: 'Detalles', img: '/img/details.4d70003e.png' }, //0
+        { title: 'Detalles', img: '../img/details.4d70003e.png' }, //0
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])
