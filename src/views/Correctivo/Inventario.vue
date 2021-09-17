@@ -352,9 +352,7 @@ export default {
                 this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
                 EventBus.$emit('ACTUALIZAR_INVENTARIO')
             })
-            .catch((error)=>{
-                console.log(error);
-            })
+            .catch(()=>{})
           this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
           this.loadingTabla = false       
           this.listEditados = [];

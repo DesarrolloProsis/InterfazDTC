@@ -149,7 +149,6 @@ const actions = {
   async COMPONENT_EDIT({ commit, rootGetters }, value) {    
     await Axios.get(`${API}/dtcData/EditInfo/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value}`)
       .then(response => {        
-        console.log(response)
         commit("COMPONENTES_EDIT", response.data.result)
       })
   },

@@ -382,8 +382,7 @@ beforeMount: async function () {
     let componetesEdit = await this.$store.state.DTC.componetesEdit
     if (JSON.stringify(componetesEdit) != "{}") {   
       let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];                  
-      for (const item of componetesEdit.items) {   
-        console.log(item)                  
+      for (const item of componetesEdit.items) {                     
         newObject["attachedId"] = item.attachedId;
         newObject["componentsRelationship"] = item.relationship;
         newObject["componentsRelationshipId"] = item.mainRelationship;

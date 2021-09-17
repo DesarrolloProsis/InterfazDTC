@@ -334,7 +334,7 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
-     this.loadingTabla = true 
+    this.loadingTabla = true 
       this.listaUsuarios = []
       this.lista_Usuarios_Filtrada = []
       let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -344,7 +344,6 @@ export default {
         this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
-        console.log(this.listaUsuarios)
         this.loadingTabla = false
       },100)    
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
@@ -412,7 +411,6 @@ export default {
               Mail: this.listaUsuarios[0].mail,
               Rol: this.listaUsuarios[0].rollId,
             };
-            console.log(UpUser);
             this.$store.dispatch("Usuarios/Update_User", UpUser);                    
             let _UpUser = {
               IdUser: this.listaUsuarios[0].userId,
@@ -518,7 +516,6 @@ export default {
         this.lista_Usuarios = this.$store.getters["Usuarios/getUsers"];   
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
-        console.log(this.listaUsuarios)
         this.loadingTabla = false
       },1000)
     },

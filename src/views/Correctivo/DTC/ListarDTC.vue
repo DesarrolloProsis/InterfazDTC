@@ -485,7 +485,7 @@ methods: {
     this.itemCompleteChangeUserDTC = item
     this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
       .then((response) =>this.listaTecnicosPlaza = response.data.result)
-      .catch((error) => console.log(error))
+      .catch(() => {})
   },
   guardar_palabra_busqueda: function(newPalabra){          
     if (newPalabra != "") {

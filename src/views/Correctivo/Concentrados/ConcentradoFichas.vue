@@ -236,8 +236,7 @@ export default {
                 this.loadingTabla = false 
             },500)           
         },     
-        acciones_mapper({ acciones, itemRow }){     
-            console.log(acciones)                   
+        acciones_mapper({ acciones, itemRow }){                  
             if(acciones.title == 'Terminar Ficha'){
                 this.terminar_ficha_diagnostico(itemRow)
             }

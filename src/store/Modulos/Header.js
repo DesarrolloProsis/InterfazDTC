@@ -105,9 +105,7 @@ const actions = {
           commit('insertHeaderCompleteMutation', true)
         }
       })
-      .catch(error =>{
-        console.log(error);
-      })   
+      .catch()   
   }
 };
 export default {

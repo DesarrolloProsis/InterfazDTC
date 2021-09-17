@@ -3,8 +3,7 @@ import moment from "moment";
 import Axios from '../store/ManejoSolicitudes'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
-async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){   
-    console.log('service')
+async function filtrar_actividades_mensuales(mes, año, tipoCalendario, status, carril, ref){
     let user = await store.getters['Login/GET_USEER_ID_PLAZA_ID']
     let nombrePlaza = store.state.Login.plazaSelecionada.plazaNombre    
     store.dispatch('Refacciones/BUSCAR_CARRILES',user.numPlaza)

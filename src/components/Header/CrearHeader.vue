@@ -329,8 +329,7 @@ methods: {
         this.datosSinester.ReferenceNumber = _arrayReference
       }          
   },
-  async cambiar_plaza(numeroPlaza) {  
-      console.log(numeroPlaza) 
+  async cambiar_plaza() {   
       this.listaComponentes = []  
       this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
       let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
@@ -352,7 +351,6 @@ methods: {
       }
   },
   validar_header: async function(value){        
-    console.log(value)
     let fechaActual = Date.now()
     let fechaSinisestro = Date.parse(this.datosSinester.SinisterDate)
     let fechaFalla = Date.parse(this.datosSinester.FailureDate)

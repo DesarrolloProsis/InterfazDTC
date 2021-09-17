@@ -17,8 +17,7 @@ function xml_hhtp_request(urlToFile,nameFile){
     oReq.responseType = "blob";  
     let token = CookiesService.obtener_bearer_token('pdf')
     oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
-    oReq.onload = function () { 
-        console.log(oReq.response)
+    oReq.onload = function () {
     var file = new Blob([oReq.response], {
         type: "application/pdf",
     });       
@@ -195,7 +194,6 @@ function generar_pdf_diagnostico_falla(referenceNumber){
 }
 function generar_pdf_fotografico_correctivo(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]
-    console.log(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
     Axios.get(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
     let urlTopdf = `${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`
     let namePdf = 'ReporteFotografico' + '-' + referenceNumber

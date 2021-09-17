@@ -72,11 +72,9 @@ const actions = {
     await Axios.put(`${API}/component/updateInventory/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)           
   },
   //Cosnsulta API Listar Carriles
-  async buscarComponenteId({ commit, rootGetters }, value) {  
-    console.log(value);        
+  async buscarComponenteId({ commit, rootGetters }, value) {       
     await Axios.get(`${API}/component/GetComponetV2/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.numPlaza}/${value.idConvenio}/${value.attachedId}/${value.componentsRelationship}/${value.componentsRelationshipId}/${value.componentsStockId}`)
-      .then(response => {
-          console.log(response)                            
+      .then(response => {                           
           if(response.data.result != null){
             commit("LISTA_REFACCIONES_VALIDAS_MUTATION", response.data.result.listaFiltro);
             commit("LISTA_LANE_MUTATION", response.data.result.listLane); 
@@ -87,8 +85,7 @@ const actions = {
           }       
       })      
   },
-  async BUSCAR_CARRILES({ commit }, plaza) { 
-    console.log(plaza)         
+  async BUSCAR_CARRILES({ commit }, plaza) {       
     Axios.get(`${API}/squaresCatalog/lanes/${plaza}`)
       .then(response => {                                
           if(response.status === 200){            
@@ -102,7 +99,6 @@ const actions = {
   },
   
   async BUSCAR_INFO_COMPONENTES_INVENTARIO({ commit, rootGetters }, value){
-    console.log(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
     await Axios.get(`${API}/component/Inventario/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}/${value.componente}/${value.carril}/${value.numPlaza}`)
       .then(response => commit("INFO_COMPONENTE_INVENTARIO_MUTATION", response.data.result))      
   },

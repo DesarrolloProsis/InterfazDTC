@@ -294,8 +294,7 @@ export default {
       }
       Promise.all([agregar_promise, eliminar_promise]);
     },
-    actualizar_img: async function (nombrePlaza) {
-      console.log(nombrePlaza)
+    actualizar_img: async function () {
       let array_nombre_imagenes = [];      
       this.$store.commit("DTC/LIMPIAR_IMAGENES_REF", this.referenceNumber);
       this.imgbase64 = [];

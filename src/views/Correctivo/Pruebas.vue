@@ -72,7 +72,6 @@ export default {
             ]
         }));
         oReq.onload = function () { 
-          console.log(oReq.response)
           var file = new Blob([oReq.response], {
               type: "application/vnd.ms-excel",
           });       
