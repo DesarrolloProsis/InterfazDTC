@@ -516,8 +516,17 @@ export default {
         filtrar_inicios_sesion_nombre(){
             if(this.sesionName != '' && this.sesionName.length >= 3)
                 this.$emit('filtrar-inicios-sesion-name', this.sesionName)            
-/*             else
-               this.$emit('filtrar-inicios-sesion', this.diaSesiones)   */
+            else{
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NOMBRE DEMASIADO CORTO.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
+            }            
         },
         filtrar_inicios_sesion_nombre_fecha(){
             if(this.sesionName != '' && this.sesionName.length >= 3 && this.diaSesiones != ''){
@@ -526,14 +535,38 @@ export default {
         },
         filtrar_por_boton(){
             if(this.sesionName != '' && this.diaSesiones == ''){
-                this.sesioninicio = true
-                this.filtrar_inicios_sesion_nombre()
+                if(this.sesionName.length >= 3){
+                    this.sesioninicio = true
+                    this.filtrar_inicios_sesion_nombre()
+                }else{
+                    this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NOMBRE DEMASIADO CORTO.`,
+                    position: "bottom right",
+                    styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                }
             }else if(this.diaSesiones != '' && this.sesionName == ''){
                 this.sesioninicio = true
                 this.filtrar_inicios_sesion_fecha()
             }else if(this.diaSesiones != '' && this.sesionName != ''){
-                this.sesioninicio = true
-                this.filtrar_inicios_sesion_nombre_fecha()
+                if(this.sesionName.length >= 3){
+                    this.sesioninicio = true
+                    this.filtrar_inicios_sesion_nombre_fecha()
+                }else{
+                    this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NOMBRE DEMASIADO CORTO.`,
+                    position: "bottom right",
+                    styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                }
             }else if(this.diaSesiones == '' && this.sesionName == ''){
                 this.$notify.warning({
                     title: "Ups!",
