@@ -15,8 +15,7 @@
                     :loadingTabla="loadingTable"
                     :normalheaderKey="[{text: 'Nombre', key: 'name'},{text: 'Rol', key: 'rollDescription'},{text: 'Ultimo Inicio', key: 'dateStart', formatoFechaHora: true}]"
                     :movilHeaderKey="[{text: 'Nombre', key: 'name'},{text: 'Ultimo Inicio', key: 'dateStart', formatoFecha: true}]"
-                >
-                </TablaGenerica>
+                ></TablaGenerica>
                 <Pagination
                     :total-pages="totalPages" 
                     :total="total" :per-page="perPage" 
@@ -28,14 +27,13 @@
         </div>
     </div>
 </template>
-
 <script>
 import HeaderGenerico from '../components/Header/HeaderGenerico.vue'
 import TablaGenerica from '../components/TablaGenerica.vue'
 import Pagination from '../components/Pagination.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
-
+    name:'Inicios de Sesion',
     components: {
         HeaderGenerico,
         TablaGenerica,
