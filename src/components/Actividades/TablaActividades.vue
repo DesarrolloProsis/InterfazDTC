@@ -2,12 +2,14 @@
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto sm:-ml-1 sm:pr-1 sm:pl-2">     
             <div class=" border shadow-lg rounded-md w-full mt-5 sm:mx-auto">
-            <!--/////////////////////////////////////////////////////////////////////
-            ////                         MODAL SELLADO                         /////
-            ////////////////////////////////////////////////////////////////////-->
-                <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>
-                
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                         MODAL ESCANEADO                       /////
+                ////////////////////////////////////////////////////////////////////-->
+                <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>          
                 <h1 class=" text-3xl sm:text-xs font-titulo font-bold text-center sm:mt-4 m-5">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                            FILTROS                            /////
+                ////////////////////////////////////////////////////////////////////-->
                 <div v-if="filtros" class="grid grid-cols-3 mx-auto -mt-1 m-5 sm:grid-cols-2 md:grid-cols-2 ">
                     <!--Plaza-->
                     <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
@@ -84,6 +86,9 @@
                         </button>
                     </div>
                 </div> 
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                        BOTONES CELULAR                        /////
+                ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center lg:hidden xl:hidden animate-bounce">
                     <button @click="filtros=false" v-if="filtros">
                         <img src="../../assets/img/up.png" width="25" height="2"/>
@@ -93,11 +98,11 @@
                     </button>
                 </div>
             </div>
+            <!--//////////////////////////////////////////////////////////////////////
+            ////                           TABLA                             ////////
+            ////////////////////////////////////////////////////////////////////-->
             <div class="sm:-m-1 sm:w-full sm:-mb-32 sm:mx-auto sm:text-xs">
                 <div class="divtabla font-titulo" style="height:600px;">
-                    <!--//////////////////////////////////////////////////////////////////////
-                    ////                           TABLA                             ////////
-                    ////////////////////////////////////////////////////////////////////-->
                     <table class="table table-striped" >
                         <!--////////////////////////////////////////////////////////////////////
                         ////                           HEADER TABLA                      //////
@@ -113,7 +118,7 @@
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////////
-                        ////                           Body TABLA                     //////////
+                        ////                           BODY TABLA                     //////////
                         /////////////////////////////////////////////////////////////////////-->
                         <tbody name="table" id="multiselectHamburguesa">   
                             <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
@@ -138,7 +143,7 @@
                                     <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                    <td class="w-69 text-center cuerpoTable">                                            
+                                    <td class="w-76 text-center cuerpoTable">                                            
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <div class=" inline-flex">
@@ -346,16 +351,16 @@ methods: {
         if(this.value.title == 'Editar'){
             this.editar_reporte_carril(item)
         }   
-        if(this.value.title == 'Reporte de Mantenimiento'){            
+        if(this.value.title == 'Bajar Reporte de Mantenimiento'){            
             this.reporte_pdf(item)
         }
-        if(this.value.title == 'Reporte Mtto. Sellado'){
+        if(this.value.title == 'Subir Reporte de Mtto. Escaneado'){
             this.objInsertEscaneado = {
                 referenceNumber: item.referenceNumber
             }            
             this.modalSubirSellado = true
         }
-        if(this.value.title == 'Reporte M. Sellado'){
+        if(this.value.title == 'Bajar Reporte de Mtto. Escaneado'){
             this.descargar_escaneado(item)
         }
         this.value = ""
@@ -367,56 +372,49 @@ methods: {
     },
     opticones_select_acciones({ statusMaintenance, pdfExists }){
         let options= [
-            { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
-            { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
-            { title: 'Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },
-            { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
-            { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
+            { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },//0
+            { title: 'Editar', img: '/img/pencil.04ec78bc.png' },//1
+            { title: 'Bajar Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },//2
+            { title: 'Bajar Reporte de Mtto. Escaneado', img: '/img/download.ea0ec6db.png'},//3
+            { title: 'Subir Reporte de Mtto. Escaneado', img: '/img/upload.8d26bb4f.png'},//4
         ]
+        let filtroOpciones = []
         if(this.tipoUsuario == 4 || this.tipoUsuario == 7 || this.tipoUsuario == 5 || this.tipoUsuario == 2){
             if(pdfExists){
-                return options.splice(2,2)
+                //return options.splice(2,2)
+                filtroOpciones.push(options[2])
+                filtroOpciones.push(options[3])
             }
             else{
-                return options.splice(2,1)
+                filtroOpciones.push(options[1])
+                filtroOpciones.push(options[2])
             }    
         }
         else{            
             if(statusMaintenance){  
                 if(pdfExists){
-                    return options.splice(1,4)     
+                    /* return options.splice(1,4) */
+                    filtroOpciones.push(options[1])
+                    filtroOpciones.push(options[2])
+                    filtroOpciones.push(options[3])
+                    filtroOpciones.push(options[4])    
                 }
                 else{
-                    let subir = options[4]
+                    filtroOpciones.push(options[1])
+                    filtroOpciones.push(options[2])
+                    filtroOpciones.push(options[4])
+                /*     let subir = options[4]
                     let array = options.splice(1,2)    
                     array.push(subir)
-                    return array
+                    return array */
                 }
             }
             else{                                                
-                return options.splice(0,1)
+                /* return options.splice(0,1) */
+                filtroOpciones.push(options[0])
             }
-        }   
-    },
-    subir_esaneado(){
-        let clavePlaza = this.objSubir.split('-',1)
-        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')        
-        let formData = new FormData()
-        formData.append('file', file)        
-        this.$http.post(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${this.objSubir}`, formData)
-            .then(()=>{
-                this.$notify.success({
-                    title: "Ok!",
-                    msg: `Se subió el archivo correctamente.`,
-                    position: "bottom right",
-                    class:"font-titulo",
-                    styles: {
-                    height: 100,
-                    width: 500,
-                    },
-                });
-                this.pdfSelladoBool = true
-            })         
+        } 
+        return filtroOpciones  
     },
     descargar_escaneado(value){
         ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)

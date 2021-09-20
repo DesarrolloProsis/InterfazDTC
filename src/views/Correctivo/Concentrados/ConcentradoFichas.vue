@@ -368,7 +368,7 @@ export default {
                     filtroOpciones.push(options[3])
                 }
             }   
-            if(this.typeUser == 4 || this.typeUser == 1){
+            if(this.typeUser == 4 || this.typeUser == 10){
                 filtroOpciones.push(options[11])
             }  
             else{
