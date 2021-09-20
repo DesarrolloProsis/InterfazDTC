@@ -24,8 +24,8 @@
                         <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.4 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
                             <li>·Bloqueo de la pantalla al abrir un modal.</li>
-                            <li>·Cierre de Sesión automatico por inactividad.</li>
-                            <li>·Mejoras visuales al  menú de acceso rápido.</li>
+                            <li>·Cierre de Sesión automático por inactividad.</li>
+                            <li>·Mejoras en el menú de acceso rápido.</li>
                             <li>·Centrado de modal para agregar componente en DTC.</li>
                         </ol>
                     </div>                    

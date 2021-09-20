@@ -33,7 +33,7 @@ import TablaGenerica from '../components/TablaGenerica.vue'
 import Pagination from '../components/Pagination.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
-    name:'Inicios de Sesion',
+    name:'IniciosdeSesion',
     components: {
         HeaderGenerico,
         TablaGenerica,
