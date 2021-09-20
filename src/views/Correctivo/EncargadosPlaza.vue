@@ -31,14 +31,28 @@
                                 <td class="cuerpoTable sm:hidden">{{ item.mail }}</td>
                                 <td class="cuerpoTable">{{ item.squareName }}</td>
                                 <td class="cuerpoTable">
-                                    <button class="botonIconActualizar" @click="editarUsuario(item)">
+                                    <!-- <button class="botonIconActualizar" @click="editarUsuario(item)">
                                         <img src="../../assets/img/pencil.png" class="mr-2" width="15" height="15"/>
                                         <span class="text-xs sm:hidden">Editar</span>
                                     </button>
                                     <button class="botonIconLimpiar" @click="confimaBorrar(item)" v-if="rollId == 4 || rollId == 7 || rollId == 10">
                                         <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                                         <span class="text-xs sm:hidden">Borrar</span>
-                                    </button>
+                                    </button> -->
+                                    <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                                        <template slot="singleLabel" slot-scope="props">
+                                            <div class=" inline-flex">
+                                                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                                <span class="option__title">{{ props.option.title }}</span>
+                                            </div>
+                                        </template>
+                                        <template slot="option" slot-scope="props">                                                
+                                            <div class="option__desc"><span class="option__title inline-flex">
+                                                <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                {{ props.option.title }}</span>
+                                            </div>
+                                        </template>
+                                    </multiselect>
                                 </td>
                             </tr>
                         </tbody>
@@ -296,17 +310,44 @@ export default {
         else{
             this.listaEncargados = this.listaencargadosCompleta
         }
-    }
+        },
+        customLabel ({ title }) {
+        return `${title}`
+        },
+        acciones_mapper(item){                
+            if(this.value.title == 'Borrar'){
+                this.confimaBorrar(item)
+            }
+            if(this.value.title == 'Editar'){
+                this.editarUsuario(item)
+            }   
+            this.value = ""
+        },
+        opticones_select_acciones(){
+            let options= [
+                { title: 'Borrar', img: '/img/borrar.16664eed.png' },//0
+                { title: 'Editar', img: '/img/pencil.04ec78bc.png' },//1
+            ]
+            let filtroOpciones = []
+            if(this.rollId == 4 || this.rollId == 7 || this.rollId == 10){
+                filtroOpciones.push(options[0])
+                filtroOpciones.push(options[1])
+            }
+            else{            
+                filtroOpciones.push(options[1])
+            } 
+            return filtroOpciones  
+        },
     },
 }
 </script>
 
 <style>
 .modal-container{
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
 }
 </style>

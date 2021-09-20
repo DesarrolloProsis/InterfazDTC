@@ -156,7 +156,7 @@
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
             </button>
-            <button class="botonTodos font-boton sm:h-8" @click="limpiar_encargados">
+            <button class="botonTodos font-boton mb-3 sm:h-8" @click="limpiar_encargados">
                 <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" />
                 <span>Todos</span>
             </button>
