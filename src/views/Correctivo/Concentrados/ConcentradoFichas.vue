@@ -22,15 +22,15 @@
                             <div class="mt-10">
                                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione el nuevo usuario</p>
                                 <ValidationProvider name="Observaciones" rules="required" v-slot="{ errors }"> 
-                                    <select v-model="userChangeDtc" class="w-full border-none">
+                                    <select v-model="userChangeDf" class="w-full border-none">
                                         <option v-for="(item, key) in listaTecnicosPlaza" :key="key" :value="item.userId">{{  item.nombre }}</option>
                                     </select> 
                                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>                          
                             <div class="mt-10 text-center">
-                                <button @click="actualizar_user_id_df(userChangeDtc)" class="botonIconCrear">Si</button>
-                                <button @click="modalcambiarUsuario = false, userChangeDtc = ''" class="botonIconCancelar">No</button>
+                                <button @click="actualizar_user_id_df(userChangeDf)" class="botonIconCrear">Si</button>
+                                <button @click="modalcambiarUsuario = false, userChangeDf = ''" class="botonIconCancelar">No</button>
                             </div>  
                         </ValidationObserver>          
                     </div>
@@ -120,7 +120,7 @@ export default {
             modalcambiarUsuario: false,
             infoCambiarUsuario:{},
             listaTecnicosPlaza:[],
-            userChangeDtc: '',
+            userChangeDf: '',
         }
     },
     beforeMount: function (){
@@ -264,7 +264,7 @@ export default {
             },500)           
         },
         modal_Cambiar_Usuario(item){
-            this.itemCompleteChangeUserDTC = item
+            this.itemCompleteChangeUserDf = item
             this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
             .then((response) =>this.listaTecnicosPlaza = response.data.result)
             .catch(() => {})
