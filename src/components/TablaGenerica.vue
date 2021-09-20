@@ -17,7 +17,7 @@
                     </th>      
                 </tr>
                 <!-- VersionMovil  -->
-                 <tr class="text-mdtext-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
+                <tr class="text-mdtext-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
                     <th colspan="movilHeaderKey.length">
                         <div class="grid grid-cols-3 grid-rows-1">
                             <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable border-none">
