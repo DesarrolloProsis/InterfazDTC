@@ -18,16 +18,14 @@ const actions = {
             })       
     },
     async Update_User({commit}, value){
-        commit      
-        console.log(value);  
+        commit
         await Axios.put(`${API}/User/update`,value)
             .then(() => {})      
     },
     async BorrarUser({commit}, value){
         commit                
         await Axios.put(`${API}/User/delete`,value)
-            .then(() => {                                          
-            })    
+            .then(() => {})    
     },
     async NuevoUser({commit}, value){
         commit        
@@ -35,12 +33,9 @@ const actions = {
             .then(() => {})        
     },
     async UPDATE_PASSWORD({commit}, value){
-      commit            
-      console.log(value);
+      commit
       await Axios.put(`${API}/User/newPassword`,value)
-          .then((response) => {
-            console.log(response);
-          })                                        
+          .then(() => {})                                        
   },
 }
 export default {

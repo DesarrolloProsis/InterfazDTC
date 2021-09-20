@@ -1,5 +1,5 @@
 <template>
-    <footer class="fixed inset-x-0 bottom-0">        
+    <footer class="fixed inset-x-0 bottom-0" v-if="$route.name != 'SesionExpirada'">        
         <div class="w-full px-6 bg-blue-800">                
             <div class="inline-flex justify-between  py-3 w-full" :class="{'ml-3':$route.name == 'login'}">
                 <div id="nombreRollShow" v-if="$route != undefined && $route.name != 'login'">
@@ -21,18 +21,17 @@
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class=" font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.3 !!! 🎉</p>
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.4 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·En concentrado DTC se muestra el usuario asignado de cada DTC.</li>
-                            <li>·Codigo de colores en concentrado DTC.</li>
-                            <li>·Se agregó un loop de carril más en cada plaza.</li>
-                            <li>·Nuevo formato de cambio de contraseña e información de Técnico.</li>
-                            <li>·Iconos de ayuda al crear un nuevo Diagnóstico y Ficha Técnica.</li>
+                            <li>·Bloqueo de la pantalla al abrir un modal.</li>
+                            <li>·Cierre de Sesión automatico por inactividad.</li>
+                            <li>·Mejoras visuales al  menú de acceso rápido.</li>
+                            <li>·Centrado de modal para agregar componente en DTC.</li>
                         </ol>
                     </div>                    
                 </div>
                 <div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.3</p>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.4</p>
                 </div>
             </div>                                
         </div>        
@@ -41,10 +40,7 @@
 <script>
 export default {  
     data(){
-        return{
-            msg: `hola
-            dsakl
-            dflkjs`,
+        return{        
             mostrar: true,   
         }
     },

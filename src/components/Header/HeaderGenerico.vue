@@ -47,7 +47,7 @@
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION GMMEP                 ////         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'GMMEP'" class="mt-1 sm:-mt-8 mb-1 justify-center sm:block sm:p-1 sm:pr-2     sm:m-1 shadow-md grid grid-cols font-titulo" 
+        <div v-if="tipo == 'GMMEP'" class="-mt-14 sm:-mt-8 mb-1 justify-center sm:block sm:p-1 sm:pr-2     sm:m-1 shadow-md grid grid-cols font-titulo" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
         <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-3 md:mx-auto md:my-5 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-1" 
@@ -104,7 +104,7 @@
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select></p>
             </div>
-            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3">
+            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3" :class="{'hidden':typeUser == 4 || typeUser == 7}">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
@@ -292,6 +292,36 @@
             </button>
         </div>
         </div>
+        <!--////////////////////////////////////////////////////////////////////
+        ///                   FILTROS DE INCIOS SESION                        ///         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'InicioSesion'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
+            <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+
+            <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
+                <div class="text-center ml-2 mr-2 grid grid-cols-2 sm:ml-6 mb-6 justify-center">
+                    <div> 
+                        <p class="font-bold sm:text-sm sm:text-center sm:-ml-1">Nombre Usuario:</p>
+                        <input v-model="sesionName" @change="filtrar_inicio_sesion_todos_change" class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto" placeholder="Angel Daniel"/>
+                    </div>
+                    <div class="ml-6">
+                        <p class="font-bold  sm:text-sm sm:text-center sm:-ml-1 mr-12 mx-4">Fecha:</p>
+                        <input v-model="diaSesiones" @change="filtrar_inicio_sesion_todos_change" type="date" class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto"/>
+                    </div>
+                    <div class="col-span-2 ">
+                        <button @click="filtrar_inicio_sesion_todos" class="w-32 botonTodos font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == false}">
+                        <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                        <span>Todos</span>
+                        </button>
+
+                        <button @click="filtrar_por_boton" class="w-32 botonBuscar font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == true}">
+                            <img src="../../assets/img/searchinicios.png" class="mr-2" width="25" height="2"/>
+                            <span>Buscar</span>
+                        </button>
+                    </div>
+                </div>             
+            </div>           
+        </div>
     </div>
 </template>
 
@@ -361,11 +391,12 @@ export default {
             buscarDF:'',
             //data Comentarios
             filtroComentario:'',
-            carrilFiltro: {
-                capufeLaneNum: '0000',
-                idGare: ''
-            },
+            carrilFiltro: { capufeLaneNum: '0000', idGare: ''},
             buscarNoSellado:'',
+            //datos InicioSesion
+            diaSesiones: '',
+            sesionName: '',
+            sesioninicio: false,
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -478,9 +509,93 @@ export default {
                 ubicacion: this.ubicacion
             })
         },
-        
-        
-        
+        //Metodos para SesionesIniciadas
+        filtrar_inicios_sesion_fecha(){
+            this.$emit('filtrar-inicios-sesion', this.diaSesiones)
+        },
+        filtrar_inicios_sesion_nombre(){
+            if(this.sesionName != '' && this.sesionName.length >= 3)
+                this.$emit('filtrar-inicios-sesion-name', this.sesionName)            
+            else{
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NOMBRE DEMASIADO CORTO.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });
+            }            
+        },
+        filtrar_inicios_sesion_nombre_fecha(){
+            if(this.sesionName != '' && this.sesionName.length >= 3 && this.diaSesiones != ''){
+                this.$emit('filtrar-inicios-sesion-name-fecha',this.sesionName, this.diaSesiones)   
+            }
+        },
+        filtrar_por_boton(){
+            if(this.sesionName != '' && this.diaSesiones == ''){
+                if(this.sesionName.length >= 3){
+                    this.sesioninicio = true
+                    this.filtrar_inicios_sesion_nombre()
+                }else{
+                    this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NOMBRE DEMASIADO CORTO.`,
+                    position: "bottom right",
+                    styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                }
+            }else if(this.diaSesiones != '' && this.sesionName == ''){
+                this.sesioninicio = true
+                this.filtrar_inicios_sesion_fecha()
+            }else if(this.diaSesiones != '' && this.sesionName != ''){
+                if(this.sesionName.length >= 3){
+                    this.sesioninicio = true
+                    this.filtrar_inicios_sesion_nombre_fecha()
+                }else{
+                    this.$notify.warning({
+                    title: "Ups!",
+                    msg: `NOMBRE DEMASIADO CORTO.`,
+                    position: "bottom right",
+                    styles: {
+                            height: 100,
+                            width: 500,
+                        },
+                    });
+                }
+            }else if(this.diaSesiones == '' && this.sesionName == ''){
+                this.$notify.warning({
+                    title: "Ups!",
+                    msg: `LOS CAMPOS ESTAN VACIOS.`,
+                    position: "bottom right",
+                    styles: {
+                        height: 100,
+                        width: 500,
+                    },
+                });         
+            }
+        },
+        filtrar_inicio_sesion_todos(){
+            this.vacios = false
+            this.sesioninicio = false
+            this.sesionName = ''
+            this.diaSesiones = ''
+            this.$emit('filtrar-todos')
+        },
+        filtrar_inicio_sesion_todos_change(){
+            if(this.sesionName == ''){
+                this.vacios = false
+                this.sesioninicio = false
+                this.sesionName = ''
+                this.diaSesiones = ''
+                this.$emit('filtrar-todos')
+            }
+        }
+
     },
     watch:{
         buscarDTC: function(newPalabra){
@@ -507,7 +622,7 @@ export default {
         filtroComentario: function(newPalabra){
             this.$emit('filtrar-comentario', newPalabra.trim())
         },
-        buscarNoSellado: function(newPalabra){
+        buscarNoSellado: function(newPalabra){            
             this.$emit('buscar-nosellado', newPalabra.trim())
         }
     }

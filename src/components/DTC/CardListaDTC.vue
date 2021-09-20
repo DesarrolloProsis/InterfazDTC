@@ -2,27 +2,29 @@
   <div>
       <!-- //////////////////////////////////////////////////////////////////////
       ////                         SUBIR PDF SELLADO                        ////
-      ///////////////////////////////////////////////////////////////////// -->       
-        <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" @cancelar-escaneado="cancelar_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado>    
+      ///////////////////////////////////////////////////////////////////// --> 
+        <div class="sticky inset-0 font-titulo" :class="{'modal-container':modalSubirSellado}">
+          <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" @cancelar-escaneado="cancelar_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="tipoEscaneado"></PdfEscaneado> 
+        </div>
     <div class="w-66 sm:w-auto">
       <!--/////////////////////////////////////////////////////////////////////
       ////                         MODAL ACTUALIZAR                      /////
       ////////////////////////////////////////////////////////////////////-->
-      <div class="sticky inset-0 font-titulo">
-        <div v-if="modalActualizar" class="carruselGMMEP h-62 mt-32">          
+      <div class="sticky inset-0 font-titulo" :class="{'modal-container-cards':modalActualizar}">
+        <div v-if="modalActualizar" class="carruselGMMEP h-62 mt-60">          
           <div class="justify-center text-center block"> 
             <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
-              <img src="../../assets/img/warning.png" class="ml-6 mt-4 sm:-ml-6" width="25" height="25" />
-              <p class="-mt-6 text-black sm:ml-6 -ml-1 sm:-mt-6 text-xl">Advertencia</p>
-              <img src="../../assets/img/warning.png" class="ml-64 -mt-8 sm:-mt-10 sm:ml-49" width="25" height="25" />
+              <img src="../../assets/img/warning.png" class="ml-40 mt-12 sm:-ml-6" width="50" height="50" />
+              <p class="-mt-12 text-black sm:ml-6 ml-2 sm:-mt-6 text-4xl">Advertencia</p>
+              <img src="../../assets/img/warning.png" class="ml-69 -mt-13 sm:-mt-10 sm:ml-49" width="50" height="50" />
             </h1>     
-            <p class="m-4 sm:ml-0 sm:w-full text-justify">Se van a Actualizar los componentes requeridos del DTC con Referencia {{ infoCard.referenceNumber }}</p> 
+            <p class="m-4 mt-10 sm:ml-0 sm:w-full text-justify">Se van a Actualizar los componentes requeridos del DTC con Referencia <b>{{ infoCard.referenceNumber }}</b></p> 
           </div>
-          <div class="mt-12 flex justify-center">
-              <button class="botonIconCrear font-boton" >
+          <div class="flex justify-center">
+              <button class="botonIconCrear font-boton mt-4" >
                   <span class="" @click="actualizarComponentes">Aceptar</span>
               </button>
-              <button class="botonIconCancelar font-boton" @click="modalActualizar = false">
+              <button class="botonIconCancelar font-boton mt-4" @click="modalActualizar = false">
                   <span class="">Cancelar</span>
               </button>
           </div>
@@ -64,7 +66,7 @@
           </div>
         </div>
           <p class="text-left font-semibold text-sm">Acciones:</p>
-          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" :class="{'hidden' :ocultarMulti || modalActualizar || modalSubirSellado}">
+          <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" >
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
                 <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
@@ -386,7 +388,7 @@ export default {
       let datosUser = {}      
       await this.$store.dispatch(`DTC/COMPONENT_EDIT`, this.infoCard.referenceNumber); 
       await this.$http.get(`${API}/dtcData/${this.infoCard.referenceNumber.split('-')[0]}/${this.infoCard.referenceNumber}`)
-        .then(async (response) => {  
+        .then(async (response) => { 
           datosUser = response.data.result.find(item => item.adminSquareId = this.infoCard.adminId)               
           await CookiesService.actualizar_plaza(datosUser.adminSquareId)          
         })         
@@ -487,4 +489,19 @@ export default {
   },
 };
 </script>
-
+<style scoped>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal-container-cards{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

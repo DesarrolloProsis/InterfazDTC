@@ -48,7 +48,7 @@
               <span class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
           </div>
           <div class="sm:flex-col pr-2 inline-block font-titulo">
-            <ValidationProvider name="NoSiniestro" immediate rules="max:30" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
+            <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
                 <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
                 <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" name="NoSiniestro" type="text"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
@@ -138,11 +138,11 @@
             ///////////////////////////////////////////////////////////////////// -->
           <div class="text-sm -mt-24 sm:mt-0" :class="{'hidden': boolCambiarPlaza == false}">
             <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
-            <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Advertencia una vez creado no puedes cambiar la plaza</span>
+            <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Advertencia, una vez creado no puedes cambiar la plaza</span>
           </div>
           <div class="text-sm -mt-32 sm:-mt-1" :class="{'hidden': boolCambiarPlaza == true}">
             <span class="text-lg font-semibold font-titulo sm:text-xs">Cambiar Plaza:</span>
-            <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
+            <p class="ml-12 -mt-7"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza></p>
             <!-- <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span> -->
           </div>
           <div></div>
@@ -329,8 +329,7 @@ methods: {
         this.datosSinester.ReferenceNumber = _arrayReference
       }          
   },
-  async cambiar_plaza(numeroPlaza) {  
-      console.log(numeroPlaza) 
+  async cambiar_plaza() {   
       this.listaComponentes = []  
       this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
       let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
@@ -352,7 +351,6 @@ methods: {
       }
   },
   validar_header: async function(value){        
-    console.log(value)
     let fechaActual = Date.now()
     let fechaSinisestro = Date.parse(this.datosSinester.SinisterDate)
     let fechaFalla = Date.parse(this.datosSinester.FailureDate)

@@ -511,7 +511,6 @@ beforeMount: async function(){
     //Bloque para crear
     else{                            
         this.plazaSeleccionada = this.$store.state.Login.plazaSelecionada.numeroPlaza;
-        console.log(this.plazaSeleccionada)
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)          
         //Bloque para crear Ficha      
@@ -646,8 +645,7 @@ methods:{
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
             }                                                                    
         }
-        catch(error){          
-            console.log(error)
+        catch(error){
             this.$notify.warning({
                     title: "Ops!!",
                     msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",

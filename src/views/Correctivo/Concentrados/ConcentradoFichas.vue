@@ -236,8 +236,7 @@ export default {
                 this.loadingTabla = false 
             },500)           
         },     
-        acciones_mapper({ acciones, itemRow }){     
-            console.log(acciones)                   
+        acciones_mapper({ acciones, itemRow }){                  
             if(acciones.title == 'Terminar Ficha'){
                 this.terminar_ficha_diagnostico(itemRow)
             }
@@ -256,7 +255,7 @@ export default {
             if(acciones.title == 'Ficha Técnica'){                    
                 ServiceReporte.generar_pdf_ficha_falla(itemRow.referenceNumber)
             }
-            if(acciones.title == 'Dictamen (DTC)'){                    
+            if(acciones.title == 'Bajar Dictamen (DTC)'){                    
                 ServiceReporte.generar_pdf_correctivo(itemRow.referenceDTC, 2, false, undefined)
                 if (this.typeUser != 4 && this.typeUser != 8){
                     setTimeout(() => {
@@ -294,7 +293,7 @@ export default {
                 { title: 'Borrar', accionCss: 'borrar', img: '/img/borrar.16664eed.png' },//3
                 { title: 'Dignóstico de Falla', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //4
                 { title: 'Ficha Técnica', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//5
-                { title: 'Dictamen (DTC)', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //6
+                { title: 'Bajar Dictamen (DTC)', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //6
                 { title: 'Subir DF Sellado', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //7
                 { title: 'Subir FT Sellada', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //8
                 { title: 'Bajar FT Sellada', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//9
@@ -302,7 +301,7 @@ export default {
             ]
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
-            if(this.typeUser != 7){
+            if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
                 filtroOpciones.push(options[7])
             }
             if(item.diagnosticoSellado){
@@ -310,13 +309,13 @@ export default {
             } 
             if(item.validacionFichaTecnica){
                 filtroOpciones.push(options[5]) 
-                if(this.typeUser != 7){
+                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
                     filtroOpciones.push(options[8])
                 }
                 if(item.fichaSellado){
                     filtroOpciones.push(options[9]) 
                 }
-                if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7){
+                if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
                     filtroOpciones.push(options[1])
                 }           
                 if(item.validacionDTC && item.validacionFichaTecnica){
@@ -328,7 +327,7 @@ export default {
                 }
             }     
             else{
-                if(this.typeUser != 7)
+                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10)
                 filtroOpciones.push(options[0])
             }                                       
             return filtroOpciones

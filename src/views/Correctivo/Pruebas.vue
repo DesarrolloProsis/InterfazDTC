@@ -7,6 +7,9 @@
     <img src="../../assets/img/flechas.png" alt="">    
     <img src="../../assets/img/add.png" alt="">    
     <img src="../../assets/img/actualizado.png" alt="">
+    <img src="../../assets/img/comprobado.png" alt="">
+    <img src="../../assets/img/details.png" alt="">
+    details
     <button @click="descargar_excel" class="bg-red-600 w-64 h-51">Presioname para excel</button>
   </div>
 </template>
@@ -71,7 +74,6 @@ export default {
             ]
         }));
         oReq.onload = function () { 
-          console.log(oReq.response)
           var file = new Blob([oReq.response], {
               type: "application/vnd.ms-excel",
           });       

@@ -51,12 +51,9 @@ const actions = {
                 commit("ACTIVIDADES_MENSUALES_MUTATION", [])                                                                 
             }); 
     },
-    async OBTENER_ACTIVIDADES_MESNUALES_ADMIN({ commit }, value) {    
-        console.log(value)                       
-        console.log(`${API}/Calendario/GetActividadesUsuario`)
+    async OBTENER_ACTIVIDADES_MESNUALES_ADMIN({ commit }, value) {                       
         await Axios.post(`${API}/Calendario/GetActividadesUsuario`,value)
             .then((response) => {
-                console.log(response)
                 commit("ACTIVIDADES_MENSUALES_MUTATION", response.data.result)
             })            
             .catch(() => {                

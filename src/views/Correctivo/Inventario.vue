@@ -13,24 +13,26 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute inset-x-0 bg-white mx-auto px-12 py-10">          
+        <div class="sticky inset-0" :class="{'modal-container': modalLoading}">
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute inset-x-0 mx-auto px-12 py-10 mt-64">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48" />
-                <p class="text-gray-900 font-thin text-md">Espere ... </p>
             </div>
           </div>
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div v-if="modalmtto" class="mt-16 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
+        <div class="sticky inset-0" :class="{'modal-container': modalmtto}">
+        <div v-if="modalmtto" class="mt-64 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
           <ValidationObserver ref="observer">      
             <div><h1 class="text-center font-titulo text-4xl sm:text-md">Mantenimiento</h1></div>
                 <div class="grid grid-cols-2 mt-10 sm:grid-cols-1">
                     <div class="ml-2 sm:-ml-4">
                       <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
+                      <div class="-ml-20">
                       <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
+                      </div>
                     </div>
                     <div class="mt-8 ml-4">
                       <!-- <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }">  -->
@@ -68,6 +70,8 @@
                 </div>
           </ValidationObserver>
         </div> 
+      </div>
+
         <div v-if="modalAdv" class="mt-10 absolute justify-items-center border border-gray-400 rounded-lg shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
             <div>
                 <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
@@ -103,6 +107,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                    MODAL INSERTAR COMPONENTE                    ////
         ////////////////////////////////////////////////////////////////////-->
+         <!--
         <div v-if="modalmtto" class="mt-16 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
           <ValidationObserver ref="observer">      
             <div><h1 class="text-center font-titulo text-4xl sm:text-md">Agregar Componente</h1></div>
@@ -111,17 +116,17 @@
                       <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
                       <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true"></SelectPlaza>
                     </div>
-                    <div class="mt-8 ml-4">
+                    <div class="mt-8 ml-4"> -->
                       <!-- <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }">  -->
-                        <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
+                       <!-- <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
                         <p class="w-32 input ml-16 -mt-6 sm:ml-8">
                         <select v-model="datosmtto.ubicacion" immediate class="w-32 border-none" name="Carriles" type="text">
                             <option value="">Selecionar...</option>
                             <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
-                        </select></p>
+                        </select></p> -->
                         <!-- <span class="text-red-600 text-xs block">{{ errors[0] }}</span> -->
                       <!-- </ValidationProvider> -->
-                    </div>
+                    <!--</div>
                 </div>
                 <div class="mt-6">
                   <ValidationProvider name="FechaMantenimiento" immediate rules="required" v-slot="{ errors }"> 
@@ -146,7 +151,7 @@
                     </button>
                 </div>
           </ValidationObserver>
-        </div>
+        </div>-->
         <!-- ////////////////////////////////////////////////////////////////////
         ///                             TABLA                               ////
         ////////////////////////////////////////////////////////////////////-->
@@ -347,9 +352,7 @@ export default {
                 this.$store.commit('Refacciones/FULL_COMPONENT_MUTATION',response.data.result)
                 EventBus.$emit('ACTUALIZAR_INVENTARIO')
             })
-            .catch((error)=>{
-                console.log(error);
-            })
+            .catch(()=>{})
           this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
           this.loadingTabla = false       
           this.listEditados = [];
@@ -459,7 +462,7 @@ export default {
     },
     opticones_select_acciones(){
       const options= [                
-        { title: 'Detalles', img: '/img/details.4d70003e.png' }, //0
+        { title: 'Detalles', img: '../img/details.4d70003e.png' }, //0
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])
@@ -489,3 +492,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

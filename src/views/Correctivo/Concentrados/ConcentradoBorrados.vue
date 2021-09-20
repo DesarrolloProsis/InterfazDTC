@@ -9,8 +9,9 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     MODAL COMENTARIOS                         ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div v-if="modalDetalles" class="-mt-3 absolute justify-items-center rounded-lg border border-gray-400 font-titulo shadow-xl inset-x-0 bg-white w-69 h-67 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
-                <div class="">
+                <div class="sticky inset-0" :class="{'modal-container': modalDetalles}">
+                <div v-if="modalDetalles" class="mt-66 absolute justify-items-center rounded-lg border border-gray-400 font-titulo shadow-xl inset-x-0 bg-white w-69 h-67 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+                <div>
                     <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">                      
                     <p class="text-gray-900 sm:ml-6 mt-8 sm:-mt-6">DTC {{ detallesDtcBorrado.refereceNumber  }}</p>                      
                     </h1>
@@ -32,14 +33,17 @@
                         </tbody>
                     </table>
                     </div>
-
                 </div>
-                <div class="mt-12 flex justify-center">
-                    <button class="botonIconCrear font-boton" >
-                        <span class="" @click="modalDetalles = false, detallesDtcBorrado = {}">Aceptar</span>
-                    </button>
+                    <div class="mt-12 flex justify-center">
+                        <button class="botonIconCrear font-boton" >
+                            <span class="" @click="modalDetalles = false, detallesDtcBorrado = {}">Aceptar</span>
+                        </button>
+                    </div>
                 </div>
                 </div>
+                <!--///////////////////////////////////////////////////////////////////
+                ////                     TABLA DE CONCENTRADOS DTC BORRADOS        ////
+                ////////////////////////////////////////////////////////////////////-->
                 <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-77 sm:w-67 sm:ml-32 mb-20" style="height:500px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                         <thead>
@@ -131,3 +135,12 @@ export default {
 },
 }
 </script>
+<style scoped>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

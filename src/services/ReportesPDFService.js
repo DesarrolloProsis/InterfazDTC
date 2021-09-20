@@ -17,8 +17,7 @@ function xml_hhtp_request(urlToFile,nameFile){
     oReq.responseType = "blob";  
     let token = CookiesService.obtener_bearer_token('pdf')
     oReq.setRequestHeader('Authorization', 'Bearer ' + token);       
-    oReq.onload = function () { 
-        console.log(oReq.response)
+    oReq.onload = function () {
     var file = new Blob([oReq.response], {
         type: "application/pdf",
     });       
@@ -171,6 +170,7 @@ async function generar_pdf_fotografico_preventivo(referenceNumber, lane){
         }
     });    
 }
+//Sirve para los calendario pero de los Tecnicos NO CAPUFE
 function generar_pdf_calendario_escaneado(año, mes){
     let clavePlaza = store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']
     let idPlazaUser = store.getters['Login/GET_USEER_ID_PLAZA_ID']
@@ -178,6 +178,14 @@ function generar_pdf_calendario_escaneado(año, mes){
     let namePdf = clavePlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
     xml_hhtp_request(urlTopdf, namePdf) 
 }
+//CAPUFE
+function generar_pdf_calendario_escaneado_capufe(refenciaPlaza, userId, año, mes){
+    
+    let urlTopdf = `${API}/Calendario/GetPdfSellado/${refenciaPlaza}/${año}/${mes}/${userId}`
+    let namePdf = refenciaPlaza + año.toString().slice(2) + '-' + mes + 'C-Escaneado.pdf'  
+    xml_hhtp_request(urlTopdf, namePdf) 
+}
+
 function generar_pdf_diagnostico_falla(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]
     let urlTopdf = `${API}/DiagnosticoFalla/${clavePlaza}/${referenceNumber}`
@@ -186,7 +194,6 @@ function generar_pdf_diagnostico_falla(referenceNumber){
 }
 function generar_pdf_fotografico_correctivo(referenceNumber){
     let clavePlaza = referenceNumber.split('-')[0]
-    console.log(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
     Axios.get(`${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`)
     let urlTopdf = `${API}/ReporteFotografico/Dañado/${clavePlaza}/0/${referenceNumber}`
     let namePdf = 'ReporteFotografico' + '-' + referenceNumber
@@ -263,6 +270,7 @@ export default {
     crear_referencia,
     crear_referencia_calendario,
     generar_pdf_calendario,
+    generar_pdf_calendario_escaneado_capufe,
     generar_pdf_actividades_preventivo,
     generar_pdf_fotografico_preventivo,
     generar_pdf_calendario_escaneado,

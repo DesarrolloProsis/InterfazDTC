@@ -244,8 +244,8 @@
     <!--//////////////////////////////////////////////////////////////////
     ////                         MODAL AGREGAR COMPONENTE            ////
     //////////////////////////////////////////////////////////////////-->
-    <div class="sticky inset-0 font-titulo">
-            <div v-if="showModal" class="rounded-lg justify-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-full mx-auto px-2">
+    <div class="sticky inset-0 font-titulo" :class="{'modal-container': showModal}">
+            <div v-if="showModal" class="rounded-lg justify-center items-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-77 mx-auto my-67 px-2 mt-64">
                 <div class="rounded-lg border bg-white border-gray-400 px-4 py-10 shadow-2xl sm:-mt-56">
                   <!--////////////////////////////////////////////////////////////////////
                   ////                        BOTONES MODAL AGREGAR COMP             ////
@@ -386,7 +386,8 @@ beforeMount: async function () {
         newObject["attachedId"] = item.attachedId;
         newObject["componentsRelationship"] = item.relationship;
         newObject["componentsRelationshipId"] = item.mainRelationship;
-        newObject["componentsStockId"] = item.componentsStockId;                    
+        newObject["componentsStockId"] = item.componentsStockId
+                          
         await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);          
         let array_ubicacion = [];
         let array_carril = [];
@@ -472,7 +473,7 @@ methods: {
       
     }, 2000)
   },
-  eliminar_partida(index){
+  eliminar_partida(index){    
     this.arrayPartidas.splice(index, 1)
     this.arrayPartidas.map((item, index) => {
       item.row1 = index + 1
@@ -632,4 +633,14 @@ filters: {
 },
 };
 </script>
+
+<style scoped>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>
 

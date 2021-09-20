@@ -53,8 +53,8 @@
         <!--////////////////////////////////////////////////////////////////////
         ////                      MODAL AYUDA                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 font-titulo">
-            <div v-if="modal_coment" class="rounded-lg  -mt-68 justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2">
+        <div class="sticky inset-0 font-titulo" :class="{'modal-container': modal_coment}">
+            <div v-if="modal_coment" class="rounded-lg mt-32 justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-10 sm:p-2">
                 <ValidationObserver ref="observer">      
                     <div class="rounded-lg border bg-white border-gray-400 px-12 py-10 shadow-2xl">
                         <h1 class="mb-10 -mt-6 sm:text-sm text-center font-bold text-2xl">Ingresa tu comentario</h1> 
@@ -235,3 +235,13 @@ export default {
     }
 }
 </script>
+
+<style>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

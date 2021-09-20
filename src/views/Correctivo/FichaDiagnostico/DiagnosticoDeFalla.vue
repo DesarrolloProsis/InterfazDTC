@@ -171,8 +171,7 @@ methods:{
                 causeFailure: this.datosHeader.causaFalla,
                 adminSquareId: administradorId,
                 updateFlag: flagInsert // 1 -> Insertar || 0 -> editar
-            }      
-            console.log(objDiagnostico)                    
+            }                  
             this.$http.post(`${API}/DiagnosticoFalla/InsertDiagnosticoDeFalla/${objDiagnostico.referenceNumber.split('-')[0]}`, objDiagnostico)
                 .then(() => { 
                     let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic 
