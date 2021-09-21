@@ -1,5 +1,5 @@
 <template>
-    <div class="border h-79 relative" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-5 -mb-33':modalLoading}">
+    <div class="border h-79 -mb-56 relative" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-5 -mb-33':modalLoading}">
         <!--/////////////////////////////////////////////////////////////////
         ////                HEADER REPORTE NIVEL CARRIL                   ////
         ////////////////////////////////////////////////////////////////////-->
@@ -27,9 +27,21 @@
         <!--/////////////////////////////////////////////////////////////////
         ////          TEXT AREA PARA OBSERVACIONES                         ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1 font-titulo mt-10 -mb-32">
-            <div class="w-1/2 sm:w-full sm:-ml-10">                
-                <p class="text-center text-xl text-gray-800 mb-5 sm:text-xs sm:-ml-48 sm:-mt-6">Observaciones</p>          
+        
+        <div class="inline-flex mx-auto w-full pl-20 pr-20 sm:grid grid-cols-1 font-titulo mt-6 -mb-32">
+            <div class="w-1/2 sm:w-full sm:-ml-10 ">                
+                <p class="text-center text-xl text-gray-800 mb-6 sm:text-xs sm:-ml-48 sm:-mt-6">Observaciones</p> 
+                
+                <div class=" ml-40 -mt-12 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                    <span class="" v-tooltip.top =" { ref:'tooltipobservacion', class: 'tooltip-custom tooltip-other-custom'}">
+                        <img src="@/assets/img/pregunta.png" class="flex items-center -mt-4 w-5 h-5 "/>
+                    </span>
+
+                    <div ref="tooltipobservacion" class="font-titulo">
+                            <p class="text-center text-gray-800">Se debe indicar las acciones </p>
+                    </div>
+                </div> 
+
                 <textarea
                     id="obs"
                     v-model="observaciones"
@@ -43,7 +55,7 @@
         <!--/////////////////////////////////////////////////////////////////
         ////            COMPONENTE IMAGENES REPORTE CARRIL               ////
         ////////////////////////////////////////////////////////////////////-->
-            <div class="w-1/2 ml-20 sm:w-full sm:-ml-16 sm:-mt-1 mt-6 ">
+            <div class="w-1/2 ml-20 sm:w-full sm:-ml-16 sm:-mt-1 mt-3 ">
                 <ImagenesActividadCarril :reporteDataInsertada="reporteInsertado" :referenceNumber="referenceNumber" @ocutar-modal-loading="ocultar_modal_loading"></ImagenesActividadCarril>
             </div>
         <!--/////////////////////////////////////////////////////////////////
