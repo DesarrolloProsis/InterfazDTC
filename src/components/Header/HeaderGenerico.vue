@@ -109,11 +109,11 @@
             </div>
         </div>
         
-        <div class="-mt-1 mb-4 ml-78 sm:ml-0  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
+        <div class="-mt-1 mb-4 ml-78 sm:ml-0 grid grid-cols-2  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
             <button class="botonIconNext sm:mx-20" @click="abrirModal">
                 <span>Mantenimiento</span>
             </button>
-            <div class="-ml-8 -mt-6 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+            <div class=" mt-3 ml-3 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
                             <span class="" v-tooltip.left =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>
