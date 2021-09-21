@@ -18,7 +18,18 @@
                 <div class="sticky inset-0" :class="{'modal-container': modalcambiarUsuario}">
                     <div v-if="modalcambiarUsuario" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66 mt-60">
                         <ValidationObserver ref="observer">  
-                            <p class="text-gray-900 font-thin text-md">Cambiar de Usuario el Siguiente Diagnostico de Falla <span class="text-black font-bold">{{ infoCambiarUsuario.referenceNumber }}</span> </p> 
+                            <p class="text-gray-900 font-thin text-md" v-if="infoCambiarUsuario.referenceDTC != '--' ">
+                                Al cambiar el usuario del Diagnóstico de Falla con Refencia: 
+                                <span class="text-black font-bold">{{ infoCambiarUsuario.referenceNumber }}</span> 
+                                <br>
+                                Se cambiará la Ficha con Referencia: <span class="text-red-600 font-bold">{{ infoCambiarUsuario.referenceNumber }}</span> 
+                                <br>
+                                Y el Dictamen Técnico con Referencia: <span class="text-red-600 font-bold">{{ infoCambiarUsuario.referenceDTC }}</span> 
+                            </p>
+                            <p v-else class="text-gray-900 font-thin text-md">
+                                Se cambiará el usuario del Diagnóstico de Falla y Ficha Técnica con Referencia: 
+                                <span class="text-black font-bold">{{ infoCambiarUsuario.referenceNumber }}</span> 
+                            </p> 
                             <div class="mt-10">
                                 <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione el nuevo usuario</p>
                                 <ValidationProvider name="Observaciones" rules="required" v-slot="{ errors }"> 
@@ -29,7 +40,7 @@
                                 </ValidationProvider>
                             </div>                          
                             <div class="mt-10 text-center">
-                                <button @click="actualizar_user_id_df(userChangeDf)" class="botonIconCrear">Si</button>
+                                <button @click="actualizar_user_id_df" class="botonIconCrear">Si</button>
                                 <button @click="modalcambiarUsuario = false, userChangeDf = ''" class="botonIconCancelar">No</button>
                             </div>  
                         </ValidationObserver>          
@@ -121,6 +132,7 @@ export default {
             infoCambiarUsuario:{},
             listaTecnicosPlaza:[],
             userChangeDf: '',
+            refNum: ''
         }
     },
     beforeMount: function (){
@@ -264,13 +276,40 @@ export default {
             },500)           
         },
         modal_Cambiar_Usuario(item){
-            this.itemCompleteChangeUserDf = item
+            this.refNum = item.referenceNumber
+            this.infoCambiarUsuario = item
+            console.log(this.infoCambiarUsuario);
             this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
             .then((response) =>this.listaTecnicosPlaza = response.data.result)
             .catch(() => {})
         },
-        actualizar_user_id_df(item){
-            console.log(item);
+        actualizar_user_id_df(){
+            if(this.infoCambiarUsuario.referenceDTC != '--'){
+                this.loadingTabla = true
+                let actualizar_user = new Promise ((resolve,reject) => {
+                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDf}/${this.infoCambiarUsuario.referenceDTC}/${this.refNum}`)
+                    .then(() => {
+                            resolve('OK')
+                            this.modalcambiarUsuario = false
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+                    setTimeout(()=>{
+                        actualizar_user.then(()=>{
+                            this.loadingTabla = false
+                            this.$notify.success({
+                                title: "Ok!",
+                                msg: `EL DF CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
+                                position: "bottom right",
+                                styles: { height: 100, width: 500,},
+                            });
+                        })
+                    },1000)
+                })
+            }else{
+                alert('Sin DTC')
+            }
         },
         acciones_mapper({ acciones, itemRow }){                  
             if(acciones.title == 'Terminar Ficha'){
