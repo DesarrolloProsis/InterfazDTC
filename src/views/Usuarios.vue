@@ -852,7 +852,7 @@ export default {
         { title: 'Deshabilitar', img: '/img/close.162602bc.png' },//1
         { title: 'Habilitar', img: '/img/comprobado.da188ccb.png' },//2
         { title: 'Agregar Plaza', img: '/img/more.b0fdb1af.png' },//3
-        { title: 'Eliminar Plaza', img: '/img/menos.efbcac34.png' },//4
+        { title: 'Eliminar Plaza', img: '/img/menos.9f2bee4b.png' },//4
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])
