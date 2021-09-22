@@ -102,7 +102,21 @@
                     </select> 
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                   </ValidationProvider>
-                </div>                          
+                </div>
+                <div class="mt-5">
+                  <p class="pdtcpendientes sm:text-sm sm:text-center">Indica el Motivo del Cambio</p>
+                  <ValidationProvider name="Comentario" rules="required|max:300" v-slot="{ errors }"> 
+                    <textarea
+                      v-model="comentario"                                        
+                      class="textAreaCalendario ph-center"
+                      placeholder="ingresa tus comentarios"
+                      name="Comentario"
+                      :maxlength=300
+                    />
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    <span class="text-xs text-gray-400">{{ restante_comentario }}/300</span>
+                  </ValidationProvider>
+                </div>            
                 <div class="mt-10 text-center">
                   <button @click="actualizar_user_id_dtc" class="botonIconCrear">Si</button>
                   <button @click="modalCambiarUsuarioDTC = false, refNum = ''" class="botonIconCancelar">No</button>
@@ -358,7 +372,8 @@ export default {
       fechaEnvio: '',
       fechaElaboracion: '',
       ocultarMultiPadre: false,
-      typeUser: ''         
+      typeUser: '',
+      comentario: '',
     };
   },
   components: {    
@@ -423,7 +438,13 @@ methods: {
       this.modalLoading = true
       if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
         let actualizar_user = new Promise ((resolve,reject) => {
-          this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
+          let obj_cambiar_user = {
+            userId: this.userChangeDtc,
+            referenceNumberDTC: this.itemCompleteChangeUserDTC.referenceNumber,
+            referenceNumberDiagnostic: this.itemCompleteChangeUserDTC.referenceNumberDiagnosis,
+            Comment: this.comentario
+          }
+          this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}`, obj_cambiar_user)
           .then(() => {                  
             let index = this.infoDTC.map(item =>  { 
               return item.referenceNumber }
@@ -889,6 +910,9 @@ computed: {
   },
   return_Diag(){
     return this.dtcEdit.diagnosis.trim().length
+  },
+  restante_comentario(){
+    return this.comentario.length
   }
 }
 };
