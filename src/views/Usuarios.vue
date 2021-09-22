@@ -1,8 +1,11 @@
 <template>
   <div class="h-75" :disabled="modalLoading">    
     <div class="flex justify-center p-4" >
-      <div class="grid gap-2 grid-cols-1">
       <!--//////////////////////////////////////////////////////////////////
+      ////                          CUERPO                            ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="grid gap-2 grid-cols-1">
+        <!--//////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser" :class="{'opacity-25':modalLoading}">Mi Perfil</h1>
@@ -11,7 +14,7 @@
           <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
-      <!--///////////////////////////////////////////////////////////////////
+        <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:630px;" v-if="this.typeUser">
@@ -108,10 +111,10 @@
           
         </div>        
       </div>
-        <!--/////////////////////////////////////////////////////////////////////
-        ////               MODAL CAMBIAR CONTRASEÑA                         ////
-        ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 " :class="{'modal-container': modal_password}">
+      <!--/////////////////////////////////////////////////////////////////////
+      ////               MODAL CAMBIAR CONTRASEÑA                         ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 " :class="{'modal-container': modal_password}">
         <div v-if="modal_password" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto my-48 px-12 py-10 shadow-2xl" :class="{'hidden':modalLoading}">
           <div>
             <h1 class="text-4xl font-bold text-gray-800 text-center -mt-6">Cambiar contraseña</h1>
@@ -141,7 +144,7 @@
             </div>
           </div>
         </div> 
-        </div>
+      </div>
       <!--/////////////////////////////////////////////////////////////////////
       ////                     MODAL AGREGAR USUARIO                      ////
       ////////////////////////////////////////////////////////////////////-->
