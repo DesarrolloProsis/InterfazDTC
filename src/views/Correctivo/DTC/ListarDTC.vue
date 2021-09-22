@@ -118,8 +118,8 @@
                   </ValidationProvider>
                 </div>            
                 <div class="mt-10 text-center">
-                  <button @click="actualizar_user_id_dtc" class="botonIconCrear">Si</button>
-                  <button @click="modalCambiarUsuarioDTC = false, refNum = ''" class="botonIconCancelar">No</button>
+                  <button @click="actualizar_user_id_dtc" class="botonIconCrear">Cambiar</button>
+                  <button @click="modalCambiarUsuarioDTC = false, refNum = ''" class="botonIconCancelar">Cancelar</button>
                 </div>  
               </ValidationObserver>          
           </div>

@@ -54,8 +54,8 @@
                                 </ValidationProvider>
                             </div>                  
                             <div class="mt-10 text-center">
-                                <button @click="actualizar_user_id_df" class="botonIconCrear">Si</button>
-                                <button @click="modalcambiarUsuario = false, userChangeDf = ''" class="botonIconCancelar">No</button>
+                                <button @click="actualizar_user_id_df" class="botonIconCrear">Cambiar</button>
+                                <button @click="modalcambiarUsuario = false, userChangeDf = ''" class="botonIconCancelar">Cancelar</button>
                             </div>  
                         </ValidationObserver>          
                     </div>
