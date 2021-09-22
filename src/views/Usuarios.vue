@@ -14,7 +14,7 @@
       <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:450px;" v-if="this.typeUser">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:630px;" v-if="this.typeUser">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
             <thead>
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
@@ -193,7 +193,7 @@
       </div>
       </div>
       <!--/////////////////////////////////////////////////////////////////////
-      ////                     MODAL PLAZAS                     ////
+      ////                     MODAL AGREGAR PLAZAS                       ////
       ////////////////////////////////////////////////////////////////////-->
       <div class="sticky inset-0 " :class="{'modal-container': modalAddPlaza}">
         <div v-if="modalAddPlaza" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-6 py-10 shadow-2xl mt-48">
@@ -230,6 +230,39 @@
           <div class="mt-5 text-center ml-6">
             <button @click="agregar_plazas(infoUser)" class="botonIconCrear font-boton sm:-ml-24">Agregar</button>
             <button @click="modalAddPlaza = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                    MODAL ELIMINAR PLAZAS                       ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 " :class="{'modal-container': modalEliminarPlaza}">
+        <div v-if="modalEliminarPlaza" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-6 py-10 shadow-2xl mt-48">
+          <p class="text-gray-900 font-semibold text-md sm:text-md sm:text-center text-center">Eliminar Plazas a <span>{{ infoUser.name + ' ' + infoUser.lastName1 + ' ' + infoUser.lastName2 }}</span></p>
+          <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plazas Asignadas</p>
+          <p>{{ infoUser.plazas }}</p>
+          <div class="grid grid-cols-2 mt-2">
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
+            <multiselect 
+                          v-model="obj_borrar_plaza.plazas"                                                                                                                                                             
+                          :custom-label="label_multi_select"                          
+                          :close-on-select="false"
+                          :clear-on-select="true"
+                          :hideSelected="false"
+                          placeholder="Selecciona..."
+                          :options="plazasUserForDelete"
+                          track-by="squareCatalogId"
+                          class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
+                          :multiple="true"
+                        >   
+                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
+                          </template>   
+            </multiselect>
+          </div>
+          <div class="mt-5 text-center ml-6">
+            <button @click="eliminar_plaza(infoUser)" class="botonIconCrear font-boton sm:-ml-24">Eliminar</button>
+            <button @click="modalEliminarPlaza = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
           </div>
         </div>
       </div>
@@ -375,7 +408,10 @@ export default {
       obj_editar_plaza:{
         plazas:[]
       },
-      PlazasAdd:[],
+      obj_borrar_plaza:{
+        plazas:[]
+      },
+      modalEliminarPlaza:false
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -737,17 +773,14 @@ export default {
     agregar_plazas(item){
       let arrayPlaza = [] 
       this.obj_editar_plaza.plazas.forEach((plaza) => {
-        arrayPlaza.push({
-            plazaAdd: plaza.squareCatalogId
-        })
+        arrayPlaza.push(plaza.squareCatalogId)
       })
-      console.log(arrayPlaza.plazaAdd);
       let plazaInsert = {
-          squareId: [arrayPlaza],
+          squareId: arrayPlaza,
           userId: item.userId,
           flag: 1
         }
-        this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaInsert)                        
+      this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaInsert)                        
       setTimeout(() => {                  
         this.$notify.success({
           title: "Ops!!",
@@ -758,7 +791,35 @@ export default {
             width: 500,
           },
         })
-        this.modalAddPlaza = false                
+        this.modalAddPlaza = false  
+        this.tramoSeleccionado = ''  
+        this.obj_editar_plaza = []            
+        this.refrescar_usuarios()                            
+      },1000)
+    },
+    eliminar_plaza(item){
+      let arrayPlaza = [] 
+      this.obj_borrar_plaza.plazas.forEach((plaza) => {
+        arrayPlaza.push(plaza.squareCatalogId)
+      })
+      let plazaDelete = {
+          squareId: arrayPlaza,
+          userId: item.userId,
+          flag: 0
+        }
+        this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaDelete)                        
+      setTimeout(() => {                  
+        this.$notify.success({
+          title: "Ops!!",
+          msg: "SE ELIMINARON LAS PLAZAS CORRECTAMENTE.",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        })
+        this.modalEliminarPlaza = false                
+        this.obj_borrar_plaza = []
         this.refrescar_usuarios()                            
       },1000)
     },
@@ -775,6 +836,10 @@ export default {
       }if(this.value.title == 'Agregar Plaza'){
         this.infoUser = item
         this.modalAddPlaza = true
+      }if(this.value.title == 'Eliminar Plaza'){
+        this.plazasUserForDelete = item.plazasLimpias
+        this.infoUser = item
+        this.modalEliminarPlaza = true
       }
       this.value = ""  
     },
@@ -784,17 +849,19 @@ export default {
         { title: 'Deshabilitar', img: '/img/close.162602bc.png' },//1
         { title: 'Habilitar', img: '/img/comprobado.da188ccb.png' },//2
         { title: 'Agregar Plaza', img: '/img/more.b0fdb1af.png' },//3
+        { title: 'Eliminar Plaza', img: '/img/menos.efbcac34.png' },//4
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])
       if(this.typeUser && item.statusUser){
         filtroOpciones.push(options[1])
         if(item.plazas != 'TODAS')   
-        filtroOpciones.push(options[3])   
+          filtroOpciones.push(options[3])
       }
       if(this.typeUser && !item.statusUser){
         filtroOpciones.push(options[2])
       }       
+      filtroOpciones.push(options[4])
       return filtroOpciones
     }
   },
