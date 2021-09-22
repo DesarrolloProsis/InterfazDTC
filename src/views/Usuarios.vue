@@ -192,7 +192,50 @@
                     </div>
       </div>
       </div>
-
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                     MODAL PLAZAS                     ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 " :class="{'modal-container': modalAddPlaza}">
+        <div v-if="modalAddPlaza" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-6 py-10 shadow-2xl mt-48">
+          <p class="text-gray-900 font-semibold text-md sm:text-md sm:text-center text-center">Agregar Plazas</p>
+          <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plazas Asignadas</p>
+          <p>{{ infoUser.plazas }}</p>
+          <div class="grid grid-cols-2 mt-2">
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plazas por Asignar</p>
+            <p></p>
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Tramo</p>
+            <select v-model="tramoSeleccionado" class="w-full mt-2 sm:w-33 sm:-ml-4 is_valid">
+              <option disabled value>Selecionar...</option>     
+              <option value="1">México Acapulco</option>     
+              <option value="2">México Irapuato</option>     
+            </select>
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
+            <multiselect 
+                          v-model="obj_editar_plaza.plazas"                                                                                                                                                             
+                          :custom-label="label_multi_select"                          
+                          :close-on-select="false"
+                          :clear-on-select="true"
+                          :hideSelected="false"
+                          placeholder="Selecciona..."
+                          :options="listaPlazas"
+                          track-by="squareCatalogId"
+                          class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
+                          :multiple="true"
+                        >   
+                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
+                          </template>   
+            </multiselect>
+          </div>
+          <div class="mt-5 text-center ml-6">
+            <button @click="agregar_plazas(infoUser)" class="botonIconCrear font-boton sm:-ml-24">Agregar</button>
+            <button @click="modalAddPlaza = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                     MODAL EDITAR ADMIN                         ////
+      ////////////////////////////////////////////////////////////////////-->
       <div class="sticky inset-0" :class="{'modal-container': modal}">
       <div class="flex absolute justify-center inset-x-0 mt-34">
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
@@ -270,7 +313,6 @@
         </div>
       </div>
     </div>
-
     </div>
   </div>
 </template>
@@ -328,6 +370,12 @@ export default {
         password: "",
         checkLog: true,
       },
+      modalAddPlaza:false,
+      infoUser:{},
+      obj_editar_plaza:{
+        plazas:[]
+      },
+      PlazasAdd:[],
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -686,6 +734,34 @@ export default {
       });
       this.$router.push("/Configuracion");
     },
+    agregar_plazas(item){
+      let arrayPlaza = [] 
+      this.obj_editar_plaza.plazas.forEach((plaza) => {
+        arrayPlaza.push({
+            plazaAdd: plaza.squareCatalogId
+        })
+      })
+      console.log(arrayPlaza.plazaAdd);
+      let plazaInsert = {
+          squareId: [arrayPlaza],
+          userId: item.userId,
+          flag: 1
+        }
+        this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaInsert)                        
+      setTimeout(() => {                  
+        this.$notify.success({
+          title: "Ops!!",
+          msg: "SE AGREGARON LAS PLAZAS CORRECTAMENTE.",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        })
+        this.modalAddPlaza = false                
+        this.refrescar_usuarios()                            
+      },1000)
+    },
     customLabel ({ title }) {
       return `${title}`
     },
@@ -696,6 +772,9 @@ export default {
         this.borrar_usuario(item)
       }if(this.value.title == 'Habilitar'){
         this.habilitar_usuario(item)
+      }if(this.value.title == 'Agregar Plaza'){
+        this.infoUser = item
+        this.modalAddPlaza = true
       }
       this.value = ""  
     },
@@ -704,12 +783,14 @@ export default {
         { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //0
         { title: 'Deshabilitar', img: '/img/close.162602bc.png' },//1
         { title: 'Habilitar', img: '/img/comprobado.da188ccb.png' },//2
+        { title: 'Agregar Plaza', img: '/img/more.b0fdb1af.png' },//3
       ]
       let filtroOpciones = []
-      //Diagnostico Descargar Siempre va
       filtroOpciones.push(options[0])
       if(this.typeUser && item.statusUser){
-        filtroOpciones.push(options[1])   
+        filtroOpciones.push(options[1])
+        if(item.plazas != 'TODAS')   
+        filtroOpciones.push(options[3])   
       }
       if(this.typeUser && !item.statusUser){
         filtroOpciones.push(options[2])
