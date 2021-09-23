@@ -113,15 +113,14 @@
     </div>
 </template>
 <script>
-import HeaderGenerico from "../../../components/Header/HeaderGenerico";
-import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import HeaderGenerico from "../../../components/Header/HeaderGenerico"
+import TablaGenerica from '../../../components/TablaGenerica.vue'
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
-import ServiceCookies from '../../../services/CookiesService'
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
-import TablaGenerica from '../../../components/TablaGenerica.vue'
-
+import ServiceCookies from '../../../services/CookiesService'
+import moment from 'moment'
 export default {
     name: "ConcentradoFichas",
     components:{        
@@ -318,6 +317,8 @@ export default {
                     setTimeout(()=>{
                         actualizar_user.then(()=>{
                             this.loadingTabla = false
+                            this.userChangeDf = ''
+                            this.comentario = ''
                             this.$notify.success({
                                 title: "Ok!",
                                 msg: `EL DF CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
@@ -344,6 +345,8 @@ export default {
                     .catch(error => { reject(error) })
                     setTimeout(()=>{
                         actualizar_user.then(()=>{
+                            this.userChangeDf = ''
+                            this.comentario = ''
                             this.loadingTabla = false
                             this.$notify.success({
                                 title: "Ok!",

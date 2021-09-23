@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
-
 @tailwind base;
-
-
 .multiselect__option--highlight{
     @apply bg-blue-300  
 }
@@ -200,7 +197,6 @@ select:focus {
 .CrearDeshabilitado:focus{
     @apply outline-none;
 }
-
 .botonCrearReport{
     @apply bg-white tracking-wide text-gray-800 font-titulo font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
@@ -513,10 +509,7 @@ select:focus {
     @apply bg-gray-400 border-b-2 border-black text-gray-600 opacity-25 cursor-default;
 }
 @tailwind components;
-
 @tailwind utilities;
-        
-
 @layer utilities {
     .slide-fade-enter-active {
         transition: all .3s ease ;
@@ -546,5 +539,3 @@ select:focus {
     }
     
 }
-
-

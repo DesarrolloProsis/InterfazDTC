@@ -165,17 +165,15 @@
                     </table>                
                 </div>
             </div>
-        </div>
-        
+        </div> 
     </div>
 </template>
 <script>
-
-import Multiselect from "vue-multiselect";
 import ServicioActividades from '../../services/ActividadesService.js'
-import SelectPlaza from '../Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService'
+import SelectPlaza from '../Header/SelectPlaza'
 import PdfEscaneado from '../PdfEscaneado.vue'
+import Multiselect from "vue-multiselect";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -207,218 +205,221 @@ export default {
             filtros: true
         }
     },
-/////////////////////////////////////////////////////////////////////
-////                        CICLOS DE VIDA                       ////
-/////////////////////////////////////////////////////////////////////
-beforeMount: async function(){  
-    this.loadingTabla = true            
-    let cargaInicial = this.$route.params.cargaInicial    
-    this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
-    this.plazaNombre = cargaInicial.plazaNombre
-    this.comentario = cargaInicial.comentario     
-    this.mes = cargaInicial.mes
-    this.mesNombre = cargaInicial.mesNombre
-    this.año = cargaInicial.año
-    this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
-    this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
-    this.loadingTabla = false  
-    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId            
-},
-computed:{
-    carriles_plaza(){
-        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+    /////////////////////////////////////////////////////////////////////
+    ////                        CICLOS DE VIDA                       ////
+    /////////////////////////////////////////////////////////////////////
+    beforeMount: async function(){  
+        this.loadingTabla = true            
+        let cargaInicial = this.$route.params.cargaInicial    
+        this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
+        this.plazaNombre = cargaInicial.plazaNombre
+        this.comentario = cargaInicial.comentario     
+        this.mes = cargaInicial.mes
+        this.mesNombre = cargaInicial.mesNombre
+        this.año = cargaInicial.año
+        this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
+        this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
+        this.loadingTabla = false  
+        this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId            
     },
-},
-watch: {
-    referenceNumber(newValue){
-        if(newValue.length == 0)this.blockSelect = false        
-        else {
-            this.filtrar_actividades_mensuales()
-            this.blockSelect = true
+    computed:{
+        carriles_plaza(){
+            return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+        },
+    },
+    /////////////////////////////////////////////////////////////////////
+    ////                            METODOS                          ////
+    /////////////////////////////////////////////////////////////////////
+    watch: {
+        referenceNumber(newValue){
+            if(newValue.length == 0)this.blockSelect = false        
+            else {
+                this.filtrar_actividades_mensuales()
+                this.blockSelect = true
+            }
         }
-    }
-},
-/////////////////////////////////////////////////////////////////////
-////                            METODOS                          ////
-/////////////////////////////////////////////////////////////////////
-methods: {
-    limpiar_filtros : async function(){
-        this.ubicacion = ''
-        this.status = undefined
-        this.referenceNumber = ''
-        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
-        this.$nextTick().then(() => {
-            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-            this.plazaNombre = actualizar.plazaNombre,
-            this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect  
-            this.mesNombre = actualizar.mesNombre         
-        })
     },
-    filtrar_sin_referencia: async function(){
-        this.listaActividadesMensuales = []
-        this.loadingTabla = true  
-        setTimeout(async () => {
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
-                this.$nextTick().then(() => {
-                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-                    this.plazaNombre = actualizar.plazaNombre,
-                    this.comentario = actualizar.comentario,
-                    this.plazaSelect = actualizar.plazaSelect           
-                    this.mesNombre = actualizar.mesNombre
-                    this.loadingTabla = false
-                })
-        },1000)
-    },
-    filtrar_actividades_mensuales: async function(){ 
-        if(this.referenceNumber != ''){
+    /////////////////////////////////////////////////////////////////////
+    ////                            METODOS                          ////
+    /////////////////////////////////////////////////////////////////////
+    methods: {
+        limpiar_filtros : async function(){
+            this.ubicacion = ''
+            this.status = undefined
+            this.referenceNumber = ''
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
+            this.$nextTick().then(() => {
+                this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                this.plazaNombre = actualizar.plazaNombre,
+                this.comentario = actualizar.comentario,
+                this.plazaSelect = actualizar.plazaSelect  
+                this.mesNombre = actualizar.mesNombre         
+            })
+        },
+        filtrar_sin_referencia: async function(){
             this.listaActividadesMensuales = []
             this.loadingTabla = true  
             setTimeout(async () => {
-                let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
-                this.$nextTick().then(() => {
-                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-                    this.plazaNombre = actualizar.plazaNombre,
-                    this.comentario = actualizar.comentario,
-                    this.plazaSelect = actualizar.plazaSelect           
-                    this.mesNombre = actualizar.mesNombre
-                    this.loadingTabla = false  
-                })
+                let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
+                    this.$nextTick().then(() => {
+                        this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                        this.plazaNombre = actualizar.plazaNombre,
+                        this.comentario = actualizar.comentario,
+                        this.plazaSelect = actualizar.plazaSelect           
+                        this.mesNombre = actualizar.mesNombre
+                        this.loadingTabla = false
+                    })
             },1000)
-        }else{
-            this.$notify.warning({
-            title: "Ups!",
-            msg: `NO SE HAN LLENADO CAMPOS PARA FILTRAR.`,
-            position: "bottom right",
-            styles: {
-                height: 100,
-                width: 500,
-                },
-            });
-        }      
-    },  
-    cambiar_plaza(numeroPlaza){     
-        this.plazaSelect = numeroPlaza
-        this.listaActividadesMensuales = []
-        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect)
-        this.limpiar_filtros()
-    },
-    reporte_pdf: async function(item){                  
-        let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
-        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${item.referenceNumber.split('-')[0]}/${item.calendarId}`)
-        .then((response) => {                  
-            let referenceNumber = response.data.result.table[0].referenceNumber
-            ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
-            ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
-        })                   
-    },  
-    editar_reporte_carril: async function(item){        
-        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
-        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
-        .then((response) => {                  
-            let header = response.data.result.table[0]                        
-            let actividades = response.data.result.table1                             
-            this.$router.push({
-                path: `editar/FormularioReporte`,
+        },
+        filtrar_actividades_mensuales: async function(){ 
+            if(this.referenceNumber != ''){
+                this.listaActividadesMensuales = []
+                this.loadingTabla = true  
+                setTimeout(async () => {
+                    let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
+                    this.$nextTick().then(() => {
+                        this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                        this.plazaNombre = actualizar.plazaNombre,
+                        this.comentario = actualizar.comentario,
+                        this.plazaSelect = actualizar.plazaSelect           
+                        this.mesNombre = actualizar.mesNombre
+                        this.loadingTabla = false  
+                    })
+                },1000)
+            }else{
+                this.$notify.warning({
+                title: "Ups!",
+                msg: `NO SE HAN LLENADO CAMPOS PARA FILTRAR.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                    },
+                });
+            }      
+        },  
+        cambiar_plaza(numeroPlaza){     
+            this.plazaSelect = numeroPlaza
+            this.listaActividadesMensuales = []
+            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect)
+            this.limpiar_filtros()
+        },
+        reporte_pdf: async function(item){                  
+            let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
+            await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${item.referenceNumber.split('-')[0]}/${item.calendarId}`)
+            .then((response) => {                  
+                let referenceNumber = response.data.result.table[0].referenceNumber
+                ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
+                ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
+            })                   
+        },  
+        editar_reporte_carril: async function(item){        
+            let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
+            await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+            .then((response) => {                  
+                let header = response.data.result.table[0]                        
+                let actividades = response.data.result.table1                             
+                this.$router.push({
+                    path: `editar/FormularioReporte`,
+                    query: {
+                        headerCompuesto: { ...header, ...item},
+                        actividades: actividades,
+                        edicion: true,
+                        horas: {
+                            horaInicio: header.horaInicio,
+                            horaFin: header.horaFin
+                        }
+                    },
+                });
+            })
+        },
+        crear_reporte_carril(item){              
+            item["plazaNombre"] = this.plazaNombre                
+            this.$router.push({ 
+                path: 'crear/FormularioReporte',
                 query: {
-                    headerCompuesto: { ...header, ...item},
-                    actividades: actividades,
-                    edicion: true,
-                    horas: {
-                        horaInicio: header.horaInicio,
-                        horaFin: header.horaFin
-                    }
-                },
-            });
-        })
-    },
-    crear_reporte_carril(item){              
-        item["plazaNombre"] = this.plazaNombre                
-        this.$router.push({ 
-            path: 'crear/FormularioReporte',
-            query: {
-                'header': item,                
+                    'header': item,                
+                }
+            })
+        },
+        customLabel ({ title }) {
+            return `${title}`
+        },
+        acciones_mapper(item){                
+            if(this.value.title == 'Crear'){
+                this.crear_reporte_carril(item)
             }
-        })
-    },
-    customLabel ({ title }) {
-        return `${title}`
-    },
-    acciones_mapper(item){                
-        if(this.value.title == 'Crear'){
-            this.crear_reporte_carril(item)
-        }
-        if(this.value.title == 'Editar'){
-            this.editar_reporte_carril(item)
-        }   
-        if(this.value.title == 'Bajar Reporte de Mantenimiento'){            
-            this.reporte_pdf(item)
-        }
-        if(this.value.title == 'Subir Reporte de Mtto. Escaneado'){
-            this.objInsertEscaneado = {
-                referenceNumber: item.referenceNumber
-            }            
-            this.modalSubirSellado = true
-        }
-        if(this.value.title == 'Bajar Reporte de Mtto. Escaneado'){
-            this.descargar_escaneado(item)
-        }
-        this.value = ""
-    },
-    limpiar_componete_escaneado(){
-        this.limpiar_filtros()
-        this.modalSubirSellado = false
-        this.objInsertEscaneado = {}
-    },
-    opticones_select_acciones({ statusMaintenance, pdfExists }){
-        let options= [
-            { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },//0
-            { title: 'Editar', img: '/img/pencil.04ec78bc.png' },//1
-            { title: 'Bajar Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },//2
-            { title: 'Bajar Reporte de Mtto. Escaneado', img: '/img/download.ea0ec6db.png'},//3
-            { title: 'Subir Reporte de Mtto. Escaneado', img: '/img/upload.8d26bb4f.png'},//4
-        ]
-        let filtroOpciones = []
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 7 || this.tipoUsuario == 5 || this.tipoUsuario == 2){
-            if(pdfExists){
-                //return options.splice(2,2)
-                filtroOpciones.push(options[2])
-                filtroOpciones.push(options[3])
+            if(this.value.title == 'Editar'){
+                this.editar_reporte_carril(item)
+            }   
+            if(this.value.title == 'Bajar Reporte de Mantenimiento'){            
+                this.reporte_pdf(item)
             }
-            else{
-                filtroOpciones.push(options[1])
-                filtroOpciones.push(options[2])
-            }    
-        }
-        else{            
-            if(statusMaintenance){  
+            if(this.value.title == 'Subir Reporte de Mtto. Escaneado'){
+                this.objInsertEscaneado = {
+                    referenceNumber: item.referenceNumber
+                }            
+                this.modalSubirSellado = true
+            }
+            if(this.value.title == 'Bajar Reporte de Mtto. Escaneado'){
+                this.descargar_escaneado(item)
+            }
+            this.value = ""
+        },
+        limpiar_componete_escaneado(){
+            this.limpiar_filtros()
+            this.modalSubirSellado = false
+            this.objInsertEscaneado = {}
+        },
+        opticones_select_acciones({ statusMaintenance, pdfExists }){
+            let options= [
+                { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },//0
+                { title: 'Editar', img: '/img/pencil.04ec78bc.png' },//1
+                { title: 'Bajar Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },//2
+                { title: 'Bajar Reporte de Mtto. Escaneado', img: '/img/download.ea0ec6db.png'},//3
+                { title: 'Subir Reporte de Mtto. Escaneado', img: '/img/upload.8d26bb4f.png'},//4
+            ]
+            let filtroOpciones = []
+            if(this.tipoUsuario == 4 || this.tipoUsuario == 7 || this.tipoUsuario == 5 || this.tipoUsuario == 2){
                 if(pdfExists){
-                    /* return options.splice(1,4) */
-                    filtroOpciones.push(options[1])
+                    //return options.splice(2,2)
                     filtroOpciones.push(options[2])
                     filtroOpciones.push(options[3])
-                    filtroOpciones.push(options[4])    
                 }
                 else{
                     filtroOpciones.push(options[1])
                     filtroOpciones.push(options[2])
-                    filtroOpciones.push(options[4])
-                /*     let subir = options[4]
-                    let array = options.splice(1,2)    
-                    array.push(subir)
-                    return array */
+                }    
+            }
+            else{            
+                if(statusMaintenance){  
+                    if(pdfExists){
+                        /* return options.splice(1,4) */
+                        filtroOpciones.push(options[1])
+                        filtroOpciones.push(options[2])
+                        filtroOpciones.push(options[3])
+                        filtroOpciones.push(options[4])    
+                    }
+                    else{
+                        filtroOpciones.push(options[1])
+                        filtroOpciones.push(options[2])
+                        filtroOpciones.push(options[4])
+                    /*     let subir = options[4]
+                        let array = options.splice(1,2)    
+                        array.push(subir)
+                        return array */
+                    }
                 }
-            }
-            else{                                                
-                /* return options.splice(0,1) */
-                filtroOpciones.push(options[0])
-            }
-        } 
-        return filtroOpciones  
+                else{                                                
+                    /* return options.splice(0,1) */
+                    filtroOpciones.push(options[0])
+                }
+            } 
+            return filtroOpciones  
+        },
+        descargar_escaneado(value){
+            ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)
+        },
     },
-    descargar_escaneado(value){
-        ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)
-    },
-},
 }
 </script>
