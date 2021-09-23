@@ -21,6 +21,15 @@
                         <h2 class="mx-auto font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
                     <div class="flex m-3 h-12 sm:grid sm:grid-cols-2 sm:m-0 sm:-mt-1 sm:h-11 md:grid ">
+                        <div class="-ml-6  sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                            <span class="" v-tooltip.bottom =" { ref:'tooltipacciones', class: 'tooltip-custom tooltip-other-custom'}">
+                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                        </span>
+
+                        <div ref="tooltipacciones" class="font-titulo">
+                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                        </div>
+                        </div> 
                         <p class="font-titulo font-semibold sm:text-center sm:-ml-17 sm:my-auto md:mx-auto">Acciones:</p>
                         <multiselect v-model="value" @close="acciones_mapper()" class="w-68 sm:w-auto sm:-ml-16 sm:h-8 md:w-37 xl:-mt-2" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="100" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
@@ -41,12 +50,31 @@
                 <!--Plaza y Codigo de Colores-->
                 <div class="grid grid-cols-1 mx-auto ">
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto md:grid xl:w-auto ">
+                        <div class="ml-1 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                            <span class="" v-tooltip.left =" { ref:'tooltipencargado', class: 'tooltip-custom tooltip-other-custom'}">
+                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                        </span>
+
+                        <div ref="tooltipencargado" class="font-titulo">
+                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                        </div>
+                        </div> 
                         <span class="font-titulo font-semibold mx-auto ">Plaza/Encargado: </span>
-                        <p class="sm:-ml-17 xl:-mt-1">
+                        <p class="sm:-ml-17 xl:-mt-1 ml-4">
                             <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Calendario'" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
                         </p>
                     </div>
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:mt-1 md:grid xl:mx-auto ">
+                        <div class="  sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                            <span class="" v-tooltip.left =" { ref:'tooltipcolores', class: 'tooltip-custom tooltip-other-custom'}">
+                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                        </span>
+
+                        <div ref="tooltipcolores" class="font-titulo">
+                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                        </div>
+                        </div> 
+
                         <span class="font-titulo font-semibold sm:mx-auto w-69 sm:w-32 md:w-32 md:mx-auto lg:ml-10 xl:w-auto">Código de Colores: </span>
                         <p class="md:mx-auto my-auto xl:-mt-1">
                             <select class="ml-20 w-48 is_valid sm:w-63 sm:ml-2 sm:mx-auto md:ml-0 font-titulo">
@@ -65,7 +93,17 @@
                     <ValidationObserver ref="observer" class="">  
                         <div class="w-auto xl:ml-56 xl:mr-61  mx-auto md:mx-auto lg:mx-auto">
                             <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
-                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>          
+                                
+                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>
+                                <div class="ml-30 -mt-6  sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                            <span class="" v-tooltip.right =" { ref:'tooltiobservaciones', class: 'tooltip-custom tooltip-other-custom'}">
+                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                        </span>
+
+                        <div ref="tooltiobservaciones" class="font-titulo">
+                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                        </div>
+                        </div>           
                                 <textarea
                                     v-model="comentario"                                                               
                                     class="block container placeholder-gray-500 textAreaCalendario mt-3 ml-13 sm:mx-auto md:mx-auto lg:mx-auto"

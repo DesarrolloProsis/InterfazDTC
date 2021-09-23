@@ -108,10 +108,20 @@
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
-        <div class="-mt-1 mb-4 ml-78 sm:ml-0  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
+        
+        <div class="-mt-1 mb-4 ml-78 sm:ml-0 grid grid-cols-2  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
             <button class="botonIconNext sm:mx-20" @click="abrirModal">
                 <span>Mantenimiento</span>
             </button>
+            <div class=" mt-3 ml-3 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                            <span class="" v-tooltip.left =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
+                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                        </span>
+
+                        <div ref="tooltipencargadoplaza" class="font-titulo">
+                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                        </div>
+                        </div>
         </div>
         <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
             <button class="botonIconNext" @click="abrirModal">
@@ -628,6 +638,7 @@ export default {
     }
 }
 </script>
+
 <style>
 .vue-tooltip.tooltip-custom {
     width: 50rem;  
