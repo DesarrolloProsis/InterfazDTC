@@ -85,9 +85,11 @@
         <!--///////////////////////////////////////////////////////////////////
            ///              FILTROS DE NAVEGACION INVENTARIO               ////         
          ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'INV'" class="mt-1 -mb-4 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
+        <div v-if="tipo == 'INV'" class="mt-1 -mb-12 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
+
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-66 mb-3">
+
+        <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-64 mb-3 ">
             <div class="mr-3  mt-6 sm:w-full sm:mx-auto">
                 <span class="mr-10 font-bold text-md sm:mx-auto">Buscar</span>
                 <input v-model="buscarPalabraInventario" placeholder="Componete/No Serie" class="bg-white input  -mt-1 sm:w-full border-none w-40" />
@@ -109,19 +111,26 @@
             </div>
         </div>
         
-        <div class="-mt-1 mb-4 ml-78 sm:ml-0 grid grid-cols-2  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
-            <button class="botonIconNext sm:mx-20" @click="abrirModal">
-                <span>Mantenimiento</span>
-            </button>
-            <div class=" mt-3 ml-3 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
-                            <span class="" v-tooltip.left =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
+        <div class=" mt-1 mb-4 ml-78 sm:ml-0 grid grid-cols-1 sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
+            <div class="   grid grid-cols-2">
+                <div class=" -mr-14">
+                    <button class="botonIconNext sm:mx-20" @click="abrirModal">
+                    <span>Mantenimiento</span>
+                    </button>
+                </div>
+                <div class=" mt-3 mr-3 mx-auto">
+                        <span class="" v-tooltip.left =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>
 
                         <div ref="tooltipencargadoplaza" class="font-titulo">
                         <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
                         </div>
-                        </div>
+                </div>
+                              
+            </div>
+            
+      
         </div>
         <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
             <button class="botonIconNext" @click="abrirModal">
@@ -131,14 +140,14 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-10 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
+        <div class=" mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-10 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-4" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
             </button>
-            <button @click="actualizar_inventario" class="w-32 botonIconNext font-boton" :class="{'hidden' : contadorInventario < 1}">
+            <button @click="actualizar_inventario" class="w-32  botonIconNext font-boton" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25" />
-                <span class="text-xs">Guardar</span>
+                <span class="text-xs ">Guardar</span>
             </button>
         </div>     
         </div>    

@@ -27,7 +27,7 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo" :class="{'modal-container': modalLoading}">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-68">          
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-66">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-4" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>

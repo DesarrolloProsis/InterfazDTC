@@ -23,8 +23,8 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0" :class="{'modal-container ': modalmtto}">
-        <div v-if="modalmtto" class="mt-64  justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
+        <div class="inset-0" :class="{'modal-container': modalmtto}">
+        <div v-if="modalmtto" class="mt-48 relative justify-items-center rounded-lg shadow-xl border border-gray-300  bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
           <ValidationObserver ref="observer">      
             <div><h1 class="text-center font-titulo text-4xl sm:text-md">Mantenimiento</h1></div>
                 <div class="grid grid-cols-2 mt-10 sm:grid-cols-1">
@@ -74,8 +74,8 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO ADVERTENCIA             ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0" :class="{'modal-container ': modalAdv}">
-        <div v-if="modalAdv" class="mt-64 absolute justify-items-center border border-gray-400 rounded-lg shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
+        <div class="inset-0" :class="{'modal-container ': modalAdv}">
+        <div v-if="modalAdv" class="mt-34 absolute justify-items-center border border-gray-400 rounded-lg shadow-xl inset-x-0 bg-white w-74 h-69 sm:h-73 sm:w-66 mx-auto px-10 py-5 text-gray-600">
             <div>
                 <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
                   <img src="../../assets/img/warning.png" class="ml-20 sm:-ml-6" width="35" height="35" />
