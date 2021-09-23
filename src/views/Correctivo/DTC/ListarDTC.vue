@@ -155,12 +155,12 @@
                   ////                   FILA NUMERO 1                         ////
                   ////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
-                  <div class="-mt-2 mr-3">       
-                    <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
+                  <div class="-mt-2 mr-3">
+                    <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
                       <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>
+                      <!--<span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>-->
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">  
@@ -168,7 +168,7 @@
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
                       <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>
+                      <!--<span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>-->
                     </ValidationProvider>
                   </div>
                 </div>
@@ -181,7 +181,7 @@
                       <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
                       <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M" maxlength="60"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>
+                      <!--<span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>-->
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">   
@@ -221,7 +221,7 @@
                   ////                        BOTONES MODAL EDIT                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center grid grid-cols-2  mt-10">  
-                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button></div>     
+                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear" :class="{'hidden': ocultar}">Actualizar</button></div>     
                   <div><button @click="(modalEdit = modal = false), (refNum = ''), (ocultarMultiPadre = false)" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
                 </div>
               </div>     
@@ -374,6 +374,7 @@ export default {
       ocultarMultiPadre: false,
       typeUser: '',
       comentario: '',
+      ocultar: false
     };
   },
   components: {    
@@ -620,7 +621,9 @@ methods: {
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
             })              
           }, 3000);    
-        }          
+        }else{
+          this.ocultar = true
+        }         
     }
     else{
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
@@ -648,7 +651,7 @@ methods: {
         },2000)                        
       })       
   },
-    enviar_pdf_sellado: async function(value,bandera){   
+  enviar_pdf_sellado: async function(value,bandera){   
     this.modalLoading = true
     if(bandera == 1){
       let pdf_sellado_promise = new Promise((resolve, reject) => {                         
@@ -917,7 +920,6 @@ computed: {
 }
 };
 </script>
-
 <style scoped>
 .list-item {  
   margin-right: 10px;
