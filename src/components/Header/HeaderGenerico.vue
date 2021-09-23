@@ -119,7 +119,7 @@
                     </button>
                 </div>
                 <div class=" mt-3 mr-3 mx-auto">
-                        <span class="" v-tooltip.left =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
+                        <span class="" v-tooltip.right =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>
 
