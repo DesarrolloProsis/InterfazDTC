@@ -49,7 +49,7 @@
           </div>
           
           <div class="sm:flex-col pr-2 inline-block font-titulo">
-            <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-30 my-1">
+            <div class="sm:hidden md:hidden lg:mt-1 lg:ml-26 w-6 absolute ml-30 my-1">
                 <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
@@ -64,7 +64,7 @@
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
             </ValidationProvider>                                      
             <template v-if="$route.params.tipoFalla == 3">
-              <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-21 my-2">
+              <div class="sm:hidden md:hidden lg:ml-28 w-6 absolute ml-21 my-2">
                 <span class="" v-tooltip.right =" { ref:'tooltipoficio', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
@@ -86,7 +86,7 @@
           </div>      
           <div class="pr-2 font-titulo">
             <!-- <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }"> -->
-              <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-33">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
                 <span class="" v-tooltip.right =" { ref:'tooltiptipodescripcion', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
@@ -113,7 +113,7 @@
               <span class="inline ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.position }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-33">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechasiniestro', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
@@ -129,7 +129,7 @@
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-32">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-32 w-6 absolute ml-32">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechaenvio', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
@@ -152,7 +152,7 @@
             <span class="inline ml-2 text-md font-titulo font-normal" style="color: blue">{{ headerSelecionado.mail }}</span>
             </div>  
             <div class="pr-2 font-titulo">
-              <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-30">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
                 <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
@@ -179,7 +179,7 @@
               <span class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ headerSelecionado.plaza }}</span>
             </div>
             <div class="pr-2 font-titulo">
-              <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-30">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechafalla', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
@@ -206,7 +206,7 @@
             <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Advertencia, una vez creado no puedes cambiar la plaza</span>
           </div>
           <div class="text-sm -mt-32 sm:-mt-1" :class="{'hidden': boolCambiarPlaza == true}">
-            <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6 absolute ml-60 mt-1">
+            <div class="sm:hidden md:hidden lg:hidden w-6 absolute ml-60 mt-1">
                 <span class="" v-tooltip.bottom =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
                     <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                 </span>
