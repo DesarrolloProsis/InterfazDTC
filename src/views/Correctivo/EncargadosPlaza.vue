@@ -99,7 +99,7 @@
             ////                      MODAL EDITAR                         ////////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0" :class="{'modal-container': modalEditar}">
-                <div v-if="modalEditar" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-66">
+                <div v-if="modalEditar" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-64">
                     <p class="text-gray-900 font-bold text-md sm:text-sm sm:mb-6 sm:text-center text-center">Editar Encargado de Plaza</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-6">Nombre(s)</p>
