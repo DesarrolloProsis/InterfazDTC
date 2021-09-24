@@ -89,36 +89,39 @@
 
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
 
-        <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-64 mb-3 ">
-            <div class="mr-3  mt-6 sm:w-full sm:mx-auto">
-                <span class="mr-10 font-bold text-md sm:mx-auto">Buscar</span>
+        <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 md:mx-auto md:ml-30 md:mt-5 md:-mb-1 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-64 mb-3 ">
+            <div class="mr-3  mt-6 sm:w-full sm:mx-auto md:mx-auto md:mr-10">
+                <span class="mr-10 font-bold text-md sm:mx-auto ">Buscar</span>
                 <input v-model="buscarPalabraInventario" placeholder="Componete/No Serie" class="bg-white input  -mt-1 sm:w-full border-none w-40" />
             </div>         
-            <div class="text-sm sm:mt-4 mt-6">
+            <div class="text-sm sm:mt-4 mt-6 md:mx-auto md:mr-34 ">
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
-                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :vista="'Inventario'" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+               
+                    <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :vista="'Inventario'" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+                
+                
             </div>
-            <div class="mt-8 ml-8 sm:ml-0 ">
+            <div class="mt-8 ml-8 sm:ml-0 md:mx-auto md:mr-13">
                     <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold text-md">Seleccione un Carril</p>
                     <p class="w-32 -ml-2 -mt-1 sm:ml-0 sm:w-full">
-                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 sm:w-full border-none is_valid" name="Carriles" type="text">
+                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 sm:w-full  border-none is_valid" name="Carriles" type="text">
                         <option value="">Selecionar...</option>
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select></p>
             </div>
-            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3" :class="{'hidden':typeUser == 4 || typeUser == 7}">
+            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3 md:mx-auto md:ml-0" :class="{'hidden':typeUser == 4 || typeUser == 7}">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
         
-        <div class=" mt-1 mb-4 ml-78 sm:ml-0 grid grid-cols-1 sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
-            <div class="   grid grid-cols-2">
-                <div class=" -mr-14">
+        <div class=" mt-1 mb-4 ml-78 sm:ml-0 grid grid-cols-1 sm:-mt-2 md:mx-auto md:mr-24 md:mt-4" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
+            <div class="   grid grid-cols-2 lg:-ml-22">
+                <div class=" -mr-14 ">
                     <button class="botonIconNext sm:mx-20" @click="abrirModal">
                     <span>Mantenimiento</span>
                     </button>
                 </div>
-                <div class=" mt-3 mr-3 mx-auto">
+                <div class=" mt-3 mr-3 mx-auto lg:mr-3 sm:hidden md:hidden">
                         <span class="" v-tooltip.right =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>

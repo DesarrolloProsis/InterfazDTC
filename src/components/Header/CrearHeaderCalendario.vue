@@ -21,7 +21,7 @@
                         <h2 class="mx-auto font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
                     <div class="flex m-3 h-12 sm:grid sm:grid-cols-2 sm:m-0 sm:-mt-1 sm:h-11 md:grid ">
-                        <div class="-ml-6  sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                        <div class="-ml-6  sm:hidden md:hidden lg:mx-auto w-6">
                             <span class="" v-tooltip.bottom =" { ref:'tooltipacciones', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>
@@ -30,7 +30,7 @@
                         <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
                         </div>
                         </div> 
-                        <p class="font-titulo font-semibold sm:text-center sm:-ml-17 sm:my-auto md:mx-auto">Acciones:</p>
+                        <p class="font-titulo font-semibold sm:text-center sm:-ml-17 sm:my-auto md:mx-auto ">Acciones:</p>
                         <multiselect v-model="value" @close="acciones_mapper()" class="w-68 sm:w-auto sm:-ml-16 sm:h-8 md:w-37 xl:-mt-2" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="100" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
                                 <div class=" inline-flex">
@@ -50,7 +50,7 @@
                 <!--Plaza y Codigo de Colores-->
                 <div class="grid grid-cols-1 mx-auto ">
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto md:grid xl:w-auto ">
-                        <div class="ml-1 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                        <div class="ml-1 sm:hidden md:hidden lg:absolute lg:ml-2 w-6">
                             <span class="" v-tooltip.left =" { ref:'tooltipencargado', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>
@@ -65,7 +65,7 @@
                         </p>
                     </div>
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto sm:mt-1 md:grid xl:mx-auto ">
-                        <div class="  sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                        <div class="  sm:hidden md:hidden lg:absolute lg:ml-2 w-6">
                             <span class="" v-tooltip.left =" { ref:'tooltipcolores', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>
@@ -95,7 +95,7 @@
                             <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
                                 
                                 <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>
-                                <div class="ml-30 -mt-6  sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                                <div class="ml-30 -mt-6  sm:hidden md:hidden lg:ml-74 w-6">
                             <span class="" v-tooltip.right =" { ref:'tooltiobservaciones', class: 'tooltip-custom tooltip-other-custom'}">
                             <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
                         </span>
