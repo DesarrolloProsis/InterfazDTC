@@ -32,7 +32,7 @@
             <div class="w-1/2 sm:w-full sm:-ml-10 ">                
                 <p class="text-center text-xl text-gray-800 mb-6 sm:text-xs sm:-ml-48 sm:-mt-6">Observaciones</p> 
                 
-                <div class=" ml-40 -mt-12 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6">
+                <div class="absolute ml-57 -mt-8 sm:hidden md:hidden lg:-mt-8 lg:ml-49 w-6">
                     <span class="" v-tooltip.top =" { ref:'tooltipobservacion', class: 'tooltip-custom tooltip-other-custom'}">
                         <img src="@/assets/img/pregunta.png" class="flex items-center -mt-4 w-5 h-5 "/>
                     </span>
