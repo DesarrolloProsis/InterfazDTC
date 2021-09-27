@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="boolBotones" class="flex justify-center mt-2 mb-16">
+        <div v-if="boolBotones" class="flex justify-center mt-30 mb-16">
             <div class="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 sm:mt-2 sm:mb-2">
                 <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="rollUsuario != 10">
                     <button @click="ventana_comentario" class="text-center">
