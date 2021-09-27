@@ -1,24 +1,29 @@
 <template>
-  <div class="container-login100 ">
+  <div class="container-login100 sm:mt-1 sm:w-full">
+    <div class="absolute">
+            <img src="../assets/img/prosis_letrero.png" class="w-45 h-20 mr-78 -ml-56 -mt-82 lg:-mt-56 lg:mr-68 lg:w-25 lg:h-10 sm:w-25 md:h-12 md:ml-0 md:mr-0 md:-mt-58  sm:w-25 sm:h-12 sm:ml-0 sm:mr-0 sm:-mt-56" />
+    </div>
     <div class="wrap-login100">
         <!-- //////////////////////////////////////////////////////////////////
         ////                 FORMULARIO PRINCIPAL                         ////
         ///////////////////////////////////////////////////////////////////// -->        
-      <div :class="{ 'blur-content': modal }" class="">
-        <p class="text-center text-black font-titulo font-medium text-4xl">Bienvenido</p>
-        <div>
+      <div :class="{ 'blur-content': modal }" class="sm:ml-2">
+        <div class="">
+          <p class="text-center text-black font-titulo font-medium text-3xl ml-3 sm:text-2xl">Bitacora de Mantenimiento</p>
           <div class="flex">
-            <img src="../assets/img/loginIcon.png" class="w-64 h-64 mx-auto" />
+            <img src="../assets/img/logoProsis.png" class="w-25 h-45 mx-auto mb-8" />
           </div>
         </div>
-        <br />
-        <ValidationObserver  v-slot="{ invalid  }">                       
-          <div class="mt-10">          
+        
+        <div class="bg-blue-100  -mt-32 h-60 rounded-lg">
+          <div class="absolute mt-30 ml-10 w-60 sm:w-64 ">
+            <ValidationObserver  v-slot="{ invalid  }">                       
+          <div class="">          
             <div class="mb-5">
               <ValidationProvider name="Usuario" rules="required" v-slot="{ errors }">                   
                 <input v-model="datos.user" @keyup.enter="iniciar_sesion()" 
                   :class="{ is_valid: !errors[0], is_invalid: errors[0]}" 
-                  class="w-full h-8 font-titulo font-normal"                
+                  class="w-full h-8 font-titulo font-normal "                
                   type="text" placeholder="Usuario" name="Usuario" 
                 />
                 <span class="text-red-600 text-xs">{{ errors[0] }}</span>
@@ -42,9 +47,12 @@
             </div>          
           </div>
           <div class="container-login100-form-btn mb-10">
-            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn text-blue-600 outline-none" :disabled="invalid">Login</button>
+            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn text-blue-600 outline-none" :disabled="invalid">Iniciar Sesión</button>
           </div>        
         </ValidationObserver>
+          </div>
+        </div>
+        
       </div>
     </div>
     <!-- //////////////////////////////////////////////////////////////////
@@ -75,6 +83,7 @@
       <button @click="login_por_otro()" class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800">Ingresar</button>
       <button @click="modal = false" class="text-white px-4 py-2 rounded-full bg-red-800">Cancelar</button>
     </div>
+    <div class=" figura  transform -rotate-270 sm:hidden md:hidden lg:hidden"></div>
   </div>
 </template>
 
@@ -214,5 +223,12 @@ export default {
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
+}
+.figura {
+  position: absolute;
+  width: 79vh;
+  height: 100vh;
+  margin-left: 980px;
+  background-image: radial-gradient(ellipse farthest-corner at 45px 30px , rgba(255, 255, 255, 0) 69%, rgba(44, 82, 130, 1) 0%);
 }
 </style>
