@@ -83,7 +83,7 @@
       <button @click="login_por_otro()" class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800">Ingresar</button>
       <button @click="modal = false" class="text-white px-4 py-2 rounded-full bg-red-800">Cancelar</button>
     </div>
-    <div class=" figura  transform -rotate-270 sm:hidden md:hidden lg:hidden "></div>
+    <div class=" figura  transform -rotate-270 sm:hidden md:hidden lg:hidden"></div>
   </div>
 </template>
 
