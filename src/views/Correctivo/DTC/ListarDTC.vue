@@ -423,8 +423,9 @@ methods: {
       this.modalLoading = true
       if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
         let actualizar_user = new Promise ((resolve,reject) => {
-          this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
-          .then(() => {                  
+          this.$http.put(`${API}/DtcData/UpdateUse rIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
+          .then((response) => {  
+            console.log(response)                
             let index = this.infoDTC.map(item =>  { 
               return item.referenceNumber }
             ).indexOf(this.itemCompleteChangeUserDTC.referenceNumber)                             
@@ -483,7 +484,7 @@ methods: {
     this.refNum = item.referenceNumber
     this.modalCambiarUsuarioDTC = true
     this.itemCompleteChangeUserDTC = item
-    this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
+    this.$http.get(`${API}/User/UserofSquare/${item.squareId}`)
       .then((response) =>this.listaTecnicosPlaza = response.data.result)
       .catch(() => {})
   },
