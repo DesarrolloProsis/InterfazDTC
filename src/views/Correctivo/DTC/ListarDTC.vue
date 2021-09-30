@@ -437,7 +437,7 @@ methods: {
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != ''){ 
       this.modalLoading = true
-      if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
+      //if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
         let actualizar_user = new Promise ((resolve,reject) => {
           let obj_cambiar_user = {
             userId: this.userChangeDtc,
@@ -477,8 +477,8 @@ methods: {
             });
           })
         },1000)
-      }
-      else{
+      //}
+      /*else{
         this.userChangeDtc = ''
         this.itemCompleteChangeUserDTC = {}
         this.modalCambiarUsuarioDTC = false
@@ -489,7 +489,7 @@ methods: {
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-      }
+      }*/
     }
     else{
       this.modalLoading = false

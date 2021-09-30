@@ -306,7 +306,7 @@
                     </div>
                     <div class="ml-6">
                         <p class="font-bold  sm:text-sm sm:text-center sm:-ml-1 mr-12 mx-4">Fecha:</p>
-                        <input v-model="diaSesiones" @change="filtrar_inicio_sesion_todos_change" type="date" class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto"/>
+                        <input v-model="diaSesiones" type="date" class="border w-66 text-center sm:w-32 sm:ml-24 is_valid mx-auto"/>
                     </div>
                     <div class="col-span-2 ">
                         <button @click="filtrar_inicio_sesion_todos" class="w-32 botonTodos font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == false}">
