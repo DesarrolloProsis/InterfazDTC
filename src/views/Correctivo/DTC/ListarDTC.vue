@@ -421,7 +421,7 @@ methods: {
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != ''){ 
       this.modalLoading = true
-      if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
+      //if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
         let actualizar_user = new Promise ((resolve,reject) => {
           this.$http.put(`${API}/DtcData/UpdateUse rIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
           .then((response) => {  
@@ -456,8 +456,8 @@ methods: {
             });
           })
         },1000)
-      }
-      else{
+      //}
+      /*else{
         this.userChangeDtc = ''
         this.itemCompleteChangeUserDTC = {}
         this.modalCambiarUsuarioDTC = false
@@ -468,7 +468,7 @@ methods: {
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-      }
+      }*/
     }
     else{
       this.modalLoading = false
