@@ -48,7 +48,7 @@
                 </span>
 
                 <div ref="tooltipcambiodeplaza" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Se debe indicar lo mismo que indica en el diagnostico de falla</p>
                 </div>
               </div>             
               <tr>

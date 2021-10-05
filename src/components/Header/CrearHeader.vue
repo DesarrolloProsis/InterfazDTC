@@ -55,7 +55,7 @@
                 </span>
 
                 <div ref="tooltipintervencion" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA)</p>
                 </div>
           </div>
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
@@ -70,7 +70,7 @@
                 </span>
 
                 <div ref="tooltipoficio" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Se debe indicar el numero de folio de falla que aparece en el modulo institucional de CAPUFE</p>
                 </div>
               </div>
                 <ValidationProvider name="NoOficio" immediate rules="max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
@@ -92,7 +92,7 @@
                 </span>
 
                 <div ref="tooltiptipodescripcion" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Debe indicar el tipo de siniestro que corresponde deacuerdo al catalogo de la bitacora electronica</p>
                 </div>
               </div>
 
@@ -119,7 +119,7 @@
                 </span>
 
                 <div ref="tooltipfechasiniestro" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">se debe indicar la fecha con respecto al volante de la aseguradora(GNP y/o INBURSA)</p>
                 </div>
               </div>
               <ValidationProvider name="FechaSiniestro" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">
@@ -135,7 +135,7 @@
                 </span>
 
                 <div ref="tooltipfechaenvio" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Se debe indicar la fecha en la que se elabora el DTC. No debe exceder las 24 Horas desde el reporte de la falla</p>
                 </div>
               </div>
               <ValidationProvider name="FechaEnvio" immediate rules="required"  v-slot="{ errors }">
@@ -158,7 +158,7 @@
                 </span>
 
                 <div ref="tooltipfoliofalla" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Se debe indicar el numero de folio de Falla que aparece en el modulo institucional de CAPUFE</p>
                 </div>
               </div>
               <ValidationProvider name="FolioFalla" immediate rules="max:60"  v-slot="{ errors }">
@@ -185,7 +185,7 @@
                 </span>
 
                 <div ref="tooltipfechafalla" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Se debe indicar la fecha de falla de acuerdo al acta circunstanciada elaborada por la plaza</p>
                 </div>
               </div>
               <ValidationProvider name="FechaFalla" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }"  v-slot="{ errors }">
@@ -212,7 +212,7 @@
                 </span>
 
                 <div ref="tooltipcambiodeplaza" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
+                    <p class="text-center text-gray-800">Se puede modificar la plaza y el encargado de la plaza</p>
                 </div>
               </div>
             <span class="text-lg font-semibold font-titulo sm:text-xs">Cambiar Plaza:</span>

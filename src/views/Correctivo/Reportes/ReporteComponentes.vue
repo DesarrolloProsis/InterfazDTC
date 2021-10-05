@@ -3,7 +3,7 @@
         <div class="flex justify-center p-4 sm:text-xs">
             <div>
                 <HeaderGenerico @descargar-reporte="descargar_reporte" :titulo="'Componentes Requeridos'" :tipo="'COMPONENTES'"></HeaderGenerico>
-                <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-78 sm:w-67 mb-20" style="height:500px;">
+                <div class="overflow-x-auto font-titulo bg-white rounded-lg shadow overflow-y-auto sm:mb-24 w-80 sm:w-67 mb-20" style="height:500px;">
                     <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
                         <thead>
                             <tr class="text-md text-gray-400 bg-blue-800">
@@ -14,6 +14,8 @@
                                 <th class="cabeceraTable">Solicitante</th>
                                 <th class="cabeceraTable">Tipo DTC</th>
                                 <th class="cabeceraTable">Referencia</th>
+                                <th class="cabeceraTable">Fecha Instalación</th>
+                                <th class="cabeceraTable">Fecha Real Fin de Vida Util</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">

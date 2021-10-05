@@ -289,7 +289,7 @@
                 <input  class="border ml-65 w-66 text-center sm:w-32 is_valid sm:ml-24" placeholder="Usuario/Tipo de Falla"/>
             </div>             
         </div>
-        <div class="mb-4 ml-67 sm:ml-40 sm:-mt-4">
+        <div class="mb-4 flex justify-center lg:justify-center md:lg:justify-center sm:justify-center">
             <button class="botonIconExcel" @click="descargarReporte">
                 <img src="@/assets/img/excel.png" class="mr-2" width="25" height="25" />
                 <span>Descargar Reporte</span>
