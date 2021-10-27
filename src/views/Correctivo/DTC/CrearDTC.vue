@@ -60,9 +60,9 @@
             <br />
             <br />
             <br />
-            <span>Autorización Comercial Asistente Director Comercial</span>
+            <span>Autorización Comercial Director Comercial</span>
             <br />
-            <span style="font-size: 0.7vw">L.A.E. Nathalie Aguilar Mejía</span>
+            <span style="font-size: 0.7vw">C.P Hermilia Guzman Añorve</span>
           </p>
         </div>
         <div></div>
