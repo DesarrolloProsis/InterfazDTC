@@ -8,6 +8,7 @@
             @guardar-cambios="guardar_cambios_inventario" 
             @abrir-modal="abrirModal"
             @abrir-agregar="abrirAgregar"
+            @formato-capufe="formato_capufe"
             :tipo="'INV'">               
         </HeaderGenerico> 
         <!--/////////////////////////////////////////////////////////////////
@@ -238,6 +239,7 @@
 <script>
 import { mapState } from "vuex";
 import EventBus from "../../services/EventBus.js";
+import ReportesPDFService from '../../services/ReportesPDFService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import SelectPlaza from '../../components/Header/SelectPlaza'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -312,6 +314,10 @@ export default {
         this.modalmtto = true
         let fechaInicial = new Date()
         this.datosmtto.fecha = moment(fechaInicial,"DD-MM-YYYY").format("YYYY-MM-DD");
+    },
+    formato_capufe: function (){
+      let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+      ReportesPDFService.formato_capufe(clavePlaza)
     },
     abrirAgregar: function (){
       this.modalAdd = true      

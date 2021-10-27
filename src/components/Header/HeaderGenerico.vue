@@ -112,6 +112,9 @@
             <button class="botonIconNext sm:mx-20" @click="abrirModal">
                 <span>Mantenimiento</span>
             </button>
+            <button class="botonIconNext mx-5 sm:mx-20" @click="formato">
+                <span>Formato CAPUFE</span>
+            </button>
         </div>
         <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
             <button class="botonIconNext" @click="abrirModal">
@@ -420,6 +423,9 @@ export default {
     methods:{
         abrirModal: function (){
             this.$emit('abrir-modal')
+        },
+        formato: function (){
+            this.$emit('formato-capufe')
         },
         abrirAgregarComponente: function (){
             this.$emit('abrir-agregar')

@@ -265,6 +265,12 @@ function reporte_dtcborrados(){
     let nameExcel = 'DTCBorrados.xlsx'
     xml_hhtp_request(urlExcel,nameExcel)
 }
+function formato_capufe(clavePlaza){
+    //this.$http.get(`${API}/Inventario/${clavePlaza}`)
+    let url = `${API}/Inventario/${clavePlaza}`
+    let name = 'Inventario'
+    xml_hhtp_request(url,name)
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
@@ -285,5 +291,6 @@ export default {
     dtc_no_sellados,
     dtc_no_sellados_excel,
     reporte_fotografico_sellado,
-    reporte_dtcborrados
+    reporte_dtcborrados,
+    formato_capufe
 }
