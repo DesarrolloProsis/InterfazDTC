@@ -209,7 +209,7 @@ export default {
         })        
         let carrilesReturn = []
         this.carriles.forEach(carril => {
-          let existLane = carrilesInvalidos.findIndex(item => item.capufeLaneNum == carril.capufeLaneNum)
+          let existLane = carrilesInvalidos.findIndex(item => item.capufeLaneNum == carril.capufeLaneNum && item.idGare == carril.idGare)
           if(existLane == -1) {
             carrilesReturn.push({
               value: {
