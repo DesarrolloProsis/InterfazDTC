@@ -20,8 +20,10 @@
           ///////////////////////////////////////////////////////////////////// -->
           <div>
             <br class="sm:hidden"/>
-            <span class for="inline-full-name font-titulo" style="font-weight: normal">Contrato / Oferta:</span>
-            <span style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</span>
+            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'">Contrato / Convenio:</span>
+            <span v-else class for="inline-full-name font-titulo" style="font-weight: normal">Contrato / Oferta:</span>
+            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" style="font-weight: bold; padding-left: 0.5vw">5500010044 </span>
+            <span v-else style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</span>
           </div>
           <!-- //////////////////////////////////////////////////////////////////
           ////                       SUB-TITULO                              ////
@@ -45,7 +47,8 @@
           ///////////////////////////////////////////////////////////////////// -->
           <div class="mr-6 font-titulo">
               <span class="font-semibold">Atencion:</span>
-              <span class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
+              <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'"> C. Saúl Mosqueda Delgado</span>
+              <span v-else class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
           </div>
           <div class="sm:flex-col pr-2 inline-block font-titulo">
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
@@ -147,8 +150,10 @@
           </div>
           <div></div>
           <div class="pr-2 font-titulo -mt-20 sm:-mt-4">
-            <span class="font-semibold text-lg sm:text-xs">Coordinacion Regional:</span>
-            <label class="text-md" style="font-weight: normal">{{ headerSelecionado.regionalCoordination }}</label>
+            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class="font-semibold text-lg sm:text-xs">Unidad Regional:</span>
+            <span v-else class="font-semibold text-lg sm:text-xs">Coordinación Regional:</span>
+            <label v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class="text-md" style="font-weight: normal">Estado de México</label>
+            <label v-else class="text-md" style="font-weight: normal">{{ headerSelecionado.regionalCoordination }}</label>
           </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   SEXTA LINEA                              ////
