@@ -441,7 +441,8 @@ destroyed: function () {
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  mapear_componetes_dañados:  function(objInsert){    
+  mapear_componetes_dañados:  function(objInsert){
+    console.log(objInsert)    
     let new_promise = new Promise((resolve, reject) => {
     let newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
     let arrayDmg = []
@@ -468,7 +469,7 @@ methods: {
     })
     setTimeout(() => {
       new_promise.then((array) => {        
-        EventBus.$emit('enviar-componete', { arrayDmg: array, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
+        EventBus.$emit('enviar-componete', { arrayDmg: array, adminId: objInsert.adminId, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
       })
       
     }, 2000)

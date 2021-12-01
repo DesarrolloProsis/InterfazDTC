@@ -20,9 +20,9 @@
           ///////////////////////////////////////////////////////////////////// -->
           <div>
             <br class="sm:hidden"/>
-            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'">Contrato / Convenio:</span>
+            <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'">Contrato / Convenio:</span>
             <span v-else class for="inline-full-name font-titulo" style="font-weight: normal">Contrato / Oferta:</span>
-            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" style="font-weight: bold; padding-left: 0.5vw">5500010044 </span>
+            <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" style="font-weight: bold; padding-left: 0.5vw">5500010044 </span>
             <span v-else style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</span>
           </div>
           <!-- //////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@
           ///////////////////////////////////////////////////////////////////// -->
           <div class="mr-6 font-titulo">
               <span class="font-semibold">Atencion:</span>
-              <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'"> C. Saúl Mosqueda Delgado</span>
+              <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'"> C. Saúl Mosqueda Delgado</span>
               <span v-else class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
           </div>
           <div class="sm:flex-col pr-2 inline-block font-titulo">
