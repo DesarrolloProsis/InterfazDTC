@@ -299,7 +299,8 @@ export default {
       let actividadInsert = ServiceActividades.objeto_actividad_insertar(
         listaCarril,
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
-        this.comentario
+        this.comentario, 
+        this.$store.state.Header.headerSeleccionado.adminSquareId
       )                 
       await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async (response) => {                     

@@ -171,7 +171,7 @@ props: {
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: async function() {     
-    this.listaPlazaAdminValid = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.numeroPlaza == this.header.squareId)
+    this.listaPlazaAdminValid = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.numeroPlaza == this.header.squareId && item.statusAdmin == true)
     this.adminIdCalendar = this.header.adminId      
     this.$emit('guardar-adminId-nuevo', this.adminIdCalendar)
     this.tituloUbicacion = this.header.capufeLaneNum == '0000' ? 'Plaza' : 'Carril' 
