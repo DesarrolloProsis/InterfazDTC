@@ -83,7 +83,6 @@
       <button @click="login_por_otro()" class="text-white mb-5 px-4 py-2 rounded-full bg-blue-800">Ingresar</button>
       <button @click="modal = false" class="text-white px-4 py-2 rounded-full bg-red-800">Cancelar</button>
     </div>
-    <div class=" figura  transform -rotate-270 sm:hidden md:hidden lg:hidden"></div>
   </div>
 </template>
 
@@ -225,10 +224,9 @@ export default {
   transition: all 0.4s;
 }
 .figura {
-  position: absolute;
   width: 79vh;
   height: 100vh;
-  margin-left: 980px;
+  /*margin-left: auto;*/
   background-image: radial-gradient(ellipse farthest-corner at 45px 30px , rgba(255, 255, 255, 0) 69%, rgba(44, 82, 130, 1) 0%);
 }
 </style>

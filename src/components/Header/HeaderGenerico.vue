@@ -96,10 +96,7 @@
             </div>         
             <div class="text-sm sm:mt-4 mt-6 md:mx-auto md:mr-34 ">
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
-               
                     <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :vista="'Inventario'" :tipo="'edicion'" :edicion="1"></SelectPlaza>
-                
-                
             </div>
             <div class="mt-8 ml-8 sm:ml-0 md:mx-auto md:mr-13">
                     <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold text-md">Seleccione un Carril</p>
@@ -121,19 +118,7 @@
                     <span>Mantenimiento</span>
                     </button>
                 </div>
-                <div class=" mt-3 mr-3 mx-auto lg:mr-3 sm:hidden md:hidden">
-                        <span class="" v-tooltip.right =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
-                        </span>
-
-                        <div ref="tooltipencargadoplaza" class="font-titulo">
-                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
-                        </div>
-                </div>
-                              
             </div>
-            
-      
         </div>
         <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
             <button class="botonIconNext" @click="abrirModal">

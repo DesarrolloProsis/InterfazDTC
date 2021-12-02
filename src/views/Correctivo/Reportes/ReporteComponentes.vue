@@ -14,8 +14,6 @@
                                 <th class="cabeceraTable">Solicitante</th>
                                 <th class="cabeceraTable">Tipo DTC</th>
                                 <th class="cabeceraTable">Referencia</th>
-                                <th class="cabeceraTable">Fecha Instalación</th>
-                                <th class="cabeceraTable">Fecha Real Fin de Vida Util</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">

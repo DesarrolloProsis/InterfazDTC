@@ -35,57 +35,18 @@
                     </div>
                 </div>
                 <div class="w-1/2 sm:w-full sm:-mt-10 p-8 sm:p-2 ">
-                    <div class="flex justify-start sm:ml-3 m-5">
-                        <div class="-ml-6  absolute sm:hidden md:hidden lg:-ml-6 w-6">
-                            <span class="" v-tooltip.top =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5  lg:w-5 lg:h-5"/>
-                        </span>
-
-                        <div ref="tooltipintervencion" class="font-titulo">
-                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
-                        </div>
-                        </div> 
+                    <div class="flex justify-start sm:ml-3 m-5"> 
                         <p class="font-titulo font-bold">Fecha:</p>                        
                         <p class="font-titulo ml-5">{{ header.day }}</p> 
                         <p @click="modalCambiarFecha" v-if="!$route.query.edicion" class="ml-5 text-sm cursor-pointer text-blue-700 font-boton font-bold">Cambiar Fecha</p>
-                                                   
                     </div>
                     <div class="flex justify-start m-5 sm:ml-3">
-                        <div class="-ml-6  sm:hidden md:hidden lg:-ml-6 w-6 ">
-                            <span class="" v-tooltip.left =" { ref:'tooltiphorainicio', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
-                        </span>
-
-                        <div ref="tooltiphorainicio" class="font-titulo">
-                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
-                        </div>
-                        </div> 
                         <p class="font-titulo font-bold">Hora Inicio:</p>
                         <input v-model="horaInicio" class="ml-5 w-40 is_valid font-titulo" type="time">
                     </div>
-                    <div class="flex justify-start m-5 sm:ml-3">
-                        <div class="-ml-6  sm:hidden md:hidden lg:-ml-6 w-6">
-                            <span class="" v-tooltip.left =" { ref:'tooltiphorafin', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
-                        </span>
-
-                        <div ref="tooltiphorafin" class="font-titulo">
-                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
-                        </div>
-                        </div> 
-                        <p class="font-titulo font-bold">Hora Fin:</p>
-                        <input v-model="horaFin" class="ml-10 w-40 is_valid font-titulo" type="time">
-                    </div>
-                    <div class="justify-start m-5 sm:ml-3 grid grid-cols-1">
-                        <div class="-ml-6  sm:hidden md:hidden  lg:-ml-6 w-6">
-                            <span class="" v-tooltip.left =" { ref:'tooltipencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
-                        </span>
-
-                        <div ref="tooltipencargadoplaza" class="font-titulo">
-                        <p class="text-center text-gray-800">Se debe indicar las acciones realizadas por parte del Técnico de Servicio para la solución y/o atención de la falla.</p>
-                        </div>
-                        </div> 
+                    <div class="justify-start m-5 sm:ml-3 grid grid-cols-1 
+                    ">
+                        
                         <p class="font-titulo font-bold -my-6">Encargado de Plaza:</p>
                         <p>
                             <select class="is_valid" v-model="adminIdCalendar" @change="enviar_nuevo_admin_id">
