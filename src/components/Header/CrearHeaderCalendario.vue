@@ -21,7 +21,7 @@
                         <h2 class="mx-auto font-titulo">{{ `${mesNombre} del ${año}` }}</h2>
                     </div>
                     <div class="flex m-3 h-12 sm:grid sm:grid-cols-2 sm:m-0 sm:-mt-1 sm:h-11 md:grid ">
-                        <p class="font-titulo font-semibold sm:text-center sm:-ml-17 sm:my-auto md:mx-auto">Acciones:</p>
+                        <p class="font-titulo font-semibold sm:text-center sm:-ml-17 sm:my-auto md:mx-auto ">Acciones:</p>
                         <multiselect v-model="value" @close="acciones_mapper()" class="w-68 sm:w-auto sm:-ml-16 sm:h-8 md:w-37 xl:-mt-2" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="100" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
                                 <div class=" inline-flex">
@@ -42,7 +42,7 @@
                 <div class="grid grid-cols-1 mx-auto ">
                     <div class="flex m-3 sm:grid sm:grid-cols-1 sm:mx-auto md:grid xl:w-auto ">
                         <span class="font-titulo font-semibold mx-auto ">Plaza/Encargado: </span>
-                        <p class="sm:-ml-17 xl:-mt-1">
+                        <p class="sm:-ml-17 xl:-mt-1 ml-4">
                             <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Calendario'" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza>
                         </p>
                     </div>
@@ -65,7 +65,8 @@
                     <ValidationObserver ref="observer" class="">  
                         <div class="w-auto xl:ml-56 xl:mr-61  mx-auto md:mx-auto lg:mx-auto">
                             <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
-                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>          
+                                
+                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>
                                 <textarea
                                     v-model="comentario"                                                               
                                     class="block container placeholder-gray-500 textAreaCalendario mt-3 ml-13 sm:mx-auto md:mx-auto lg:mx-auto"

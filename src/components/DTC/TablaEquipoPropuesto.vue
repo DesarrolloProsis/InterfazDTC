@@ -41,7 +41,16 @@
           </table>
           </div>
           <ValidationObserver ref="observer">  
-            <div>            
+            <div>
+              <div class="sm:hidden md:hidden  lg:ml-34 w-6 absolute ml-55 ">
+                <span class="" v-tooltip.top =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipcambiodeplaza" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar lo mismo que indica en el diagnostico de falla</p>
+                </div>
+              </div>             
               <tr>
                 <th>Diagnostico</th>
               </tr>
