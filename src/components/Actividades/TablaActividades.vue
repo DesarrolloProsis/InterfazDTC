@@ -199,7 +199,8 @@ export default {
             modalSubirSellado: false,
             objSubir:'',
             objInsertEscaneado:{},
-            filtros: true
+            filtros: true, 
+            userid: ''
         }
     },
 /////////////////////////////////////////////////////////////////////
@@ -217,7 +218,8 @@ beforeMount: async function(){
     this.plazaSeleccionada = await this.$store.state.Login.plazaSelecionada.numeroPlaza;
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
     this.loadingTabla = false  
-    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId            
+    this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId 
+    this.userId = this.typeUser = this.$store.state.Login.cookiesUser.userId           
 },
 computed:{
     carriles_plaza(){
@@ -365,7 +367,7 @@ methods: {
         this.modalSubirSellado = false
         this.objInsertEscaneado = {}
     },
-    opticones_select_acciones({ statusMaintenance, pdfExists }){
+    opticones_select_acciones({ statusMaintenance, pdfExists, userId }){
         let options= [
             { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
             { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
@@ -373,7 +375,9 @@ methods: {
             { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
             { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
         ]
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 7 || this.tipoUsuario == 5 || this.tipoUsuario == 2){
+        //Si el usuario es administrador, capufe, o supervisor de tècnicos
+        if(this.tipoUsuario == 4 || this.tipoUsuario == 7 ||  this.tipoUsuario == 2){
+            //Sí exisite el archivo escaneado
             if(pdfExists){
                 return options.splice(2,2)
             }
@@ -381,6 +385,31 @@ methods: {
                 return options.splice(2,1)
             }    
         }
+        //Si es supervisor sistemas
+        else if(this.tipoUsuario == 5){ 
+            //Si el mantenimineto se creo (Concluido)
+            if(statusMaintenance){
+                //Si el usuario que inicio sesion es el mismo que el del mantenimieno
+                if(userId == this.userId)
+                    return options.splice(1,4)
+                else
+                    //Si existe el pdf escaneado
+                    if(pdfExists){
+                        return options.splice(2,2)
+                    }else{
+                        return options.splice(3,2)
+                    }
+            }
+            //Inconcluso
+            else{
+                //Si el usuario corresponde al mismo que inicio sesión
+                if(userId == this.userId)
+                    return options.splice(0,1)
+                else
+                    return []
+            }
+        }
+        //Si el usuario es tècnico o sistemas
         else{            
             if(statusMaintenance){  
                 if(pdfExists){
