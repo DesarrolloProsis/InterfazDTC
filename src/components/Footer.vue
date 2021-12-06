@@ -25,6 +25,7 @@
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
                             <li>·Información de ayuda para crear un DTC</li>
                             <li>·Bloqueo de pantalla para agilización de agregar imagenes</li>
+                            <li>·Botón para generar inventario en formato CAPUFE</li>
                             <li>·Supervisores de Sistemas y Supervisores de Técnico, pueden ver y crear actividades en el Calendario</li>
                             
                         </ol>
