@@ -98,7 +98,7 @@
             </button>
           </div>
         </div>
-        <div class="inset-0" :class="{'modal-container': modalLoading}">
+<!--         <div class="inset-0" :class="{'modal-container': modalLoading}">
           <div v-if="modalLoading" class=" inset-0 font-titulo mt-66 mb-8">
         <div class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-10 ">          
           <div class="justify-center text-center block">            
@@ -106,10 +106,8 @@
           </div>
         </div>
       </div>
-        </div>
-
-      
-
+        </div> -->
+        <Spinner :modalLoading="modalLoading"/>
       </div>
     </div>
   </div>
@@ -119,6 +117,7 @@
 import Header from "@/components/Header/CrearHeader";
 import EventBus from "@/services/EventBus.js";
 import ServiceReporte from '@/services/ReportesPDFService'
+import Spinner from '../../../components/Sppiner.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -128,6 +127,7 @@ export default {
   },
   components: {    
     Header,
+    Spinner,
   },
   data() {
     return {

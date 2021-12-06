@@ -23,7 +23,10 @@
                     <div ref="tooltipRef" class=" font-titulo">
                         <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.5 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·</li>
+                            <li>·Información de ayuda para crear un DTC</li>
+                            <li>·Bloqueo de pantalla para agilización de agregar imagenes</li>
+                            <li>·Supervisores de Sistemas y Supervisores de Técnico, pueden ver y crear actividades en el Calendario</li>
+                            
                         </ol>
                     </div>                    
                 </div>
