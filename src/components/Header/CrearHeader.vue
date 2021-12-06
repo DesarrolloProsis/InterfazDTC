@@ -20,9 +20,9 @@
           ///////////////////////////////////////////////////////////////////// -->
           <div>
             <br class="sm:hidden"/>
-            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'">Contrato / Convenio:</span>
+            <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'">Contrato / Convenio:</span>
             <span v-else class for="inline-full-name font-titulo" style="font-weight: normal">Contrato / Oferta:</span>
-            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" style="font-weight: bold; padding-left: 0.5vw">5500010044 </span>
+            <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" style="font-weight: bold; padding-left: 0.5vw">5500010044 </span>
             <span v-else style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</span>
           </div>
           <!-- //////////////////////////////////////////////////////////////////
@@ -47,16 +47,35 @@
           ///////////////////////////////////////////////////////////////////// -->
           <div class="mr-6 font-titulo">
               <span class="font-semibold">Atencion:</span>
-              <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'"> C. Saúl Mosqueda Delgado</span>
+              <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'"> C. Saúl Mosqueda Delgado</span>
               <span v-else class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
           </div>
+          
           <div class="sm:flex-col pr-2 inline-block font-titulo">
+            <div class="sm:hidden md:hidden lg:mt-1 lg:ml-26 w-6 absolute ml-30 my-1">
+                <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipintervencion" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA)</p>
+                </div>
+          </div>
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
                 <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
                 <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" name="NoSiniestro" type="text"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
             </ValidationProvider>                                      
             <template v-if="$route.params.tipoFalla == 3">
+              <div class="sm:hidden md:hidden lg:ml-28 w-6 absolute ml-21 my-2">
+                <span class="" v-tooltip.right =" { ref:'tooltipoficio', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipoficio" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar el numero de folio de falla que aparece en el modulo institucional de CAPUFE</p>
+                </div>
+              </div>
                 <ValidationProvider name="NoOficio" immediate rules="max:20" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }"  v-slot="{ errors }">
                   <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Oficio:</p>
                   <input v-model="datosSinester.ReportNumber" immediate class="w-full is_valid" type="text" name="NoOficio"/>  
@@ -70,6 +89,16 @@
           </div>      
           <div class="pr-2 font-titulo">
             <!-- <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }"> -->
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
+                <span class="" v-tooltip.right =" { ref:'tooltiptipodescripcion', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltiptipodescripcion" class="font-titulo">
+                    <p class="text-center text-gray-800">Debe indicar el tipo de siniestro que corresponde deacuerdo al catalogo de la bitacora electronica</p>
+                </div>
+              </div>
+
               <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripcion</p>
               <select v-model="datosSinester.TypeDescriptionId" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
                 <option v-for="(desc, index) in descripciones" :value="desc.typeDescriptionId" :key="index">
@@ -87,6 +116,15 @@
               <span class="inline ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.position }}</span>
             </div>
             <div class="pr-2 font-titulo">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
+                <span class="" v-tooltip.right =" { ref:'tooltipfechasiniestro', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipfechasiniestro" class="font-titulo">
+                    <p class="text-center text-gray-800">se debe indicar la fecha con respecto al volante de la aseguradora(GNP y/o INBURSA)</p>
+                </div>
+              </div>
               <ValidationProvider name="FechaSiniestro" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Siniestro:</p>
                 <input v-model="datosSinester.SinisterDate" @change="crear_referencia_dtc()" class="w-full font-titulo is_valid" :disabled="fechaSiniestoEdit" name="FechaSiniestro" type="date" onkeydown="return false"/>              
@@ -94,6 +132,15 @@
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-32 w-6 absolute ml-32">
+                <span class="" v-tooltip.right =" { ref:'tooltipfechaenvio', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipfechaenvio" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar la fecha en la que se elabora el DTC. No debe exceder las 24 Horas desde el reporte de la falla</p>
+                </div>
+              </div>
               <ValidationProvider name="FechaEnvio" immediate rules="required"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Envio:</p>
                 <input v-model="datosSinester.ShippingElaboracionDate" class="w-full is_valid" type="date" name="FechaEnvio" onkeydown="return false"/>
@@ -108,6 +155,15 @@
             <span class="inline ml-2 text-md font-titulo font-normal" style="color: blue">{{ headerSelecionado.mail }}</span>
             </div>  
             <div class="pr-2 font-titulo">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
+                <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipfoliofalla" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar el numero de folio de Falla que aparece en el modulo institucional de CAPUFE</p>
+                </div>
+              </div>
               <ValidationProvider name="FolioFalla" immediate rules="max:60"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Folio de Falla:</p>              
                 <input v-model="datosSinester.FailureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M"/>
@@ -115,8 +171,8 @@
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <p class="text-md mb-1 font-medium text-gray-900">Fecha de Elaboracion:</p>
-              <input disabled="true" class="w-full is_valid" type="date" readonly />
+              <p class="text-md mb-1 font-medium text-gray-900 hidden">Fecha de Elaboracion:</p>
+              <input disabled="true" class="w-full is_valid hidden" type="date" readonly />
             </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   CUARTA  LINEA                              ////
@@ -126,6 +182,15 @@
               <span class="text-sm text-gray-900 ml-2" style="font-weight: normal">{{ headerSelecionado.plaza }}</span>
             </div>
             <div class="pr-2 font-titulo">
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
+                <span class="" v-tooltip.right =" { ref:'tooltipfechafalla', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipfechafalla" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar la fecha de falla de acuerdo al acta circunstanciada elaborada por la plaza</p>
+                </div>
+              </div>
               <ValidationProvider name="FechaFalla" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }"  v-slot="{ errors }">
                 <p class="text-md mb-1 font-medium text-gray-900">Fecha de Falla:</p>
                 <input v-model="datosSinester.FailureDate" class="w-full is_valid" name="FechaFalla" type="date" onkeydown="return false"/>
@@ -144,6 +209,15 @@
             <span v-if="boolCambiarPlaza" class="block m-1 text-red-600 font-titulo font-normal">Advertencia, una vez creado no puedes cambiar la plaza</span>
           </div>
           <div class="text-sm -mt-32 sm:-mt-1" :class="{'hidden': boolCambiarPlaza == true}">
+            <div class="sm:hidden md:hidden lg:hidden w-6 absolute ml-60 mt-1">
+                <span class="" v-tooltip.bottom =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
+                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                </span>
+
+                <div ref="tooltipcambiodeplaza" class="font-titulo">
+                    <p class="text-center text-gray-800">Se puede modificar la plaza y el encargado de la plaza</p>
+                </div>
+              </div>
             <span class="text-lg font-semibold font-titulo sm:text-xs">Cambiar Plaza:</span>
             <p class="ml-12 -mt-7"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'"></SelectPlaza></p>
             <!-- <span v-if="boolCambiarPlaza" class="block m-1 text-red-600">Advertencia una vez creado no puedes cambiar la plaza</span> -->

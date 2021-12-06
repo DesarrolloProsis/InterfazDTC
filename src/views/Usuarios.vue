@@ -1,8 +1,11 @@
 <template>
   <div class="h-75" :disabled="modalLoading">    
     <div class="flex justify-center p-4" >
-      <div class="grid gap-2 grid-cols-1">
       <!--//////////////////////////////////////////////////////////////////
+      ////                          CUERPO                            ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="grid gap-2 grid-cols-1">
+        <!--//////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser" :class="{'opacity-25':modalLoading}">Mi Perfil</h1>
@@ -11,10 +14,10 @@
           <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
-      <!--///////////////////////////////////////////////////////////////////
+        <!--///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:450px;" v-if="this.typeUser">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:630px;" v-if="this.typeUser">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
             <thead>
               <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
@@ -108,10 +111,10 @@
           
         </div>        
       </div>
-        <!--/////////////////////////////////////////////////////////////////////
-        ////               MODAL CAMBIAR CONTRASEÑA                         ////
-        ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 " :class="{'modal-container': modal_password}">
+      <!--/////////////////////////////////////////////////////////////////////
+      ////               MODAL CAMBIAR CONTRASEÑA                         ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 " :class="{'modal-container': modal_password}">
         <div v-if="modal_password" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto my-48 px-12 py-10 shadow-2xl" :class="{'hidden':modalLoading}">
           <div>
             <h1 class="text-4xl font-bold text-gray-800 text-center -mt-6">Cambiar contraseña</h1>
@@ -141,7 +144,7 @@
             </div>
           </div>
         </div> 
-        </div>
+      </div>
       <!--/////////////////////////////////////////////////////////////////////
       ////                     MODAL AGREGAR USUARIO                      ////
       ////////////////////////////////////////////////////////////////////-->
@@ -192,7 +195,83 @@
                     </div>
       </div>
       </div>
-
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                     MODAL AGREGAR PLAZAS                       ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 " :class="{'modal-container': modalAddPlaza}">
+        <div v-if="modalAddPlaza" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-6 py-10 shadow-2xl mt-48">
+          <p class="text-gray-900 font-semibold text-md sm:text-md sm:text-center text-center">Agregar Plazas</p>
+          <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plazas Asignadas</p>
+          <p>{{ infoUser.plazas }}</p>
+          <div class="grid grid-cols-2 mt-2">
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plazas por Asignar</p>
+            <p></p>
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Tramo</p>
+            <select v-model="tramoSeleccionado" class="w-full mt-2 sm:w-33 sm:-ml-4 is_valid">
+              <option disabled value>Selecionar...</option>     
+              <option value="1">México Acapulco</option>     
+              <option value="2">México Irapuato</option>     
+            </select>
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
+            <multiselect 
+                          v-model="obj_editar_plaza.plazas"                                                                                                                                                             
+                          :custom-label="label_multi_select"                          
+                          :close-on-select="false"
+                          :clear-on-select="true"
+                          :hideSelected="false"
+                          placeholder="Selecciona..."
+                          :options="listaPlazas"
+                          track-by="squareCatalogId"
+                          class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
+                          :multiple="true"
+                        >   
+                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
+                          </template>   
+            </multiselect>
+          </div>
+          <div class="mt-5 text-center ml-6">
+            <button @click="agregar_plazas(infoUser)" class="botonIconCrear font-boton sm:-ml-24">Agregar</button>
+            <button @click="modalAddPlaza = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                    MODAL ELIMINAR PLAZAS                       ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="sticky inset-0 " :class="{'modal-container': modalEliminarPlaza}">
+        <div v-if="modalEliminarPlaza" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-6 py-10 shadow-2xl mt-48">
+          <p class="text-gray-900 font-semibold text-md sm:text-md sm:text-center text-center">Eliminar Plazas a <span>{{ infoUser.name + ' ' + infoUser.lastName1 + ' ' + infoUser.lastName2 }}</span></p>
+          <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plazas Asignadas</p>
+          <p>{{ infoUser.plazas }}</p>
+          <div class="grid grid-cols-2 mt-2">
+            <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
+            <multiselect 
+                          v-model="obj_borrar_plaza.plazas"                                                                                                                                                             
+                          :custom-label="label_multi_select"                          
+                          :close-on-select="false"
+                          :clear-on-select="true"
+                          :hideSelected="false"
+                          placeholder="Selecciona..."
+                          :options="plazasUserForDelete"
+                          track-by="squareCatalogId"
+                          class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
+                          :multiple="true"
+                        >   
+                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
+                          </template>   
+            </multiselect>
+          </div>
+          <div class="mt-5 text-center ml-6">
+            <button @click="eliminar_plaza(infoUser)" class="botonIconCrear font-boton sm:-ml-24">Eliminar</button>
+            <button @click="modalEliminarPlaza = false" class="botonIconCancelar font-boton sm:-mr-20">Cancelar</button>
+          </div>
+        </div>
+      </div>
+      <!--/////////////////////////////////////////////////////////////////////
+      ////                     MODAL EDITAR ADMIN                         ////
+      ////////////////////////////////////////////////////////////////////-->
       <div class="sticky inset-0" :class="{'modal-container': modal}">
       <div class="flex absolute justify-center inset-x-0 mt-34">
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
@@ -270,7 +349,6 @@
         </div>
       </div>
     </div>
-
     </div>
   </div>
 </template>
@@ -328,6 +406,15 @@ export default {
         password: "",
         checkLog: true,
       },
+      modalAddPlaza:false,
+      infoUser:{},
+      obj_editar_plaza:{
+        plazas:[]
+      },
+      obj_borrar_plaza:{
+        plazas:[]
+      },
+      modalEliminarPlaza:false
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -686,6 +773,59 @@ export default {
       });
       this.$router.push("/Configuracion");
     },
+    agregar_plazas(item){
+      let arrayPlaza = [] 
+      this.obj_editar_plaza.plazas.forEach((plaza) => {
+        arrayPlaza.push(plaza.squareCatalogId)
+      })
+      let plazaInsert = {
+          squareId: arrayPlaza,
+          userId: item.userId,
+          flag: 1
+        }
+      this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaInsert)                        
+      setTimeout(() => {                  
+        this.$notify.success({
+          title: "Ops!!",
+          msg: "SE AGREGARON LAS PLAZAS CORRECTAMENTE.",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        })
+        this.modalAddPlaza = false  
+        this.tramoSeleccionado = ''  
+        this.obj_editar_plaza = []            
+        this.refrescar_usuarios()                            
+      },1000)
+    },
+    eliminar_plaza(item){
+      let arrayPlaza = [] 
+      this.obj_borrar_plaza.plazas.forEach((plaza) => {
+        arrayPlaza.push(plaza.squareCatalogId)
+      })
+      let plazaDelete = {
+          squareId: arrayPlaza,
+          userId: item.userId,
+          flag: 0
+        }
+        this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaDelete)                        
+      setTimeout(() => {                  
+        this.$notify.success({
+          title: "Ops!!",
+          msg: "SE ELIMINARON LAS PLAZAS CORRECTAMENTE.",
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        })
+        this.modalEliminarPlaza = false                
+        this.obj_borrar_plaza = []
+        this.refrescar_usuarios()                            
+      },1000)
+    },
     customLabel ({ title }) {
       return `${title}`
     },
@@ -696,6 +836,13 @@ export default {
         this.borrar_usuario(item)
       }if(this.value.title == 'Habilitar'){
         this.habilitar_usuario(item)
+      }if(this.value.title == 'Agregar Plaza'){
+        this.infoUser = item
+        this.modalAddPlaza = true
+      }if(this.value.title == 'Eliminar Plaza'){
+        this.plazasUserForDelete = item.plazasLimpias
+        this.infoUser = item
+        this.modalEliminarPlaza = true
       }
       this.value = ""  
     },
@@ -704,16 +851,20 @@ export default {
         { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //0
         { title: 'Deshabilitar', img: '/img/close.162602bc.png' },//1
         { title: 'Habilitar', img: '/img/comprobado.da188ccb.png' },//2
+        { title: 'Agregar Plaza', img: '/img/more.b0fdb1af.png' },//3
+        { title: 'Eliminar Plaza', img: '/img/menos.9f2bee4b.png' },//4
       ]
       let filtroOpciones = []
-      //Diagnostico Descargar Siempre va
       filtroOpciones.push(options[0])
       if(this.typeUser && item.statusUser){
-        filtroOpciones.push(options[1])   
+        filtroOpciones.push(options[1])
+        if(item.plazas != 'TODAS')   
+          filtroOpciones.push(options[3])
       }
       if(this.typeUser && !item.statusUser){
         filtroOpciones.push(options[2])
       }       
+      filtroOpciones.push(options[4])
       return filtroOpciones
     }
   },

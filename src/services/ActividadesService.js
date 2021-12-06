@@ -100,7 +100,7 @@ function construir_objeto_actividad(listaCarriles, info){
         class: codigo_colores_actividad(info.frequencyId).css,                            
     }    
 }
-function objeto_actividad_insertar(listaCarriles, info){
+function objeto_actividad_insertar(listaCarriles, info, comentario, adminId){
     let idGares = []    
     let capufeLaneNum = []
     let daySplit = info.day.split('/')
@@ -117,7 +117,8 @@ function objeto_actividad_insertar(listaCarriles, info){
     obj["userId"] = user.idUser,
     obj["day"] = parseInt(daySplit[0]),
     obj["month"] = parseInt(daySplit[1]),
-    obj["year"] = parseInt(daySplit[2])    
+    obj["year"] = parseInt(daySplit[2])
+    obj["adminId"] = adminId   
     return obj
 }
 const MESES = [{"nombre": "ENERO", "numero": 1},

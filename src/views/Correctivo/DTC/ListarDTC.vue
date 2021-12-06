@@ -27,7 +27,7 @@
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo" :class="{'modal-container': modalLoading}">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-68">          
+          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-66">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-4" />
                 <p class="text-gray-900 font-thin text-md">Espere ... </p>
@@ -102,10 +102,24 @@
                     </select> 
                     <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                   </ValidationProvider>
-                </div>                          
+                </div>
+                <div class="mt-5">
+                  <p class="pdtcpendientes sm:text-sm sm:text-center">Indica el Motivo del Cambio</p>
+                  <ValidationProvider name="Comentario" rules="required|max:300" v-slot="{ errors }"> 
+                    <textarea
+                      v-model="comentario"                                        
+                      class="textAreaCalendario ph-center"
+                      placeholder="ingresa tus comentarios"
+                      name="Comentario"
+                      :maxlength=300
+                    />
+                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                    <span class="text-xs text-gray-400">{{ restante_comentario }}/300</span>
+                  </ValidationProvider>
+                </div>            
                 <div class="mt-10 text-center">
-                  <button @click="actualizar_user_id_dtc" class="botonIconCrear">Si</button>
-                  <button @click="modalCambiarUsuarioDTC = false, refNum = ''" class="botonIconCancelar">No</button>
+                  <button @click="actualizar_user_id_dtc" class="botonIconCrear">Cambiar</button>
+                  <button @click="modalCambiarUsuarioDTC = false, refNum = ''" class="botonIconCancelar">Cancelar</button>
                 </div>  
               </ValidationObserver>          
           </div>
@@ -141,12 +155,12 @@
                   ////                   FILA NUMERO 1                         ////
                   ////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
-                  <div class="-mt-2 mr-3">       
-                    <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueReport: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
+                  <div class="-mt-2 mr-3">
+                    <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
                       <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>
+                      <!--<span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>-->
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">  
@@ -154,7 +168,7 @@
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
                       <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>
+                      <!--<span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>-->
                     </ValidationProvider>
                   </div>
                 </div>
@@ -167,7 +181,7 @@
                       <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
                       <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M" maxlength="60"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>
+                      <!--<span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>-->
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">   
@@ -207,7 +221,7 @@
                   ////                        BOTONES MODAL EDIT                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center grid grid-cols-2  mt-10">  
-                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button></div>     
+                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear" :class="{'hidden': ocultar}">Actualizar</button></div>     
                   <div><button @click="(modalEdit = modal = false), (refNum = ''), (ocultarMultiPadre = false)" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
                 </div>
               </div>     
@@ -358,7 +372,9 @@ export default {
       fechaEnvio: '',
       fechaElaboracion: '',
       ocultarMultiPadre: false,
-      typeUser: ''         
+      typeUser: '',
+      comentario: '',
+      ocultar: false
     };
   },
   components: {    
@@ -600,7 +616,9 @@ methods: {
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
             })              
           }, 3000);    
-        }          
+        }else{
+          this.ocultar = true
+        }         
     }
     else{
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
@@ -628,7 +646,7 @@ methods: {
         },2000)                        
       })       
   },
-    enviar_pdf_sellado: async function(value,bandera){   
+  enviar_pdf_sellado: async function(value,bandera){   
     this.modalLoading = true
     if(bandera == 1){
       let pdf_sellado_promise = new Promise((resolve, reject) => {                         
@@ -890,11 +908,13 @@ computed: {
   },
   return_Diag(){
     return this.dtcEdit.diagnosis.trim().length
+  },
+  restante_comentario(){
+    return this.comentario.length
   }
 }
 };
 </script>
-
 <style scoped>
 .list-item {  
   margin-right: 10px;

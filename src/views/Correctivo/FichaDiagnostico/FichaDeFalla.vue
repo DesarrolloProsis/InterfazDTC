@@ -4,8 +4,8 @@
             <!--/////////////////////////////////////////////////////////////////////
             ////                     MODAL IMAGENES                        /////
             ////////////////////////////////////////////////////////////////////-->
-            <div class="sticky inset-0">
-                <div v-if="modalImage" class="modalCargarImg mt-48 sm:m-4 sm:mt-66">          
+            <div class="sticky inset-0" :class="{'modal-container': modalImage}">
+                <div v-if="modalImage" class="modalCargarImg mt-48 sm:m-4 sm:mt-66 mt-66">          
                     <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
                         <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
                     </span>
@@ -205,3 +205,13 @@ export default {
     },
 }
 </script>
+
+<style>
+ .modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

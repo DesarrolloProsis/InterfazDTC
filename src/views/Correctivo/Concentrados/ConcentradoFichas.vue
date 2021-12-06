@@ -11,7 +11,55 @@
                     :objInsert="objInsertEscaneado" 
                     :tipoReporte="tipoEscaneado"
                 >
-                </PdfEscaneado>    
+                </PdfEscaneado>
+                <!--/////////////////////////////////////////////////////////////////
+                ////                 MODAL CAMBIAR USUARIO A DTC                 ////
+                ////////////////////////////////////////////////////////////////////-->
+                <div class="sticky inset-0" :class="{'modal-container': modalcambiarUsuario}">
+                    <div v-if="modalcambiarUsuario" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66 mt-33">
+                        <ValidationObserver ref="observer">  
+                            <p class="text-gray-900 font-thin text-md" v-if="infoCambiarUsuario.referenceDTC != '--' ">
+                                Al cambiar el usuario del Diagnóstico de Falla con Refencia: 
+                                <span class="text-black font-bold">{{ infoCambiarUsuario.referenceNumber }}</span> 
+                                <br>
+                                Se cambiará la Ficha con Referencia: <span class="text-red-600 font-bold">{{ infoCambiarUsuario.referenceNumber }}</span> 
+                                <br>
+                                Y el Dictamen Técnico con Referencia: <span class="text-red-600 font-bold">{{ infoCambiarUsuario.referenceDTC }}</span> 
+                            </p>
+                            <p v-else class="text-gray-900 font-thin text-md">
+                                Se cambiará el usuario del Diagnóstico de Falla y Ficha Técnica con Referencia: 
+                                <span class="text-black font-bold">{{ infoCambiarUsuario.referenceNumber }}</span> 
+                            </p> 
+                            <div class="mt-10">
+                                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione el Nuevo Usuario</p>
+                                <ValidationProvider name="Observaciones" rules="required" v-slot="{ errors }"> 
+                                    <select v-model="userChangeDf" class="w-full border-none">
+                                        <option v-for="(item, key) in listaTecnicosPlaza" :key="key" :value="item.userId">{{  item.nombre }}</option>
+                                    </select> 
+                                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                            <div class="mt-5">
+                                <p class="pdtcpendientes sm:text-sm sm:text-center">Indica el Motivo del Cambio</p>
+                                <ValidationProvider name="Comentario" rules="required|max:300" v-slot="{ errors }"> 
+                                    <textarea
+                                        v-model="comentario"                                        
+                                        class="textAreaCalendario ph-center"
+                                        placeholder="ingresa tus comentarios"
+                                        name="Comentario"
+                                        :maxlength=300
+                                    />
+                                    <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                    <span class="text-xs text-gray-400">{{ restante_comentario }}/300</span>
+                                </ValidationProvider>
+                            </div>                  
+                            <div class="mt-10 text-center">
+                                <button @click="actualizar_user_id_df" class="botonIconCrear">Cambiar</button>
+                                <button @click="modalcambiarUsuario = false, userChangeDf = ''" class="botonIconCancelar">Cancelar</button>
+                            </div>  
+                        </ValidationObserver>          
+                    </div>
+                </div>     
                 <!--/////////////////////////////////////////////////////////////////
                 ////                      MODAL ELIMINAR                         ////
                 ////////////////////////////////////////////////////////////////////-->
@@ -48,7 +96,7 @@
                     :tipo="'DF'"
                 >
                 </HeaderGenerico>
-            <!--/////////////////////////////////////////////////////////////////////
+                <!--/////////////////////////////////////////////////////////////////////
                 /////                       TABLA GENERICA                      ////
                 ////////////////////////////////////////////////////////////////////-->  
                 <TablaGenerica  
@@ -59,21 +107,20 @@
                     :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC'},{text: 'Acciones', key: 'Acciones'}]"
                     :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Diagnostica', key: 'diagnosisDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
                 >
-                </TablaGenerica>                                  
+                </TablaGenerica>                               
             </div>
         </div>    
     </div>
 </template>
 <script>
-import HeaderGenerico from "../../../components/Header/HeaderGenerico";
-import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
+import HeaderGenerico from "../../../components/Header/HeaderGenerico"
+import TablaGenerica from '../../../components/TablaGenerica.vue'
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
-import ServiceCookies from '../../../services/CookiesService'
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
-import TablaGenerica from '../../../components/TablaGenerica.vue'
-
+import ServiceCookies from '../../../services/CookiesService'
+import moment from 'moment'
 export default {
     name: "ConcentradoFichas",
     components:{        
@@ -93,7 +140,13 @@ export default {
             modalEliminar: false,            
             modalSubirSellado: false,
             objInsertEscaneado: {},
-            tipoEscaneado: 'Diagnostico'
+            tipoEscaneado: 'Diagnostico',
+            modalcambiarUsuario: false,
+            infoCambiarUsuario:{},
+            listaTecnicosPlaza:[],
+            userChangeDf: '',
+            refNum: '',
+            comentario: ''
         }
     },
     beforeMount: function (){
@@ -235,7 +288,77 @@ export default {
                 this.objInsertEscaneado = {}
                 this.loadingTabla = false 
             },500)           
-        },     
+        },
+        modal_Cambiar_Usuario(item){
+            this.refNum = item.referenceNumber
+            this.infoCambiarUsuario = item
+            this.$http.get(`${API}/User//UserofSquare/${item.squareId}`)
+            .then((response) =>this.listaTecnicosPlaza = response.data.result)
+            .catch(() => {})
+        },
+        actualizar_user_id_df(){
+            if(this.infoCambiarUsuario.referenceDTC != '--' && this.infoCambiarUsuario.typeFaultId != 1){
+                this.loadingTabla = true
+                let actualizar_user = new Promise ((resolve,reject) => {
+                    let obj_cambiar_user = {
+                        userId: this.userChangeDf,
+                        referenceNumberDTC: this.infoCambiarUsuario.referenceDTC,
+                        referenceNumberDiagnostic: this.refNum,
+                        Comment: this.comentario
+                    }
+                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}`, obj_cambiar_user)
+                    .then(() => {
+                            resolve('OK')
+                            this.modalcambiarUsuario = false
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+                    setTimeout(()=>{
+                        actualizar_user.then(()=>{
+                            this.loadingTabla = false
+                            this.userChangeDf = ''
+                            this.comentario = ''
+                            this.$notify.success({
+                                title: "Ok!",
+                                msg: `EL DF CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
+                                position: "bottom right",
+                                styles: { height: 100, width: 500,},
+                            });
+                        })
+                    },1000)
+                })
+            }else{
+                this.loadingTabla = true
+                let actualizar_user = new Promise ((resolve,reject) => {
+                    let obj_cambiar_user = {
+                        userId: this.userChangeDf,
+                        referenceNumberDTC: '--',
+                        referenceNumberDiagnostic: this.refNum,
+                        Comment: this.comentario
+                    }
+                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}`, obj_cambiar_user)
+                    .then(() => {
+                            resolve('OK')
+                            this.modalcambiarUsuario = false
+                    })
+                    .catch(error => { reject(error) })
+                    setTimeout(()=>{
+                        actualizar_user.then(()=>{
+                            this.userChangeDf = ''
+                            this.comentario = ''
+                            this.loadingTabla = false
+                            this.$notify.success({
+                                title: "Ok!",
+                                msg: `EL DF CON LA REFERENCIA ${this.refNum} FUE CAMBIADO DE USUARIO.`,
+                                position: "bottom right",
+                                styles: { height: 100, width: 500,},
+                            });
+                        })
+                    },1000)
+                })
+            }
+        },
         acciones_mapper({ acciones, itemRow }){                  
             if(acciones.title == 'Terminar Ficha'){
                 this.terminar_ficha_diagnostico(itemRow)
@@ -249,10 +372,10 @@ export default {
             if(acciones.title == 'Borrar'){                             
                 this.infoEliminar = itemRow; this.modalEliminar = true;  
             }
-            if(acciones.title == 'Dignóstico de Falla'){     
+            if(acciones.title == 'Bajar Dignóstico de Falla'){     
                 ServiceReporte.generar_pdf_diagnostico_falla(itemRow.referenceNumber) 
             }
-            if(acciones.title == 'Ficha Técnica'){                    
+            if(acciones.title == 'Bajar Ficha Técnica'){                    
                 ServiceReporte.generar_pdf_ficha_falla(itemRow.referenceNumber)
             }
             if(acciones.title == 'Bajar Dictamen (DTC)'){                    
@@ -263,14 +386,14 @@ export default {
                     },1000)
                 }
             }
-            if(acciones.title == 'Subir DF Sellado'){                
+            if(acciones.title == 'Subir DF Escaneado'){                
                 this.tipoEscaneado = 'Diagnostico'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
                     referenceNumber: itemRow.referenceNumber
                 }
             }
-            if(acciones.title == 'Subir FT Sellada'){                
+            if(acciones.title == 'Subir FT Escaneada'){                
                 this.tipoEscaneado = 'Ficha'
                 this.modalSubirSellado = true
                 this.objInsertEscaneado = {
@@ -278,12 +401,17 @@ export default {
                 }
                 
             }
-            if(acciones.title ==  'Bajar FT Sellada'){                
+            if(acciones.title ==  'Bajar FT Escaneada'){                
                 ServiceReporte.generar_pdf_ficha_sellada(itemRow.referenceNumber, 2)
             }
-            if(acciones.title == 'Bajar DF Sellado'){                
+            if(acciones.title == 'Bajar DF Escaneado'){                
                 ServiceReporte.generar_pdf_ficha_sellada(itemRow.referenceNumber, 1)
-            }                     
+            }
+            if(acciones.title == 'Cambiar de Usuario'){
+                this.modalcambiarUsuario = true
+                this.infoCambiarUsuario = itemRow;
+                this.modal_Cambiar_Usuario(this.infoCambiarUsuario)
+            }                
         },
         opticones_select_acciones(item){
             const options= [                
@@ -291,13 +419,14 @@ export default {
                 { title: 'Terminar DTC', accionCss: 'terminar', img: '/img/nuevoDtc.90090632.png' },//1
                 { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //2
                 { title: 'Borrar', accionCss: 'borrar', img: '/img/borrar.16664eed.png' },//3
-                { title: 'Dignóstico de Falla', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //4
-                { title: 'Ficha Técnica', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//5
+                { title: 'Bajar Dignóstico de Falla', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //4
+                { title: 'Bajar Ficha Técnica', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//5
                 { title: 'Bajar Dictamen (DTC)', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //6
-                { title: 'Subir DF Sellado', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //7
-                { title: 'Subir FT Sellada', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //8
-                { title: 'Bajar FT Sellada', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//9
-                { title: 'Bajar DF Sellado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
+                { title: 'Subir DF Escaneado', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //7
+                { title: 'Subir FT Escaneada', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //8
+                { title: 'Bajar FT Escaneada', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//9
+                { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
+                { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: '/img/add.36624e63.png' },//11
             ]
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
@@ -325,13 +454,30 @@ export default {
                     filtroOpciones.push(options[2])
                     filtroOpciones.push(options[3])
                 }
-            }     
+            }   
+            if(this.typeUser == 4 || this.typeUser == 10){
+                filtroOpciones.push(options[11])
+            }  
             else{
-                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10)
+                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10 && !item.validacionFichaTecnica)
                 filtroOpciones.push(options[0])
             }                                       
             return filtroOpciones
         },
-    },   
+    }, 
+    computed:{
+        restante_comentario(){
+            return this.comentario.length
+        }
+    }  
 }
 </script>
+<style>
+.modal-container{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+}
+</style>
