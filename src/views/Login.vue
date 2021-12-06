@@ -1,7 +1,7 @@
 <template>
   <div class="container-login100 sm:mt-1 sm:w-full">
-    <div class="absolute">
-            <img src="../assets/img/prosis_letrero.png" class="w-45 h-20 mr-78 -ml-56 -mt-82 lg:-mt-56 lg:mr-68 lg:w-25 lg:h-10 sm:w-25 md:h-12 md:ml-0 md:mr-0 md:-mt-58  sm:w-25 sm:h-12 sm:ml-0 sm:mr-0 sm:-mt-56" />
+    <div class="absolute h-20 mr-83 -ml-56 -mt-77 sm:hidden md:hidden lg:hidden lg:-mt-56 lg:mr-68 lg:w-25 lg:h-10 sm:w-25 md:h-12 md:ml-0 md:mr-0 md:-mt-58  sm:w-25 sm:h-12 sm:ml-0 sm:mr-0 sm:-mt-56">
+            <img src="../assets/img/prosis_letrero.png" class="w-45 h-20" />
     </div>
     <div class="wrap-login100">
         <!-- //////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@
               <ValidationProvider name="Usuario" rules="required" v-slot="{ errors }">                   
                 <input v-model="datos.user" @keyup.enter="iniciar_sesion()" 
                   :class="{ is_valid: !errors[0], is_invalid: errors[0]}" 
-                  class="w-full h-8 font-titulo font-normal "                
+                  class="w-full h-8 font-titulo font-normal sm:-mx-7"                
                   type="text" placeholder="Usuario" name="Usuario" 
                 />
                 <span class="text-red-600 text-xs">{{ errors[0] }}</span>
@@ -31,7 +31,7 @@
             </div>
             <div class="mb-5">
               <ValidationProvider name="Contraseña" rules="required" v-slot="{ errors }">
-                <div class="w-full inline-flex relative">              
+                <div class="w-full inline-flex relative sm:-mx-7">              
                     <input v-model="datos.password"  @keyup.enter="iniciar_sesion()" 
                       class="w-full h-8 font-titulo font-normal" 
                       :class="{ is_valid: !errors[0], is_invalid: errors[0] }" 
@@ -46,8 +46,8 @@
               </ValidationProvider>            
             </div>          
           </div>
-          <div class="container-login100-form-btn mb-10">
-            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn text-blue-600 outline-none" :disabled="invalid">Iniciar Sesión</button>
+          <div class="container-login100-form-btn mb-10 sm:-mx-7">
+            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn font-titulo outline-none" :disabled="invalid">Iniciar Sesión</button>
           </div>        
         </ValidationObserver>
           </div>
@@ -196,7 +196,6 @@ export default {
   justify-content: center;
 }
 .login100-form-btn {
-  font-family: Poppins-Medium;
   font-size: 16px;
   color: #fff;
   line-height: 1.2;
