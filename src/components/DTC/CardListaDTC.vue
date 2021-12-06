@@ -445,7 +445,8 @@ export default {
       ServiceReporte.generar_pdf_correctivo(
         this.infoCard.referenceNumber, 
         status,
-        false
+        false,
+        this.infoCard.adminId
       )
     },
     borrar_dtc() {      
