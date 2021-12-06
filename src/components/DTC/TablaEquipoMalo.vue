@@ -5,15 +5,14 @@
         <div class="text-center mb-5 font-titulo">
           
           <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
-          <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-74 w-6 absolute ml-81 -mt-6">
-                <span class="" v-tooltip.top =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
-                </span>
-
-                <div ref="tooltipcambiodeplaza" class="font-titulo">
-                    <p class="text-center text-gray-800">Se deben añadir los componentes dañados</p>
-                </div>
-              </div>
+          <div class="sm:hidden md:hidden lg:-mt-6 lg:ml-74 w-6 absolute -mt-6">
+            <span class="" v-tooltip.top =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
+                <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 ml-84"/>
+            </span>
+            <div ref="tooltipcambiodeplaza" class="font-titulo">
+                <p class="text-center text-gray-800">Se deben añadir los componentes dañados</p>
+            </div>
+          </div>
         </div>
         <div class="flex justify-center p-8 sm:p-4">
           <div class="grid gap-4 grid-cols-1 sm:gap-0">
@@ -452,7 +451,6 @@ destroyed: function () {
 /////////////////////////////////////////////////////////////////////
 methods: {
   mapear_componetes_dañados:  function(objInsert){
-    console.log(objInsert)    
     let new_promise = new Promise((resolve, reject) => {
     let newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
     let arrayDmg = []

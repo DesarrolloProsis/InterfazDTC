@@ -206,6 +206,7 @@ methods: {
             width: 500,
           },
         });
+        window.scrollTo(0,550);
     }
   },
   crear_dtc: async function (status) {      

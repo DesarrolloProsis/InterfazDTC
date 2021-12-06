@@ -438,12 +438,14 @@ methods: {
       this.$emit('crear-dtc', value)
     }
     else{
+      
       this.$notify.warning({
               title: "Ops!!",
               msg: "NO SE PUDO INSERTAR LOS DATOS DEL DTC.",
               position: "bottom right",
               styles: { height: 100, width: 500 },
           });
+          window.scrollTo(0, top);
     }
   }
   
