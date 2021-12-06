@@ -170,6 +170,7 @@ const routes = [
     name: 'ListarDtc',
     component: ListarDTC,
     beforeEnter: async function (to, from, next) {
+      store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
       let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
       await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
       store.commit("DTC/LIMPIAR_IMAGENES_FULL");

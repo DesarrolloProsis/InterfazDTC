@@ -85,32 +85,37 @@
         <!--///////////////////////////////////////////////////////////////////
            ///              FILTROS DE NAVEGACION INVENTARIO               ////         
          ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'INV'" class="mt-1 -mb-4 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
+        <div v-if="tipo == 'INV'" class="mt-1 -mb-12 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
+
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-66 mb-3">
-            <div class="mr-3  mt-6 sm:w-full sm:mx-auto">
-                <span class="mr-10 font-bold text-md sm:mx-auto">Buscar</span>
+
+        <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 md:mx-auto md:ml-30 md:mt-5 md:-mb-1 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-64 mb-3 ">
+            <div class="mr-3  mt-6 sm:w-full sm:mx-auto md:mx-auto md:mr-10">
+                <span class="mr-10 font-bold text-md sm:mx-auto ">Buscar</span>
                 <input v-model="buscarPalabraInventario" placeholder="Componete/No Serie" class="bg-white input  -mt-1 sm:w-full border-none w-40" />
             </div>         
-            <div class="text-sm sm:mt-4 mt-6">
+            <div class="text-sm sm:mt-4 mt-6 md:mx-auto md:mr-34 ">
                 <span class="mr-10 font-bold text-md">Seleccione una Plaza</span>
-                <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :vista="'Inventario'" :tipo="'edicion'" :edicion="1"></SelectPlaza>
+                    <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :vista="'Inventario'" :tipo="'edicion'" :edicion="1"></SelectPlaza>
             </div>
-            <div class="mt-8 ml-8 sm:ml-0 ">
+            <div class="mt-8 ml-8 sm:ml-0 md:mx-auto md:mr-13">
                     <p class="sm:text-sm text-gray-900 -mt-2 -ml-1 font-bold text-md">Seleccione un Carril</p>
                     <p class="w-32 -ml-2 -mt-1 sm:ml-0 sm:w-full">
-                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 sm:w-full border-none is_valid" name="Carriles" type="text">
+                    <select @change="buscar_inventario_new" v-model="carrilFiltro" class="w-32 sm:w-full  border-none is_valid" name="Carriles" type="text">
                         <option value="">Selecionar...</option>
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select></p>
             </div>
-            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3" :class="{'hidden':typeUser == 4 || typeUser == 7}">
+            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3 md:mx-auto md:ml-0" :class="{'hidden':typeUser == 4 || typeUser == 7}">
                 <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
             </div>
         </div>
         <div class="-mt-1 mb-4 ml-78 sm:ml-0  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
             <button class="botonIconNext sm:mx-20" @click="abrirModal">
                 <span>Mantenimiento</span>
+            </button>
+            <button class="botonIconNext mx-5 sm:mx-20" @click="formato">
+                <span>Formato CAPUFE</span>
             </button>
         </div>
         <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
@@ -121,14 +126,14 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-10 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
+        <div class=" mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-10 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-4" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
             </button>
-            <button @click="actualizar_inventario" class="w-32 botonIconNext font-boton" :class="{'hidden' : contadorInventario < 1}">
+            <button @click="actualizar_inventario" class="w-32  botonIconNext font-boton" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25" />
-                <span class="text-xs">Guardar</span>
+                <span class="text-xs ">Guardar</span>
             </button>
         </div>     
         </div>    
@@ -156,7 +161,7 @@
                 <img src="../../assets/img/lupa.png" class="mr-2" width="25" height="25" />
                 <span>Buscar</span>
             </button>
-            <button class="botonTodos font-boton sm:h-8" @click="limpiar_encargados">
+            <button class="botonTodos font-boton mb-3 sm:h-8" @click="limpiar_encargados">
                 <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" />
                 <span>Todos</span>
             </button>
@@ -267,7 +272,7 @@
                 <input  class="border ml-65 w-66 text-center sm:w-32 is_valid sm:ml-24" placeholder="Usuario/Tipo de Falla"/>
             </div>             
         </div>
-        <div class="mb-4 ml-67 sm:ml-40 sm:-mt-4">
+        <div class="mb-4 flex justify-center lg:justify-center md:lg:justify-center sm:justify-center">
             <button class="botonIconExcel" @click="descargarReporte">
                 <img src="@/assets/img/excel.png" class="mr-2" width="25" height="25" />
                 <span>Descargar Reporte</span>
@@ -420,6 +425,9 @@ export default {
     methods:{
         abrirModal: function (){
             this.$emit('abrir-modal')
+        },
+        formato: function (){
+            this.$emit('formato-capufe')
         },
         abrirAgregarComponente: function (){
             this.$emit('abrir-agregar')
@@ -628,6 +636,7 @@ export default {
     }
 }
 </script>
+
 <style>
 .vue-tooltip.tooltip-custom {
     width: 50rem;  

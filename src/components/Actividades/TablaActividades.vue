@@ -2,12 +2,14 @@
     <div>
         <div class="grid gap-4 grid-cols-1 pl-3 pr-3 max-w-6xl mx-auto sm:-ml-1 sm:pr-1 sm:pl-2">     
             <div class=" border shadow-lg rounded-md w-full mt-5 sm:mx-auto">
-            <!--/////////////////////////////////////////////////////////////////////
-            ////                         MODAL SELLADO                         /////
-            ////////////////////////////////////////////////////////////////////-->
-                <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>
-                
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                         MODAL ESCANEADO                       /////
+                ////////////////////////////////////////////////////////////////////-->
+                <PdfEscaneado @limpiar-componente-escaneado="limpiar_componete_escaneado" :abrirModal="modalSubirSellado" :objInsert="objInsertEscaneado" :tipoReporte="'Calendario-Actividades'"></PdfEscaneado>          
                 <h1 class=" text-3xl sm:text-xs font-titulo font-bold text-center sm:mt-4 m-5">TABLA DE ACTIVIDADES DEL MES {{ mesNombre }} DEL {{ año }}</h1>
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                            FILTROS                            /////
+                ////////////////////////////////////////////////////////////////////-->
                 <div v-if="filtros" class="grid grid-cols-3 mx-auto -mt-1 m-5 sm:grid-cols-2 md:grid-cols-2 ">
                     <!--Plaza-->
                     <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
@@ -44,7 +46,8 @@
                             <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
                                 <option disabled value>Selecionar...</option>
                                 <option value="2020">2020</option>
-                                <option value="2021">2021</option>                                        
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>                                        
                             </select>
                         </p>
                     </div>
@@ -84,6 +87,9 @@
                         </button>
                     </div>
                 </div> 
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                        BOTONES CELULAR                        /////
+                ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center lg:hidden xl:hidden animate-bounce">
                     <button @click="filtros=false" v-if="filtros">
                         <img src="../../assets/img/up.png" width="25" height="2"/>
@@ -93,11 +99,11 @@
                     </button>
                 </div>
             </div>
+            <!--//////////////////////////////////////////////////////////////////////
+            ////                           TABLA                             ////////
+            ////////////////////////////////////////////////////////////////////-->
             <div class="sm:-m-1 sm:w-full sm:-mb-32 sm:mx-auto sm:text-xs">
                 <div class="divtabla font-titulo" style="height:600px;">
-                    <!--//////////////////////////////////////////////////////////////////////
-                    ////                           TABLA                             ////////
-                    ////////////////////////////////////////////////////////////////////-->
                     <table class="table table-striped" >
                         <!--////////////////////////////////////////////////////////////////////
                         ////                           HEADER TABLA                      //////
@@ -113,7 +119,7 @@
                             </tr>
                         </thead>
                         <!--/////////////////////////////////////////////////////////////////////
-                        ////                           Body TABLA                     //////////
+                        ////                           BODY TABLA                     //////////
                         /////////////////////////////////////////////////////////////////////-->
                         <tbody name="table" id="multiselectHamburguesa">   
                             <template v-if="listaActividadesMensuales.length == 0 && loadingTabla != true"> 
@@ -138,7 +144,7 @@
                                     <td class="w-64 cuerpoTable text-center font-titulo font-normal">{{ item.frequencyName }}</td>
                                     <td v-if="item.statusMaintenance == false" class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-red-200': true}">{{ 'Inconcluso' }}</td>
                                     <td v-else class="w-64 text-center cuerpoTable font-titulo font-normal" :class="{'bg-green-200': true}">{{ 'Concluido' }}</td>
-                                    <td class="w-69 text-center cuerpoTable">                                            
+                                    <td class="w-76 text-center cuerpoTable">                                            
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <div class=" inline-flex">
@@ -160,17 +166,15 @@
                     </table>                
                 </div>
             </div>
-        </div>
-        
+        </div> 
     </div>
 </template>
 <script>
-
-import Multiselect from "vue-multiselect";
 import ServicioActividades from '../../services/ActividadesService.js'
-import SelectPlaza from '../Header/SelectPlaza'
 import ServiceReportePDF from '../../services/ReportesPDFService'
+import SelectPlaza from '../Header/SelectPlaza'
 import PdfEscaneado from '../PdfEscaneado.vue'
+import Multiselect from "vue-multiselect";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
@@ -203,10 +207,10 @@ export default {
             userid: ''
         }
     },
-/////////////////////////////////////////////////////////////////////
-////                        CICLOS DE VIDA                       ////
-/////////////////////////////////////////////////////////////////////
-beforeMount: async function(){  
+    /////////////////////////////////////////////////////////////////////
+    ////                        CICLOS DE VIDA                       ////
+    /////////////////////////////////////////////////////////////////////
+    beforeMount: async function(){  
     this.loadingTabla = true            
     let cargaInicial = this.$route.params.cargaInicial    
     this.listaActividadesMensuales = cargaInicial.listaActividadesMensuales    
@@ -219,129 +223,132 @@ beforeMount: async function(){
     this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)     
     this.loadingTabla = false  
     this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId 
-    this.userId = this.typeUser = this.$store.state.Login.cookiesUser.userId           
-},
-computed:{
-    carriles_plaza(){
-        return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+    this.userId = this.$store.state.Login.cookiesUser.userId           
     },
-},
-watch: {
-    referenceNumber(newValue){
-        if(newValue.length == 0)this.blockSelect = false        
-        else {
-            this.filtrar_actividades_mensuales()
-            this.blockSelect = true
+    computed:{
+        carriles_plaza(){
+            return this.$store.getters["Refacciones/GET_CARRILES_STATE"];    
+        },
+    },
+    /////////////////////////////////////////////////////////////////////
+    ////                            METODOS                          ////
+    /////////////////////////////////////////////////////////////////////
+    watch: {
+        referenceNumber(newValue){
+            if(newValue.length == 0)this.blockSelect = false        
+            else {
+                this.filtrar_actividades_mensuales()
+                this.blockSelect = true
+            }
         }
-    }
-},
-/////////////////////////////////////////////////////////////////////
-////                            METODOS                          ////
-/////////////////////////////////////////////////////////////////////
-methods: {
-    limpiar_filtros : async function(){
-        this.ubicacion = ''
-        this.status = undefined
-        this.referenceNumber = ''
-        let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
-        this.$nextTick().then(() => {
-            this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-            this.plazaNombre = actualizar.plazaNombre,
-            this.comentario = actualizar.comentario,
-            this.plazaSelect = actualizar.plazaSelect  
-            this.mesNombre = actualizar.mesNombre         
-        })
     },
-    filtrar_sin_referencia: async function(){
-        this.listaActividadesMensuales = []
-        this.loadingTabla = true  
-        setTimeout(async () => {
-            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
-                this.$nextTick().then(() => {
-                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-                    this.plazaNombre = actualizar.plazaNombre,
-                    this.comentario = actualizar.comentario,
-                    this.plazaSelect = actualizar.plazaSelect           
-                    this.mesNombre = actualizar.mesNombre
-                    this.loadingTabla = false
-                })
-        },1000)
-    },
-    filtrar_actividades_mensuales: async function(){ 
-        if(this.referenceNumber != ''){
+    /////////////////////////////////////////////////////////////////////
+    ////                            METODOS                          ////
+    /////////////////////////////////////////////////////////////////////
+    methods: {
+        limpiar_filtros : async function(){
+            this.ubicacion = ''
+            this.status = undefined
+            this.referenceNumber = ''
+            let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false)        
+            this.$nextTick().then(() => {
+                this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                this.plazaNombre = actualizar.plazaNombre,
+                this.comentario = actualizar.comentario,
+                this.plazaSelect = actualizar.plazaSelect  
+                this.mesNombre = actualizar.mesNombre         
+            })
+        },
+        filtrar_sin_referencia: async function(){
             this.listaActividadesMensuales = []
             this.loadingTabla = true  
             setTimeout(async () => {
-                let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
-                this.$nextTick().then(() => {
-                    this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
-                    this.plazaNombre = actualizar.plazaNombre,
-                    this.comentario = actualizar.comentario,
-                    this.plazaSelect = actualizar.plazaSelect           
-                    this.mesNombre = actualizar.mesNombre
-                    this.loadingTabla = false  
-                })
+                let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, undefined)        
+                    this.$nextTick().then(() => {
+                        this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                        this.plazaNombre = actualizar.plazaNombre,
+                        this.comentario = actualizar.comentario,
+                        this.plazaSelect = actualizar.plazaSelect           
+                        this.mesNombre = actualizar.mesNombre
+                        this.loadingTabla = false
+                    })
             },1000)
-        }else{
-            this.$notify.warning({
-            title: "Ups!",
-            msg: `NO SE HAN LLENADO CAMPOS PARA FILTRAR.`,
-            position: "bottom right",
-            styles: {
-                height: 100,
-                width: 500,
-                },
-            });
-        }      
-    },  
-    cambiar_plaza(numeroPlaza){     
-        this.plazaSelect = numeroPlaza
-        this.listaActividadesMensuales = []
-        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect)
-        this.limpiar_filtros()
-    },
-    reporte_pdf: async function(item){                  
-        let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
-        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${item.referenceNumber.split('-')[0]}/${item.calendarId}`)
-        .then((response) => {                  
-            let referenceNumber = response.data.result.table[0].referenceNumber
-            ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
-            ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
-        })                   
-    },  
-    editar_reporte_carril: async function(item){        
-        let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
-        await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
-        .then((response) => {                  
-            let header = response.data.result.table[0]                        
-            let actividades = response.data.result.table1                             
-            this.$router.push({
-                path: `editar/FormularioReporte`,
+        },
+        filtrar_actividades_mensuales: async function(){ 
+            if(this.referenceNumber != ''){
+                this.listaActividadesMensuales = []
+                this.loadingTabla = true  
+                setTimeout(async () => {
+                    let actualizar = await ServicioActividades.filtrar_actividades_mensuales(this.mes, this.año, false, this.status, this.ubicacion.lane, this.referenceNumber)        
+                    this.$nextTick().then(() => {
+                        this.listaActividadesMensuales = actualizar.listaActividadesMensuales,
+                        this.plazaNombre = actualizar.plazaNombre,
+                        this.comentario = actualizar.comentario,
+                        this.plazaSelect = actualizar.plazaSelect           
+                        this.mesNombre = actualizar.mesNombre
+                        this.loadingTabla = false  
+                    })
+                },1000)
+            }else{
+                this.$notify.warning({
+                title: "Ups!",
+                msg: `NO SE HAN LLENADO CAMPOS PARA FILTRAR.`,
+                position: "bottom right",
+                styles: {
+                    height: 100,
+                    width: 500,
+                    },
+                });
+            }      
+        },  
+        cambiar_plaza(numeroPlaza){     
+            this.plazaSelect = numeroPlaza
+            this.listaActividadesMensuales = []
+            this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSelect)
+            this.limpiar_filtros()
+        },
+        reporte_pdf: async function(item){                  
+            let tipoEncabezadoLane = item.capufeLaneNum != '0000' ? 'carril' : undefined            
+            await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${item.referenceNumber.split('-')[0]}/${item.calendarId}`)
+            .then((response) => {                  
+                let referenceNumber = response.data.result.table[0].referenceNumber
+                ServiceReportePDF.generar_pdf_actividades_preventivo(referenceNumber, item.frequencyId, tipoEncabezadoLane)                                                                                    
+                ServiceReportePDF.generar_pdf_fotografico_preventivo(referenceNumber, item.lane)
+            })                   
+        },  
+        editar_reporte_carril: async function(item){        
+            let refPlaza = this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']                     
+            await this.$http.get(`${API}/Calendario/CalendarioReportDataEdit/${refPlaza}/${item.calendarId}`)
+            .then((response) => {                  
+                let header = response.data.result.table[0]                        
+                let actividades = response.data.result.table1                             
+                this.$router.push({
+                    path: `editar/FormularioReporte`,
+                    query: {
+                        headerCompuesto: { ...header, ...item},
+                        actividades: actividades,
+                        edicion: true,
+                        horas: {
+                            horaInicio: header.horaInicio,
+                            horaFin: header.horaFin
+                        }
+                    },
+                });
+            })
+        },
+        crear_reporte_carril(item){              
+            item["plazaNombre"] = this.plazaNombre                
+            this.$router.push({ 
+                path: 'crear/FormularioReporte',
                 query: {
-                    headerCompuesto: { ...header, ...item},
-                    actividades: actividades,
-                    edicion: true,
-                    horas: {
-                        horaInicio: header.horaInicio,
-                        horaFin: header.horaFin
-                    }
-                },
-            });
-        })
-    },
-    crear_reporte_carril(item){              
-        item["plazaNombre"] = this.plazaNombre                
-        this.$router.push({ 
-            path: 'crear/FormularioReporte',
-            query: {
-                'header': item,                
-            }
-        })
-    },
-    customLabel ({ title }) {
+                    'header': item,                
+                }
+            })
+        },
+        customLabel ({ title }) {
         return `${title}`
-    },
-    acciones_mapper(item){                
+        },
+        acciones_mapper(item){                
         if(this.value.title == 'Crear'){
             this.crear_reporte_carril(item)
         }
@@ -361,22 +368,24 @@ methods: {
             this.descargar_escaneado(item)
         }
         this.value = ""
-    },
-    limpiar_componete_escaneado(){
+        },
+        limpiar_componete_escaneado(){
         this.limpiar_filtros()
         this.modalSubirSellado = false
         this.objInsertEscaneado = {}
-    },
-    opticones_select_acciones({ statusMaintenance, pdfExists, userId }){
-        let options= [
+        },
+        opticones_select_acciones({ statusMaintenance, pdfExists, userId }){
+            console.log(userId);
+            let options= [
             { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
             { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
             { title: 'Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },
             { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
             { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
-        ]
-        //Si el usuario es administrador, capufe, o supervisor de tècnicos
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 7 ||  this.tipoUsuario == 2){
+            ]
+            let filtroOpciones = []
+            //Si el usuario es administrador, capufe, o supervisor de tècnicos
+            if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
             //Sí exisite el archivo escaneado
             if(pdfExists){
                 return options.splice(2,2)
@@ -384,9 +393,9 @@ methods: {
             else{
                 return options.splice(2,1)
             }    
-        }
-        //Si es supervisor sistemas
-        else if(this.tipoUsuario == 5){ 
+            }
+            //Si es supervisor sistemas
+            else if(this.tipoUsuario == 5 || this.tipoUsuario == 2){ 
             //Si el mantenimineto se creo (Concluido)
             if(statusMaintenance){
                 //Si el usuario que inicio sesion es el mismo que el del mantenimieno
@@ -408,48 +417,50 @@ methods: {
                 else
                     return []
             }
-        }
-        //Si el usuario es tècnico o sistemas
-        else{            
+            }
+            //Si el usuario es tècnico o sistemas
+            else{            
             if(statusMaintenance){  
                 if(pdfExists){
-                    return options.splice(1,4)     
+                    //return options.splice(2,2)
+                    filtroOpciones.push(options[2])
+                    filtroOpciones.push(options[3])
                 }
                 else{
-                    let subir = options[4]
-                    let array = options.splice(1,2)    
-                    array.push(subir)
-                    return array
+                    filtroOpciones.push(options[1])
+                    filtroOpciones.push(options[2])
+                }    
+            }
+            else{            
+                if(statusMaintenance){  
+                    if(pdfExists){
+                        /* return options.splice(1,4) */
+                        filtroOpciones.push(options[1])
+                        filtroOpciones.push(options[2])
+                        filtroOpciones.push(options[3])
+                        filtroOpciones.push(options[4])    
+                    }
+                    else{
+                        filtroOpciones.push(options[1])
+                        filtroOpciones.push(options[2])
+                        filtroOpciones.push(options[4])
+                    /*     let subir = options[4]
+                        let array = options.splice(1,2)    
+                        array.push(subir)
+                        return array */
+                    }
                 }
+                else{                                                
+                    /* return options.splice(0,1) */
+                    filtroOpciones.push(options[0])
+                }
+            } 
+            return filtroOpciones  
             }
-            else{                                                
-                return options.splice(0,1)
-            }
-        }   
-    },
-    subir_esaneado(){
-        let clavePlaza = this.objSubir.split('-',1)
-        let file = this.base64ToFile(this.pdfSellado.imgbase, 'pdfescaneado')        
-        let formData = new FormData()
-        formData.append('file', file)        
-        this.$http.post(`${API}/MantenimientoPdf/TablaActEscaneado/${clavePlaza}/${this.objSubir}`, formData)
-            .then(()=>{
-                this.$notify.success({
-                    title: "Ok!",
-                    msg: `Se subió el archivo correctamente.`,
-                    position: "bottom right",
-                    class:"font-titulo",
-                    styles: {
-                    height: 100,
-                    width: 500,
-                    },
-                });
-                this.pdfSelladoBool = true
-            })         
-    },
-    descargar_escaneado(value){
-        ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)
-    },
-},
+        },
+        descargar_escaneado(value){
+            ServiceReportePDF.generar_pdf_sellado_preventivo(value.referenceNumber)
+        },
+    }
 }
 </script>

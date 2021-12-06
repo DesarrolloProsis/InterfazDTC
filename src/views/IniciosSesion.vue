@@ -43,12 +43,12 @@ export default {
         return {
             listaIniciosSesion: [],
             loadingTable: false,
-            page: 1,
-            totalPages: 0,
-            total: 10,
-            perPage: 10,
-            currentPage: 1,
-            hasMorePages: true,
+            page: 1,//pagina en la que quieres iniciar la vista
+            totalPages: 0,//total de paginas
+            total: 10,//numero de resultados a mostrar
+            perPage: 10,//no se ocupa
+            currentPage: 1,//pagina actual
+            hasMorePages: true,// tener más paginas
             username: '',
             fechaActual: '' 
         }

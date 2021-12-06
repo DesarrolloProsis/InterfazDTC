@@ -1,83 +1,82 @@
 <template>
-<div class=" static">
-  <div class="">    
-    <!--////////////////////////////////////////////////////////////////////
-    ////                      MODAL ERROR                              ////
-    ////////////////////////////////////////////////////////////////////-->
-    <div class="inset-0" :class="{'modal-container': modalError}">
-      <div v-if="modalError" class="modalAgregarActPre mt-64  sm:w-64">
-        <div class="text-center">
-          <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
-            <img src="../../assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
-            <p class="-mt-10 text-black sm:ml-6 ml-8 sm:-mt-6">Advertencia</p>
-            <img src="../../assets/img/warning.png" class="ml-61 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
-          </h1>
-        </div>
-        <div>
-          <p v-for="(item, key) in datos" :key="key">{{ item }}</p>
-        </div>
-        <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
-          <button @click="modalError = false" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1 sm:mx-auto">Aceptar</span></button>
-        </div>
-      </div>
-    </div>
-    <!--////////////////////////////////////////////////////////////////////
-    ////                      MODAL AGREGAR                            ////
-    ////////////////////////////////////////////////////////////////////-->
-    <div class="inset-0" :class="{'modal-container': modalAgreagrActividad}">
-      <div v-if="modalAgreagrActividad" class="modalAgregarActPre mt-64 sm:w-64">
-        <h class="text-grey-darkest text-2xl font-titulo sm:text-sm">Agregar Actividad</h>
-        <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
-        <div>
-          <div>
-            <div class="mt-5 font-titulo">
-              <span class="text-sm -ml-32 text-gray-500 sm:ml-0">Seleccione Frecuencia de Actividad</span>
-              <select v-model="actividadSelect" class="w-full text-gray-600 h-10 border-gray-300 sm:text-sm sm:h-5" type="text">
-                  <option disabled value="">Selecionar...</option>
-                  <option v-for="(item, index) in listaActividades" :value="item.value" :key="index">{{ item.text }}</option>
-                </select>
-            </div>
-            <div class="mt-1 font-titulo sm:text-sm" v-if="actividadSelect">
-              <span class="text-sm -ml-33 text-gray-500 sm:ml-0">Seleccione Ubicación Carril/Plaza</span>
-              <multiselect
-                v-model="laneSelect"   
-                :custom-label="label_multi_select"                                                                     
-                :close-on-select="false"
-                :clear-on-select="true"
-                :hideSelected="false"
-                placeholder="Selecciona..."
-                :options="carriles_filtrados"
-                track-by="text"
-                class=" shadow-md hover:border-gray-700 h-5"
-                :multiple="true"
-              >   
-                <template slot="selection" slot-scope="{ values, search, isOpen }">
-                  <span class="multiselect__single font-titulo" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
-                </template>   
-              </multiselect>
-            </div>
+  <div class=" static">
+    <div class="">    
+      <!--////////////////////////////////////////////////////////////////////
+      ////                      MODAL ERROR                              ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="inset-0" :class="{'modal-container': modalError}">
+        <div v-if="modalError" class="modalAgregarActPre mt-64  sm:w-64">
+          <div class="text-center">
+            <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
+              <img src="../../assets/img/warning.png" class="ml-2 sm:-ml-6" width="35" height="35" />
+              <p class="-mt-10 text-black sm:ml-6 ml-8 sm:-mt-6">Advertencia</p>
+              <img src="../../assets/img/warning.png" class="ml-61 -mt-12 sm:-mt-10 sm:ml-49" width="35" height="35" />
+            </h1>
           </div>
           <div>
+            <p v-for="(item, key) in datos" :key="key">{{ item }}</p>
+          </div>
+          <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
+            <button @click="modalError = false" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1 sm:mx-auto">Aceptar</span></button>
           </div>
         </div>
-        <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
-          <button @click="agregar_actividad_dia" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1 sm:mx-auto">Aceptar</span></button>
-          <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar font-boton sm:w-full sm:ml-0"><span class="ml-1 sm:mx-auto">Cancelar</span></button>
+      </div>
+      <!--////////////////////////////////////////////////////////////////////
+      ////                      MODAL AGREGAR                            ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="inset-0" :class="{'modal-container': modalAgreagrActividad}">
+        <div v-if="modalAgreagrActividad" class="modalAgregarActPre mt-64 sm:w-64">
+          <h class="text-grey-darkest text-2xl font-titulo sm:text-sm">Agregar Actividad</h>
+          <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
+          <div>
+            <div>
+              <div class="mt-5 font-titulo">
+                <span class="text-sm -ml-32 text-gray-500 sm:ml-0">Seleccione Frecuencia de Actividad</span>
+                <select v-model="actividadSelect" class="w-full text-gray-600 h-10 border-gray-300 sm:text-sm sm:h-5" type="text">
+                    <option disabled value="">Selecionar...</option>
+                    <option v-for="(item, index) in listaActividades" :value="item.value" :key="index">{{ item.text }}</option>
+                  </select>
+              </div>
+              <div class="mt-1 font-titulo sm:text-sm" v-if="actividadSelect">
+                <span class="text-sm -ml-33 text-gray-500 sm:ml-0">Seleccione Ubicación Carril/Plaza</span>
+                <multiselect
+                  v-model="laneSelect"   
+                  :custom-label="label_multi_select"                                                                     
+                  :close-on-select="false"
+                  :clear-on-select="true"
+                  :hideSelected="false"
+                  placeholder="Selecciona..."
+                  :options="carriles_filtrados"
+                  track-by="text"
+                  class=" shadow-md hover:border-gray-700 h-5"
+                  :multiple="true">   
+                  <template slot="selection" slot-scope="{ values, search, isOpen }">
+                    <span class="multiselect__single font-titulo" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                  </template>   
+                </multiselect>
+              </div>
+            </div>
+            <div>
+            </div>
+          </div>
+          <div class="justify-center ml-8 mt-5 sm:grid grid-cols-1 sm:ml-0">
+            <button @click="agregar_actividad_dia" class="botonIconCrear font-boton sm:mb-2"><span class="ml-1 sm:mx-auto">Aceptar</span></button>
+            <button @click="modalAgreagrActividad = false, laneSelect = [], fechaModal = ''" class="botonIconCancelar font-boton sm:w-full sm:ml-0"><span class="ml-1 sm:mx-auto">Cancelar</span></button>
+          </div>
         </div>
       </div>
-    </div>
-    <!--////////////////////////////////////////////////////////////////////
-    ////            MODAL LISTA DE CARRILES                            ////
-    ////////////////////////////////////////////////////////////////////-->
-    <div class="inset-0 " :class="{'modal-container': modalActividades}">
-      <div v-if="modalActividades" class="modalAgregarActPre mt-64 sm:w-64">        
-        <div class="text-center">                    
-        <div class="mb-4">
-            <h1 class="text-grey-darkest text-2xl font-titulo sm:text-sm">Lista de Carriles</h1>    
-            <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
-        </div>
-        <div class="overflow-y-auto" style="height:120px;">
-            <div class="inputBorrarActPre "  v-for="(item, key) in this.carrilesModal" :key="key" >
+      <!--////////////////////////////////////////////////////////////////////
+      ////            MODAL LISTA DE CARRILES                            ////
+      ////////////////////////////////////////////////////////////////////-->
+      <div class="inset-0 " :class="{'modal-container': modalActividades}">
+        <div v-if="modalActividades" class="modalAgregarActPre mt-64 sm:w-64">        
+          <div class="text-center">                    
+            <div class="mb-4">
+              <h1 class="text-grey-darkest text-2xl font-titulo sm:text-sm">Lista de Carriles</h1>    
+              <h1 class="mt-5 font-titulo text-sm">{{ fechaModal | formatModal }}</h1>
+            </div>
+            <div class="overflow-y-auto" style="height:120px;">
+              <div class="inputBorrarActPre "  v-for="(item, key) in this.carrilesModal" :key="key" >
                 <p class="w-full text-grey-darkest font-titulo text-xs">{{`Carril: ${item.lane}, CapufeNum: ${item.capufeLaneNum}`}}</p>                
                 <button @click="borrar_carril_evento(item, key)" class="botonBorrarActPre" v-if="item.referenceNumber == '---'">
                   <img src="../../assets/img/close.png" class="" width="14" height="1"/>
@@ -85,15 +84,15 @@
                 <button @click="borrar_carril_evento(item, key)" class="botonOkActPre" disabled v-else>
                   <img src="../../assets/img/comprobado.png" class="" width="14" height="1"/>
                 </button>
-            </div>          
-        </div>    
-        </div>
-        <div class="justify-center flex mt-5">          
-          <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar font-boton text-sm">Cancelar</button>
+              </div>          
+            </div>    
+          </div>
+          <div class="justify-center flex mt-5">          
+            <button @click="modal = false, modalActividades = false, this.carrilesModal = []" class="botonIconCancelar font-boton text-sm">Cancelar</button>
+          </div>
         </div>
       </div>
-    </div>
-    <HeaderCalendario 
+      <HeaderCalendario 
       @actualizar-actividad="actualizar_actividades" 
       @generar-pdf="generar_pdf_calendario" 
       @actualizar-comentario="actualizar_comentario_header"
@@ -103,8 +102,8 @@
       :año="año" 
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
-    </HeaderCalendario>            
-    <div class="pl-1 pr-1 mt-10 mb-32 font-titulo sm:mb-20" :class="{' pointer-events-none': modal,' scroll': modalAgreagrActividad}">              
+      </HeaderCalendario>            
+      <div class="pl-1 pr-1 mt-10 mb-32 font-titulo sm:mb-20" :class="{' pointer-events-none': modal,' scroll': modalAgreagrActividad}">              
         <vue-cal 
           ref="vuecal"          
           :time="false"
@@ -129,11 +128,10 @@
             <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
         <span class="text-gray-700 font-titulo sm:text-xs">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>      
-    </div>      
+      </div>      
+    </div>
   </div>
-</div>
 </template>
-
 <script>
 import VueCal from 'vue-cal'
 import Multiselect from "vue-multiselect";
@@ -144,7 +142,6 @@ import 'vue-cal/dist/i18n/es.js'
 import { mapState } from 'vuex';
 import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
-
 export default {
   components:{
     VueCal,
@@ -326,8 +323,7 @@ export default {
       else 
         return [{ "capufeLaneNum": '',  'idGare': '', 'lane': ''}]
     },
-    actualizar_actividades: async function(plaza){    
-                  
+    actualizar_actividades: async function(plaza){             
       this.plazaSelect = plaza
       let result = await ServiceActividades.filtrar_actividades_mensuales(this.mes, this.año, true) 
       this.events = result.listaActividadesMensuales
@@ -422,7 +418,6 @@ export default {
         document.documentElement.style.overflow = 'hidden'
         return
       }
-
       document.documentElement.style.overflow = 'auto'
     }
   },
@@ -431,12 +426,9 @@ export default {
       return moment(fecha).format('DD/MM/YYYY')   
     }
   }
-
-
 }
 </script>
 <style >
-
 .vuecal__cell {  
   height: 180px;
   padding: 10px;
@@ -494,7 +486,6 @@ export default {
     background-color: #2a4365;
     height: 35px;  
 }
-
 .vuecal__cell--today{
   z-index: auto;
 }
@@ -511,7 +502,4 @@ export default {
   z-index: 1000;
   background: rgba(0, 0, 0, 0.5);
 }
-
 </style>
-
-

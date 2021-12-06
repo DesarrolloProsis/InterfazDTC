@@ -1,12 +1,14 @@
 <template>
   <div class="sticky inset-x-0 top-0 z-10">
     <nav class="flex justify-between bg-blue-800 p-3" id="navBarShow" v-if="$route != undefined && $route.name != 'login' && $route.name != 'SesionExpirada'">
+      <!--BOTON INICIO-->
       <div class="text-lg">
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl font-titulo">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio          
         </router-link>     
-      </div>      
+      </div>   
+      <!--PANEL NOMBRE DE USUARIO-->   
       <div class="flex">  
         <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
         <div class="group inline-block font-titulo">
@@ -16,18 +18,18 @@
         </div>              
       </div>     
     </nav>
-    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3">      
+    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 ">      
       <transition name="fade">
         <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex font-titulo">     
-          <div class="bg-white  border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg" :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg': rollUsuario == 7}">                  
-            <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
-              <p class="font-semibold text-gray-900 ml-4">{{ item.texto }}</p>              
-                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
-                  <button @click="$router.push(itemsub.path)" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full">
+          <div class="bg-white xl:border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:-mr-2 sm:w-67" :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg': rollUsuario == 7}">                  
+            <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1 ">
+              <p class="font-semibold text-gray-900 ml-4 ">{{ item.texto }}</p>              
+                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1 sm:w-full sm:text-xs">
+                  <button @click="$router.push(itemsub.path)" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full sm:mt-0 sm:pb-0">
                     <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" >
-                    <div class="ml-4 text-left">
-                      <template v-if="itemsub.texto.split('-').length == 1">
-                        <p class="mt-2" >{{ itemsub.texto }}</p> 
+                    <div class="ml-4 text-left sm:text-justify">
+                      <template  v-if="itemsub.texto.split('-').length == 1">
+                        <p class="mt-2 sm:mt-3 sm:text-sm" >{{ itemsub.texto }}</p> 
                       </template>     
                       <template v-else>
                         <p v-for="(itemtext, key) in itemsub.texto.split('-')" :key="key" class="mt-2">{{ itemtext }}</p> 
@@ -36,10 +38,10 @@
                   </button>
                 </div>              
             </div>
-            <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden">
+            <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden sm:text-sm sm:my-auto">
               <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" >
               <div  class="ml-4 text-left ">
-                <p class="font-semibold sm:mt-2">Cerrar Sesion</p>                                
+                <p class=" sm:mt-3">Cerrar Sesion</p>                                
               </div>  
             </button>   
           </div>
@@ -87,8 +89,8 @@ export default {
         { texto: 'Mantenimiento Preventivo', subMenu: [
             { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1,2, 5] },
             { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1,2,5] },
-            { texto: 'Bitacora de-Vistas de Mantenimiento-Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioHistorico', rollValidos: [2,4,7,10] },
-            { texto: 'Concentrado de-Actividades de-Mantenimiento Preventivo', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4,7, 10], }
+            { texto: 'Bitacora de Vistas de Mantenimiento-Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioHistorico', rollValidos: [2,4,7,10] },
+            { texto: 'Concentrado de Actividades de-Mantenimiento Preventivo', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4,7, 10], }
           ] 
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [
@@ -165,5 +167,12 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0
+}
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>

@@ -21,17 +21,14 @@
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class=" font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.4 !!! 🎉</p>
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.5 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·Mejoras en el menú de acceso rápido.</li>
-                            <li>·Centrado de la ventana para agregar componente en DTC.</li>
-                            <li>·Mejoras de Seguridad.</li>
-                            <li>·Mejoras de Estabilidad.</li>
+                            <li>·</li>
                         </ol>
                     </div>                    
                 </div>
                 <div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.4</p>
+                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V2.0.5</p>
                 </div>
             </div>                                
         </div>        

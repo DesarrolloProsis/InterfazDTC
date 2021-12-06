@@ -446,7 +446,7 @@ export default {
         this.infoCard.referenceNumber, 
         status,
         false,
-        //this.infoCard.adminId
+        this.infoCard.adminId
       )
     },
     borrar_dtc() {      
