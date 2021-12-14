@@ -300,13 +300,14 @@ export default {
             if(this.infoCambiarUsuario.referenceDTC != '--' && this.infoCambiarUsuario.typeFaultId != 1){
                 this.loadingTabla = true
                 let actualizar_user = new Promise ((resolve,reject) => {
-                    let obj_cambiar_user = {
+                    /* let obj_cambiar_user = {
                         userId: this.userChangeDf,
                         referenceNumberDTC: this.infoCambiarUsuario.referenceDTC,
                         referenceNumberDiagnostic: this.refNum,
                         Comment: this.comentario
                     }
-                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}`, obj_cambiar_user)
+                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}`, obj_cambiar_user) */
+                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDf}/${this.infoCambiarUsuario.referenceDTC}/${this.refNum}`)
                     .then(() => {
                             resolve('OK')
                             this.modalcambiarUsuario = false
@@ -331,13 +332,14 @@ export default {
             }else{
                 this.loadingTabla = true
                 let actualizar_user = new Promise ((resolve,reject) => {
-                    let obj_cambiar_user = {
+                    /* let obj_cambiar_user = {
                         userId: this.userChangeDf,
                         referenceNumberDTC: '--',
                         referenceNumberDiagnostic: this.refNum,
                         Comment: this.comentario
                     }
-                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}`, obj_cambiar_user)
+                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}`, obj_cambiar_user) */
+                    this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDf}/--/${this.refNum}`)
                     .then(() => {
                             resolve('OK')
                             this.modalcambiarUsuario = false

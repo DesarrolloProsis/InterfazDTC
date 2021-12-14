@@ -14,13 +14,14 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0" :class="{'modal-container': modalLoading}">
+        <!--  <div class="sticky inset-0" :class="{'modal-container': modalLoading}">
           <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute inset-x-0 mx-auto px-12 py-10 mt-64">          
             <div class="justify-center text-center block">            
                 <img src="@/assets/img/load.gif"  class="h-48 w-48" />
             </div>
           </div>
-        </div>
+        </div> -->
+        <Spinner :modalLoading="modalLoading"/>
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         MODAL INVENTARIO                        ////
         ////////////////////////////////////////////////////////////////////-->
@@ -62,7 +63,7 @@
                   </ValidationProvider>
                 </div>
                 <div class="mt-8 flex justify-center sm:ml-6">
-                    <button class="botonIconCrear font-boton" :disabled="invalid" @click="modalAdver">
+                    <button class="botonIconCrear font-boton" @click="modalAdver">
                         <span class="">Aceptar</span>
                     </button>
                     <button class="botonIconCancelar font-boton" @click="modalmtto = false, datosmtto.folio = '', datosmtto.ubicacion = ''">
@@ -112,7 +113,7 @@
         <!-- ////////////////////////////////////////////////////////////////////
         ///                    MODAL INSERTAR COMPONENTE                    ////
         ////////////////////////////////////////////////////////////////////-->
-         <!--
+        <!--
         <div v-if="modalmtto" class="mt-16 absolute justify-items-center rounded-lg shadow-xl border border-gray-300 inset-x-0 bg-white w-74 h-68 sm:w-66 mx-auto px-10 py-5 font-titulo">
           <ValidationObserver ref="observer">      
             <div><h1 class="text-center font-titulo text-4xl sm:text-md">Agregar Componente</h1></div>
@@ -123,7 +124,7 @@
                     </div>
                     <div class="mt-8 ml-4"> -->
                       <!-- <ValidationProvider name="Carriles" rules="required" v-slot="{ errors }">  -->
-                       <!-- <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
+                      <!-- <p class="sm:text-sm text-gray-900 -ml-1 font-bold sm:-ml-8">Carril:</p>
                         <p class="w-32 input ml-16 -mt-6 sm:ml-8">
                         <select v-model="datosmtto.ubicacion" immediate class="w-32 border-none" name="Carriles" type="text">
                             <option value="">Selecionar...</option>
@@ -246,6 +247,7 @@ import EventBus from "../../services/EventBus.js";
 import ReportesPDFService from '../../services/ReportesPDFService'
 import HeaderGenerico from "../../components/Header/HeaderGenerico";
 import SelectPlaza from '../../components/Header/SelectPlaza'
+import Spinner from '../../components/Sppiner.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 import moment from 'moment'
 
@@ -253,7 +255,8 @@ export default {
   name: "EditarComponente",
   components: {    
     HeaderGenerico,
-    SelectPlaza
+    SelectPlaza,
+    Spinner
   },
   data: function () {
     return {

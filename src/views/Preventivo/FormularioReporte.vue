@@ -1,5 +1,5 @@
 <template>
-    <div class="border h-79 -mb-56 relative" :disabled="modalLoading" :class="{'bg-gray-600 bg-opacity-25 m-5 -mb-33':modalLoading}">
+    <div class="border h-79 -mb-56 relative">
         <!--/////////////////////////////////////////////////////////////////
         ////                HEADER REPORTE NIVEL CARRIL                   ////
         ////////////////////////////////////////////////////////////////////-->
@@ -13,13 +13,14 @@
         <!--/////////////////////////////////////////////////////////////////
         ////                         MODAL LOADER                        ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0">
+<!--         <div class="sticky inset-0">
             <div v-if="modalLoading" class="rounded-lg border w-68 justify-center absolute  inset-x-0 bg-none mx-auto border-none px-12 py-10">          
                 <div class="justify-center text-center block">            
                     <img src="@/assets/img/load.gif"  class="h-56 w-56" />
                 </div>
             </div>
-        </div>
+        </div> -->
+        <Spinner :modalLoading="modalLoading"/>
         <!--/////////////////////////////////////////////////////////////////
         ////                    TABLA DE ACTIVIDADES JOB                   ////
         ////////////////////////////////////////////////////////////////////-->
@@ -94,13 +95,15 @@ import TablaActividadesCarril from '../../components/Actividades/TablaActividade
 import ImagenesActividadCarril from '../../components/ImagenesGenericas'
 import ServiceReporte from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
+import Spinner from '../../components/Sppiner.vue'
 import moment from "moment";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
     components:{
         HeaderPreventivo,
         TablaActividadesCarril,
-        ImagenesActividadCarril
+        ImagenesActividadCarril,
+        Spinner
     },
     data(){
         return{
@@ -234,6 +237,7 @@ methods:{
                 return true
             }
             else {
+                window.scrollTo(0, top);
                     this.$notify.warning({
                     title: "Ups!",
                     msg: `LA HORA INICIO NO PUEDE SER MAYOR QUE LA HORA FIN.`,
@@ -246,7 +250,8 @@ methods:{
                 return false
             }
         }
-        else{                    
+        else{        
+            window.scrollTo(0, top);            
             this.$notify.warning({
                 title: "Ups!",
                 msg: `FALTA LLENAR CAMPOS DE HORA FIN Y HORA INICIO.`,
@@ -260,7 +265,6 @@ methods:{
             }
     },
     ocultar_modal_loading() {       
-        this.modalLoading = false
         let tipoEncabezadoLane = this.header.capufeLaneNum != '0000' ? 'carril' : undefined
         let objImg = {
             referenceNumber: this.referenceNumber,
@@ -268,7 +272,8 @@ methods:{
             tipoEncabezadoLane: tipoEncabezadoLane,
             lane: this.header.lane
         } 
-        setTimeout(async () => {            
+        setTimeout(async () => {    
+            this.modalLoading = false        
             await ServiceReporte.generar_pdf_actividades_preventivo(objImg.referenceNumber, objImg.frecuenciaId, objImg.tipoEncabezadoLane)
             await ServiceReporte.generar_pdf_fotografico_preventivo(objImg.referenceNumber, objImg.lane)
             this.$router.push({path: '/ReportesMantenimiento/TablaActividades'})              
