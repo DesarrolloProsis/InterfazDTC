@@ -375,7 +375,6 @@ export default {
         this.objInsertEscaneado = {}
         },
         opticones_select_acciones({ statusMaintenance, pdfExists, userId }){
-            console.log(userId);
             let options= [
             { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
             { title: 'Editar', img: '/img/pencil.04ec78bc.png' },

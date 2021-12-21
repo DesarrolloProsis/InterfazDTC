@@ -106,18 +106,38 @@
                         <option v-for="(item, key) in carriles_plaza" :key="key" :value="item">{{ item.lane }}</option>
                     </select></p>
             </div>
-            <div class="mt-12 ml-16 sm:ml-1 sm:mt-3 md:mx-auto md:ml-0" :class="{'hidden':typeUser == 4 || typeUser == 7}">
-                <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
+            <div class="mt-12 ml-1 grid grid-cols-2 sm:ml-1 sm:mt-3 md:mx-auto md:ml-0" :class="{'hidden':typeUser == 4 || typeUser == 7}">
+                <div>
+                    <span class="text-gray-800">Editados: {{ contadorInventario }}</span>
+                </div>
+                <div class="-ml-3" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
+                    <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                        <template slot="singleLabel" slot-scope="props">
+                            <div class="inline-flex">
+                                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                <span class="option__title bg-red-300">{{ props.option.title }}</span>
+                            </div>
+                        </template>
+                        <template slot="option" slot-scope="props">                                                
+                            <div class="option__desc ">
+                                <span class="option__title inline-flex">
+                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                    {{ props.option.title }}
+                                </span>
+                            </div>
+                        </template>
+                    </multiselect>
+                </div>
             </div>
         </div>
-        <div class="-mt-1 mb-4 ml-78 sm:ml-0  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
+        <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-0  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
             <button class="botonIconNext sm:mx-20" @click="abrirModal">
                 <span>Mantenimiento</span>
             </button>
             <button class="botonIconNext mx-5 sm:mx-20" @click="formato">
                 <span>Formato CAPUFE</span>
             </button>
-        </div>
+        </div> -->
         <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
             <button class="botonIconNext" @click="abrirModal">
                 <span>Agregar Componente</span>
@@ -402,6 +422,7 @@ export default {
             diaSesiones: '',
             sesionName: '',
             sesioninicio: false,
+            value:'',
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -602,7 +623,30 @@ export default {
                 this.diaSesiones = ''
                 this.$emit('filtrar-todos')
             }
-        }
+        },
+        customLabel ({ title }) {
+            return `${title}`
+        },
+        acciones_mapper(){      
+            if(this.value.title == 'Mantenimiento'){
+                this.abrirModal()
+            }
+            if(this.value.title == 'Formato CAPUFE'){
+                this.formato()   
+            }
+            this.value = ""  
+        },
+        opticones_select_acciones(){
+            const options= [                
+              { title: 'Mantenimiento', img: '../img/actualizado.cafc2f1a.png' }, //0
+              { title: 'Formato CAPUFE', img: '../img/pdf.5b78f070.png' }, //1
+            ]
+            let filtroOpciones = []
+            filtroOpciones.push(options[0])
+            filtroOpciones.push(options[1])
+    
+            return filtroOpciones
+        },
 
     },
     watch:{
