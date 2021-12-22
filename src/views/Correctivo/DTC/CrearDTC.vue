@@ -256,14 +256,17 @@ methods: {
         if(this.$store.state.Header.datosSinester.SinisterNumber.trim().length != this.$store.state.Header.datosSinester.SinisterNumber.length){
           window.scrollTo(0, top);
           this.modalLoading = false
-          this.$notify.warning({
+          this.$notify.error({
             title: "Ups!",
             msg: `NO SE CREO EL DTC, NÚMERO DE SINIESTRO REPETIDO`,
-            position: "bottom right",
+            position: "top right",
+            marginY: 250,
             styles: {
               height: 100,
               width: 500,
             },
+            closeOnClick: true,
+            timeout: 15000,
           });  
         }else{
           window.scrollTo(0, top);
