@@ -253,17 +253,31 @@ methods: {
         await EventBus.$emit('insertar-componetes-dañados', value_insert)        
       } 
       else {
-        window.scrollTo(0, top);
-        this.modalLoading = false
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `NO SE CREO EL DTC, VERIFIQUE LOS DATOS`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
+        if(this.$store.state.Header.datosSinester.SinisterNumber.trim().length != this.$store.state.Header.datosSinester.SinisterNumber.length){
+          window.scrollTo(0, top);
+          this.modalLoading = false
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE CREO EL DTC, NÚMERO DE SINIESTRO REPETIDO`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });  
+        }else{
+          window.scrollTo(0, top);
+          this.modalLoading = false
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE CREO EL DTC, VERIFIQUE LOS DATOS`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        }
       }
   },
   enviar_dmg_componentes(objInsert){       

@@ -1,4 +1,5 @@
 import Axios from '../ManejoSolicitudes'
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 const state = {
@@ -98,14 +99,18 @@ const actions = {
       adminId: value.adminIdPlaza,
       diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
       //tipofalla: value.tipofalla
-    }                
-    await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
+    }
+    if(newObject.SinisterNumber.length == newObject.SinisterNumber.trim().length){
+      await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
       .then(response => {        
         if (response.status === 201) {
           commit('insertHeaderCompleteMutation', true)
         }
       })
-      .catch()   
+      .catch()
+    }else{
+      console.log('error');
+    }   
   }
 };
 export default {
