@@ -339,6 +339,9 @@ methods:{
     if(item.technicalSheetReference == '--' && this.tipoUsuario == 1){
       filtroOpciones.push(options[1])   
     }
+    if (this.tipoUsuario == 1 && !item.escaneadobool && item.statusId >= 3) {
+      filtroOpciones.push(options[4])
+    }
     if(this.tipoUsuario == 1){
       filtroOpciones.push(options[5])
     }

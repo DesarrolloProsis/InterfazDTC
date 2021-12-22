@@ -130,23 +130,10 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-0  sm:-mt-2" v-if="typeUser == 1 || typeUser == 2 || typeUser == 3 || typeUser == 5">
-            <button class="botonIconNext sm:mx-20" @click="abrirModal">
-                <span>Mantenimiento</span>
-            </button>
-            <button class="botonIconNext mx-5 sm:mx-20" @click="formato">
-                <span>Formato CAPUFE</span>
-            </button>
-        </div> -->
-        <!-- <div class="-mt-1 mb-4 ml-78 sm:ml-40 sm:-mt-4" v-if="typeUser == 4 || typeUser == 10">
-            <button class="botonIconNext" @click="abrirModal">
-                <span>Agregar Componente</span>
-            </button>
-        </div> -->
         <!-- ////////////////////////////////////////////////////////////////////
         ///                         BOTONES inventario               ////
         ////////////////////////////////////////////////////////////////////-->
-        <div class=" mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-10 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
+        <div class=" mb-3 text-center sm:mt-3 sm:mb-4 sm:ml-4 sm:text-xs -mt-8 mr-5 sm:inline-flex" :class="{'hidden' : contadorInventario < 1 }">
             <button @click="cancelar_filtro_inventario" class="w-32 botonIconBorrarCard font-boton ml-4 mr-4" :class="{'hidden' : contadorInventario < 1}">
                 <img src="../../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-4" width="25" height="25"/>
                 <span class="text-xs">Cancelar</span>
@@ -349,7 +336,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import EventBus from '../../services/EventBus'
 import SelectPlaza from '../Header/SelectPlaza'
@@ -680,7 +666,6 @@ export default {
     }
 }
 </script>
-
 <style>
 .vue-tooltip.tooltip-custom {
     width: 50rem;  
