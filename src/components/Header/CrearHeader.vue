@@ -58,7 +58,7 @@
                 </span>
 
                 <div ref="tooltipintervencion" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA)</p>
+                    <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA), se puede dejar vacío y se agregará la leyenda SIN NÚMERO DE SINIESTRO</p>
                 </div>
           </div>
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            

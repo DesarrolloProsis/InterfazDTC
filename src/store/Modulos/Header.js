@@ -100,7 +100,7 @@ const actions = {
       diagnosisReference: value.referenceFicha != '' ? value.referenceFicha : '--',
       //tipofalla: value.tipofalla
     }
-    if(newObject.SinisterNumber.length == newObject.SinisterNumber.trim().length){
+    if(newObject.SinisterNumber == null){
       await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
       .then(response => {        
         if (response.status === 201) {
@@ -109,7 +109,17 @@ const actions = {
       })
       .catch()
     }else{
-      console.log('error');
+      if(newObject.SinisterNumber.length == newObject.SinisterNumber.trim().length){
+        await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
+        .then(response => {        
+          if (response.status === 201) {
+            commit('insertHeaderCompleteMutation', true)
+          }
+        })
+        .catch()
+      }else{
+        console.log('error');
+      }
     }   
   }
 };
