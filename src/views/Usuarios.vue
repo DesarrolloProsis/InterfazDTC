@@ -786,7 +786,7 @@ export default {
           userId: item.userId,
           flag: 1
         }
-      this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaInsert)                        
+      this.$http.post(`${API}/User/SquareOfUserUpdate/${arrayPlaza}`,plazaInsert)                        
       setTimeout(() => {                  
         this.$notify.success({
           title: "Ops!!",
@@ -808,12 +808,13 @@ export default {
       this.obj_borrar_plaza.plazas.forEach((plaza) => {
         arrayPlaza.push(plaza.squareCatalogId)
       })
+      console.log(this.obj_borrar_plaza.plazas);
       let plazaDelete = {
           squareId: arrayPlaza,
           userId: item.userId,
           flag: 0
         }
-        this.$http.post(`${API}/User/SquareOfUserUpdate/TLA`,plazaDelete)                        
+        this.$http.post(`${API}/User/SquareOfUserUpdate/${arrayPlaza}`,plazaDelete)       
       setTimeout(() => {                  
         this.$notify.success({
           title: "Ops!!",
