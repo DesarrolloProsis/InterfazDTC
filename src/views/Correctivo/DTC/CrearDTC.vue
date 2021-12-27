@@ -209,7 +209,8 @@ methods: {
         window.scrollTo(0,550);
     }
   },
-  crear_dtc: async function (status) {      
+  crear_dtc: async function (status) {     
+      window.scrollTo(0, top); 
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
       let header =   this.$store.getters["Header/GET_HEADER_SELECCIONADO"];  
       let adminId = this.$store.state.Login.plazaSelecionada.administradorId 
