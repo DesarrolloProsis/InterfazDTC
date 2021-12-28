@@ -808,7 +808,6 @@ export default {
       this.obj_borrar_plaza.plazas.forEach((plaza) => {
         arrayPlaza.push(plaza.squareCatalogId)
       })
-      console.log(this.obj_borrar_plaza.plazas);
       let plazaDelete = {
           squareId: arrayPlaza,
           userId: item.userId,
