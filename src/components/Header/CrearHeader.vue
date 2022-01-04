@@ -22,8 +22,7 @@
             <br class="sm:hidden"/>
             <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'">Contrato / Convenio:</span>
             <span v-else class for="inline-full-name font-titulo" style="font-weight: normal">Contrato / Oferta:</span>
-            <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" style="font-weight: bold; padding-left: 0.5vw">5500010044 </span>
-            <span v-else style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</span>
+            <span style="font-weight: bold; padding-left: 0.5vw">{{ headerSelecionado.agrement }}</span>
           </div>
           <!-- //////////////////////////////////////////////////////////////////
           ////                       SUB-TITULO                              ////
