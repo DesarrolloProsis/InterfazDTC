@@ -38,8 +38,9 @@
                             <p class="font-bold sm:text-sm mb-5">Año</p>
                             <select v-model="añoFiltro" @change="filtros_calendario" class="w-full is_valid" type="text">
                                 <option value="">Selecionar...</option>     
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>                            
+                                <option value="2020" :class="{'hidden': this.tipoUsuario == 7}">2020</option>
+                                <option value="2021" :class="{'hidden': this.tipoUsuario == 7}">2021</option>                            
+                                <option value="2022" >2022</option>                            
                             </select>                                                                        
                         </div>
                         <!--/////////////////////////////////////////////////////////////////////

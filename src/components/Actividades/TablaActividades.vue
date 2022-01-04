@@ -45,8 +45,8 @@
                         <p class="w-32 input sm:ml-1 md:w-48 md:ml-5">
                             <select :disabled="blockSelect" @change="filtrar_sin_referencia" v-model="año" class="w-32 sm:w-32 md:w-48 border-none" type="text" name="TipoDescripcion" >
                                 <option disabled value>Selecionar...</option>
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>
+                                <option value="2020" :class="{'hidden': this.tipoUsuario == 7}">2020</option>
+                                <option value="2021" :class="{'hidden': this.tipoUsuario == 7}">2021</option>
                                 <option value="2022">2022</option>                                        
                             </select>
                         </p>
