@@ -808,6 +808,7 @@ methods: {
       setTimeout(() => {
           actualizar_status.then(() => {                       
           this.limpiar_filtros()
+          location.reload();
           this.$notify.success({
             title: "Ok!",
             msg: `SE ACTUALIZÓ EL ESTATUS.`,
