@@ -284,7 +284,9 @@ methods: {
         }
       }
   },
-  enviar_dmg_componentes(objInsert){       
+  enviar_dmg_componentes(objInsert){  
+    console.log(this.numeroComponentesDmg);
+    console.log(objInsert);     
       this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
       .then(() => {                                
           if (objInsert.status == 2) {
