@@ -305,7 +305,7 @@
         </div>
         </div>
         <!--////////////////////////////////////////////////////////////////////
-        ///                   FILTROS DE INCIOS SESION                        ///         
+        ///                   FILTROS DE INCIOS SESION ULTIMO FILTRO                       ///         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'InicioSesion'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
             <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
@@ -333,6 +333,32 @@
                     </div>
                 </div>             
             </div>           
+        </div>
+        <!--///////////////////////////////////////////////////////////////////
+        ///                    FILTROS DE CONCENTRADO DTC FACTURADOS       ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'CDTCF'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-lg font-bold">{{ titulo }}</h1>
+        <div class="flex sm:flex-col sm:justify-center md:justify-center md:justify-evenly lg:justify-center lg:justify-evenly xl:justify-center xl:justify-evenly" >
+            <div class="m-3 md:inline-flex">                                        
+                <p class="font-bold mb-2 text-center sm:text-xs sm:text-center">Seleccione una Plaza:</p>
+                <SelectPlaza :fullPlazas="true" :tipo="'filtro'" :vista="'Encargados'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+            </div>
+            <div class="m-3 md:inline-flex">
+                <p class="md:inline-flex font-bold sm:text-xs mb-2 sm:text-center md:mx-10 lg:mx-8 xl:mx-21">Escriba la Referencia:</p>
+                <input v-model="buscarDF" class=" border w-40 text-xs text-center sm:w-full md:mx-auto lg:mx-8 xl:mx-20 is_valid" placeholder="PM-000000"/>
+            </div> 
+               
+        </div>
+        <!-- ////////////////////////////////////////////////////////////////////
+        ///                    BOTONES DE CONCENTRADO DTC FACTURADOS        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="flex justify-center mb-6 sm:mt-1">
+            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonTodos font-boton">
+                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <span>Todos</span>
+            </button>
+        </div>
         </div>
     </div>
 </template>

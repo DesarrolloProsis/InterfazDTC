@@ -129,6 +129,11 @@ const routes = [
     component: () => import('../views/Correctivo/Concentrados/ConcentradoFichas')
   },
   {
+    path: '/ConcentradoDTCFacturados',
+    name:'/ConcentradoDTCFacturados',
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoDTCFacturadoseInstalados')
+  },
+  {
     path: '/Correctivo/PreDTC/:tipoVista',
     name: 'CorrectivoDTC',
     component: FichaDiagnostico,
