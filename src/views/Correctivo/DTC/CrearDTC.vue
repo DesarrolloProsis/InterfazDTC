@@ -286,9 +286,12 @@ methods: {
   },
   enviar_dmg_componentes(objInsert){  
     console.log(this.numeroComponentesDmg);
-    console.log(objInsert);   
-    console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg);  
-      this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
+    console.log(objInsert.arrayDmg.length);  
+    /*console.log(objInsert.arrayDmg.sort((a,b)=> a.IntPartida - b.IntPartida));  
+    console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, objInsert.arrayDmg);  */
+    let arrayOrdenado = objInsert.arrayDmg.sort((a,b)=> a.IntPartida - b.IntPartida)
+    console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, arrayOrdenado);
+    this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, arrayOrdenado)
       .then(() => {                                
           if (objInsert.status == 2) {
             ServiceReporte.generar_pdf_correctivo(
@@ -319,7 +322,7 @@ methods: {
             width: 500,
           },
         });         
-      });            
+      });
   }  
 },
 /////////////////////////////////////////////////////////////////////
