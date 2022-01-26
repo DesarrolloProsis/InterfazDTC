@@ -1,75 +1,58 @@
 <template>
-    <div>
+    <div class="container mx-auto">
         <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <HeaderGenerico :titulo="'Concentrado DTC Facturados e Instalados'" :tipo="'CDTCF'" />
-        <div>
-            <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
-            <thead>
-              <tr class="text-md sm:text-sm text-gray-400 font-normal bg-blue-800">
-                <th class="w-64 cabeceraTable font-medium">Referencia</th>
-                <th class="w-56 cabeceraTable font-medium">Usuario</th>              
-                <th class="w-48 cabeceraTable font-medium">Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="multiselectHamburguesa">
-                
-              <!-- <template v-if="listaUsuarios.length == 0 && loadingTabla != true"> 
-                <tr>
-                    <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
-                        <div class="mt-8 mb-8">Sin Informacion</div>
-                    </td>
-                </tr>  
-              </template>  -->
-              <!-- <template v-if="loadingTabla">  
-                  <tr>
-                      <td class="w-full" colspan="10">                                    
-                          <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
-                      </td>                          
-                  </tr>  
-              </template>   -->
-            
-                <tr class="h-12 text-gray-900 text-sm sm:text-xs">
-                <td class="cuerpoTable text-center"></td>
-                <td class="cuerpoTable text-center"></td>
-                <td class="cuerpoTable text-center break-all"></td>
-                <td class="cuerpoTable">
-                  <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                    <!-- <template slot="singleLabel" slot-scope="props">
+        <div class="rounded-lg shadow">
+          <table class="w-full">
+          <thead class="bg-gray-50 border-b-2 border-gray-200">
+            <tr>
+              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable ">Referencia</th>
+              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable ">Usuario</th>
+              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable ">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p-3 text-sm text-gray-700 text-center">CER-21039</td>
+              <td class="p-3 text-sm text-gray-700 text-center">Luis Emiliano Torres</td>
+              <td class="w-50 text-center">
+                  <multiselect v-model="selectMulti" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel"  :show-labels="false">
+                    <template slot="singleLabel" slot-scope="props">
                       <div class="inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
-                        <span class="option__title bg-red-300">{{ props.option.title }}</span>
+                      <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                      <span class="option__title bg-red-300">{{ props.option.title }}</span>
                       </div>
                     </template>
                     <template slot="option" slot-scope="props">                                                
-                      <div class="option__desc "><span class="option__title inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
-                        {{ props.option.title }}</span>
+                      <div class="option__desc">
+                      <span class="option__title inline-flex">
+                      <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                      {{ props.option.title }}</span>
                       </div>
-                    </template> -->
-                  </multiselect>      
+                    </template>
+                  </multiselect>
                 </td>
-                </tr>
-              
-            </tbody>            
-          </table>
-        </div>
-        
-        
+            </tr>
+          </tbody>
+        </table>
+        </div>   
     </div>
 </template>
 
 <script>
 
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
+import Multiselect from "vue-multiselect";
 
 //const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "DTCBorrados",
     components:{
-        HeaderGenerico
+        HeaderGenerico,
+        Multiselect
     },
     /////////////////////////////////////////////////////////////////////
     ////                      DATA                                   ////
@@ -77,13 +60,33 @@ export default {
     data: function (){
     return {      
         loadingTabla: false,
-        listaUsuarios: [{referenceNumber: 'CER-21039',user:'Emiliano'}],                    
+        lista_DTC_Filtrada: [{referenceNumber: 'CER-21039',user:'Emiliano'}],                    
         }
     },
     /////////////////////////////////////////////////////////////////////
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
+      acciones_mapper(item){                
+      if(this.value.title == 'Editar'){
+        this.editarUsuario(item)
+      }if(this.value.title == 'Deshabilitar'){
+        this.borrar_usuario(item)
+      }if(this.value.title == 'Habilitar'){
+        this.habilitar_usuario(item)
+      }if(this.value.title == 'Agregar Plaza'){
+        this.infoUser = item
+        this.modalAddPlaza = true
+      }if(this.value.title == 'Eliminar Plaza'){
+        this.plazasUserForDelete = item.plazasLimpias
+        this.infoUser = item
+        this.modalEliminarPlaza = true
+      }
+      this.value = ""  
+    },
+      customLabel ({ title }) {
+      return `${title}`
+      },
         opticones_select_acciones(){
             const options= [                
             { title: 'Generar anexo 1.A/1.B', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //0
