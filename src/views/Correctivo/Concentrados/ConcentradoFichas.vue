@@ -155,6 +155,7 @@ export default {
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
+            console.log(response);
             setTimeout(() => {
                 this.infoFichasFallaCompleta = response.data.result
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
@@ -416,6 +417,7 @@ export default {
             }                
         },
         opticones_select_acciones(item){
+            console.log(item);
             const options= [                
                 { title: 'Terminar Ficha', accionCss: 'terminar', tipo: '', img: '/img/nuevoDtc.90090632.png' }, //0
                 { title: 'Terminar DTC', accionCss: 'terminar', img: '/img/nuevoDtc.90090632.png' },//1
@@ -449,7 +451,7 @@ export default {
                 if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
                     filtroOpciones.push(options[1])
                 }           
-                if(item.validacionDTC && item.validacionFichaTecnica){
+                if(item.validacionDTC && item.validacionFichaTecnica && item.statusDtc != 1){
                     filtroOpciones.push(options[6])
                 } 
                 if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                                   
