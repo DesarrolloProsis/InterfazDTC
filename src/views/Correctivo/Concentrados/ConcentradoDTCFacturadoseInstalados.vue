@@ -17,7 +17,7 @@
             <tr>
               <td class="p-3 text-sm text-gray-700 text-center">CER-21039</td>
               <td class="p-3 text-sm text-gray-700 text-center">Luis Emiliano Torres</td>
-              <td class="w-50 text-center">
+              <td class="P-3 w-50 text-center">
                   <multiselect v-model="selectMulti" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel"  :show-labels="false">
                     <template slot="singleLabel" slot-scope="props">
                       <div class="inline-flex">
