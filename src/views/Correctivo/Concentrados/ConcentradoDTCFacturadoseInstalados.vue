@@ -49,7 +49,7 @@ import Multiselect from "vue-multiselect";
 //const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
-    name: "DTCBorrados",
+    name: "DTCFacturados",
     components:{
         HeaderGenerico,
         Multiselect

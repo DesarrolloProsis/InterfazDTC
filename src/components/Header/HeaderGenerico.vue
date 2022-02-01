@@ -360,6 +360,13 @@
             </button>
         </div>
         </div>
+        <!--///////////////////////////////////////////////////////////////////
+        ///                    Titulo Anexo 1-A      ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'anexo1A'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
+        <h3 class="text-black text-right text-md p-3 font-bold ">{{subtitulo}}</h3>
+        <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-lg font-bold">{{ titulo }}</h1>
+        </div>
     </div>
 </template>
 <script>
@@ -374,6 +381,10 @@ export default {
     props:{
         //Props Interno Componente
         titulo: {
+            type: String,
+            default: () => ''
+        },
+        subtitulo: {
             type: String,
             default: () => ''
         },
