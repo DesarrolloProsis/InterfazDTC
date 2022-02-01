@@ -231,7 +231,7 @@
                 </div>
             </div>
     </div>
-    <h3>COMPONENTES Y/O REFACCIONES NUEVAS:</h3>
+    <h3 class="font-bold text-sm">COMPONENTES Y/O REFACCIONES NUEVAS:</h3>
     <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
   </div>
 </template>
