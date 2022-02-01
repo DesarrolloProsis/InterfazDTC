@@ -30,7 +30,28 @@
         :dateSinester="datosSinester.SinisterDate"
         ></TablaEquipoMalo>
         <p class="mb-4">Se cierra la presente acta en fecha 10 de diciembre de 2021 siendo las 18:00 horas.</p>
+        <div class="p-4 mb-20">
+            <h3 class="txt-black text-xl">TESTIGOS</h3>
+            <select name="select">
+                <option value="value1">Value 1</option>
+                <option value="value2" selected>Value 2</option>
+                <option value="value3">Value 3</option>
+            </select>
+            <select name="select">
+                <option value="value1">Value 1</option>
+                <option value="value2" selected>Value 2</option>
+                <option value="value3">Value 3</option>
+            </select>
         </div>
+        <div class="w-1/2 p-2 mb-10">
+            <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+              <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
+              <span>Generar anexo 1-A</span>
+            </button>
+          </div>
+        </div>
+        
+       
     </div>
 </template>
 
