@@ -284,15 +284,33 @@ methods: {
         }
       }
   },
-  enviar_dmg_componentes(objInsert){  
+  enviar_dmg_componentes(objInsert){
+    console.log('Numero de partidas: ', this.numeroComponentesDmg);
+    console.log('Array de componentes sin ordenar', objInsert.arrayDmg);
+    console.log('Numero de componentes sin ordenar', objInsert.arrayDmg.length);
     /*console.log(this.numeroComponentesDmg);
     console.log(objInsert.arrayDmg.length);  
     console.log(objInsert.arrayDmg.sort((a,b)=> a.IntPartida - b.IntPartida));  
     console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, objInsert.arrayDmg);  */
-    let arrayOrdenado = objInsert.arrayDmg.sort((a,b)=> a.IntPartida - b.IntPartida)
-    //console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, arrayOrdenado);
-    this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, arrayOrdenado)
-      .then(() => {                                
+    let new_promise = new Promise((resolve, reject) => { 
+    let arrayOrdenado = []
+      objInsert.arrayDmg.sort(((a,b)=> a.IntPartida - b.IntPartida)).forEach(element => {
+        arrayOrdenado.push(element)
+        //console.log( 'Array Componentes: ', arrayOrdenado);
+        //console.log('Número de Componentes: ', arrayOrdenado.length);
+      });
+      if(arrayOrdenado.length == objInsert.arrayDmg.length){
+        resolve(arrayOrdenado)
+      }else{
+        reject('Bad')
+      }
+    })
+    //console.log('Array Componentes: ', this.arrayOrdenado);
+    new_promise.then((arrayOrdenado)=> {
+      console.log('Array ForEach: ',arrayOrdenado);
+      this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${arrayOrdenado.length}`, arrayOrdenado)
+      .then((RESPONSE) => {   
+        console.log(RESPONSE);                             
           if (objInsert.status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               objInsert.refNum, 
@@ -312,7 +330,8 @@ methods: {
           this.$router.push("/Home");     
         
       })     
-      .catch(() => {                
+      .catch((ERR) => {                
+        console.log(ERR);
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE INSERTARON LOS COMPONENTES.`,
@@ -323,6 +342,7 @@ methods: {
           },
         });         
       });
+    }) 
   }  
 },
 /////////////////////////////////////////////////////////////////////

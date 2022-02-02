@@ -480,7 +480,7 @@ methods: {
         EventBus.$emit('enviar-componete', { arrayDmg: array, adminId: objInsert.adminId, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
       })
       
-    }, 2000)
+    }, 8000)
   },
   eliminar_partida(index){    
     this.arrayPartidas.splice(index, 1)
