@@ -51,7 +51,8 @@
                         @acciones-mapper="acciones_mapper"
                         :itemRow="item" 
                         :listaAcciones="validarAcciones(item)"                        
-                        :keyRow="normalheaderKey"                         
+                        :keyRow="normalheaderKey"
+                        :letrasGris="item.statusDtc == 1"            
                         class="sm:hidden md:hidden">
                     </RowHelper>
                     <!-- VersionMovil  -->
@@ -61,6 +62,7 @@
                         :listaAcciones="validarAcciones(item)"
                         :keyRow="movilHeaderKey" 
                         :keyNormalFull="normalheaderKey" 
+                        :letrasGris="item.statusDtc == 1" 
                         :tipoRow="'Movil'" 
                         class="lg:hidden, xl:hidden 4k:hidden">
                     </RowHelper>                                                                        
