@@ -1,19 +1,19 @@
 <template>
   <div>
     <div class="flex justify-center sm:hidden">
-      <div class="shadow-sm rounded md:border border-black pb-8 mt-8 w-full flex flex-col">
+      <div class="shadow-sm rounded  pb-8 mt-8 w-full flex flex-col">
         <div class="inline-flex font-titulo">
           <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <thead>
               <tr class="text-sm text-center text-white trTable sm:text-xs">
-                <th class="w-24 xl:w-48 cabeceraTable font-medium">Cantidad</th>
-                <th class="w-32 xl:w-48 cabeceraTable font-medium">Componente</th>
-                <th class="w-24 xl:w-48 cabeceraTable font-medium">Marca</th>
-                <th class="w-24 xl:w-48 cabeceraTable font-medium">Modelo</th>
-                <th class="w-24 xl:w-48 cabeceraTable font-medium">No. Serie</th>
-                <th class="w-24 xl:w-48 cabeceraTable font-medium">Ubicacion (carril/cuerpo)</th>
-                <th class="w-24 xl:w-48 cabeceraTable font-medium">Observaciones</th>
+                <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">Cantidad</th>
+                <th class="w-32 lg:w-36 xl:w-48 cabeceraTable font-medium">Componente</th>
+                <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">Marca</th>
+                <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">Modelo</th>
+                <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">No. Serie</th>
+                <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">Ubicacion (carril/cuerpo)</th>
+                <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">Observaciones</th>
               </tr>
             </thead>
             <tbody name="table" is="transition-group">  

@@ -4,13 +4,13 @@
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
         <HeaderGenerico :titulo="'Concentrado DTC Facturados e Instalados'" :tipo="'CDTCF'" />
-        <div class="rounded-lg shadow">
-          <table class="w-full">
-          <thead class="bg-gray-50 border-b-2 border-gray-200">
+        <div class="rounded-lg shadow-xl sm:mt-3">
+          <table class="w-full rounded-lg">
+          <thead class="">
             <tr>
-              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable ">Referencia</th>
-              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable ">Usuario</th>
-              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable ">Acciones</th>
+              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable rounded-l-lg">Referencia</th>
+              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable">Usuario</th>
+              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable rounded-r-lg">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -18,17 +18,11 @@
               <td class="p-3 text-sm text-gray-700 text-center">CER-21039</td>
               <td class="p-3 text-sm text-gray-700 text-center">Luis Emiliano Torres</td>
               <td class="P-3 w-50 text-center">
-                  <multiselect v-model="selectMulti" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel"  :show-labels="false">
-                    <template slot="singleLabel" slot-scope="props">
-                      <div class="inline-flex">
-                      <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
-                      <span class="option__title bg-red-300">{{ props.option.title }}</span>
-                      </div>
-                    </template>
+                  <multiselect v-model="selectMulti" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel"  :show-labels="false">
                     <template slot="option" slot-scope="props">                                                
                       <div class="option__desc">
-                      <span class="option__title inline-flex">
-                      <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                      <span class="option__title inline-flex sm:text-xs">
+                      <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
                       {{ props.option.title }}</span>
                       </div>
                     </template>
