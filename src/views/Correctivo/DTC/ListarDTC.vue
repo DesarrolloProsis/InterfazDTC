@@ -222,7 +222,7 @@
                   ////                        BOTONES MODAL EDIT                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center grid grid-cols-2  mt-10">  
-                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear" :class="{'hidden': ocultar}">Actualizar</button></div>     
+                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button></div>     
                   <div><button @click="(modalEdit = modal = false), (refNum = ''), (ocultarMultiPadre = false)" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
                 </div>
               </div>     
@@ -620,7 +620,23 @@ methods: {
             })              
           }, 3000);    
         }else{
-          this.ocultar = true
+          if(!this.$store.state.Header.insertHeaderComplete){
+          window.scrollTo(0, top);
+          this.modalLoading = false
+          this.$notify.error({
+            title: "Ups!",
+            msg: `NO SE PUDO ACTUALIZAR, VERIFIQUE LOS DATOS`,
+            position: "top right",
+            marginY: 280,
+            marginX:355,
+            styles: {
+              height: 100,
+              width: 500,
+            },
+            closeOnClick: true,
+            timeout: 15000,
+          });  
+        }
         }         
     }
     else{
