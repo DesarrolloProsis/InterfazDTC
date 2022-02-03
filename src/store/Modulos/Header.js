@@ -111,12 +111,13 @@ const actions = {
     }else{
       if(newObject.SinisterNumber.length == newObject.SinisterNumber.trim().length){
         await Axios.post(`${API}/dtcData/${rootGetters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, newObject)
-        .then(response => {        
+        .then((response) => {       
           if (response.status === 201) {
             commit('insertHeaderCompleteMutation', true)
           }
         })
-        .catch()
+        .catch(() => {
+        })
       }else{
         console.log('error');
       }

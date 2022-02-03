@@ -254,7 +254,7 @@ methods: {
         await EventBus.$emit('insertar-componetes-dañados', value_insert)        
       } 
       else {
-        if(this.$store.state.Header.datosSinester.SinisterNumber.trim().length != this.$store.state.Header.datosSinester.SinisterNumber.length){
+        if((this.$store.state.Header.datosSinester.SinisterNumber.trim().length != this.$store.state.Header.datosSinester.SinisterNumber.length) || (!this.$store.state.Header.insertHeaderComplete)){
           window.scrollTo(0, top);
           this.modalLoading = false
           this.$notify.error({
