@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="flex justify-center sm:hidden">
+      <div class="flex justify-center">
         <div class="shadow-sm rounded w-full flex flex-col">
         <div class="inline-flex font-titulo">
             <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto sm:mb-24 sm:text-xs" :class="{ hidden: modal }">
@@ -196,38 +196,105 @@
     <!--//////////////////////////////////////////////////////////////////
     ////                         MODAL AGREGAR COMPONENTE            ////
     //////////////////////////////////////////////////////////////////-->
-    <div class="sticky inset-0 font-titulo" :class="{'modal-container': showModal}">
-            <div v-if="showModal" class="rounded-lg justify-center items-center absolute inset-x-0  md:w-69 lg:w-69 xl:w-77 mx-auto my-67 px-2 mt-64">
-                <div class="rounded-lg border bg-white border-gray-400 px-4 py-10 shadow-2xl sm:-mt-56">
-                    <h1 class="text-center text-4xl font-bold">Componentes del DTC</h1>
-                    <div class="flex justify-center">
-                        <table>
+    <div class="sticky inset-0 font-titulo " :class="{'modal-container': showModal}">
+            <div v-if="showModal" class="rounded-lg p-2 grid grid-cols-1 content-center h-full">
+                <div class="container mx-auto rounded-lg border bg-white border-gray-400 px-4 py-10">
+                    <h1 class="text-center text-4xl font-bold sm:text-2xl">Componentes del DTC</h1>
+                    <div class="flex justify-center w-full sm:overflow-auto sm:h-60 md:overflow-auto md:h-60 lg:overflow-auto lg:h-60 xl:overflow-auto xl:h-70">
+                        <table class="tablaf mt-6">
                             <thead>
                                 <tr class="text-sm text-center text-white trTable sm:text-xs">
-                                    <th class="w-24 xl:w-40 cabeceraTable font-medium"></th>
-                                    <th class="w-24 xl:w-40 cabeceraTable font-medium">Componente</th>
-                                    <th class="w-24 xl:w-40 cabeceraTable font-medium">No. Serie</th>
-                                    <th class="w-24 xl:w-40 cabeceraTable font-medium">Carril</th>
+                                    <th class="w-24 md:w-34 lg:w-49  xl:w-54 cabeceraTable font-medium sticky top-0"></th>
+                                    <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0">Componente</th>
+                                    <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">No. Serie</th>
+                                    <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0">Carril</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td class="text-center"><input type="checkbox"></td>
-                                    <td class="text-center">Intro to CSS</td>
-                                    <td class="text-center">Adam</td>
-                                    <td class="text-center">858</td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    
                   <!--////////////////////////////////////////////////////////////////////
                   ////                        BOTONES MODAL AGREGAR COMP             ////
-                  ////////////////////////////////////////////////////////////////////-->                   
-                    <div class="justify-center flex mt-5">
-                        <button v-on:click.stop.prevent="agregarPartida()" class="botonIconCrear m-6">Agregar</button>
-                        <button @click="botoncancelar_modal" class="botonIconCancelar font-boton m-6">Cancelar</button>
+                  ////////////////////////////////////////////////////////////////////-->    
+                  <div class=" flex justify-center mt-8">          
+                    <div class="inline-flex">
+                        <button v-on:click.stop.prevent="agregarPartida()" class="botonIconCrear">Agregar</button>
+                        <button @click="botoncancelar_modal" class="botonIconCancelar font-boton">Cancelar</button>
                     </div>
+                  </div>
                 </div>
             </div>
     </div>
@@ -417,8 +484,16 @@ methods: {
     EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
   },
   UnClick() { this.componenteSeleccionado = "" },
-  modalAgregarComp: function (){ this.showModal = true },  
-  botoncancelar_modal: function (){ this.showModal = false; this.laneSelect = ''; this.componenteSeleccionado = ''},  
+  modalAgregarComp: function (){
+     this.showModal = true 
+     document.body.classList.add("modal-open");
+     },  
+  botoncancelar_modal: function (){ 
+    this.showModal = false; 
+    this.laneSelect = ''; 
+    this.componenteSeleccionado = '';
+    document.body.classList.remove("modal-open");
+    },  
   cambiar_componente: async function (value) {        
     this.listLane = []; this.laneSelect = []; this.statusMetro = false; this.cantidadMetro = 0;
     for(const propiedades in this.datosPrePartida) {
