@@ -37,8 +37,8 @@
         <!--//////////////////////////////////////////////////////////////////
         ////                         MODAL AGREGAR COMPONENTE            ////
         //////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0 font-titulo " :class="{'modal-container': this.modalAnexogenerado}">
-                <div v-if="this.modalAnexogenerado" class="rounded-lg p-2 grid grid-cols-1 content-center h-full">
+        <div class="sticky inset-0 font-titulo " :class="{'modal-container': showModal}">
+                <div v-if="showModal" class="rounded-lg p-2 grid grid-cols-1 content-center h-full">
                     <div class="container mx-auto rounded-lg border bg-white border-gray-400 px-4 py-10">
                         <h1 class="text-center text-4xl font-bold sm:text-2xl">Anexos Generados</h1>
                         <div class="flex justify-center w-full sm:overflow-auto sm:h-60 md:overflow-auto md:h-60 lg:overflow-auto lg:h-60 xl:overflow-auto xl:h-70">
@@ -55,7 +55,40 @@
                                       <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
                                       <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
                                       <td>
-                                        <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="50" :custom-label="customLabel"  :show-labels="false">
+                                        <multiselect v-model="selectMultiModal" 
+                                          @close="acciones_mapper_modal()" 
+                                          placeholder="Seleccione una Accion"
+                                          label="title"
+                                          track-by="title"
+                                          class="multi sm:w-32 sm:h-auto sm:ml-4"
+                                          :options="opticones_select_acciones_modal()"
+                                          :option-height="50" 
+                                          :custom-label="customLabel" 
+                                          :show-labels="false">
+                                        <template slot="option" slot-scope="props">                                                
+                                            <div class="option__desc">
+                                            <span class="option__title inline-flex sm:text-xs">
+                                            <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
+                                            {{ props.option.title }}</span>
+                                            </div>
+                                          </template>
+                                        </multiselect>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                      <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
+                                      <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
+                                      <td>
+                                        <multiselect v-model="selectMultiModal" 
+                                          @close="acciones_mapper_modal()" 
+                                          placeholder="Seleccione una Accion"
+                                          label="title"
+                                          track-by="title"
+                                          class="multi sm:w-32 sm:h-auto sm:ml-4"
+                                          :options="opticones_select_acciones_modal()"
+                                          :option-height="50" 
+                                          :custom-label="customLabel" 
+                                          :show-labels="false">
                                         <template slot="option" slot-scope="props">                                                
                                             <div class="option__desc">
                                             <span class="option__title inline-flex sm:text-xs">
@@ -70,52 +103,16 @@
                                       <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
                                       <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
                                       <td>
-                                        <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="50" :custom-label="customLabel"  :show-labels="false">
-                                        <template slot="option" slot-scope="props">                                                
-                                            <div class="option__desc">
-                                            <span class="option__title inline-flex sm:text-xs">
-                                            <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
-                                            {{ props.option.title }}</span>
-                                            </div>
-                                          </template>
-                                        </multiselect>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
-                                      <td>
-                                        <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="50" :custom-label="customLabel"  :show-labels="false">
-                                        <template slot="option" slot-scope="props">                                                
-                                            <div class="option__desc">
-                                            <span class="option__title inline-flex sm:text-xs">
-                                            <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
-                                            {{ props.option.title }}</span>
-                                            </div>
-                                          </template>
-                                        </multiselect>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
-                                      <td>
-                                        <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="50" :custom-label="customLabel"  :show-labels="false">
-                                        <template slot="option" slot-scope="props">                                                
-                                            <div class="option__desc">
-                                            <span class="option__title inline-flex sm:text-xs">
-                                            <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
-                                            {{ props.option.title }}</span>
-                                            </div>
-                                          </template>
-                                        </multiselect>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
-                                      <td>
-                                        <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="50" :custom-label="customLabel"  :show-labels="false">
+                                        <multiselect v-model="selectMultiModal" 
+                                          @close="acciones_mapper_modal()" 
+                                          placeholder="Seleccione una Accion"
+                                          label="title"
+                                          track-by="title"
+                                          class="multi sm:w-32 sm:h-auto sm:ml-4"
+                                          :options="opticones_select_acciones_modal()"
+                                          :option-height="50" 
+                                          :custom-label="customLabel" 
+                                          :show-labels="false">
                                         <template slot="option" slot-scope="props">                                                
                                             <div class="option__desc">
                                             <span class="option__title inline-flex sm:text-xs">
@@ -163,8 +160,9 @@ export default {
     return {      
         loadingTabla: false,
         lista_DTC_Filtrada: [{referenceNumber: 'CER-21039',user:'Emiliano'}],
-        modalAnexosgenerado:false,     
-        selectMulti:'',               
+        showModal: false,     
+        selectMulti:'', 
+        selectMultiModal:'',              
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -174,8 +172,8 @@ export default {
     acciones_mapper(){     
       console.log(this.selectMulti.title);          
       if(this.selectMulti.title == 'Anexos Generados'){
-        this.modalAnexogenerado = true;
-        console.log(this.modalAnexosgenerado);
+        this.showModal = true;
+        console.log(this.showModal);
       } 
     },
     customLabel ({ title }) {
@@ -197,10 +195,25 @@ export default {
 
             return filtroOpciones
     },
-    botoncancelar_modal(){
-      this.modalAnexogenerado = false;
-      console.log(this.modalAnexosgenerado);
-    }
+    botoncancelar_modal: function (){ 
+    this.showModal = false; 
+    document.body.classList.remove("modal-open");
+    },
+    opticones_select_acciones_modal(){
+            const options= [                
+            { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //0
+            ]
+            let filtroOpciones = []
+            filtroOpciones.push(options[0])
+            // if(item.statusId >= 3 && !item.escaneadobool){
+            // filtroOpciones.push(options[3])
+            // }
+
+            return filtroOpciones
+    },
+    acciones_mapper_modal(){
+
+    },
     }
 }
 </script>
