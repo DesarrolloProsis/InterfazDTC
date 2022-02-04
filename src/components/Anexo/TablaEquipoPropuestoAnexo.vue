@@ -35,100 +35,33 @@
       </div>
     </div>
 
-    <div class="md:hidden lg:hidden xl:hidden flex justify-center flex-col">
+    <div class="mt-2 md:hidden lg:hidden xl:hidden flex justify-center flex-col">
       <div :class="{ 'hidden': modal }">
-        <div class="text-center mb-5">
-          <h6 class="font-titulo font-bold">Equipo Propuesto</h6>
-        </div>
         <div class="overflow-x bg-white rounded-lg shadow overflow-y-auto sm:text-xs sm:ml-4 sm:mr-4">
           <table class="border-collapse font-titulo">
+            <thead>
             <tr class=" border-gray-800 bg-blue-800 text-white text-xs text-center">
-              <th class="w-20 cabeceraTable font-medium">Partida</th>
-              <th class="w-48 cabeceraTable font-medium">Componente</th>
-              <th class="w-48 cabeceraTable font-medium">
-                Precio Total
-                <br />(Pesos)
-              </th>
-              <th class="w-40 cabeceraTable font-medium">Accion</th>
+              <th class="w-32 lg:w-36 xl:w-48 cabeceraTable font-medium">Componente</th>
+              <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">Ubicacion (carril/cuerpo)</th>
+              <th class="w-24 lg:w-36 xl:w-48 cabeceraTable font-medium">No. Serie</th>
             </tr>
-            <tr
-              class="hover:bg-blue-200 text-center text-xs"
-              v-for="(equipo, index) in listaEquipo"
-              :key="index"
-            >
-              <td class="cuerpoTable">{{ equipo.row1}}</td>
-              <td class="cuerpoTable">{{ equipo.row3.description }}</td>
-              <td class="cuerpoTable">$ {{ (equipo.row14 * equipo.row4).toLocaleString('en-US') }}</td>
-              <td class="cuerpoTable">
-                <button
-                  v-on:click.stop.prevent="infoFull(index)"
-                  class="hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded-lg inline-flex items-center border-b-2 border-blue-700"
-                >
-                  <img src="../../assets/img/mas.png" class width="20" height="20" />
-                </button>
-              </td>
-            </tr>
+            </thead>
+            <tbody>
+                <tr
+                class="hover:bg-blue-200 text-center text-xs"
+                v-for="(equipo, index) in listaEquipo"
+                :key="index"
+              >
+                <td class="cuerpoTable">{{ equipo.row1}}</td>
+                <td class="cuerpoTable">{{ equipo.row3.description }}</td>
+                
+              </tr>
+            </tbody>
+            
           </table>
         </div>
         <div>
           
-        </div>
-      </div>
-      <!--////////////////////////////////////////////////////////////////////
-      ////              MODAL INFORMACION CELULAR                        ////
-      ////////////////////////////////////////////////////////////////////-->
-      <div class="p-5 font-titulo" v-if="modal">
-        <div class="text-xs text-center border border-gray-400 shadow-lg rounded-lg z-40">
-              <div class="flex justify-end">
-                <button v-on:click.stop.prevent="(modal = false), (objectModal = {})" class="">
-                  <img src="../../assets/img/close.png" class="mr-2 sm:m-1" width="25" height="25"/>
-                  <span class="text-sm hidden">Cerrar</span>
-                </button>
-              </div>
-          <div class="inline-flex m-2 mt-6">
-            <div class=" w-20 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Componete</p>
-              <p>{{ infoRow.row3.description }}</p>
-            </div>
-            <div class="w-20 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unidad</p>
-              <p>{{ infoRow.row2 }}</p>
-            </div>
-            <div class="w-20 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Cantidad</p>
-              <p class>{{ infoRow.row4 }}</p>
-            </div>
-          </div>
-          <div class="inline-flex m-2">
-            <div class="w-32 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unitario Dolares</p>
-              <p class="border-b-2">{{ '----------' }}</p>
-            </div>
-            <div class="w-32 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Total Dolares</p>
-              <p class="border-b-2">{{ '----------' }}</p>
-            </div>
-          </div>
-          <div class="inline-flex m-2">
-            <div class="w-32 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Unitario Dolares</p>
-              <p class="border-b-2">$ {{ (infoRow.row14).toLocaleString('en-US') }}</p>
-            </div>
-            <div class="w-32 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Total Pesos</p>
-              <p class="border-b-2">$ {{ (infoRow.row14 * infoRow.row4).toLocaleString('en-US') }}</p>
-            </div>
-          </div>
-          <div class="inline-flex m-2">
-            <div class="w-32 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Marca</p>
-              <p class="border-b-2" v-for="(item, id) in infoRow.row5" :key="id">{{ item }}</p>
-            </div>
-            <div class="w-32 m-1">
-              <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Modelo</p>
-              <p class="border-b-2" v-for="(item, id) in infoRow.row6" :key="id">{{ item }}</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

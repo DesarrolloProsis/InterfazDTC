@@ -2,7 +2,7 @@
 
     <div class="container mx-auto">
         <HeaderGenerico :titulo="'ACTA ADMINISTRATIVA INFORMATIVA (ENTREGA-RECEPCIÓN)'" :subtitulo="'FORMATO 1-A'" :tipo="'anexo1A'" />
-        <div class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto text-justify p-6">
+        <div class="mt-1 mb-1 text-sm flex flex-col sm:block sm:p-1 sm:pr-2 sm:text-xs border sm:m-1 shadow-md md:w-auto text-justify p-6">
         <p class="">SE LEVANTA LA PRESENTE ACTA,
         PARA HACER CONSTAR EL SERVICIO DE MANTENIMIENTO <label class="font-bold">CORRECTIVO (SINIESTRO, ACCIDENTE VEHICULAR, DESCARGA ELÉCTRICA, ETC.)</label> 
         </p>
@@ -72,12 +72,12 @@
         :dateSinester="datosSinester.SinisterDate"
         ></TablaEquipoMalo>
         <p class="mb-4">Se cierra la presente acta en fecha 10 de diciembre de 2021 siendo las 18:00 horas.</p>
-        <div class="w-1/2 p-2 mb-10 flex justify-center w-full">
+        <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Generar anexo 1-A</span>
             </button>
-          </div>
+        </div>
         </div>
         
        

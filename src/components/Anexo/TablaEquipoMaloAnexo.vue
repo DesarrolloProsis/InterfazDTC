@@ -3,7 +3,7 @@
       <div class="flex justify-center">
         <div class="shadow-sm rounded w-full flex flex-col">
         <div class="inline-flex font-titulo">
-            <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto sm:mb-24 sm:text-xs" :class="{ hidden: modal }">
+            <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto sm:mb-24 sm:text-xs hidden md:block lg:block xl:block 2xl:block" :class="{ hidden: modal }">
               <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                 <!--/////////////////////////////////////////////////////////////////
                 ////                 CABECERA DE LA TABLA                       ////
@@ -25,7 +25,7 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <tbody name="table" is="transition-group">    
                   <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
-                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Cantidad -->
+                    <td class="cuerpoTable"><!-- Cantidad -->
                       <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
                       <div v-else>{{ objectEditar.rowUpd4 }}</div>
                     </td>
@@ -33,16 +33,16 @@
                       <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
                       <div v-else></div>
                     </td>
-                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Marca -->
+                    <td class="cuerpoTable"><!-- Marca -->
                       <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p></div>
                     </td>
-                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Modelo -->
+                    <td class="cuerpoTable"><!-- Modelo -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
                       </div>
                     </td>
-                    <td class="cuerpoTable sm:hidden md:hidden"><!-- Numero de Serie -->
+                    <td class="cuerpoTable"><!-- Numero de Serie -->
                       <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p></div>
                       <div v-else><p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
                       </div>
@@ -86,23 +86,7 @@
                         <button @click="modalAgregarComp">
                           <img src="../../assets/img/more.png" width="15" height="15"/>
                         </button>
-                        <multiselect
-                            @open="UnClick"                          
-                            @select="cambiar_componente"
-                            v-model="componenteSeleccionado"
-                            :options="listaComponentes"
-                            :multiple="false"
-                            group-values="secundarios"
-                            group-label="componentePrincipal"
-                            :close-on-select="true"
-                            :group-select="false"
-                            placeholder="Buscar componentes"
-                            track-by="name"
-                            openDirection="below"
-                            class="hidden"
-                            label="description"
-                        ><span slot="noResult"></span>
-                        </multiselect>                     
+                                            
                       </td>
                       <td class="cuerpoTable sm:hidden">{{ datosPrePartida.rowMarca.toString() }}</td>
                       <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
@@ -133,65 +117,47 @@
                   </tr>
               </table>
             </div>
-        </div>      
-          <!--////////////////////////////////////////////////////////////////////
-          ////              MODAL INFORMACION CELULAR                        ////
-          ////////////////////////////////////////////////////////////////////-->
-          <div class="font-titulo" v-if="modal">
-            <div class="text-xs text-center contenedor z-40 sm:-mt-10 sm:mb-10">
-              <div class="flex justify-end">
-                <button v-on:click.stop.prevent="(modal = false), (objectModal = {})" class="">
-                  <img src="../../assets/img/close.png" class="mr-2 sm:m-1" width="25" height="25"/>
-                  <span class="text-sm hidden">Cerrar</span>
-                </button>
-              </div>
-              <div class="inline-flex m-2">
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Componente</p>
-                  <p>{{ objectModal.row3.description }}</p>
+        </div>
+        <div class="mt-1 bg-green-100 border rounded-xl border-gray-300 shadow-lg text-center md:hidden lg:hidden xl:hidden">
+          <button @click="modalAgregarComp">
+            <span class="flex p-1 text-md font-bold text-green-800">
+              Añadir componentes
+              <img src="../../assets/img/more.png" width="25" height="15" class="ml-2"/>
+            </span>
+            
+          </button>
+        </div> 
+        <div class="grid grid-cols-1 gap-4 mt-2 mb-6 md:hidden lg:hidden xl:hidden">
+              <div class="bg-gray-50 space-y-3 p-4 rounded-lg shadow-xl">
+                <div>
+                  <div class="text-lg font-bold">ARMARIO TECNICO CARRIL MULTIMODAL</div>
+                  <div class="mb-2">
+                    <span class="text-xs font-bold tracking-tight text-blue-800 bg-blue-200 rounded-xl bg-opacity-50 p-1"><span class="text-blue-800">Ubicacion: </span> A01-13070451</span> 
+                  </div>
+                  <div class="mb-2">
+                    <span class="text-xs font-bold tracking-tight text-blue-800 bg-blue-200 rounded-xl bg-opacity-50 p-1"><span class="text-blue-800">No. Serie: </span> 13070451</span>
+                    </div>
+                  <div class="text-xs mt-1 bg-gray-100 border rounded-lg p-2 text-gray-800 font-semibold">
+                    OBSERVACIONES: NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.
+                     </div>
                 </div>
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Carriles</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row8" :key="id">{{ item | formatPlaza }}</p>
-                </div>
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Marca</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row5" :key="id">{{ item }}</p>
-                </div>
-              </div>
-              <div class="inline-flex m-2">
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Numero Serie</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row7" :key="id">{{ item }}</p>
-                </div>
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Modelo</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row6" :key="id">{{ item }}</p>
-                </div>
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Folio</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row11" :key="id">{{ item }}</p>
+                <div class="grid grid-cols-2 place-items-stretch gap-4 text-xs ">
+                  <div class="text-left text-gray-800 p-1">
+                    <div>MODELO: S/M</div>
+                    <div>MARCA: PROSIS</div>
+                    <div>CANTIDAD: 1</div>
+                  </div>
+                  <div class="place-self-center p-2">
+                    <button v-on:click.stop.prevent="eliminar_partida(index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-8 ">
+                      <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="20" height="20"/>
+                      <span class="">Borrar</span>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div class="inline-flex m-2">
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha de Instalacion</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row9" :key="id">{{ item | formatDate }}</p>
-                </div>
-                <div class="w-24 m-1">
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Fecha Ultimo Mantenimiento</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row10" :key="id">{{ item | formatDate }}</p>
-                </div>
-                <div class="w-24 m-1">
-                  <p></p>
-                  <p class="mb-3 font-medium text-gray-800 border-b-2 border-blue-800 rounded-lg">Tiempo de Vida Real</p>
-                  <p class="border-b-2" v-for="(item, id) in objectModal.row12" :key="id">{{ item }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-            </div>
-          </div>
+        </div>     
+      </div>
+    </div>
     
     <!--//////////////////////////////////////////////////////////////////
     ////                         MODAL AGREGAR COMPONENTE            ////
@@ -204,7 +170,7 @@
                         <table class="tablaf mt-6">
                             <thead>
                                 <tr class="text-sm text-center text-white trTable sm:text-xs">
-                                    <th class="w-24 md:w-34 lg:w-49  xl:w-54 cabeceraTable font-medium sticky top-0"></th>
+                                    <th class="w-24 md:w-34 lg:w-49  xl:w-54 cabeceraTable font-medium sticky top-0">Seleccionar componente</th>
                                     <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0">Componente</th>
                                     <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">No. Serie</th>
                                     <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0">Carril</th>

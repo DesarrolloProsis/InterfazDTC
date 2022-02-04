@@ -8,16 +8,18 @@
           <table class="w-full rounded-lg">
           <thead class="">
             <tr>
-              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable rounded-l-lg">Referencia</th>
-              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable">Usuario</th>
-              <th class="p-3 text-sm text-white font-semibold tracking-wide cabeceraTable rounded-r-lg">Acciones</th>
+              <th class="p-3 text-sm sm:text-xs sm:w-8 text-white font-semibold tracking-wide cabeceraTable rounded-l-lg">Referencia</th>
+              <th class="p-3 text-sm sm:text-xs text-white font-semibold tracking-wide cabeceraTable sm:hidden">Usuario</th>
+              <th class="p-3 text-sm sm:text-xs sm:w-8 text-white font-semibold tracking-wide cabeceraTable">Tipo de Falla</th>
+              <th class="p-3 text-sm sm:text-xs sm:w-8 text-white font-semibold tracking-wide cabeceraTable rounded-r-lg">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="p-3 text-sm text-gray-700 text-center">CER-21039</td>
-              <td class="p-3 text-sm text-gray-700 text-center">Luis Emiliano Torres</td>
-              <td class="P-3 w-50 text-center">
+              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">CER-21039</td>
+              <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden">Luis Emiliano Torres</td>
+              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">Fin de vida util</td>
+              <td class="P-3 sm:w-8 w-50 text-center">
                   <multiselect v-model="selectMulti" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel"  :show-labels="false">
                     <template slot="option" slot-scope="props">                                                
                       <div class="option__desc">

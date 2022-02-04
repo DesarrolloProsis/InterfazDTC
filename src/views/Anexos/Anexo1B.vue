@@ -2,9 +2,10 @@
 
     <div class="container mx-auto">
         <HeaderGenerico :titulo="'ACTA ADMINISTRATIVA INFORMATIVA (ENTREGA-RECEPCIÓN)'" :subtitulo="'FORMATO 1-B'" :tipo="'anexo1A'" />
-        <div class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto text-justify p-6">
-        <p class="">SE LEVANTA LA PRESENTE ACTA,PARA HACER CONSTAR EL SERVICIO DE MANTENIMIENTO <label class="font-bold"> POR FÍN DE VIDA ÚTIL/REUBICACIÓN/ACONDICIONAMIENTO</label> 
-        </p>
+        <div class="mt-1 mb-1 flex  flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto text-justify p-6">
+        <p class="">SE LEVANTA LA PRESENTE ACTA,
+        PARA HACER CONSTAR EL SERVICIO DE MANTENIMIENTO <span class="font-bold">POR FÍN DE VIDA ÚTIL/REUBICACIÓN/ACONDICIONAMIENTO</span> 
+          </p>
         <p>
         REALIZADO AL EQUIPO DE CONTROL DE TRANSITO DE <label class="font-bold">CARRIL A09</label>, 
         EN LA PLAZA DE COBRO <label class="font-bold"> No. 103, PALO BLANCO,</label>
