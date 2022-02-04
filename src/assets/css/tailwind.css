@@ -546,3 +546,10 @@ select:focus {
 body.modal-open {
     overflow: hidden;
 }
+
+.inputanexo{
+    @apply shadow appearance-none border rounded text-gray-700 leading-tight text-center;
+}
+.inputanexo:focus{
+    @apply outline-none shadow-outline;
+}
