@@ -117,8 +117,6 @@ const actions = {
           }
         })
         .catch()
-      }else{
-        console.log('error');
       }
     }   
   }
