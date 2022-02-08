@@ -40,10 +40,14 @@
         <div class="sticky inset-0 font-titulo " :class="{'modal-container': showModal}">
                 <div v-if="showModal" class="rounded-lg p-2 grid grid-cols-1 content-center h-full">
                     <div class="container mx-auto rounded-lg border bg-white border-gray-400 px-4 py-10">
-                      <div class="flex flex-row-reverse mr-4 mb-6">
-                      <button @click="botoncancelar_modal()" class="p-4"><img src="../../../assets/img/cerrarmodal.png" alt="cerrarmodal" width="20" height="25"></button>
+                      <div class="flex flex-col">
+                        <div class="flex flex-row-reverse">
+                          <button @click="botoncancelar_modal()" class="p-4 mr-10"><img src="../../../assets/img/cerrarmodal.png" alt="cerrarmodal" width="20" height="25"></button>
+                        </div>
+                        <div>
+                          <h1 class="text-center text-4xl font-bold sm:text-2xl">Anexos Generados</h1>
+                        </div>
                       </div>
-                        <h1 class="text-center text-4xl font-bold sm:text-2xl">Anexos Generados</h1>
                         <div class="flex justify-center w-full sm:overflow-auto sm:h-60 md:overflow-auto md:h-60 lg:overflow-auto lg:h-60 xl:overflow-auto xl:h-70">
                             <table class="tablaf mt-6">
                                 <thead>

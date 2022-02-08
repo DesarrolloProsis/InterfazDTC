@@ -20,28 +20,26 @@
         <div class="flex w-full gap-4 p-2">
              <multiselect
                 :disabled="blockInput"
-                v-model="testigos"  
+                v-model="testigo1"  
                 :custom-label="label_multi_select"                                                  
                 :close-on-select="false"
                 :clear-on-select="true"
                 :hideSelected="false"                               
                 placeholder="Selecciona un testigo"
                 :options="testigos_plaza"
-                :multiple="false"      
                 select-label=""
                 class="w-full"                 
                 >
         </multiselect>
         <multiselect
                 :disabled="blockInput"
-                v-model="testigos"  
+                v-model="testigo2"  
                 :custom-label="label_multi_select"                                                  
                 :close-on-select="false"
                 :clear-on-select="true"
                 :hideSelected="false"
                 placeholder="Selecciona un testigo"
                 :options="testigos_plaza"
-                :multiple="false"      
                 select-label=""
                 class="w-full"                 
                 >
@@ -122,6 +120,8 @@ import Multiselect from "vue-multiselect";
       arrayReference: [],
       referenceSelected: '',      
       tipoPlazaSelect: '', 
+      testigo1: '',
+      testigo2: '',
       testigos_plaza: ['C.AGUSTIN DAVID FIGUEROA SOTELO','C.JONATHAN EDMUNDO MARQUEZ MARES']    
     };
     },
