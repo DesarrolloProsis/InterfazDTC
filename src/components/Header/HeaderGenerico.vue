@@ -343,7 +343,7 @@
             <div class="xl:m-3 w-full xl:w-1/2">   
                 <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
                     <label class="font-bold sm:text-xs sm:text-center">Seleccione una Plaza:</label>
-                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" :vista="'Encargados'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" :vista="'DTCFacturados'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                 </div>                                     
             </div>
             <div class="xl:m-3 w-full xl:w-1/2">
