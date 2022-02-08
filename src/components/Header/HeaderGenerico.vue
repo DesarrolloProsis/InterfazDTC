@@ -305,7 +305,7 @@
         </div>
         </div>
         <!--////////////////////////////////////////////////////////////////////
-        ///                   FILTROS DE INCIOS SESION ULTIMO FILTRO                       ///         
+        ///                   FILTROS DE INCIOS SESION ULTIMO FILTRO            ///         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'InicioSesion'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
             <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
