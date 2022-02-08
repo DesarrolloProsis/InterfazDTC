@@ -104,7 +104,7 @@
                     :listaDataTable="listaFicha"
                     :loadingTabla="loadingTabla"
                     :validarAcciones="opticones_select_acciones"
-                    :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC'},{text: 'Acciones', key: 'Acciones'}]"
+                    :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC', LetrasGris:true },{text: 'Acciones', key: 'Acciones'}]"
                     :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Diagnostica', key: 'diagnosisDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
                 >
                 </TablaGenerica>                               
@@ -146,7 +146,8 @@ export default {
             listaTecnicosPlaza:[],
             userChangeDf: '',
             refNum: '',
-            comentario: ''
+            comentario: '',
+            statusDTC: 0,
         }
     },
     beforeMount: function (){
@@ -155,6 +156,8 @@ export default {
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
+            console.log(response);
+            
             setTimeout(() => {
                 this.infoFichasFallaCompleta = response.data.result
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
@@ -430,6 +433,7 @@ export default {
                 { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
                 { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: '/img/add.36624e63.png' },//11
             ]
+            this.statusDTC = item.statusDtc
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
             if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
@@ -449,7 +453,7 @@ export default {
                 if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
                     filtroOpciones.push(options[1])
                 }           
-                if(item.validacionDTC && item.validacionFichaTecnica){
+                if(item.validacionDTC && item.validacionFichaTecnica && item.statusDtc != 1){
                     filtroOpciones.push(options[6])
                 } 
                 if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                                   

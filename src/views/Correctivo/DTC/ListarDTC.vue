@@ -198,9 +198,9 @@
                     </ValidationProvider>
                   </div>
                 </div>
-              <!--/////////////////////////////////////////////////////////////////////
-                  ////                      FILA NUMERO 3                         ////
-                  ////////////////////////////////////////////////////////////////////-->
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                      FILA NUMERO 3                             ////
+                ////////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 mt-5">       
                   <div class="-mt-2 mr-3">     
                     <ValidationProvider name="Observaciones" rules="max:300"  v-slot="{ errors }"> 
@@ -218,18 +218,18 @@
                     </ValidationProvider>
                   </div>            
                 </div>               
-              <!--/////////////////////////////////////////////////////////////////////
-                  ////                        BOTONES MODAL EDIT                         ////
-                  ////////////////////////////////////////////////////////////////////-->
+                <!--/////////////////////////////////////////////////////////////////////
+                ////                        BOTONES MODAL EDIT                      ////
+                ////////////////////////////////////////////////////////////////////-->
                 <div class="text-center grid grid-cols-2  mt-10">  
-                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear" :class="{'hidden': ocultar}">Actualizar</button></div>     
+                  <div><button @click="editar_header_dtc(true)" class="botonIconCrear">Actualizar</button></div>     
                   <div><button @click="(modalEdit = modal = false), (refNum = ''), (ocultarMultiPadre = false)" class="botonIconCancelar font-boton sm:ml-2">Cancelar</button></div>     
                 </div>
               </div>     
             </ValidationObserver>         
           </div>                  
         </div>    
-      <!--/////////////////////////////////////////////////////////////////
+        <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL FECHAS DTC                       ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 sm:text-xs font-titulo" :class="{'modal-container': modalEditFechas}">               
@@ -286,7 +286,28 @@
             </ValidationObserver>         
           </div>                  
         </div>        
-      <!--/////////////////////////////////////////////////////////////////
+        <!--/////////////////////////////////////////////////////////////////
+        ////        MODAL NO SE PUEDE ACTUALIZAR HEADER                 ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0 sm:text-xs font-titulo" :class="{'modal-container': error}">               
+          <div v-if="error" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto mt-54">         
+            <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
+              <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                <ExclamationIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+              </div>
+              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <h3 class="text-lg leading-6 font-medium text-gray-900"> Error al Actualizar </h3>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-500">NO SE PUDO ACTUALIZAR, VERIFIQUE LOS DATOS. RECUERDA QUE NO SE PUEDE TENER UN NÚMERO DE SINIESTRO REPETIDO.</p>
+                  </div>
+              </div>
+              <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="error = false, modalEdit = true">Entendido</button>
+              </div>
+            </div>
+          </div>                  
+        </div>
+        <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
@@ -326,6 +347,7 @@ import EventBus from "@/services/EventBus.js";
 import Carrusel from "@/components/Carrusel";
 import ServiceFiltrosDTC from '@/services/FiltrosDTCServices'
 import Spinner from '@/components/Sppiner.vue'
+import { ExclamationIcon } from "@vue-hero-icons/outline"
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: 'DTCPendientes',
@@ -376,14 +398,17 @@ export default {
       ocultarMultiPadre: false,
       typeUser: '',
       comentario: '',
-      ocultar: false
+      ocultar: false,
+      //Modal error
+      error: false
     };
   },
   components: {    
     CardListDTC,
     Carrusel,
     HeaderGenerico,
-    Spinner
+    Spinner,
+    ExclamationIcon,
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
@@ -563,9 +588,12 @@ methods: {
   },
   editar_header_dtc: async function(refNum){  
     this.ocultarMultiPadre = true       
-      if(typeof refNum === 'boolean'){         
+    if(typeof refNum === 'boolean'){         
+      if(this.dtcEdit.sinisterNumber.trim().length == this.dtcEdit.sinisterNumber.length){
+        console.log('if trim');
         let isValid = await this.$refs.observer.validate(); 
-          if(isValid){ 
+        if(isValid){ 
+          console.log('valid');
           this.modalEdit = false
           this.modalLoading = true         
           let objEdit = {
@@ -582,7 +610,7 @@ methods: {
             if(item === null){
               item = ''
             }
-          }                                           
+          }                                 
           let editar_dtc_promise = new Promise((resolve , reject) => {
             this.$http.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit)
               .then(async () =>{                                                             
@@ -617,12 +645,19 @@ methods: {
               });
               ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
             })              
-          }, 3000);    
+          }, 3000);   
         }else{
-          this.ocultar = true
-        }         
-    }
-    else{
+          console.log('invalid');
+          this.modalEdit = false
+          this.error = true
+          console.log(this.error);
+        }
+      }else{
+        console.log('else trim');
+        this.modalEdit = false
+        this.error = true
+      }      
+    }else{
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
       this.modalEdit = true
       this.modal = true
@@ -935,5 +970,12 @@ computed: {
   height: 100vh;
   z-index: 1000;
   background: rgba(0, 0, 0, 0.5);
+}
+.modal-error{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.089);
 }
 </style>
