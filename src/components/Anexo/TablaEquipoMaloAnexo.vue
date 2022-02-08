@@ -1,0 +1,623 @@
+<template>
+  <div>
+      <div class="flex justify-center">
+        <div class="shadow-sm rounded w-full flex flex-col">
+        <div class="inline-flex font-titulo">
+            <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto sm:mb-24 sm:text-xs hidden md:block lg:block xl:block 2xl:block" :class="{ hidden: modal }">
+              <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
+                <!--/////////////////////////////////////////////////////////////////
+                ////                 CABECERA DE LA TABLA                       ////
+                ////////////////////////////////////////////////////////////////////-->
+                <thead>
+                  <tr class="text-sm text-center text-white trTable sm:text-xs">
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">Cantidad</th>
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">Componente</th>
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">Marca</th>
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">Modelo</th>
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">No. de Serie</th>
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">Ubicacion(carril/cuerpo)</th>
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">Observaciones</th>
+                    <th class="md:w-20 lg:w-32 xl:w-40 cabeceraTable font-medium">Acciones</th>
+                  </tr>
+                </thead>
+                <!--/////////////////////////////////////////////////////////////////
+                ////                 CUERPO DE LA TABLA                          ////
+                ////////////////////////////////////////////////////////////////////-->
+                <tbody name="table" is="transition-group">    
+                  <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
+                    <td class="cuerpoTable"><!-- Cantidad -->
+                      <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
+                      <div v-else>{{ objectEditar.rowUpd4 }}</div>
+                    </td>
+                    <td class="cuerpoTable"><!-- Componente -->
+                      <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
+                      <div v-else></div>
+                    </td>
+                    <td class="cuerpoTable"><!-- Marca -->
+                      <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p></div>
+                    </td>
+                    <td class="cuerpoTable"><!-- Modelo -->
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
+                      </div>
+                    </td>
+                    <td class="cuerpoTable"><!-- Numero de Serie -->
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p></div>
+                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
+                      </div>
+                    </td>
+                    <td class="cuerpoTable"><!-- Ubicacion -->
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
+                      <div v-else></div>
+                    </td>
+                    <td class="cuerpoTable"><!-- Observaciones -->
+                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">Dañada</p></div>
+                      <div v-else></div>
+                    </td>
+                    <td class="cuerpoTable pb-2 "><!-- Acciones -->
+                      <div v-if="equipo.rowUp" class="sm:mr-5">
+                        <button v-on:click.stop.prevent="eliminar_partida (index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-8 ">
+                          <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                          <span class="sm:hidden">Borrar</span>
+                        </button>
+                        <button v-on:click.stop.prevent="infoModal(index)" class="botonIconMas ml-1 lg:hidden xl:hidden sm:h-8 sm:mr-1">
+                          <img src="../../assets/img/mas.png" width="15" height="15"/>
+                        </button>         
+                      </div>
+                      <div v-else>
+                        <button v-on:click.stop.prevent="abortUpdateRowTable(index)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2">
+                          <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                          <span>Cancelar</span>
+                        </button>
+                        <button v-on:click.stop.prevent="confirmRowTable(index)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2">
+                          <img src="../../assets/img/garrapata.png" class="mr-2 sm:m-1" width="20" height="20"/>
+                          <span>Confirmar</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>           
+                </tbody>
+                  <!--/////////////////////////////////////////////////////////////////
+                    ////           FOOTER DE LA TABLA + PARTIDA                      ////
+                  ////////////////////////////////////////////////////////////////////-->      
+                    <tr class="text-center">
+                      <td class="cuerpoTable w-1">
+                        <button @click="modalAgregarComp">
+                          <img src="../../assets/img/more.png" width="15" height="15"/>
+                        </button>
+                                            
+                      </td>
+                      <td class="cuerpoTable sm:hidden">{{ datosPrePartida.rowMarca.toString() }}</td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowModelo" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable sm:hidden"><p v-for="(item, key) in datosPrePartida.rowNumSerie" :key="key" class="text-sm">{{ item }}</p></td>
+                      <td class="cuerpoTable sm:hidden">
+                        <multiselect
+                            v-model="laneSelect"                                                  
+                            :close-on-select="false"
+                            :clear-on-select="true"
+                            :hideSelected="false"
+                            placeholder="Selecciona..."
+                            :options="listLane"
+                            :multiple="true"
+                            class="hidden"
+                          >
+                          <template v-if="componenteSeleccionado != 'Servidor de Video' && componenteSeleccionado != 'Servidor de Plaza'" slot="selection" slot-scope="{ values, isOpen }">
+                            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Carriles</span>
+                          </template>
+                        </multiselect>
+                      </td>
+                      
+                      <td class="cuerpoTable sm:hidden p-2">
+                        <button v-on:click.stop.prevent="agregarPartida()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 w-24 hidden">
+                          <img src="../../assets/img/more.png" width="20" height="20" />
+                          <span class="text-xs">Agregar Partida</span>
+                        </button>
+                      </td>
+                  </tr>
+              </table>
+            </div>
+        </div>
+        <div class="mt-1 bg-green-100 border rounded-xl border-gray-300 shadow-lg text-center md:hidden lg:hidden xl:hidden">
+          <button @click="modalAgregarComp">
+            <span class="flex p-1 text-md font-bold text-green-800">
+              Añadir componentes
+              <img src="../../assets/img/more.png" width="25" height="15" class="ml-2"/>
+            </span>
+            
+          </button>
+        </div> 
+        <div class="grid grid-cols-1 gap-4 mt-2 mb-6 md:hidden lg:hidden xl:hidden">
+              <div class="bg-gray-50 space-y-3 p-4 rounded-lg shadow-xl">
+                <div>
+                  <div class="text-lg font-bold">ARMARIO TECNICO CARRIL MULTIMODAL</div>
+                  <div class="mb-2">
+                    <span class="text-xs font-bold tracking-tight text-blue-800 bg-blue-200 rounded-xl bg-opacity-50 p-1"><span class="text-blue-800">Ubicacion: </span> A01-13070451</span> 
+                  </div>
+                  <div class="mb-2">
+                    <span class="text-xs font-bold tracking-tight text-blue-800 bg-blue-200 rounded-xl bg-opacity-50 p-1"><span class="text-blue-800">No. Serie: </span> 13070451</span>
+                    </div>
+                  <div class="text-xs mt-1 bg-gray-100 border rounded-lg p-2 text-gray-800 font-semibold">
+                    OBSERVACIONES: NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL.
+                     </div>
+                </div>
+                <div class="grid grid-cols-2 place-items-stretch gap-4 text-xs ">
+                  <div class="text-left text-gray-800 p-1">
+                    <div>MODELO: S/M</div>
+                    <div>MARCA: PROSIS</div>
+                    <div>CANTIDAD: 1</div>
+                  </div>
+                  <div class="place-self-center p-2">
+                    <button v-on:click.stop.prevent="eliminar_partida(index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-8 ">
+                      <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="20" height="20"/>
+                      <span class="">Borrar</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+        </div>     
+      </div>
+    </div>
+    
+    <!--//////////////////////////////////////////////////////////////////
+    ////                         MODAL AGREGAR COMPONENTE            ////
+    //////////////////////////////////////////////////////////////////-->
+    <div class="sticky inset-0 font-titulo " :class="{'modal-container': showModal}">
+            <div v-if="showModal" class="rounded-lg p-2 grid grid-cols-1 content-center h-full">
+                <div class="container mx-auto rounded-lg border bg-white border-gray-400 px-4 py-10">
+                    <h1 class="text-center text-4xl font-bold sm:text-2xl">Componentes del DTC</h1>
+                    <div class="flex justify-center w-full sm:overflow-auto sm:h-60 md:overflow-auto md:h-60 lg:overflow-auto lg:h-60 xl:overflow-auto xl:h-70">
+                        <table class="tablaf mt-6">
+                            <thead>
+                                <tr class="text-sm text-center text-white trTable sm:text-xs">
+                                    <th class="w-24 md:w-34 lg:w-49  xl:w-54 cabeceraTable font-medium sticky top-0">Seleccionar componente</th>
+                                    <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0">Componente</th>
+                                    <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">No. Serie</th>
+                                    <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0">Carril</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
+                                    <td class="p-2 text-center text-xs">A08</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A03</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><input type="checkbox"></td>
+                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
+                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
+                                    <td class="p-2 text-center text-xs">A07</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                  <!--////////////////////////////////////////////////////////////////////
+                  ////                        BOTONES MODAL AGREGAR COMP             ////
+                  ////////////////////////////////////////////////////////////////////-->    
+                  <div class=" flex justify-center mt-8">          
+                    <div class="inline-flex">
+                        <button v-on:click.stop.prevent="agregarPartida()" class="botonIconCrear">Agregar</button>
+                        <button @click="botoncancelar_modal" class="botonIconCancelar font-boton">Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+    </div>
+    <h3 class="font-bold text-sm">COMPONENTES Y/O REFACCIONES NUEVAS:</h3>
+    <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
+  </div>
+</template>
+<script>
+import Multiselect from "vue-multiselect";
+import TablaEquipoPropuesto from "../../components/Anexo/TablaEquipoPropuestoAnexo.vue";
+import Service from "../../services/EquipoMaloService.js";
+import EventBus from '../../services/EventBus'
+import moment from "moment";
+import { mapState } from 'vuex';
+export default {
+  name: "TablaEquipoMalo",
+  components: {
+    Multiselect,
+    TablaEquipoPropuesto,
+  },
+  data() {
+    return {
+      showModal: false,
+      datosPrePartida: {
+        rowPartida: [],
+        rowUnidad: [],
+        rowName: "",
+        rowCantidad: 0,
+        rowMarca: [],
+        rowModelo: [],
+        rowNumSerie: [],
+        rowUbicacion: [],
+        rowDateInstalacion: [],
+        rowDateMantenimiento: [],
+        rowFolioMantenimiento: [],
+        rowDateReal: [],
+        rowDateFabricante: [],
+        rowPrecio: [],
+        rowUp: true,
+      },
+      arrayPartidas: [],
+      //nombre del Compoente    
+      componenteSeleccionado: "",     
+      scrollBool: true,
+      statusMetro: false,
+      cantidadMetro: 0,
+      //Multiselect Normal
+      listLane: [],
+      laneSelect: [],
+      //datos para editar Componente
+      saveObjectEdiar: [],
+      objectEditar: {},
+      updtCompEditar: "",
+      listLaneEditar: [],
+      laneSelectEditar: [],
+      //Modal atributos
+      modal: false,
+      objectModal: {},
+      pruebasMultiselect: [],
+      //Cambios Inserte RelationShip
+      relationShipPrincipal: "",
+      arrayDmg: []
+    };
+  },
+/////////////////////////////////////////////////////////////////////
+////                          PROPS                              ////
+/////////////////////////////////////////////////////////////////////
+props: {
+  listaComponentes: {
+      type: Array,
+      default: () => [],
+  },
+  dateSinester: {
+      type: String,
+      required: true,
+      default: "",
+  },
+},
+//////////////////////////////////////////////////////////////////////
+////                    CICLOS DE VIDA                            ////
+/////////////////////////////////////////////////////////////////////
+created(){
+  EventBus.$on('insertar-componetes-dañados', (objInsert) => {
+    this.mapear_componetes_dañados(objInsert)    
+  })
+},
+beforeMount: async function () {
+    let componetesEdit = await this.$store.state.DTC.componetesEdit
+    if (JSON.stringify(componetesEdit) != "{}") {   
+      let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];                  
+      for (const item of componetesEdit.items) {                     
+        newObject["attachedId"] = item.attachedId;
+        newObject["componentsRelationship"] = item.relationship;
+        newObject["componentsRelationshipId"] = item.mainRelationship;
+        newObject["componentsStockId"] = item.componentsStockId
+                          
+        await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);          
+        let array_ubicacion = [];
+        let array_carril = [];
+        let array_cantidad = [];
+        componetesEdit.serialNumbers.map((lane) => {            
+          if (item.item == lane.item) {
+            array_ubicacion.push(lane.tableFolio);
+            array_carril.push(lane.lane);
+            array_cantidad.push(lane.amount)
+          }
+        });                  
+        let cantidad = array_cantidad.every(ammont => ammont == 0) == true
+        ? array_cantidad.length
+        : parseInt(array_cantidad[0])          
+                                                  
+        let new_partida = Service.lane_select(
+          array_ubicacion,
+          undefined, //Key_partidas
+          this.listaRefaccionesValid,
+          this.dateSinester,
+          item.mainRelationship,
+          true,
+          cantidad            
+        );                   
+        new_partida["row1"] = this.arrayPartidas.length + 1;
+        new_partida["row3"] = {
+          description: item.name,
+          attachedId: item.attachedId,
+          componentsRelationship: item.relationship,
+          componentsRelationshipId: item.mainRelationship,
+          vitalComponent: item.vitalComponent,
+          componentsStockId: item.componentsStockId
+        };            
+        this.arrayPartidas.push(new_partida);
+        EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)        
+      }
+    } 
+},
+destroyed: function () {
+    this.arrayPartidas = [];
+    this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
+    this.$store.commit("DTC/insertDmgCompleteMutation", false);
+    this.$store.commit("Header/insertHeaderCompleteMutation", false);
+    this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+    this.$store.commit("Header/clearDatosSinesterMutation");
+    this.$store.commit("DTC/COMPONENTES_EDIT", {});
+    this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
+    EventBus.$off('insertar-componetes-dañados')
+},
+/////////////////////////////////////////////////////////////////////
+////                          METODOS                            ////
+/////////////////////////////////////////////////////////////////////
+methods: {
+  mapear_componetes_dañados:  function(objInsert){
+    let new_promise = new Promise((resolve, reject) => {
+    let newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+    let arrayDmg = []
+    this.arrayPartidas.forEach(async(partida, index) => {      
+      newObjectConvenio["attachedId"] = partida.row3.attachedId;
+      newObjectConvenio["componentsRelationship"] = partida.row3.componentsRelationship;
+      newObjectConvenio["componentsRelationshipId"] = partida.row3.componentsRelationshipId;
+      newObjectConvenio["componentsStockId"] = partida.row3.componentsStockId;        
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObjectConvenio);            
+      let nuevaPartidaInsert = await Service.obj_partida(partida.row8, this.listaRefaccionesValid, this.dateSinester, partida.row3.componentsRelationshipId, undefined, partida.row4)          
+      let nuevoArray = nuevaPartidaInsert.map((item) => {
+        item["IntPartida"] = index + 1
+        item["ReferenceNumber"] = objInsert.refNum   
+        return item  
+      })
+      nuevoArray.forEach(item => {
+        arrayDmg.push(item)
+      }) 
+      if(arrayDmg.length == 0)
+        reject('Mal')
+      else       
+        resolve(arrayDmg)              
+    }) 
+    })
+    setTimeout(() => {
+      new_promise.then((array) => {        
+        EventBus.$emit('enviar-componete', { arrayDmg: array, adminId: objInsert.adminId, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
+      })
+      
+    }, 2000)
+  },
+  eliminar_partida(index){    
+    this.arrayPartidas.splice(index, 1)
+    this.arrayPartidas.map((item, index) => {
+      item.row1 = index + 1
+    })
+    EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
+  },
+  UnClick() { this.componenteSeleccionado = "" },
+  modalAgregarComp: function (){
+     this.showModal = true 
+     document.body.classList.add("modal-open");
+     },  
+  botoncancelar_modal: function (){ 
+    this.showModal = false; 
+    this.laneSelect = ''; 
+    this.componenteSeleccionado = '';
+    document.body.classList.remove("modal-open");
+    },  
+  cambiar_componente: async function (value) {        
+    this.listLane = []; this.laneSelect = []; this.statusMetro = false; this.cantidadMetro = 0;
+    for(const propiedades in this.datosPrePartida) {
+      this.datosPrePartida[propiedades] = [];            
+    }
+    const clousere_validar_componete = () => {            
+      let componeteRepetido = this.arrayPartidas
+        .find(partida => { 
+          return partida.row3.description == value.description && 
+          partida.row3.componentsRelationship == value.componentsRelationship
+        }
+      )          
+      if(componeteRepetido == undefined) return true
+      else{
+        if(componeteRepetido.row2 == 'METRO'){
+          this.statusMetro
+          return true
+        }
+      } 
+    }                              
+    if (clousere_validar_componete()) {
+      let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
+      newObject["attachedId"] = this.componenteSeleccionado.attachedId;
+      newObject["componentsRelationship"] = this.componenteSeleccionado.componentsRelationship;
+      newObject["componentsRelationshipId"] = this.componenteSeleccionado.componentsRelationshipId; 
+      newObject["componentsStockId"] = this.componenteSeleccionado.componentsStockId       
+      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
+      this.listLane = await this.$store.state.Refacciones.listaLane
+      this.relationShipPrincipal = this.componenteSeleccionado.componentsRelationship;      
+      if (this.listLane.length == 0) {
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `EL COMPONENTE NO ESTA INSTALADO.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      }
+    } else {        
+      this.$notify.warning({
+        title: "Ups!",
+        msg: `EL COMPONENTE ESTA REPETIDO.`,
+        position: "bottom right",
+        styles: {
+          height: 100,
+          width: 500,
+        },
+      });
+      this.componenteSeleccionado = '';        
+    }
+  },
+  agregarPartida: async function () {
+      if (this.componenteSeleccionado != "") {
+        if (this.laneSelect.length > 0) {                
+          let new_partida = Service.lane_select(
+            this.laneSelect,
+            undefined,//key_partidas
+            this.listaRefaccionesValid,
+            this.dateSinester,
+            this.relationShipPrincipal,
+            null,
+            this.statusMetro == true ? this.cantidadMetro : this.laneSelect.length
+          );
+          new_partida["row1"] = this.arrayPartidas.length + 1;
+          new_partida["row3"] = this.componenteSeleccionado;
+          new_partida["row8"] = this.laneSelect; 
+          console.log(new_partida);         
+          this.arrayPartidas.push(new_partida);
+          EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
+          //LIMPIA LA LISTA PRE_PARTIDA
+          for (const propiedades in this.datosPrePartida) {
+            if (propiedades == "rowCantidad")
+              this.datosPrePartida[propiedades] = 0;
+            else this.datosPrePartida[propiedades] = [];
+          }
+          //LIMPIAMOS COMPONENTE Y LANE
+          this.componenteSeleccionado = ""; this.laneSelect = []; this.listLane = []; this.statusMetro = false; this.showModal= false        
+        } else {
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `FALTA AGREGAR LA UBICACION.`,
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+          });
+        }
+      } else {
+        this.$notify.warning({
+          title: "Ups!",
+          msg: `FALTA AGREGAR UN COMPONENTE.`,
+          position: "bottom right",
+          styles: {
+            height: 100,
+            width: 500,
+          },
+        });
+      }
+  },
+  infoModal: function (value) {
+      this.modal = true;
+      this.objectModal = Object.assign(this.arrayPartidas[value]);
+  },
+},
+/////////////////////////////////////////////////////////////////////
+////                     OBSERVADORES                            ////
+/////////////////////////////////////////////////////////////////////
+watch: {
+  laneSelect: async function (newValue) {
+      //Limpiar los datos pre partida
+      for (const propiedades in this.datosPrePartida) {
+        if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
+        else this.datosPrePartida[propiedades] = [];
+      }      
+      if (newValue.length > 0) {        
+        this.datosPrePartida = Service.lane_select(
+          newValue,
+          this.datosPrePartida,
+          this.listaRefaccionesValid,
+          this.dateSinester,
+          this.relationShipPrincipal,
+          undefined,//Editar 
+          newValue.length         
+        );
+        if(this.datosPrePartida.rowUnidad == 'METRO')
+          this.statusMetro = true
+      }    
+  },
+},
+computed: {
+    ...mapState({
+        listaRefaccionesValid: state => state.Refacciones.listaRefaccionesValid,
+        convenioActual: state => state.Header.convenioActual
+    })  
+},
+/////////////////////////////////////////////////////////////////////
+////                          FILTROS                            ////
+/////////////////////////////////////////////////////////////////////
+filters: {
+  formatDate: function (value) {
+      return moment(value.substring(0, 10)).format("DD/MM/YYYY");
+  },
+  formatPlaza: function (value) {
+      return value;
+  },
+},
+};
+</script>
+
+<style scoped>
+.modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

@@ -305,7 +305,7 @@
         </div>
         </div>
         <!--////////////////////////////////////////////////////////////////////
-        ///                   FILTROS DE INCIOS SESION                        ///         
+        ///                   FILTROS DE INCIOS SESION ULTIMO FILTRO                       ///         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'InicioSesion'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
             <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
@@ -334,6 +334,43 @@
                 </div>             
             </div>           
         </div>
+        <!--///////////////////////////////////////////////////////////////////
+        ///                    FILTROS DE CONCENTRADO DTC FACTURADOS       ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'CDTCF'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-lg font-bold">{{ titulo }}</h1>
+        <div class="flex content-center sm:flex-col sm:justify-evenly sm:justify-center md:justify-center md:justify-evenly lg:justify-center lg:justify-evenly xl:justify-center xl:justify-evenly" >
+            <div class="xl:m-3 w-full xl:w-1/2">   
+                <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
+                    <label class="font-bold sm:text-xs sm:text-center">Seleccione una Plaza:</label>
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" :vista="'Encargados'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                </div>                                     
+            </div>
+            <div class="xl:m-3 w-full xl:w-1/2">
+                <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
+                    <label class="font-bold sm:text-xs sm:text-center">Referencia:</label>
+                    <input v-model="buscarDF" class="border w-full text-xs text-center h-5 is_valid" placeholder="PM-000000"/>
+                </div>
+            </div>
+               
+        </div>
+        <!-- ////////////////////////////////////////////////////////////////////
+        ///                    BOTONES DE CONCENTRADO DTC FACTURADOS        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="flex justify-center mb-6 sm:mb-1 sm:mt-2">
+            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonTodos font-boton sm:h-10">
+                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <span>Todos</span>
+            </button>
+        </div>
+        </div>
+        <!--///////////////////////////////////////////////////////////////////
+        ///                    Titulo Anexo 1-A      ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'anexo1A'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
+        <h3 class="text-black text-right text-md p-3 font-bold sm:text-center">{{subtitulo}}</h3>
+        <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-sm font-bold">{{ titulo }}</h1>
+        </div>
     </div>
 </template>
 <script>
@@ -348,6 +385,10 @@ export default {
     props:{
         //Props Interno Componente
         titulo: {
+            type: String,
+            default: () => ''
+        },
+        subtitulo: {
             type: String,
             default: () => ''
         },
