@@ -13,6 +13,8 @@
     <img src="../../assets/img/close.png" alt="">
     <img src="../../assets/img/menos.png" alt="">
     <img src="../../assets/img/pencil.png" alt="">
+    <img src="../../assets/img/slide.png" alt="">
+    <img src="../../assets/img/list.png" alt="">
     <button @click="descargar_excel" class="bg-red-600 w-64 h-51">Presioname para excel</button>
   </div>
 </template>

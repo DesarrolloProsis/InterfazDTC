@@ -468,8 +468,7 @@ methods: {
       //if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
         let actualizar_user = new Promise ((resolve,reject) => {
           this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
-          .then((response) => {  
-            console.log(response)                
+          .then(() => {       
             let index = this.infoDTC.map(item =>  { 
               return item.referenceNumber }
             ).indexOf(this.itemCompleteChangeUserDTC.referenceNumber)                             

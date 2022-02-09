@@ -110,99 +110,6 @@
             :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
         >
         </TablaGenerica>     
-        <!-- <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16 static" :class="{'overflow-x-auto bg-white rounded-lg static shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
-        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
-          <thead class="">
-              <tr class="text-md text-gray-400 font-normal bg-blue-800">               
-                <th class="cabeceraTable font-medium">Referencia</th>
-                <th class="cabeceraTable font-medium">Fecha de Elaboración</th>
-                <th class="cabeceraTable font-medium">Fecha de Siniestro</th>
-                <th class="cabeceraTable font-medium">Registro en Sistema</th>
-                <th class="cabeceraTable font-medium">Folio</th>
-                <th class="cabeceraTable font-medium">N° de Reporte</th>
-                <th class="cabeceraTable font-medium">N° de Siniestro</th>
-                <th class="cabeceraTable font-medium">Fecha de Falla</th>
-                <th class="cabeceraTable font-medium">Fotografías</th>
-                <th class="cabeceraTable font-medium hidden">Terminar Ficha</th>
-                <th class="cabeceraTable font-medium hidden" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
-                <th class="cabeceraTable font-medium hidden">PDF</th>
-                <th class="cabeceraTable font-medium">Acciones</th>
-              </tr>
-          </thead>
-          <tbody name="table" id="multiselectHamburguesa">  
-            <template v-if="lista_DTC_Filtrada.length == 0 && loadingTabla != true"> 
-                <tr>
-                    <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
-                        <div class="mt-8 mb-8">Sin Informacion</div>
-                    </td>
-                </tr>  
-            </template> 
-            <template v-if="loadingTabla">  
-                <tr>
-                    <td class="w-full" colspan="10">                                    
-                        <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
-                    </td>                          
-                </tr>  
-            </template>   
-            <template v-if="lista_DTC_Filtrada.length > 0">
-              <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_DTC_Filtrada" :key="key">  
-                <td class="cuerpoTable hidden" v-if="tipoUsuario == 1">
-                  <div>
-                    <button @click="abrirModal(item)" class="botonTodos">
-                      <img src="@/assets/img/todos.png" class="mr-4 ml-1 sm:mr-2" width="35" height="35"/>
-                    </button>
-                  </div>
-                </td>              
-                <td class="cuerpoTable">{{ item.referenceNumber }}</td>
-                <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
-                <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
-                <td class="cuerpoTable">{{ item.dateStamp | formatDate}}</td>
-                <td class="cuerpoTable">
-                  <input class="text-center border-0 shadow-none" v-model="item.failureNumber" type="text" placeholder="Sin Información" readonly/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="text-center border-0 shadow-none" v-model="item.reportNumber" type="text" placeholder="Sin Información" readonly/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
-                </td>
-                <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>               
-                <td class="cuerpoTable">
-                  <div v-if="tipoUsuario != 7">                                                  
-                    <button  v-if="!item.sinEscanedoDiagnostico" class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default">
-                      <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
-                    </button>
-                    <button v-else @click="abrirCarrusel(item)" class="botonIconCrear">
-                      <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
-                    </button>   
-                  </div>
-                  <div v-if="tipoUsuario == 7">
-                    <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': tipoUsuario == 4 || tipoUsuario == 10 }" :disabled=" tipoUsuario == 4 || tipoUsuario == 10 ">
-                      <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
-                    </button>
-                  </div>
-                </td>
-                <td>
-                  <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                    <template slot="singleLabel" slot-scope="props">
-                      <div class="inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
-                        <span class="option__title bg-red-300">{{ props.option.title }}</span>
-                      </div>
-                    </template>
-                    <template slot="option" slot-scope="props">                                                
-                      <div class="option__desc "><span class="option__title inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
-                        {{ props.option.title }}</span>
-                      </div>
-                    </template>
-                  </multiselect>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>   -->
         </div>  
     </div> 
   </div>
@@ -326,7 +233,7 @@ methods:{
       { title: 'Bajar DTC Sellado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//3
       { title: 'Subir DTC Sellado', accionCss: 'terminar', img: '/img/upload.8d26bb4f.png' },//4
       { title: 'Actualizar Componentes', accionCss: 'editar', img: '/img/actualizado.cafc2f1a.png' },//5
-      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: '/img/upload.8d26bb4f.png' },//6
+      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//6
     ]
     let filtroOpciones = []
     filtroOpciones.push(options[0])
@@ -348,7 +255,7 @@ methods:{
     if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
     }
-    if(this.tipoUsuario == 8){
+    if(this.tipoUsuario == 8 || this.tipoUsuario == 10){
       filtroOpciones.push(options[6])
     }
     return filtroOpciones
