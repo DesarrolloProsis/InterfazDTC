@@ -1,5 +1,5 @@
 <template>
-
+<div>
     <div class="container mx-auto">
         <HeaderGenerico :titulo="'ACTA ADMINISTRATIVA INFORMATIVA (ENTREGA-RECEPCIÓN)'" :subtitulo="'FORMATO 1-A'" :tipo="'anexo1A'" />
         <div class="mt-1 mb-1 text-sm flex flex-col leading-7 sm:block sm:p-1 sm:pr-2 sm:text-xs border sm:m-1 shadow-md md:w-auto text-justify p-6">
@@ -18,34 +18,30 @@
         TENIENDO COMO TESTIGOS DE ASISTENCIA A:
         </p>
         <div class="flex w-full gap-4 p-2">
-             <multiselect
-                :disabled="blockInput"
-                v-model="testigo1"  
-                :custom-label="label_multi_select"                                                  
-                :close-on-select="false"
-                :clear-on-select="true"
-                :hideSelected="false"                               
-                placeholder="Selecciona un testigo"
-                :options="testigos_plaza"
-                :multiple="false"      
-                select-label=""
-                class="w-full"                 
-                >
-        </multiselect>
-        <multiselect
-                :disabled="blockInput"
-                v-model="testigo2"  
-                :custom-label="label_multi_select"                                                  
-                :close-on-select="false"
-                :clear-on-select="true"
-                :hideSelected="false"
-                placeholder="Selecciona un testigo"
-                :options="testigos_plaza"
-                :multiple="false"      
-                select-label=""
-                class="w-full"                 
-                >
-        </multiselect>
+          <multiselect
+            v-model="testigo1"                                                    
+            :close-on-select="false"
+            :clear-on-select="true"
+            :hideSelected="false"                               
+            placeholder="Selecciona un testigo"
+            :options="testigos_plaza"
+            :multiple="false"      
+            select-label=""
+            class="w-full"                 
+            >
+          </multiselect>
+          <multiselect
+            v-model="testigo2"                                                 
+            :close-on-select="false"
+            :clear-on-select="true"
+            :hideSelected="false"
+            placeholder="Selecciona un testigo"
+            :options="testigos_plaza"
+            :multiple="false"      
+            select-label=""
+            class="w-full"                 
+            >
+          </multiselect>
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL A02, CARRIL A07</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">403</span>, DE FECHA <span class="font-bold">13 DE JUNIO DE 2021</span>; FUE REPARADA
@@ -63,26 +59,50 @@
         <span class="font-bold">NO. SINIESTRO</span> Y/O <span class="font-bold">NO. DE REPORTE 04</span> DE FECHA <span class="font-bold">13 DE JUNIO DE 2021.</span>
         </p>
         <h3 class="font-bold text-sm mt-2">COMPONENTES Y/O REFACCIONES DAÑADAS:</h3>
-        <TablaEquipoMalo
-        :listaComponentes="listaComponentes"
-        :dateSinester="datosSinester.SinisterDate"
-        ></TablaEquipoMalo>
+        <TablaEquipoMalo :listaComponentes="listaComponentes" :dateSinester="datosSinester.SinisterDate"/>
         <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
+        <p class="mb-2">ENCARGADO DE PLAZA: 
+          <select class="">
+          <option value="">Selecciona un encargado de plaza</option>
+          <option value="">Cadlos</option>
+          <option value="">Ñaniel</option>
+          </select>
+        </p>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="modalImage = true" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
-              <span>Generar anexo 1-A</span>
+              <span>Insertar Anexo 1-A</span>
             </button>
         </div>
         </div>
-        
-       
     </div>
+    <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL IMAGENES                        /////
+    ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0" v-if="modalImage" :class="{'modal-container': modalImage}">
+            <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66 mt-66">          
+                <span @click="modalImage = false" class="absolute  top-0 right-0">
+                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
+                </span> 
+                <div class="justify-center text-center block">            
+                    <!-- /////////////////////////////////////////////////////////////////////
+                    ////                         IMAGENES                             ////
+                    ///////////////////////////////////////////////////////////////////// -->
+                    <ImagenesAnexo @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="''"></ImagenesAnexo>
+                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                        <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                        <span>Generar Anexo 1-A</span>
+                    </button>  
+                </div>
+            </div>
+        </div>
+</div>
 </template>
 
 <script>
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
 import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
+import ImagenesAnexo from '../../components/ImagenesGenericas.vue'
 import moment from "moment";
 import { Datetime } from 'vue-datetime';
 import Multiselect from "vue-multiselect";
@@ -94,6 +114,7 @@ import Multiselect from "vue-multiselect";
         TablaEquipoMalo,
         Datetime,
         Multiselect,
+        ImagenesAnexo
     },
      data() {
     return {
@@ -124,7 +145,9 @@ import Multiselect from "vue-multiselect";
       tipoPlazaSelect: '', 
       testigo1: '',
       testigo2: '',
-      testigos_plaza: ['C.AGUSTIN DAVID FIGUEROA SOTELO','C.JONATHAN EDMUNDO MARQUEZ MARES']    
+      testigos_plaza: ['C.AGUSTIN DAVID FIGUEROA SOTELO','C.JONATHAN EDMUNDO MARQUEZ MARES'],
+      modalImage: false,  
+      modalLoading: false,
     };
     },
     beforeMount: async function () {    
