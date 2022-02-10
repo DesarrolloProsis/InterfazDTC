@@ -14,6 +14,7 @@
                                 <th class="cabeceraTable">Solicitante</th>
                                 <th class="cabeceraTable">Tipo DTC</th>
                                 <th class="cabeceraTable">Referencia</th>
+                                <th class="cabeceraTable">Estatus DTC</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">
@@ -39,7 +40,8 @@
                                 <td class="cuerpoTable sm:text-xs">${{ item.precio }}</td> 
                                 <td class="cuerpoTable sm:text-xs">{{ item.solicitante }}</td>
                                 <td class="cuerpoTable sm:text-xs">{{ item.tipoDTC }}</td>                                
-                                <td class="cuerpoTable sm:text-xs">{{ item.referencia }}</td>                                
+                                <td class="cuerpoTable sm:text-xs">{{ item.referencia }}</td> 
+                                <td class="cuerpoTable sm:text-xs">{{ item.estatus }}</td>                                
                             </tr>
                             </template>
                         </tbody>
@@ -73,8 +75,10 @@ export default {
             this.lista_Componentes = response.data.result
             this.lista_Filtrada = this.lista_Componentes
             this.lista = this.lista_Filtrada
+            console.log(this.lista);
             this.loadingTabla = false
         })
+        
     },
     methods:{
         descargar_reporte: function(){

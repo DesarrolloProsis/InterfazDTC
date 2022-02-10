@@ -329,7 +329,12 @@ methods:{
       { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: '/img/upload.8d26bb4f.png' },//6
     ]
     let filtroOpciones = []
-    filtroOpciones.push(options[0])
+    if(this.tipoUsuario == 8 || this.tipoUsuario == 4){
+      filtroOpciones.push(options[6])
+    }
+    if (this.tipoUsuario != 4) {
+      filtroOpciones.push(options[0])
+    }
     if(item.statusId >= 3 && !item.escaneadobool){
       filtroOpciones.push(options[3])
     }
@@ -348,9 +353,7 @@ methods:{
     if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
     }
-    if(this.tipoUsuario == 8){
-      filtroOpciones.push(options[6])
-    }
+    
     return filtroOpciones
   },  
   limpiar_componete_escaneado: function(){
