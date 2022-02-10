@@ -332,7 +332,7 @@ methods:{
     if(this.tipoUsuario == 8 || this.tipoUsuario == 4){
       filtroOpciones.push(options[6])
     }
-    if (this.tipoUsuario != 4) {
+    if (this.tipoUsuario != 4 && this.tipoUsuario != 8) {
       filtroOpciones.push(options[0])
     }
     if(item.statusId >= 3 && !item.escaneadobool){
