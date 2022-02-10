@@ -12,7 +12,7 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <div v-if="filtros" class="grid grid-cols-3 mx-auto -mt-1 m-5 sm:grid-cols-2 md:grid-cols-2 ">
                     <!--Plaza-->
-                    <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
+                     <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
                         <p class="text-sm font-titulo mx-auto text-gray-900 font-semibold -mr-17 mt-1 sm:mr-0 sm:text-xs md:mr-3">Plaza:</p>
                         <p class="">
                             <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Actividades'" :fullPlazas="true"></SelectPlaza>

@@ -537,5 +537,19 @@ select:focus {
         transform: translateY(10px);
         transition: all 2s
     }
-    
+}
+
+.tablaf tbody tr:nth-child(2n){
+    @apply bg-gray-200
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.inputanexo{
+    @apply shadow appearance-none border rounded text-gray-700 leading-tight text-center;
+}
+.inputanexo:focus{
+    @apply outline-none shadow-outline;
 }

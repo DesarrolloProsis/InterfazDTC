@@ -332,7 +332,7 @@ export default {
               }
             }
           }
-          if(this.tipoUsuario == 8 ){
+          if(this.tipoUsuario == 8 || this.tipoUsuario == 10){
             array.push(options[8])
           }          
         }

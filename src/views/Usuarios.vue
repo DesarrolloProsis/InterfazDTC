@@ -212,7 +212,8 @@
             <select v-model="tramoSeleccionado" class="w-full mt-2 sm:w-33 sm:-ml-4 is_valid">
               <option disabled value>Selecionar...</option>     
               <option value="1">México Acapulco</option>     
-              <option value="2">México Irapuato</option>     
+              <option value="2">México Irapuato</option> 
+              <option value="3">México Queretaro</option>     
             </select>
             <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
             <multiselect 
@@ -809,7 +810,6 @@ export default {
       this.obj_borrar_plaza.plazas.forEach((plaza) => {
         arrayPlaza.push(plaza.squareCatalogId)
       })
-      console.log(this.obj_borrar_plaza.plazas);
       let plazaDelete = {
           squareId: arrayPlaza,
           userId: item.userId,
