@@ -63,8 +63,8 @@
                 <!--/////////////////////////////////////////////////////////////////
                 ////                      MODAL ELIMINAR                         ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="absolute mt-66 ml-69 sm:ml-4">
-                    <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                <div class="sticky inset-0" :class="{'modal-container':modalEliminar}">
+                    <div v-if="modalEliminar" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66 mt-33">
                         <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
                             <img src="@/assets/img/warning.png" class="ml-2 sm:-ml-4" width="35" height="35" />
                             <p class="-mt-10 text-black sm:-ml-3 sm:-mt-6">Advertencia</p>
@@ -458,11 +458,15 @@ export default {
                 } 
                 if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                                   
                     filtroOpciones.push(options[2])
-                    filtroOpciones.push(options[3])
+                    //filtroOpciones.push(options[3])
                 }
-            }   
+            }
+            if((!item.validacionDTC) && (this.typeUser == 1 || this.typeUser == 2)){
+                filtroOpciones.push(options[3])
+            }
             if(this.typeUser == 4 || this.typeUser == 10){
                 filtroOpciones.push(options[11])
+                filtroOpciones.push(options[3])
             }  
             else{
                 if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10 && !item.validacionFichaTecnica)
