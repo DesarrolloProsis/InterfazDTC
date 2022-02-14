@@ -2,7 +2,7 @@
   <div>
     <div class="flex w-full sm:-mb-10">
       <div>
-        <div class="flex justify-center text-center  font-titulo">
+        <div class="flex justify-center text-center font-titulo">
           <div>
             <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
           </div>
