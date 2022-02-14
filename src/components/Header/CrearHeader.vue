@@ -53,7 +53,7 @@
           <div class="sm:flex-col pr-2 inline-block font-titulo">
             <div class="sm:hidden md:hidden lg:ml-26 w-6 absolute ml-30 my-1">
                 <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/speech-bubble.png" class="flex items-center w-10 h-6 mb-2"/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center w-5 h-5 mb-2"/>
                 </span>
 
                 <div ref="tooltipintervencion" class="font-titulo">

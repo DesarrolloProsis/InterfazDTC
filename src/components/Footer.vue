@@ -57,18 +57,6 @@ export default {
     }   
 }
 </script>
-<style>
-.vue-tooltip.tooltip-custom {
-    width: 50rem;  
-    background-color: rgba(255, 255, 255, 0.685);  
-    border: 1px solid #466fa1;  
-    box-shadow: 1000;
-    border-radius: 15px;
-}
 
-.vue-tooltip.tooltip-custom .tooltip-arrow {  
-    border: 3px solid #466fa1;  
-}
-</style>
 
 
