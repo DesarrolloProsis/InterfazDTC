@@ -3,7 +3,13 @@
         <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
-        <HeaderGenerico :titulo="'Concentrado DTC Facturados e Instalados'" :tipo="'CDTCF'" />
+        <HeaderGenerico 
+          @limpiar-filtros="limpiar_filtros" 
+          @filtrar-dtc="filtro_dtc" 
+          @buscar-gmmep="guardar_palabra_busqueda" 
+          :titulo="'Concentrado DTC Facturados e Instalados'" 
+          :tipo="'CDTCF'" 
+        />
         <div class="rounded-lg shadow-xl sm:mt-3">
           <table class="w-full rounded-lg">
           <thead class="">
@@ -132,10 +138,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                      <!--////////////////////////////////////////////////////////////////////
-                      ////                        BOTONES MODAL AGREGAR COMP             ////
-                      ////////////////////////////////////////////////////////////////////-->    
+                        </div>  
                     
                     </div>
                 </div>
@@ -147,7 +150,7 @@
 
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
-
+import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
 //const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -162,11 +165,23 @@ export default {
     data: function (){
     return {      
         loadingTabla: false,
-        lista_DTC_Filtrada: [{referenceNumber: 'CER-21039',user:'Emiliano'}],
+        lista_DTC_Filtrada: [],
         showModal: false,     
         selectMulti:'', 
-        selectMultiModal:'',              
+        selectMultiModal:'',
+        infoDTC: [],
+        lista_dtc: [],       
+        plazasValidas: [],             
         }
+    },
+    /////////////////////////////////////////////////////////////////////
+    ////                       CICLOS DE VIDA                        ////
+    /////////////////////////////////////////////////////////////////////
+    beforeMount: function () {
+      this.filtroVista = true
+      this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
+      this.lista_DTC_Filtrada = this.infoDTC
+      console.log(this.lista_DTC_Filtrada)
     },
     /////////////////////////////////////////////////////////////////////
     ////                           METODOS                           ////
@@ -215,10 +230,46 @@ export default {
 
             return filtroOpciones
     },
-    acciones_mapper_modal(){
-
-    },
+    guardar_palabra_busqueda: function(newPalabra){  
+    if (newPalabra != "") {   
+      this.lista_DTC_Filtrada = [] 
+      setTimeout(async () => {
+        let array_filtrado = this.infoDTC.filter(item => {
+          return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+        })       
+        this.lista_DTC_Filtrada = array_filtrado;
+      },1000)
     }
+    else{
+      this.lista_DTC_Filtrada = this.infoDTC
+    }
+  }, 
+  filtro_dtc: async function (objFiltro) {     
+    if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
+      this.lista_DTC_Filtrada = []   
+      setTimeout(async () => {
+        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false, undefined)    
+        this.$nextTick().then(() => {      
+            this.lista_DTC_Filtrada = listaFiltrada            
+        }) 
+      },1000)
+    }  
+    else{
+      this.$notify.warning({
+        title: "Ups!",
+        msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+        position: "bottom right",
+        styles: { height: 100, width: 500 },
+      });
+    }
+  },
+  limpiar_filtros: function() {             
+    this.modalLoading = true                            
+    this.$nextTick().then(() => {             
+      this.lista_DTC_Filtrada = this.infoDTC
+    })           
+  },
+  }
 }
 </script>
 

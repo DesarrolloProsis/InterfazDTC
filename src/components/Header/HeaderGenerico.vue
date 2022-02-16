@@ -1,6 +1,5 @@
 <template>
     <div>               
-        
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION   DTC                 ////         
         ///////////////////////////////////////////////////////////////////-->
@@ -349,7 +348,7 @@
             <div class="xl:m-3 w-full xl:w-1/2">
                 <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
                     <label class="font-bold sm:text-xs sm:text-center">Referencia:</label>
-                    <input v-model="buscarDF" class="border w-full text-xs text-center h-5 is_valid" placeholder="PM-000000"/>
+                    <input v-model="buscarDTC" class="border w-full text-xs text-center h-5 is_valid" placeholder="PM-000000"/>
                 </div>
             </div>
                

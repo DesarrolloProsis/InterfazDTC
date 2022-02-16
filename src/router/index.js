@@ -131,7 +131,12 @@ const routes = [
   {
     path: '/ConcentradoDTCFacturados',
     name:'/ConcentradoDTCFacturados',
-    component: () => import('../views/Correctivo/Concentrados/ConcentradoDTCFacturadoseInstalados')
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoDTCFacturadoseInstalados'),
+    beforeEnter: async function (to, from, next) {
+      let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+      next()
+    }
   },
   {
     path: '/Anexo1A',
