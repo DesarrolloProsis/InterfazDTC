@@ -26,7 +26,7 @@
                             <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
                         </router-link>
-                    </div>              
+                    </div>           
                 </div>
             </div>
         </div>

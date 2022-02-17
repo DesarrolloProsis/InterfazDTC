@@ -66,6 +66,13 @@
         :dateSinester="datosSinester.SinisterDate"
         ></TablaEquipoMalo>
         <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
+        <p class="mb-2">ENCARGADO DE PLAZA: 
+          <select class="">
+          <option value="">Selecciona un encargado de plaza</option>
+          <option value="">Carlos</option>
+          <option value="">Daniel</option>
+          </select>
+        </p>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
