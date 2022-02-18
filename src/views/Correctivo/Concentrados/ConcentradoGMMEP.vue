@@ -56,7 +56,8 @@
                     <option value="1">Inconcluso</option>  
                     <option value="2">Concluido</option>                                                                  
                     <option value="3">Sellado</option>                                                                                                                               
-                    <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
+                    <option v-if="tipoUsuario == 10" value="4">GMMEP</option>
+                    <option value="5">Almacen</option>  
                   </select> 
                 </div>
                 <div class="mt-5">

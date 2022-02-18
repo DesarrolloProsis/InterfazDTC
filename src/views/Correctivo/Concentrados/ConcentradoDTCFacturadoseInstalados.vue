@@ -24,7 +24,7 @@
             <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" :class="{'hidden': dtc.typeFaultId == 0}">
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.referenceNumber}}</td>
               <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden">{{dtc.userName}}</td>
-              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.typeFaultId}}</td>
+              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.faultDescription}}</td>
               <td class="P-3 sm:w-8 w-50 text-center">
                   <multiselect v-model="selectMulti" @close="acciones_mapper(dtc)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel"  :show-labels="false">
                     <template slot="option" slot-scope="props">                                                
@@ -211,7 +211,7 @@ export default {
     ////                       CICLOS DE VIDA                        ////
     /////////////////////////////////////////////////////////////////////
     beforeMount: function () {
-      this.filtroVista = true
+      this.filtroVista = undefined
       this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
       this.lista_DTC_Filtrada = this.infoDTC
       console.log(this.lista_DTC_Filtrada)
