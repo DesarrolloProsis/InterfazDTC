@@ -41,7 +41,7 @@
         </table>
         </div>   
         <!--//////////////////////////////////////////////////////////////////
-        ////                         MODAL AGREGAR COMPONENTE            ////
+        ////                         MODAL ANEXOS GENERADOS            ////
         //////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo " :class="{'modal-container': showModal}">
                 <div v-if="showModal" class="rounded-lg p-2 grid grid-cols-1 content-center h-full">
@@ -207,7 +207,8 @@ export default {
         dtcCambiarestatus:{},
         statusEdit: "",
         motivoCambio:"",
-        limite:300,             
+        limite:300,
+        anexosgenerados:[],             
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -229,7 +230,6 @@ export default {
       console.log(dtc)          
       if(this.selectMulti.title == 'Anexos Generados'){
         this.showModal = true;
-        console.log(this.showModal);
         this.selectMulti = '';
       }
       else if(this.selectMulti.title == 'Generar Anexo'){
@@ -344,7 +344,16 @@ export default {
       });
       this.lista_DTC_Filtrada = this.infoDtc
     }
-  }
+  },
+    async Anexosgenerados(dtc){
+      try {
+        const data = await fetch(`${API}/AnexoDTC/Historico/${dtc.referenceSquare}/${dtc.referenceNumber}`)
+        const objeto = await data.json()
+        console.log(objeto);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   /////////////////////////////////////////////////////////////////////
   ////                       COMPUTADOS                            ////
