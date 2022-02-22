@@ -348,7 +348,7 @@
             <div class="xl:m-3 w-full xl:w-1/2">
                 <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
                     <label class="font-bold sm:text-xs sm:text-center">Referencia:</label>
-                    <input v-model="buscarDTC" class="border w-full text-xs text-center h-5 is_valid" placeholder="PM-000000"/>
+                    <input v-model="buscarDTCfacturado" class="border w-full text-xs text-center h-5 is_valid" placeholder="PM-000000"/>
                 </div>
             </div>
                
@@ -357,7 +357,7 @@
         ///                    BOTONES DE CONCENTRADO DTC FACTURADOS        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="flex justify-center mb-6 sm:mb-1 sm:mt-2">
-            <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonTodos font-boton sm:h-10">
+            <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton sm:h-10">
                 <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
                 <span>Todos</span>
             </button>
@@ -428,6 +428,7 @@ export default {
             statusFiltro: '',
             buscarGMMEP:'',
             buscarDTC: '',
+            buscarDTCfacturado:'',
             //data Diagnostico/Ficha
             ubicacion: '',
             plazaSeleccionada:"",
@@ -523,6 +524,7 @@ export default {
             this.fechaFiltro = ''         
             this.buscarGMMEP = ''
             this.buscarDTC = ''
+            this.buscarDTCfacturado = ''
             EventBus.$emit('Limpiar-SelectPlaza')            
             this.$emit('limpiar-filtros')
         },
@@ -684,6 +686,9 @@ export default {
         },
         buscarGMMEP: function (newPalabra){
             this.$emit('buscar-gmmep', newPalabra.trim())
+        },
+        buscarFacturado: function (newPalabra){
+            this.$emit('buscar-facturado', newPalabra.trim())
         },
         buscarPalabraInventario: function(newPalabra){
             this.$emit('filtra-palabra', newPalabra.trim())

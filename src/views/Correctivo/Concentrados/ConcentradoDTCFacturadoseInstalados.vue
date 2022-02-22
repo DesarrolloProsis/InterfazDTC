@@ -6,7 +6,7 @@
         <HeaderGenerico 
           @limpiar-filtros="limpiar_filtros" 
           @filtrar-dtc="filtro_dtc" 
-          @buscar-gmmep="guardar_palabra_busqueda" 
+          @buscar-facturado="guardar_palabra_busqueda" 
           :titulo="'Concentrado DTC Facturados e Instalados'" 
           :tipo="'CDTCF'" 
         />
@@ -26,7 +26,7 @@
               <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden">{{dtc.userName}}</td>
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.faultDescription}}</td>
               <td class="P-3 sm:w-8 w-50 text-center">
-                  <multiselect v-model="selectMulti" @close="acciones_mapper(dtc)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel"  :show-labels="false">
+                  <multiselect v-model="selectMulti" @close="acciones_mapper(dtc)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones(dtc)" :option-height="200" :custom-label="customLabel"  :show-labels="false">
                     <template slot="option" slot-scope="props">                                                
                       <div class="option__desc">
                       <span class="option__title inline-flex sm:text-xs">
@@ -158,7 +158,7 @@
                     <option value="1">Inconcluso</option>  
                     <option value="2">Concluido</option>                                                                  
                     <option value="3">Sellado</option>                                                                                                                               
-                    <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
+                    <option value="4">GMMEP</option>  
                   </select> 
                 </div>
                 <div class="mt-5">
@@ -168,7 +168,7 @@
                 </div>
               </div>
               <div class="justify-center flex mt-5">
-                <button  class="botonIconCrear m-4">Aceptar</button>
+                <button @click="editar_status_dtc" class="botonIconCrear m-4">Aceptar</button>
                 <button @click="modalCambiarStatus = false" class="botonIconCancelar m-4">Cancelar</button>
               </div>
             </div>
@@ -182,7 +182,7 @@
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
 import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
-//const API = process.env.VUE_APP_URL_API_PRODUCCION
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
     name: "DTCFacturados",
@@ -204,7 +204,10 @@ export default {
         infoDTC: [],
         lista_dtc: [],       
         plazasValidas: [],
-        dtcCambiarestatus:{},             
+        dtcCambiarestatus:{},
+        statusEdit: "",
+        motivoCambio:"",
+        limite:300,             
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -212,6 +215,7 @@ export default {
     /////////////////////////////////////////////////////////////////////
     beforeMount: function () {
       this.filtroVista = undefined
+      this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
       this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
       this.lista_DTC_Filtrada = this.infoDTC
       console.log(this.lista_DTC_Filtrada)
@@ -230,10 +234,10 @@ export default {
       }
       else if(this.selectMulti.title == 'Generar Anexo'){
         if (dtc.typeFaultId === 2) {
-          this.$router.push(`/Anexo1A`);
+          this.$router.push(`/Anexo1A/${dtc.referenceNumber}`);
           this.selectMulti = '';
         } else if (dtc.typeFaultId === 3){
-          this.$router.push(`/Anexo1B`);
+          this.$router.push(`/Anexo1B/${dtc.referenceNumber}`);
           this.selectMulti = '';
         }
         
@@ -250,19 +254,18 @@ export default {
     customLabel ({ title }) {
       return `${title}`
     },
-    opticones_select_acciones(){
+    opticones_select_acciones(dtc){
             const options= [                
             { title: 'Anexos Generados', accionCss: 'terminar', img: '/img/list.03b04500.png' }, //0
             { title: 'Generar Anexo', accionCss: 'terminar', img: '/img/slide.44400136.png' },//1
             { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
             ]
             let filtroOpciones = []
+            if(dtc.isAnexoCreate == true){
             filtroOpciones.push(options[0])
+            }
             filtroOpciones.push(options[1])
             filtroOpciones.push(options[2])
-            // if(item.statusId >= 3 && !item.escaneadobool){
-            // filtroOpciones.push(options[3])
-            // }
 
             return filtroOpciones
     },
@@ -277,15 +280,13 @@ export default {
             ]
             let filtroOpciones = []
             filtroOpciones.push(options[0])
-            // if(item.statusId >= 3 && !item.escaneadobool){
-            // filtroOpciones.push(options[3])
-            // }
 
             return filtroOpciones
     },
-    guardar_palabra_busqueda: function(newPalabra){  
+    guardar_palabra_busqueda: function(newPalabra){
     if (newPalabra != "") {   
       this.lista_DTC_Filtrada = [] 
+      console.log(newPalabra);  
       setTimeout(async () => {
         let array_filtrado = this.infoDTC.filter(item => {
           return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
@@ -298,10 +299,10 @@ export default {
     }
   }, 
   filtro_dtc: async function (objFiltro) {     
-    if( objFiltro.plazaFiltro != '' || objFiltro.fechaFiltro != '' || objFiltro.referenciaFiltro != ''){      
+    if( objFiltro.plazaFiltro != '' || objFiltro.referenciaFiltro != ''){      
       this.lista_DTC_Filtrada = []   
       setTimeout(async () => {
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, objFiltro.fechaFiltro, objFiltro.referenciaFiltro, undefined, false, undefined)    
+        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, '' , objFiltro.referenciaFiltro, undefined, false, undefined)    
         this.$nextTick().then(() => {      
             this.lista_DTC_Filtrada = listaFiltrada            
         }) 
@@ -316,13 +317,43 @@ export default {
       });
     }
   },
-  limpiar_filtros: function() {             
-    this.modalLoading = true                            
+  limpiar_filtros: function() {                                         
     this.$nextTick().then(() => {             
       this.lista_DTC_Filtrada = this.infoDTC
     })           
   },
+  editar_status_dtc: function (){    
+    this.modalCambiarStatus = false
+    let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']    
+    let objeActualizado = { "referenceNumber": this.dtcCambiarestatus.referenceNumber, "statusId": parseInt(this.statusEdit), "userId": user.idUser, "comment": this.motivoCambio }        
+    if(this.statusEdit != '' && this.motivoCambio != ''){         
+      this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcCambiarestatus.referenceNumber.split('-')[0]}`, objeActualizado)
+      .then(() => {                          
+        let indexRowUpdate = this.lista_DTC_Filtrada.findIndex(item => item.referenceNumber == this.dtcCambiarestatus.referenceNumber)
+        this.lista_DTC_Filtrada.splice(indexRowUpdate, 1)
+        this.infoDTC = this.lista_DTC_Filtrada              
+        this.statusEdit = ''; this.motivoCambio = '';  this.dtcCambiarestatus = '';
+      }) 
+    }
+    else {
+      this.$notify.warning({
+        title: "Ups!",
+        msg: `NO SE HA LLENADO LOS CAMPOS.`,
+        position: "bottom right",
+        styles: { height: 100, width: 500 },
+      });
+      this.lista_DTC_Filtrada = this.infoDtc
+    }
   }
+  },
+  /////////////////////////////////////////////////////////////////////
+  ////                       COMPUTADOS                            ////
+  /////////////////////////////////////////////////////////////////////
+  computed:{
+      restante(){
+          return  this.motivoCambio.length
+      }
+  },
 }
 </script>
 

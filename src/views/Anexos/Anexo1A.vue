@@ -150,6 +150,10 @@ import Multiselect from "vue-multiselect";
       modalLoading: false,
     };
     },
+    created() {
+      const Referencedtc = this.$route.params.Referencedtc;
+      console.log(Referencedtc)
+    },
     beforeMount: async function () {    
     let f = new Date()
     this.tipoPlazaSelect = 'insersion'        
