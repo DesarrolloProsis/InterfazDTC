@@ -119,7 +119,7 @@ const actions = {
         .catch(() => {
         })
       }else{
-        console.log('error');
+        console.log('error, número de siniestro repetido');
       }
     }   
   }

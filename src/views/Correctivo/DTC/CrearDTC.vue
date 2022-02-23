@@ -10,6 +10,28 @@
       :observaciones="observaciones" 
       @crear-dtc="crear_dtc"     
     ></Header>
+    <!--////////////////////////////////////////////////////////////////////
+    ////            MODAL NO SE PUEDE ACTUALIZAR HEADER                ////
+    ////////////////////////////////////////////////////////////////////-->
+    <div class="sticky inset-0 sm:text-xs font-titulo -mt-32" :class="{'modal-error': error}">               
+      <div v-if="error" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto mt-54">         
+        <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <ExclamationIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-lg leading-6 font-medium text-gray-900"> Error al Crear </h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">NO SE PUDO CREAR EL DTC, VERIFIQUE LOS DATOS. RECUERDA QUE NO SE PUEDE TENER UN NÚMERO DE SINIESTRO REPETIDO.</p>
+              </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="error = false">Entendido</button>
+          </div>
+        </div>
+      </div>                  
+    </div>
+    <!--<Error :error="error" @cerrar="cerrar"/>-->
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
     <!-- //////////////////////////////////////////////////////////////////
@@ -118,6 +140,8 @@ import Header from "@/components/Header/CrearHeader";
 import EventBus from "@/services/EventBus.js";
 import ServiceReporte from '@/services/ReportesPDFService'
 import Spinner from '../../../components/Sppiner.vue'
+//import Error from '../../../components/ModalError.vue'
+import { ExclamationIcon } from "@vue-hero-icons/outline"
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -128,6 +152,8 @@ export default {
   components: {    
     Header,
     Spinner,
+    //Error,
+    ExclamationIcon,
   },
   data() {
     return {
@@ -142,7 +168,9 @@ export default {
       limite: 300,
       modalLoading: false,
       referenciaFicha: '',
-      numeroComponentesDmg: 0
+      numeroComponentesDmg: 0,
+      error: false,
+      cerrar:true
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -229,6 +257,7 @@ methods: {
       //Valida si se inserto header
       if (this.$store.getters["Header/getInsertHeaderComplete"]) {
         this.modalLoading = true 
+        this.error = false
         if(status == 2){
           this.$notify.success({
             title: "Ok!",
@@ -256,7 +285,8 @@ methods: {
       else {
         if((this.$store.state.Header.datosSinester.SinisterNumber.trim().length != this.$store.state.Header.datosSinester.SinisterNumber.length) || (!this.$store.state.Header.insertHeaderComplete)){
           window.scrollTo(0, top);
-          this.modalLoading = false
+          this.error = true
+          /*this.modalLoading = false
           this.$notify.error({
             title: "Ups!",
             msg: `NO SE CREO EL DTC, NÚMERO DE SINIESTRO REPETIDO`,
@@ -268,7 +298,7 @@ methods: {
             },
             closeOnClick: true,
             timeout: 15000,
-          });  
+          });  */
         }else{
           window.scrollTo(0, top);
           this.modalLoading = false
@@ -358,6 +388,13 @@ watch: {
 
 <style>
 .modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal-error{
   position: fixed;
   width: 100%;
   height: 100vh;
