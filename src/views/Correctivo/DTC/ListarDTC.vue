@@ -1,19 +1,16 @@
   <template>
-  <div id="container">    
+  <div id="container">  
+    <!-- <Error :error="error" :tipo="'ListarDTC'" @cerrar="cerrar"/>     -->
     <div class=" mb-16">
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <HeaderGenerico 
-            @limpiar-filtros="limpiar_filtros" 
-            @filtrar-dtc="filtro_dtc"
-            @buscar-dtc="guardar_palabra_busqueda" 
-            :titulo="'Concentrado DTC'" 
-            :dtcVista="'pendientes'" 
-            :tipo="'DTC'" 
-            :listaStatus="statusValidos">
-        </HeaderGenerico>
+        <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" @buscar-dtc="guardar_palabra_busqueda" :titulo="'Concentrado DTC'" :dtcVista="'pendientes'" :tipo="'DTC'" :listaStatus="statusValidos"/>
         <!--/////////////////////////////////////////////////////////////////
+        ////                         MODAL LOADER                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <Spinner :modalLoading="modalLoading"/>
+        <!--////////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo" :class="{'modal-container': carruselModal}">
@@ -22,19 +19,7 @@
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false, ocultarMultiPadre = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
-        </div>   
-        <!--/////////////////////////////////////////////////////////////////
-        ////                         MODAL LOADER                        ////
-        ////////////////////////////////////////////////////////////////////-->
-        <!-- <div class="sticky inset-0 font-titulo" :class="{'modal-container': modalLoading}">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-66">          
-            <div class="justify-center text-center block">            
-                <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-4" />
-                <p class="text-gray-900 font-thin text-md">Espere ... </p>
-            </div>
-          </div>
-        </div> -->
-        <Spinner :modalLoading="modalLoading"/>
+        </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL CAMBIAR STATUS                   ////
         ////////////////////////////////////////////////////////////////////-->
@@ -306,8 +291,8 @@
               </div>
             </div>
           </div>                  
-        </div>
-        <!--/////////////////////////////////////////////////////////////////
+        </div>    
+      <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
@@ -348,6 +333,7 @@ import Carrusel from "@/components/Carrusel";
 import ServiceFiltrosDTC from '@/services/FiltrosDTCServices'
 import Spinner from '@/components/Sppiner.vue'
 import { ExclamationIcon } from "@vue-hero-icons/outline"
+//import Error from '@/components/ModalError.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: 'DTCPendientes',
@@ -408,7 +394,8 @@ export default {
     Carrusel,
     HeaderGenerico,
     Spinner,
-    ExclamationIcon,
+    ExclamationIcon
+    //Error,
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
@@ -462,6 +449,9 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  cerrar(){
+    this.error = false
+  },
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != ''){ 
       this.modalLoading = true

@@ -3,40 +3,12 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
-    <Header
-      :descripciones="descripcionHeaders"
-      :datosUser="datosUser"
-      :headerEdit="headerEdit"
-      :observaciones="observaciones" 
-      @crear-dtc="crear_dtc"     
-    ></Header>
-    <!--////////////////////////////////////////////////////////////////////
-    ////            MODAL NO SE PUEDE ACTUALIZAR HEADER                ////
-    ////////////////////////////////////////////////////////////////////-->
-    <div class="sticky inset-0 sm:text-xs font-titulo -mt-32" :class="{'modal-error': error}">               
-      <div v-if="error" class="absolute w-73 sm:w-66 border border-gray-400 rounded-xl mx-auto  justify-center inset-x-0 pointer-events-auto mt-54">         
-        <div class="rounded-lg border border-none bg-white px-12 py-10 shadow-2xl">
-          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-            <ExclamationIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
-          </div>
-          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-              <h3 class="text-lg leading-6 font-medium text-gray-900"> Error al Crear </h3>
-              <div class="mt-2">
-                <p class="text-sm text-gray-500">NO SE PUDO CREAR EL DTC, VERIFIQUE LOS DATOS. RECUERDA QUE NO SE PUEDE TENER UN NÚMERO DE SINIESTRO REPETIDO.</p>
-              </div>
-          </div>
-          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="error = false">Entendido</button>
-          </div>
-        </div>
-      </div>                  
-    </div>
-    <!--<Error :error="error" @cerrar="cerrar"/>-->
+    <Header :descripciones="descripcionHeaders" :datosUser="datosUser" :headerEdit="headerEdit" :observaciones="observaciones" @crear-dtc="crear_dtc"></Header>
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                      FILA NUMERO 1                            ////
-    /////////////////////////////////////////////////////////////////////// -->
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                      FILA NUMERO 1                            ////
+        /////////////////////////////////////////////////////////////////////// -->
         <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
@@ -57,24 +29,24 @@
           </p>
         </div>
         <div></div>
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                        OBSERVACIONES                         ////
-    ///////////////////////////////////////////////////////////////////// -->
-      <ValidationObserver ref="observer"> 
-        <div class="items-center font-titulo">
-          <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
-            <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
-            <textarea v-model="observaciones" value="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
-                      placeholder="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
-            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-            <span class="text-gray-500 ml-64 sm:ml-32">{{ restante }}/300</span>   
-          </ValidationProvider>       
-        </div>
-      </ValidationObserver>
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                        FILA NUMERO 2                         ////
-    ///////////////////////////////////////////////////////////////////// -->
-        <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo">
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                        OBSERVACIONES                         ////
+        ///////////////////////////////////////////////////////////////////// -->
+        <ValidationObserver ref="observer"> 
+          <div class="items-center font-titulo">
+            <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
+              <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
+              <textarea v-model="observaciones" value="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
+                        placeholder="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
+              <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+              <span class="text-gray-500 ml-64 sm:ml-32">{{ restante }}/300</span>   
+            </ValidationProvider>       
+          </div>
+        </ValidationObserver>
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                        FILA NUMERO 2                         ////
+        ///////////////////////////////////////////////////////////////////// -->
+          <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo">
           <p style="text-align: center">
             <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
             <br />
@@ -86,9 +58,9 @@
             <br />
             <span style="font-size: 0.7vw">C.P Hermilia Guzman Añorve</span>
           </p>
-        </div>
-        <div></div>
-        <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
+          </div>
+          <div></div>
+          <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p style="text-align: center">
             <br />
             <br />
@@ -102,10 +74,10 @@
             <br />
             <span>{{ headerSelecionado.adminMail }}</span>
           </p>
-        </div>
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                           BOTONES                            ////
-    ///////////////////////////////////////////////////////////////////// -->
+          </div>
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                           BOTONES                            ////
+        ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
@@ -120,15 +92,13 @@
             </button>
           </div>
         </div>
-<!--         <div class="inset-0" :class="{'modal-container': modalLoading}">
-          <div v-if="modalLoading" class=" inset-0 font-titulo mt-66 mb-8">
-        <div class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-10 ">          
-          <div class="justify-center text-center block">            
-            <img src="@/assets/img/load.gif"  class="h-48 w-48" />
-          </div>
-        </div>
-      </div>
-        </div> -->
+        <!--////////////////////////////////////////////////////////////////////
+        ////            MODAL NO SE PUEDE ACTUALIZAR HEADER                ////
+        ////////////////////////////////////////////////////////////////////-->
+        <Error :error="error" :tipo="'CrearDTC'" @cerrar="cerrar"/>
+        <!--////////////////////////////////////////////////////////////////////
+        ////            MODAL NO SE PUEDE ACTUALIZAR HEADER                ////
+        ////////////////////////////////////////////////////////////////////-->
         <Spinner :modalLoading="modalLoading"/>
       </div>
     </div>
@@ -140,8 +110,7 @@ import Header from "@/components/Header/CrearHeader";
 import EventBus from "@/services/EventBus.js";
 import ServiceReporte from '@/services/ReportesPDFService'
 import Spinner from '../../../components/Sppiner.vue'
-//import Error from '../../../components/ModalError.vue'
-import { ExclamationIcon } from "@vue-hero-icons/outline"
+import Error from '../../../components/ModalError.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -152,8 +121,7 @@ export default {
   components: {    
     Header,
     Spinner,
-    //Error,
-    ExclamationIcon,
+    Error,
   },
   data() {
     return {
@@ -170,7 +138,6 @@ export default {
       referenciaFicha: '',
       numeroComponentesDmg: 0,
       error: false,
-      cerrar:true
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -236,6 +203,9 @@ methods: {
         });
         window.scrollTo(0,550);
     }
+  },
+  cerrar(){
+    this.error = false
   },
   crear_dtc: async function (status) {     
       window.scrollTo(0, top); 
