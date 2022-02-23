@@ -143,8 +143,19 @@
                 <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
                   <div class="-mt-2 mr-3">
                     <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
-                      <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
-                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M" maxlength="30"/>
+                      <div class="flex">
+                        <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
+                        <div class="sm:hidden md:hidden ml-2">
+                            <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
+                                <img src="@/assets/img/speech-bubble.png" class="flex items-center w-5 h-5 mb-2"/>
+                            </span>
+
+                            <div ref="tooltipintervencion" class="font-titulo">
+                                <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA), se puede dejar vacío y se agregará la leyenda SIN NÚMERO DE SINIESTRO</p>
+                            </div>
+                        </div>
+                      </div>
+                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="Sin número de siniestro" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                       <!--<span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>-->
                     </ValidationProvider>
@@ -152,7 +163,7 @@
                   <div class="-mt-2">  
                     <ValidationProvider name="N° de Reporte" rules="uniqueReport|max:30" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
-                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M" maxlength="30"/>
+                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                       <!--<span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>-->
                     </ValidationProvider>
@@ -162,17 +173,39 @@
                   ////                      FILA NUMERO 2                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 mt-5">       
-                  <div class="-mt-2 mr-3">  
-                    <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">         
-                      <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
-                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M" maxlength="60"/>
+                  <div class="-mt-2 mr-3"> 
+                    <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">
+                      <div class="flex">
+                        <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
+                        <div class="sm:hidden md:hidden ml-2">
+                          <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
+                              <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
+                          </span>
+
+                          <div ref="tooltipfoliofalla" class="font-titulo">
+                              <p class="text-center text-gray-800">Se debe indicar el numero de folio de Falla que aparece en el modulo institucional de CAPUFE</p>
+                          </div>
+                        </div> 
+                      </div>         
+                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="" maxlength="60"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                       <!--<span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>-->
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">   
-                    <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">         
+                    <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">  
+                      <div class="flex">
                       <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
+                      <div class="sm:hidden md:hidden ml-2">
+                        <span class="" v-tooltip.right =" { ref:'tooltiptipodescripcion', class: 'tooltip-custom tooltip-other-custom'}">
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
+                        </span>
+
+                        <div ref="tooltiptipodescripcion" class="font-titulo">
+                            <p class="text-center text-gray-800">Debe indicar el tipo de siniestro que corresponde deacuerdo al catalogo de la bitacora electronica</p>
+                        </div>
+                      </div>
+                      </div>       
                       <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
                         <option disabled value>Selecionar...</option>
                         <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.typeDescriptionId" :key="index">

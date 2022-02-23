@@ -51,15 +51,15 @@
           </div>
           
           <div class="sm:flex-col pr-2 inline-block font-titulo">
-            <div class="sm:hidden md:hidden lg:mt-1 lg:ml-26 w-6 absolute ml-30 my-1">
+            <div class="sm:hidden md:hidden lg:ml-26 w-6 absolute ml-30 my-1">
                 <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center w-5 h-5 mb-2"/>
                 </span>
 
                 <div ref="tooltipintervencion" class="font-titulo">
                     <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA), se puede dejar vacío y se agregará la leyenda SIN NÚMERO DE SINIESTRO</p>
                 </div>
-          </div>
+            </div>
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
                 <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
                 <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" name="NoSiniestro" type="text"/>
@@ -68,7 +68,7 @@
             <template v-if="$route.params.tipoFalla == 3">
               <div class="sm:hidden md:hidden lg:ml-28 w-6 absolute ml-21 my-2">
                 <span class="" v-tooltip.right =" { ref:'tooltipoficio', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
                 </span>
 
                 <div ref="tooltipoficio" class="font-titulo">
@@ -90,7 +90,7 @@
             <!-- <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }"> -->
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
                 <span class="" v-tooltip.right =" { ref:'tooltiptipodescripcion', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
                 </span>
 
                 <div ref="tooltiptipodescripcion" class="font-titulo">
@@ -117,7 +117,7 @@
             <div class="pr-2 font-titulo">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechasiniestro', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
                 </span>
 
                 <div ref="tooltipfechasiniestro" class="font-titulo">
@@ -133,7 +133,7 @@
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-32 w-6 absolute ml-32">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechaenvio', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
                 </span>
 
                 <div ref="tooltipfechaenvio" class="font-titulo">
@@ -156,7 +156,7 @@
             <div class="pr-2 font-titulo">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
                 <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
                 </span>
 
                 <div ref="tooltipfoliofalla" class="font-titulo">
@@ -183,7 +183,7 @@
             <div class="pr-2 font-titulo">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechafalla', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
                 </span>
 
                 <div ref="tooltipfechafalla" class="font-titulo">
@@ -210,7 +210,7 @@
           <div class="text-sm -mt-32 sm:-mt-1" :class="{'hidden': boolCambiarPlaza == true}">
             <div class="sm:hidden md:hidden lg:hidden w-6 absolute ml-60 mt-1">
                 <span class="" v-tooltip.bottom =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
                 </span>
 
                 <div ref="tooltipcambiodeplaza" class="font-titulo">

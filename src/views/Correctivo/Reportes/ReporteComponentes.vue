@@ -8,12 +8,13 @@
                         <thead>
                             <tr class="text-md text-gray-400 bg-blue-800">
                                 <th class="cabeceraTable">Plaza</th>
+                                <th class="cabeceraTable">Referencia</th>
+                                <th class="cabeceraTable">Estatus DTC</th>
                                 <th class="cabeceraTable">Carril</th>
                                 <th class="cabeceraTable">Componente</th>
                                 <th class="cabeceraTable">Precio</th>
                                 <th class="cabeceraTable">Solicitante</th>
                                 <th class="cabeceraTable">Tipo DTC</th>
-                                <th class="cabeceraTable">Referencia</th>
                             </tr>
                         </thead>
                         <tbody name="table" is="transition-group">
@@ -34,12 +35,13 @@
                             <template v-if="lista_Filtrada.length > 0">
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_Filtrada" :key="key">
                                 <td class="cuerpoTable sm:text-xs">{{ item.plaza }}</td>
+                                <td class="cuerpoTable sm:text-xs">{{ item.referencia }}</td> 
+                                <td class="cuerpoTable sm:text-xs">{{ item.estatus }}</td>  
                                 <td class="cuerpoTable sm:text-xs">{{ item.carril }}</td>                                
                                 <td class="cuerpoTable sm:text-xs">{{ item.componente }}</td>
                                 <td class="cuerpoTable sm:text-xs">${{ item.precio }}</td> 
                                 <td class="cuerpoTable sm:text-xs">{{ item.solicitante }}</td>
-                                <td class="cuerpoTable sm:text-xs">{{ item.tipoDTC }}</td>                                
-                                <td class="cuerpoTable sm:text-xs">{{ item.referencia }}</td>                                
+                                <td class="cuerpoTable sm:text-xs">{{ item.tipoDTC }}</td>                                              
                             </tr>
                             </template>
                         </tbody>
@@ -73,8 +75,10 @@ export default {
             this.lista_Componentes = response.data.result
             this.lista_Filtrada = this.lista_Componentes
             this.lista = this.lista_Filtrada
+            console.log(this.lista);
             this.loadingTabla = false
         })
+        
     },
     methods:{
         descargar_reporte: function(){

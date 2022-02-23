@@ -98,7 +98,7 @@
                     </ValidationProvider>
                     <div class="mx-67 -mt-10 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipRef', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 -mr-32" />
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 -mr-32"/>
                         </span>
 
                         <div ref="tooltipRef" class="font-titulo">
@@ -116,7 +116,7 @@
                     </ValidationProvider>
                     <div class="mx-67 -mt-10 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipfechafin', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 -mr-32" />
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 -mr-32"/>
                         </span>
 
                         <div ref="tooltipfechafin" class="font-titulo">
@@ -153,7 +153,7 @@
                         </ValidationProvider>
                         <div class="mx-72 -mt-16 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
                         </span>
 
                         <div ref="tooltipfoliofalla" class="font-titulo">
@@ -171,7 +171,7 @@
 
                         <div class="mx-72 -mt-16 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipsiniestro', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
                         </span>
 
                         <div ref="tooltipsiniestro" class="font-titulo">
@@ -202,7 +202,7 @@
                                 <span class="col-span-2">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                                 <div class="sm:hidden md:hidden w-6 ">
                             <span class="" v-tooltip.bottom  =" { ref:'tooltipdescripcionfalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
                         </span>
 
                         <div ref="tooltipdescripcionfalla" class="font-titulo">
@@ -230,7 +230,7 @@
                             <span class="col-span-2">DIAGNÓSTICO DE LA FALLA REPORTADA:</span>
                             <div class="sm:hidden md:hidden w-6">
                             <span class="" v-tooltip.bottom =" { ref:'tooltipdiagnotiscofalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
                         </span>
 
                         <div ref="tooltipdiagnotiscofalla" class="font-titulo">
@@ -255,7 +255,7 @@
                                 <span class="col-span-2">CAUSAS DE LA FALLA REPORTADA:</span>
                                 <div class="sm:hidden md:hidden w-6">
                             <span class="" v-tooltip.top =" { ref:'tooltipcausafalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
                         </span>
 
                         <div ref="tooltipcausafalla" class="font-titulo">
@@ -315,7 +315,7 @@ NOTA: Se debe indicar si la Falla requiere de Refaccionamiento por Siniestro o F
                     <span class="lg:-mt-8 lg:ml-8">TIPO DE FALLA:</span>
                     <div class="sm:hidden md:hidden w-6 -ml-20 lg:ml-2 lg:-mt-8" :class="{'hidden':tipo != 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipsiniestro', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
                         </span>
 
                         <div ref="tooltipsiniestro" class="font-titulo">
@@ -368,7 +368,7 @@ NOTA: Se debe indicar si la Falla requiere de Refaccionamiento por Siniestro o F
                                 <span class="xl:hidden lg:hidden md:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA:</span>
                                 <div class="-mt-6 ml-72 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6" :class="{'hidden':tipo != 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
                         </span>
 
                         <div ref="tooltipintervencion" class="font-titulo">
