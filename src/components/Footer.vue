@@ -21,13 +21,11 @@
                             <img src="@/assets/img/notificacion.png" class=" w-8 h-6 my-auto mx-auto" />
                         </span></p>
                     <div ref="tooltipRef" class=" font-titulo">
-                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.5 !!! 🎉</p>
+                        <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.6 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·Información de ayuda para crear un DTC</li>
-                            <li>·Bloqueo de pantalla para agilización de agregar imagenes</li>
-                            <li>·Botón para generar inventario en formato CAPUFE</li>
-                            <li>·Supervisores de Sistemas y Supervisores de Técnico, pueden ver y crear actividades en el Calendario</li>
-                            
+                            <li>·Mejora en los tooltips</li>
+                            <li>·Solución a la creación de DTC por fin de vida Útil</li>
+                            <li>·Advertencia de errores en la creación y edición del DTC</li>                            
                         </ol>
                     </div>                    
                 </div>
