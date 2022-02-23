@@ -11,7 +11,7 @@
                             {{ itemRow[itemSub['key']] | dataRowFormathour }}
                         </template>
                         <template v-else-if="itemSub['text'] != 'Acciones'" class="sm:text-xs">                        
-                            <p class="">{{ itemRow[itemSub['key']] == '' ? 'Sin informacion' : itemRow[itemSub['key']] }}</p>                      
+                            <p class="" :class="{'text-gray-500':letrasGris && itemSub['LetrasGris']}">{{ itemRow[itemSub['key']] == '' ? 'Sin informacion' : itemRow[itemSub['key']] }}</p>                      
                         </template>                   
                         <template v-else>
                             <div class="w-32" v-if="tipoRow != 'PC'">
@@ -52,7 +52,7 @@
                         <div class="inline-flex">
                             <div class="w-32 ml-6">{{  item['text'] }}</div>
                             <div v-if="item['formatoFecha']" class="w-32 ml-6">{{ itemRow[item['key']] | dataRowFormat }}</div>
-                            <div v-else class="w-32 ml-6">{{ itemRow[item['key']] }}</div>
+                            <div v-else class="w-32 ml-6" :class="{'text-gray-500':letrasGris && item['LetrasGris']}">{{ itemRow[item['key']] }}</div>
                         </div>
                     </div>
                     <div class="inline-flex mb-3">
@@ -109,6 +109,11 @@ export default {
             type: Array,
             require: false,
             default: () => []
+        },
+        letrasGris:{
+            type: Boolean,
+            require: false,
+            default: () => false
         }
     },
     data(){

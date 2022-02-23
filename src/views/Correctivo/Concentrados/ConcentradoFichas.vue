@@ -63,8 +63,8 @@
                 <!--/////////////////////////////////////////////////////////////////
                 ////                      MODAL ELIMINAR                         ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="absolute mt-66 ml-69 sm:ml-4">
-                    <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl">
+                <div class="sticky inset-0" :class="{'modal-container':modalEliminar}">
+                    <div v-if="modalEliminar" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 mx-auto px-12 py-10 shadow-2xl sm:w-66 mt-33">
                         <h1 class="mb-10 text-center font-titulo font-bold text-4xl sm:text-xl">
                             <img src="@/assets/img/warning.png" class="ml-2 sm:-ml-4" width="35" height="35" />
                             <p class="-mt-10 text-black sm:-ml-3 sm:-mt-6">Advertencia</p>
@@ -104,7 +104,7 @@
                     :listaDataTable="listaFicha"
                     :loadingTabla="loadingTabla"
                     :validarAcciones="opticones_select_acciones"
-                    :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC'},{text: 'Acciones', key: 'Acciones'}]"
+                    :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC', LetrasGris:true },{text: 'Acciones', key: 'Acciones'}]"
                     :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Diagnostica', key: 'diagnosisDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
                 >
                 </TablaGenerica>                               
@@ -146,7 +146,8 @@ export default {
             listaTecnicosPlaza:[],
             userChangeDf: '',
             refNum: '',
-            comentario: ''
+            comentario: '',
+            statusDTC: 0,
         }
     },
     beforeMount: function (){
@@ -155,6 +156,8 @@ export default {
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
+            console.log(response);
+            
             setTimeout(() => {
                 this.infoFichasFallaCompleta = response.data.result
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
@@ -430,6 +433,7 @@ export default {
                 { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
                 { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: '/img/add.36624e63.png' },//11
             ]
+            this.statusDTC = item.statusDtc
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
             if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
@@ -449,16 +453,20 @@ export default {
                 if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
                     filtroOpciones.push(options[1])
                 }           
-                if(item.validacionDTC && item.validacionFichaTecnica){
+                if(item.validacionDTC && item.validacionFichaTecnica && item.statusDtc != 1){
                     filtroOpciones.push(options[6])
                 } 
                 if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                                   
                     filtroOpciones.push(options[2])
-                    filtroOpciones.push(options[3])
+                    //filtroOpciones.push(options[3])
                 }
-            }   
+            }
+            if((!item.validacionDTC) && (this.typeUser == 1 || this.typeUser == 2)){
+                filtroOpciones.push(options[3])
+            }
             if(this.typeUser == 4 || this.typeUser == 10){
                 filtroOpciones.push(options[11])
+                filtroOpciones.push(options[3])
             }  
             else{
                 if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10 && !item.validacionFichaTecnica)

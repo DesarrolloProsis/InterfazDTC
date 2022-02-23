@@ -3,18 +3,12 @@
     <!-- //////////////////////////////////////////////////////////////////
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
-    <Header
-      :descripciones="descripcionHeaders"
-      :datosUser="datosUser"
-      :headerEdit="headerEdit"
-      :observaciones="observaciones" 
-      @crear-dtc="crear_dtc"     
-    ></Header>
+    <Header :descripciones="descripcionHeaders" :datosUser="datosUser" :headerEdit="headerEdit" :observaciones="observaciones" @crear-dtc="crear_dtc"></Header>
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                      FILA NUMERO 1                            ////
-    /////////////////////////////////////////////////////////////////////// -->
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                      FILA NUMERO 1                            ////
+        /////////////////////////////////////////////////////////////////////// -->
         <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
@@ -35,24 +29,24 @@
           </p>
         </div>
         <div></div>
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                        OBSERVACIONES                         ////
-    ///////////////////////////////////////////////////////////////////// -->
-      <ValidationObserver ref="observer"> 
-        <div class="items-center font-titulo">
-          <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
-            <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
-            <textarea v-model="observaciones" value="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
-                      placeholder="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
-            <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-            <span class="text-gray-500 ml-64 sm:ml-32">{{ restante }}/300</span>   
-          </ValidationProvider>       
-        </div>
-      </ValidationObserver>
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                        FILA NUMERO 2                         ////
-    ///////////////////////////////////////////////////////////////////// -->
-        <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo">
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                        OBSERVACIONES                         ////
+        ///////////////////////////////////////////////////////////////////// -->
+        <ValidationObserver ref="observer"> 
+          <div class="items-center font-titulo">
+            <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
+              <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
+              <textarea v-model="observaciones" value="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
+                        placeholder="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
+              <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+              <span class="text-gray-500 ml-64 sm:ml-32">{{ restante }}/300</span>   
+            </ValidationProvider>       
+          </div>
+        </ValidationObserver>
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                        FILA NUMERO 2                         ////
+        ///////////////////////////////////////////////////////////////////// -->
+          <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo">
           <p style="text-align: center">
             <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
             <br />
@@ -64,9 +58,9 @@
             <br />
             <span style="font-size: 0.7vw">C.P Hermilia Guzman Añorve</span>
           </p>
-        </div>
-        <div></div>
-        <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
+          </div>
+          <div></div>
+          <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p style="text-align: center">
             <br />
             <br />
@@ -80,10 +74,10 @@
             <br />
             <span>{{ headerSelecionado.adminMail }}</span>
           </p>
-        </div>
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                           BOTONES                            ////
-    ///////////////////////////////////////////////////////////////////// -->
+          </div>
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                           BOTONES                            ////
+        ///////////////////////////////////////////////////////////////////// -->
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
@@ -98,15 +92,13 @@
             </button>
           </div>
         </div>
-<!--         <div class="inset-0" :class="{'modal-container': modalLoading}">
-          <div v-if="modalLoading" class=" inset-0 font-titulo mt-66 mb-8">
-        <div class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-10 ">          
-          <div class="justify-center text-center block">            
-            <img src="@/assets/img/load.gif"  class="h-48 w-48" />
-          </div>
-        </div>
-      </div>
-        </div> -->
+        <!--////////////////////////////////////////////////////////////////////
+        ////            MODAL NO SE PUEDE ACTUALIZAR HEADER                ////
+        ////////////////////////////////////////////////////////////////////-->
+        <Error :error="error" :tipo="'CrearDTC'" @cerrar="cerrar"/>
+        <!--////////////////////////////////////////////////////////////////////
+        ////            MODAL NO SE PUEDE ACTUALIZAR HEADER                ////
+        ////////////////////////////////////////////////////////////////////-->
         <Spinner :modalLoading="modalLoading"/>
       </div>
     </div>
@@ -118,6 +110,7 @@ import Header from "@/components/Header/CrearHeader";
 import EventBus from "@/services/EventBus.js";
 import ServiceReporte from '@/services/ReportesPDFService'
 import Spinner from '../../../components/Sppiner.vue'
+import Error from '../../../components/ModalError.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -128,6 +121,7 @@ export default {
   components: {    
     Header,
     Spinner,
+    Error,
   },
   data() {
     return {
@@ -142,7 +136,8 @@ export default {
       limite: 300,
       modalLoading: false,
       referenciaFicha: '',
-      numeroComponentesDmg: 0
+      numeroComponentesDmg: 0,
+      error: false,
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -209,6 +204,9 @@ methods: {
         window.scrollTo(0,550);
     }
   },
+  cerrar(){
+    this.error = false
+  },
   crear_dtc: async function (status) {     
       window.scrollTo(0, top); 
       this.referenciaDtc = this.$store.state.Header.referenciaDtc          
@@ -229,6 +227,7 @@ methods: {
       //Valida si se inserto header
       if (this.$store.getters["Header/getInsertHeaderComplete"]) {
         this.modalLoading = true 
+        this.error = false
         if(status == 2){
           this.$notify.success({
             title: "Ok!",
@@ -254,9 +253,10 @@ methods: {
         await EventBus.$emit('insertar-componetes-dañados', value_insert)        
       } 
       else {
-        if(this.$store.state.Header.datosSinester.SinisterNumber.trim().length != this.$store.state.Header.datosSinester.SinisterNumber.length){
+        if((this.$store.state.Header.datosSinester.SinisterNumber.trim().length != this.$store.state.Header.datosSinester.SinisterNumber.length) || (!this.$store.state.Header.insertHeaderComplete)){
           window.scrollTo(0, top);
-          this.modalLoading = false
+          this.error = true
+          /*this.modalLoading = false
           this.$notify.error({
             title: "Ups!",
             msg: `NO SE CREO EL DTC, NÚMERO DE SINIESTRO REPETIDO`,
@@ -268,7 +268,7 @@ methods: {
             },
             closeOnClick: true,
             timeout: 15000,
-          });  
+          });  */
         }else{
           window.scrollTo(0, top);
           this.modalLoading = false
@@ -284,9 +284,33 @@ methods: {
         }
       }
   },
-  enviar_dmg_componentes(objInsert){       
-      this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}`, objInsert.arrayDmg)
-      .then(() => {                                
+  enviar_dmg_componentes(objInsert){
+    console.log('Numero de partidas: ', this.numeroComponentesDmg);
+    console.log('Array de componentes sin ordenar', objInsert.arrayDmg);
+    console.log('Numero de componentes sin ordenar', objInsert.arrayDmg.length);
+    /*console.log(this.numeroComponentesDmg);
+    console.log(objInsert.arrayDmg.length);  
+    console.log(objInsert.arrayDmg.sort((a,b)=> a.IntPartida - b.IntPartida));  
+    console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, objInsert.arrayDmg);  */
+    let new_promise = new Promise((resolve, reject) => { 
+    let arrayOrdenado = []
+      objInsert.arrayDmg.sort(((a,b)=> a.IntPartida - b.IntPartida)).forEach(element => {
+        arrayOrdenado.push(element)
+        //console.log( 'Array Componentes: ', arrayOrdenado);
+        //console.log('Número de Componentes: ', arrayOrdenado.length);
+      });
+      if(arrayOrdenado.length == objInsert.arrayDmg.length){
+        resolve(arrayOrdenado)
+      }else{
+        reject('Bad')
+      }
+    })
+    //console.log('Array Componentes: ', this.arrayOrdenado);
+    new_promise.then((arrayOrdenado)=> {
+      console.log('Array ForEach: ',arrayOrdenado);
+      this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${arrayOrdenado.length}`, arrayOrdenado)
+      .then((RESPONSE) => {   
+        console.log(RESPONSE);                             
           if (objInsert.status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               objInsert.refNum, 
@@ -306,7 +330,8 @@ methods: {
           this.$router.push("/Home");     
         
       })     
-      .catch(() => {                
+      .catch((ERR) => {                
+        console.log(ERR);
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE INSERTARON LOS COMPONENTES.`,
@@ -316,7 +341,8 @@ methods: {
             width: 500,
           },
         });         
-      });            
+      });
+    }) 
   }  
 },
 /////////////////////////////////////////////////////////////////////
@@ -332,6 +358,13 @@ watch: {
 
 <style>
 .modal-container{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal-error{
   position: fixed;
   width: 100%;
   height: 100vh;

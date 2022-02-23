@@ -171,6 +171,7 @@
                           <option disabled value>Selecionar...</option>     
                           <option value="1">México Acapulco</option>     
                           <option value="2">México Irapuato</option>     
+                          <option value="3">México Queretaro</option>
                         </select>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
                         <multiselect 

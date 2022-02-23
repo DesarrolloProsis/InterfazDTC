@@ -5,7 +5,7 @@
             ////                     MODAL IMAGENES                        /////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0" :class="{'modal-container': modalImage}">
-                <div v-if="modalImage" class="modalCargarImg mt-48 sm:m-4 sm:mt-66 mt-66">          
+                <div v-if="modalImage" class="modalCargarImg sm:m-4 sm:mt-66 mt-66">          
                     <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
                         <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
                     </span>
