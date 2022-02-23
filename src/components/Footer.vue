@@ -23,9 +23,9 @@
                     <div ref="tooltipRef" class=" font-titulo">
                         <p class="text-center text-gray-800">🎉 Nueva Versión 2.0.6 !!! 🎉</p>
                         <ol class="pl-5 mt-2 text-gray-800 pb-2">
-                            <li>·Mejora en los tooltips</li>
-                            <li>·Solución a la creación de DTC por fin de vida Útil</li>
-                            <li>·Advertencia de errores en la creación y edición del DTC</li>                            
+                            <li>·Mejora en los tooltips.</li>
+                            <li>·Solución a la creación de DTC por fin de vida Útil.</li>
+                            <li>·Advertencia de errores en la creación y edición del DTC.</li>                            
                         </ol>
                     </div>                    
                 </div>
