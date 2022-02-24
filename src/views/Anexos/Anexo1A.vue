@@ -152,13 +152,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       modalLoading: false,
       listaTestigos:[],
       listaSupervisor:[],
-      dtc_filtrado:[]
+      dtc_filtrado:[],
+      listaPlazas:[]
     };
     },
     created() {
       this.TestigosDtc();
       this.SupervisorDtc();
       this.filtro_dtc();
+      this.actualziar_header_plazas();
     },
    methods: {
      async TestigosDtc(){
@@ -175,11 +177,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       try {
         const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
         const objeto = await data.json();
-        this.listaSupervisor = objeto.result;
-        console.log(this.listaSupervisor)
+        let listaSupervisorprueba = objeto.result;
+        console.log(listaSupervisorprueba)
         let nombresupervisor = []
-        this.listaSupervisor.forEach(e => nombresupervisor.push(e.nombre));
-        console.log(nombresupervisor)
+        listaSupervisorprueba.forEach(e => nombresupervisor.push(e.nombre));
+        this.listaSupervisor = nombresupervisor;
+        console.log(this.listaSupervisor);
       } catch (error) {
         console.log(error);
       }
@@ -189,7 +192,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       console.log(iddtc);
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
-        this.lista_DTC_Filtrada = dtcfiltrado
+        this.lista_DTC_Filtrada = dtcfiltrado;
         console.log(this.lista_DTC_Filtrada);
       }
       catch (error) {
@@ -197,6 +200,26 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       } 
       
     }, 
+    actualziar_header_plazas(){
+            let userId = this.$store.state.Login.cookiesUser.userId            
+            //plazas 
+            this.$http.post(`${API}/login/Cookie`, { userId: userId })
+            .then((response) => {                     
+                let plazasUsuario =  response.data.result.cookie.map(item => {        
+                    return {
+                        refereciaPlaza: item.referenceSquare,
+                        administradorId: item.adminSquareId,
+                        numeroPlaza: item.squareCatalogId,
+                        plazaNombre: item.squareName,
+                        plazaAdminNombre: item.plazaAdministrador,
+                        statusAdmin: item.statusAdmin
+                    }
+                })  
+                plazasUsuario;
+                            
+            }) 
+                     
+        }
    },
   }
 </script>
