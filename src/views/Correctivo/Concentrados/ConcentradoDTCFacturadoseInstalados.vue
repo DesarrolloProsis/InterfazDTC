@@ -66,7 +66,7 @@
                                 <tbody>
                                     <tr v-for="anxg in listaanexosgenerados" :key="anxg.anexoReference">
                                       <td class="p-2 text-center text-xs">{{anxg.anexoReference}}</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">{{anxg.anexoReference}}</td>
+                                      <td class="p-2 text-center text-xs sm:hidden">{{anxg.userName}}</td>
                                       <td>
                                         <multiselect v-model="selectMultiModal" 
                                           @close="acciones_mapper_modal()" 
@@ -187,10 +187,10 @@ export default {
       }
       else if(this.selectMulti.title == 'Generar Anexo'){
         if (dtc.typeFaultId === 2) {
-          this.$router.push(`/Anexo1A/${dtc.referenceNumber}`);
+          this.$router.push(`/Anexo1A/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
           this.selectMulti = '';
         } else if (dtc.typeFaultId === 3){
-          this.$router.push(`/Anexo1B/${dtc.referenceNumber}`);
+          this.$router.push(`/Anexo1B/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
           this.selectMulti = '';
         }
       } 
@@ -296,16 +296,16 @@ export default {
       this.lista_DTC_Filtrada = this.infoDtc
     }
   },
-    async Anexosgenerados(dtc){
+  async Anexosgenerados(dtc){
       try {
         const data = await fetch(`${API}/AnexoDTC/Historico/${dtc.referenceSquare}/${dtc.referenceNumber}`)
         const objeto = await data.json()
-        this.listaanexosgenerados = objeto;
+        this.listaanexosgenerados = objeto.result;
         console.log(this.listaanexosgenerados);
       } catch (error) {
         console.log(error);
       }
-    }
+  }
   },
   /////////////////////////////////////////////////////////////////////
   ////                       COMPUTADOS                            ////

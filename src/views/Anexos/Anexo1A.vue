@@ -63,7 +63,7 @@
         <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
         <p class="mb-2">ENCARGADO DE PLAZA: 
           <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
-          <option value="">Selecciona un encargado de plaza</option>
+          <option value="">Selecciona un supervisor de plaza</option>
           <option value="">Carlos</option>
           <option value="">Daniel</option>
           </select>
@@ -103,9 +103,11 @@
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
 import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
 import ImagenesAnexo from '../../components/ImagenesGenericas.vue'
-import moment from "moment";
 import { Datetime } from 'vue-datetime';
 import Multiselect from "vue-multiselect";
+import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
+
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
     export default {
     name: "Anexo1-A",
@@ -148,36 +150,53 @@ import Multiselect from "vue-multiselect";
       testigos_plaza: ['C.AGUSTIN DAVID FIGUEROA SOTELO','C.JONATHAN EDMUNDO MARQUEZ MARES'],
       modalImage: false,  
       modalLoading: false,
+      listaTestigos:[],
+      listaSupervisor:[],
+      dtc_filtrado:[]
     };
     },
     created() {
-      const Referencedtc = this.$route.params.Referencedtc;
-      console.log(Referencedtc)
+      this.TestigosDtc();
+      this.SupervisorDtc();
+      this.filtro_dtc();
     },
-    beforeMount: async function () {    
-    let f = new Date()
-    this.tipoPlazaSelect = 'insersion'        
-    this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
-    this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");  
-    let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-    await this.$store.dispatch("Refacciones/BUSCAR_COMPONETES", value);
-    this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
-    console.log(this.listaComponentes);
-    await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
-    this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
-    if (JSON.stringify(this.headerEdit) != "{}") {    
-        this.tipoPlazaSelect = 'edicion'      
-        this.boolCambiarPlaza = true
-        this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
-        this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
-        this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
-        this.datosSinester.SinisterDate = await moment(this.headerEdit.sinisterDate).format("YYYY-MM-DD");
-        this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
-        this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format("YYYY-MM-DD");
-        this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format("YYYY-MM-DD");
-        this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
-        this.fechaSiniestoEdit = true;    
-    }  
-    }
-    }
+   methods: {
+     async TestigosDtc(){
+      try {
+        const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
+        const objeto = await data.json();
+        this.listaTestigos = objeto.result;
+        console.log(this.listaTestigos)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async SupervisorDtc(){
+      try {
+        const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
+        const objeto = await data.json();
+        this.listaSupervisor = objeto.result;
+        console.log(this.listaSupervisor)
+        let nombresupervisor = []
+        this.listaSupervisor.forEach(e => nombresupervisor.push(e.nombre));
+        console.log(nombresupervisor)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async filtro_dtc() {    
+      let iddtc = this.$route.params.referencenumber;
+      console.log(iddtc);
+      try{
+        let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
+        this.lista_DTC_Filtrada = dtcfiltrado
+        console.log(this.lista_DTC_Filtrada);
+      }
+      catch (error) {
+        console.log(error);
+      } 
+      
+    }, 
+   },
+  }
 </script>

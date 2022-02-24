@@ -687,7 +687,7 @@ export default {
         buscarGMMEP: function (newPalabra){
             this.$emit('buscar-gmmep', newPalabra.trim())
         },
-        buscarFacturado: function (newPalabra){
+        buscarDTCfacturado: function (newPalabra){
             this.$emit('buscar-facturado', newPalabra.trim())
         },
         buscarPalabraInventario: function(newPalabra){

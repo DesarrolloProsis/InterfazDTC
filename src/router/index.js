@@ -139,12 +139,12 @@ const routes = [
     }
   },
   {
-    path: '/Anexo1A/:Referencedtc',
+    path: '/Anexo1A/:referenceSquare/:squareCatalogId/:referencenumber',
     name:'/Anexo1A',
     component: () => import('../views/Anexos/Anexo1A')
   },
   {
-    path: '/Anexo1B/:Referencedtc',
+    path: '/Anexo1B/:referenceSquare/:squareCatalogId/:referencenumber',
     name:'/Anexo1B',
     component: () => import('../views/Anexos/Anexo1B')
   },
