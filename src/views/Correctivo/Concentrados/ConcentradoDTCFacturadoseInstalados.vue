@@ -64,9 +64,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                      <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
+                                    <tr v-for="anxg in listaanexosgenerados" :key="anxg.anexoReference">
+                                      <td class="p-2 text-center text-xs">{{anxg.anexoReference}}</td>
+                                      <td class="p-2 text-center text-xs sm:hidden">{{anxg.anexoReference}}</td>
                                       <td>
                                         <multiselect v-model="selectMultiModal" 
                                           @close="acciones_mapper_modal()" 
@@ -88,54 +88,6 @@
                                         </multiselect>
                                         </td>
                                       </tr>
-                                      <tr>
-                                      <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
-                                      <td>
-                                        <multiselect v-model="selectMultiModal" 
-                                          @close="acciones_mapper_modal()" 
-                                          placeholder="Seleccione una Accion"
-                                          label="title"
-                                          track-by="title"
-                                          class="multi sm:w-32 sm:h-auto sm:ml-4"
-                                          :options="opticones_select_acciones_modal()"
-                                          :option-height="50" 
-                                          :custom-label="customLabel" 
-                                          :show-labels="false">
-                                        <template slot="option" slot-scope="props">                                                
-                                            <div class="option__desc">
-                                            <span class="option__title inline-flex sm:text-xs">
-                                            <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
-                                            {{ props.option.title }}</span>
-                                            </div>
-                                          </template>
-                                        </multiselect>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="p-2 text-center text-xs">CAR-21039-AN-1</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">Luis Emiliano Torres</td>
-                                      <td>
-                                        <multiselect v-model="selectMultiModal" 
-                                          @close="acciones_mapper_modal()" 
-                                          placeholder="Seleccione una Accion"
-                                          label="title"
-                                          track-by="title"
-                                          class="multi sm:w-32 sm:h-auto sm:ml-4"
-                                          :options="opticones_select_acciones_modal()"
-                                          :option-height="50" 
-                                          :custom-label="customLabel" 
-                                          :show-labels="false">
-                                        <template slot="option" slot-scope="props">                                                
-                                            <div class="option__desc">
-                                            <span class="option__title inline-flex sm:text-xs">
-                                            <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
-                                            {{ props.option.title }}</span>
-                                            </div>
-                                          </template>
-                                        </multiselect>
-                                      </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>  
@@ -208,7 +160,7 @@ export default {
         statusEdit: "",
         motivoCambio:"",
         limite:300,
-        anexosgenerados:[],             
+        listaanexosgenerados:{},             
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -231,6 +183,7 @@ export default {
       if(this.selectMulti.title == 'Anexos Generados'){
         this.showModal = true;
         this.selectMulti = '';
+        this.Anexosgenerados(dtc);
       }
       else if(this.selectMulti.title == 'Generar Anexo'){
         if (dtc.typeFaultId === 2) {
@@ -240,8 +193,6 @@ export default {
           this.$router.push(`/Anexo1B/${dtc.referenceNumber}`);
           this.selectMulti = '';
         }
-        
-
       } 
       else if(this.selectMulti.title == 'Cambiar Estatus'){
         this.modalCambiarStatus = true;
@@ -349,7 +300,8 @@ export default {
       try {
         const data = await fetch(`${API}/AnexoDTC/Historico/${dtc.referenceSquare}/${dtc.referenceNumber}`)
         const objeto = await data.json()
-        console.log(objeto);
+        this.listaanexosgenerados = objeto;
+        console.log(this.listaanexosgenerados);
       } catch (error) {
         console.log(error);
       }
