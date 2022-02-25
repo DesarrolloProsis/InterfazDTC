@@ -8,13 +8,13 @@
         </p>
         <p>
         REALIZADO AL EQUIPO DE CONTROL DE TRANSITO DE <label class="font-bold">CARRIL A09</label>, 
-        EN LA PLAZA DE COBRO <label class="font-bold"> No. 103, PALO BLANCO,</label>
-        PERTENECIENTE A LA <label class="font-bold">UNIDAD REGIONAL CUERNAVACA.</label>
+        EN LA PLAZA DE COBRO <label class="font-bold"> No. {{this.plazadtc[0].plaza.toUpperCase() }},</label>
+        PERTENECIENTE A LA <label class="font-bold">{{this.plazadtc[0].regionalCoordination.toUpperCase() }}</label>
         </p>
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
         <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime>
-        EL <label class="font-bold">C. CARLOS JANE LOUI PULIDO MEJIA</label> ADMINISTRADOR DE LA PLAZA DE COBRO, EL<label class="font-bold"> C.OMAR SÁNCHEZ MORELOS</label>, TÉCNICO REPRESENTANTE DE LA EMPRESA <label class="font-bold">PROYECTOS Y SISTEMAS INFORMATICOS S.A. DE C.V.</label> 
+        EL <label class="font-bold">{{this.plazadtc[0].adminName.toUpperCase() }}</label> ADMINISTRADOR DE LA PLAZA DE COBRO, EL<label class="font-bold"> {{this.lista_DTC_Filtrada[0].name.toUpperCase() }}</label>, TÉCNICO REPRESENTANTE DE LA EMPRESA <label class="font-bold">PROYECTOS Y SISTEMAS INFORMATICOS S.A. DE C.V.</label> 
         TENIENDO COMO TESTIGOS DE ASISTENCIA A:
         </p>
         <div class="flex w-full gap-4 p-2">
@@ -46,7 +46,8 @@
         <p class="">
         PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL A02, CARRIL A07</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">403</span>, DE FECHA <span class="font-bold">13 DE JUNIO DE 2021</span>; FUE REPARADA
         EL DÍA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
-        (<span class="font-bold">BARRERA DE SALIDA COMPLETA, INCLUYE PLUMA DE CARBONO 3.30 MTS.</span>) Y FUÉ PROVOCADA POR <span class="font-bold">GOLPE DE USUARIO</span>, OCURRIDO EL <span class="font-bold">13 DE JUNIO DE 2021</span>; PARA 
+        (<span class="font-bold">BARRERA DE SALIDA COMPLETA, INCLUYE PLUMA DE CARBONO 3.30 MTS.</span>) Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
+        <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
         CUYO EFECTO FUÉ NECESARIO REPONER LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
         <p class="text-sm">
@@ -146,20 +147,20 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       tipoPlazaSelect: '', 
       testigo1: '',
       testigo2: '',
-      testigos_plaza: ['C.AGUSTIN DAVID FIGUEROA SOTELO','C.JONATHAN EDMUNDO MARQUEZ MARES'],
+      fechasiniestro: '',
       modalImage: false,  
       modalLoading: false,
       listaTestigos:[],
       listaSupervisor:[],
       dtc_filtrado:[],
-      listaPlazas:[]
+      listaPlazas:[],
+      plazadtc: [],
     };
     },
     created() {
       this.TestigosDtc();
       this.SupervisorDtc();
       this.filtro_dtc();
-      this.actualziar_header_plazas();
     },
    methods: {
      async TestigosDtc(){
@@ -172,7 +173,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         resultado.forEach(e => nombretestigos.push(e.nombre));
         this.listaTestigos = nombretestigos; 
         console.log(this.listaTestigos);
-        
       } catch (error) {
         console.log(error);
       }
@@ -196,34 +196,21 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         this.lista_DTC_Filtrada = dtcfiltrado;
         console.log(this.lista_DTC_Filtrada);
+        let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
+        let formatted_date = datesiniestro.getDate() + "-" + (datesiniestro.getMonth() + 1) + "-" + datesiniestro.getFullYear()
+        console.log(formatted_date);
+        this.fechasiniestro = formatted_date;
+        let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
+        console.log(dataHeader);
+        const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
+        this.plazadtc  = result;
+        console.log(this.plazadtc);  
       }
       catch (error) {
         console.log(error);
       } 
       
     }, 
-    actualziar_header_plazas(){
-            let userId = this.$store.state.Login.cookiesUser.userId            
-            //plazas 
-            this.$http.post(`${API}/login/Cookie`, { userId: userId })
-            .then((response) => {                     
-                let plazasUsuario =  response.data.result.cookie.map(item => {        
-                    return {
-                        refereciaPlaza: item.referenceSquare,
-                        administradorId: item.adminSquareId,
-                        numeroPlaza: item.squareCatalogId,
-                        plazaNombre: item.squareName,
-                        plazaAdminNombre: item.plazaAdministrador,
-                        statusAdmin: item.statusAdmin
-                    }
-                })  
-                console.log(plazasUsuario);
-                const result = plazasUsuario.filter(e => e.administradorId == this.lista_DTC_Filtrada[0].adminId);
-                console.log(result);
-                            
-            }) 
-                     
-        }
    },
   }
 </script>
