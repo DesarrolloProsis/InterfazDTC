@@ -196,8 +196,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         this.lista_DTC_Filtrada = dtcfiltrado;
         console.log(this.lista_DTC_Filtrada);
+        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
-        let formatted_date = datesiniestro.getDate() + "-" + (datesiniestro.getMonth() + 1) + "-" + datesiniestro.getFullYear()
+        let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
         console.log(formatted_date);
         this.fechasiniestro = formatted_date;
         let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
