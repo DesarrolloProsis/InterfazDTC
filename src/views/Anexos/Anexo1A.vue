@@ -24,7 +24,7 @@
             :clear-on-select="true"
             :hideSelected="false"                               
             placeholder="Selecciona un testigo"
-            :options="testigos_plaza"
+            :options="listaTestigos"
             :multiple="false"      
             select-label=""
             class="w-full"                 
@@ -36,7 +36,7 @@
             :clear-on-select="true"
             :hideSelected="false"
             placeholder="Selecciona un testigo"
-            :options="testigos_plaza"
+            :options="listaTestigos"
             :multiple="false"      
             select-label=""
             class="w-full"                 
@@ -64,8 +64,7 @@
         <p class="mb-2">ENCARGADO DE PLAZA: 
           <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
           <option value="">Selecciona un supervisor de plaza</option>
-          <option value="">Carlos</option>
-          <option value="">Daniel</option>
+          <option value="" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
           </select>
         </p>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
@@ -167,8 +166,13 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       try {
         const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
         const objeto = await data.json();
-        this.listaTestigos = objeto.result;
-        console.log(this.listaTestigos)
+        let resultado = objeto.result;
+        console.log(resultado)
+        let nombretestigos = [];
+        resultado.forEach(e => nombretestigos.push(e.nombre));
+        this.listaTestigos = nombretestigos; 
+        console.log(this.listaTestigos);
+        
       } catch (error) {
         console.log(error);
       }
@@ -179,9 +183,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const objeto = await data.json();
         let listaSupervisorprueba = objeto.result;
         console.log(listaSupervisorprueba)
-        let nombresupervisor = []
-        listaSupervisorprueba.forEach(e => nombresupervisor.push(e.nombre));
-        this.listaSupervisor = nombresupervisor;
+        this.listaSupervisor = listaSupervisorprueba;
         console.log(this.listaSupervisor);
       } catch (error) {
         console.log(error);
@@ -215,7 +217,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
                         statusAdmin: item.statusAdmin
                     }
                 })  
-                plazasUsuario;
+                console.log(plazasUsuario);
+                const result = plazasUsuario.filter(e => e.administradorId == this.lista_DTC_Filtrada[0].adminId);
+                console.log(result);
                             
             }) 
                      
