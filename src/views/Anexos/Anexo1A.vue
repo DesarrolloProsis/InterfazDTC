@@ -7,7 +7,7 @@
         PARA HACER CONSTAR EL SERVICIO DE MANTENIMIENTO <label class="font-bold">CORRECTIVO (SINIESTRO, ACCIDENTE VEHICULAR, DESCARGA ELÉCTRICA, ETC.)</label> 
         </p>
         <p>
-        REALIZADO AL EQUIPO DE CONTROL DE TRANSITO DE <label class="font-bold">CARRIL A09</label>, 
+        REALIZADO AL EQUIPO DE CONTROL DE TRANSITO DE <label class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</label>, 
         EN LA PLAZA DE COBRO <label class="font-bold"> No. {{this.plazadtc[0].plaza.toUpperCase() }},</label>
         PERTENECIENTE A LA <label class="font-bold">{{this.plazadtc[0].regionalCoordination.toUpperCase() }}</label>
         </p>
@@ -44,9 +44,9 @@
           </multiselect>
         </div>
         <p class="">
-        PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL A02, CARRIL A07</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
+        PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
         EL DÍA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
-        (<span class="font-bold">BARRERA DE SALIDA COMPLETA, INCLUYE PLUMA DE CARBONO 3.30 MTS.</span>) Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
+        <span class="font-bold">{{this.nombrecomponentes.toString()}}</span> Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
         <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
         CUYO EFECTO FUÉ NECESARIO REPONER LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
@@ -60,7 +60,14 @@
         <span class="font-bold">NO. SINIESTRO</span> Y/O <span class="font-bold">NO. DE REPORTE {{this.lista_DTC_Filtrada[0].failureNumber }}</span> DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>
         </p>
         <h3 class="font-bold text-sm mt-2">COMPONENTES Y/O REFACCIONES DAÑADAS:</h3>
-        <TablaEquipoMalo :listaComponentes="listaComponentes" :dateSinester="datosSinester.SinisterDate" :plazareferencia="this.$route.params.referenceSquare" :dtcreference="this.$route.params.referencenumber"/>
+        <TablaEquipoMalo 
+          :listaComponentes="listaComponentes"
+          :dateSinester="datosSinester.SinisterDate"
+          :plazareferencia="this.$route.params.referenceSquare" 
+          :dtcreference="this.$route.params.referencenumber"
+          @listacarriles = "onagregarcomponentes"
+          @listanombrecom = "onagregarnombrescomponentes"
+        />
         <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
         <p class="mb-2">ENCARGADO DE PLAZA: 
           <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
@@ -155,6 +162,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       dtc_filtrado:[],
       listaPlazas:[],
       plazadtc: [],
+      componentesseleccionados:[],
+      nombrecarriles:[],
+      nombrecomponentes:[],
     };
     },
     created() {
@@ -211,7 +221,21 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         console.log(error);
       } 
       
-    }, 
+    },
+    onagregarcomponentes(data) {
+    let result = data.filter((item,index)=>{
+      return data.indexOf(item) === index;
+    })
+      this.nombrecarriles = result;
+      console.log(this.nombrecarriles);
+     }, 
+     onagregarnombrescomponentes(data) {
+      let result = data.filter((item,index)=>{
+      return data.indexOf(item) === index;
+      })
+      this.nombrecomponentes = result;
+     }, 
    },
+   
   }
 </script>

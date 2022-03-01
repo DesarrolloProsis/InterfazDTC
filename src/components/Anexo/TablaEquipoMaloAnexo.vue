@@ -200,6 +200,8 @@ export default {
       arrayPartidas: [],
       arraycomponentes: [],
       componentes: [],
+      arraycarriles: [],
+      arraynombrecomponentes: [],
       //nombre del Compoente    
       componenteSeleccionado: "",     
       scrollBool: true,
@@ -282,12 +284,18 @@ methods: {
       this.objectModal = Object.assign(this.arrayPartidas[value]);
   },
   agregarcomponentes(){
-    console.log(this.componentes);
     this.showModal = false;
     document.body.classList.remove("modal-open");
+    this.arraycarriles = [];
+    this.componentes.forEach(e => this.arraycarriles.push(e.lane));
+    this.arraynombrecomponentes = [];
+    this.componentes.forEach(e => this.arraynombrecomponentes.push(e.nameComponent));
+    this.$emit('listacarriles',this.arraycarriles)
+    this.$emit('listanombrecom',this.arraynombrecomponentes)
   },
   remove(index){
     this.componentes.splice(index, 1);
+    this.agregarcomponentes();
   },
 }
 };
