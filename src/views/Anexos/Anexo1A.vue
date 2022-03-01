@@ -20,7 +20,7 @@
         <div class="flex w-full gap-4 p-2">
           <multiselect
             v-model="testigo1"                                                    
-            :close-on-select="false"
+            :close-on-select="true"
             :clear-on-select="true"
             :hideSelected="false"                               
             placeholder="Selecciona un testigo"
@@ -32,7 +32,7 @@
           </multiselect>
           <multiselect
             v-model="testigo2"                                                 
-            :close-on-select="false"
+            :close-on-select="true"
             :clear-on-select="true"
             :hideSelected="false"
             placeholder="Selecciona un testigo"
@@ -44,7 +44,7 @@
           </multiselect>
         </div>
         <p class="">
-        PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL A02, CARRIL A07</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">403</span>, DE FECHA <span class="font-bold">13 DE JUNIO DE 2021</span>; FUE REPARADA
+        PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL A02, CARRIL A07</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
         EL DÍA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
         (<span class="font-bold">BARRERA DE SALIDA COMPLETA, INCLUYE PLUMA DE CARBONO 3.30 MTS.</span>) Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
         <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
@@ -57,10 +57,10 @@
         </p>
         <p class="text-sm">
         LOS TRABAJOS, INSTALACIÓN Y OPERACIÓN DE LA PLAZA DE COBRO QUEDAN A ENTERA SATISFACCIÓN DEL ADMINISTRADOR DE LA PLAZA DE COBRO Y/O ENCARGADO DE TURNO.
-        <span class="font-bold">NO. SINIESTRO</span> Y/O <span class="font-bold">NO. DE REPORTE 04</span> DE FECHA <span class="font-bold">13 DE JUNIO DE 2021.</span>
+        <span class="font-bold">NO. SINIESTRO</span> Y/O <span class="font-bold">NO. DE REPORTE {{this.lista_DTC_Filtrada[0].failureNumber }}</span> DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>
         </p>
         <h3 class="font-bold text-sm mt-2">COMPONENTES Y/O REFACCIONES DAÑADAS:</h3>
-        <TablaEquipoMalo :listaComponentes="listaComponentes" :dateSinester="datosSinester.SinisterDate"/>
+        <TablaEquipoMalo :listaComponentes="listaComponentes" :dateSinester="datosSinester.SinisterDate" :plazareferencia="this.$route.params.referenceSquare" :dtcreference="this.$route.params.referencenumber"/>
         <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
         <p class="mb-2">ENCARGADO DE PLAZA: 
           <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">

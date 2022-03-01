@@ -24,56 +24,20 @@
                 ////                 CUERPO DE LA TABLA                          ////
                 ////////////////////////////////////////////////////////////////////-->
                 <tbody name="table" is="transition-group">    
-                  <tr class="hover:bg-blue-200 text-center" v-for="(equipo, index) in arrayPartidas" :key="index">
-                    <td class="cuerpoTable"><!-- Cantidad -->
-                      <div v-if="equipo.rowUp">{{ equipo.row4 }}</div>
-                      <div v-else>{{ objectEditar.rowUpd4 }}</div>
-                    </td>
-                    <td class="cuerpoTable"><!-- Componente -->
-                      <div v-if="equipo.rowUp">{{ equipo.row3.description.toString() }}</div>
-                      <div v-else></div>
-                    </td>
-                    <td class="cuerpoTable"><!-- Marca -->
-                      <div v-if="equipo.rowUp">{{ equipo.row5.toString() }}</div>
-                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd5" :key="key">{{ item }}</p></div>
-                    </td>
-                    <td class="cuerpoTable"><!-- Modelo -->
-                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row6" :key="key">{{ item }}</p></div>
-                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd6" :key="key">{{ item }}</p>
-                      </div>
-                    </td>
-                    <td class="cuerpoTable"><!-- Numero de Serie -->
-                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row7" :key="key">{{ item }}</p></div>
-                      <div v-else><p v-for="(item, key) in objectEditar.rowUpd7" :key="key">{{ item }}</p>
-                      </div>
-                    </td>
-                    <td class="cuerpoTable"><!-- Ubicacion -->
-                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">{{ item | formatPlaza }}</p></div>
-                      <div v-else></div>
-                    </td>
-                    <td class="cuerpoTable"><!-- Observaciones -->
-                      <div v-if="equipo.rowUp"><p v-for="(item, key) in equipo.row8" :key="key">Dañada</p></div>
-                      <div v-else></div>
-                    </td>
+                  <tr class="hover:bg-blue-200 text-center" v-for="(componentesel, index) in componentes" :key="componentesel.requestedComponentId">
+                    <td class="cuerpoTable"><!-- Cantidad -->1</td>
+                    <td class="cuerpoTable"><!-- Componente -->{{componentesel.nameComponent}}</td>
+                    <td class="cuerpoTable"><!-- Marca -->{{componentesel.brand}}</td>
+                    <td class="cuerpoTable"><!-- Modelo -->{{componentesel.model}}</td>
+                    <td class="cuerpoTable"><!-- Numero de Serie -->{{componentesel.serialNumber}}</td>
+                    <td class="cuerpoTable"><!-- Ubicacion -->{{componentesel.lane}}</td>
+                    <td class="cuerpoTable"><!-- Observaciones -->Dañada</td>
                     <td class="cuerpoTable pb-2 "><!-- Acciones -->
-                      <div v-if="equipo.rowUp" class="sm:mr-5">
-                        <button v-on:click.stop.prevent="eliminar_partida (index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-8 ">
+                      <div  class="sm:mr-5">
+                        <button v-on:click.stop.prevent="remove(index)" class="botonIconBorrarCard font-boton sm:w-auto w-20 sm:h-8 ">
                           <img src="../../assets/img/bin.png" class="mr-2 sm:m-1" width="15" height="15"/>
                           <span class="sm:hidden">Borrar</span>
-                        </button>
-                        <button v-on:click.stop.prevent="infoModal(index)" class="botonIconMas ml-1 lg:hidden xl:hidden sm:h-8 sm:mr-1">
-                          <img src="../../assets/img/mas.png" width="15" height="15"/>
-                        </button>         
-                      </div>
-                      <div v-else>
-                        <button v-on:click.stop.prevent="abortUpdateRowTable(index)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-red-700 m-2">
-                          <img src="../../assets/img/cerrar.png" class="mr-2 sm:m-1" width="15" height="15"/>
-                          <span>Cancelar</span>
-                        </button>
-                        <button v-on:click.stop.prevent="confirmRowTable(index)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 ml-14 rounded inline-flex items-center border-2 border-green-700 m-2">
-                          <img src="../../assets/img/garrapata.png" class="mr-2 sm:m-1" width="20" height="20"/>
-                          <span>Confirmar</span>
-                        </button>
+                        </button>        
                       </div>
                     </td>
                   </tr>           
@@ -177,77 +141,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
-                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
-                                    <td class="p-2 text-center text-xs">A08</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A03</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A07</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
-                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
-                                    <td class="p-2 text-center text-xs">A08</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A03</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A07</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
-                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
-                                    <td class="p-2 text-center text-xs">A08</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A03</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A07</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO TECNICO CARRIL MULTIMODAL</td>
-                                    <td class="p-2 text-center text-xs sm:hidden">13070451</td>
-                                    <td class="p-2 text-center text-xs">A08</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">TABLERO DE CONEXIÓN Y DISTRIBUCION DE PERIFERICOS</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A03</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                    <td class="p-2 text-justify text-xs">ARMARIO EXPENDEDOR DE TICKETS DE 1 NIVEL PARA CARRIL DE ENTRADA</td>
-                                    <td class="p-2 text-center sm:hidden text-xs">Sin número</td>
-                                    <td class="p-2 text-center text-xs">A07</td>
+                                <tr v-for="componente in arraycomponentes" :key="componente.requestedComponentId" :class="{'hidden': componente.useInAnexo == true}">
+                                    <td class="text-center"><input type="checkbox" v-model="componentes" :value="componente"></td>
+                                    <td class="p-2 text-justify text-xs">{{componente.nameComponent}}</td>
+                                    <td class="p-2 text-center text-xs sm:hidden">{{componente.serialNumber}}</td>
+                                    <td class="p-2 text-center text-xs">{{componente.lane}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -257,7 +155,7 @@
                   ////////////////////////////////////////////////////////////////////-->    
                   <div class=" flex justify-center mt-8">          
                     <div class="inline-flex">
-                        <button v-on:click.stop.prevent="agregarPartida()" class="botonIconCrear">Agregar</button>
+                        <button @click="agregarcomponentes" class="botonIconCrear">Agregar</button>
                         <button @click="botoncancelar_modal" class="botonIconCancelar font-boton">Cancelar</button>
                     </div>
                   </div>
@@ -265,16 +163,14 @@
             </div>
     </div>
     <h3 class="font-bold text-sm">COMPONENTES Y/O REFACCIONES NUEVAS:</h3>
-    <TablaEquipoPropuesto :listaEquipo="arrayPartidas"></TablaEquipoPropuesto>
+    <TablaEquipoPropuesto :listaEquipo="componentes"></TablaEquipoPropuesto>
   </div>
 </template>
 <script>
 import Multiselect from "vue-multiselect";
 import TablaEquipoPropuesto from "../../components/Anexo/TablaEquipoPropuestoAnexo.vue";
-import Service from "../../services/EquipoMaloService.js";
-import EventBus from '../../services/EventBus'
-import moment from "moment";
-import { mapState } from 'vuex';
+const API = process.env.VUE_APP_URL_API_PRODUCCION
+
 export default {
   name: "TablaEquipoMalo",
   components: {
@@ -302,6 +198,8 @@ export default {
         rowUp: true,
       },
       arrayPartidas: [],
+      arraycomponentes: [],
+      componentes: [],
       //nombre del Compoente    
       componenteSeleccionado: "",     
       scrollBool: true,
@@ -338,277 +236,60 @@ props: {
       required: true,
       default: "",
   },
+  plazareferencia:{
+    type: String,
+    default: ""
+  },
+  dtcreference:{
+    type: String,
+    default: ""
+  }
 },
 //////////////////////////////////////////////////////////////////////
 ////                    CICLOS DE VIDA                            ////
 /////////////////////////////////////////////////////////////////////
 created(){
-  EventBus.$on('insertar-componetes-dañados', (objInsert) => {
-    this.mapear_componetes_dañados(objInsert)    
-  })
-},
-beforeMount: async function () {
-    let componetesEdit = await this.$store.state.DTC.componetesEdit
-    if (JSON.stringify(componetesEdit) != "{}") {   
-      let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];                  
-      for (const item of componetesEdit.items) {                     
-        newObject["attachedId"] = item.attachedId;
-        newObject["componentsRelationship"] = item.relationship;
-        newObject["componentsRelationshipId"] = item.mainRelationship;
-        newObject["componentsStockId"] = item.componentsStockId
-                          
-        await this.$store.dispatch("Refacciones/buscarComponenteId",newObject);          
-        let array_ubicacion = [];
-        let array_carril = [];
-        let array_cantidad = [];
-        componetesEdit.serialNumbers.map((lane) => {            
-          if (item.item == lane.item) {
-            array_ubicacion.push(lane.tableFolio);
-            array_carril.push(lane.lane);
-            array_cantidad.push(lane.amount)
-          }
-        });                  
-        let cantidad = array_cantidad.every(ammont => ammont == 0) == true
-        ? array_cantidad.length
-        : parseInt(array_cantidad[0])          
-                                                  
-        let new_partida = Service.lane_select(
-          array_ubicacion,
-          undefined, //Key_partidas
-          this.listaRefaccionesValid,
-          this.dateSinester,
-          item.mainRelationship,
-          true,
-          cantidad            
-        );                   
-        new_partida["row1"] = this.arrayPartidas.length + 1;
-        new_partida["row3"] = {
-          description: item.name,
-          attachedId: item.attachedId,
-          componentsRelationship: item.relationship,
-          componentsRelationshipId: item.mainRelationship,
-          vitalComponent: item.vitalComponent,
-          componentsStockId: item.componentsStockId
-        };            
-        this.arrayPartidas.push(new_partida);
-        EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)        
-      }
-    } 
-},
-destroyed: function () {
-    this.arrayPartidas = [];
-    this.$store.commit("DTC/LIMPIAR_LISTA_DTC_DAÑADO_MUTATION");
-    this.$store.commit("DTC/insertDmgCompleteMutation", false);
-    this.$store.commit("Header/insertHeaderCompleteMutation", false);
-    this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-    this.$store.commit("Header/clearDatosSinesterMutation");
-    this.$store.commit("DTC/COMPONENTES_EDIT", {});
-    this.$store.commit("Header/DIAGNOSTICO_MUTATION", "");
-    EventBus.$off('insertar-componetes-dañados')
+  
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  mapear_componetes_dañados:  function(objInsert){
-    let new_promise = new Promise((resolve, reject) => {
-    let newObjectConvenio = this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
-    let arrayDmg = []
-    this.arrayPartidas.forEach(async(partida, index) => {      
-      newObjectConvenio["attachedId"] = partida.row3.attachedId;
-      newObjectConvenio["componentsRelationship"] = partida.row3.componentsRelationship;
-      newObjectConvenio["componentsRelationshipId"] = partida.row3.componentsRelationshipId;
-      newObjectConvenio["componentsStockId"] = partida.row3.componentsStockId;        
-      await this.$store.dispatch("Refacciones/buscarComponenteId", newObjectConvenio);            
-      let nuevaPartidaInsert = await Service.obj_partida(partida.row8, this.listaRefaccionesValid, this.dateSinester, partida.row3.componentsRelationshipId, undefined, partida.row4)          
-      let nuevoArray = nuevaPartidaInsert.map((item) => {
-        item["IntPartida"] = index + 1
-        item["ReferenceNumber"] = objInsert.refNum   
-        return item  
-      })
-      nuevoArray.forEach(item => {
-        arrayDmg.push(item)
-      }) 
-      if(arrayDmg.length == 0)
-        reject('Mal')
-      else       
-        resolve(arrayDmg)              
-    }) 
-    })
-    setTimeout(() => {
-      new_promise.then((array) => {        
-        EventBus.$emit('enviar-componete', { arrayDmg: array, adminId: objInsert.adminId, refNum: objInsert.refNum, flagCreate: objInsert.flagCreate, status: objInsert.status })
-      })
-      
-    }, 2000)
-  },
-  eliminar_partida(index){    
-    this.arrayPartidas.splice(index, 1)
-    this.arrayPartidas.map((item, index) => {
-      item.row1 = index + 1
-    })
-    EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
-  },
-  UnClick() { this.componenteSeleccionado = "" },
   modalAgregarComp: function (){
      this.showModal = true 
      document.body.classList.add("modal-open");
-     },  
+     this.TraercomponentesDTC(); 
+     },
+  async TraercomponentesDTC(){
+    try {
+      const data = await fetch(`${API}/AnexoDTC/ComponentesRequest/${this.$route.params.referenceSquare}/${this.$route.params.referencenumber}`)
+      const objeto = await data.json();
+      this.arraycomponentes = objeto.result;
+      console.log(this.arraycomponentes);
+    } catch (error) {
+      console.log(error);
+    }
+  },     
   botoncancelar_modal: function (){ 
     this.showModal = false; 
     this.laneSelect = ''; 
     this.componenteSeleccionado = '';
+    this.componentes = [];
     document.body.classList.remove("modal-open");
     },  
-  cambiar_componente: async function (value) {        
-    this.listLane = []; this.laneSelect = []; this.statusMetro = false; this.cantidadMetro = 0;
-    for(const propiedades in this.datosPrePartida) {
-      this.datosPrePartida[propiedades] = [];            
-    }
-    const clousere_validar_componete = () => {            
-      let componeteRepetido = this.arrayPartidas
-        .find(partida => { 
-          return partida.row3.description == value.description && 
-          partida.row3.componentsRelationship == value.componentsRelationship
-        }
-      )          
-      if(componeteRepetido == undefined) return true
-      else{
-        if(componeteRepetido.row2 == 'METRO'){
-          this.statusMetro
-          return true
-        }
-      } 
-    }                              
-    if (clousere_validar_componete()) {
-      let newObject = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];        
-      newObject["attachedId"] = this.componenteSeleccionado.attachedId;
-      newObject["componentsRelationship"] = this.componenteSeleccionado.componentsRelationship;
-      newObject["componentsRelationshipId"] = this.componenteSeleccionado.componentsRelationshipId; 
-      newObject["componentsStockId"] = this.componenteSeleccionado.componentsStockId       
-      await this.$store.dispatch("Refacciones/buscarComponenteId", newObject);
-      this.listLane = await this.$store.state.Refacciones.listaLane
-      this.relationShipPrincipal = this.componenteSeleccionado.componentsRelationship;      
-      if (this.listLane.length == 0) {
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `EL COMPONENTE NO ESTA INSTALADO.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-    } else {        
-      this.$notify.warning({
-        title: "Ups!",
-        msg: `EL COMPONENTE ESTA REPETIDO.`,
-        position: "bottom right",
-        styles: {
-          height: 100,
-          width: 500,
-        },
-      });
-      this.componenteSeleccionado = '';        
-    }
-  },
-  agregarPartida: async function () {
-      if (this.componenteSeleccionado != "") {
-        if (this.laneSelect.length > 0) {                
-          let new_partida = Service.lane_select(
-            this.laneSelect,
-            undefined,//key_partidas
-            this.listaRefaccionesValid,
-            this.dateSinester,
-            this.relationShipPrincipal,
-            null,
-            this.statusMetro == true ? this.cantidadMetro : this.laneSelect.length
-          );
-          new_partida["row1"] = this.arrayPartidas.length + 1;
-          new_partida["row3"] = this.componenteSeleccionado;
-          new_partida["row8"] = this.laneSelect; 
-          console.log(new_partida);         
-          this.arrayPartidas.push(new_partida);
-          EventBus.$emit('conteo_componetes_dmg', this.arrayPartidas.length)
-          //LIMPIA LA LISTA PRE_PARTIDA
-          for (const propiedades in this.datosPrePartida) {
-            if (propiedades == "rowCantidad")
-              this.datosPrePartida[propiedades] = 0;
-            else this.datosPrePartida[propiedades] = [];
-          }
-          //LIMPIAMOS COMPONENTE Y LANE
-          this.componenteSeleccionado = ""; this.laneSelect = []; this.listLane = []; this.statusMetro = false; this.showModal= false        
-        } else {
-          this.$notify.warning({
-            title: "Ups!",
-            msg: `FALTA AGREGAR LA UBICACION.`,
-            position: "bottom right",
-            styles: {
-              height: 100,
-              width: 500,
-            },
-          });
-        }
-      } else {
-        this.$notify.warning({
-          title: "Ups!",
-          msg: `FALTA AGREGAR UN COMPONENTE.`,
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-      }
-  },
   infoModal: function (value) {
       this.modal = true;
       this.objectModal = Object.assign(this.arrayPartidas[value]);
   },
-},
-/////////////////////////////////////////////////////////////////////
-////                     OBSERVADORES                            ////
-/////////////////////////////////////////////////////////////////////
-watch: {
-  laneSelect: async function (newValue) {
-      //Limpiar los datos pre partida
-      for (const propiedades in this.datosPrePartida) {
-        if (propiedades == "rowCantidad") this.datosPrePartida[propiedades] = 0;
-        else this.datosPrePartida[propiedades] = [];
-      }      
-      if (newValue.length > 0) {        
-        this.datosPrePartida = Service.lane_select(
-          newValue,
-          this.datosPrePartida,
-          this.listaRefaccionesValid,
-          this.dateSinester,
-          this.relationShipPrincipal,
-          undefined,//Editar 
-          newValue.length         
-        );
-        if(this.datosPrePartida.rowUnidad == 'METRO')
-          this.statusMetro = true
-      }    
+  agregarcomponentes(){
+    console.log(this.componentes);
+    this.showModal = false;
+    document.body.classList.remove("modal-open");
   },
-},
-computed: {
-    ...mapState({
-        listaRefaccionesValid: state => state.Refacciones.listaRefaccionesValid,
-        convenioActual: state => state.Header.convenioActual
-    })  
-},
-/////////////////////////////////////////////////////////////////////
-////                          FILTROS                            ////
-/////////////////////////////////////////////////////////////////////
-filters: {
-  formatDate: function (value) {
-      return moment(value.substring(0, 10)).format("DD/MM/YYYY");
+  remove(index){
+    this.componentes.splice(index, 1);
   },
-  formatPlaza: function (value) {
-      return value;
-  },
-},
+}
 };
 </script>
 
