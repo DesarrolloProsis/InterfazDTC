@@ -13,13 +13,21 @@
         </p>
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
-        <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime>
+        <datetime class="ml-1 inline-flex" use12-hour 
+          v-model="fechaapertura"
+          type="datetime"
+          name="HoraInicio" 
+          input-class="inputanexo" 
+          :format="{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }"
+          >
+        </datetime>
         EL <label class="font-bold">{{this.plazadtc[0].adminName.toUpperCase() }}</label> ADMINISTRADOR DE LA PLAZA DE COBRO, EL<label class="font-bold"> {{this.lista_DTC_Filtrada[0].name.toUpperCase() }}</label>, TÉCNICO REPRESENTANTE DE LA EMPRESA <label class="font-bold">PROYECTOS Y SISTEMAS INFORMATICOS S.A. DE C.V.</label> 
         TENIENDO COMO TESTIGOS DE ASISTENCIA A:
         </p>
         <div class="flex w-full gap-4 p-2">
           <multiselect
-            v-model="testigo1"                                                    
+            v-model="testigo1"
+            :value="testigoscompleto.id"                                                    
             :close-on-select="true"
             :clear-on-select="true"
             :hideSelected="false"                               
@@ -31,7 +39,8 @@
             >
           </multiselect>
           <multiselect
-            v-model="testigo2"                                                 
+            v-model="testigo2"
+            :value="testigoscompleto.id"                                                 
             :close-on-select="true"
             :clear-on-select="true"
             :hideSelected="false"
@@ -45,7 +54,7 @@
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
-        EL DÍA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
+        EL DÍA <datetime v-model="fechacierre" class="inline-flex" input-class="inputanexo" :format="{ year: 'numeric', month: 'long', day: 'numeric' }"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
         <span class="font-bold">{{this.nombrecomponentes.toString()}}</span> Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
         <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
         CUYO EFECTO FUÉ NECESARIO REPONER LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
@@ -67,16 +76,16 @@
           :dtcreference="this.$route.params.referencenumber"
           @listacarriles = "onagregarcomponentes"
           @listanombrecom = "onagregarnombrescomponentes"
+          @componentesfinales = "agregarcomponenteseditados"
         />
-        <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
-        <p class="mb-2">ENCARGADO DE PLAZA: 
-          <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
+        <p class="mb-2">SUPERVISOR DE PLAZA: 
+          <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center" v-model="selectsupervisor" @change="vervalordelselect">
           <option value="">Selecciona un supervisor de plaza</option>
-          <option value="" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
+          <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
           </select>
         </p>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="modalImage = true" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Insertar Anexo 1-A</span>
             </button>
@@ -95,7 +104,12 @@
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
-                    <ImagenesAnexo @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="''"></ImagenesAnexo>
+                    <ImagenesAnexo 
+                      @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" 
+                      :reporteDataInsertada="true"
+                      :tipo="'Diagnostico'" 
+                      :referenceNumber="''">
+                    </ImagenesAnexo>
                     <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Anexo 1-A</span>
@@ -165,6 +179,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       componentesseleccionados:[],
       nombrecarriles:[],
       nombrecomponentes:[],
+      componentesfinaleseditados:[],
+      fechaapertura: "",
+      fechacierre: "",
+      selectsupervisor:'',
+      testigoscompleto:[],
+      idtestigos:0,
     };
     },
     created() {
@@ -179,6 +199,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const objeto = await data.json();
         let resultado = objeto.result;
         console.log(resultado)
+        this.testigoscompleto = resultado;
+        console.log(this.testigoscompleto);
+        
         let nombretestigos = [];
         resultado.forEach(e => nombretestigos.push(e.nombre));
         this.listaTestigos = nombretestigos; 
@@ -234,7 +257,37 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return data.indexOf(item) === index;
       })
       this.nombrecomponentes = result;
-     }, 
+     },
+     agregarcomponenteseditados(data){
+       this.componentesfinaleseditados = data;
+       console.log(this.componentesfinaleseditados);
+     },
+     async insertaranexo(){
+      this.modalImage = true
+      let Anexo = {
+          "DTCReference": this.lista_DTC_Filtrada[0].failureNumber,
+          "AnexoReference": "",
+          "FechaApertura": this.fechaapertura,
+          "FechaCierre": this.fechacierre,
+          "FolioOficio": "",
+          "FechaOficioInicio": null,
+          "FechaOficioFin": null,
+          "SupervisorId": this.selectsupervisor,
+          "Testigos": [this.testigo1,this.testigo2],
+          "TipoAnexo": "A",
+          "ComponentesAnexo":this.componentesfinaleseditados  
+       }
+       console.log(Anexo);
+      try
+      {
+        this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
+      }catch(error){
+        console.error(error)
+      }
+     },
+     vervalordelselect(){
+       console.log(this.selectsupervisor)
+     } 
    },
    
   }

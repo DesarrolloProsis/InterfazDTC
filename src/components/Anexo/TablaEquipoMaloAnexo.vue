@@ -163,7 +163,7 @@
             </div>
     </div>
     <h3 class="font-bold text-sm">COMPONENTES Y/O REFACCIONES NUEVAS:</h3>
-    <TablaEquipoPropuesto :listaEquipo="componentes"></TablaEquipoPropuesto>
+    <TablaEquipoPropuesto :listaEquipo="componentes" @componentesfinales = "componenteseditadosnoserie"></TablaEquipoPropuesto>
   </div>
 </template>
 <script>
@@ -222,7 +222,8 @@ export default {
       pruebasMultiselect: [],
       //Cambios Inserte RelationShip
       relationShipPrincipal: "",
-      arrayDmg: []
+      arrayDmg: [],
+      arraycomponententeseditados:[]
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -295,7 +296,13 @@ methods: {
   },
   remove(index){
     this.componentes.splice(index, 1);
+    this.arraycomponententeseditados.splice(index, 1);
     this.agregarcomponentes();
+  },
+  componenteseditadosnoserie(data){
+    this.arraycomponententeseditados = data;
+    this.$emit('componentesfinales',this.arraycomponententeseditados)
+    console.log(this.arraycomponententeseditados);
   },
 }
 };

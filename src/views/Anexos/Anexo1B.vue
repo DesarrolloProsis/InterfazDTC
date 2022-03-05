@@ -7,46 +7,48 @@
         PARA HACER CONSTAR LA SUSTITUCIÓN DE COMPONENTES <label class="font-bold">POR FÍN DE VIDA ÚTIL/REUBICACIÓN/ACONDICIONAMIENTO, </label> 
         </p>
         <p>
-        REALIZADO AL EQUIPO DE CONTROL DE TRANSITO DE <label class="font-bold">CARRIL A09</label>, 
-        EN LA PLAZA DE COBRO <label class="font-bold"> No. 103, PALO BLANCO,</label>
-        PERTENECIENTE A LA COORDINACION REGIONAL<label class="font-bold">CUERNAVACA.</label>
+        REALIZADO AL EQUIPO DE CONTROL DE TRANSITO DE <label class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</label>, 
+        EN LA PLAZA DE COBRO <label class="font-bold">No. {{this.plazadtc[0].plaza.toUpperCase() }},</label>
+        PERTENECIENTE A LA <label class="font-bold">{{this.plazadtc[0].regionalCoordination.toUpperCase() }}</label>
         </p>
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
         <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime>
-        EL <label class="font-bold">C. CARLOS JANE LOUI PULIDO MEJIA</label> ADMINISTRADOR DE LA PLAZA DE COBRO, EL<label class="font-bold"> C.OMAR SÁNCHEZ MORELOS</label>, TÉCNICO REPRESENTANTE DE LA EMPRESA <label class="font-bold">PROYECTOS Y SISTEMAS INFORMATICOS S.A. DE C.V.</label> 
+        EL <label class="font-bold">{{this.plazadtc[0].adminName.toUpperCase() }}</label> ADMINISTRADOR DE LA PLAZA DE COBRO, EL<label class="font-bold"> {{this.lista_DTC_Filtrada[0].name.toUpperCase() }}</label>, TÉCNICO REPRESENTANTE DE LA EMPRESA <label class="font-bold">PROYECTOS Y SISTEMAS INFORMATICOS S.A. DE C.V.</label> 
         TENIENDO COMO TESTIGOS DE ASISTENCIA A:
         </p>
         <div class="flex w-full gap-4 p-2">
              <multiselect
                 :disabled="blockInput"
+                :value="testigoscompleto.id"
                 v-model="testigo1"  
                 :custom-label="label_multi_select"                                                  
-                :close-on-select="false"
+                :close-on-select="true"
                 :clear-on-select="true"
                 :hideSelected="false"                               
                 placeholder="Selecciona un testigo"
-                :options="testigos_plaza"
+                :options="listaTestigos"
                 select-label=""
                 class="w-full"                 
                 >
         </multiselect>
         <multiselect
                 :disabled="blockInput"
+                :value="testigoscompleto.id"
                 v-model="testigo2"  
                 :custom-label="label_multi_select"                                                  
-                :close-on-select="false"
+                :close-on-select="true"
                 :clear-on-select="true"
                 :hideSelected="false"
                 placeholder="Selecciona un testigo"
-                :options="testigos_plaza"
+                :options="listaTestigos"
                 select-label=""
                 class="w-full"                 
                 >
         </multiselect>
         </div>
         <p class="">
-        PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL<span class="font-bold">CARRIL A02, CARRIL A07</span>,
+        PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
         DE ACUERDO A LA SOLICITUD <input type="text" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
         DE FECHA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime> FUE REPARADA
         EL DÍA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" placeholder="DO/3741/2021" class="inputanexo">
@@ -64,13 +66,13 @@
         <TablaEquipoMalo
         :listaComponentes="listaComponentes"
         :dateSinester="datosSinester.SinisterDate"
+        @listacarriles = "onagregarcomponentes"
         ></TablaEquipoMalo>
         <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
-        <p class="mb-2">ENCARGADO DE PLAZA: 
-          <select class="">
-          <option value="">Selecciona un encargado de plaza</option>
-          <option value="">Carlos</option>
-          <option value="">Daniel</option>
+        <p class="mb-2">SUPERVISOR DE PLAZA: 
+          <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
+          <option value="">Selecciona un supervisor de plaza</option>
+          <option value="" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
           </select>
         </p>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
@@ -88,9 +90,11 @@
 <script>
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
 import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
-import moment from "moment";
 import { Datetime } from 'vue-datetime';
 import Multiselect from "vue-multiselect";
+import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
+
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 
     export default {
     name: "Anexo1-A",
@@ -129,33 +133,77 @@ import Multiselect from "vue-multiselect";
       tipoPlazaSelect: '', 
       testigo1: '',
       testigo2: '',
-      testigos_plaza: ['C.AGUSTIN DAVID FIGUEROA SOTELO','C.JONATHAN EDMUNDO MARQUEZ MARES']    
+      listaSupervisor:[],
+      listaTestigos:[], 
+      plazadtc: [],
+      nombrecarriles:[],
+      testigoscompleto:[],
     };
     },
-    beforeMount: async function () {    
-    let f = new Date()
-    this.tipoPlazaSelect = 'insersion'        
-    this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
-    this.fecha_validacion = moment(f, "DD-MM-YYYY").add('days', 1).format("YYYY-MM-DD");  
-    let value = await this.$store.getters["Header/GET_CONVENIO_PLAZA"];
-    await this.$store.dispatch("Refacciones/BUSCAR_COMPONETES", value);
-    this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
-    console.log(this.listaComponentes);
-    await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
-    this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
-    if (JSON.stringify(this.headerEdit) != "{}") {    
-        this.tipoPlazaSelect = 'edicion'      
-        this.boolCambiarPlaza = true
-        this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
-        this.datosSinester.SinisterNumber = this.headerEdit.sinisterNumber;
-        this.datosSinester.ReportNumber = this.headerEdit.reportNumber;
-        this.datosSinester.SinisterDate = await moment(this.headerEdit.sinisterDate).format("YYYY-MM-DD");
-        this.datosSinester.FailureNumber = this.headerEdit.failureNumber;
-        this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format("YYYY-MM-DD");
-        this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format("YYYY-MM-DD");
-        this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
-        this.fechaSiniestoEdit = true;    
-    }  
+    created(){
+      this.SupervisorDtc()
+      this.TestigosDtc()
+      this.filtro_dtc()
+    },
+    methods: {
+      async filtro_dtc() {    
+      let iddtc = this.$route.params.referencenumber;
+      console.log(iddtc);
+      try{
+        let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
+        this.lista_DTC_Filtrada = dtcfiltrado;
+        console.log(this.lista_DTC_Filtrada);
+        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
+        let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
+        let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
+        console.log(formatted_date);
+        this.fechasiniestro = formatted_date;
+        let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
+        console.log(dataHeader);
+        const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
+        this.plazadtc  = result;
+        console.log(this.plazadtc);  
+      }
+      catch (error) {
+        console.log(error);
+      } 
+      
+    },
+    async TestigosDtc(){
+      try {
+        const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
+        const objeto = await data.json();
+        let resultado = objeto.result;
+        this.testigoscompleto = resultado;
+        console.log(resultado)
+        let nombretestigos = [];
+        resultado.forEach(e => nombretestigos.push(e.nombre));
+        this.listaTestigos = nombretestigos; 
+        console.log(this.listaTestigos);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async SupervisorDtc(){
+      try {
+        const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
+        const objeto = await data.json();
+        let listaSupervisorprueba = objeto.result;
+        console.log(listaSupervisorprueba)
+        this.listaSupervisor = listaSupervisorprueba;
+        console.log(this.listaSupervisor);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onagregarcomponentes(data) {
+    let result = data.filter((item,index)=>{
+      return data.indexOf(item) === index;
+    })
+      this.nombrecarriles = result;
+      console.log(this.nombrecarriles);
+     },
+
     }
     }
 </script>

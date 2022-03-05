@@ -20,13 +20,13 @@
               <tr class="hover:bg-blue-200 text-center text-xs h-12 xl:text-base" v-for="(equipo, index) in listaEquipo" :key="index">
                 <td class="cuerpoTable">1</td>
                 <td class="cuerpoTable">{{ equipo.nameComponent }}</td>
-                <td class="cuerpoTable">{{ equipo.brand }}</td>
-                <td class="cuerpoTable">{{ equipo.model }}</td>
+                <td class="cuerpoTable">{{ equipo.brandPropuesto }}</td>
+                <td class="cuerpoTable">{{ equipo.modelPropuesto }}</td>
                 <td class="cuerpoTable">
-                  <input type="text" class="text-center inputanexo" :placeholder="equipo.serialNumber">
+                  <input type="text" class="text-center inputanexo" :placeholder="equipo.serialNumber" v-model="equipo.serialnuevo" @change="generarlistanuevalistacomponentes(equipo)">
                   </td>
                 <td class="cuerpoTable">{{ equipo.lane }}</td>
-                <td class="cuerpoTable">Dañada</td>
+                <td class="cuerpoTable">Nuevo</td>
               </tr>
             </tbody>
           </table>
@@ -81,12 +81,34 @@ export default {
   data() {
     return {
       modal: false,
+      arrayobjetoseditados:[],
     };
   },
   watch: {
     vercomponentes: function (){
-      console.log(this.listaEquipo)
+      console.info(this.listaEquipo)
       }
+  },
+  methods: {
+    generarlistanuevalistacomponentes(equipo){
+      var componente = {
+        RequestedComponentId: equipo.requestedComponentId,
+        SerialNumber: equipo.serialnuevo
+      }
+      if (this.arrayobjetoseditados == 0) {
+        this.arrayobjetoseditados.push(componente);
+      }else{
+        const o = this.arrayobjetoseditados.findIndex(element => {
+          return element.RequestedComponentId === componente.RequestedComponentId
+        })
+        if (o < 0) {
+          this.arrayobjetoseditados.push(componente);
+        }else{
+          this.arrayobjetoseditados.splice(o, 1, componente);
+        }
+      }
+      this.$emit('componentesfinales',this.arrayobjetoseditados);
+    },
   }
 }
 </script>
