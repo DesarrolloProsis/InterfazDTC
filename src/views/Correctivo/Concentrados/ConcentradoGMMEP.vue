@@ -294,7 +294,8 @@ methods:{
       clousure_pdf_fotografico()
     }                
     if(acciones.title == 'Bajar DTC Firmado'){      
-      ServiceReportPDF.generar_pdf_correctivo(itemRow.referenceNumber, 2, false)
+      //console.log(itemRow);
+      ServiceReportPDF.generar_pdf_correctivo(itemRow.referenceNumber, 2, false, itemRow.adminId)
       clousure_pdf_fotografico()
     }
     if(acciones.title == 'Bajar DTC Sellado'){      
