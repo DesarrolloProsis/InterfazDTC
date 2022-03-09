@@ -18,24 +18,34 @@
         TENIENDO COMO TESTIGOS DE ASISTENCIA A:
         </p>
         <div class="flex w-full gap-4 p-2">
-          <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo1" @change="vervalordelselect">
-                <option value="">Selecciona a un testigo</option>
-                <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-          </div>
-          <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo2" @change="vervalordelselect">
-                <option value="">Selecciona a un testigo</option>
-                <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-          </div>
+             <multiselect
+                :disabled="blockInput"
+                :value="testigoscompleto.id"
+                v-model="testigo1"  
+                :custom-label="label_multi_select"                                                  
+                :close-on-select="true"
+                :clear-on-select="true"
+                :hideSelected="false"                               
+                placeholder="Selecciona un testigo"
+                :options="listaTestigos"
+                select-label=""
+                class="w-full"                 
+                >
+        </multiselect>
+        <multiselect
+                :disabled="blockInput"
+                :value="testigoscompleto.id"
+                v-model="testigo2"  
+                :custom-label="label_multi_select"                                                  
+                :close-on-select="true"
+                :clear-on-select="true"
+                :hideSelected="false"
+                placeholder="Selecciona un testigo"
+                :options="listaTestigos"
+                select-label=""
+                class="w-full"                 
+                >
+        </multiselect>
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
@@ -57,8 +67,6 @@
         :listaComponentes="listaComponentes"
         :dateSinester="datosSinester.SinisterDate"
         @listacarriles = "onagregarcomponentes"
-        @listanombrecom = "onagregarnombrescomponentes"
-        @componentesfinales = "agregarcomponenteseditados"
         ></TablaEquipoMalo>
         <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
         <p class="mb-2">SUPERVISOR DE PLAZA: 
@@ -83,6 +91,7 @@
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
 import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
 import { Datetime } from 'vue-datetime';
+import Multiselect from "vue-multiselect";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -93,6 +102,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         HeaderGenerico,
         TablaEquipoMalo,
         Datetime,
+        Multiselect,
     },
      data() {
     return {
@@ -128,7 +138,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       plazadtc: [],
       nombrecarriles:[],
       testigoscompleto:[],
-      componentesfinaleseditados:[],
     };
     },
     created(){
@@ -193,40 +202,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     })
       this.nombrecarriles = result;
       console.log(this.nombrecarriles);
-     },
-    onagregarnombrescomponentes(data) {
-      let result = data.filter((item,index)=>{
-      return data.indexOf(item) === index;
-      })
-      this.nombrecomponentes = result;
-    },
-    agregarcomponenteseditados(data){
-      this.componentesfinaleseditados = data;
-      console.log(this.componentesfinaleseditados);
-    },
-    async insertaranexo(){
-      this.modalImage = true
-      let Anexo = {
-          "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
-          "AnexoReference": "",
-          "FechaApertura": this.fechaapertura,
-          "FechaCierre": this.fechacierre,
-          "FolioOficio": "",
-          "FechaOficioInicio": null,
-          "FechaOficioFin": null,
-          "SupervisorId": this.selectsupervisor,
-          "Testigos": [this.testigo1,this.testigo2],
-          "TipoAnexo": "B",
-          "ComponentesAnexo":this.componentesfinaleseditados  
-       }
-       console.log(Anexo);
-      try
-      {
-        this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
-        console.log("Se envio correctamente el anexo");
-      }catch(error){
-        console.error(error)
-      }
      },
 
     }
