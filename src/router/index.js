@@ -149,6 +149,16 @@ const routes = [
     component: () => import('../views/Anexos/Anexo1B')
   },
   {
+    path: '/EditarAnexo1A/:referenceSquare/:squareCatalogId/:referencenumber',
+    name:'/EditarAnexo1A',
+    component: () => import('../views/Anexos/EditarAnexo1A')
+  },
+  {
+    path: '/EditarAnexo1B/:referenceSquare/:squareCatalogId/:referencenumber',
+    name:'/EditarAnexo1B',
+    component: () => import('../views/Anexos/EditarAnexo1B')
+  },
+  {
     path: '/Correctivo/PreDTC/:tipoVista',
     name: 'CorrectivoDTC',
     component: FichaDiagnostico,

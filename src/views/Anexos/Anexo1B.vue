@@ -13,7 +13,12 @@
         </p>
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
-        <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime>
+        <datetime 
+        class="ml-2 inline-flex"
+        v-model="fechaapertura"
+        use12-hour type="datetime"
+        name="HoraInicio" 
+        input-class="inputanexo"></datetime>
         EL <label class="font-bold">{{this.plazadtc[0].adminName.toUpperCase() }}</label> ADMINISTRADOR DE LA PLAZA DE COBRO, EL<label class="font-bold"> {{this.lista_DTC_Filtrada[0].name.toUpperCase() }}</label>, TÉCNICO REPRESENTANTE DE LA EMPRESA <label class="font-bold">PROYECTOS Y SISTEMAS INFORMATICOS S.A. DE C.V.</label> 
         TENIENDO COMO TESTIGOS DE ASISTENCIA A:
         </p>
@@ -40,10 +45,10 @@
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
         DE ACUERDO A LA SOLICITUD <input type="text" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
-        DE FECHA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime> FUE REPARADA
-        EL DÍA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" placeholder="DO/3741/2021" class="inputanexo">
-        DE FECHA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
-        <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
+        DE FECHA <datetime class="inline-flex" input-class="inputanexo"></datetime> FUE REPARADA
+        EL DÍA <datetime v-model="fechacierre" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
+        DE FECHA <datetime v-model="fechaoficioinicio" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
+        <datetime v-model="fechaoficiofin" class="inline-flex" input-class="inputanexo"></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
         <p class="text-sm">
         LOS EQUIPOS/COMPONENTES DAÑADOS EL ADMINISTRADOR DEBERÁ IDENTIFICAR Y EMBALAR, ENVIANDOLOS EN UN PERÍODO DE 5 DÍAS MÁXIMO AL ÁLMACÉN DE LA 
@@ -60,7 +65,6 @@
         @listanombrecom = "onagregarnombrescomponentes"
         @componentesfinales = "agregarcomponenteseditados"
         ></TablaEquipoMalo>
-        <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
         <p class="mb-2">SUPERVISOR DE PLAZA: 
           <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
           <option value="">Selecciona un supervisor de plaza</option>
@@ -68,11 +72,35 @@
           </select>
         </p>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Generar anexo 1-B</span>
             </button>
         </div>
+        </div>
+    <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL IMAGENES                        /////
+    ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0" v-if="modalImage" :class="{'modal-container': modalImage}">
+            <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66 mt-66">          
+                <span @click="modalImage = false" class="absolute  top-0 right-0">
+                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
+                </span> 
+                <div class="justify-center text-center block">            
+                    <!-- /////////////////////////////////////////////////////////////////////
+                    ////                         IMAGENES                             ////
+                    ///////////////////////////////////////////////////////////////////// -->
+                    <ImagenesAnexo 
+                      :reporteDataInsertada="true"
+                      :tipo="'Diagnostico'" 
+                      :referenceNumber="''">
+                    </ImagenesAnexo>
+                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                        <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                        <span>Generar Anexo 1-A</span>
+                    </button>  
+                </div>
+            </div>
         </div>
         
        
@@ -82,6 +110,7 @@
 <script>
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
 import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
+import ImagenesAnexo from '../../components/ImagenesGenericas.vue'
 import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 
@@ -93,6 +122,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         HeaderGenerico,
         TablaEquipoMalo,
         Datetime,
+        ImagenesAnexo
     },
      data() {
     return {
@@ -129,6 +159,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       nombrecarriles:[],
       testigoscompleto:[],
       componentesfinaleseditados:[],
+      fechaapertura: '',
+      fechacierre: '',
+      foliooficio: '',
+      fechaoficioinicio: '',
+      fechaoficiofin: '',
+      blockBotonModal: false,
+      modalImage: false,
+      modalLoading: false,
     };
     },
     created(){
@@ -211,9 +249,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "AnexoReference": "",
           "FechaApertura": this.fechaapertura,
           "FechaCierre": this.fechacierre,
-          "FolioOficio": "",
-          "FechaOficioInicio": null,
-          "FechaOficioFin": null,
+          "FolioOficio": this.foliooficio,
+          "FechaOficioInicio": this.fechaoficioinicio,
+          "FechaOficioFin": this.fechaoficiofin,
           "SupervisorId": this.selectsupervisor,
           "Testigos": [this.testigo1,this.testigo2],
           "TipoAnexo": "B",
@@ -222,12 +260,18 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(Anexo);
       try
       {
-        this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
+        //this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)
       }
      },
+     vervalordelselect(){
+       
+       console.log(this.testigo1)
+       console.log(this.testigo2)
+       
+     }, 
 
     }
     }
