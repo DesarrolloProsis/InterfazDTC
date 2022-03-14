@@ -7,7 +7,7 @@
             ////////////////////////////////////////////////////////////////////-->
             <thead id="">
                 <!-- VersionPC  -->
-                <tr class="text-md text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
+                <tr class="text-sm text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
                     <th colspan="movilHeaderKey.length">
                         <div class="grid grid-rows-1" :class="{'grid-cols-8': normalheaderKey.length == 8, 'grid-cols-9': normalheaderKey.length == 9, 'grid-cols-3': normalheaderKey.length == 3 }">
                             <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable border-none">                                
@@ -17,7 +17,7 @@
                     </th>      
                 </tr>
                 <!-- VersionMovil  -->
-                <tr class="text-mdtext-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
+                <tr class="text-md text-gray-400 font-normal bg-blue-800 lg:hidden xl:hidden">                    
                     <th colspan="movilHeaderKey.length">
                         <div class="grid grid-cols-3 grid-rows-1">
                             <div v-for="(item, keyMovil) in movilHeaderKey" :key="keyMovil" class="cabeceraTable border-none">
@@ -52,7 +52,9 @@
                         :itemRow="item" 
                         :listaAcciones="validarAcciones(item)"                        
                         :keyRow="normalheaderKey"
-                        :letrasGris="item.statusDtc == 1"            
+                        :letrasGris="item.statusDtc == 1"
+                        :RowAzul ="item.statusId == 4" 
+                        :Rowverde ="item.statusId == 5"           
                         class="sm:hidden md:hidden">
                     </RowHelper>
                     <!-- VersionMovil  -->

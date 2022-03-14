@@ -26,7 +26,16 @@
               <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden">{{dtc.userName}}</td>
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.faultDescription}}</td>
               <td class="P-3 sm:w-8 w-50 text-center">
-                  <multiselect v-model="selectMulti" @close="acciones_mapper(dtc)" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi sm:w-32 sm:h-auto sm:ml-4" :options="opticones_select_acciones(dtc)" :option-height="200" :custom-label="customLabel"  :show-labels="false">
+                  <multiselect
+                  v-model="selectMulti" 
+                  @close="acciones_mapper(dtc)" 
+                  placeholder="Seleccione una Accion" 
+                  label="title" track-by="title" 
+                  class="multi sm:w-32 sm:h-auto sm:ml-4" 
+                  :options="opticones_select_acciones(dtc)" 
+                  :option-height="200" 
+                  :custom-label="customLabel"  
+                  :show-labels="false">
                     <template slot="option" slot-scope="props">                                                
                       <div class="option__desc">
                       <span class="option__title inline-flex sm:text-xs">
@@ -69,7 +78,7 @@
                                       <td class="p-2 text-center text-xs sm:hidden">{{anxg.userName}}</td>
                                       <td>
                                         <multiselect v-model="selectMultiModal" 
-                                          @close="acciones_mapper_modal()" 
+                                          @close="acciones_mapper_modal(anxg)" 
                                           placeholder="Seleccione una Accion"
                                           label="title"
                                           track-by="title"
@@ -91,7 +100,6 @@
                                 </tbody>
                             </table>
                         </div>  
-                    
                     </div>
                 </div>
         </div>
@@ -233,6 +241,20 @@ export default {
             filtroOpciones.push(options[0])
 
             return filtroOpciones
+    },
+    acciones_mapper_modal(anxg){
+      console.log(this.selectMultiModal.title);
+      console.log(anxg);
+      if(this.selectMultiModal.title == 'Editar'){
+        console.log(anxg);
+        if (anxg.tipoAnexo === "A") {
+          this.$router.push(`/EditarAnexo1A/${anxg.anexoReference}/${anxg.dtcReference}`);
+          this.selectMultiModal = '';
+        } else if (anxg.tipoAnexo === "B"){
+          this.$router.push(`/EditarAnexo1B/${anxg.anexoReference}/${anxg.dtcReference}`);
+          this.selectMultiModal = '';
+        }
+      }
     },
     guardar_palabra_busqueda: function(newPalabra){
     if (newPalabra != "") {   

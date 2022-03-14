@@ -179,41 +179,19 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       testigoscompleto:[],
       idtestigos:0,
       blockBotonModal: false,
+      anexo: {},
     };
     },
     created() {
-      this.TestigosDtc();
-      this.SupervisorDtc();
       this.filtro_dtc();
     },
+    
    methods: {
-     async TestigosDtc(){
-      try {
-        const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
-        const objeto = await data.json();
-        let resultado = objeto.result;
-        console.log(resultado)
-        this.testigoscompleto = resultado;
-        console.log(this.testigoscompleto);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async SupervisorDtc(){
-      try {
-        const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
-        const objeto = await data.json();
-        let listaSupervisorprueba = objeto.result;
-        console.log(listaSupervisorprueba)
-        this.listaSupervisor = listaSupervisorprueba;
-        console.log(this.listaSupervisor);
-      } catch (error) {
-        console.log(error);
-      }
-    },
     async filtro_dtc() {    
-      let iddtc = this.$route.params.referencenumber;
+      let iddtc = this.$route.params.dtcReference;
       console.log(iddtc);
+      let referenciaanexo = this.$route.params.anexoReference; 
+      console.log(referenciaanexo)
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         this.lista_DTC_Filtrada = dtcfiltrado;
@@ -227,7 +205,24 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         console.log(dataHeader);
         const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
         this.plazadtc  = result;
-        console.log(this.plazadtc);  
+        console.log(this.plazadtc);
+        const datasupervisor = await fetch(`${API}/AnexoDTC/Supervisor/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
+        const objetosupervisor = await datasupervisor.json();
+        let listaSupervisorprueba = objetosupervisor.result;
+        console.log(listaSupervisorprueba)
+        this.listaSupervisor = listaSupervisorprueba;
+        console.log(this.listaSupervisor);
+        const datatestigo = await fetch(`${API}/AnexoDTC/Testigos/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
+        const objetotestigo = await datatestigo.json();
+        let resultado = objetotestigo.result;
+        console.log(resultado)
+        this.testigoscompleto = resultado;
+        console.log(this.testigoscompleto);
+        const dataanexo = await fetch(`${API}/AnexoDTC/HeaderAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`)
+        const anexo = await dataanexo.json()
+        let objetoresultadoanexo = anexo.result;
+        this.anexo = objetoresultadoanexo[0];
+        console.log(this.anexo) 
       }
       catch (error) {
         console.log(error);
