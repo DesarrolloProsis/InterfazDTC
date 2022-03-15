@@ -44,8 +44,8 @@
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
-        DE ACUERDO A LA SOLICITUD <input type="text" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
-        DE FECHA <datetime class="inline-flex" input-class="inputanexo"></datetime> FUE REPARADA
+        DE ACUERDO A LA SOLICITUD <input type="text" v-model="solciitud" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
+        DE FECHA <datetime v-model="solicitudfechainicio" class="inline-flex" input-class="inputanexo"></datetime> FUE REPARADA
         EL DÍA <datetime v-model="fechacierre" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
         DE FECHA <datetime v-model="fechaoficioinicio" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
         <datetime v-model="fechaoficiofin" class="inline-flex" input-class="inputanexo"></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
@@ -97,7 +97,7 @@
                     </ImagenesAnexo>
                     <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                        <span>Generar Anexo 1-A</span>
+                        <span>Generar Anexo 1-B</span>
                     </button>  
                 </div>
             </div>
@@ -167,6 +167,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       blockBotonModal: false,
       modalImage: false,
       modalLoading: false,
+      solciitud: '',
+      solicitudfechainicio:'',
     };
     },
     created(){
@@ -247,15 +249,19 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
           "AnexoReference": "",
+          "FechaSolicitudInicio" : this.solicitudfechainicio,
+          "FechaSolicitudFin" : null,
+          "Solicitud": this.solciitud,
           "FechaApertura": this.fechaapertura,
           "FechaCierre": this.fechacierre,
           "FolioOficio": this.foliooficio,
           "FechaOficioInicio": this.fechaoficioinicio,
           "FechaOficioFin": this.fechaoficiofin,
           "SupervisorId": this.selectsupervisor,
-          "Testigos": [this.testigo1,this.testigo2],
+          "Testigo1Id": this.testigo1,
+          "Testigo2Id": this.testigo2,
           "TipoAnexo": "B",
-          "ComponentesAnexo":this.componentesfinaleseditados  
+          "ComponentesAnexo":this.componentesfinaleseditados 
        }
        console.log(Anexo);
       try

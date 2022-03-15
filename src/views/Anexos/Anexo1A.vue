@@ -256,13 +256,17 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
           "AnexoReference": "",
+          "FechaSolicitudInicio" : null,
+          "FechaSolicitudFin" : null,
+          "Solicitud": "",
           "FechaApertura": this.fechaapertura,
           "FechaCierre": this.fechacierre,
           "FolioOficio": "",
           "FechaOficioInicio": null,
           "FechaOficioFin": null,
           "SupervisorId": this.selectsupervisor,
-          "Testigos": [this.testigo1,this.testigo2],
+          "Testigo1Id": this.testigo1,
+          "Testigo2Id": this.testigo2,
           "TipoAnexo": "A",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
