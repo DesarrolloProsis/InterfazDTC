@@ -112,7 +112,7 @@ methods:{
                     if(response.data.length > 0){
                         if(objHeader.crear)
                             this.insertar_diagnostico_falla(objHeader.value)
-                            this.modalLoading = false  
+                            //this.modalLoading = false  
                     }  
                     else{
                         this.$notify.warning({
@@ -133,7 +133,7 @@ methods:{
                         .then((response) => {             
                             if(response.data.length > 0){                                
                                 this.insertar_diagnostico_falla(objHeader.value)
-                                this.modalLoading = false  
+                                //this.modalLoading = false  
                             }  
                             else{
                                 this.$notify.warning({
@@ -213,15 +213,17 @@ methods:{
                     .then(() =>{                        
                         carrilesInsertDiagnostic.forEach(carril => {                                                     
                             this.$http.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                                .then(() => {
-                                    this.modalLoading = false                                  
+                                .then(() => {                               
                                     if(this.botonEditCreate != false)
-                                        this.modalImage = true                                                                    
+                                    {
+                                        this.modalLoading = false   
+                                        this.modalImage = true
+                                    }                                        
                                 })                                 
                         }); 
-                        setTimeout(() => {
-                            this.modalLoading = false       
+                        setTimeout(() => {      
                             if(this.$route.params.tipoVista == 'Editar'){
+                                this.modalLoading = true
                                 this.type = 'Ficha' 
                                 this.modalImage = false
                                 ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
