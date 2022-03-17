@@ -52,7 +52,11 @@
                                 <span>Actualizar Ficha</span>
                             </button>                            
                         </div>
-                    </div>    
+                    </div>  
+                    <!--/////////////////////////////////////////////////////////////////////
+                    /////                           SPINNER                             ////
+                    ////////////////////////////////////////////////////////////////////--> 
+                    <Spinner :modalLoading="modalLoading"/>  
                 </div>  
             </div>
         </div>
@@ -62,6 +66,7 @@
 <script>
 import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
+import Spinner from '../../../components/Sppiner.vue'
 import ServiceReporte from '../../../services/ReportesPDFService'
 import EventBus from '../../../services/EventBus'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -69,7 +74,8 @@ export default {
     name: "Diagnostico",
     components: {         
         HeaderFalla,
-        ImagenesFichaDiagnostico        
+        ImagenesFichaDiagnostico,
+        Spinner     
     },
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
@@ -82,7 +88,8 @@ export default {
             modalImage: false,
             botonEditCreate: true,
             tipoFalla: 1,
-            blockBotonModal: false               
+            blockBotonModal: false,
+            modalLoading: false            
         }
     },
     beforeMount(){
@@ -103,7 +110,8 @@ export default {
         },
         actualizar_header(objHeader){                
             this.datosHeader = objHeader.header  
-            if(objHeader.value == false){  
+            if(objHeader.value == false){ 
+                this.modalLoading = true
                 this.$http.get(`${API}/FichaTecnicaAtencion/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
                     .then((response) => {                        
                         if(response.data.length > 0){
@@ -122,7 +130,8 @@ export default {
                 })
             }
             else {
-                if(objHeader.crear)
+                if(objHeader.crear){
+                    this.modalLoading = true
                     if(this.botonEditCreate == false && objHeader.header.tipoFalla <= 1){
                         this.$http.get(`${API}/FichaTecnicaAtencion/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
                             .then((response) => {                    
@@ -142,7 +151,8 @@ export default {
                     }
                     else {
                         this.insertar_ficha_falla(objHeader.value)
-                    }                    
+                    }
+                }
             }
         }, 
         cerrar_modal_imagenes(){
@@ -166,8 +176,10 @@ export default {
                     .then(() => {                                  
                         this.reporteInsertado = true
                         if(objFicha.typeFaultId == 1) {
-                            if(this.botonEditCreate != false)  
+                            if(this.botonEditCreate != false){
+                                this.modalLoading = false
                                 this.modalImage = true
+                            }
                         }
                         else{
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
@@ -176,12 +188,15 @@ export default {
                             }
                             else {
                                 if(this.$route.query.referenceNumberFinishDiagnostic == undefined)
+                                {
                                     this.$router.push(`/NuevoDtc/Crear/${this.datosHeader.referenceNumber}/${this.datosHeader.tipoFalla}`)
+                                }
                                 else
                                     this.$router.push('/Home')
                             }
                         }
                         if(this.$route.params.tipoVista == 'Editar'){   
+                            this.modalLoading = false
                             this.modalImage = false                         
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber)                   
                             if(this.datosHeader.tipoFalla <= 1) {
