@@ -96,7 +96,7 @@ methods:{
     bloquear_boton_diagnostioc_img(value){
         this.blockBotonModal = value
     },
-    actualizar_header(objHeader){                                  
+    actualizar_header(objHeader){          
         this.datosHeader = objHeader.header
         if(objHeader.value == false){             
             this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
