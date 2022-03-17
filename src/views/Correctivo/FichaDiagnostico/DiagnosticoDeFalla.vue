@@ -252,7 +252,7 @@ methods:{
                 .catch(() => {       
                     this.$notify.warning({
                         title: "Ops!!",
-                        msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS 1.",
+                        msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO, PORFAVOR VERIFIQUE SUS DATOS.",
                         position: "bottom right",
                         styles: { height: 100, width: 500 },
                     });
