@@ -80,7 +80,7 @@
               </div>
           </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Editar anexo 1-B</span>
             </button>
@@ -93,9 +93,10 @@
 
 <script>
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
-import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
+import TablaEquipoMalo from "../../components/Anexo/TablaEditarEquipoMaloAnexo.vue";
 import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
+import ServiceReportPDF from "../../services/ReportesPDFService";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -254,7 +255,41 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
             }
           }
         }
-     } 
+     },
+     async insertaranexo(){
+      this.modalImage = true
+      let Anexo = {
+          "DTCReference": this.anexo.dtcReference,
+          "AnexoReference": this.anexo.anexoReference,
+          "FechaApertura": this.anexo.fechaApertura,
+          "FechaCierre": this.anexo.fechaCierre,
+          "Solicitud": this.anexo.solicitud,
+          "FechaSolicitudInicio" : this.anexo.fechaSolicitudInicio,
+          "FolioOficio": this.anexo.folioOficio,
+          "FechaOficioInicio": this.anexo.fechaOficioInicio,
+          "SupervisorId": this.anexo.supervisorId,
+          "Testigo1Id": this.anexo.testigo1Id,
+          "Testigo2Id": this.anexo.testigo2Id,
+          "TipoAnexo": "B",
+          "ComponentesAnexo":this.componentesfinaleseditados  
+       }
+       console.log(Anexo);
+      try
+      {
+        this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
+        .then((response) => {
+          console.log(response.data.result);
+          let subversion = true;
+          ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.anexo.anexoReference,subversion);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        console.log("Se envio correctamente el anexo");
+      }catch(error){
+        console.error(error)
+      }
+     }, 
     }
     }
 </script>

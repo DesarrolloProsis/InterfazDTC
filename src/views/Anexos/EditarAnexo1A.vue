@@ -124,6 +124,7 @@ import TablaEquipoMalo from "../../components/Anexo/TablaEditarEquipoMaloAnexo.v
 import ImagenesAnexo from '../../components/ImagenesGenericas.vue'
 import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
+import ServiceReportPDF from "../../services/ReportesPDFService";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -277,7 +278,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(Anexo);
       try
       {
-        this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo);
+        this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
+        .then((response) => {
+          console.log(response.data.result);
+          let subversion = true;
+          ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,this.anexo.anexoReference,subversion);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
         console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)

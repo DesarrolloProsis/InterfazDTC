@@ -236,9 +236,11 @@ export default {
     opticones_select_acciones_modal(){
             const options= [                
             { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //0
+            { title: 'Bajar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
             ]
             let filtroOpciones = []
             filtroOpciones.push(options[0])
+            filtroOpciones.push(options[1])
 
             return filtroOpciones
     },
