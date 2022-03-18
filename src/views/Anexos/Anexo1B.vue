@@ -45,10 +45,9 @@
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
         DE ACUERDO A LA SOLICITUD <input type="text" v-model="solciitud" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
-        DE FECHA <datetime v-model="solicitudfechainicio" class="inline-flex" input-class="inputanexo"></datetime> FUE REPARADA
-        EL DÍA <datetime v-model="fechacierre" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
+        DE FECHA <datetime v-model="solicitudfechainicio" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
         DE FECHA <datetime v-model="fechaoficioinicio" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
-        <datetime v-model="fechaoficiofin" class="inline-flex" input-class="inputanexo"></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
+        <datetime v-model="fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
         <p class="text-sm">
         LOS EQUIPOS/COMPONENTES DAÑADOS EL ADMINISTRADOR DEBERÁ IDENTIFICAR Y EMBALAR, ENVIANDOLOS EN UN PERÍODO DE 5 DÍAS MÁXIMO AL ÁLMACÉN DE LA 
@@ -60,17 +59,23 @@
         <h3 class="font-bold text-sm mt-2">COMPONENTES Y/O REFACCIONES DAÑADAS:</h3>
         <TablaEquipoMalo
         :listaComponentes="listaComponentes"
+        :Editar="false"
         :dateSinester="datosSinester.SinisterDate"
         @listacarriles = "onagregarcomponentes"
         @listanombrecom = "onagregarnombrescomponentes"
         @componentesfinales = "agregarcomponenteseditados"
         ></TablaEquipoMalo>
         <p class="mb-2">SUPERVISOR DE PLAZA: 
-          <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
-          <option value="">Selecciona un supervisor de plaza</option>
-          <option value="" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
-          </select>
         </p>
+        <div class="inline-block relative w-full">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="selectsupervisor">
+                <option value="">Selecciona un supervisor de plaza</option>
+                <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+          </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -160,15 +165,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       testigoscompleto:[],
       componentesfinaleseditados:[],
       fechaapertura: '',
-      fechacierre: '',
       foliooficio: '',
       fechaoficioinicio: '',
-      fechaoficiofin: '',
       blockBotonModal: false,
       modalImage: false,
       modalLoading: false,
       solciitud: '',
       solicitudfechainicio:'',
+      selectsupervisor:'',
     };
     },
     created(){
@@ -249,24 +253,22 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
           "AnexoReference": "",
-          "FechaSolicitudInicio" : this.solicitudfechainicio,
-          "FechaSolicitudFin" : null,
-          "Solicitud": this.solciitud,
           "FechaApertura": this.fechaapertura,
           "FechaCierre": this.fechacierre,
+          "Solicitud": this.solciitud,
+          "FechaSolicitudInicio" : this.solicitudfechainicio,
           "FolioOficio": this.foliooficio,
           "FechaOficioInicio": this.fechaoficioinicio,
-          "FechaOficioFin": this.fechaoficiofin,
           "SupervisorId": this.selectsupervisor,
           "Testigo1Id": this.testigo1,
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "B",
-          "ComponentesAnexo":this.componentesfinaleseditados 
+          "ComponentesAnexo":this.componentesfinaleseditados  
        }
        console.log(Anexo);
       try
       {
-        //this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
+        this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)
@@ -277,7 +279,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(this.testigo1)
        console.log(this.testigo2)
        
-     }, 
+     },
+      
 
     }
     }

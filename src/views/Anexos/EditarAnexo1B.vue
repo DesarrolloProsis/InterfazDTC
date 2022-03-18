@@ -13,47 +13,41 @@
         </p>
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
-        <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime>
+        <datetime class="ml-2 inline-flex"
+        use12-hour
+        v-model="this.anexo.fechaApertura"
+        type="datetime"
+        name="HoraInicio" 
+        input-class="inputanexo"></datetime>
         EL <label class="font-bold">{{this.plazadtc[0].adminName.toUpperCase() }}</label> ADMINISTRADOR DE LA PLAZA DE COBRO, EL<label class="font-bold"> {{this.lista_DTC_Filtrada[0].name.toUpperCase() }}</label>, TÉCNICO REPRESENTANTE DE LA EMPRESA <label class="font-bold">PROYECTOS Y SISTEMAS INFORMATICOS S.A. DE C.V.</label> 
         TENIENDO COMO TESTIGOS DE ASISTENCIA A:
         </p>
         <div class="flex w-full gap-4 p-2">
-             <multiselect
-                :disabled="blockInput"
-                :value="testigoscompleto.id"
-                v-model="testigo1"  
-                :custom-label="label_multi_select"                                                  
-                :close-on-select="true"
-                :clear-on-select="true"
-                :hideSelected="false"                               
-                placeholder="Selecciona un testigo"
-                :options="listaTestigos"
-                select-label=""
-                class="w-full"                 
-                >
-        </multiselect>
-        <multiselect
-                :disabled="blockInput"
-                :value="testigoscompleto.id"
-                v-model="testigo2"  
-                :custom-label="label_multi_select"                                                  
-                :close-on-select="true"
-                :clear-on-select="true"
-                :hideSelected="false"
-                placeholder="Selecciona un testigo"
-                :options="listaTestigos"
-                select-label=""
-                class="w-full"                 
-                >
-        </multiselect>
+          <div class="inline-block relative w-full">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo1Id" @change="vervalordelselect">
+                <option value="">Selecciona a un testigo</option>
+                <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+          </div>
+          <div class="inline-block relative w-full">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo2Id" @change="vervalordelselect">
+                <option value="">Selecciona a un testigo</option>
+                <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+          </div>
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
-        DE ACUERDO A LA SOLICITUD <input type="text" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
-        DE FECHA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime> FUE REPARADA
-        EL DÍA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" placeholder="DO/3741/2021" class="inputanexo">
-        DE FECHA <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
-        <datetime v-model="date" class="inline-flex" input-class="inputanexo"></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
+        DE ACUERDO A LA SOLICITUD <input type="text" v-model="this.anexo.solicitud" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
+        DE FECHA <datetime v-model="this.anexo.fechaSolicitudInicio" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="this.anexo.folioOficio" placeholder="DO/3741/2021" class="inputanexo">
+        DE FECHA <datetime v-model="this.anexo.fechaOficioInicio" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
+        <datetime v-model="this.anexo.fechaApertura" class="inline-flex" input-class="inputanexo" disabled></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
         <p class="text-sm">
         LOS EQUIPOS/COMPONENTES DAÑADOS EL ADMINISTRADOR DEBERÁ IDENTIFICAR Y EMBALAR, ENVIANDOLOS EN UN PERÍODO DE 5 DÍAS MÁXIMO AL ÁLMACÉN DE LA 
@@ -64,21 +58,31 @@
         </p>
         <h3 class="font-bold text-sm mt-2">COMPONENTES Y/O REFACCIONES DAÑADAS:</h3>
         <TablaEquipoMalo
-        :listaComponentes="listaComponentes"
-        :dateSinester="datosSinester.SinisterDate"
-        @listacarriles = "onagregarcomponentes"
+          :listaComponentes="listaComponentes"
+          :dateSinester="datosSinester.SinisterDate"
+          :Editar="true"
+          :plazareferencia="this.lista_DTC_Filtrada[0].referenceSquare" 
+          :dtcreference="this.$route.params.dtcReference"
+          :componentesinsertados="this.componenteseditadostraidos"
+          @listacarriles = "onagregarcomponentes"
+          @listanombrecom = "onagregarnombrescomponentes"
+          @componentesfinales = "agregarcomponenteseditados"
         ></TablaEquipoMalo>
-        <p class="mb-4">SE CIERRA LA PRESENTE ACTA EN FECHA <datetime class="ml-2 inline-flex" use12-hour type="datetime" name="HoraInicio" input-class="inputanexo"></datetime></p>
-        <p class="mb-2">SUPERVISOR DE PLAZA: 
-          <select class="shadow appearance-none border rounded text-gray-700 leading-tight text-center">
-          <option value="">Selecciona un supervisor de plaza</option>
-          <option value="" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
-          </select>
+        <p class="mb-2">SUPERVISOR DE PLAZA
         </p>
+        <div class="inline-block relative w-full">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.supervisorId">
+                <option value="">Selecciona un supervisor de plaza</option>
+                <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+          </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
-              <span>Generar anexo 1-B</span>
+              <span>Editar anexo 1-B</span>
             </button>
         </div>
         </div>
@@ -91,7 +95,6 @@
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
 import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
 import { Datetime } from 'vue-datetime';
-import Multiselect from "vue-multiselect";
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -102,7 +105,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         HeaderGenerico,
         TablaEquipoMalo,
         Datetime,
-        Multiselect,
     },
      data() {
     return {
@@ -133,22 +135,38 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       tipoPlazaSelect: '', 
       testigo1: '',
       testigo2: '',
+      fechasiniestro: '',
+      modalImage: false,  
+      modalLoading: false,
       listaSupervisor:[],
-      listaTestigos:[], 
+      dtc_filtrado:[],
+      listaPlazas:[],
       plazadtc: [],
+      componentesseleccionados:[],
       nombrecarriles:[],
+      nombrecomponentes:[],
+      componentesfinaleseditados:[],
+      fechaapertura: "",
+      fechacierre: "",
+      selectsupervisor:'',
       testigoscompleto:[],
+      idtestigos:0,
+      blockBotonModal: false,
+      anexo: {},
+      objetocomponentesanexosaeditar:[],
+      arraycomponentes:[],
+      componenteseditadostraidos:[],
     };
     },
     created(){
-      this.SupervisorDtc()
-      this.TestigosDtc()
       this.filtro_dtc()
     },
     methods: {
-      async filtro_dtc() {    
-      let iddtc = this.$route.params.referencenumber;
+     async filtro_dtc() {    
+      let iddtc = this.$route.params.dtcReference;
       console.log(iddtc);
+      let referenciaanexo = this.$route.params.anexoReference; 
+      console.log(referenciaanexo)
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         this.lista_DTC_Filtrada = dtcfiltrado;
@@ -162,39 +180,36 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         console.log(dataHeader);
         const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
         this.plazadtc  = result;
-        console.log(this.plazadtc);  
+        console.log(this.plazadtc);
+        const datasupervisor = await fetch(`${API}/AnexoDTC/Supervisor/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
+        const objetosupervisor = await datasupervisor.json();
+        let listaSupervisorprueba = objetosupervisor.result;
+        console.log(listaSupervisorprueba)
+        this.listaSupervisor = listaSupervisorprueba;
+        console.log(this.listaSupervisor);
+        const datatestigo = await fetch(`${API}/AnexoDTC/Testigos/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
+        const objetotestigo = await datatestigo.json();
+        let resultado = objetotestigo.result;
+        console.log(resultado)
+        this.testigoscompleto = resultado;
+        console.log(this.testigoscompleto);
+        const dataanexo = await fetch(`${API}/AnexoDTC/HeaderAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`)
+        const anexo = await dataanexo.json()
+        let objetoresultadoanexo = anexo.result;
+        this.anexo = objetoresultadoanexo[0];
+        console.log(this.anexo)
+        const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
+        const canexos = await componentesanexo.json();
+        let objetocomponentesanexo = canexos.result;
+        this.objetocomponentesanexosaeditar = objetocomponentesanexo;
+        const data = await fetch(`${API}/AnexoDTC/ComponentesRequest/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.$route.params.dtcReference}`)
+        const objeto = await data.json();
+        this.arraycomponentes = objeto.result;
       }
       catch (error) {
         console.log(error);
       } 
-      
-    },
-    async TestigosDtc(){
-      try {
-        const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
-        const objeto = await data.json();
-        let resultado = objeto.result;
-        this.testigoscompleto = resultado;
-        console.log(resultado)
-        let nombretestigos = [];
-        resultado.forEach(e => nombretestigos.push(e.nombre));
-        this.listaTestigos = nombretestigos; 
-        console.log(this.listaTestigos);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async SupervisorDtc(){
-      try {
-        const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
-        const objeto = await data.json();
-        let listaSupervisorprueba = objeto.result;
-        console.log(listaSupervisorprueba)
-        this.listaSupervisor = listaSupervisorprueba;
-        console.log(this.listaSupervisor);
-      } catch (error) {
-        console.log(error);
-      }
+      this.filtrarcomponentes(this.objetocomponentesanexosaeditar,this.arraycomponentes);
     },
     onagregarcomponentes(data) {
     let result = data.filter((item,index)=>{
@@ -202,8 +217,44 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     })
       this.nombrecarriles = result;
       console.log(this.nombrecarriles);
+     }, 
+     onagregarnombrescomponentes(data) {
+      let result = data.filter((item,index)=>{
+      return data.indexOf(item) === index;
+      })
+      this.nombrecomponentes = result;
      },
-
+     agregarcomponenteseditados(data){
+       this.componentesfinaleseditados = data;
+       console.log(this.componentesfinaleseditados);
+     },
+     vervalordelselect(){
+       console.log(this.testigo1)
+       console.log(this.testigo2)
+     },
+     filtrarcomponentes(componenteseditados,componentestotales){
+       console.log(componenteseditados);
+       console.log(componentestotales);
+        for (let i = 0; i < componentestotales.length; i++) {
+          for(let j=0; j< componenteseditados.length; j++) {
+            if(componentestotales[i].requestedComponentId == componenteseditados[j].componentDTCId){
+              let componenteexistente = {
+                brand: componentestotales[i].brand,
+                brandPropuesto: componentestotales[i].brandPropuesto,
+                lane: componentestotales[i].lane,
+                model: componentestotales[i].model,
+                modelPropuesto: componentestotales[i].modelPropuesto,
+                nameComponent: componentestotales[i].nameComponent,
+                observation: componentestotales[i].observation,
+                requestedComponentId: componentestotales[i].requestedComponentId,
+                serialNumber: componenteseditados[j].numeroSerie,
+                useInAnexo: componentestotales[i].useInAnexo
+              }
+              this.componenteseditadostraidos.push(componenteexistente);
+            }
+          }
+        }
+     } 
     }
     }
 </script>

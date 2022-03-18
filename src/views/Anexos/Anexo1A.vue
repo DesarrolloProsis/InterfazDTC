@@ -64,6 +64,7 @@
         <TablaEquipoMalo 
           :listaComponentes="listaComponentes"
           :dateSinester="datosSinester.SinisterDate"
+          :Editar="false"
           :plazareferencia="this.$route.params.referenceSquare" 
           :dtcreference="this.$route.params.referencenumber"
           @listacarriles = "onagregarcomponentes"
@@ -256,14 +257,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
           "AnexoReference": "",
-          "FechaSolicitudInicio" : null,
-          "FechaSolicitudFin" : null,
-          "Solicitud": "",
           "FechaApertura": this.fechaapertura,
           "FechaCierre": this.fechacierre,
+          "Solicitud": "",
+          "FechaSolicitudInicio" : null,
           "FolioOficio": "",
           "FechaOficioInicio": null,
-          "FechaOficioFin": null,
           "SupervisorId": this.selectsupervisor,
           "Testigo1Id": this.testigo1,
           "Testigo2Id": this.testigo2,
@@ -280,10 +279,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       }
      },
      vervalordelselect(){
-       
        console.log(this.testigo1)
        console.log(this.testigo2)
-       
      } 
    },
    

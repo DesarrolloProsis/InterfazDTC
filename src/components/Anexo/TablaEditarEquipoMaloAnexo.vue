@@ -168,7 +168,7 @@
 </template>
 <script>
 import Multiselect from "vue-multiselect";
-import TablaEquipoPropuesto from "../../components/Anexo/TablaEquipoPropuestoAnexo.vue";
+import TablaEquipoPropuesto from "../../components/Anexo/TablaEditarEquipoPropuestoAnexo.vue";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -223,7 +223,8 @@ export default {
       //Cambios Inserte RelationShip
       relationShipPrincipal: "",
       arrayDmg: [],
-      arraycomponententeseditados:[]
+      arraycomponententeseditados:[],
+      
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -250,13 +251,17 @@ props: {
   Editar:{
     type: Boolean,
     default: false,
+  },
+  componentesinsertados:{
+      type: Array,
+      default: () => [],
   }
 },
 //////////////////////////////////////////////////////////////////////
 ////                    CICLOS DE VIDA                            ////
 /////////////////////////////////////////////////////////////////////
 created(){
-  
+  this.componentes = this.componentesinsertados;
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
@@ -294,9 +299,9 @@ methods: {
   },     
   botoncancelar_modal: function (){ 
     this.showModal = false; 
-    this.laneSelect = ''; 
+    this.laneSelect = '';
+    this.componentes = this.componentesinsertados; 
     this.componenteSeleccionado = '';
-    this.componentes = [];
     document.body.classList.remove("modal-open");
     },  
   infoModal: function (value) {

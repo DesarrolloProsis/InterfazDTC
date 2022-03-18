@@ -14,7 +14,7 @@
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
         <datetime class="ml-1 inline-flex" use12-hour 
-          v-model="fechaapertura"
+          v-model="this.anexo.fechaApertura"
           type="datetime"
           name="HoraInicio" 
           input-class="inputanexo" 
@@ -26,7 +26,7 @@
         </p>
         <div class="flex w-full gap-4 p-2">
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo1" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo1Id" @change="vervalordelselect">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -35,7 +35,7 @@
               </div>
           </div>
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo2" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo2Id" @change="vervalordelselect">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -46,7 +46,7 @@
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
-        EL DÍA <datetime v-model="fechacierre" class="inline-flex" input-class="inputanexo" :format="{ year: 'numeric', month: 'long', day: 'numeric' }"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
+        EL DÍA <datetime v-model="this.anexo.fechaCierre" class="inline-flex" input-class="inputanexo" :format="{ year: 'numeric', month: 'long', day: 'numeric' }"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
         <span class="font-bold">{{this.nombrecomponentes.toString()}}</span> Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
         <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
         CUYO EFECTO FUÉ NECESARIO REPONER LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
@@ -64,8 +64,10 @@
         <TablaEquipoMalo 
           :listaComponentes="listaComponentes"
           :dateSinester="datosSinester.SinisterDate"
-          :plazareferencia="this.$route.params.referenceSquare" 
-          :dtcreference="this.$route.params.referencenumber"
+          :Editar="true"
+          :plazareferencia="this.lista_DTC_Filtrada[0].referenceSquare" 
+          :dtcreference="this.$route.params.dtcReference"
+          :componentesinsertados="this.componenteseditadostraidos"
           @listacarriles = "onagregarcomponentes"
           @listanombrecom = "onagregarnombrescomponentes"
           @componentesfinales = "agregarcomponenteseditados"
@@ -73,7 +75,7 @@
         <p class="mb-2">SUPERVISOR DE PLAZA
         </p>
         <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="selectsupervisor">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.supervisorId">
                 <option value="">Selecciona un supervisor de plaza</option>
                 <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
               </select>
@@ -84,7 +86,7 @@
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
-              <span>Insertar Anexo 1-A</span>
+              <span>Editar Anexo 1-A</span>
             </button>
         </div>
         </div>
@@ -118,7 +120,7 @@
 
 <script>
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
-import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
+import TablaEquipoMalo from "../../components/Anexo/TablaEditarEquipoMaloAnexo.vue";
 import ImagenesAnexo from '../../components/ImagenesGenericas.vue'
 import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
@@ -180,12 +182,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       idtestigos:0,
       blockBotonModal: false,
       anexo: {},
+      objetocomponentesanexosaeditar:[],
+      arraycomponentes:[],
+      componenteseditadostraidos:[],
     };
     },
     created() {
       this.filtro_dtc();
-    },
-    
+    }, 
    methods: {
     async filtro_dtc() {    
       let iddtc = this.$route.params.dtcReference;
@@ -222,12 +226,19 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const anexo = await dataanexo.json()
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
-        console.log(this.anexo) 
+        console.log(this.anexo)
+        const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
+        const canexos = await componentesanexo.json();
+        let objetocomponentesanexo = canexos.result;
+        this.objetocomponentesanexosaeditar = objetocomponentesanexo;
+        const data = await fetch(`${API}/AnexoDTC/ComponentesRequest/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.$route.params.dtcReference}`)
+        const objeto = await data.json();
+        this.arraycomponentes = objeto.result;
       }
       catch (error) {
         console.log(error);
       } 
-      
+      this.filtrarcomponentes(this.objetocomponentesanexosaeditar,this.arraycomponentes);
     },
     onagregarcomponentes(data) {
     let result = data.filter((item,index)=>{
@@ -249,32 +260,55 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      async insertaranexo(){
       this.modalImage = true
       let Anexo = {
-          "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
-          "AnexoReference": "",
-          "FechaApertura": this.fechaapertura,
-          "FechaCierre": this.fechacierre,
-          "FolioOficio": "",
-          "FechaOficioInicio": null,
-          "FechaOficioFin": null,
-          "SupervisorId": this.selectsupervisor,
-          "Testigos": [this.testigo1,this.testigo2],
+          "DTCReference": this.anexo.dtcReference,
+          "AnexoReference": this.anexo.anexoReference,
+          "FechaApertura": this.anexo.fechaApertura,
+          "FechaCierre": this.anexo.fechaCierre,
+          "Solicitud": this.anexo.solicitud,
+          "FechaSolicitudInicio" : this.anexo.fechaSolicitudInicio,
+          "FolioOficio": this.anexo.folioOficio,
+          "FechaOficioInicio": this.anexo.fechaOficioInicio,
+          "SupervisorId": this.anexo.supervisorId,
+          "Testigo1Id": this.anexo.testigo1Id,
+          "Testigo2Id": this.anexo.testigo2Id,
           "TipoAnexo": "A",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
        console.log(Anexo);
       try
       {
-        this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
+        this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo);
         console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)
       }
      },
      vervalordelselect(){
-       
        console.log(this.testigo1)
        console.log(this.testigo2)
-       
+     },
+     filtrarcomponentes(componenteseditados,componentestotales){
+       console.log(componenteseditados);
+       console.log(componentestotales);
+        for (let i = 0; i < componentestotales.length; i++) {
+          for(let j=0; j< componenteseditados.length; j++) {
+            if(componentestotales[i].requestedComponentId == componenteseditados[j].componentDTCId){
+              let componenteexistente = {
+                brand: componentestotales[i].brand,
+                brandPropuesto: componentestotales[i].brandPropuesto,
+                lane: componentestotales[i].lane,
+                model: componentestotales[i].model,
+                modelPropuesto: componentestotales[i].modelPropuesto,
+                nameComponent: componentestotales[i].nameComponent,
+                observation: componentestotales[i].observation,
+                requestedComponentId: componentestotales[i].requestedComponentId,
+                serialNumber: componenteseditados[j].numeroSerie,
+                useInAnexo: componentestotales[i].useInAnexo
+              }
+              this.componenteseditadostraidos.push(componenteexistente);
+            }
+          }
+        }
      } 
    },
    
