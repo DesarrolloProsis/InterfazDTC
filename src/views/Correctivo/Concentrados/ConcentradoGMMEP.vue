@@ -290,7 +290,7 @@ methods:{
       }
     }    
     if(acciones.title == 'Bajar DTC Sin Firma'){      
-      ServiceReportPDF.generar_pdf_correctivo(itemRow.referenceNumber, 1, false)
+      ServiceReportPDF.generar_pdf_correctivo(itemRow.referenceNumber, 1, false, itemRow.adminId)
       clousure_pdf_fotografico()
     }                
     if(acciones.title == 'Bajar DTC Firmado'){      
@@ -327,7 +327,7 @@ methods:{
       { title: 'Bajar DTC Sellado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//3
       { title: 'Subir DTC Sellado', accionCss: 'terminar', img: '/img/upload.8d26bb4f.png' },//4
       { title: 'Actualizar Componentes', accionCss: 'editar', img: '/img/actualizado.cafc2f1a.png' },//5
-      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: '/img/upload.8d26bb4f.png' },//6
+      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//6
     ]
     let filtroOpciones = []
     if(this.tipoUsuario == 8 || this.tipoUsuario == 4){
