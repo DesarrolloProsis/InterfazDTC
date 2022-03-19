@@ -10,7 +10,7 @@
           :titulo="'Concentrado DTC Facturados e Instalados'" 
           :tipo="'CDTCF'" 
         />
-        <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto xl:h-75">
+        <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto xl:h-75 mb-20">
           <table class="w-full rounded-lg mt-4">
           <thead class="">
             <tr>
@@ -142,6 +142,7 @@
 import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
 import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices"
+import ServiceReportPDF from "../../../services/ReportesPDFService";
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
@@ -236,7 +237,7 @@ export default {
     opticones_select_acciones_modal(){
             const options= [                
             { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //0
-            { title: 'Bajar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
+            { title: 'Descargar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
             ]
             let filtroOpciones = []
             filtroOpciones.push(options[0])
@@ -248,13 +249,19 @@ export default {
       console.log(this.selectMultiModal.title);
       console.log(anxg);
       if(this.selectMultiModal.title == 'Editar'){
-        console.log(anxg);
         if (anxg.tipoAnexo === "A") {
           this.$router.push(`/EditarAnexo1A/${anxg.anexoReference}/${anxg.dtcReference}`);
           this.selectMultiModal = '';
         } else if (anxg.tipoAnexo === "B"){
           this.$router.push(`/EditarAnexo1B/${anxg.anexoReference}/${anxg.dtcReference}`);
           this.selectMultiModal = '';
+        }
+      }else if(this.selectMultiModal.title == 'Descargar Anexo'){
+        let subversion = true;
+         if (anxg.tipoAnexo === "A") {
+           ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
+        } else if (anxg.tipoAnexo === "B"){
+           ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,subversion);
         }
       }
     },

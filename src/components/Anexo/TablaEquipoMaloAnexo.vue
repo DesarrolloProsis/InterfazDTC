@@ -24,7 +24,7 @@
                 ////                 CUERPO DE LA TABLA                          ////
                 ////////////////////////////////////////////////////////////////////-->
                 <tbody name="table" is="transition-group">    
-                  <tr class="hover:bg-blue-200 text-center" v-for="(componentesel, index) in componentes" :key="componentesel.requestedComponentId">
+                  <tr class="hover:bg-blue-200 text-center" v-for="(componentesel, index) in componentespush" :key="componentesel.requestedComponentId">
                     <td class="cuerpoTable"><!-- Cantidad -->1</td>
                     <td class="cuerpoTable"><!-- Componente -->{{componentesel.nameComponent}}</td>
                     <td class="cuerpoTable"><!-- Marca -->{{componentesel.brand}}</td>
@@ -163,7 +163,7 @@
             </div>
     </div>
     <h3 class="font-bold text-sm">COMPONENTES Y/O REFACCIONES NUEVAS:</h3>
-    <TablaEquipoPropuesto :listaEquipo="componentes" @componentesfinales = "componenteseditadosnoserie"></TablaEquipoPropuesto>
+    <TablaEquipoPropuesto :listaEquipo="componentespush" @componentesfinales = "componenteseditadosnoserie"></TablaEquipoPropuesto>
   </div>
 </template>
 <script>
@@ -200,6 +200,7 @@ export default {
       arrayPartidas: [],
       arraycomponentes: [],
       componentes: [],
+      componentespush:[],
       arraycarriles: [],
       arraynombrecomponentes: [],
       //nombre del Compoente    
@@ -293,11 +294,16 @@ methods: {
     }
   },     
   botoncancelar_modal: function (){ 
-    this.showModal = false; 
-    this.laneSelect = ''; 
-    this.componenteSeleccionado = '';
-    this.componentes = [];
-    document.body.classList.remove("modal-open");
+    console.log(this.showModal);
+    this.showModal = false;
+    console.log(this.componentespush.length); 
+    if(this.componentespush.length == 0){
+      this.componentes = [];
+    }
+    // this.laneSelect = ''; 
+    // this.componenteSeleccionado = '';
+    // this.componentes = [];
+    // document.body.classList.remove("modal-open");
     },  
   infoModal: function (value) {
       this.modal = true;
@@ -306,6 +312,7 @@ methods: {
   agregarcomponentes(){
     this.showModal = false;
     document.body.classList.remove("modal-open");
+    this.componentespush = this.componentes;
     this.arraycarriles = [];
     this.componentes.forEach(e => this.arraycarriles.push(e.lane));
     this.arraynombrecomponentes = [];
@@ -315,6 +322,7 @@ methods: {
   },
   remove(index){
     this.componentes.splice(index, 1);
+    this.componentespush.splice(index, 1);
     this.arraycomponententeseditados.splice(index, 1);
     this.agregarcomponentes();
   },
