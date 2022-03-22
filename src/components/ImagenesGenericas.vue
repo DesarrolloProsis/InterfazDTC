@@ -106,6 +106,10 @@ export default {
                 this.limiteFotos = 4                
                 urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }
+            else if(this.tipo == 'Anexo'){
+                this.limiteFotos = 4                
+                urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+            }
             else{
                 this.limiteFotos = 4                                
                 urlImgPaths = `${API}/FichaTecnicaAtencion/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
@@ -116,6 +120,9 @@ export default {
                     if(this.tipo == 'Actividades')
                         urlImgDescarga = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                     else if(this.tipo == 'Diagnostico'){
+                        urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                    }
+                    else if(this.tipo == 'Anexo'){
                         urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                     }
                     else{
@@ -178,6 +185,11 @@ export default {
                         rutaInsertImagenes = `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}                        
                 }
+                else if (this.tipo == 'Anexo'){
+                        this.limiteFotos = 4
+                        rutaInsertImagenes = `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}   
+                }
                 else{                    
                     if(this.tipo == 'Diagnostico'){                        
                         rutaInsertImagenes = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
@@ -228,6 +240,9 @@ export default {
                         urlDeleteImg = `${API}/ReporteFotografico/MantenimientoPreventivo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else if(this.tipo == 'Diagnostico'){                               
+                        urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                    }
+                    else if(this.tipo == 'Anexo'){
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else{                                           

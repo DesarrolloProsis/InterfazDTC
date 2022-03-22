@@ -83,7 +83,7 @@
               </div>
           </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="modalvalidacionanexo = true" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Insertar Anexo 1-A</span>
             </button>
@@ -91,29 +91,44 @@
         </div>
     </div>
     <!--/////////////////////////////////////////////////////////////////////
-    ////                     MODAL IMAGENES                        /////
+    ////                     MODAL ADVERTENCIAS                       /////
     ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0" v-if="modalImage" :class="{'modal-container': modalImage}">
-            <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66 mt-66">          
-                <span @click="modalImage = false" class="absolute  top-0 right-0">
-                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
-                </span> 
-                <div class="justify-center text-center block">            
+    <Modal :showing="modalImage" @close="modalImage = false">
+          <div class="justify-center text-center block">            
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesAnexo 
                       :reporteDataInsertada="true"
-                      :tipo="'Diagnostico'" 
-                      :referenceNumber="''">
+                      :tipo="'Anexo'" 
+                      :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber">
                     </ImagenesAnexo>
                     <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Anexo 1-A</span>
                     </button>  
                 </div>
+    </Modal>
+    <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL VALIDACION                       /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modalvalidacionanexo" @close="modalvalidacionanexo = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
+                </div>
+                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <div class="mt-2">
+                    <bold class="text-sm text-gray-800">No puedes generar aun tu anexo debes llenar los campos faltantes:</bold>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalvalidacionanexo = false">Continuar</button>
+            </div>
+    </Modal>
 </div>
 </template>
 
@@ -124,6 +139,8 @@ import ImagenesAnexo from '../../components/ImagenesGenericas.vue'
 import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import ServiceReportPDF from "../../services/ReportesPDFService";
+import Modal from "../../components/ModalGenerico.vue";
+import { ExclamationIcon } from '@vue-hero-icons/outline';
 
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -134,7 +151,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         HeaderGenerico,
         TablaEquipoMalo,
         Datetime,
-        ImagenesAnexo
+        ImagenesAnexo,
+        Modal,
+        ExclamationIcon,
     },
      data() {
     return {
@@ -182,6 +201,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       testigoscompleto:[],
       idtestigos:0,
       blockBotonModal: false,
+      modalvalidacionanexo : false,
+      errores:[],
     };
     },
     created() {
@@ -292,7 +313,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      vervalordelselect(){
        console.log(this.testigo1)
        console.log(this.testigo2)
-     } 
+     },
+     validacionanexo(){
+
+     },
    },
    
   }

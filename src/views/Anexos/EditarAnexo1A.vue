@@ -105,8 +105,8 @@
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesAnexo 
                       :reporteDataInsertada="true"
-                      :tipo="'Diagnostico'" 
-                      :referenceNumber="''">
+                      :tipo="'Anexo'" 
+                      :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber">
                     </ImagenesAnexo>
                     <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />

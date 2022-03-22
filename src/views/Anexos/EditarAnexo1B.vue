@@ -80,13 +80,44 @@
               </div>
           </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="showConfirmDeleteModal()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Editar anexo 1-B</span>
             </button>
         </div>
         </div>
+    <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL IMAGENES                        /////
+    ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0" v-if="modalImage" :class="{'modal-container': modalImage}">
+            <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66 mt-66">          
+                <span @click="modalImage = false" class="absolute  top-0 right-0">
+                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
+                </span> 
+                <div class="justify-center text-center block">            
+                    <!-- /////////////////////////////////////////////////////////////////////
+                    ////                         IMAGENES                             ////
+                    ///////////////////////////////////////////////////////////////////// -->
+                    <ImagenesAnexo 
+                      :reporteDataInsertada="true"
+                      :tipo="'Anexo'" 
+                      :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber">
+                    </ImagenesAnexo>
+                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                        <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                        <span>Generar Anexo 1-B</span>
+                    </button>  
+                </div>
+            </div>
+        </div>
         
+      <confirm-delete
+          v-show="isConfirmDeleteModalVisible"
+          modalHeadline="Delete customers?"
+          deleteMessage="Are you sure?"
+          @deleteRecordEvent="deleteCustomers"
+          @close="closeConfirmDeleteModal"
+      ></confirm-delete>
        
     </div>
 </template>
@@ -95,8 +126,10 @@
 import HeaderGenerico from "../../components/Header/HeaderGenerico.vue";
 import TablaEquipoMalo from "../../components/Anexo/TablaEditarEquipoMaloAnexo.vue";
 import { Datetime } from 'vue-datetime';
+import ImagenesAnexo from '../../components/ImagenesGenericas.vue';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import ServiceReportPDF from "../../services/ReportesPDFService";
+import ConfirmDelete from "../../components/ModalGenerico.vue";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -106,6 +139,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         HeaderGenerico,
         TablaEquipoMalo,
         Datetime,
+        ImagenesAnexo,
+        ConfirmDelete 
     },
      data() {
     return {
@@ -289,7 +324,16 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       }catch(error){
         console.error(error)
       }
-     }, 
+     },
+      showConfirmDeleteModal() {
+        this.isConfirmDeleteModalVisible = true;
+      },
+      closeConfirmDeleteModal() {
+          this.isConfirmDeleteModalVisible = false;
+      },
+      deleteCustomers() {
+          console.log("goodbye");
+      }, 
     }
     }
 </script>
