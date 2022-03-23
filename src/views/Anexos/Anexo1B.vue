@@ -97,14 +97,16 @@
                     <ImagenesAnexo 
                       :reporteDataInsertada="true"
                       :tipo="'Anexo'" 
-                      :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber">
+                      :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
+                      @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
+                      >
                     </ImagenesAnexo>
-                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                    <button @click="insertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Anexo 1-B</span>
                     </button>  
                 </div>
-    </Modal>
+      </Modal>
     <!--/////////////////////////////////////////////////////////////////////
     ////                     MODAL VALIDACION ERORES                   /////
     ////////////////////////////////////////////////////////////////////-->
@@ -139,7 +141,7 @@
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <div class="sm:flex sm:items-start">
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
+                  <CheckCircleIcon class="h-10 w-10 text-green-600" aria-hidden="true" />
                 </div>
                 <h1 class="text-xl text-center font-bold">TU ANEXO ESTA COMPLETO</h1>
                 <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
@@ -150,19 +152,33 @@
                     <ul class="mt-3 list-disc list-inside text-justify">
                         <li>DTC: {{this.lista_DTC_Filtrada[0].referenceNumber}}</li>
                         <li>Fecha de Apertura: {{this.fechaapertura}}</li>
-                        <li>Fecha de Cierre: {{this.fechacierre}}</li>
                         <li>Solicitud: {{this.solciitud}}</li>
                         <li>Fecha de solicitud: {{this.solicitudfechainicio}}</li>
                         <li>Oficio: {{this.foliooficio}}</li>
                         <li>Fecha Oficio:{{this.fechaoficioinicio}}</li>
-                        <li>Componentes: {{this.componentesfinaleseditados}}</li>
                       </ul>
                   </div>
                 </div>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="limpiarvalidacion()">Confirmar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="pasarinsertaranexo()">Confirmar</button>
+            </div>
+    </Modal>
+    <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL DESCARGA                          /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modaldescarga" @close="modaldescarga = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <DownloadIcon class="h-10 w-10 text-blue-600" aria-hidden="true" />
+                </div>
+                <h1 class="text-xl text-center font-bold">LISTO TU ANEXO Y REPORTE YA SE DESCARGARON</h1>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="saliranexos()">Regresar al menu principal</button>
             </div>
     </Modal>
        
@@ -177,6 +193,7 @@ import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import ServiceReportPDF from "../../services/ReportesPDFService";
 import Modal from "../../components/ModalGenerico.vue";
+import { ExclamationIcon,CheckCircleIcon } from '@vue-hero-icons/outline';
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -187,7 +204,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         TablaEquipoMalo,
         Datetime,
         ImagenesAnexo,
-        Modal
+        Modal,
+        ExclamationIcon,
+        CheckCircleIcon
     },
      data() {
     return {
@@ -241,6 +260,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       vtestigo2:false,
       vsuperior:false,
       modalconfirmacionanexo: false,
+      modaldescarga:false,
     };
     },
     created(){
@@ -338,11 +358,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       {
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         .then((response) => {
+          this.modalImage = false;
+          this.modaldescarga = true;
           console.log(response.data.result);
           let refenciaanexo = response.data.result;
           let subversion = false;
           ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo,subversion);
           ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo);
+
         })
         .catch((error) => {
           console.log(error);
@@ -389,9 +412,13 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        }
        let fechaapertura = new Date(this.fechaapertura);
        let fechacierre = new Date(this.fechacierre);
+       let hoy = Date.now();
        if(fechacierre < fechaapertura){
          this.errores.push("La fecha de cierre no puede ser menor a la fecha de apertura");
          this.vfechacierre = true
+       }
+       if(fechaapertura > hoy){
+         this.errores.push("La fecha de apertura no mayor al dia de hoy");
        }
        if(this.solciitud == ""){
          this.errores.push("Debes ingresar el numero de solicitud del anexo")
@@ -405,11 +432,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        if(this.fechaoficioinicio == ""){
          this.errores.push("Debes ingresar la fecha del folio del anexo")
        }
-
+       
        if (this.errores.length > 0) {
         this.modalvalidacionanexo = true;
        }else{
-         this.modalImage = true;
+         this.modalconfirmacionanexo = true;
        }
      },
      limpiarvalidacion(){
@@ -430,9 +457,23 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        if(this.vsuperior){
          this.vsuperior = false;
        }
-     }
+     },
+     pasarinsertaranexo(){
+       this.modalconfirmacionanexo=false;
+       this.modalImage = true;
+     },
+     saliranexos(){
+     this.modaldescarga = false;
+     this.modalconfirmacionanexo=false;
+     this.modalImage = false;
+     this.modalvalidacionanexo = false;
+     this.$router.push('/home');
+     document.querySelector('body').classList.remove('overflow-hidden');  
+     },
+     bloquear_boton_anexo_img(value){
+        this.blockBotonModal = value
+    },
       
-
     }
     }
 </script>

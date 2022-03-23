@@ -262,8 +262,10 @@ export default {
         let subversion = true;
          if (anxg.tipoAnexo === "A") {
            ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
+           ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
         } else if (anxg.tipoAnexo === "B"){
            ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,subversion);
+           ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
         }
       }
     },
