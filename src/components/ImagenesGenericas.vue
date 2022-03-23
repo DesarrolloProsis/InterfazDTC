@@ -187,7 +187,7 @@ export default {
                 }
                 else if (this.tipo == 'Anexo'){
                         this.limiteFotos = 4
-                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevos/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 4}   
                 }
                 else{                    

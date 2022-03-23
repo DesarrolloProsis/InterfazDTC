@@ -224,7 +224,7 @@ export default {
             if(dtc.isAnexoCreate == true){
             filtroOpciones.push(options[0])
             }
-            if(dtc.isAnexoCreate == false && dtc.isValidCreate == true){
+            if(dtc.isValidCreate == true){
               filtroOpciones.push(options[1])
             }
             filtroOpciones.push(options[2])

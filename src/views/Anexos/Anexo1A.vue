@@ -46,7 +46,11 @@
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
-        EL DÍA <datetime v-model="fechacierre" class="inline-flex" input-class="inputanexo" :format="{ year: 'numeric', month: 'long', day: 'numeric' }"></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
+        EL DÍA <datetime v-model="fechacierre" class="inline-flex"
+         input-class="inputanexo" 
+         :format="{ year: 'numeric', month: 'long', day: 'numeric' }"
+         :min-datetime="this.fechaapertura"
+         ></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
         <span class="font-bold">{{this.nombrecomponentes.toString()}}</span> Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
         <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
         CUYO EFECTO FUÉ NECESARIO REPONER LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
@@ -74,7 +78,10 @@
         <p class="mb-2">SUPERVISOR DE PLAZA
         </p>
         <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" :class="{ 'border border-red-500': vsuperior, 'border border-gray-400' : !vsuperior }" v-model="selectsupervisor" @change="cambiarvalorsupervisor()">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+               :class="{ 'border border-red-500': vsuperior, 'border border-gray-400' : !vsuperior }" 
+               v-model="selectsupervisor"
+               @change="cambiarvalorsupervisor()">
                 <option value="">Selecciona un supervisor de plaza</option>
                 <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
               </select>
@@ -133,6 +140,32 @@
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="limpiarvalidacion()">Continuar</button>
+            </div>
+    </Modal>
+     <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL VALIDACION CONFIRMACION                /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modalconfirmacionanexo" @close="modalconfirmacionanexo = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <ExclamationIcon class="h-10 w-10 text-green-600" aria-hidden="true" />
+                </div>
+                <h1 class="text-xl text-center font-bold">TU ANEXO ESTA COMPLETO</h1>
+                <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
+                  <div class="mt-2">
+                    <p class="">los datos de tu anexo son los siguientes:</p>
+                  </div>
+                  <div>
+                    <ul class="mt-3 list-disc list-inside text-justify">
+                        <li>Dtc: {{this.lista_DTC_Filtrada[0].referenceNumber}}</li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="limpiarvalidacion()">Confirmar</button>
             </div>
     </Modal>
 </div>
@@ -214,6 +247,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       vtestigo1:false,
       vtestigo2:false,
       vsuperior:false,
+      modalconfirmacionanexo:false,
     };
     },
     created() {
@@ -354,6 +388,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        }
        if (this.componentesfinaleseditados.length == 0) {
          this.errores.push("Tienes que seleccionar por lo menos 1 componente y editar su numero de serie correspondiente")
+       }
+       let fechaapertura = new Date(this.fechaapertura);
+       let fechacierre = new Date(this.fechacierre);
+       if(fechacierre < fechaapertura){
+         this.errores.push("La fecha de cierre no puede ser menor a la fecha de apertura");
+         this.vfechacierre = true
        }
 
        if (this.errores.length > 0) {

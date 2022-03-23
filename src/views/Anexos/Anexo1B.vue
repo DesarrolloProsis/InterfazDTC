@@ -68,7 +68,10 @@
         <p class="mb-2">SUPERVISOR DE PLAZA: 
         </p>
         <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="selectsupervisor">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+               :class="{ 'border border-red-500': vsuperior, 'border border-gray-400' : !vsuperior }" 
+               v-model="selectsupervisor"
+               @change="cambiarvalorsupervisor()">
                 <option value="">Selecciona un supervisor de plaza</option>
                 <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
               </select>
@@ -77,7 +80,7 @@
               </div>
           </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="insertaranexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Generar anexo 1-B</span>
             </button>
@@ -86,11 +89,7 @@
     <!--/////////////////////////////////////////////////////////////////////
     ////                     MODAL IMAGENES                        /////
     ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0" v-if="modalImage" :class="{'modal-container': modalImage}">
-            <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66 mt-66">          
-                <span @click="modalImage = false" class="absolute  top-0 right-0">
-                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
-                </span> 
+    <Modal :showing="modalImage" @close="modalImage = false">
                 <div class="justify-center text-center block">            
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
@@ -105,9 +104,67 @@
                         <span>Generar Anexo 1-B</span>
                     </button>  
                 </div>
+    </Modal>
+    <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL VALIDACION ERORES                   /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modalvalidacionanexo" @close="modalvalidacionanexo = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
+                </div>
+                <h1 class="text-xl text-center font-bold">UUUPPPSSSS NO PODEMOS CONTINUAR!!!</h1>
+                <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
+                  <div class="mt-2">
+                    <p class="">No puedes generar aun tu anexo debes llenar los campos faltantes:</p>
+                  </div>
+                  <div>
+                    <ul class="mt-3 list-disc list-inside text-justify">
+                        <li v-for="error in errores" :key="error">{{ error }}</li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-        
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="limpiarvalidacion()">Continuar</button>
+            </div>
+    </Modal>
+
+     <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL VALIDACION CONFIRMACION                /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modalconfirmacionanexo" @close="modalconfirmacionanexo = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
+                </div>
+                <h1 class="text-xl text-center font-bold">TU ANEXO ESTA COMPLETO</h1>
+                <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
+                  <div class="mt-2">
+                    <p class="">los datos de tu anexo son los siguientes:</p>
+                  </div>
+                  <div>
+                    <ul class="mt-3 list-disc list-inside text-justify">
+                        <li>DTC: {{this.lista_DTC_Filtrada[0].referenceNumber}}</li>
+                        <li>Fecha de Apertura: {{this.fechaapertura}}</li>
+                        <li>Fecha de Cierre: {{this.fechacierre}}</li>
+                        <li>Solicitud: {{this.solciitud}}</li>
+                        <li>Fecha de solicitud: {{this.solicitudfechainicio}}</li>
+                        <li>Oficio: {{this.foliooficio}}</li>
+                        <li>Fecha Oficio:{{this.fechaoficioinicio}}</li>
+                        <li>Componentes: {{this.componentesfinaleseditados}}</li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="limpiarvalidacion()">Confirmar</button>
+            </div>
+    </Modal>
        
     </div>
 </template>
@@ -119,6 +176,7 @@ import ImagenesAnexo from '../../components/ImagenesGenericas.vue';
 import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import ServiceReportPDF from "../../services/ReportesPDFService";
+import Modal from "../../components/ModalGenerico.vue";
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -128,7 +186,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         HeaderGenerico,
         TablaEquipoMalo,
         Datetime,
-        ImagenesAnexo
+        ImagenesAnexo,
+        Modal
     },
      data() {
     return {
@@ -174,6 +233,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       solciitud: '',
       solicitudfechainicio:'',
       selectsupervisor:'',
+      modalvalidacionanexo : false,
+      errores:[],
+      vfechaapertura:false,
+      vfechacierre:false,
+      vtestigo1:false,
+      vtestigo2:false,
+      vsuperior:false,
+      modalconfirmacionanexo: false,
     };
     },
     created(){
@@ -275,6 +342,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           let refenciaanexo = response.data.result;
           let subversion = false;
           ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo,subversion);
+          ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo);
         })
         .catch((error) => {
           console.log(error);
@@ -290,6 +358,79 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(this.testigo2)
        
      },
+     validacionanexo(){
+      if(this.fechaapertura == ""){
+        this.errores.push("La fecha de apertura esta vacia")
+        this.vfechaapertura = true
+      }
+      if(this.fechacierre == ""){
+        this.errores.push("La fecha de cierre esta vacia")
+        this.vfechacierre = true
+      }
+      if(this.testigo1 == ""){
+        this.errores.push("Debes seleccionar el primer testigo")
+        this.vtestigo1 = true
+      }
+      if(this.testigo2 == ""){
+        this.errores.push("Debes seleccionar el segundo testigo")
+        this.vtestigo2 = true
+      }
+      if(this.testigo1 == this.testigo2){
+        this.errores.push("Los Testigos no pueden ser los mismos")
+        this.vtestigo1 = true
+        this.vtestigo2 = true
+      }
+      if(this.selectsupervisor == ""){
+        this.errores.push("Tienes que seleccionar un supervisor de la plaza")
+        this.vsuperior = true
+       }
+       if (this.componentesfinaleseditados.length == 0) {
+         this.errores.push("Tienes que seleccionar por lo menos 1 componente y editar su numero de serie correspondiente")
+       }
+       let fechaapertura = new Date(this.fechaapertura);
+       let fechacierre = new Date(this.fechacierre);
+       if(fechacierre < fechaapertura){
+         this.errores.push("La fecha de cierre no puede ser menor a la fecha de apertura");
+         this.vfechacierre = true
+       }
+       if(this.solciitud == ""){
+         this.errores.push("Debes ingresar el numero de solicitud del anexo")
+       }
+       if(this.foliooficio == ""){
+         this.errores.push("Debes ingresar el folio del anexo")
+       }
+       if(this.solicitudfechainicio == ""){
+         this.errores.push("Debes ingresar la fecha de la solicitud del anexo")
+       }
+       if(this.fechaoficioinicio == ""){
+         this.errores.push("Debes ingresar la fecha del folio del anexo")
+       }
+
+       if (this.errores.length > 0) {
+        this.modalvalidacionanexo = true;
+       }else{
+         this.modalImage = true;
+       }
+     },
+     limpiarvalidacion(){
+       this.errores = [];
+       this.modalvalidacionanexo = false;
+     },
+     cambiarvalort1(){
+       if(this.vtestigo1){
+         this.vtestigo1 = false;
+       }
+     },
+     cambiarvalort2(){
+       if(this.vtestigo2){
+         this.vtestigo2 = false;
+       }
+     },
+     cambiarvalorsupervisor(){
+       if(this.vsuperior){
+         this.vsuperior = false;
+       }
+     }
       
 
     }
