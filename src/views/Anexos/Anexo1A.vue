@@ -26,7 +26,7 @@
         </p>
         <div class="flex w-full gap-4 p-2">
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo1" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" :class="{ 'border border-red-500': vtestigo1, 'border border-gray-400' : !vtestigo1 }" v-model="testigo1" @change="cambiarvalort1()">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -35,7 +35,7 @@
               </div>
           </div>
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo2" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" :class="{ 'border border-red-500': vtestigo2, 'border border-gray-400' : !vtestigo2 }" v-model="testigo2" @change="cambiarvalort2()">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -74,7 +74,7 @@
         <p class="mb-2">SUPERVISOR DE PLAZA
         </p>
         <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="selectsupervisor">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" :class="{ 'border border-red-500': vsuperior, 'border border-gray-400' : !vsuperior }" v-model="selectsupervisor" @change="cambiarvalorsupervisor()">
                 <option value="">Selecciona un supervisor de plaza</option>
                 <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
               </select>
@@ -83,7 +83,7 @@
               </div>
           </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="modalvalidacionanexo = true" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Insertar Anexo 1-A</span>
             </button>
@@ -103,7 +103,7 @@
                       :tipo="'Anexo'" 
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber">
                     </ImagenesAnexo>
-                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                    <button @click="insertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Anexo 1-A</span>
                     </button>  
@@ -115,18 +115,24 @@
     <Modal :showing="modalvalidacionanexo" @close="modalvalidacionanexo = false">
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <div class="sm:flex sm:items-start">
-                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
                 </div>
-                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h1 class="text-xl text-center font-bold">UUUPPPSSSS NO PODEMOS CONTINUAR!!!</h1>
+                <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
                   <div class="mt-2">
-                    <bold class="text-sm text-gray-800">No puedes generar aun tu anexo debes llenar los campos faltantes:</bold>
+                    <p class="">No puedes generar aun tu anexo debes llenar los campos faltantes:</p>
+                  </div>
+                  <div>
+                    <ul class="mt-3 list-disc list-inside text-justify">
+                        <li v-for="error in errores" :key="error">{{ error }}</li>
+                      </ul>
                   </div>
                 </div>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalvalidacionanexo = false">Continuar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="limpiarvalidacion()">Continuar</button>
             </div>
     </Modal>
 </div>
@@ -203,6 +209,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       blockBotonModal: false,
       modalvalidacionanexo : false,
       errores:[],
+      vfechaapertura:false,
+      vfechacierre:false,
+      vtestigo1:false,
+      vtestigo2:false,
+      vsuperior:false,
     };
     },
     created() {
@@ -301,6 +312,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           let refenciaanexo = response.data.result;
           let subversion = false;
           ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo,subversion);
+          ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo);
         })
         .catch((error) => {
           console.log(error);
@@ -315,8 +327,60 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(this.testigo2)
      },
      validacionanexo(){
+      if(this.fechaapertura == ""){
+        this.errores.push("La fecha de apertura esta vacia")
+        this.vfechaapertura = true
+      }
+      if(this.fechacierre == ""){
+        this.errores.push("La fecha de cierre esta vacia")
+        this.vfechacierre = true
+      }
+      if(this.testigo1 == ""){
+        this.errores.push("Debes seleccionar el primer testigo")
+        this.vtestigo1 = true
+      }
+      if(this.testigo2 == ""){
+        this.errores.push("Debes seleccionar el segundo testigo")
+        this.vtestigo2 = true
+      }
+      if(this.testigo1 == this.testigo2){
+        this.errores.push("Los Testigos no pueden ser los mismos")
+        this.vtestigo1 = true
+        this.vtestigo2 = true
+      }
+      if(this.selectsupervisor == ""){
+        this.errores.push("Tienes que seleccionar un supervisor de la plaza")
+        this.vsuperior = true
+       }
+       if (this.componentesfinaleseditados.length == 0) {
+         this.errores.push("Tienes que seleccionar por lo menos 1 componente y editar su numero de serie correspondiente")
+       }
 
+       if (this.errores.length > 0) {
+        this.modalvalidacionanexo = true;
+       }else{
+         this.modalImage = true;
+       }
      },
+     limpiarvalidacion(){
+       this.errores = [];
+       this.modalvalidacionanexo = false;
+     },
+     cambiarvalort1(){
+       if(this.vtestigo1){
+         this.vtestigo1 = false;
+       }
+     },
+     cambiarvalort2(){
+       if(this.vtestigo2){
+         this.vtestigo2 = false;
+       }
+     },
+     cambiarvalorsupervisor(){
+       if(this.vsuperior){
+         this.vsuperior = false;
+       }
+     }
    },
    
   }

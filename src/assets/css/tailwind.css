@@ -553,3 +553,11 @@ body.modal-open {
 .inputanexo:focus{
     @apply outline-none shadow-outline;
 }
+
+.inputanexoerror{
+    @apply shadow appearance-none border border-red-800 rounded text-gray-700 leading-tight text-center;
+}
+.inputanexoerror:focus{
+    @apply outline-none shadow-outline;
+}
+

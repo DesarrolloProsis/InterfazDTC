@@ -283,6 +283,12 @@ function generar_pdf_anexoB(referenceNumber,referenceAnexo,subversion){
     let namePdf = referenceAnexo
     xml_hhtp_request(urlTopdf, namePdf)        
 }
+function reporte_fotografico_anexo(referenceNumber,referenceAnexo){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/ReporteFotografico/Nuevo/${clavePlaza}/0/${referenceNumber}/${referenceAnexo}`
+    let namePdf = 'ReporteFotograficoAnexo' + '-' + referenceNumber + '-' + 'Sellado'
+    xml_hhtp_request(urlTopdf,namePdf)
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
@@ -303,6 +309,7 @@ export default {
     dtc_no_sellados,
     dtc_no_sellados_excel,
     reporte_fotografico_sellado,
+    reporte_fotografico_anexo,
     reporte_dtcborrados,
     formato_capufe,
     generar_pdf_anexoA,

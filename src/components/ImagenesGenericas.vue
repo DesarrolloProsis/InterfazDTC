@@ -108,7 +108,7 @@ export default {
             }
             else if(this.tipo == 'Anexo'){
                 this.limiteFotos = 4                
-                urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }
             else{
                 this.limiteFotos = 4                                
@@ -123,7 +123,7 @@ export default {
                         urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                     }
                     else if(this.tipo == 'Anexo'){
-                        urlImgDescarga = `${API}/DiagnosticoFalla/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                     }
                     else{
                         urlImgDescarga = `${API}/FichaTecnicaAtencion/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`   
@@ -187,8 +187,8 @@ export default {
                 }
                 else if (this.tipo == 'Anexo'){
                         this.limiteFotos = 4
-                        rutaInsertImagenes = `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                        objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}   
+                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevos/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 4}   
                 }
                 else{                    
                     if(this.tipo == 'Diagnostico'){                        
@@ -243,7 +243,7 @@ export default {
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else if(this.tipo == 'Anexo'){
-                        urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else{                                           
                         urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
