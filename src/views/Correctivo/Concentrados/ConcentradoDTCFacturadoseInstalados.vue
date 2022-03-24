@@ -169,7 +169,7 @@ export default {
         statusEdit: "",
         motivoCambio:"",
         limite:300,
-        listaanexosgenerados:{},             
+        listaanexosgenerados:{},          
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -221,13 +221,15 @@ export default {
             { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
             ]
             let filtroOpciones = []
-            if(dtc.isAnexoCreate == true){
+            if(this.tipoUsuario == 1 || this.tipoUsuario == 4 && dtc.isAnexoCreate == true){
             filtroOpciones.push(options[0])
             }
-            if(dtc.isValidCreate == true){
+            if(this.tipoUsuario == 1 || this.tipoUsuario == 4 && dtc.isValidCreate == true){
               filtroOpciones.push(options[1])
             }
-            filtroOpciones.push(options[2])
+            if(this.tipoUsuario == 4 ){
+              filtroOpciones.push(options[2])
+            }
 
             return filtroOpciones
     },
@@ -242,9 +244,12 @@ export default {
             { title: 'Descargar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
             ]
             let filtroOpciones = []
-            filtroOpciones.push(options[0])
-            filtroOpciones.push(options[1])
-
+            if(this.tipoUsuario == 1){
+              filtroOpciones.push(options[0])
+            }
+            if(this.tipoUsuario == 4 || this.tipoUsuario == 1){
+              filtroOpciones.push(options[1])
+            }
             return filtroOpciones
     },
     acciones_mapper_modal(anxg){
@@ -263,9 +268,11 @@ export default {
          if (anxg.tipoAnexo === "A") {
            ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
            ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
+           this.selectMultiModal = '';
         } else if (anxg.tipoAnexo === "B"){
            ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,subversion);
            ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
+           this.selectMultiModal = '';
         }
       }
     },

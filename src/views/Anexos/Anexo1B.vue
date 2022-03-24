@@ -171,7 +171,7 @@
     <Modal :showing="modaldescarga" @close="modaldescarga = false">
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <div class="sm:flex sm:items-start">
-                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                   <DownloadIcon class="h-10 w-10 text-blue-600" aria-hidden="true" />
                 </div>
                 <h1 class="text-xl text-center font-bold">LISTO TU ANEXO Y REPORTE YA SE DESCARGARON</h1>
@@ -193,7 +193,7 @@ import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import ServiceReportPDF from "../../services/ReportesPDFService";
 import Modal from "../../components/ModalGenerico.vue";
-import { ExclamationIcon,CheckCircleIcon } from '@vue-hero-icons/outline';
+import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -206,7 +206,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         ImagenesAnexo,
         Modal,
         ExclamationIcon,
-        CheckCircleIcon
+        CheckCircleIcon,
+        DownloadIcon
     },
      data() {
     return {
@@ -411,12 +412,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.errores.push("Tienes que seleccionar por lo menos 1 componente y editar su numero de serie correspondiente")
        }
        let fechaapertura = new Date(this.fechaapertura);
-       let fechacierre = new Date(this.fechacierre);
        let hoy = Date.now();
-       if(fechacierre < fechaapertura){
-         this.errores.push("La fecha de cierre no puede ser menor a la fecha de apertura");
-         this.vfechacierre = true
-       }
        if(fechaapertura > hoy){
          this.errores.push("La fecha de apertura no mayor al dia de hoy");
        }

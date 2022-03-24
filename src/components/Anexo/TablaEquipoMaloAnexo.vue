@@ -300,10 +300,11 @@ methods: {
     if(this.componentespush.length == 0){
       this.componentes = [];
     }
-    // this.laneSelect = ''; 
-    // this.componenteSeleccionado = '';
-    // this.componentes = [];
-    // document.body.classList.remove("modal-open");
+    this.laneSelect = ''; 
+    this.componenteSeleccionado = '';
+    this.componentes = [];
+    document.body.classList.remove("modal-open");
+    document.querySelector('body').classList.remove('overflow-hidden'); 
     },  
   infoModal: function (value) {
       this.modal = true;

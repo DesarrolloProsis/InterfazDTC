@@ -80,7 +80,7 @@
               </div>
           </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
-            <button @click="showConfirmDeleteModal()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+            <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
               <span>Editar anexo 1-B</span>
             </button>
@@ -89,36 +89,98 @@
     <!--/////////////////////////////////////////////////////////////////////
     ////                     MODAL IMAGENES                        /////
     ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0" v-if="modalImage" :class="{'modal-container': modalImage}">
-            <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66 mt-66">          
-                <span @click="modalImage = false" class="absolute  top-0 right-0">
-                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
-                </span> 
-                <div class="justify-center text-center block">            
+    <Modal :showing="modalImage" @close="modalImage = false">
+      <div class="justify-center text-center block">            
                     <!-- /////////////////////////////////////////////////////////////////////
                     ////                         IMAGENES                             ////
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesAnexo 
                       :reporteDataInsertada="true"
                       :tipo="'Anexo'" 
-                      :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber">
+                      :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
+                      @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
+                      >
                     </ImagenesAnexo>
-                    <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                    <button @click="insertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                        <span>Generar Anexo 1-B</span>
+                        <span>Generar Anexo 1-A</span>
                     </button>  
                 </div>
+    </Modal>
+    <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL VALIDACION                       /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modalvalidacionanexo" @close="modalvalidacionanexo = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
+                </div>
+                <h1 class="text-xl text-center font-bold">UUUPPPSSSS NO PODEMOS CONTINUAR!!!</h1>
+                <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
+                  <div class="mt-2">
+                    <p class="">No puedes generar aun tu anexo debes llenar los campos faltantes:</p>
+                  </div>
+                  <div>
+                    <ul class="mt-3 list-disc list-inside text-justify">
+                        <li v-for="error in errores" :key="error">{{ error }}</li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-        
-      <confirm-delete
-          v-show="isConfirmDeleteModalVisible"
-          modalHeadline="Delete customers?"
-          deleteMessage="Are you sure?"
-          @deleteRecordEvent="deleteCustomers"
-          @close="closeConfirmDeleteModal"
-      ></confirm-delete>
-       
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="limpiarvalidacion()">Continuar</button>
+            </div>
+    </Modal>
+     <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL VALIDACION CONFIRMACION                /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modalconfirmacionanexo" @close="modalconfirmacionanexo = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <CheckCircleIcon class="h-10 w-10 text-green-600" aria-hidden="true" />
+                </div>
+                <h1 class="text-xl text-center font-bold">TU ANEXO ESTA COMPLETO</h1>
+                <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
+                  <div class="mt-2">
+                    <p class="">los datos de tu anexo son los siguientes:</p>
+                  </div>
+                  <div>
+                    <ul class="mt-3 list-disc list-inside text-justify">
+                        <li>DTC: {{this.lista_DTC_Filtrada[0].referenceNumber}}</li>
+                        <li>Fecha de Apertura: {{this.fechaaperturaformateada}}</li>
+                        <li>Solicitud: {{this.anexo.solicitud}}</li>
+                        <li>Fecha de solicitud: {{this.anexo.solicitudfechainicio}}</li>
+                        <li>Oficio: {{this.anexo.folioOficio}}</li>
+                        <li>Fecha Oficio:{{this.anexo.fechaoficioinicio}}</li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-4 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="pasarinsertaranexo()">Confirmar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalconfirmacionanexo = false">Cancelar</button>
+            </div>
+    </Modal>
+     <!--/////////////////////////////////////////////////////////////////////
+    ////                     MODAL DESCARGA                          /////
+    ////////////////////////////////////////////////////////////////////-->
+    <Modal :showing="modaldescarga" @close="modaldescarga = false">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                  <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <DownloadIcon class="h-10 w-10 text-blue-800" aria-hidden="true" />
+                </div>
+                <h1 class="text-xl text-center">LISTO TU ANEXO CON REFERENCIA <b>{{this.lista_DTC_Filtrada[0].referenceNumber}}</b> YA SE GENERO</h1>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="saliranexos()">Regresar al menu principal</button>
+            </div>
+    </Modal>
     </div>
 </template>
 
@@ -129,7 +191,9 @@ import { Datetime } from 'vue-datetime';
 import ImagenesAnexo from '../../components/ImagenesGenericas.vue';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import ServiceReportPDF from "../../services/ReportesPDFService";
-import ConfirmDelete from "../../components/ModalGenerico.vue";
+import Modal from "../../components/ModalGenerico.vue";
+import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
+
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -140,7 +204,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         TablaEquipoMalo,
         Datetime,
         ImagenesAnexo,
-        ConfirmDelete 
+        Modal,
+        ExclamationIcon,
+        CheckCircleIcon,
+        DownloadIcon
     },
      data() {
     return {
@@ -192,6 +259,17 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       objetocomponentesanexosaeditar:[],
       arraycomponentes:[],
       componenteseditadostraidos:[],
+      modalvalidacionanexo : false,
+      errores:[],
+      vfechaapertura:false,
+      vfechacierre:false,
+      vtestigo1:false,
+      vtestigo2:false,
+      vsuperior:false,
+      modalconfirmacionanexo:false,
+      modaldescarga: false,
+      fechaaperturaformateada: "",
+      fechacierreformateada: "",
     };
     },
     created(){
@@ -295,7 +373,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       this.modalImage = true
       let Anexo = {
           "DTCReference": this.anexo.dtcReference,
-          "AnexoReference": this.anexo.anexoReference,
+          "AnexoReference": this.$route.params.anexoReference,
           "FechaApertura": this.anexo.fechaApertura,
           "FechaCierre": this.anexo.fechaCierre,
           "Solicitud": this.anexo.solicitud,
@@ -313,9 +391,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       {
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
         .then((response) => {
+          this.modalImage = false;
+          this.modaldescarga = true;
           console.log(response.data.result);
           let subversion = true;
-          ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.anexo.anexoReference,subversion);
+          ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
+          ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
         })
         .catch((error) => {
           console.log(error);
@@ -325,15 +406,66 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         console.error(error)
       }
      },
-      showConfirmDeleteModal() {
-        this.isConfirmDeleteModalVisible = true;
-      },
-      closeConfirmDeleteModal() {
-          this.isConfirmDeleteModalVisible = false;
-      },
-      deleteCustomers() {
-          console.log("goodbye");
-      }, 
+     bloquear_boton_anexo_img(value){
+        this.blockBotonModal = value
+    },
+    validacionanexo(){
+      if(this.anexo.fechaApertura == ""){
+        this.errores.push("La fecha de apertura esta vacia")
+      }
+      if(this.anexo.fechaCierre == ""){
+        this.errores.push("La fecha de cierre esta vacia")
+      }
+      if(this.anexo.testigo1Id == ""){
+        this.errores.push("Debes seleccionar el primer testigo")
+      }
+      if(this.anexo.testigo2Id == ""){
+        this.errores.push("Debes seleccionar el segundo testigo")
+      }
+      if(this.anexo.testigo1Id == this.anexo.testigo2Id){
+        this.errores.push("Los Testigos no pueden ser los mismos")
+      }
+      if(this.anexo.supervisorId == ""){
+        this.errores.push("Tienes que seleccionar un supervisor de la plaza")
+       }
+       if (this.componentesfinaleseditados.length == 0) {
+         this.errores.push("Tienes que seleccionar por lo menos 1 componente y editar su numero de serie correspondiente")
+       }
+       let fechaapertura = new Date(this.anexo.fechaApertura);
+       let hoy = Date.now();
+       if(fechaapertura > hoy){
+         this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
+       }
+       const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
+        let dateapertura = new Date(this.anexo.fechaApertura);
+        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear()
+        console.log(formatted_date_apertura);
+        
+        this.fechaaperturaformateada = formatted_date_apertura;
+        
+       if (this.errores.length > 0) {
+        this.modalvalidacionanexo = true;
+        
+       }else{
+         this.modalconfirmacionanexo = true;
+       }
+     },
+     limpiarvalidacion(){
+       this.errores = [];
+       this.modalvalidacionanexo = false;
+     },
+     pasarinsertaranexo(){
+       this.modalconfirmacionanexo=false;
+       this.modalImage = true;
+     },
+     saliranexos(){
+     this.modaldescarga = false;
+     this.modalconfirmacionanexo=false;
+     this.modalImage = false;
+     this.modalvalidacionanexo = false;
+     this.$router.push('/home');
+     document.querySelector('body').classList.remove('overflow-hidden'); 
+     },
     }
     }
 </script>

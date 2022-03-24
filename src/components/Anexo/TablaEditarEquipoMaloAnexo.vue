@@ -303,6 +303,7 @@ methods: {
     this.componentes = this.componentesinsertados; 
     this.componenteSeleccionado = '';
     document.body.classList.remove("modal-open");
+    document.querySelector('body').classList.remove('overflow-hidden'); 
     },  
   infoModal: function (value) {
       this.modal = true;

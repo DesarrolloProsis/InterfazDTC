@@ -20,9 +20,9 @@ watch: {
     showing(value) {
       if (value) {
         return document.querySelector('body').classList.add('overflow-hidden');
-      }else{
-        document.querySelector('body').classList.remove('overflow-hidden');
       }
+      document.querySelector('body').classList.remove('overflow-hidden');
+      
     }
   },
 methods: {

@@ -49,6 +49,9 @@ export default {
         acultarPrimerosBotones: true,     
       }
   },
+  created: function(){
+    document.querySelector('body').classList.remove('overflow-hidden'); 
+  },
   beforeMount: function(){
     this.typeUser = this.$store.state.Login.cookiesUser.rollId    
   },
