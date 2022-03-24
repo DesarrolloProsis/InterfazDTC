@@ -165,7 +165,7 @@
             </div>
             <div class="flex gap-4 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="pasarinsertaranexo()">Confirmar</button>
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalconfirmacionanexo = false">Cancelar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalconfirmacionanexo = false">Cancelar</button>
             </div>
     </Modal>
      <!--/////////////////////////////////////////////////////////////////////
@@ -177,7 +177,7 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                   <DownloadIcon class="h-10 w-10 text-blue-800" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center">LISTO TU ANEXO CON REFERENCIA <b>{{this.lista_DTC_Filtrada[0].referenceNumber}}</b> YA SE GENERO</h1>
+                <h1 class="text-xl text-center">LISTO TU ANEXO CON REFERENCIA <b>{{this.$route.params.anexoReference}}</b> YA SE GENERO</h1>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -367,11 +367,16 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
         .then((response) => {
           this.modalImage = false;
-          this.modaldescarga = true;
+          this.modaldescarga = true
           console.log(response.data.result);
           let subversion = true;
           ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
           ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
+          setTimeout(() => {
+            this.$router.push('/home');
+            document.querySelector('body').classList.remove('overflow-hidden'); 
+          },3000)
+          
         })
         .catch((error) => {
           console.log(error);
@@ -431,7 +436,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.errores.push("Tienes que seleccionar un supervisor de la plaza")
        }
        if (this.componentesfinaleseditados.length == 0) {
-         this.errores.push("Tienes que seleccionar por lo menos 1 componente y editar su numero de serie correspondiente")
+         let componentes = this.objetocomponentesanexosaeditar.map(componente => {
+           let c = {
+             RequestedComponentId: componente.componentDTCId,
+             SerialNumber: componente.numeroSerie
+           }
+           return c
+         })
+         this.componentesfinaleseditados = componentes;
+         console.log(this.componentesfinaleseditados);
        }
        let fechaapertura = new Date(this.anexo.fechaApertura);
        let fechacierre = new Date(this.anexo.fechaCierre);
@@ -472,8 +485,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      this.modalconfirmacionanexo=false;
      this.modalImage = false;
      this.modalvalidacionanexo = false;
-     this.$router.push('/home');
-     document.querySelector('body').classList.remove('overflow-hidden'); 
+     
      }, 
    },
    

@@ -7,7 +7,7 @@
           @limpiar-filtros="limpiar_filtros" 
           @filtrar-dtc="filtro_dtc" 
           @buscar-facturado="guardar_palabra_busqueda" 
-          :titulo="'Concentrado DTC Facturados e Instalados'" 
+          :titulo="'Actas de Entrega y Recepción'" 
           :tipo="'CDTCF'" 
         />
         <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto xl:h-75 mb-20">
@@ -221,13 +221,15 @@ export default {
             { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
             ]
             let filtroOpciones = []
-            if(this.tipoUsuario == 1 || this.tipoUsuario == 4 && dtc.isAnexoCreate == true){
-            filtroOpciones.push(options[0])
+            if(this.tipoUsuario == 1 || this.tipoUsuario == 4){
+              if(dtc.isAnexoCreate == true){
+                filtroOpciones.push(options[0])
+              }
+              if(dtc.isValidCreate == true){
+                filtroOpciones.push(options[1])
+              }
             }
-            if(this.tipoUsuario == 1 || this.tipoUsuario == 4 && dtc.isValidCreate == true){
-              filtroOpciones.push(options[1])
-            }
-            if(this.tipoUsuario == 4 ){
+            if(this.tipoUsuario == 4){
               filtroOpciones.push(options[2])
             }
 
