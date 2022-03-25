@@ -83,6 +83,12 @@
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
               </div>
           </div>
+          <div class="inline-flex mt-4">
+            <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
+            <datetime v-model="this.anexo.fechaApertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
+            <p class="ml-2">,SIENDO LAS</p>
+            <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
+          </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -121,10 +127,10 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center font-bold">UUUPPPSSSS NO PODEMOS CONTINUAR!!!</h1>
+                <h1 class="text-xl text-center font-bold">NO SE PUEDE GENERAR EL ANEXO</h1>
                 <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
                   <div class="mt-2">
-                    <p class="">No puedes generar aun tu anexo debes llenar los campos faltantes:</p>
+                    <p class="">Por las siguientes razones no se puede generar el anexo:</p>
                   </div>
                   <div>
                     <ul class="mt-3 list-disc list-inside text-justify">
@@ -147,7 +153,7 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
                   <CheckCircleIcon class="h-10 w-10 text-green-600" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center font-bold">TU ANEXO ESTA COMPLETO</h1>
+                <h1 class="text-xl text-center font-bold">DATOS COMPLETOS</h1>
                 <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
                   <div class="mt-2">
                     <p class="">los datos de tu anexo son los siguientes:</p>
@@ -177,7 +183,7 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                   <DownloadIcon class="h-10 w-10 text-blue-800" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center">LISTO TU ANEXO CON REFERENCIA <b>{{this.$route.params.anexoReference}}</b> YA SE GENERO</h1>
+                <h1 class="text-xl text-center">SE GENERO EL ANEXO DEL DTC CON REFERENCIA  <b>{{this.$route.params.anexoReference}}</b></h1>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -196,6 +202,7 @@ import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import Modal from "../../components/ModalGenerico.vue";
 import ServiceReportPDF from "../../services/ReportesPDFService";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
+import moment from 'moment'
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -314,6 +321,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
         console.log(this.anexo)
+        this.time = this.anexo.fechaCierre;
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
@@ -345,12 +353,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(this.componentesfinaleseditados);
      },
      async insertaranexo(){
+      const formateadorapertura = moment(this.anexo.fechaApertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
+      const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       this.modalImage = true
       let Anexo = {
           "DTCReference": this.anexo.dtcReference,
           "AnexoReference": this.$route.params.anexoReference,
-          "FechaApertura": this.anexo.fechaApertura,
-          "FechaCierre": this.anexo.fechaCierre,
+          "FechaApertura": formateadorapertura,
+          "FechaCierre": formateadorcierre,
           "Solicitud": this.anexo.solicitud,
           "FechaSolicitudInicio" : this.anexo.fechaSolicitudInicio,
           "FolioOficio": this.anexo.folioOficio,
@@ -417,6 +427,16 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.blockBotonModal = value
     },
     validacionanexo(){
+      console.log(this.anexo.fechaApertura)
+      let fechaapertura = new Date(this.anexo.fechaApertura);
+      let horadecierre = new Date(this.time);
+      var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
+      var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
+      let fechacierra = fecha + ' ' + hora;
+      var fechacierrefinal = new Date(fechacierra);
+      this.fechacierre = fechacierrefinal.toISOString();
+      console.log(this.fechacierre);
+      let hoy = Date.now();
       if(this.anexo.fechaApertura == ""){
         this.errores.push("La fecha de apertura esta vacia")
       }
@@ -446,9 +466,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.componentesfinaleseditados = componentes;
          console.log(this.componentesfinaleseditados);
        }
-       let fechaapertura = new Date(this.anexo.fechaApertura);
        let fechacierre = new Date(this.anexo.fechaCierre);
-       let hoy = Date.now();
        if(fechacierre < fechaapertura){
          this.errores.push("La fecha de cierre no puede ser menor a la fecha de apertura");
          this.vfechacierre = true

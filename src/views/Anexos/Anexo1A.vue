@@ -46,10 +46,12 @@
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
-        EL DÍA <datetime v-model="fechacierre" class="inline-flex"
+        EL DÍA <datetime v-model="fechaapertura" class="inline-flex"
          input-class="inputanexo" 
          :format="{ year: 'numeric', month: 'long', day: 'numeric' }"
          :min-datetime="this.fechaapertura"
+         value-zone="America/Mexico"
+         disabled
          ></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
         <span class="font-bold">{{this.nombrecomponentes.toString()}}</span> Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
         <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
@@ -88,7 +90,13 @@
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
               </div>
-          </div>
+        </div>
+        <div class="inline-flex mt-4">
+            <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
+            <datetime v-model="fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
+            <p class="ml-2">,SIENDO LAS</p>
+            <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
+        </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -126,10 +134,10 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center font-bold">UUUPPPSSSS NO PODEMOS CONTINUAR!!!</h1>
+                <h1 class="text-xl text-center font-bold">NO SE PUEDE GENERAR EL ANEXO</h1>
                 <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
                   <div class="mt-2">
-                    <p class="">No puedes generar aun tu anexo debes llenar los campos faltantes:</p>
+                    <p class="">Por las siguientes razones no se puede generar el anexo:</p>
                   </div>
                   <div>
                     <ul class="mt-3 list-disc list-inside text-justify">
@@ -152,7 +160,7 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
                   <CheckCircleIcon class="h-10 w-10 text-green-600" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center font-bold">TU ANEXO ESTA COMPLETO</h1>
+                <h1 class="text-xl text-center font-bold">DATOS COMPLETOS</h1>
                 <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
                   <div class="mt-2">
                     <p class="">los datos de tu anexo son los siguientes:</p>
@@ -162,7 +170,7 @@
                         <li>DTC: {{this.lista_DTC_Filtrada[0].referenceNumber}}</li>
                         <li>Fecha de apertura: {{this.fechaaperturaformateada}}</li>
                         <li>Fecha de cierre: {{this.fechacierreformateada}}</li>
-                        <li>Tipo de Anexo: A</li>
+                        <li>Tipo de Anexo: 1-A</li>
                       </ul>
                   </div>
                 </div>
@@ -182,7 +190,7 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                   <DownloadIcon class="h-10 w-10 text-blue-800" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center">LISTO TU ANEXO CON REFERENCIA <b>{{this.lista_DTC_Filtrada[0].referenceNumber}}</b> YA SE GENERO</h1>
+                <h1 class="text-xl text-center">SE GENERO EL ANEXO DEL DTC CON REFERENCIA <b>{{this.lista_DTC_Filtrada[0].referenceNumber}}</b></h1>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -201,6 +209,7 @@ import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import ServiceReportPDF from "../../services/ReportesPDFService";
 import Modal from "../../components/ModalGenerico.vue";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
+import moment from 'moment'
 
 
 
@@ -211,7 +220,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     components:{
         HeaderGenerico,
         TablaEquipoMalo,
-        Datetime,
+        datetime: Datetime,
         ImagenesAnexo,
         Modal,
         ExclamationIcon,
@@ -275,6 +284,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       modaldescarga: false,
       fechaaperturaformateada: "",
       fechacierreformateada: "",
+      horacierre: "",
     };
     },
     created() {
@@ -349,11 +359,13 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
      async insertaranexo(){
       this.modalImage = true
+      const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
+      const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
           "AnexoReference": "",
-          "FechaApertura": this.fechaapertura,
-          "FechaCierre": this.fechacierre,
+          "FechaApertura": formateadorapertura,
+          "FechaCierre": formateadorcierre,
           "Solicitud": "",
           "FechaSolicitudInicio" : null,
           "FolioOficio": "",
@@ -394,6 +406,16 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(this.testigo2)
      },
      validacionanexo(){
+      console.log(this.fechaapertura)
+      let fechaapertura = new Date(this.fechaapertura);
+      let horadecierre = new Date(this.time);
+      var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
+      var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
+      let fechacierra = fecha + ' ' + hora;
+      var fechacierrefinal = new Date(fechacierra);
+      this.fechacierre = fechacierrefinal.toISOString();
+      console.log(this.fechacierre);
+      let hoy = Date.now();
       if(this.fechaapertura == ""){
         this.errores.push("La fecha de apertura esta vacia")
         this.vfechaapertura = true
@@ -420,24 +442,20 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.vsuperior = true
        }
        if (this.componentesfinaleseditados.length == 0) {
-         this.errores.push("Tienes que seleccionar por lo menos 1 componente y editar su numero de serie correspondiente")
+         this.errores.push("Tienes que seleccionar por lo menos 1 componente")
        }
-       let fechaapertura = new Date(this.fechaapertura);
-       let fechacierre = new Date(this.fechacierre);
-       let hoy = Date.now();
-       if(fechacierre < fechaapertura){
-         this.errores.push("La fecha de cierre no puede ser menor a la fecha de apertura");
-         this.vfechacierre = true
-       }
+        if (this.componentesfinaleseditados.length == 0) {
+         this.errores.push("Edita el numero de serie faltante del componente")
+        }
        if(fechaapertura > hoy){
          this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
        }
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.fechaapertura);
-        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear()
+        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
         console.log(formatted_date_apertura);
         let datecierre = new Date(this.fechacierre);
-        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()] + " DE " + datecierre.getFullYear()
+        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()+1] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
         console.log(formatted_date_apertura);
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;
@@ -480,8 +498,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      document.querySelector('body').classList.remove('overflow-hidden'); 
      },
      bloquear_boton_anexo_img(value){
-        this.blockBotonModal = value
+        this.blockBotonModal = value;
     },
+    cambiohoracierre(){
+      console.log(this.time)
+    }
    },
    
   }
