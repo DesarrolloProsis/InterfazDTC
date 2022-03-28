@@ -467,10 +467,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          console.log(this.componentesfinaleseditados);
        }
        let fechacierre = new Date(this.anexo.fechaCierre);
-       if(fechacierre < fechaapertura){
-         this.errores.push("La fecha de cierre no puede ser menor a la fecha de apertura");
-         this.vfechacierre = true
-       }
        if(fechaapertura > hoy){
          this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
        }
