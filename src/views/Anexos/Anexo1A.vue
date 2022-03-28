@@ -406,23 +406,34 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(this.testigo2)
      },
      validacionanexo(){
+      console.log(this.time)
       console.log(this.fechaapertura)
-      let fechaapertura = new Date(this.fechaapertura);
-      let horadecierre = new Date(this.time);
-      var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
-      var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
-      let fechacierra = fecha + ' ' + hora;
-      var fechacierrefinal = new Date(fechacierra);
-      this.fechacierre = fechacierrefinal.toISOString();
-      console.log(this.fechacierre);
-      let hoy = Date.now();
-      if(this.fechaapertura == ""){
+      if((this.fechaapertura != "" || this.fechaapertura != null || this.fechaapertura != undefined) && (this.time != "" || this.time != null || this.time != undefined))
+      {
+        let fechaapertura = new Date(this.fechaapertura);
+        let horadecierre = new Date(this.time);
+        var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
+        var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
+        let fechacierra = fecha + ' ' + hora;
+        var fechacierrefinal = new Date(fechacierra);
+        this.fechacierre = fechacierrefinal.toISOString();
+        console.log(this.fechacierre);
+        let hoy = Date.now();
+        if(fechaapertura > hoy){
+        this.errores.push("La fecha de apertura no puede ser mayor al dia de hoy");
+        }
+       const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
+        let dateapertura = new Date(this.fechaapertura);
+        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()+1] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
+        console.log(formatted_date_apertura);
+        let datecierre = new Date(this.fechacierre);
+        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()+1] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
+        console.log(formatted_date_apertura);
+        this.fechaaperturaformateada = formatted_date_apertura;
+        this.fechacierreformateada = formatted_date_cierre;
+      }else {
         this.errores.push("La fecha de apertura esta vacia")
-        this.vfechaapertura = true
-      }
-      if(this.fechacierre == ""){
-        this.errores.push("La fecha de cierre esta vacia")
-        this.vfechacierre = true
+        this.errores.push("La hora de cierre esta vacia")
       }
       if(this.testigo1 == ""){
         this.errores.push("Debes seleccionar el primer testigo")
@@ -447,18 +458,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         if (this.componentesfinaleseditados.length == 0) {
          this.errores.push("Edita el numero de serie faltante del componente")
         }
-       if(fechaapertura > hoy){
-         this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
-       }
-       const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
-        let dateapertura = new Date(this.fechaapertura);
-        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
-        console.log(formatted_date_apertura);
-        let datecierre = new Date(this.fechacierre);
-        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()+1] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
-        console.log(formatted_date_apertura);
-        this.fechaaperturaformateada = formatted_date_apertura;
-        this.fechacierreformateada = formatted_date_cierre;
        if (this.errores.length > 0) {
         this.modalvalidacionanexo = true;
         

@@ -1,8 +1,5 @@
 <template>
   <div class="container-login100 sm:mt-1 sm:w-full">
-    <div class="absolute h-20 mr-83 -ml-56 -mt-77 sm:hidden md:hidden lg:hidden lg:-mt-56 lg:mr-68 lg:w-25 lg:h-10 sm:w-25 md:h-12 md:ml-0 md:mr-0 md:-mt-58  sm:w-25 sm:h-12 sm:ml-0 sm:mr-0 sm:-mt-56">
-            <img src="../assets/img/prosis_letrero.png" class="w-45 h-20" />
-    </div>
     <div class="wrap-login100">
         <!-- //////////////////////////////////////////////////////////////////
         ////                 FORMULARIO PRINCIPAL                         ////
