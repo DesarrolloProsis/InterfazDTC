@@ -406,10 +406,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(this.testigo2)
      },
      validacionanexo(){
-      console.log(this.time)
-      console.log(this.fechaapertura)
-      if((this.fechaapertura != "" || this.fechaapertura != null || this.fechaapertura != undefined) && (this.time != "" || this.time != null || this.time != undefined))
-      {
+      if(this.fechaapertura != "" && this.time != "")
+      { 
+        console.log(this.time)
+        console.log(this.fechaapertura)
         let fechaapertura = new Date(this.fechaapertura);
         let horadecierre = new Date(this.time);
         var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
