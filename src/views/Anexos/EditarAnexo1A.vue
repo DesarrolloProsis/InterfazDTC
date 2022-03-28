@@ -466,7 +466,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.componentesfinaleseditados = componentes;
          console.log(this.componentesfinaleseditados);
        }
-       let fechacierre = new Date(this.anexo.fechaCierre);
        if(fechaapertura > hoy){
          this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
        }
