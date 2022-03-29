@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="container mx-auto">
+    <div class="container mx-auto font-titulo">
         <HeaderGenerico :titulo="'ACTA ADMINISTRATIVA INFORMATIVA (ENTREGA-RECEPCIÓN)'" :subtitulo="'FORMATO 1-A'" :tipo="'anexo1A'" />
         <div class="mt-1 mb-1 text-sm flex flex-col leading-7 sm:block sm:p-1 sm:pr-2 sm:text-xs border sm:m-1 shadow-md md:w-auto text-justify p-6">
         <p class="">SE LEVANTA LA PRESENTE ACTA,
