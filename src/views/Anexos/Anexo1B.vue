@@ -255,7 +255,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       fechaapertura: '',
       foliooficio: '',
       fechaoficioinicio: '',
-      blockBotonModal: false,
+      blockBotonModal: true,
       modalImage: false,
       modalLoading: false,
       solciitud: '',

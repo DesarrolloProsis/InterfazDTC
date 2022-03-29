@@ -272,7 +272,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       selectsupervisor:'',
       testigoscompleto:[],
       idtestigos:0,
-      blockBotonModal: false,
+      blockBotonModal: true,
       modalvalidacionanexo : false,
       errores:[],
       vfechaapertura:false,
