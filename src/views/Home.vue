@@ -6,27 +6,31 @@
         <div class="grid grid-cols-2 mx-auto mt-12 lg:grid-cols-2 lg:-mt-10 sm:grid-cols-1 md:grid-cols-2 md:my-auto sm:mt-4" :class="{'mx-auto my-30':typeUser == 7}">
           <div class="Home animacion sm:m-4 sm:p-3 sm:botonesCorrectivo sm:-mt-6 sm:h-56" v-if="typeUser == 7 || typeUser == 1 ||typeUser == 2 || typeUser == 3 || typeUser == 4 || typeUser == 5 || typeUser == 10">
             <router-link :to="`home/${typeUser}/preventivo`" class="text-center">
-              <img src="../assets/img/wrench.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-2 sm:mb-4 md:mt-6 md:mb-6"/>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium sm:-mt-2">Mantenimiento</h1>
-              <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium sm:-mt-2">Preventivo</h1>
+              <!-- <img src="../assets/img/wrench.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-2 sm:mb-4 md:mt-6 md:mb-6"/> -->
+                  <font-awesome-icon icon="fa-solid fa-toolbox" class="text-blue-800 w-37 h-37 mx-20 mt-6"/>
+                  <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium sm:-mt-2">Mantenimiento</h1>
+                  <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium sm:-mt-2">Preventivo</h1>
             </router-link>
           </div>
           <div class="Home animacion sm:m-4 sm:p-3 sm:botonesCorrectivo sm:h-56">
             <router-link :to="`home/${typeUser}/correctivo`" class="text-center">
-              <img src="../assets/img/mantenimientoCorrectivo.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:-mt-1 sm:mb-4 md:mt-6 md:mb-6"/>
+              <!-- <img src="../assets/img/mantenimientoCorrectivo.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:-mt-1 sm:mb-4 md:mt-6 md:mb-6"/> -->
+              <font-awesome-icon icon="fa-solid fa-screwdriver-wrench" class="text-blue-800 w-37 h-37 mx-20 mt-6"/>
               <p class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Mantenimiento</p>
               <p class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Correctivo</p>
             </router-link>
           </div>
           <div class="Home animacion sm:m-4 sm:p-3 sm:mb-16 sm:botonesCorrectivo sm:h-56" v-if="typeUser != 7">
             <router-link to="/Configuracion" class="text-center cursor-pointer">
-              <img src="../assets/img/engranajes.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-4 sm:mb-4 md:mt-6 md:mb-6"/>
+              <!-- <img src="../assets/img/engranajes.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-4 sm:mb-4 md:mt-6 md:mb-6"/> -->
+              <font-awesome-icon icon="fa-solid fa-gears" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Configuración</h1>
             </router-link>
           </div> 
           <div class="Home animacion  sm:-mt-8 sm:m-4 sm:p-3 sm:mb-10 sm:botonesCorrectivo sm:h-56" v-if="typeUser != 7">
             <router-link to="/Ayuda" class="text-center cursor-pointer">
-              <img src="../assets/img/ayuda.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-4 sm:mb-4 md:mt-6 md:mb-6"/>
+              <!-- <img src="../assets/img/ayuda.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-4 sm:mb-4 md:mt-6 md:mb-6"/> -->
+              <font-awesome-icon icon="fa-regular fa-circle-question" class="text-blue-800 w-37 h-37 mx-20 mt-10" />
               <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Ayuda</h1>
             </router-link>
           </div> 

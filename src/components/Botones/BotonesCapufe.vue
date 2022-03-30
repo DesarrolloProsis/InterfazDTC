@@ -5,25 +5,29 @@
                 <div class="grid grid-cols-2"> 
                     <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
                         <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
-                            <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" />
+                            <!-- <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" /> -->
+                            <font-awesome-icon icon="fa-solid fa-folder-tree" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado Diagnóstico</h1>
                         </router-link>
                     </div>    
                     <div class="botonPrincipal sm:m-4 sm:p-3 animacion" v-if="tipoUsuario == 7">
                         <router-link to="/ListarDTC" class="text-center cursor-pointer">
-                            <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1" />
+                            <!-- <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1" /> -->
+                             <font-awesome-icon icon="fa-solid fa-paste" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado DTC</h1>
                         </router-link>                       
                     </div> 
                     <div class="botonPrincipal m-8 sm:m-4 sm:p-3 animacion"  v-if="tipoUsuario == 8 || tipoUsuario == 7 || tipoUsuario == 9">
                         <router-link to="/ConcentradoGMMEP" class="text-center">
-                            <img src="../../assets/img/terminado.png" height="200" width="200" class="m-10 sm:m-1"/>
+                            <!-- <img src="../../assets/img/terminado.png" height="200" width="200" class="m-10 sm:m-1"/> -->
+                            <font-awesome-icon icon="fa-solid fa-file-circle-check" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Concentrado GMMEP</h1>
                         </router-link>
                     </div> 
                     <div class="botonPrincipal m-8 sm:m-4 sm:p-3  animacion" v-if="tipoUsuario == 7">
                         <router-link to="/Inventario" class="text-center cursor-pointer">
-                            <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/>
+                            <!-- <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/> -->
+                            <font-awesome-icon icon="fa-solid fa-boxes-stacked" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Inventario Plaza</h1>
                         </router-link>
                     </div>           
@@ -35,7 +39,8 @@
                 <div class="flex">     
                     <div class="botonPrincipal m-8 sm:m-4 sm:p-3 h-72 sm:h-64 animacion">
                         <router-link to="/CalendarioHistorico" class="text-center cursor-pointer">
-                            <img src="../../assets/img/evidencia.png" height="200" width="200" class="m-10 sm:m-1" />
+                            <!-- <img src="../../assets/img/evidencia.png" height="200" width="200" class="m-10 sm:m-1" /> -->
+                            <font-awesome-icon icon="fa-solid fa-copy" class="text-blue-800 w-37 h-37 mx-20 mt-16"/>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium break-words mt-2">Bitacora de Visitas</h1>                            
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium break-words">de Mantenimiento</h1>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium break-words">Equipos De Peaje</h1>
@@ -43,7 +48,8 @@
                     </div> 
                     <div class="border-gray-200 border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion">
                         <router-link to="/ReportesMantenimiento/TablaActividades" class="text-center">
-                            <img src="../../assets/img/report.png" height="200" width="200" class="m-10 sm:m-1" />
+                            <!-- <img src="../../assets/img/report.png" height="200" width="200" class="m-10 sm:m-1" /> -->
+                            <font-awesome-icon icon="fa-solid fa-file-waveform" class="text-blue-800 w-37 h-37 mx-20 mt-14"/>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium break-words">Concentrado de</h1>                            
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium break-words">Actividades de </h1>
                             <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium break-words">Mantenimiento Preventivo</h1>
