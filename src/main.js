@@ -14,15 +14,28 @@ import tooltip from 'vue-directive-tooltip';
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import specific icons */
-import { faUserSecret,faScrewdriverWrench,faToolbox,
-faGears,
-faCalendarDays,
-faFileWaveform,
-faBuildingUser,
-faUsersGear,
-faVideo,
-faFileCircleQuestion,faClapperboard,faFileSignature,
-faFolderTree,faPaste,faFileCircleCheck,faBoxesStacked,faFileInvoiceDollar,faArrowsDownToPeople,faCopy,faFileCircleXmark,faFileInvoice,faFileLines} from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret,
+  faScrewdriverWrench,
+  faToolbox,
+  faGears,
+  faCalendarDays,
+  faFileWaveform,
+  faBuildingUser,
+  faUsersGear,
+  faVideo,
+  faFileCircleQuestion,
+  faClapperboard,
+  faFileSignature,
+  faFolderTree,
+  faPaste,
+  faFileCircleCheck,
+  faBoxesStacked,
+  faFileInvoiceDollar,
+  faArrowsDownToPeople,
+  faCopy,
+  faFileCircleXmark,
+  faFileInvoice,
+  faFileLines} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -32,11 +45,31 @@ import { faCircleQuestion,faComments,faCirclePlay } from '@fortawesome/free-regu
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* add icons to the library */
-library.add(faUserSecret,faScrewdriverWrench,faToolbox,faGears,
-  faCircleQuestion,faCalendarDays,faFileWaveform,faBuildingUser,faUsersGear,
-  faComments,faVideo,faFileCircleQuestion,faCirclePlay,
-  faClapperboard,faFileSignature,faFolderTree,faPaste,faFileCircleCheck,faBoxesStacked,faFileInvoiceDollar,
-  faArrowsDownToPeople,faCopy,faFileCircleXmark,faFileInvoice,faFileLines)
+library.add(faUserSecret,
+  faScrewdriverWrench,
+  faToolbox,
+  faGears,
+  faCircleQuestion,
+  faCalendarDays,
+  faFileWaveform,
+  faBuildingUser,
+  faUsersGear,
+  faComments,
+  faVideo,
+  faFileCircleQuestion,
+  faCirclePlay,
+  faClapperboard,
+  faFileSignature,
+  faFolderTree,
+  faPaste,
+  faFileCircleCheck,
+  faBoxesStacked,
+  faFileInvoiceDollar,
+  faArrowsDownToPeople,
+  faCopy,
+  faFileCircleXmark,
+  faFileInvoice,
+  faFileLines)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)
