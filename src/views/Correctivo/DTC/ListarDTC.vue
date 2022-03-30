@@ -487,8 +487,8 @@ methods: {
   },
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != ''){ 
-      this.modalLoading = true
-      //if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
+      //if(this.itemCompleteChangeUserDTC.referenceNumberDiagnosis != '--'){
+        this.modalLoading = true
         let actualizar_user = new Promise ((resolve,reject) => {
           this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
           .then((response) => {  
@@ -523,20 +523,20 @@ methods: {
             });
           })
         },1000)
-      //}
-      /*else{
+      }
+      else{
         this.userChangeDtc = ''
         this.itemCompleteChangeUserDTC = {}
         this.modalCambiarUsuarioDTC = false
         this.modalLoading = false
         this.$notify.warning({
           title: "Ups!",
-          msg: `NECESITAS TERMIANR TU DIAGNOSTICO DE FALLA.`,
+          msg: `NECESITAS TERMIANR EL DIAGNOSTICO DE FALLA.`,
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-      }*/
-    }
+      }
+    /*}
     else{
       this.modalLoading = false
         this.$notify.warning({
@@ -545,7 +545,7 @@ methods: {
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-    }
+    }*/
   },
   modal_cambiar_usurio_dtc(item){
     this.refNum = item.referenceNumber
