@@ -35,8 +35,10 @@
                       :type="tipoInput" placeholder="Contraseña" name="Contraseña" 
                     />
                     <span @click="tipoInput == 'password' ? tipoInput = 'text' : tipoInput = 'password'" class="absolute right-0 mt-2 mr-2 cursor-pointer">
-                      <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
-                      <img v-else src="../assets/img/notvisibility.png" class="w-5" />
+                      <!-- <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
+                      <img v-else src="../assets/img/notvisibility.png" class="w-5" /> -->
+                      <font-awesome-icon v-if="tipoInput == 'password'" icon="fa-regular fa-eye" class="text-gray-600 w-5" />
+                      <font-awesome-icon v-else icon="fa-regular fa-eye-slash" class="text-gray-600 w-5"/>
                     </span>                             
                 </div>
                 <span class="text-red-600 text-xs">{{ errors[0] }}</span> 
