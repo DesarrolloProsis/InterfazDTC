@@ -418,7 +418,8 @@ export default {
       obj_borrar_plaza:{
         plazas:[]
       },
-      modalEliminarPlaza:false
+      modalEliminarPlaza:false,
+      nombreOriginal:''
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -836,6 +837,8 @@ export default {
     },
     acciones_mapper(item){                
       if(this.value.title == 'Editar'){
+        this.nombreOriginal =  item.name + ' ' + item.lastName1 + ' ' + item.lastName2
+        console.log(this.nombreOriginal);
         this.editarUsuario(item)
       }if(this.value.title == 'Deshabilitar'){
         this.borrar_usuario(item)

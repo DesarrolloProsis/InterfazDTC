@@ -111,6 +111,7 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2 is_valid sm:w-48 sm:-ml-20" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
                         <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
                         <input type="text" class="w-full bg-white hover:bg-white hover:border-none focus:bg-white border-none shadow-none mt-2" v-model="editUser.plaza" readonly>
                     </div>
@@ -163,7 +164,8 @@ export default {
                 mail:'',
                 status: true
             },
-            rollId: this.$store.state.Login.cookiesUser.rollId
+            rollId: this.$store.state.Login.cookiesUser.rollId,
+            nombreOriginal: ''
         }
     },
     beforeMount: function (){
@@ -320,6 +322,9 @@ export default {
             }
             if(this.value.title == 'Editar'){
                 this.editarUsuario(item)
+                this.nombreOriginal = item.name + ' ' + item.lastName1 + ' ' + item.lastName2
+                console.log(this.nombreOriginal);
+
             }   
             this.value = ""
         },
