@@ -35,9 +35,10 @@ import { faUserSecret,
   faCopy,
   faFileCircleXmark,
   faFileInvoice,
-  faFileLines} from '@fortawesome/free-solid-svg-icons'
-
-
+  faFileLines,
+  faRightFromBracket,
+  faBars} from '@fortawesome/free-solid-svg-icons'
+/*  */
 
 import { faCircleQuestion,faComments,faCirclePlay } from '@fortawesome/free-regular-svg-icons'
 
@@ -69,7 +70,9 @@ library.add(faUserSecret,
   faCopy,
   faFileCircleXmark,
   faFileInvoice,
-  faFileLines)
+  faFileLines,
+  faRightFromBracket,
+  faBars)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)
