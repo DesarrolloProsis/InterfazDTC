@@ -14,7 +14,8 @@ import tooltip from 'vue-directive-tooltip';
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import specific icons */
-import { faUserSecret,
+import { 
+  faUserSecret,
   faScrewdriverWrench,
   faToolbox,
   faGears,
@@ -37,10 +38,17 @@ import { faUserSecret,
   faFileInvoice,
   faFileLines,
   faRightFromBracket,
-  faBars} from '@fortawesome/free-solid-svg-icons'
+  faBars
+} from '@fortawesome/free-solid-svg-icons'
 /*  */
 
-import { faCircleQuestion,faComments,faCirclePlay } from '@fortawesome/free-regular-svg-icons'
+import { 
+  faCircleQuestion,
+  faComments,
+  faCirclePlay,
+  faEyeSlash,
+  faEye
+} from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -72,7 +80,9 @@ library.add(faUserSecret,
   faFileInvoice,
   faFileLines,
   faRightFromBracket,
-  faBars)
+  faBars,
+  faEyeSlash,
+  faEye)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)
