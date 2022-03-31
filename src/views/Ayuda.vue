@@ -2,31 +2,31 @@
     <div>
         <div v-if="boolBotones" class="flex justify-center mt-30 mb-16">
             <div class="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 sm:mt-2 sm:mb-2">
-                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="rollUsuario != 10">
+                <div class="botonesCorrectivo bg-purple-100 border-0 border-l-8 border-purple-500 animacion sm:m-4 sm:p-3" v-if="rollUsuario != 10">
                     <button @click="ventana_comentario" class="text-center">
                         <!-- <img src="../assets/img/comentarios.png" height="200" width="200" class="m-10 sm:m-1"/> -->
-                        <font-awesome-icon icon="fa-regular fa-comments" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Comentarios</h1>
+                        <font-awesome-icon icon="fa-regular fa-comments" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Comentarios</h1>
                     </button>
                 </div>
-                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="rollUsuario == 10">
+                <div class="botonesCorrectivo bg-blue-100 border-0 border-l-8 border-blue-500 animacion sm:m-4 sm:p-3" v-if="rollUsuario == 10">
                     <router-link to="/Comentarios" class="text-center cursor-pointer">
                         <img src="../assets/img/listcommit.png" height="200" width="200" class="m-10 sm:m-1" />
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Lista de Comentaios</h1>              
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Lista de Comentaios</h1>              
                     </router-link>
                 </div>
-                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+                <div class="botonesCorrectivo bg-yellow-100 border-0 border-l-8 border-yellow-500 animacion sm:m-4 sm:p-3">
                     <button @click="mostrar_videos_lista" class="text-center">
                         <!-- <img src="../assets/img/videos.png" height="200" width="200" class="m-10 sm:m-1" /> -->
-                        <font-awesome-icon icon="fa-solid fa-video" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Videos</h1>              
+                        <font-awesome-icon icon="fa-solid fa-video" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Videos</h1>              
                     </button>
                 </div>
-                <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion ">
+                <div class="botonesCorrectivo bg-teal-100 border-0 border-l-8 border-teal-500  rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion ">
                     <button class="text-center cursor-pointer"  @click="manual_pdf">
                         <!-- <img src="../assets/img/guia.png" height="200" width="200" class="m-10 sm:m-1" /> -->
-                        <font-awesome-icon icon="fa-solid fa-file-circle-question" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Manual de Usuario</h1>
+                        <font-awesome-icon icon="fa-solid fa-file-circle-question" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Manual de Usuario</h1>
                     </button>
                 </div>   
             </div>

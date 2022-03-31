@@ -70,7 +70,8 @@
                         /////////////////////////////////////////////////////////////////-->
                     <div class="m-3 text-center">
                         <button @click.prevent="limpiar_filtros" class="botonTodos font-boton">
-                            <img src="../../assets/img/todos.png" class="mr-2" width="20" height="2"/>
+                            <!-- <img src="../../assets/img/todos.png" class="mr-2" width="20" height="2"/> -->
+                            <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                             <span>Todos</span>
                         </button>
                         <button @click.prevent="filtros_calendario()" class="botonIconBuscar font-boton hidden">
@@ -116,7 +117,7 @@
                                     <template slot="option" slot-scope="props">                                                
                                     <div class="option__desc">
                                         <span class="option__title inline-flex">
-                                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                        <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-5 h-4 mr-2"/>  
                                             {{ props.option.title }}
                                         </span>
                                     </div>
@@ -229,8 +230,8 @@ export default {
         },
         opticones_select_acciones(item){
             let options = [
-                { title: 'Bajar Calendario', img: '/img/download.ea0ec6db.png' },//0
-                { title: 'Bajar Cal. Escaneado', img: '/img/download.ea0ec6db.png' },//1
+                { title: 'Bajar Calendario', img: 'fa-solid fa-download' },//0
+                { title: 'Bajar Cal. Escaneado', img: 'fa-solid fa-download' },//1
             ]
             let array = []
             array.push(options[0])

@@ -55,6 +55,7 @@ import {
   faXmark,
   faRightLong,
   faArrowLeftLong,
+  faDownload,
 } from '@fortawesome/free-solid-svg-icons'
 /*  */
 
@@ -115,7 +116,8 @@ library.add(faUserSecret,
   faCircleXmark,
   faXmark,
   faRightLong,
-  faArrowLeftLong
+  faArrowLeftLong,
+  faDownload
   )
 
 /* add font awesome icon component */

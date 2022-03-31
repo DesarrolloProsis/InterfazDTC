@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
 @tailwind base;
+
 .multiselect__option--highlight{
     @apply bg-blue-300  
 }
@@ -84,7 +85,7 @@ select:focus {
     @apply bg-white;
 }
 .Home{
-    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl h-66;
+    @apply border-2 rounded-lg m-8 shadow-xl h-66;
 }
 .Home:hover{
     @apply bg-gray-400;
