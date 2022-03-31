@@ -6,8 +6,9 @@
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
                 <HeaderGenerico @filtrar-encargados="filtrar_encargados" @buscar-encargado="guardar_palabra_busqueda" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
-                <button @click="agregarUsuario()" class=" botonIconBuscar  justify-center mb-6 -mt-4">
-                    <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
+                <button @click="agregarUsuario()" class="botonIconBuscar  justify-center mb-6 -mt-4">
+                    <!-- <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> -->
+                    <font-awesome-icon icon="fa-solid fa-plus" class="text-blue-800 h-7 w-5 mr-2"/>
                     <span class="">Agregar Nuevo Encargado</span>
                 </button>
                 <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>
@@ -48,7 +49,7 @@
                                         </template>
                                         <template slot="option" slot-scope="props">                                                
                                             <div class="option__desc"><span class="option__title inline-flex">
-                                                <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                 {{ props.option.title }}</span>
                                             </div>
                                         </template>
@@ -325,8 +326,8 @@ export default {
         },
         opticones_select_acciones(){
             let options= [
-                { title: 'Borrar', img: '/img/borrar.16664eed.png' },//0
-                { title: 'Editar', img: '/img/pencil.04ec78bc.png' },//1
+                { title: 'Borrar', img: 'fa-solid fa-trash' },//0
+                { title: 'Editar', img: 'fa-solid fa-pen-to-square' },//1
             ]
             let filtroOpciones = []
             if(this.rollId == 4 || this.rollId == 7 || this.rollId == 10){

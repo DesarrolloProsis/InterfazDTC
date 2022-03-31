@@ -11,7 +11,8 @@
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser">Mi Perfil</h1>
         <div v-if="typeUser"><HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico></div>  
         <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
-          <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
+          <!-- <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> -->
+          <font-awesome-icon icon="fa-solid fa-plus" class="text-blue-800 h-7 w-5 mr-2"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
         <!--///////////////////////////////////////////////////////////////////
@@ -59,7 +60,7 @@
                     </template>
                     <template slot="option" slot-scope="props">                                                
                       <div class="option__desc "><span class="option__title inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                        <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>   
                         {{ props.option.title }}</span>
                       </div>
                     </template>
@@ -93,11 +94,13 @@
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
             <div class="col-span-2 grid-cols-2 mx-auto my-auto">
               <button class="botonIconSave m-1" :disabled="modalLoading" @click="save_editado(item)" :class="{'deshabilitado':modalLoading}">
-                <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                <!-- <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25"> -->
+                <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 mr-2 h-8 w-6"/>
                 <span>Guardar</span>
               </button>
               <button class="botonIconBorrarCard m-1" :disabled="modalLoading" @click="cancelar_guardado" :class="{'deshabilitado':modalLoading}">
-                <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                <!-- <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25"> -->
+                <font-awesome-icon icon="fa-solid fa-trash" class="text-red-600 mr-2 h-8 w-6"/>
                 <span>Cancelar</span>
               </button>
             </div>
@@ -109,7 +112,7 @@
             </div>
             <div></div>
           </div>
-          
+
         </div>        
       </div>
       <!--/////////////////////////////////////////////////////////////////////
@@ -134,11 +137,13 @@
             <div class="mx-auto my-6 -mb-8">
               <div class="mx-20 grid grid-cols-2">
                 <button class="botonIconSave m-1"  :disabled="modalLoading" @click="cambiar_pass" :class="{'deshabilitado':modalLoading}">
-                  <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                  <!-- <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25"> -->
+                  <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 mr-2 h-8 w-6"/>
                   <span>Guardar</span>
                 </button>
                 <button class="botonIconBorrarCard m-1 grid grid-cols-2" :disabled="modalLoading" @click="modal_password=false, datos.password = '',User.RePassword = '', User.Password = ''" :class="{'deshabilitado':modalLoading}">
-                  <img src="../assets/img/borrar.png" class=" sm:mr-1 sm:ml-1" width="25" height="25">
+                  <!-- <img src="../assets/img/borrar.png" class=" sm:mr-1 sm:ml-1" width="25" height="25"> -->
+                  <font-awesome-icon icon="fa-solid fa-trash" class="text-red-600 mr-2 h-8 w-6"/>
                   <span class="-ml-2">Cancelar</span>
                 </button>
               </div>
@@ -280,7 +285,8 @@
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex -mr-10 -mt-6">
             <button @click="limpiar_usuario">
-              <img src="@/assets/img/close.png" class="mr-2" width="25" height="25" />
+              <!-- <img src="@/assets/img/close.png" class="mr-2" width="25" height="25" /> -->
+              <font-awesome-icon icon="fa-solid fa-xmark" class="text-blue-800 h-6 w-6 mr-4"/>
             </button>
           </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -305,7 +311,8 @@
             </div>
             <div class="mt-8 flex justify-center">
               <button @click="modal_Part = true" class="botonIconNext font-boton">
-                <img src="@/assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
+                <!-- <img src="@/assets/img/rehacer.png" class="mr-2" width="25" height="25"/> -->
+                <font-awesome-icon icon="fa-solid fa-right-long" class="text-blue-800 h-5 w-5 mr-2"/>
                 <span class="text-xs">Siguiente</span>
               </button>
             </div>
@@ -337,14 +344,16 @@
             <div class="grid grid-cols-2">  
               <div class="flex justify-center mt-5 mr-10">
                 <button @click="modal_Part = false" class="mt-4 botonIconNext font-boton">
-                  <img src="@/assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
-                  <span class="text-xs mr-4">Regresar</span>
+                  <!-- <img src="@/assets/img/deshacer.png" class="mr-4" width="25" height="25"/> -->
+                  <font-awesome-icon icon="fa-solid fa-arrow-left-long" class="text-blue-800 h-5 mr-4"/>
+                  <span class="text-xs">Regresar</span>
                 </button>
               </div>
               <div class="flex justify-center mt-5 ml-10">
                 <button @click="confirmar" class=" mt-4 botonIconBuscar font-boton">
-                  <img src="@/assets/img/save.png" class="mr-5" width="25" height="25"/>
-                  <span class="text-xs mr-5">Guardar</span>
+                  <!-- <img src="@/assets/img/save.png" class="mr-5" width="25" height="25"/> -->
+                  <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 h-5 mr-4"/>
+                  <span class="text-xs">Guardar</span>
                 </button>
               </div>
             </div> 
@@ -853,11 +862,11 @@ export default {
     },
     opticones_select_acciones(item){
       const options= [                
-        { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //0
-        { title: 'Deshabilitar', img: '/img/close.162602bc.png' },//1
-        { title: 'Habilitar', img: '/img/comprobado.da188ccb.png' },//2
-        { title: 'Agregar Plaza', img: '/img/more.b0fdb1af.png' },//3
-        { title: 'Eliminar Plaza', img: '/img/menos.9f2bee4b.png' },//4
+        { title: 'Editar', img: 'fa-solid fa-pen-to-square' }, //0
+        { title: 'Deshabilitar', img: 'fa-solid fa-user-lock' },//1
+        { title: 'Habilitar', img: 'fa-solid fa-user-check' },//2
+        { title: 'Agregar Plaza', img: 'fa-solid fa-square-plus' },//3
+        { title: 'Eliminar Plaza', img: 'fa-solid fa-square-minus' },//4
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])

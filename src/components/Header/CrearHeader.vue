@@ -53,7 +53,8 @@
           <div class="sm:flex-col pr-2 inline-block font-titulo">
             <div class="sm:hidden md:hidden lg:mt-1 lg:ml-26 w-6 absolute ml-30 my-1">
                 <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipintervencion" class="font-titulo">
@@ -68,7 +69,8 @@
             <template v-if="$route.params.tipoFalla == 3">
               <div class="sm:hidden md:hidden lg:ml-28 w-6 absolute ml-21 my-2">
                 <span class="" v-tooltip.right =" { ref:'tooltipoficio', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipoficio" class="font-titulo">
@@ -90,7 +92,8 @@
             <!-- <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }"> -->
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
                 <span class="" v-tooltip.right =" { ref:'tooltiptipodescripcion', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltiptipodescripcion" class="font-titulo">
@@ -117,7 +120,8 @@
             <div class="pr-2 font-titulo">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-33 w-6 absolute ml-33">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechasiniestro', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipfechasiniestro" class="font-titulo">
@@ -133,7 +137,8 @@
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-32 w-6 absolute ml-32">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechaenvio', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipfechaenvio" class="font-titulo">
@@ -156,7 +161,8 @@
             <div class="pr-2 font-titulo">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
                 <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipfoliofalla" class="font-titulo">
@@ -183,7 +189,8 @@
             <div class="pr-2 font-titulo">
               <div class="sm:hidden md:hidden lg:mt-1 lg:ml-30 w-6 absolute ml-30">
                 <span class="" v-tooltip.right =" { ref:'tooltipfechafalla', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipfechafalla" class="font-titulo">
@@ -210,7 +217,8 @@
           <div class="text-sm -mt-32 sm:-mt-1" :class="{'hidden': boolCambiarPlaza == true}">
             <div class="sm:hidden md:hidden lg:hidden w-6 absolute ml-60 mt-1">
                 <span class="" v-tooltip.bottom =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipcambiodeplaza" class="font-titulo">

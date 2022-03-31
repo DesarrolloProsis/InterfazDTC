@@ -44,7 +44,8 @@
             <div>
               <div class="sm:hidden md:hidden  lg:ml-34 w-6 absolute ml-55 ">
                 <span class="" v-tooltip.top =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                    <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
                 <div ref="tooltipcambiodeplaza" class="font-titulo">

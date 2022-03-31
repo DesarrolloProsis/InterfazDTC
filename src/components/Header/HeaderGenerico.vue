@@ -168,7 +168,8 @@
                 <span>Buscar</span>
             </button>
             <button class="botonTodos font-boton mb-3 sm:h-8" @click="limpiar_encargados">
-                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" />
+                <!-- <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" /> -->
+                <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                 <span>Todos</span>
             </button>
         </div> 
@@ -326,7 +327,8 @@
                         </button>
 
                         <button @click="filtrar_por_boton" class="w-32 botonBuscar font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == true}">
-                            <img src="../../assets/img/searchinicios.png" class="mr-2" width="25" height="2"/>
+                            <!-- <img src="../../assets/img/searchinicios.png" class="mr-2" width="25" height="2"/> -->
+                            <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="text-blue-600 mr-2 h-5"/>
                             <span>Buscar</span>
                         </button>
                     </div>

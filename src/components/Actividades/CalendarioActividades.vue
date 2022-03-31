@@ -103,7 +103,7 @@
       :numeroActividades="numeroActividades"
       :plazaSelect="plazaSelect">
       </HeaderCalendario>            
-      <div class="pl-1 pr-1 mt-10 mb-32 font-titulo sm:mb-20" :class="{' pointer-events-none': modal,' scroll': modalAgreagrActividad}">              
+      <div class="pl-1 pr-1 mt-10 mb-32 font-titulo sm:mb-20 " :class="{' pointer-events-none': modal,' scroll': modalAgreagrActividad}">              
         <vue-cal 
           ref="vuecal"          
           :time="false"
@@ -119,15 +119,14 @@
           :on-event-click="modal_actividades_dia"
           >
             <template v-slot:title="{ view }">
-              🎉
               <span v-if="view.id === 'years'">Years</span>            
               <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>    
               <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
-              🎉
+              <font-awesome-icon icon="fa-solid fa-calendar-day" class="text-blue-800 ml-4"/>
             </template>
             <template v-slot:day>Nothing here 👌</template>                         
         </vue-cal>
-        <span class="text-gray-700 font-titulo sm:text-xs">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>      
+        <span class="text-gray-700 font-titulo font-bold sm:text-xs">*El horario del mantenimiento esta comtemplado de las 9:00 a las 19:00 hrs de cada dia.</span>      
       </div>      
     </div>
   </div>

@@ -35,7 +35,8 @@
                 
                 <div class="absolute ml-57 -mt-8 sm:hidden md:hidden lg:-mt-8 lg:ml-49 w-6 hidden">
                     <span class="" v-tooltip.top =" { ref:'tooltipobservacion', class: 'tooltip-custom tooltip-other-custom'}">
-                        <img src="@/assets/img/pregunta.png" class="flex items-center -mt-4 w-5 h-5 "/>
+                        <!-- <img src="@/assets/img/pregunta.png" class="flex items-center -mt-4 w-5 h-5 "/> -->
+                        <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                     </span>
 
                     <div ref="tooltipobservacion" class="font-titulo">

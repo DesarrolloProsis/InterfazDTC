@@ -38,7 +38,23 @@ import {
   faFileInvoice,
   faFileLines,
   faRightFromBracket,
-  faBars
+  faBars,
+  faCircleInfo,
+  faCalendarDay,
+  faRepeat,
+  faPlus,
+  faFloppyDisk,
+  faTrash,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faUserLock,
+  faSquarePlus,
+  faSquareMinus,
+  faUserCheck,
+  faCircleXmark,
+  faXmark,
+  faRightLong,
+  faArrowLeftLong,
 } from '@fortawesome/free-solid-svg-icons'
 /*  */
 
@@ -47,7 +63,8 @@ import {
   faComments,
   faCirclePlay,
   faEyeSlash,
-  faEye
+  faEye,
+
 } from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
@@ -82,7 +99,24 @@ library.add(faUserSecret,
   faRightFromBracket,
   faBars,
   faEyeSlash,
-  faEye)
+  faEye,
+  faCircleInfo,
+  faCalendarDay,
+  faRepeat,
+  faPlus,
+  faFloppyDisk,
+  faTrash,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faUserLock,
+  faSquarePlus,
+  faSquareMinus,
+  faUserCheck,
+  faCircleXmark,
+  faXmark,
+  faRightLong,
+  faArrowLeftLong
+  )
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)

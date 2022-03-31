@@ -82,7 +82,8 @@
                     <!-- Botón -->
                     <div class="mx-auto my-auto flex mt-3 ">
                         <button @click="limpiar_filtros" class="botonTodos sm:-ml-33 sm:w-32 sm:h-8 md:h-8 md:mb-4 md:-ml-51" :class="{'ml-10 sm:ml-2 sm:w-32 sm:h-8':tipoUsuario == 2 || tipoUsuario == 5}">
-                            <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-1" width="25" height="2"/>
+                            <!-- <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-1" width="25" height="2"/> -->
+                            <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                             <span class="md:mr-2 sm:text-sm">Todos</span>
                         </button>
                     </div>
