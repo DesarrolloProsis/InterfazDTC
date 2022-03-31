@@ -341,14 +341,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     })
       this.nombrecarriles = result;
       console.log(this.nombrecarriles);
-     }, 
-     onagregarnombrescomponentes(data) {
+    }, 
+    onagregarnombrescomponentes(data) {
       let result = data.filter((item,index)=>{
       return data.indexOf(item) === index;
       })
       this.nombrecomponentes = result;
-     },
-     agregarcomponenteseditados(data){
+    },
+    agregarcomponenteseditados(data){
        this.componentesfinaleseditados = data;
        console.log(this.componentesfinaleseditados);
      },
@@ -395,12 +395,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       }catch(error){
         console.error(error)
       }
-     },
-     vervalordelselect(){
+    },
+    vervalordelselect(){
        console.log(this.testigo1)
        console.log(this.testigo2)
-     },
-     filtrarcomponentes(componenteseditados,componentestotales){
+    },
+    filtrarcomponentes(componenteseditados,componentestotales){
        console.log(componenteseditados);
        console.log(componentestotales);
         for (let i = 0; i < componentestotales.length; i++) {
@@ -422,11 +422,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
             }
           }
         }
-     },
-     bloquear_boton_anexo_img(value){
+    },
+    bloquear_boton_anexo_img(value){
         this.blockBotonModal = value
     },
     validacionanexo(){
+      console.log(this.componentesfinaleseditados);
       console.log(this.anexo.fechaApertura)
       let fechaapertura = new Date(this.anexo.fechaApertura);
       let horadecierre = new Date(this.time);
@@ -454,13 +455,13 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       }
       if(this.anexo.supervisorId == ""){
         this.errores.push("Tienes que seleccionar un supervisor de la plaza")
-       }
-       if (this.componentesfinaleseditados.length == 0) {
+      }
+      if (this.componentesfinaleseditados.length == 0) {
          let componentes = this.objetocomponentesanexosaeditar.map(componente => {
-           let c = {
+         let c = {
              RequestedComponentId: componente.componentDTCId,
              SerialNumber: componente.numeroSerie
-           }
+            }
            return c
          })
          this.componentesfinaleseditados = componentes;

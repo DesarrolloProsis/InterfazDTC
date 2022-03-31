@@ -21,7 +21,8 @@
     </nav>
     <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 ">      
       <transition name="fade">
-        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto  flex font-titulo">     
+        <div v-if="navbarOpen" class="fixed inset-0 w-full h-screen fondomodal mt-15 ">
+        <div class="absolute top-0 mt-1 right-0 w-auto flex font-titulo">     
           <div class="bg-white xl:border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:-mr-2 sm:w-67" :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg': rollUsuario == 7}">                  
             <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1 ">
               <p class="font-semibold text-gray-900 ml-4 ">{{ item.texto }}</p>              
@@ -40,10 +41,10 @@
                   </button>
                 </div>              
             </div>
-            <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 md:hidden lg:hidden xl:hidden sm:text-sm sm:my-auto">
+            <button @click="$router.push('/')" class="hidden sm:inline-flex border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 sm:text-sm sm:my-auto">
               <!-- <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" > -->
               <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="text-red-700 w-8 h-8 ml-2 mt-1"/>
-              <div  class="ml-4 text-left ">
+              <div  class="ml-4 text-left">
                 <p class=" sm:mt-3">Cerrar Sesion</p>                                
               </div>  
             </button>   
@@ -80,6 +81,7 @@
               </div>
             </div>                  
           </div>
+        </div>
         </div>
       </transition >      
     </div>
@@ -169,6 +171,9 @@ export default {
 };
 </script>
 <style >
+.fondomodal{
+    background: rgba(0, 0, 0, 0.5);
+}
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s
 }

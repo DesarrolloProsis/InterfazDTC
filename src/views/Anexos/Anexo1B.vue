@@ -217,7 +217,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         CheckCircleIcon,
         DownloadIcon
     },
-     data() {
+    //Declaracion de las variables a utilizar
+    data() {
     return {
       datosSinester: {
         ReferenceNumber: "",
@@ -278,12 +279,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       fechacierre: "",
     };
     },
+    //Creacion de la pagina antes de que el usuario pueda verla
     created(){
       this.SupervisorDtc()
       this.TestigosDtc()
       this.filtro_dtc()
     },
     methods: {
+    //Funcion para cargar las opciones del select de los testigos
       async filtro_dtc() {    
       let iddtc = this.$route.params.referencenumber;
       console.log(iddtc);
@@ -307,6 +310,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       } 
       
     },
+    //Funcion para cargar las opciones del select de los testigos
     async TestigosDtc(){
       try {
         const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
@@ -322,6 +326,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         console.log(error);
       }
     },
+    //Funcion para cargar las opciones del supervisor del dtc
     async SupervisorDtc(){
       try {
         const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
@@ -334,29 +339,36 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         console.log(error);
       }
     },
+    //Funcion que nos regresa los carriles en los que se encuentra un componente
     onagregarcomponentes(data) {
     let result = data.filter((item,index)=>{
       return data.indexOf(item) === index;
     })
       this.nombrecarriles = result;
       console.log(this.nombrecarriles);
-     },
+    },
+    //Funcion que nos retorna el nombre de los componentes
     onagregarnombrescomponentes(data) {
       let result = data.filter((item,index)=>{
       return data.indexOf(item) === index;
       })
       this.nombrecomponentes = result;
     },
+    //Funcion que nos proporciona el arreglo para enviar en el end point final del anexo a insertar
     agregarcomponenteseditados(data){
       this.componentesfinaleseditados = data;
       console.log(this.componentesfinaleseditados);
     },
+    //Funcion para insertar anexo
     async insertaranexo(){
+      //Abrir el modal de insertar anexo
       this.modalImage = true
+      //Damos formato a las fechas para poder crear el objeto de los anexos
       const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       const formateadorfechasolicitud = moment(this.solicitudfechainicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       const fomateadorfechaoficio = moment(this.fechaoficioinicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      //Creamos el nuevo objeto del anexo
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
           "AnexoReference": "",
@@ -375,6 +387,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        console.log(Anexo);
       try
       {
+        //Hacemos la peticion para insertar un anexo
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         .then((response) => {
           this.modalImage = false;
@@ -382,8 +395,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           console.log(response.data.result);
           let refenciaanexo = response.data.result;
           let subversion = false;
+          //Una vez generada la referencia del anexo generamos los dos documentos
           ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo,subversion);
           ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo);
+          //Tiempo para regresar a la pagina de inicio y en caso de que no exista  el scroll quitar la la clase para que aparezca
           setTimeout(() => {
             this.$router.push('/home');
             document.querySelector('body').classList.remove('overflow-hidden'); 
@@ -399,13 +414,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       }
      },
      vervalordelselect(){
-       
        console.log(this.testigo1)
        console.log(this.testigo2)
-       
      },
+    //Funcion para validar la informacion del anexo
      validacionanexo(){
       console.log(this.fechaapertura)
+      //Validacion de las fechas de apertura y hora de cierre
+      //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
+      //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
       if(this.fechaapertura != "" && this.time != ""){
         let fechaapertura = new Date(this.fechaapertura);
         let horadecierre = new Date(this.time);
@@ -435,41 +452,51 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.fechasolicitudformateada = formatted_date_solicitud;
         this.fechaoficioformateada = formatted_date_oficio;
       }else{
+        //En caso de que esten vacios los datos entonces agregamos los errores en el modal para que el usuario vea lo que esta haciendo mal
         this.errores.push("La fecha de apertura esta vacia")
         this.errores.push("La hora de cierre esta vacia")
       }
+      //Validacion por si falta el primer testigo
       if(this.testigo1 == ""){
         this.errores.push("Debes seleccionar el primer testigo")
         this.vtestigo1 = true
       }
+      //Validacion por si falta el segundo testigo
       if(this.testigo2 == ""){
         this.errores.push("Debes seleccionar el segundo testigo")
         this.vtestigo2 = true
       }
+      //Validacion por si los testigos son los mismos
       if(this.testigo1 == this.testigo2){
         this.errores.push("Los Testigos no pueden ser los mismos")
         this.vtestigo1 = true
         this.vtestigo2 = true
       }
+      //Validacion de que no se a seleccionado ningun supervisor
       if(this.selectsupervisor == ""){
         this.errores.push("Tienes que seleccionar un supervisor de la plaza")
         this.vsuperior = true
        }
+       //Validaciones para saber si los componentes fueron agregados o editados
        if (this.componentesfinaleseditados.length == 0) {
          this.errores.push("Tienes que seleccionar por lo menos 1 componente")
        }
        if (this.componentesfinaleseditados.length == 0) {
          this.errores.push("Edita el numero de serie faltante del componente")
         }
+      //Validacion para que la solicitud sea diferente a vacio
        if(this.solciitud == ""){
          this.errores.push("Debes ingresar el numero de solicitud del anexo")
        }
+       //Validacion para que el oficio sea diferente a vacio
        if(this.foliooficio == ""){
          this.errores.push("Debes ingresar el folio del anexo")
        }
+       //Validacion para que la fecha de solicitud sea diferente a vacio
        if(this.solicitudfechainicio == ""){
          this.errores.push("Debes ingresar la fecha de la solicitud del anexo")
        }
+       //Validacion para que la fecha de oficio sea diferente a vacio
        if(this.fechaoficioinicio == ""){
          this.errores.push("Debes ingresar la fecha del folio del anexo")
        }
@@ -479,10 +506,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.modalconfirmacionanexo = true;
        }
      },
+     //Funcion para el boton cancelar en el modal de validaciones
      limpiarvalidacion(){
        this.errores = [];
        this.modalvalidacionanexo = false;
      },
+     //Funcione para el cambio de las validaciones y cambie el estilo css de los select
      cambiarvalort1(){
        if(this.vtestigo1){
          this.vtestigo1 = false;
@@ -498,10 +527,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.vsuperior = false;
        }
      },
+    //Funcion para el boton de aceptar
      pasarinsertaranexo(){
        this.modalconfirmacionanexo=false;
        this.modalImage = true;
      },
+    //Funcion para el boton del modal de descarga de los anexos
      saliranexos(){
      this.modaldescarga = false;
      this.modalconfirmacionanexo=false;
@@ -510,6 +541,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      this.$router.push('/home');
      document.querySelector('body').classList.remove('overflow-hidden');  
      },
+     //Funcion para bloquear el boton de los anexos
      bloquear_boton_anexo_img(value){
         this.blockBotonModal = value
     },
