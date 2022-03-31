@@ -21,6 +21,14 @@
             </tr>
           </thead>
           <tbody>
+            <template v-if="lista_DTC_Filtrada.length == 0"> 
+                                <tr>
+                                    <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
+                                        <div class="mt-8 mb-8">Sin Informacion</div>
+                                    </td>
+                                </tr>  
+            </template> 
+            <template v-if="lista_DTC_Filtrada.length > 0">
             <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" :class="{'hidden': dtc.typeFaultId == 0}">
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.referenceNumber}}</td>
               <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden">{{dtc.userName}}</td>
@@ -46,6 +54,7 @@
                   </multiselect>
                 </td>
             </tr>
+            </template>
           </tbody>
         </table>
         </div>   
@@ -179,8 +188,22 @@ export default {
       this.filtroVista = undefined
       this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
       this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
-      this.lista_DTC_Filtrada = this.infoDTC
-      console.log(this.lista_DTC_Filtrada)
+      let infousuario = this.$store.state.Login.cookiesUser
+      if(this.tipoUsuario == 4){
+        this.lista_DTC_Filtrada = this.infoDTC
+        console.log(this.lista_DTC_Filtrada)
+      }else {
+        let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
+          if(dtc.userId == infousuario.userId){
+            return dtc
+          }
+        })
+        this.lista_DTC_Filtrada = dtcfiltradoporusuario;
+        console.log(this.lista_DTC_Filtrada);
+        if(this.lista_DTC_Filtrada[0] == undefined){
+          this.lista_DTC_Filtrada = []
+        }
+      }
     },
     /////////////////////////////////////////////////////////////////////
     ////                           METODOS                           ////
