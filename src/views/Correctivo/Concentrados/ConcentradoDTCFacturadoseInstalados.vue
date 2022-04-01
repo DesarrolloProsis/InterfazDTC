@@ -189,7 +189,7 @@ export default {
       this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
       this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
       let infousuario = this.$store.state.Login.cookiesUser
-      if(this.tipoUsuario == 4){
+      if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
         this.lista_DTC_Filtrada = this.infoDTC
         console.log(this.lista_DTC_Filtrada)
       }else {
@@ -200,9 +200,9 @@ export default {
         })
         this.lista_DTC_Filtrada = dtcfiltradoporusuario;
         console.log(this.lista_DTC_Filtrada);
-        if(this.lista_DTC_Filtrada[0] == undefined){
-          this.lista_DTC_Filtrada = []
-        }
+        // if(this.lista_DTC_Filtrada[0] == undefined){
+        //   this.lista_DTC_Filtrada = []
+        // }
       }
     },
     /////////////////////////////////////////////////////////////////////

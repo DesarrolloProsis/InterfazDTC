@@ -30,7 +30,7 @@
           <div class="Home animacion  bg-yellow-100 border-0 border-l-8 border-yellow-500 sm:-mt-8 sm:m-4 sm:p-3 sm:mb-10 sm:botonesCorrectivo sm:h-56" v-if="typeUser != 7">
             <router-link to="/Ayuda" class="text-center cursor-pointer">
               <!-- <img src="../assets/img/ayuda.png" height="200" width="200" class="m-10 mt-6 mb-6 sm:m-1 sm:mt-4 sm:mb-4 md:mt-6 md:mb-6"/> -->
-              <font-awesome-icon icon="fa-regular fa-circle-question" class="text-blue-800 w-37 h-37 mx-20 mt-10" />
+              <font-awesome-icon icon="fa-regular fa-circle-question" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
               <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Ayuda</h1>
             </router-link>
           </div> 
