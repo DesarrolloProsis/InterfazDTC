@@ -1,19 +1,19 @@
 <template>
-  <div class="container-login100 sm:mt-1 sm:w-full">
-    <div class="wrap-login100">
+<div class="fondo h-screen w-screen flex items-center">
+  <div class="mx-auto sm:mt-1 sm:w-full">
+    <div class="max-w-md bg-white shadow-lg rounded-lg p-8">
         <!-- //////////////////////////////////////////////////////////////////
         ////                 FORMULARIO PRINCIPAL                         ////
         ///////////////////////////////////////////////////////////////////// -->        
       <div :class="{ 'blur-content': modal }" class="sm:ml-2">
-        <div class="">
-          <p class="text-center text-black font-titulo font-medium text-3xl ml-3 sm:text-2xl">Bitacora de Mantenimiento</p>
-          <div class="flex">
-            <img src="../assets/img/logoProsis.png" class="w-25 h-45 mx-auto mb-8" />
+        <div class="flex flex-col gap-5">
+          <div>
+            <p class="text-center text-black font-titulo font-bold text-3xl ml-3 sm:text-2xl">Bitacora de Mantenimiento</p>
           </div>
-        </div>
-        
-        <div class="bg-blue-100  -mt-32 h-60 rounded-lg">
-          <div class="absolute mt-30 ml-10 w-60 sm:w-64 ">
+          <div>
+            <img src="../assets/img/logoProsis.png" class="w-20 h-25 mx-auto mb-8" />
+          </div>
+          <div class="mx-auto w-60 sm:w-64 ">
             <ValidationObserver  v-slot="{ invalid  }">                       
           <div class="">          
             <div class="mb-5">
@@ -30,27 +30,27 @@
               <ValidationProvider name="Contraseña" rules="required" v-slot="{ errors }">
                 <div class="w-full inline-flex relative sm:-mx-7">              
                     <input v-model="datos.password"  @keyup.enter="iniciar_sesion()" 
-                      class="w-full h-8 font-titulo font-normal" 
+                      class="w-full h-8 font-titulo font-normal mb-2" 
                       :class="{ is_valid: !errors[0], is_invalid: errors[0] }" 
                       :type="tipoInput" placeholder="Contraseña" name="Contraseña" 
                     />
                     <span @click="tipoInput == 'password' ? tipoInput = 'text' : tipoInput = 'password'" class="absolute right-0 mt-2 mr-2 cursor-pointer">
                       <!-- <img v-if="tipoInput == 'password'" src="../assets/img/visibility.png" class="w-5" />
                       <img v-else src="../assets/img/notvisibility.png" class="w-5" /> -->
-                      <font-awesome-icon v-if="tipoInput == 'password'" icon="fa-regular fa-eye" class="text-gray-600 w-5" />
-                      <font-awesome-icon v-else icon="fa-regular fa-eye-slash" class="text-gray-600 w-5"/>
+                      <font-awesome-icon v-if="tipoInput == 'password'" icon="fa-regular fa-eye" class="text-gray-600 w-5 h-5" />
+                      <font-awesome-icon v-else icon="fa-regular fa-eye-slash" class="text-gray-600 w-5 h-5"/>
                     </span>                             
                 </div>
                 <span class="text-red-600 text-xs">{{ errors[0] }}</span> 
               </ValidationProvider>            
             </div>          
           </div>
-          <div class="container-login100-form-btn mb-10 sm:-mx-7">
+          <div class="container-login100-form-btn mb-4 sm:-mx-7">
             <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn font-titulo outline-none" :disabled="invalid">Iniciar Sesión</button>
           </div>        
         </ValidationObserver>
           </div>
-        </div>
+       </div>
         
       </div>
     </div>
@@ -83,6 +83,7 @@
       <button @click="modal = false" class="text-white px-4 py-2 rounded-full bg-red-800">Cancelar</button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -177,9 +178,8 @@ export default {
   padding: 15px;
   background: #fff;
 }
-.wrap-login100 {
-  width: 390px;
-  background: #fff;
+.fondo {
+  background-image: linear-gradient(to bottom, #4299E1 , #2C5282);
 }
 .login100-form {
   width: 100%;

@@ -8,7 +8,7 @@
                 <div id="nombreRollShow" v-if="$route.name == 'login'">
                     <p id="testNombreRoll" class="text-xs sm:mt-1 text-blue-400 w-32">Desarrollo</p>
                 </div>
-                <div class="w-full ml-16 sm:-ml-16 text-center">
+                <div class="w-full -ml-18 sm:-ml-16 text-center">
                     <p class="text-sm text-white font-titulo sm:text-xs" :class="{'sm:ml-8':$route.name == 'login'}">
                         © 2021 Proyectos y Sistemas Informaticos.
                     </p>
@@ -35,7 +35,7 @@
                     </div>                    
                 </div>
                 <div>
-                    <p class="sm:text-xs ml-5 text-sm sm:mt-1 font-titulo font-light text-blue-400">V3.0</p>
+                    <p class="sm:text-xs ml-10 text-sm sm:mt-1 font-titulo font-light text-blue-400">V3.0</p>
                 </div>
             </div>                                
         </div>        
