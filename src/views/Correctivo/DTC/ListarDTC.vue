@@ -611,10 +611,10 @@ methods: {
       this.ocultarMultiPadre = true
   },
   editar_header_dtc: async function(refNum){  
+    console.log(refNum);
     this.ocultarMultiPadre = true       
-    if(typeof refNum === 'boolean'){         
-      if(this.dtcEdit.sinisterNumber.trim().length == this.dtcEdit.sinisterNumber.length){
-        console.log('if trim');
+    if(typeof refNum === 'boolean'){ 
+      if(this.dtcEdit.sinisterNumber == null){
         let isValid = await this.$refs.observer.validate(); 
         if(isValid){ 
           console.log('valid');
@@ -676,12 +676,80 @@ methods: {
           this.error = true
           console.log(this.error);
         }
-      }else{
-        console.log('else trim');
-        this.modalEdit = false
-        this.error = true
+      }
+      else{
+        if(this.dtcEdit.sinisterNumber.trim().length == this.dtcEdit.sinisterNumber.length){
+        console.log('if trim');
+        console.log(this.dtcEdit);
+        let isValid = await this.$refs.observer.validate(); 
+        if(isValid){ 
+          console.log('valid');
+          this.modalEdit = false
+          this.modalLoading = true         
+          let objEdit = {
+            referenceNumber: this.dtcEdit.referenceNumber,
+            numSiniestro: this.dtcEdit.sinisterNumber,
+            numReporte: this.dtcEdit.reportNumber,
+            folioFalla: this.dtcEdit.failureNumber,
+            tipoDescripcion: this.dtcEdit.typeDescriptionId,
+            observaciones: this.dtcEdit.observation,
+            diagnostico: this.dtcEdit.diagnosis,
+          }   
+          let values = Object.values(objEdit)          
+          for(let item of values){
+            if(item === null){
+              item = ''
+            }
+          }                                 
+          let editar_dtc_promise = new Promise((resolve , reject) => {
+            this.$http.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit)
+              .then(async () =>{                                                             
+                this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+                let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+                this.modal = false  
+                this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)     
+                let adminId = await ServicePDfReporte.obtener_admin_id(objEdit.referenceNumber) 
+                this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
+                  .then(() => resolve('ok'))   
+                  .catch((error) => { reject(error) })                                     
+              })
+              .catch((error) => {                              
+                reject(error)
+                this.$notify.error({
+                  title: "ups!",
+                  msg: error,
+                  position: "bottom right",
+                  styles: { height: 100, width: 500 },
+                });
+              })  
+          })
+          setTimeout(() => {
+            editar_dtc_promise.then(() => {                                     
+              this.limpiar_filtros()
+              this.modalLoading = false
+              this.$notify.success({
+                title: "Ok!",
+                msg: `SE ACTUALIZÓ EL DTC ${objEdit.referenceNumber}.`,
+                position: "bottom right",
+                styles: { height: 100, width: 500 },
+              });
+              ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
+            })              
+          }, 3000);   
+          }else{
+            console.log('invalid');
+            this.modalEdit = false
+            this.error = true
+            console.log(this.error);
+          }
+        }else{
+          console.log('else trim');
+          this.modalEdit = false
+          this.error = true
+        }
       }      
     }else{
+      console.log('else');
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
       this.modalEdit = true
       this.modal = true
