@@ -1,19 +1,22 @@
 <template>
-<div class="fondo h-screen w-screen flex items-center">
-  <div class="mx-auto sm:mt-1 sm:w-full">
-    <div class="max-w-md bg-white shadow-lg rounded-lg p-8">
+<div class="fondo h-screen w-screen">
+  <div class="mx-auto sm:mt-1 sm:w-full flex justify-center h-screen p-40">
+    <div class="w-2/3 relative border border-white max-w-4xl bg-white shadow-lg rounded-lg p-8 flex">
+    <div class="w-1/2 flex justify-center self-center">
+    <div class="flex flex-col">
+      <div>
+        <font-awesome-icon icon="fa-solid fa-truck" class="text-blue-800 w-48 h-48"/>
+      </div>
+      <div class="w-48 h-10 border-t-8 border-blue-800"></div>
+    </div>
+    </div>
         <!-- //////////////////////////////////////////////////////////////////
         ////                 FORMULARIO PRINCIPAL                         ////
         ///////////////////////////////////////////////////////////////////// -->        
-      <div :class="{ 'blur-content': modal }" class="sm:ml-2">
-        <div class="flex flex-col gap-5">
-          <div>
-            <p class="text-center text-black font-titulo font-bold text-3xl ml-3 sm:text-2xl">Bitacora de Mantenimiento</p>
-          </div>
-          <div>
-            <img src="../assets/img/logoProsis.png" class="w-20 h-25 mx-auto mb-8" />
-          </div>
-          <div class="mx-auto w-60 sm:w-64 ">
+      <div :class="{ 'blur-content': modal }" class="w-1/2 flex self-center sm:ml-2 ">
+        <div class="flex flex-col gap-5 h-full">
+          <div class="mx-auto w-70 sm:w-64">
+             <p class="text-center text-gray-600 font-titulo font-bold text-3xl  sm:text-2xl mb-6">Bitacora de Mantenimiento</p>
             <ValidationObserver  v-slot="{ invalid  }">                       
           <div class="">          
             <div class="mb-5">
@@ -46,14 +49,16 @@
             </div>          
           </div>
           <div class="container-login100-form-btn mb-4 sm:-mx-7">
-            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="login100-form-btn font-titulo outline-none" :disabled="invalid">Iniciar Sesión</button>
+            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="w-full bg-transparent hover:bg-blue-800 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-800 hover:border-transparent rounded font-titulo outline-none" :disabled="invalid">Iniciar Sesión</button>
           </div>        
         </ValidationObserver>
           </div>
+          <div class="text-center text-blue-800 font-titulo w-full font-bold">V 3.0.0</div>
        </div>
         
       </div>
     </div>
+    
     <!-- //////////////////////////////////////////////////////////////////
     ////                  MODAL INGRESAR POR OTRO                     ////
     ///////////////////////////////////////////////////////////////////// -->

@@ -289,7 +289,7 @@ export default {
           this.selectMultiModal = '';
         }
       }else if(this.selectMultiModal.title == 'Descargar Anexo'){
-        let subversion = true;
+        let subversion = false;
          if (anxg.tipoAnexo === "A") {
            ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
            ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
