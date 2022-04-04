@@ -47,7 +47,6 @@ export default {
     created(){
         const fecha = new Date();
         this.año = fecha.getFullYear();
-        console.log(this.año); //2020
     },
     computed:{
         nombreRoll(){
