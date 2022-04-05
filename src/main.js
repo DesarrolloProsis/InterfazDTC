@@ -57,7 +57,11 @@ import {
   faArrowLeftLong,
   faDownload,
   faTruck,
-  faGripLines
+  faGripLines,
+  faTruckMonster,
+  faRoad,
+  faCarTunnel,
+  faAddressBook
 } from '@fortawesome/free-solid-svg-icons'
 /*  */
 
@@ -121,7 +125,11 @@ library.add(faUserSecret,
   faArrowLeftLong,
   faDownload,
   faTruck,
-  faGripLines
+  faGripLines,
+  faTruckMonster,
+  faRoad,
+  faCarTunnel,
+  faAddressBook
   )
 
 /* add font awesome icon component */
