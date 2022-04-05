@@ -437,7 +437,7 @@ export default {
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
         this.loadingTabla = false
-      },100)    
+      },1000)    
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
     }
@@ -695,7 +695,11 @@ export default {
       this.User.RePassword = "***********";
       this.modal = true;
     },
+    prueba: function (){
+      console.log('prubeas');
+    },
     confirmar: function () {
+      console.log('CONFIRMAR');
       if (this.User.Password == this.User.RePassword) {      
         if (this.User.Password == "") {
           this.$notify.error({
@@ -719,8 +723,32 @@ export default {
             Rol: this.User.Roll,
             UserChange: this.$store.state.Login.cookiesUser.userId,
           };
-          this.$store.dispatch("Usuarios/Update_User", UpUser);                    
-          let _UpUser = {
+          /* this.$store.dispatch("Usuarios/Update_User", UpUser); */
+          this.$http.put(`${API}/User/update`,UpUser)
+            .then((response) => {
+              console.log(response);
+              if(response.status == 200){                                                    
+                this.$notify.success({
+                  title: "Ops!!",
+                  msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+                this.refrescar_usuarios()  
+                this.modal = false;
+              }
+            })
+            let _UpUser = {
+              IdUser: this.User.UserId,
+              Password: this.User.Password,
+            };          
+            if(_UpUser.Password != "***********"){              
+                this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
+            } 
+          /*let _UpUser = {
             IdUser: this.User.UserId,
             Password: this.User.Password,
           };          
@@ -736,8 +764,9 @@ export default {
               width: 500,
             },
           });
+          location.reload();
           this.refrescar_usuarios()  
-          this.modal = false;
+          this.modal = false;*/
         }
         this.limpiar_usuario();      
       } 
