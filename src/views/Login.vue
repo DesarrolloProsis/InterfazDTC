@@ -1,5 +1,5 @@
 <template>
-<div class="bg-gradient-to-b from-blue-500 to-blue-800 h-screen w-screen">
+<div class="bg-gradient-to-b from-blue-500 to-blue-800 h-screen w-screen flex items-center">
   <div class="mx-auto flex justify-center max-h-screen p-10 w-full md:p-12 lg:p-10 xl:p-40">
     <div class="relative border border-white max-w-4xl bg-white shadow-lg rounded-lg p-8 flex  sm:max-w-2xl sm:flex sm:flex-col md:p-0 lg:w-2/3 xl:w-2/3">
     <div class="flex justify-center self-center md:mr-4 lg:mr-4 lg:w-1/2 xl:w-1/2">
