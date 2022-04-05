@@ -293,7 +293,8 @@ export default {
                     apellidoM: this.editUser.lastName2, 
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
-                    adminId: this.editUser.userId}                              
+                    adminId: this.editUser.userId,
+                    userId: this.$store.state.Login.cookiesUser.userId}                              
                 this.$http.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
