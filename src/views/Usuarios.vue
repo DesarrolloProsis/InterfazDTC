@@ -559,6 +559,7 @@ export default {
           Name: item.name,
           Mail: item.mail,
           Rol: item.rollId,
+          UserChange: this.$store.state.Login.cookiesUser.userId,
         };
         this.$store.dispatch("Usuarios/Update_User", UpUser);
         setTimeout(()=>{
@@ -716,6 +717,7 @@ export default {
             Name: this.User.Name,
             Mail: this.User.Mail,
             Rol: this.User.Roll,
+            UserChange: this.$store.state.Login.cookiesUser.userId,
           };
           this.$store.dispatch("Usuarios/Update_User", UpUser);                    
           let _UpUser = {
@@ -837,8 +839,6 @@ export default {
     },
     acciones_mapper(item){                
       if(this.value.title == 'Editar'){
-        this.nombreOriginal =  item.name + ' ' + item.lastName1 + ' ' + item.lastName2
-        console.log(this.nombreOriginal);
         this.editarUsuario(item)
       }if(this.value.title == 'Deshabilitar'){
         this.borrar_usuario(item)

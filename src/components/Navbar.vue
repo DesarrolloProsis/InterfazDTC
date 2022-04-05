@@ -46,7 +46,7 @@
             </button>   
           </div>
           <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden" :class="{'border-l-0 h-16':rollUsuario == 7}">                  
-            <div v-for="(item, key) in listaMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1" :class="{'hidden':rollUsuario == 7}">
+            <div v-for="(item, key) in filtroMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1" :class="{'hidden':rollUsuario == 7}">
               <p class=" font-semibold text-gray-900 ml-4">{{ item.texto }}</p>                  
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
                   <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full bg-white">
@@ -87,33 +87,33 @@ export default {
     return{
       listaMenuIzq: [
         { texto: 'Mantenimiento Preventivo', subMenu: [
-            { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1,2, 5] },
-            { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1,2,5] },
+            { texto: 'Calendario de Actividades', img: '/img/schedule.3544ed94.png', path: '/CalendarioActividades', rollValidos: [1,2, 3, 5] },
+            { texto: 'Reporte Mantenimiento', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1,2, 3, 5] },
             { texto: 'Bitacora de Vistas de Mantenimiento-Equipos de Peaje', img: '/img/evidencia.f31ef7d2.png', path: '/CalendarioHistorico', rollValidos: [2,4,7,10] },
             { texto: 'Concentrado de Actividades de-Mantenimiento Preventivo', img: '/img/report.f0a9dabd.png', path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4,7, 10], }
           ] 
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [
-            { texto: 'Diagnóstico de Falla', img: '/img/documento.895fbd37.png', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1,2, 5, 10]},
-            { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,2,4,5, 7, 9,10]},
-            { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1,2, 4, 5, 7, 10]},
-            { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 8,9,10]},
+            { texto: 'Diagnóstico de Falla', img: '/img/documento.895fbd37.png', path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1,2, 3, 5, 10]},
+            { texto: 'Concentrado Diag/Ficha', img: '/img/carpeta.c51576f5.png', path: '/ConcentradoFichas', rollValidos:[1,2, 3, 4,5, 7, 9,10]},
+            { texto: 'Concentrado DTC', img: '/img/to-do.aebc450b.png', path: '/ListarDtc', rollValidos: [1,2, 3, 4, 5, 7, 10]},
+            { texto: 'Concentrado GMMEP', img: '/img/terminado.6284708b.png', path: '/ConcentradoGMMEP', rollValidos: [1,2,4, 3, 5, 7, 8,9,10]},
             { texto: 'Concentrado DTC Borrados', img: '/img/borrados.ee2662d6.png', path: '/ConcentradoBorrados', rollValidos: [4,10]},
-            { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
+            { texto: 'Inventario', img: '/img/inventory.b5c27f79.png', path: '/Inventario', rollValidos: [1,2, 3, 7, 4, 5, 10]},
             { texto: 'Reportes', img: '/img/reportar.91999abb.png', path: '/Reportes', rollValidos: [4]},
           ] 
         },     
       ],
       listaMenuDer:[ 
         { texto: 'Ayuda', subMenu: [
-            { texto: 'Comentarios', img: '/img/comentarios.d019c37b.png', path: '/Ayuda', query: { tipo: 'comentario' }, rollValidos: [1, 10] },
-            { texto: 'Videos', img: '/img/videos.0bc9c45c.png', path: '/Ayuda', query: { tipo: 'videos' }, rollValidos: [1, 10] },
-            { texto: 'Manual de Usuario', img: '/img/guia.2bdce3ae.png', path: '/Configuracion', rollValidos: [1, 10] },
+            { texto: 'Comentarios', img: '/img/comentarios.d019c37b.png', path: '/Ayuda', query: { tipo: 'comentario' }, rollValidos: [1, 2, 3, 4, 5, 6, 8, 9, 10] },
+            { texto: 'Videos', img: '/img/videos.0bc9c45c.png', path: '/Ayuda', query: { tipo: 'videos' }, rollValidos: [1, 2, 3, 4, 5, 6, 8, 9, 10] },
+            { texto: 'Manual de Usuario', img: '/img/guia.2bdce3ae.png', path: '/Configuracion', rollValidos: [1, 2, 3, 4, 5, 6, 8, 9, 10] },
           ] 
         }, 
         { texto: 'Configuracion', subMenu: [
-            { texto: 'Encargados de Plaza', img: '/img/encargado.cc1e52b0.png', path: '/EncargadosPlaza', rollValidos: [1, 10] },
-            { texto: 'Usuarios de Bitacora', img: '/img/customer.f1d7f9c9.png', path: '/Usuarios', rollValidos: [1, 10] },
+            { texto: 'Encargados de Plaza', img: '/img/encargado.cc1e52b0.png', path: '/EncargadosPlaza', rollValidos: [1, 2, 3, 4, 5, 6, 8, 9, 10] },
+            { texto: 'Usuarios de Bitacora', img: '/img/customer.f1d7f9c9.png', path: '/Usuarios', rollValidos: [1, 2, 3, 4, 5, 6, 8, 9, 10] },
           ] 
         }
       ],
@@ -131,6 +131,25 @@ export default {
       if(this.rollUsuario != undefined){    
         let listaFiltrada = []     
         this.listaMenuIzq.forEach(item => {
+            let arrayBotones = []
+            item.subMenu.map(itemSub => {
+              if(itemSub.rollValidos.includes(this.rollUsuario)){                              
+                arrayBotones.push(itemSub)
+              }
+            })
+            if(arrayBotones.length > 0){
+              item.subMenu = arrayBotones
+              listaFiltrada.push(item)
+            }
+        })
+        return listaFiltrada
+      }
+      return []
+    },
+    filtroMenuDer: function(){
+      if(this.rollUsuario != undefined){    
+        let listaFiltrada = []     
+        this.listaMenuDer.forEach(item => {
             let arrayBotones = []
             item.subMenu.map(itemSub => {
               if(itemSub.rollValidos.includes(this.rollUsuario)){                              
