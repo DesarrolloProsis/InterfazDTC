@@ -77,25 +77,31 @@
           @listanombrecom = "onagregarnombrescomponentes"
           @componentesfinales = "agregarcomponenteseditados"
         />
-        <p class="mb-2">SUPERVISOR DE PLAZA
-        </p>
-        <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-               :class="{ 'border border-red-500': vsuperior, 'border border-gray-400' : !vsuperior }" 
-               v-model="selectsupervisor"
-               @change="cambiarvalorsupervisor()">
-                <option value="">Selecciona un supervisor de plaza</option>
-                <option :value="supervisor.id" v-for="supervisor in listaSupervisor" :key="supervisor.id">{{supervisor.nombre}}</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-        </div>
+        <p class="text-sm mb-2 uppercase">Supervisor de plaza <span class="text-sm font-bold">{{ this.lista_DTC_Filtrada[0].name }}</span></p>
         <div class="inline-flex mt-4">
             <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
             <datetime v-model="fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
             <p class="ml-2">,SIENDO LAS</p>
             <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
+        </div>
+        <div>
+           <ValidationObserver ref="observer" class="">  
+                        <div class="">
+                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+                                
+                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>
+                                <textarea
+                                    v-model="comentario"                                                               
+                                    class="block container placeholder-gray-500 textAreaCalendario mt-3 ml-13 sm:mx-auto md:mx-auto lg:mx-auto"
+                                    placeholder="jane@example.com"
+                                    name="ComentarioCalendario"
+                                    :maxlength="limite"
+                                />
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                <span class="text-xs text-gray-500 ml-76 sm:ml-33 md:mx-67 lg:mx-72">{{ restante }}/500</span>    
+                            </ValidationProvider>                    
+                        </div>  
+        </ValidationObserver>
         </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
@@ -213,6 +219,7 @@ import moment from 'moment'
 
 
 
+
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
     export default {
@@ -225,7 +232,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         Modal,
         ExclamationIcon,
         CheckCircleIcon,
-        DownloadIcon
+        DownloadIcon,
     },
     //Declaracion de las variables a utilizar
     data() {
@@ -286,16 +293,24 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       fechaaperturaformateada: "",
       fechacierreformateada: "",
       horacierre: "",
+      listaEncargados:[],
+      listaencargadosFilrada:[],
+      listaencargadosCompleta:[]
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
     created() {
       this.TestigosDtc();
-      this.SupervisorDtc();
-      this.filtro_dtc();
+      this.filtro_dtc();  
     },
    methods: {
      //Funcion para cargar las opciones del select de los testigos
+      async cambiar_plaza(numeroPlaza) {                 
+        this.plazaSeleccionada = numeroPlaza 
+        this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
+        this.crear_referencia()               
+    },
      async TestigosDtc(){
       try {
         const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
