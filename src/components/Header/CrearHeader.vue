@@ -457,14 +457,11 @@ methods: {
         this.fechaSiniestoEdit = true;
       }
   },
-  validar_header: async function(value){     
-    console.log('validar header');   
+  validar_header: async function(value){ 
     let fechaActual = Date.now()
     let fechaSinisestro = Date.parse(this.datosSinester.SinisterDate)
     let fechaFalla = Date.parse(this.datosSinester.FailureDate)
     if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != '' && fechaSinisestro < fechaActual && fechaFalla < fechaActual){ 
-      console.log(this.datosSinester);
-      console.log(value);
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)
     }

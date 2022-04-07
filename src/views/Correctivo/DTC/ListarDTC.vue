@@ -590,10 +590,8 @@ methods: {
     this.ocultarMultiPadre = true       
     if(typeof refNum === 'boolean'){         
       if(this.dtcEdit.sinisterNumber.trim().length == this.dtcEdit.sinisterNumber.length){
-        console.log('if trim');
         let isValid = await this.$refs.observer.validate(); 
         if(isValid){ 
-          console.log('valid');
           this.modalEdit = false
           this.modalLoading = true         
           let objEdit = {
@@ -647,13 +645,10 @@ methods: {
             })              
           }, 3000);   
         }else{
-          console.log('invalid');
           this.modalEdit = false
           this.error = true
-          console.log(this.error);
         }
       }else{
-        console.log('else trim');
         this.modalEdit = false
         this.error = true
       }      
