@@ -180,7 +180,7 @@
               <div class="pr-2 font-titulo">
               <p class="text-md font-medium mb-1 text-gray-900">Diagnótico:</p>
               <select v-model="datosSinester.Diagnosis"  class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
-                <option v-for="(desc, index) in tiposDescripciones" :value="desc.id" :key="index">
+                <option v-for="(desc, index) in tiposDescripciones" :value="desc.type" :key="index">
                   {{ desc.type }}
                 </option>
               </select>
