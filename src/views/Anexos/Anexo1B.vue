@@ -72,6 +72,24 @@
             <p class="ml-2">,SIENDO LAS</p>
             <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
         </div>
+        <div class="mt-4">
+           <ValidationObserver ref="observer" class="">  
+                        <div class="w-full">
+                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+                                <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
+                                <textarea
+                                    v-model="comentario"                                                               
+                                    class="block container placeholder-gray-500 textAreaCalendario sm:mx-auto md:mx-auto lg:mx-auto"
+                                    placeholder="Inserte observaciones del reporte fotografico"
+                                    name="ComentarioCalendario"
+                                    :maxlength="limite"
+                                />
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                <span class="text-xs text-gray-500 ">{{ restante }}/500</span>    
+                            </ValidationProvider>                    
+                        </div>  
+        </ValidationObserver>
+        </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -248,7 +266,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       modalLoading: false,
       solciitud: '',
       solicitudfechainicio:'',
-      selectsupervisor:'',
       modalvalidacionanexo : false,
       errores:[],
       vfechaapertura:false,
@@ -264,6 +281,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       fechaoficioformateada: "",
       horacierre: "",
       fechacierre: "",
+      comentario:''
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
@@ -365,7 +383,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "FechaSolicitudInicio" : formateadorfechasolicitud,
           "FolioOficio": this.foliooficio,
           "FechaOficioInicio": fomateadorfechaoficio,
-          "SupervisorId": this.selectsupervisor,
           "Testigo1Id": this.testigo1,
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "B",
@@ -459,11 +476,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.vtestigo1 = true
         this.vtestigo2 = true
       }
-      //Validacion de que no se a seleccionado ningun supervisor
-      if(this.selectsupervisor == ""){
-        this.errores.push("Tienes que seleccionar un supervisor de la plaza")
-        this.vsuperior = true
-       }
        //Validaciones para saber si los componentes fueron agregados o editados
        if (this.componentesfinaleseditados.length == 0) {
          this.errores.push("Tienes que seleccionar por lo menos 1 componente")
@@ -532,7 +544,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      bloquear_boton_anexo_img(value){
         this.blockBotonModal = value
     },
-      
-    }
+    },
+    computed: {
+     restante(){
+            return  this.comentario.length
+        },
+   }
     }
 </script>

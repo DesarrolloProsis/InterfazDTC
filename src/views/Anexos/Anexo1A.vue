@@ -8,8 +8,8 @@
         </p>
         <p>
         REALIZADO AL EQUIPO DE CONTROL DE TRANSITO DE <label class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</label>, 
-        EN LA PLAZA DE COBRO <label class="font-bold"> No. {{this.plazadtc[0].plaza.toUpperCase() }},</label>
-        PERTENECIENTE A LA <label class="font-bold">{{this.plazadtc[0].regionalCoordination.toUpperCase() }}</label>
+        EN LA PLAZA DE COBRO <label class="font-bold uppercase"> No. {{this.plazadtc[0].plaza}},</label>
+        PERTENECIENTE A LA <label class="font-bold uppercase">{{this.plazadtc[0].regionalCoordination }}</label>
         </p>
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
@@ -84,23 +84,22 @@
             <p class="ml-2">,SIENDO LAS</p>
             <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
         </div>
-        <div>
-           <ValidationObserver ref="observer" class="">  
-                        <div class="">
-                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
-                                
-                                <span class="text-center font-titulo font-semibold text-gray-800 sm:flex sm:flex-col md:grid lg:grid">Observaciones</span>
-                                <textarea
-                                    v-model="comentario"                                                               
-                                    class="block container placeholder-gray-500 textAreaCalendario mt-3 ml-13 sm:mx-auto md:mx-auto lg:mx-auto"
-                                    placeholder="jane@example.com"
-                                    name="ComentarioCalendario"
-                                    :maxlength="limite"
-                                />
-                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                                <span class="text-xs text-gray-500 ml-76 sm:ml-33 md:mx-67 lg:mx-72">{{ restante }}/500</span>    
-                            </ValidationProvider>                    
-                        </div>  
+        <div class="mt-4">
+        <ValidationObserver ref="observer" class="">  
+          <div class="w-full">
+            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+                  <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
+                  <textarea
+                  v-model="comentario"                                                               
+                  class="block container placeholder-gray-500 textAreaCalendario sm:mx-auto md:mx-auto lg:mx-auto"
+                  placeholder="Inserte observaciones del reporte fotografico"
+                  name="ComentarioCalendario"
+                  :maxlength="limite"
+                  />
+                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                <span class="text-xs text-gray-500 ">{{ restante }}/500</span>    
+            </ValidationProvider>                    
+          </div>  
         </ValidationObserver>
         </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
@@ -123,6 +122,7 @@
                       :reporteDataInsertada="true"
                       :tipo="'Anexo'" 
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
+                      :maximofotosanexo="this.double"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img">
                     </ImagenesAnexo>
                     <button @click="insertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
@@ -254,6 +254,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         Observaciones: null,
       },
       listaComponentes: [],
+      limite:500,
       fechaSiniestoEdit: false,
       sizeSmall: false,      
       boolCambiarPlaza: false,
@@ -277,7 +278,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       componentesfinaleseditados:[],
       fechaapertura: "",
       fechacierre: "",
-      selectsupervisor:'',
       testigoscompleto:[],
       idtestigos:0,
       blockBotonModal: true,
@@ -295,7 +295,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       horacierre: "",
       listaEncargados:[],
       listaencargadosFilrada:[],
-      listaencargadosCompleta:[]
+      listaencargadosCompleta:[],
+      comentario:'',
+      numerodefotos: 0,
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
@@ -397,7 +399,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "FechaSolicitudInicio" : null,
           "FolioOficio": "",
           "FechaOficioInicio": null,
-          "SupervisorId": this.selectsupervisor,
           "Testigo1Id": this.testigo1,
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "A",
@@ -487,11 +488,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.vtestigo1 = true
         this.vtestigo2 = true
       }
-      //Validacion de que no se a seleccionado ningun supervisor
-      if(this.selectsupervisor == ""){
-        this.errores.push("Tienes que seleccionar un supervisor de la plaza")
-        this.vsuperior = true
-       }
        //Validaciones para saber si los componentes fueron agregados o editados
       if (this.componentesfinaleseditados.length == 0) {
         this.errores.push("Tienes que seleccionar por lo menos 1 componente")
@@ -530,6 +526,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      pasarinsertaranexo(){
        this.modalconfirmacionanexo=false;
        this.modalImage = true;
+        console.log(this.double);
      },
      //Funcion para el boton del modal de descarga de los anexos
      saliranexos(){
@@ -545,6 +542,13 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.blockBotonModal = value;
     },
    },
-   
+  computed: {
+    restante(){
+      return  this.comentario.length
+    },
+    double(){
+      return this.componentesfinaleseditados.length * 2;
+    }
+  }
   }
 </script>

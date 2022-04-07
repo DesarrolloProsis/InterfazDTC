@@ -57,12 +57,12 @@ function  filtro_fecha_dtc (listaDTC, fecha, sinisterOrdElab) {
     let formatFecha = moment(fecha).format("DD/MM/YYYY");
     let newArray = [];
     for (let item of listaDTC) {
-        if(sinisterOrdElab == true){
+        if(sinisterOrdElab == true){//cuando estan la vista de las card fltra sinisterDAte
             if (moment(item.sinisterDate).format("DD/MM/YYYY") == formatFecha) {
                 newArray.push(item);
             }
         }
-        else{
+        else{ //Cuando esta en la vista GMMEP filtra por fecha elaboracion
             if (moment(item.elaborationDate).format("DD/MM/YYYY") == formatFecha) {
                 newArray.push(item);
             }

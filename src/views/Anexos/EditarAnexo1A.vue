@@ -79,6 +79,24 @@
             <p class="ml-2">,SIENDO LAS</p>
             <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
           </div>
+          <div class="mt-4">
+           <ValidationObserver ref="observer" class="">  
+                        <div class="w-full">
+                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+                                <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
+                                <textarea
+                                    v-model="comentario"                                                               
+                                    class="block container placeholder-gray-500 textAreaCalendario sm:mx-auto md:mx-auto lg:mx-auto"
+                                    placeholder="Inserte observaciones del reporte fotografico"
+                                    name="ComentarioCalendario"
+                                    :maxlength="limite"
+                                />
+                                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                                <span class="text-xs text-gray-500 ">{{ restante }}/500</span>    
+                            </ValidationProvider>                    
+                        </div>  
+        </ValidationObserver>
+        </div>
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
@@ -355,7 +373,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "FechaSolicitudInicio" : this.anexo.fechaSolicitudInicio,
           "FolioOficio": this.anexo.folioOficio,
           "FechaOficioInicio": this.anexo.fechaOficioInicio,
-          "SupervisorId": this.anexo.supervisorId,
           "Testigo1Id": this.anexo.testigo1Id,
           "Testigo2Id": this.anexo.testigo2Id,
           "TipoAnexo": "A",
@@ -443,9 +460,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       if(this.anexo.testigo1Id == this.anexo.testigo2Id){
         this.errores.push("Los Testigos no pueden ser los mismos")
       }
-      if(this.anexo.supervisorId == ""){
-        this.errores.push("Tienes que seleccionar un supervisor de la plaza")
-      }
       if (this.componentesfinaleseditados.length == 0) {
          let componentes = this.objetocomponentesanexosaeditar.map(componente => {
          let c = {
@@ -492,6 +506,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      
      }, 
    },
+   computed: {
+     restante(){
+            return  this.comentario.length
+        },
+   }
    
   }
 </script>

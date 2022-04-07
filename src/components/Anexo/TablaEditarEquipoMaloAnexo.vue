@@ -231,7 +231,7 @@ export default {
 ////                          PROPS                              ////
 /////////////////////////////////////////////////////////////////////
 props: {
-  listaComponentes: {
+  listaComponentes: { //Request
       type: Array,
       default: () => [],
   },
@@ -252,7 +252,7 @@ props: {
     type: Boolean,
     default: false,
   },
-  componentesinsertados:{
+  componentesinsertados:{ //Propia del anexo
       type: Array,
       default: () => [],
   }

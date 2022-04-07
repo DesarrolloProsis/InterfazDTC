@@ -70,6 +70,10 @@ export default {
         reporteDataInsertada: {
             type: Boolean,
             default: () => false
+        },
+        maximofotosanexo:{
+            type: Number,
+            default: 0
         }
     },
     components: {
@@ -209,7 +213,7 @@ export default {
                         objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}                        
                 }
                 else if (this.tipo == 'Anexo'){
-                        this.limiteFotos = 4
+                        this.limiteFotos = this.maximofotosanexo
                         rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 4}
                 }
