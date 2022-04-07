@@ -100,10 +100,9 @@
                     <p class="text-center text-gray-800">Debe indicar el tipo de siniestro que corresponde deacuerdo al catalogo de la bitacora electronica</p>
                 </div>
               </div>
-
               <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripcion</p>
-              <select v-model="datosSinester.TypeDescriptionId" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
-                <option v-for="(desc, index) in descripciones" :value="desc.typeDescriptionId" :key="index">
+              <select v-model="datosSinester.TypeDescriptionId" @change="tipoDescripcion" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
+                <option v-for="(desc, index) in descripciones" :value="desc.id" :key="index">
                   {{ desc.description }}
                 </option>
               </select>
@@ -176,8 +175,16 @@
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <p class="text-md mb-1 font-medium text-gray-900 hidden">Fecha de Elaboracion:</p>
-              <input disabled="true" class="w-full is_valid hidden" type="date" readonly />
+              <!-- <p class="text-md mb-1 font-medium text-gray-900 hidden">Fecha de Elaboracion:</p>
+              <input disabled="true" class="w-full is_valid hidden" type="date" readonly /> -->
+              <div class="pr-2 font-titulo">
+              <p class="text-md font-medium mb-1 text-gray-900">Diagnótico:</p>
+              <select v-model="datosSinester.Diagnosis"  class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
+                <option v-for="(desc, index) in tiposDescripciones" :value="desc.id" :key="index">
+                  {{ desc.type }}
+                </option>
+              </select>
+            </div>
             </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   CUARTA  LINEA                              ////
@@ -295,6 +302,7 @@ import ServiceReportePDF from '../../services/ReportesPDFService'
 import EventBus from "../../services/EventBus.js";
 import SelectPlaza from '../Header/SelectPlaza'
 import moment from "moment";
+const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: "CrearHeader",
 /////////////////////////////////////////////////////////////////////
@@ -348,7 +356,8 @@ export default {
       modalReferencia: false,
       arrayReference: [],
       referenceSelected: '',      
-      tipoPlazaSelect: '',      
+      tipoPlazaSelect: '',
+      tiposDescripciones: []      
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -379,7 +388,8 @@ beforeMount: async function () {
     this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format("YYYY-MM-DD");
     this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
     this.fechaSiniestoEdit = true;    
-  }  
+  }
+  this.tipoDescripcion()
 },
 destroyed(){
   EventBus.$off('validar_header_dtc')
@@ -388,6 +398,17 @@ destroyed(){
 ////                            METODOS                          ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  tipoDescripcion(){
+    this.$emit('tipo-descripcion', this.datosSinester.TypeDescriptionId)
+    this.tipos()
+  },
+  tipos(){
+    this.tiposDescripciones = []
+    this.$http.get(`${API}/typedescriptions/tipoDescripcion/${this.datosSinester.TypeDescriptionId}`)
+    .then((response) => {
+      response.data.result.forEach(e => this.tiposDescripciones.push(e));
+    })
+  },
   confirmar_referencia(value){
     if(value){
       this.$store.commit("Header/REFERENCIA_DTC_MUTATION", this.referenceSelected)
@@ -436,11 +457,14 @@ methods: {
         this.fechaSiniestoEdit = true;
       }
   },
-  validar_header: async function(value){        
+  validar_header: async function(value){     
+    console.log('validar header');   
     let fechaActual = Date.now()
     let fechaSinisestro = Date.parse(this.datosSinester.SinisterDate)
     let fechaFalla = Date.parse(this.datosSinester.FailureDate)
     if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != '' && fechaSinisestro < fechaActual && fechaFalla < fechaActual){ 
+      console.log(this.datosSinester);
+      console.log(value);
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)
     }
