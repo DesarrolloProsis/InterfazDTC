@@ -320,8 +320,8 @@
               </select>
               <select v-else v-model="User.Roll" class="w-full is_valid">
                 <option disabled value>Selecionar...</option>
-                <option value="1">Tecnico</option>
-                <option value="2">Administrador</option>
+                <option value="1">Técnico</option>
+                <option value="2">Supervisor Técnicos</option>
                 <option value="3">Sistemas</option>
               </select>
             </div>
