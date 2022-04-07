@@ -285,6 +285,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       modaldescarga: false,
       fechaaperturaformateada: "",
       fechacierreformateada: "",
+      comentario:'',
+      numerodefotos: 0,
+      limite:500,
     };
     },
     created(){
@@ -310,12 +313,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
         this.plazadtc  = result;
         console.log(this.plazadtc);
-        const datasupervisor = await fetch(`${API}/AnexoDTC/Supervisor/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
-        const objetosupervisor = await datasupervisor.json();
-        let listaSupervisorprueba = objetosupervisor.result;
-        console.log(listaSupervisorprueba)
-        this.listaSupervisor = listaSupervisorprueba;
-        console.log(this.listaSupervisor);
         const datatestigo = await fetch(`${API}/AnexoDTC/Testigos/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
         const objetotestigo = await datatestigo.json();
         let resultado = objetotestigo.result;
@@ -504,9 +501,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
     },
     computed: {
-     restante(){
-            return  this.comentario.length
-        },
+    restante(){
+      return  this.comentario.length
+    },
+    double(){
+      return this.componentesfinaleseditados.length * 2;
     }
+  }
     }
 </script>

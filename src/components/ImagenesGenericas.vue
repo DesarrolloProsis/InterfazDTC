@@ -102,7 +102,7 @@ export default {
     beforeMount() { 
         if(this.tipo == 'Anexo'){
             let urlImgPaths = ''
-            this.limiteFotos = 4                
+            this.limiteFotos = this.maximofotosanexo                
             urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             this.$http.get(urlImgPaths).then((response) => 
                 {
@@ -136,7 +136,7 @@ export default {
                 urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }
             else if(this.tipo == 'Anexo'){
-                this.limiteFotos = 4                
+                this.limiteFotos = this.maximofotosanexo                
                 urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }
             else{

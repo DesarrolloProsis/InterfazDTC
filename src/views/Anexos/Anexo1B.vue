@@ -281,7 +281,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       fechaoficioformateada: "",
       horacierre: "",
       fechacierre: "",
-      comentario:''
+       comentario:'',
+      numerodefotos: 0,
+      limite:500,
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
@@ -546,9 +548,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     },
     },
     computed: {
-     restante(){
-            return  this.comentario.length
-        },
-   }
+    restante(){
+      return  this.comentario.length
+    },
+    double(){
+      return this.componentesfinaleseditados.length * 2;
+    }
+  }
     }
 </script>
