@@ -112,6 +112,7 @@
                       :reporteDataInsertada="true"
                       :tipo="'Anexo'" 
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
+                      :maximofotosanexo="this.double"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
                     </ImagenesAnexo>
@@ -396,6 +397,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "FechaSolicitudInicio" : formateadorfechasolicitud,
           "FolioOficio": this.anexo.folioOficio,
           "FechaOficioInicio": fomateadorfechaoficio,
+          "Observaciones": this.comentario,
           "SupervisorId": this.anexo.supervisorId,
           "Testigo1Id": this.anexo.testigo1Id,
           "Testigo2Id": this.anexo.testigo2Id,

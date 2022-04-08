@@ -399,6 +399,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "FechaSolicitudInicio" : null,
           "FolioOficio": "",
           "FechaOficioInicio": null,
+          "Observaciones": this.comentario,
           "Testigo1Id": this.testigo1,
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "A",
