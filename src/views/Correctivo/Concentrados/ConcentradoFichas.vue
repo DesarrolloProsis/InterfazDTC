@@ -420,18 +420,18 @@ export default {
         },
         opticones_select_acciones(item){
             const options= [                
-                { title: 'Terminar Ficha', accionCss: 'terminar', tipo: '', img: '/img/nuevoDtc.90090632.png' }, //0
-                { title: 'Terminar DTC', accionCss: 'terminar', img: '/img/nuevoDtc.90090632.png' },//1
-                { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //2
-                { title: 'Borrar', accionCss: 'borrar', img: '/img/borrar.16664eed.png' },//3
-                { title: 'Bajar Dignóstico de Falla', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //4
-                { title: 'Bajar Ficha Técnica', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//5
-                { title: 'Bajar Dictamen (DTC)', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //6
-                { title: 'Subir DF Escaneado', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //7
-                { title: 'Subir FT Escaneada', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //8
-                { title: 'Bajar FT Escaneada', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//9
-                { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
-                { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: '/img/add.36624e63.png' },//11
+                { title: 'Terminar Ficha', accionCss: 'terminar', tipo: '', img: 'fa-file-circle-plus' }, //0
+                { title: 'Terminar DTC', accionCss: 'terminar', img: 'fa-file-circle-plus' },//1
+                { title: 'Editar', accionCss: 'editar', img: 'fa-solid fa-pen-to-square' }, //2
+                { title: 'Borrar', accionCss: 'borrar', img: 'fa-solid fa-trash' },//3
+                { title: 'Bajar Dignóstico de Falla', accionCss: 'terminar', img: 'fa-file-arrow-down' }, //4
+                { title: 'Bajar Ficha Técnica', accionCss: 'terminar', img: 'fa-file-arrow-down' },//5
+                { title: 'Bajar Dictamen (DTC)', accionCss: 'terminar', img: 'fa-file-arrow-down' }, //6
+                { title: 'Subir DF Escaneado', accionCss: 'editar', img: 'fa-file-arrow-up' }, //7
+                { title: 'Subir FT Escaneada', accionCss: 'editar', img: 'fa-file-arrow-up' }, //8
+                { title: 'Bajar FT Escaneada', accionCss: 'terminar', img: 'fa-file-arrow-down' },//9
+                { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: 'fa-file-arrow-down' },//10
+                { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: 'fa-address-card' },//11
             ]
             this.statusDTC = item.statusDtc
             let filtroOpciones = []            

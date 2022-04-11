@@ -85,9 +85,7 @@
            ///              FILTROS DE NAVEGACION INVENTARIO               ////         
          ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'INV'" class="mt-1 -mb-12 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
-
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-
         <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 md:mx-auto md:ml-30 md:mt-5 md:-mb-1 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-64 mb-3 ">
             <div class="mr-3  mt-6 sm:w-full sm:mx-auto md:mx-auto md:mr-10">
                 <span class="mr-10 font-bold text-md sm:mx-auto ">Buscar</span>
@@ -247,7 +245,8 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 sm:text-xs text-center">
             <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonTodos font-boton">
-                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <!-- <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/> -->
+                <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                 <span>Todos</span>
             </button>
             <button @click="filtar_concentrado_diagnostico_falla" class="w-32 botonIconBuscar font-boton hidden">
@@ -309,7 +308,6 @@
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'InicioSesion'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
             <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-
             <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
                 <div class="text-center ml-2 mr-2 grid grid-cols-2 sm:ml-6 mb-6 justify-center">
                     <div> 
@@ -353,7 +351,6 @@
                     <input v-model="buscarDTCfacturado" class="border w-full text-xs text-center h-5 is_valid" placeholder="PM-000000"/>
                 </div>
             </div>
-               
         </div>
         <!-- ////////////////////////////////////////////////////////////////////
         ///                    BOTONES DE CONCENTRADO DTC FACTURADOS        ////

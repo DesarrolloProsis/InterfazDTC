@@ -16,10 +16,12 @@
                         <template v-else>
                             <div class="w-32" v-if="tipoRow != 'PC'">
                                 <button v-if="!boolMoreInformation" @click="show_more_infomacion">
-                                    <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5 mx-auto" alt="">                                    
+                                    <!-- <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5 mx-auto" alt="">                                     -->
+                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                 </button>
                                 <button v-else @click="boolMoreInformation = false, keyLimpio = []">                                    
-                                    <img src="../assets/img/flecha-hacia-arriba.png" class="w-5 h-5 mx-auto" alt="">
+                                    <!-- <img src="../assets/img/flecha-hacia-arriba.png" class="w-5 h-5 mx-auto" alt=""> -->
+                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>
                                 </button>
                             </div>
                             <div v-else>
@@ -27,13 +29,15 @@
                                     <multiselect v-model="selectMulti" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" class="multi" :options="listaAcciones" :option-height="200" :custom-label="customLabel"  :show-labels="false">
                                         <template slot="singleLabel" slot-scope="props">
                                             <div class="inline-flex">
-                                                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                                <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                 <span class="option__title bg-red-300">{{ props.option.title }}</span>
                                             </div>
                                         </template>
                                         <template slot="option" slot-scope="props">                                                
                                             <div class="option__desc "><span class="option__title inline-flex">
-                                                <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                <!-- <img :src="props.option.img" class="mr-5" width="15" height="15">     -->
+                                                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                 {{ props.option.title }}</span>
                                             </div>
                                         </template>
