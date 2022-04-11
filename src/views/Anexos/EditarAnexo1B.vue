@@ -12,7 +12,7 @@
         PERTENECIENTE A LA <label class="font-bold">{{this.plazadtc[0].regionalCoordination.toUpperCase() }}</label>
         </p>
         <p>
-        EN LA CIUDAD DE <label class="font-bold ml-1">PALO BLANCO, GUERRERO</label>, SIENDO 
+        EN LA CIUDAD DE <label class="font-bold ml-1 uppercase">{{this.ciudad[0].ciudad}}, {{this.ciudad[0].estado}}</label>, SIENDO 
         <datetime class="ml-2 inline-flex"
         use12-hour
         v-model="this.anexo.fechaApertura"
@@ -289,6 +289,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       comentario:'',
       numerodefotos: 0,
       limite:500,
+      ciudad:[]
     };
     },
     created(){
@@ -332,6 +333,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const data = await fetch(`${API}/AnexoDTC/ComponentesRequest/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.$route.params.dtcReference}`)
         const objeto = await data.json();
         this.arraycomponentes = objeto.result;
+        let plazacompletas = await this.$store.state.Login.listaPlazas
+        const resultadoplaza = plazacompletas.filter(e => e.referenceSquare == this.plazadtc[0].referenceSquare);
+        this.ciudad = resultadoplaza;
       }
       catch (error) {
         console.log(error);

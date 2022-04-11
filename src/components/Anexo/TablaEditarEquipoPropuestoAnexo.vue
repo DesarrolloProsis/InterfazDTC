@@ -23,7 +23,7 @@
                 <td class="cuerpoTable">{{ equipo.brandPropuesto }}</td>
                 <td class="cuerpoTable">{{ equipo.modelPropuesto }}</td>
                 <td class="cuerpoTable">
-                  <input type="text" class="text-center inputanexo" :placeholder="equipo.serialNumber" v-model="equipo.serialnuevo" @change="generarlistanuevalistacomponentes(equipo)">
+                  <input type="text" class="text-center inputanexo" :placeholder="equipo.serialNumber" v-model="equipo.serialnuevo" @change ="generarlistanuevalistacomponentes(equipo)">
                   </td>
                 <td class="cuerpoTable">{{ equipo.lane }}</td>
                 <td class="cuerpoTable">Nuevo</td>
@@ -84,6 +84,9 @@ export default {
       arrayobjetoseditados:[],
     };
   },
+  created(){
+    console.log(this.listaEquipo)
+  },
   watch: {
     vercomponentes: function (){
       console.info(this.listaEquipo)
@@ -95,7 +98,7 @@ export default {
         RequestedComponentId: equipo.requestedComponentId,
         SerialNumber: equipo.serialnuevo
       }
-      if (this.arrayobjetoseditados == 0) {
+      if (this.arrayobjetoseditados.length == 0) {
         this.arrayobjetoseditados.push(componente);
       }else{
         const o = this.arrayobjetoseditados.findIndex(element => {
@@ -107,6 +110,7 @@ export default {
           this.arrayobjetoseditados.splice(o, 1, componente);
         }
       }
+      console.log('Estoy entrando a la funcion');
       this.$emit('componentesfinales',this.arrayobjetoseditados);
     },
   }
