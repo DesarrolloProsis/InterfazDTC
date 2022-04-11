@@ -472,6 +472,30 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.componentesfinaleseditados = componentes;
          console.log(this.componentesfinaleseditados);
        }
+        if(this.objetocomponentesanexosaeditar.length > this.componentesfinaleseditados.length ){
+         console.log(this.componentesfinaleseditados.length);
+         console.log(this.objetocomponentesanexosaeditar.length)
+        const index = this.objetocomponentesanexosaeditar.map(object => object.componentDTCId);
+        console.log(index);
+        for (let j = 0; j < this.componentesfinaleseditados.length; j++) {
+            let position = index.indexOf(this.componentesfinaleseditados[j].RequestedComponentId);
+            console.log(position)
+            if(position != -1){
+              this.objetocomponentesanexosaeditar.splice(position,1)
+            }
+        }
+        for(let i = 0;i < this.objetocomponentesanexosaeditar.length; i++){
+          let c = {
+             RequestedComponentId: this.objetocomponentesanexosaeditar[i].componentDTCId,
+             SerialNumber: this.objetocomponentesanexosaeditar[i].numeroSerie
+            }
+          this.componentesfinaleseditados.push(c);
+        }
+        console.log(this.componentesfinaleseditados);
+        }
+         if(this.componentesfinaleseditados.length == this.objetocomponentesanexosaeditar.lenght){
+          this.componentesfinaleseditados = this.componentesfinaleseditados
+        }
        if(fechaapertura > hoy){
          this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
        }
