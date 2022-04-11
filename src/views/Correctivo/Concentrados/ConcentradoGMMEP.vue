@@ -246,7 +246,7 @@ methods:{
     if(item.statusId >= 3 && !item.escaneadobool){
       filtroOpciones.push(options[3])
     }
-    if(this.tipoUsuario != 7 && this.tipoUsuario != 4 && item.escaneadobool){
+    if(this.tipoUsuario != 7 && this.tipoUsuario != 4 && this.tipoUsuario != 8 && item.escaneadobool){
       filtroOpciones.push(options[4])
     }
     if(item.technicalSheetReference == '--' && this.tipoUsuario == 1){
