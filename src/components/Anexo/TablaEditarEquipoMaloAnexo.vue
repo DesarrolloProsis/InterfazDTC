@@ -24,12 +24,12 @@
                 ////                 CUERPO DE LA TABLA                          ////
                 ////////////////////////////////////////////////////////////////////-->
                 <tbody name="table" is="transition-group">    
-                  <tr class="hover:bg-blue-200 text-center" v-for="(componentesel, index) in componentes" :key="componentesel.requestedComponentId">
+                  <tr class="hover:bg-blue-200 text-center" v-for="(componentesel, index) in componentes" :key="index">
                     <td class="cuerpoTable"><!-- Cantidad -->1</td>
                     <td class="cuerpoTable"><!-- Componente -->{{componentesel.nameComponent}}</td>
                     <td class="cuerpoTable"><!-- Marca -->{{componentesel.brand}}</td>
                     <td class="cuerpoTable"><!-- Modelo -->{{componentesel.model}}</td>
-                    <td class="cuerpoTable"><!-- Numero de Serie -->{{componentesel.serialNumber}}</td>
+                    <td class="cuerpoTable"><!-- Numero de Serie -->{{componentesel.serialNumberDañanado}}</td>
                     <td class="cuerpoTable"><!-- Ubicacion -->{{componentesel.lane}}</td>
                     <td class="cuerpoTable"><!-- Observaciones -->Dañada</td>
                     <td class="cuerpoTable pb-2 "><!-- Acciones -->
@@ -262,6 +262,7 @@ props: {
 /////////////////////////////////////////////////////////////////////
 created(){
   this.componentes = this.componentesinsertados;
+  console.log(this.componentes)
 },
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
