@@ -20,8 +20,9 @@
                     :class="{'' : tipo == 'Diagnostico'}">
                     <div class="sm:-mt-4">
                         <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer">
-                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-16" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}" alt/>
-                        <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
+                        <!-- <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-16" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}" alt/> -->
+                        <font-awesome-icon icon="fa-solid fa-plus" class="p-5 w-auto text-center flex h-32 xl:ml-8 xl:-mt-6 xl:-mb-6 sm:w-10 sm:h-10 sm:p-1 sm:mt-16 text-blue-800" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}"/>
+                        <span class="text-sm text-gray-500 sm:hidden">Agregar imagenes</span>
                     </div>
                 </div>
             </div>
