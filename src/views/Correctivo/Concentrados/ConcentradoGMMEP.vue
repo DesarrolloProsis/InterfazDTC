@@ -131,7 +131,7 @@ import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import AgregarImg from "../../../components/ImagenesGenericas"
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 import TablaGenerica from '../../../components/TablaGenerica.vue'
-import Pagination from '../components/Pagination.vue'
+import Pagination from '../../../components/Pagination.vue'
 
 export default {
   name: "ConcentradoGMMEP",
@@ -395,7 +395,7 @@ methods:{
       this.lista_DTC_Filtrada = this.infoDTC
     })           
   },
-  
+
   }
 };
 </script>

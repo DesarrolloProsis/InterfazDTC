@@ -159,7 +159,7 @@ import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import Multiselect from "vue-multiselect";
 import ServiceFiltrosDTC from "../../../services/FiltrosDTCServices";
 import ServiceReportPDF from "../../../services/ReportesPDFService";
-import Pagination from '../components/Pagination.vue';
+import Pagination from '../../../components/Pagination.vue';
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
 export default {
