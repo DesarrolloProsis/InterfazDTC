@@ -111,9 +111,11 @@
             :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
         >
         </TablaGenerica>
+        
         <Pagination
           :total-pages="totalPages" 
-          :total="total" :per-page="perPage" 
+          :total="total"
+          :per-page="perPage" 
           :current-page="currentPage"
           :has-more-pages="hasMorePages" 
           @pagechanged="showMore"
@@ -185,15 +187,25 @@ data: function (){
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
-  this.loadingTabla = true
-  this.filtroVista = true
-  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
-  this.lista_DTC_Filtrada = this.infoDTC
-  this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-  this.loadingTabla = false
   let rol = this.$store.state.Login.cookiesUser.rollId
-  if( rol == 7)
-    this.rollId = false    
+  if( rol == 7){
+    this.rollId = false
+  }
+  let userId = this.$store.state.Login.cookiesUser.userId
+  let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+  this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null`)
+  .then((response) => {
+      console.log(response)
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+  }) 
+  .catch((error) =>{ 
+    console.log(error);
+    this.loadingTable = false 
+  })    
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -395,6 +407,26 @@ methods:{
       this.lista_DTC_Filtrada = this.infoDTC
     })           
   },
+  showMore(page) {
+    this.lista_DTC_Filtrada = [];
+    this.page = page;
+    this.currentPage = page;  
+    this.$router.push({path: 'ConcentradoGMMEP', query: { 'Pagina': page, 'nameFilter': null } })
+    this.loadingTable = true
+    let userId = this.$store.state.Login.cookiesUser.userId
+    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null`)
+    .then((response) => {
+      console.log(response)
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+    }) 
+    .catch(() => this.loadingTable = false) 
+    
+  }
 
   }
 };

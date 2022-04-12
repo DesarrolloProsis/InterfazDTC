@@ -54,6 +54,7 @@
                 <td :colspan="keyRow.length" class="hover:bg-gray-200" :class="{ 'bg-blue-100 border border-blue-700': rowCssColor == 'terminar', 'bg-yellow-100 border border-yellow-700': rowCssColor == 'editar', 'bg-red-100 border border-red-700': rowCssColor == 'borrar'}">
                     <div v-for="(item, key) in keyLimpio" :key="key" class="w-full">
                         <div class="inline-flex">
+                            <p>{{keyLimpio}}</p>
                             <div class="w-32 ml-6">{{  item['text'] }}</div>
                             <div v-if="item['formatoFecha']" class="w-32 ml-6">{{ itemRow[item['key']] | dataRowFormat }}</div>
                             <div v-else class="w-32 ml-6" :class="{'text-gray-500':letrasGris && item['LetrasGris']}">{{ itemRow[item['key']] }}</div>
@@ -62,7 +63,8 @@
                     <div class="inline-flex mb-3">
                         <div class="w-32 ml-6 mr-0">Acciones</div>
                         <div class="p-1 pl-0 m-0">                            
-                            <multiselect v-model="selectMulti" @close="acciones_mapper()"  placeholder="Seleccione una Accion" label="title" track-by="title"  :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
+                            <multiselect v-model="selectMulti" 
+                            @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                 <template slot="singleLabel" slot-scope="props">
                                     <div class="inline-flex">
                                         <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
