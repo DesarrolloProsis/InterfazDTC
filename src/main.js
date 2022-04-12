@@ -63,8 +63,10 @@ import {
   faAddressBook,
   faFileCirclePlus,
   faFilePen,
+  faFileArrowDown,
+  faFileArrowUp
 } from '@fortawesome/free-solid-svg-icons'
-/* <font-awesome-icon icon="fa-regular fa-xmark" /> */
+/* <font-awesome-icon icon="fa-solid fa-address-card" /> */
 
 import { 
   faCircleQuestion,
@@ -73,8 +75,7 @@ import {
   faEyeSlash,
   faEye,
   faCircleXmark,
-  
-
+  faAddressCard
 } from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
@@ -134,7 +135,10 @@ library.add(faUserSecret,
   faCarTunnel,
   faAddressBook,
   faFileCirclePlus,
-  faFilePen
+  faFilePen,
+  faFileArrowDown,
+  faFileArrowUp,
+  faAddressCard
   )
 
 /* add font awesome icon component */
