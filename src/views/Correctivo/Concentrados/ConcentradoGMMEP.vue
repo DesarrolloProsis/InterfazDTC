@@ -110,7 +110,14 @@
             :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Fecha Siniestro', key: 'sinisterDate', formatoFecha: true},{text: 'Registro Sistema', key: 'dateStamp', formatoFecha: true},{text: 'Folio', key: 'failureNumber'},{text: 'N° Reporte', key:'reportNumber'},{text: 'N° Siniestro', key: 'sinisterNumber'},{text: 'Fecha Falla', key: 'sinisterNumber'},{text: 'Acciones', key: 'Acciones'}]"
             :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
         >
-        </TablaGenerica>     
+        </TablaGenerica>
+        <Pagination
+          :total-pages="totalPages" 
+          :total="total" :per-page="perPage" 
+          :current-page="currentPage"
+          :has-more-pages="hasMorePages" 
+          @pagechanged="showMore"
+        ></Pagination>     
         </div>  
     </div> 
   </div>
@@ -124,6 +131,7 @@ import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import AgregarImg from "../../../components/ImagenesGenericas"
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 import TablaGenerica from '../../../components/TablaGenerica.vue'
+import Pagination from '../components/Pagination.vue'
 
 export default {
   name: "ConcentradoGMMEP",
@@ -132,7 +140,8 @@ export default {
     HeaderGenerico,
     AgregarImg,
     PdfEscaneado,
-    TablaGenerica
+    TablaGenerica,
+    Pagination
   },
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
@@ -162,7 +171,14 @@ data: function (){
       value:'',
       modalSubirSellado: false,
       objInsertEscaneado: {},
-      tipoEscaneado: 'GMMEP'                    
+      tipoEscaneado: 'GMMEP', 
+      //Data de la paginacion 
+      page: 1,//pagina en la que quieres iniciar la vista
+      totalPages: 0,//total de paginas
+      total: 10,//numero de resultados a mostrar
+      perPage: 10,//no se ocupa
+      currentPage: 1,//pagina actual
+      hasMorePages: true,// tener más paginas                    
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -379,6 +395,7 @@ methods:{
       this.lista_DTC_Filtrada = this.infoDTC
     })           
   },
+  
   }
 };
 </script>
