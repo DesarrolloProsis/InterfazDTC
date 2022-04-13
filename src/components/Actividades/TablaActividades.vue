@@ -149,13 +149,15 @@
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <div class=" inline-flex">
-                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                     <span class="option__title">{{ props.option.title }}</span>
                                                 </div>
                                             </template>
                                             <template slot="option" slot-scope="props">                                                
                                                 <div class="option__desc"><span class="option__title inline-flex">
-                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                     {{ props.option.title }}</span>
                                                 </div>
                                             </template>
@@ -377,11 +379,11 @@ export default {
         },
         opticones_select_acciones({ statusMaintenance, pdfExists, userId }){
             let options= [
-            { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
-            { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
-            { title: 'Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },
-            { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
-            { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
+            { title: 'Crear', img: 'fa-file-circle-plus' },
+            { title: 'Editar', img: 'fa-pen-to-square' },
+            { title: 'Reporte de Mantenimiento', img: 'fa-file-arrow-down' },
+            { title: 'Reporte M. Sellado', img: 'fa-file-arrow-down'},
+            { title: 'Reporte Mtto. Sellado', img: 'fa-file-arrow-up'},
             ]
             let filtroOpciones = []
             //Si el usuario es administrador, capufe, o supervisor de tècnicos

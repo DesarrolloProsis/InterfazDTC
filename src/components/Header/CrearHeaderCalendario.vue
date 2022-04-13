@@ -25,13 +25,15 @@
                         <multiselect v-model="value" @close="acciones_mapper()" class="w-68 sm:w-auto sm:-ml-16 sm:h-8 md:w-37 xl:-mt-2" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="100" :custom-label="customLabel" :show-labels="false">
                             <template slot="singleLabel" slot-scope="props">
                                 <div class=" inline-flex">
-                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                     <span class="option__title">{{ props.option.title }}</span>
                                 </div>
                             </template>
                             <template slot="option" slot-scope="props">                                                
                                 <div class="option__desc"><span class="option__title inline-flex">
-                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                     {{ props.option.title }}</span>
                                 </div>
                             </template>
@@ -181,9 +183,9 @@ export default {
         },
         opticones_select_acciones(){
             let options = [
-                { title: 'Crear Calendario', img: '/img/nuevoDtc.90090632.png' },                                                
-                { title: 'Subir Calendario Escaneado', img: '/img/upload.8d26bb4f.png'},
-                { title: 'Bajar Calendario Escaneado', img: '/img/download.ea0ec6db.png' }
+                { title: 'Crear Calendario', img: 'fa-solid fa-file-circle-plus' },      
+                { title: 'Subir Calendario Escaneado', img: 'fa-file-arrow-up'},
+                { title: 'Bajar Calendario Escaneado', img: 'fa-file-arrow-down' }
             ]
             if(!this.calendarioEscaneado){
                 return options.splice(0,2)

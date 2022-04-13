@@ -64,9 +64,12 @@ import {
   faFileCirclePlus,
   faFilePen,
   faFileArrowDown,
-  faFileArrowUp
+  faFileArrowUp,
+  faUserGear,
+  faFilePdf,
+  faCamera
 } from '@fortawesome/free-solid-svg-icons'
-/* <font-awesome-icon icon="fa-solid fa-address-card" /> */
+/* <font-awesome-icon icon="fa-solid fa-camera" /> */
 
 import { 
   faCircleQuestion,
@@ -75,7 +78,9 @@ import {
   faEyeSlash,
   faEye,
   faCircleXmark,
-  faAddressCard
+  faAddressCard,
+  faCircleCheck,
+  
 } from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
@@ -138,7 +143,11 @@ library.add(faUserSecret,
   faFilePen,
   faFileArrowDown,
   faFileArrowUp,
-  faAddressCard
+  faAddressCard,
+  faCircleCheck,
+  faUserGear,
+  faFilePdf,
+  faCamera
   )
 
 /* add font awesome icon component */

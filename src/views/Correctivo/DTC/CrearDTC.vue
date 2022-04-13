@@ -87,13 +87,15 @@
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
-              <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" />
+              <!-- <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" /> -->
+              <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-2 text-blue-800 h-8"/>
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
-              <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
+              <!-- <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+              <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
               <span>Crear</span>
             </button>
           </div>
