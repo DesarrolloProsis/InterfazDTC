@@ -426,6 +426,7 @@ export default {
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
+    this.modalLoading = true
     this.loadingTabla = true 
       this.listaUsuarios = []
       this.lista_Usuarios_Filtrada = []
@@ -437,6 +438,7 @@ export default {
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
         this.loadingTabla = false
+        this.modalLoading = false
       },1000)    
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
