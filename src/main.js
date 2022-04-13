@@ -65,9 +65,11 @@ import {
   faFilePen,
   faFileArrowDown,
   faFileArrowUp,
-  faUserGear
+  faUserGear,
+  faFilePdf,
+  
 } from '@fortawesome/free-solid-svg-icons'
-/* <font-awesome-icon icon="fa-regular fa-circle-check" /> */
+/* <font-awesome-icon icon="fa-solid fa-file-arrow-down" /> /> */
 
 import { 
   faCircleQuestion,
@@ -77,7 +79,8 @@ import {
   faEye,
   faCircleXmark,
   faAddressCard,
-  faCircleCheck
+  faCircleCheck,
+  
 } from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
@@ -142,7 +145,8 @@ library.add(faUserSecret,
   faFileArrowUp,
   faAddressCard,
   faCircleCheck,
-  faUserGear
+  faUserGear,
+  faFilePdf
   )
 
 /* add font awesome icon component */

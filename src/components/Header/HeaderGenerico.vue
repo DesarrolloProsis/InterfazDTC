@@ -112,14 +112,16 @@
                     <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
                         <template slot="singleLabel" slot-scope="props">
                             <div class="inline-flex">
-                                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                 <span class="option__title bg-red-300">{{ props.option.title }}</span>
                             </div>
                         </template>
                         <template slot="option" slot-scope="props">                                                
                             <div class="option__desc ">
                                 <span class="option__title inline-flex">
-                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15">     -->
+                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                     {{ props.option.title }}
                                 </span>
                             </div>
@@ -666,8 +668,8 @@ export default {
         },
         opticones_select_acciones(){
             const options= [                
-              { title: 'Mantenimiento', img: '../img/actualizado.cafc2f1a.png' }, //0
-              { title: 'Formato CAPUFE', img: '../img/pdf.5b78f070.png' }, //1
+              { title: 'Mantenimiento', img: 'fa-regular fa-circle-check' }, //0
+              { title: 'Formato CAPUFE', img: 'fa-file-arrow-down' }, //1
             ]
             let filtroOpciones = []
             filtroOpciones.push(options[0])
