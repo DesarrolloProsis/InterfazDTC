@@ -97,12 +97,12 @@ export default {
         { texto: 'Mantenimiento Preventivo', subMenu: [
             { texto: 'Calendario de Actividades', img: "fa-solid fa-calendar-days", path: '/CalendarioActividades', rollValidos: [1,2, 5] },
             { texto: 'Reporte Mantenimiento', img: "fa-solid fa-file-waveform", path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1,2,5] },
-            { texto: 'Bitacora de Vistas de Mantenimiento-Equipos de Peaje', img: "fa-solid fa-copy", path: '/CalendarioHistorico', rollValidos: [2,4,7,10] },
-            { texto: 'Concentrado de Actividades de-Mantenimiento Preventivo', img: "fa-solid fa-file-waveform", path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4,7, 10], }
+            { texto: 'Bitacora de Vistas de Mantenimiento-Equipos de Peaje', img: "fa-solid fa-copy", path: '/CalendarioHistorico', rollValidos: [2,4,7,8,10] },
+            { texto: 'Concentrado de Actividades de-Mantenimiento Preventivo', img: "fa-solid fa-file-waveform", path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4,7,8,10], }
           ] 
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [
-            { texto: 'Diagnóstico de Falla', img: "fa-solid fa-file-signature", path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1,2, 5, 10]},
+            { texto: 'Diagnóstico de Falla', img: "fa-solid fa-file-signature", path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1,2,5,8,10]},
             { texto: 'Concentrado Diag/Ficha', img: "fa-solid fa-folder-tree", path: '/ConcentradoFichas', rollValidos:[1,2,4,5, 7, 9,10]},
             { texto: 'Concentrado DTC', img: "fa-solid fa-paste", path: '/ListarDtc', rollValidos: [1,2, 4, 5, 7, 10]},
             { texto: 'Concentrado GMMEP', img: "fa-solid fa-file-circle-check", path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 8,9,10]},

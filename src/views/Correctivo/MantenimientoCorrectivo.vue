@@ -1,10 +1,10 @@
 <template>
     <div> 
         <transition name="slide-fade">       
-            <div v-if="$route.params.tipoUsuario == 4 || $route.params.tipoUsuario == 10">
+            <div v-if="$route.params.tipoUsuario == 4 || $route.params.tipoUsuario == 8 || $route.params.tipoUsuario == 10">
                 <BotonesAdmin></BotonesAdmin>            
             </div>
-            <div v-else-if="$route.params.tipoUsuario == 7 || $route.params.tipoUsuario == 8 || $route.params.tipoUsuario == 9">            
+            <div v-else-if="$route.params.tipoUsuario == 7 ">            
                 <BotonesCapufe></BotonesCapufe>
             </div>  
             <div v-else>
