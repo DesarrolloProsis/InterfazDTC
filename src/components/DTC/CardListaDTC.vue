@@ -69,14 +69,16 @@
           <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" >
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
-                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                 <span class="option__title">{{ props.option.title }}</span>
               </div>
             </template>
             <template slot="option" slot-scope="props">                                                
               <div class="option__desc">
                 <span class="option__title inline-flex">
-                  <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                  <!-- <img :src="props.option.img" class="mr-5" width="15" height="15">     -->
+                  <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                     {{ props.option.title }}
                 </span>
               </div>
@@ -274,20 +276,20 @@ export default {
     },
     opticones_select_acciones(){
         let options = [
-            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, //0
-            { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
-            { title: 'Editar Campos', img: '/img/pencil.04ec78bc.png' }, //2   
-            { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
-            { title: 'Subir DTC Escaneado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
-            { title: 'Bajar Dictamen Técnico', img: '/img/download.ea0ec6db.png'}, //5
-            { title: 'Bajar DTC Escaneado', img: '/img/download.ea0ec6db.png'}, //6
-            { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
-            { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
-            { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
-            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
-            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'}, //11
-            { title: 'Subir RF Escaneado', img: '/img/upload.8d26bb4f.png'}, //12
-            { title: 'Bajar RF Escaneado', img: '/img/download.ea0ec6db.png'}, //13
+            { title: 'Borrar DTC', img: 'fa-trash' }, //0
+            { title: 'Fechas', img: 'fa-pen-to-square' }, //1
+            { title: 'Editar Campos', img: 'fa-pen-to-square' }, //2   
+            { title: 'Terminar DTC', img: 'fa-file-circle-plus' }, //3   
+            { title: 'Subir DTC Escaneado', img: 'fa-file-arrow-up' }, //4                                                                               
+            { title: 'Bajar Dictamen Técnico', img: 'fa-file-arrow-down'}, //5
+            { title: 'Bajar DTC Escaneado', img: 'fa-file-arrow-down'}, //6
+            { title: 'Reporte Fotografico', img: 'fa-file-arrow-down'}, //7
+            { title: 'DTC Sin Firma', img: 'fa-file-arrow-down'}, //8
+            { title: 'Actualizar Componentes', img: 'fa-regular fa-circle-check'}, //9
+            { title: 'Terminar Diagnostico', img: 'fa-file-circle-plus'}, //10
+            { title: 'Cambiar Usuario DTC', img: 'fa-user-gear'}, //11
+            { title: 'Subir RF Escaneado', img: 'fa-file-arrow-up'}, //12
+            { title: 'Bajar RF Escaneado', img: 'fa-file-arrow-down'}, //13
         ]
         let array = []       
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){

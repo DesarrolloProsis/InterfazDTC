@@ -64,9 +64,10 @@ import {
   faFileCirclePlus,
   faFilePen,
   faFileArrowDown,
-  faFileArrowUp
+  faFileArrowUp,
+  faUserGear
 } from '@fortawesome/free-solid-svg-icons'
-/* <i class="fa-regular fa-floppy-disk"></i> */
+/* <font-awesome-icon icon="fa-regular fa-circle-check" /> */
 
 import { 
   faCircleQuestion,
@@ -76,6 +77,7 @@ import {
   faEye,
   faCircleXmark,
   faAddressCard,
+  faCircleCheck
 } from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
@@ -139,6 +141,8 @@ library.add(faUserSecret,
   faFileArrowDown,
   faFileArrowUp,
   faAddressCard,
+  faCircleCheck,
+  faUserGear
   )
 
 /* add font awesome icon component */

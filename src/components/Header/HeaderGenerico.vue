@@ -38,7 +38,8 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="-mt-1 mb-4 text-center sm:mt-2">
             <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton sm:h-8">
-                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <!-- <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/> -->
+                <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                 <span>Todos</span>
             </button>
         </div>
