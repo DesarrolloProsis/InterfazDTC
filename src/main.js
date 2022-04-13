@@ -67,9 +67,9 @@ import {
   faFileArrowUp,
   faUserGear,
   faFilePdf,
-  
+  faCamera
 } from '@fortawesome/free-solid-svg-icons'
-/* <font-awesome-icon icon="fa-solid fa-file-arrow-down" /> /> */
+/* <font-awesome-icon icon="fa-solid fa-camera" /> */
 
 import { 
   faCircleQuestion,
@@ -146,7 +146,8 @@ library.add(faUserSecret,
   faAddressCard,
   faCircleCheck,
   faUserGear,
-  faFilePdf
+  faFilePdf,
+  faCamera
   )
 
 /* add font awesome icon component */
