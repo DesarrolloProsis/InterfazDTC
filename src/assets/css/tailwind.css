@@ -184,7 +184,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-boton font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonIconCrear:hover{
-    @apply border-green-800 bg-green-500 text-white transition duration-500;
+    @apply border-green-800 bg-green-400 text-white transition duration-500;
 }
 .botonIconCrear:focus{
     @apply outline-none;
