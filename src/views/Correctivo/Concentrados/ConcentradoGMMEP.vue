@@ -1,7 +1,7 @@
 <template>
   <div>    
     <div class="flex justify-center -mt-6">
-      <div class="grid gap-4 grid-cols-1 py-3 px-3"> 
+      <div class="flex-col p-8"> 
         <PdfEscaneado 
           @limpiar-componente-escaneado="limpiar_componete_escaneado" 
           :abrirModal="modalSubirSellado" 
@@ -92,17 +92,23 @@
         /////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->   
         <HeaderGenerico 
-          @limpiar-filtros="limpiar_filtros" 
+          @limpiar-filtros="limpiar_filtros"
+          @filtrar-plazas-GMMEP="filtrarplaza"
+          @filtar_fecha_GMEEP="filtrofecha"
+          @filtar_referencia_GMEEP="filtroreferencia"
+          @filtro_status_GMEEP="filtrostatus" 
           @filtrar-dtc="filtro_dtc" 
-          @buscar-gmmep="guardar_palabra_busqueda" 
+          @buscar-gmmep="guardar_palabra_busqueda"
+          @filtrar-todos_GMEEP="todos" 
           :titulo="'Concentrado GMMEP'" 
           :tipo="'GMMEP'"
         >
         </HeaderGenerico>  
     <!--/////////////////////////////////////////////////////////////////////
         /////                    TABLA GMMEP                            ////
-        ////////////////////////////////////////////////////////////////////-->           
-        <TablaGenerica  
+        ////////////////////////////////////////////////////////////////////-->    
+        <div class="mt-4">
+          <TablaGenerica  
             @acciones-mapper="acciones_mapper"              
             :listaDataTable="lista_DTC_Filtrada"
             :loadingTabla="loadingTabla"
@@ -111,14 +117,17 @@
             :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
         >
         </TablaGenerica>
-        <Pagination
+        </div>       
+        <div class="mt-20">
+          <Pagination
           :total-pages="totalPages" 
           :total="total"
           :per-page="perPage" 
           :current-page="currentPage"
           :has-more-pages="hasMorePages" 
           @pagechanged="showMore"
-        ></Pagination>     
+        ></Pagination> 
+        </div>
         </div>  
     </div> 
   </div>
@@ -179,7 +188,12 @@ data: function (){
       total: 10,//numero de resultados a mostrar
       perPage: 10,//no se ocupa
       currentPage: 1,//pagina actual
-      hasMorePages: true,// tener más paginas                    
+      hasMorePages: true,// tener más paginas
+      fechaFiltro: '',
+      buscarGMMEP:'',
+      plazaFiltro:'',
+      estatus:'',
+      plazaidsquare: {},
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -406,6 +420,7 @@ methods:{
       this.lista_DTC_Filtrada = this.infoDTC
     })           
   },
+  //Metodos paginacion
   showMore(page) {
     this.lista_DTC_Filtrada = [];
     this.page = page;
@@ -414,19 +429,131 @@ methods:{
     this.loadingTable = true
     let userId = this.$store.state.Login.cookiesUser.userId
     let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null`)
+    if(this.fechaFiltro == '' && this.buscarGMMEP == '' && this.plazaFiltro == '' && this.estatus == ''){
+        this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null`)
+        .then((response) => {
+          console.log(response)
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+        }) 
+        .catch(() => this.loadingTable = false) 
+    }else if(this.plazaFiltro != ''){
+      this.filtrarplaza(this.plazaFiltro);
+    }else if(this.fechaFiltro != ''){
+      this.filtrofecha(this.fechaFiltro);
+    }else if(this.buscarGMMEP != ''){
+      this.filtroreferencia(this.buscarGMMEP);
+    }else if(this.estatus != ''){
+      this.filtrostatus(this.estatus);
+    }
+  },
+  todos(){
+        this.lista_DTC_Filtrada = []
+        this.fechaFiltro = ''
+        this.buscarGMMEP = ''
+        this.plazaFiltro = ''
+        this.estatus = ''
+        let userId = this.$store.state.Login.cookiesUser.userId
+        let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+        this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null`)
+        .then((response) => {
+            let prueba = response.data.result.rows
+            prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+            this.totalPages = response.data.result.numeroPaginas
+            this.currentPage = response.data.result.paginaActual
+            this.loadingTable = false
+        }) 
+        .catch((error) =>{ 
+          console.log(error);
+          this.loadingTable = false 
+        }) 
+  },
+  filtrarplaza(plaza){
+    this.plazaFiltro = plaza;
+    this.lista_DTC_Filtrada = []
+    let plazas = this.$store.state.Login.listaPlazas
+    this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
+    let userId = this.$store.state.Login.cookiesUser.userId
+    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/null/null`)
     .then((response) => {
-      console.log(response)
+      console.log(response);
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
-    }) 
-    .catch(() => this.loadingTable = false) 
-    
+      }) 
+    .catch((error) =>{ 
+      console.log(error);
+      this.loadingTable = false 
+    })
+  },
+  filtrofecha(fecha){
+    this.fechaFiltro = fecha;
+    this.lista_DTC_Filtrada = []
+    let userId = this.$store.state.Login.cookiesUser.userId
+    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.fechaFiltro}`)
+    .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }) 
+    .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+    })
+  },
+  filtroreferencia(referencia){
+    this.buscarGMMEP = referencia
+    let userId = this.$store.state.Login.cookiesUser.userId
+    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.buscarGMMEP}/null/null`)
+    .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }) 
+    .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+    })
+  },
+  filtrostatus(estatus){
+    this.estatus = estatus
+    this.lista_DTC_Filtrada = []
+    let userId = this.$store.state.Login.cookiesUser.userId
+    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.estatus}/null`)
+    .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }) 
+    .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+    })
   }
-
   }
 };
 </script>

@@ -46,34 +46,48 @@
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION GMMEP                 ////         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'GMMEP'" class=" sm:-mt-8 mb-1 justify-center sm:block sm:p-1 sm:pr-2 sm:m-1 shadow-md grid grid-cols font-titulo" 
-        :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
-        <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-3 md:mx-auto md:my-5 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-1" 
-            :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
-            <div class="mr-4 sm:mx-auto sm:ml-1 md:mx-3 md:mt-0 mt-4 ">
-                <p class="dtcpendientes font-bold sm:text-sm sm:text-center">Seleccione una Plaza:</p>
-                <p class="-ml-20 sm:ml-0 md:ml-0 md:mt-4">
-                    <SelectPlaza :fullPlazas="true" :vista="'GMMEP'" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
-                </p>
+        <div v-if="tipo == 'GMMEP'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" 
+        :class="{ 'mx-auto': dtcVista == 'pendientes' }">
+        <h1 class="text-black text-center text-4xl sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="flex content-center sm:flex-col  sm:justify-center md:justify-center" 
+            :class="{ 'flex content-center sm:flex-col sm:justify-center md:justify-center lg:justify-center xl:justify-center':dtcVista == 'pendientes' }">
+            <div class="p-3 w-1/4">
+                <div class="w-48 mx-auto text-center">
+                    <p class="font-bold sm:text-sm sm:text-center">Seleccione una Plaza:</p>
+                    <SelectPlaza :fullPlazas="true" :vista="'GMMEP'" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro_GMMEP"></SelectPlaza>
+                </div>
             </div>
-            <div class="m-3 sm:mx-auto md:mx-auto md:my-auto ">
-                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Fecha:</p>
-                <p class="input w-40 sm:w-62 sm:ml-1"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
-                <span class="block text-xs text-gray-600 sm:ml-2">*Fecha de Elaboración</span>
+            <div class="p-3 w-1/4">
+                <div class="text-center mx-auto font-bold">
+                    <p class=" sm:text-sm sm:text-center">Seleccione una Fecha:</p>
+                    <input v-model="fechaFiltro" @change="filtar_fecha_GMEEP()" class="input mx-auto border-none w-40 sm:w-full" type="date"/>
+                    <span class="block text-xs text-gray-600 sm:ml-2">*Fecha de Elaboración</span>
+                </div>
             </div>
-            <div class="m-3 sm:mx-auto md:mt-0 ">
-                <p class="pdtcpendientes sm:text-sm sm:text-center md:text-center">Escriba la Referencia:</p>
-                <p class="input w-40 sm:w-62 sm:ml-1 md:w-48"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-62 md:w-48" placeholder="PM-000000"/></p>
-            </div>     
+            <div class="p-3 w-1/4">
+                <div class="text-center font-bold">
+                    <p class="sm:text-sm">Escriba la Referencia:</p>
+                    <input v-model="buscarGMMEP" @change="filtar_referencia_GMEEP()" class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" placeholder="PM-000000"/>
+                </div>
+            </div>
+            <div class="p-3  w-1/4">
+                <div class="text-center font-bold">
+                    <p class="sm:text-sm">Estatus</p>
+                    <select class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" v-model ="estatus" @change="filtro_status_GMEEP()">
+                        <option value=""></option>
+                        <option value="4">GMEEP (4)</option>
+                        <option value="5">Gerencia (5)</option>
+                    </select>
+                </div>
+            </div>      
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
-        ///                    BOTONES DE NAVEGACION  DTC               ////
+        ///                    BOTONES DE NAVEGACION  GMEEP              ////
        ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 text-center justify-items-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton sm:h-8">
+            <button @click="filtrar_GMMEP_todos()" class="w-32 botonTodos font-boton sm:h-8">
                 <img src="../../assets/img/todos.png" class="mr-4" width="25" height="2"/>
-                <span class="-ml-2">Todos</span>
+                <span class="-ml-2">Todos </span>
             </button>
             <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton hidden">
                 <img src="../../assets/img/lupa.png" class="mr-4" width="25" height="2"/>
@@ -215,8 +229,6 @@
                     <div class="inline-flex mx-8">
                         <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                     </div>
-                    
-                    
                 </div>
             </div>
             <div class=" m-3 md:mx-auto ">
@@ -449,6 +461,7 @@ export default {
             sesionName: '',
             sesioninicio: false,
             value:'',
+            estatus:'',
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -650,6 +663,27 @@ export default {
                 this.diaSesiones = ''
                 this.$emit('filtrar-todos')
             }
+        },
+        //Metodos GMMEP
+        actualizar_plaza_filtro_GMMEP(value){
+            this.plazaFiltro = value
+            this.$emit('filtrar-plazas-GMMEP', this.plazaFiltro)
+        },
+        filtar_fecha_GMEEP(){
+            this.$emit('filtar_fecha_GMEEP', this.fechaFiltro)
+        },
+        filtar_referencia_GMEEP(){
+            this.$emit('filtar_referencia_GMEEP', this.buscarGMMEP)
+        },
+        filtro_status_GMEEP(){
+            this.$emit('filtro_status_GMEEP', this.estatus)
+        },
+        filtrar_GMMEP_todos(){
+            this.fechaFiltro = ''
+            this.buscarGMMEP = ''
+            this.plazaFiltro = ''
+            this.estatus = ''
+            this.$emit('filtrar-todos_GMEEP')
         },
         customLabel ({ title }) {
             return `${title}`
