@@ -107,11 +107,10 @@
             :listaDataTable="lista_DTC_Filtrada"
             :loadingTabla="loadingTabla"
             :validarAcciones="opticones_select_acciones"
-            :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Fecha Siniestro', key: 'sinisterDate', formatoFecha: true},{text: 'Registro Sistema', key: 'dateStamp', formatoFecha: true},{text: 'Folio', key: 'failureNumber'},{text: 'N° Reporte', key:'reportNumber'},{text: 'N° Siniestro', key: 'sinisterNumber'},{text: 'Fecha Falla', key: 'sinisterNumber'},{text: 'Acciones', key: 'Acciones'}]"
+            :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Fecha Siniestro', key: 'sinisterDate', formatoFecha: true},{text: 'Registro Sistema', key: 'dateStamp', formatoFecha: true},{text: 'Folio', key: 'failureNumber'},{text: 'N° Reporte', key:'reportNumber'},{text: 'N° Siniestro', key: 'sinisterNumber'},{text: 'Fecha Falla', key: 'failureDate',formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
             :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
         >
         </TablaGenerica>
-        
         <Pagination
           :total-pages="totalPages" 
           :total="total"
@@ -157,7 +156,7 @@ data: function (){
       filtroVista: true,
       pdfSelladoBool: true,
       subirImgModal: false,
-      loadingTabla: false,
+      loadingTabla: true,
       modalCambiarStatus: false,
       bandera:false,
       carruselModal: false,      

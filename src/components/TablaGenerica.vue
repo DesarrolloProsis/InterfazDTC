@@ -1,13 +1,13 @@
 <template>
   <div>    
-    <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-12 sm:text-xs w-full" style="height:525px;">
+    <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-12 sm:text-xs w-full" style="height:506px;">
         <table class="border-collapse table-auto  whitespace-no-wrap bg-white table-striped w-full">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////
             ////////////////////////////////////////////////////////////////////-->
             <thead id="">
                 <!-- VersionPC  -->
-                <tr class="text-sm text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden">
+                <tr class="text-sm text-gray-400 font-normal bg-blue-800 sm:hidden md:hidden w-full">
                     <th colspan="movilHeaderKey.length">
                         <div class="grid grid-rows-1" :class="{'grid-cols-8': normalheaderKey.length == 8, 'grid-cols-9': normalheaderKey.length == 9, 'grid-cols-3': normalheaderKey.length == 3 }">
                             <div v-for="(item, keyPc) in normalheaderKey" :key="keyPc" class="cabeceraTable border-none">                                
@@ -38,7 +38,7 @@
                         </td>
                     </tr>  
                 </template> 
-                <template v-else-if="loadingTabla">  
+                <template v-else-if="loadingTabla && listaDataTable.length == 0">  
                     <tr>
                         <td colspan="9">                                    
                             <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>

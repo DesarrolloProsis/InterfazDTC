@@ -46,7 +46,7 @@
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION GMMEP                 ////         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'GMMEP'" class="-mt-14 sm:-mt-8 mb-1 justify-center sm:block sm:p-1 sm:pr-2     sm:m-1 shadow-md grid grid-cols font-titulo" 
+        <div v-if="tipo == 'GMMEP'" class=" sm:-mt-8 mb-1 justify-center sm:block sm:p-1 sm:pr-2 sm:m-1 shadow-md grid grid-cols font-titulo" 
         :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
         <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
         <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-3 md:mx-auto md:my-5 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-1" 
