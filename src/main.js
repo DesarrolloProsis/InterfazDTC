@@ -149,7 +149,8 @@ library.add(faUserSecret,
   faCircleCheck,
   faUserGear,
   faFilePdf,
-  faCamera
+  faCamera,
+  faArrowRightArrowLeft
   )
 
 /* add font awesome icon component */

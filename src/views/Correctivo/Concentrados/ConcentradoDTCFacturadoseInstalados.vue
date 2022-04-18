@@ -235,8 +235,12 @@ export default {
           this.loadingTable = false
       }) 
       .catch((error) =>{ 
-        console.log(error);
-        this.loadingTable = false 
+        console.log(error.response);
+        if(error.response.status == 404){
+          this.loadingTable = false
+          this.infoDTC = []
+          this.lista_DTC_Filtrada = [] 
+        }
       }) 
     },
     /////////////////////////////////////////////////////////////////////

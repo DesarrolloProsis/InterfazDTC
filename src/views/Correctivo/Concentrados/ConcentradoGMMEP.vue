@@ -57,7 +57,7 @@
                     <option value="2">Concluido</option>                                                                  
                     <option value="3">Sellado</option>                                                                                                                               
                     <option v-if="tipoUsuario == 10" value="4">GMMEP</option>
-                    <option v-if="dtcEdit.technicalSheetReference != '--' " value="5">Almacen</option>  
+                    <option v-if="dtcEdit.technicalSheetReference != '--' " value="5">Gerencia</option>  
                   </select> 
                 </div>
                 <div class="mt-5">
@@ -198,6 +198,7 @@ beforeMount: function () {
   if( rol == 7){
     this.rollId = false
   }
+  this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
   let userId = this.$store.state.Login.cookiesUser.userId
   let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
   this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null`)
@@ -296,7 +297,7 @@ methods:{
     if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
     }
-    
+    console.log(filtroOpciones)
     return filtroOpciones
   },  
   limpiar_componete_escaneado: function(){
@@ -374,6 +375,7 @@ methods:{
         this.infoDTC = this.lista_DTC_Filtrada              
         this.statusEdit = ''; this.motivoCambio = '';  this.dtcEdit = '';
         this.loadingTabla = false
+        
       }) 
     }
     else {
