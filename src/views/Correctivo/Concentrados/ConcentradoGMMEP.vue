@@ -92,13 +92,7 @@
         /////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->   
         <HeaderGenerico 
-          @limpiar-filtros="limpiar_filtros"
-          @filtrar-plazas-GMMEP="filtrarplaza"
-          @filtar_fecha_GMEEP="filtrofecha"
-          @filtar_referencia_GMEEP="filtroreferencia"
-          @filtro_status_GMEEP="filtrostatus" 
-          @filtrar-dtc="filtro_dtc" 
-          @buscar-gmmep="guardar_palabra_busqueda"
+          @filtro_GMEEP="filtro_GMEEPA"
           @filtrar-todos_GMEEP="todos" 
           :titulo="'Concentrado GMMEP'" 
           :tipo="'GMMEP'"
@@ -269,13 +263,13 @@ methods:{
   },
   opticones_select_acciones(item){
     const options= [                
-      { title: 'Bajar DTC Firmado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //0
-      { title: 'Terminar Diagnostico', accionCss: 'terminar', img: '/img/add.36624e63.png' },//1
-      { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
-      { title: 'Bajar DTC Sellado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//3
-      { title: 'Subir DTC Sellado', accionCss: 'terminar', img: '/img/upload.8d26bb4f.png' },//4
-      { title: 'Actualizar Componentes', accionCss: 'editar', img: '/img/actualizado.cafc2f1a.png' },//5
-      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//6
+      { title: 'Bajar DTC Firmado', accionCss: 'terminar', img: 'fa-solid fa-file-arrow-down' }, //0
+      { title: 'Terminar Diagnostico', accionCss: 'terminar', img: 'fa-solid fa-file-circle-plus' },//1
+      { title: 'Cambiar Estatus', accionCss: 'editar', img: 'fa-solid fa-arrow-right-arrow-left' },//2
+      { title: 'Bajar DTC Sellado', accionCss: 'terminar', img: 'fa-solid fa-file-arrow-down' },//3
+      { title: 'Subir DTC Sellado', accionCss: 'terminar', img: 'fa-solid fa-file-arrow-up' },//4
+      { title: 'Actualizar Componentes', accionCss: 'editar', img: 'fa-solid fa-file-pen' },//5
+      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: 'fa-solid fa-file-arrow-down' },//6
     ]
     let filtroOpciones = []
     if(this.tipoUsuario == 8 || this.tipoUsuario == 4){
@@ -440,14 +434,8 @@ methods:{
           this.loadingTable = false
         }) 
         .catch(() => this.loadingTable = false) 
-    }else if(this.plazaFiltro != ''){
-      this.filtrarplaza(this.plazaFiltro);
-    }else if(this.fechaFiltro != ''){
-      this.filtrofecha(this.fechaFiltro);
-    }else if(this.buscarGMMEP != ''){
-      this.filtroreferencia(this.buscarGMMEP);
-    }else if(this.estatus != ''){
-      this.filtrostatus(this.estatus);
+    }else{
+      this.filtro_GMEEPA(this.plazaFiltro,this.fechaFiltro,this.buscarGMMEP,this.estatus);
     }
   },
   todos(){
@@ -471,89 +459,280 @@ methods:{
           this.loadingTable = false 
         }) 
   },
-  filtrarplaza(plaza){
+  filtro_GMEEPA(plaza,fecha,referencia,estatus){
+    this.lista_DTC_Filtrada = []
     this.plazaFiltro = plaza;
-    this.lista_DTC_Filtrada = []
-    let plazas = this.$store.state.Login.listaPlazas
-    this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
-    let userId = this.$store.state.Login.cookiesUser.userId
-    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/null/null`)
-    .then((response) => {
-      console.log(response);
-      let prueba = response.data.result.rows
-      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
-      this.totalPages = response.data.result.numeroPaginas
-      this.currentPage = response.data.result.paginaActual
-      this.loadingTable = false
-      }) 
-    .catch((error) =>{ 
-      console.log(error);
-      this.loadingTable = false 
-    })
-  },
-  filtrofecha(fecha){
     this.fechaFiltro = fecha;
-    this.lista_DTC_Filtrada = []
+    this.buscarGMMEP = referencia;
+    this.estatus = estatus;
     let userId = this.$store.state.Login.cookiesUser.userId
     let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.fechaFiltro}`)
-    .then((response) => {
+    let plazas = this.$store.state.Login.listaPlazas
+    if(this.plazaFiltro != ''){
+      this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
+    }
+    //Filtros 1 parametro
+    if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/null/null`)
+      .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
-      }) 
-    .catch((error) =>{ 
+      })
+      .catch((error) =>{ 
       if(error.response.status == 404){
         this.lista_DTC_Filtrada = []
         this.loadingTable = false
       }
-    })
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.buscarGMMEP}/null/null`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.estatus}/null`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }   
+    // Filtros 2 Parametros plaza
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/null/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/null/null`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/${this.estatus}/null`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtros 2 parametros Fecha
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtros 2 parametros referencia
+    else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.buscarGMMEP}/${this.estatus}/null`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtros 3 parametros
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/${this.estatus}/null`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtro para cuando hay un parametro en especifico
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      console.log(response);
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
   },
-  filtroreferencia(referencia){
-    this.buscarGMMEP = referencia
-    let userId = this.$store.state.Login.cookiesUser.userId
-    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.buscarGMMEP}/null/null`)
-    .then((response) => {
-      console.log(response);
-      let prueba = response.data.result.rows
-      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
-      this.totalPages = response.data.result.numeroPaginas
-      this.currentPage = response.data.result.paginaActual
-      this.loadingTable = false
-      }) 
-    .catch((error) =>{ 
-      if(error.response.status == 404){
-        this.lista_DTC_Filtrada = []
-        this.loadingTable = false
-      }
-    })
-  },
-  filtrostatus(estatus){
-    this.estatus = estatus
-    this.lista_DTC_Filtrada = []
-    let userId = this.$store.state.Login.cookiesUser.userId
-    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-    this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.estatus}/null`)
-    .then((response) => {
-      console.log(response);
-      let prueba = response.data.result.rows
-      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
-      this.totalPages = response.data.result.numeroPaginas
-      this.currentPage = response.data.result.paginaActual
-      this.loadingTable = false
-      }) 
-    .catch((error) =>{ 
-      if(error.response.status == 404){
-        this.lista_DTC_Filtrada = []
-        this.loadingTable = false
-      }
-    })
-  }
   }
 };
 </script>

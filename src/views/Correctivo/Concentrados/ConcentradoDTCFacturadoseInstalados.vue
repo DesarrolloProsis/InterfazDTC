@@ -3,14 +3,13 @@
         <!--///////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
         ////////////////////////////////////////////////////////////////////-->
-        <HeaderGenerico 
-          @limpiar-filtros="limpiar_filtros" 
-          @filtrar-dtc="filtro_dtc" 
-          @buscar-facturado="guardar_palabra_busqueda" 
+        <HeaderGenerico
+          @filtro_Actas="filtro_Actas" 
+          @filtrar-todos-Actas="todos"
           :titulo="'Actas de Entrega y Recepción'" 
           :tipo="'CDTCF'" 
         />
-        <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto xl:h-75 mb-20">
+        <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto mb-20" style="height:506px;">
           <table class="w-full rounded-lg mt-4">
           <thead class="">
             <tr>
@@ -21,13 +20,20 @@
             </tr>
           </thead>
           <tbody>
-            <template v-if="lista_DTC_Filtrada.length == 0"> 
-                                <tr>
-                                    <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
-                                        <div class="mt-8 mb-8">Sin Informacion</div>
-                                    </td>
-                                </tr>  
-            </template> 
+            <template v-if="lista_DTC_Filtrada.length == 0 && !loadingTabla "> 
+              <tr>
+                <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
+                  <div class="mt-8 mb-8">Sin Informacion</div>
+                </td>
+              </tr>  
+            </template>
+            <template v-else-if="loadingTabla && lista_DTC_Filtrada.length == 0">  
+                    <tr>
+                        <td colspan="9">                                    
+                            <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
+                        </td>                          
+                    </tr>  
+            </template>  
             <template v-if="lista_DTC_Filtrada.length > 0">
             <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" :class="{'hidden': dtc.typeFaultId == 0}">
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.referenceNumber}}</td>
@@ -174,7 +180,7 @@ export default {
     /////////////////////////////////////////////////////////////////////
     data: function (){
     return {      
-        loadingTabla: false,
+        loadingTabla: true,
         lista_DTC_Filtrada: [],
         showModal: false,
         modalCambiarStatus: false,     
@@ -187,201 +193,349 @@ export default {
         statusEdit: "",
         motivoCambio:"",
         limite:300,
-        listaanexosgenerados:{},          
+        listaanexosgenerados:{},
+        //Data de la paginacion 
+        page: 1,//pagina en la que quieres iniciar la vista
+        totalPages: 0,//total de paginas
+        total: 10,//numero de resultados a mostrar
+        perPage: 10,//no se ocupa
+        currentPage: 1,//pagina actual
+        hasMorePages: true,// tener más paginas
+        fechaFiltro: '',
+        buscarActa:'',
+        plazaFiltro:'',
+        estatus:'',
+        plazaidsquare: {},          
         }
     },
     /////////////////////////////////////////////////////////////////////
     ////                       CICLOS DE VIDA                        ////
     /////////////////////////////////////////////////////////////////////
     beforeMount: function () {
-      this.filtroVista = undefined
       this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-      this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
+      let userId = this.$store.state.Login.cookiesUser.userId
+      let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
       let infousuario = this.$store.state.Login.cookiesUser
-      if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
-        this.lista_DTC_Filtrada = this.infoDTC
-        console.log(this.lista_DTC_Filtrada)
-      }else {
-        let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
-          if(dtc.userId == infousuario.userId){
-            return dtc
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/5/null`)
+      .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.infoDTC.push(element.dtcView));
+          if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
+              this.lista_DTC_Filtrada = this.infoDTC
+          }else {
+              let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
+              if(dtc.userId == infousuario.userId){
+              return dtc
+            }
+          })
+            this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
           }
-        })
-        this.lista_DTC_Filtrada = dtcfiltradoporusuario;
-        console.log(this.lista_DTC_Filtrada);
-        // if(this.lista_DTC_Filtrada[0] == undefined){
-        //   this.lista_DTC_Filtrada = []
-        // }
-      }
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+      }) 
+      .catch((error) =>{ 
+        console.log(error);
+        this.loadingTable = false 
+      }) 
     },
     /////////////////////////////////////////////////////////////////////
     ////                           METODOS                           ////
     /////////////////////////////////////////////////////////////////////
     methods:{
-    acciones_mapper(dtc){     
-      console.log(this.selectMulti.title);
-      console.log(dtc)          
-      if(this.selectMulti.title == 'Anexos Generados'){
-        this.showModal = true;
-        this.selectMulti = '';
-        this.Anexosgenerados(dtc);
-      }
-      else if(this.selectMulti.title == 'Generar Anexo'){
-        if (dtc.typeFaultId === 2) {
-          this.$router.push(`/Anexo1A/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
-          this.selectMulti = '';
-        } else if (dtc.typeFaultId === 3){
-          this.$router.push(`/Anexo1B/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
-          this.selectMulti = '';
-        }
-      } 
-      else if(this.selectMulti.title == 'Cambiar Estatus'){
-        this.modalCambiarStatus = true;
-        this.dtcCambiarestatus = dtc;
-        console.log(this.dtcCambiarestatus);
-        this.selectMulti = '';
-        console.log(this.modalCambiarStatus);
-      } 
-    },
-    customLabel ({ title }) {
-      return `${title}`
-    },
-    opticones_select_acciones(dtc){
-            const options= [                
-            { title: 'Anexos Generados', accionCss: 'terminar', img: '/img/list.03b04500.png' }, //0
-            { title: 'Generar Anexo', accionCss: 'terminar', img: '/img/slide.44400136.png' },//1
-            { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
-            ]
-            let filtroOpciones = []
-            if(this.tipoUsuario == 1 || this.tipoUsuario == 4){
-              if(dtc.isAnexoCreate == true){
-                filtroOpciones.push(options[0])
-              }
-              if(dtc.isValidCreate == true && this.tipoUsuario == 1){
-                filtroOpciones.push(options[1])
-              }
+      acciones_mapper(dtc){     
+          console.log(this.selectMulti.title);
+          console.log(dtc)          
+          if(this.selectMulti.title == 'Anexos Generados'){
+            this.showModal = true;
+            this.selectMulti = '';
+            this.Anexosgenerados(dtc);
+          }
+          else if(this.selectMulti.title == 'Generar Anexo'){
+            if (dtc.typeFaultId === 2) {
+              this.$router.push(`/Anexo1A/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
+              this.selectMulti = '';
+            } else if (dtc.typeFaultId === 3){
+              this.$router.push(`/Anexo1B/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
+              this.selectMulti = '';
             }
-            if(this.tipoUsuario == 4){
-              filtroOpciones.push(options[2])
-            }
+          } 
+          else if(this.selectMulti.title == 'Cambiar Estatus'){
+            this.modalCambiarStatus = true;
+            this.dtcCambiarestatus = dtc;
+            console.log(this.dtcCambiarestatus);
+            this.selectMulti = '';
+            console.log(this.modalCambiarStatus);
+          } 
+      },
+      customLabel ({ title }) {
+          return `${title}`
+      },
+      opticones_select_acciones(dtc){
+                const options= [                
+                { title: 'Anexos Generados', accionCss: 'terminar', img: '/img/list.03b04500.png' }, //0
+                { title: 'Generar Anexo', accionCss: 'terminar', img: '/img/slide.44400136.png' },//1
+                { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
+                ]
+                let filtroOpciones = []
+                if(this.tipoUsuario == 1 || this.tipoUsuario == 4){
+                  if(dtc.isAnexoCreate == true){
+                    filtroOpciones.push(options[0])
+                  }
+                  if(dtc.isValidCreate == true && this.tipoUsuario == 1){
+                    filtroOpciones.push(options[1])
+                  }
+                }
+                if(this.tipoUsuario == 4){
+                  filtroOpciones.push(options[2])
+                }
 
-            return filtroOpciones
-    },
-    botoncancelar_modal: function (){ 
-    this.selectMulti = "";
-    this.showModal = false; 
-    document.body.classList.remove("modal-open");
-    },
-    opticones_select_acciones_modal(){
-            const options= [                
-            { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //0
-            { title: 'Descargar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
-            ]
-            let filtroOpciones = []
-            if(this.tipoUsuario == 1){
-              filtroOpciones.push(options[0])
+                return filtroOpciones
+      },
+      botoncancelar_modal: function (){ 
+        this.selectMulti = "";
+        this.showModal = false; 
+        document.body.classList.remove("modal-open");
+      },
+      opticones_select_acciones_modal(){
+                const options= [                
+                { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //0
+                { title: 'Descargar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
+                ]
+                let filtroOpciones = []
+                if(this.tipoUsuario == 1){
+                  filtroOpciones.push(options[0])
+                }
+                if(this.tipoUsuario == 4 || this.tipoUsuario == 1){
+                  filtroOpciones.push(options[1])
+                }
+                return filtroOpciones
+      },
+      acciones_mapper_modal(anxg){
+          console.log(this.selectMultiModal.title);
+          console.log(anxg);
+          if(this.selectMultiModal.title == 'Editar'){
+            if (anxg.tipoAnexo === "A") {
+              this.$router.push(`/EditarAnexo1A/${anxg.anexoReference}/${anxg.dtcReference}`);
+              this.selectMultiModal = '';
+            } else if (anxg.tipoAnexo === "B"){
+              this.$router.push(`/EditarAnexo1B/${anxg.anexoReference}/${anxg.dtcReference}`);
+              this.selectMultiModal = '';
             }
-            if(this.tipoUsuario == 4 || this.tipoUsuario == 1){
-              filtroOpciones.push(options[1])
+          }else if(this.selectMultiModal.title == 'Descargar Anexo'){
+            let subversion = false;
+            if (anxg.tipoAnexo === "A") {
+              ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
+              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
+              this.selectMultiModal = '';
+            } else if (anxg.tipoAnexo === "B"){
+              ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,subversion);
+              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
+              this.selectMultiModal = '';
             }
-            return filtroOpciones
-    },
-    acciones_mapper_modal(anxg){
-      console.log(this.selectMultiModal.title);
-      console.log(anxg);
-      if(this.selectMultiModal.title == 'Editar'){
-        if (anxg.tipoAnexo === "A") {
-          this.$router.push(`/EditarAnexo1A/${anxg.anexoReference}/${anxg.dtcReference}`);
-          this.selectMultiModal = '';
-        } else if (anxg.tipoAnexo === "B"){
-          this.$router.push(`/EditarAnexo1B/${anxg.anexoReference}/${anxg.dtcReference}`);
-          this.selectMultiModal = '';
+          }
+      },
+      guardar_palabra_busqueda: function(newPalabra){
+        if (newPalabra != "") {   
+          this.lista_DTC_Filtrada = [] 
+          console.log(newPalabra);  
+          setTimeout(async () => {
+            let array_filtrado = this.infoDTC.filter(item => {
+              return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
+            })       
+            this.lista_DTC_Filtrada = array_filtrado;
+          },1000)
         }
-      }else if(this.selectMultiModal.title == 'Descargar Anexo'){
-        let subversion = false;
-         if (anxg.tipoAnexo === "A") {
-           ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
-           ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
-           this.selectMultiModal = '';
-        } else if (anxg.tipoAnexo === "B"){
-           ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,subversion);
-           ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
-           this.selectMultiModal = '';
+        else{
+          this.lista_DTC_Filtrada = this.infoDTC
         }
-      }
-    },
-    guardar_palabra_busqueda: function(newPalabra){
-    if (newPalabra != "") {   
-      this.lista_DTC_Filtrada = [] 
-      console.log(newPalabra);  
-      setTimeout(async () => {
-        let array_filtrado = this.infoDTC.filter(item => {
-          return item.referenceNumber.toUpperCase().includes(newPalabra.toUpperCase())
-        })       
-        this.lista_DTC_Filtrada = array_filtrado;
-      },1000)
-    }
-    else{
-      this.lista_DTC_Filtrada = this.infoDTC
-    }
-  }, 
-  filtro_dtc: async function (objFiltro) {     
-    if( objFiltro.plazaFiltro != '' || objFiltro.referenciaFiltro != ''){      
-      this.lista_DTC_Filtrada = []   
-      setTimeout(async () => {
-        let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, '' , objFiltro.referenciaFiltro, undefined, false, undefined)    
-        this.$nextTick().then(() => {      
-            this.lista_DTC_Filtrada = listaFiltrada            
-        }) 
-      },1000)
-    }  
-    else{
-      this.$notify.warning({
-        title: "Ups!",
-        msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
-        position: "bottom right",
-        styles: { height: 100, width: 500 },
-      });
-    }
-  },
-  limpiar_filtros: function() {                                         
-    this.$nextTick().then(() => {             
-      this.lista_DTC_Filtrada = this.infoDTC
-    })           
-  },
-  editar_status_dtc: function (){    
-    this.modalCambiarStatus = false
-    let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']    
-    let objeActualizado = { "referenceNumber": this.dtcCambiarestatus.referenceNumber, "statusId": parseInt(this.statusEdit), "userId": user.idUser, "comment": this.motivoCambio }        
-    if(this.statusEdit != '' && this.motivoCambio != ''){         
-      this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcCambiarestatus.referenceNumber.split('-')[0]}`, objeActualizado)
-      .then(() => {                          
-        let indexRowUpdate = this.lista_DTC_Filtrada.findIndex(item => item.referenceNumber == this.dtcCambiarestatus.referenceNumber)
-        this.lista_DTC_Filtrada.splice(indexRowUpdate, 1)
-        this.infoDTC = this.lista_DTC_Filtrada              
-        this.statusEdit = ''; this.motivoCambio = '';  this.dtcCambiarestatus = '';
-      }) 
-    }
-    else {
-      this.$notify.warning({
-        title: "Ups!",
-        msg: `NO SE HA LLENADO LOS CAMPOS.`,
-        position: "bottom right",
-        styles: { height: 100, width: 500 },
-      });
-      this.lista_DTC_Filtrada = this.infoDtc
-    }
-  },
-  async Anexosgenerados(dtc){
-      try {
-        const data = await fetch(`${API}/AnexoDTC/Historico/${dtc.referenceSquare}/${dtc.referenceNumber}`)
-        const objeto = await data.json()
-        this.listaanexosgenerados = objeto.result;
-        console.log(this.listaanexosgenerados);
-      } catch (error) {
-        console.log(error);
-      }
-  }
+      }, 
+      filtro_dtc: async function (objFiltro) {     
+        if( objFiltro.plazaFiltro != '' || objFiltro.referenciaFiltro != ''){      
+          this.lista_DTC_Filtrada = []   
+          setTimeout(async () => {
+            let listaFiltrada = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, objFiltro.plazaFiltro, '' , objFiltro.referenciaFiltro, undefined, false, undefined)    
+            this.$nextTick().then(() => {      
+                this.lista_DTC_Filtrada = listaFiltrada            
+            }) 
+          },1000)
+        }  
+        else{
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE HA LLENADO NINGUN CAMPO PARA FILTRAR.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
+          });
+        }
+      },
+      limpiar_filtros: function() {                                         
+        this.$nextTick().then(() => {             
+          this.lista_DTC_Filtrada = this.infoDTC
+        })           
+      },
+      editar_status_dtc: function (){    
+        this.modalCambiarStatus = false
+        let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']    
+        let objeActualizado = { "referenceNumber": this.dtcCambiarestatus.referenceNumber, "statusId": parseInt(this.statusEdit), "userId": user.idUser, "comment": this.motivoCambio }        
+        if(this.statusEdit != '' && this.motivoCambio != ''){         
+          this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcCambiarestatus.referenceNumber.split('-')[0]}`, objeActualizado)
+          .then(() => {                          
+            let indexRowUpdate = this.lista_DTC_Filtrada.findIndex(item => item.referenceNumber == this.dtcCambiarestatus.referenceNumber)
+            this.lista_DTC_Filtrada.splice(indexRowUpdate, 1)
+            this.infoDTC = this.lista_DTC_Filtrada              
+            this.statusEdit = ''; this.motivoCambio = '';  this.dtcCambiarestatus = '';
+          }) 
+        }
+        else {
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `NO SE HA LLENADO LOS CAMPOS.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
+          });
+          this.lista_DTC_Filtrada = this.infoDtc
+        }
+      },
+      async Anexosgenerados(dtc){
+          try {
+            const data = await fetch(`${API}/AnexoDTC/Historico/${dtc.referenceSquare}/${dtc.referenceNumber}`)
+            const objeto = await data.json()
+            this.listaanexosgenerados = objeto.result;
+            console.log(this.listaanexosgenerados);
+          } catch (error) {
+            console.log(error);
+          }
+      },
+      filtro_Actas(plaza,referencia){
+        this.lista_DTC_Filtrada = []
+        this.plazaFiltro = plaza;
+        this.buscarActa = referencia;
+        let userId = this.$store.state.Login.cookiesUser.userId
+        let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+        let plazas = this.$store.state.Login.listaPlazas
+        if(this.plazaFiltro != ''){
+          this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
+        }
+        if(this.plazaFiltro != '' && this.buscarActa == ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+        else if(this.plazaFiltro == '' && this.buscarActa != ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.buscarActa}/5/null`)
+          .then((response) => {
+          console.log(response);
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }else if(this.plazaFiltro != '' && this.buscarActa != ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarActa}/5/null`)
+          .then((response) => {
+          console.log(response);
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+      },
+      todos(){
+        this.infoDTC = []
+        this.lista_DTC_Filtrada = []
+        this.buscarActa = ''
+        this.plazaFiltro = ''
+        this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
+        let userId = this.$store.state.Login.cookiesUser.userId
+        let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+        let infousuario = this.$store.state.Login.cookiesUser
+        this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/5/null`)
+        .then((response) => {
+            let prueba = response.data.result.rows
+            prueba.forEach(element => this.infoDTC.push(element.dtcView));
+            if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
+              this.lista_DTC_Filtrada = this.infoDTC
+            }else {
+              let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
+              if(dtc.userId == infousuario.userId){
+              return dtc
+            }
+            })
+              this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
+            }
+            this.totalPages = response.data.result.numeroPaginas
+            this.currentPage = response.data.result.paginaActual
+            this.loadingTable = false
+          }) 
+        .catch((error) =>{ 
+          console.log(error);
+          this.loadingTable = false 
+        })
+      },
+      showMore(page) {
+        this.lista_DTC_Filtrada = [];
+        this.page = page;
+        this.currentPage = page;  
+        this.$router.push({path: 'ConcentradoGMMEP', query: { 'Pagina': page, 'nameFilter': null } })
+        this.loadingTable = true
+        let userId = this.$store.state.Login.cookiesUser.userId
+        let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+        this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
+        let infousuario = this.$store.state.Login.cookiesUser
+        if(this.plazaFiltro == '' && this.buscarActa == ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/5/null`)
+          .then((response) => {
+              let prueba = response.data.result.rows
+              prueba.forEach(element => this.infoDTC.push(element.dtcView));
+              if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
+                  this.lista_DTC_Filtrada = this.infoDTC
+              }else {
+                  let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
+                  if(dtc.userId == infousuario.userId){
+                  return dtc
+                }
+              })
+                this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
+              }
+              this.totalPages = response.data.result.numeroPaginas
+              this.currentPage = response.data.result.paginaActual
+              this.loadingTable = false
+          }) 
+          .catch((error) =>{ 
+            console.log(error);
+            this.loadingTable = false 
+          }) 
+        }else{
+          this.filtro_Actas(this.plazaFiltro,this.buscarActa);
+        }
+      },
   },
   /////////////////////////////////////////////////////////////////////
   ////                       COMPUTADOS                            ////

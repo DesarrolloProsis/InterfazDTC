@@ -67,13 +67,13 @@
                             @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="listaAcciones" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                 <template slot="singleLabel" slot-scope="props">
                                     <div class="inline-flex">
-                                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                        <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>                                                                
                                         <span class="option__title bg-red-300">{{ props.option.title }}</span>
                                     </div>
                                 </template>
                                 <template slot="option" slot-scope="props">                                                
                                     <div class="option__desc "><span class="option__title inline-flex">
-                                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                        <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>     
                                         {{ props.option.title }}</span>
                                     </div>
                                 </template>

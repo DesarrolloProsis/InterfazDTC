@@ -106,7 +106,7 @@ export default {
             { texto: 'Concentrado Diag/Ficha', img: "fa-solid fa-folder-tree", path: '/ConcentradoFichas', rollValidos:[1,2,4,5, 7, 9,10]},
             { texto: 'Concentrado DTC', img: "fa-solid fa-paste", path: '/ListarDtc', rollValidos: [1,2, 4, 5, 7, 10]},
             { texto: 'Concentrado GMMEP', img: "fa-solid fa-file-circle-check", path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 8,9,10]},
-            { texto: 'Concentrado DTC Borrados', img: '/img/borrados.ee2662d6.png', path: '/ConcentradoBorrados', rollValidos: [4,10]},
+            { texto: 'Concentrado DTC Borrados', img: 'fa-solid fa-file-circle-xmark', path: '/ConcentradoBorrados', rollValidos: [4,10]},
             { texto: 'Inventario', img: "fa-solid fa-boxes-stacked", path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
             { texto: 'Entrega / Recepción', img: "fa-solid fa-file-invoice-dollar", path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
             { texto: 'Reportes', img: "fa-solid fa-file-invoice", path: '/Reportes', rollValidos: [4]},

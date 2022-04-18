@@ -55,26 +55,26 @@
             <div class="p-3 w-1/4">
                 <div class="w-48 mx-auto text-center">
                     <p class="font-bold sm:text-sm sm:text-center">Seleccione una Plaza:</p>
-                    <SelectPlaza :fullPlazas="true" :vista="'GMMEP'" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro_GMMEP"></SelectPlaza>
+                    <SelectPlaza :fullPlazas="true" :vista="'GMMEP'" :tipo="'filtro'" @actualizar-plaza="filtrarGMEEP"></SelectPlaza>
                 </div>
             </div>
             <div class="p-3 w-1/4">
                 <div class="text-center mx-auto font-bold">
                     <p class=" sm:text-sm sm:text-center">Seleccione una Fecha:</p>
-                    <input v-model="fechaFiltro" @change="filtar_fecha_GMEEP()" class="input mx-auto border-none w-40 sm:w-full" type="date"/>
+                    <input v-model="fechaFiltro" @change="filtrarGMEEP()" class="input mx-auto border-none w-40 sm:w-full" type="date"/>
                     <span class="block text-xs text-gray-600 sm:ml-2">*Fecha de Elaboración</span>
                 </div>
             </div>
             <div class="p-3 w-1/4">
                 <div class="text-center font-bold">
                     <p class="sm:text-sm">Escriba la Referencia:</p>
-                    <input v-model="buscarGMMEP" @change="filtar_referencia_GMEEP()" class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" placeholder="PM-000000"/>
+                    <input v-model="buscarGMMEP" @change="filtrarGMEEP()" class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" placeholder="PM-000000"/>
                 </div>
             </div>
             <div class="p-3  w-1/4">
                 <div class="text-center font-bold">
                     <p class="sm:text-sm">Estatus</p>
-                    <select class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" v-model ="estatus" @change="filtro_status_GMEEP()">
+                    <select class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" v-model ="estatus" @change="filtrarGMEEP()">
                         <option value=""></option>
                         <option value="4">GMEEP (4)</option>
                         <option value="5">Gerencia (5)</option>
@@ -357,13 +357,13 @@
             <div class="xl:m-3 w-full xl:w-1/2">   
                 <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
                     <label class="font-bold sm:text-xs sm:text-center">Seleccione una Plaza:</label>
-                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" :vista="'DTCFacturados'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" :vista="'DTCFacturados'" @actualizar-plaza="fitrarActas"></SelectPlaza>
                 </div>                                     
             </div>
             <div class="xl:m-3 w-full xl:w-1/2">
                 <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
                     <label class="font-bold sm:text-xs sm:text-center">Referencia:</label>
-                    <input v-model="buscarDTCfacturado" class="border w-full text-xs text-center h-5 is_valid" placeholder="PM-000000"/>
+                    <input v-model="buscarDTCfacturado" class="border w-full text-xs text-center h-5 is_valid" @change="fitrarActas()" placeholder="PM-000000"/>
                 </div>
             </div>
         </div>
@@ -371,14 +371,14 @@
         ///                    BOTONES DE CONCENTRADO DTC FACTURADOS        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="flex justify-center mb-6 sm:mb-1 sm:mt-2">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton sm:h-10">
+            <button @click="filtrar_Actas_todos" class="w-32 botonTodos font-boton sm:h-10">
                 <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
                 <span>Todos</span>
             </button>
         </div>
         </div>
         <!--///////////////////////////////////////////////////////////////////
-        ///                    Titulo Anexo 1-A      ////         
+        ///                    Titulo Anexo 1-A                            ////         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'anexo1A'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
         <h3 class="text-black text-right text-md p-3 font-bold sm:text-center">{{subtitulo}}</h3>
@@ -668,18 +668,13 @@ export default {
             }
         },
         //Metodos GMMEP
-        actualizar_plaza_filtro_GMMEP(value){
-            this.plazaFiltro = value
-            this.$emit('filtrar-plazas-GMMEP', this.plazaFiltro)
-        },
-        filtar_fecha_GMEEP(){
-            this.$emit('filtar_fecha_GMEEP', this.fechaFiltro)
-        },
-        filtar_referencia_GMEEP(){
-            this.$emit('filtar_referencia_GMEEP', this.buscarGMMEP)
-        },
-        filtro_status_GMEEP(){
-            this.$emit('filtro_status_GMEEP', this.estatus)
+        filtrarGMEEP(value){
+            if(value == undefined){
+                this.plazaFiltro == this.plazaFiltro 
+            }else{
+                this.plazaFiltro = value
+            }
+            this.$emit('filtro_GMEEP', this.plazaFiltro, this.fechaFiltro, this.buscarGMMEP, this.estatus)
         },
         filtrar_GMMEP_todos(){
             this.fechaFiltro = ''
@@ -687,6 +682,20 @@ export default {
             this.plazaFiltro = ''
             this.estatus = ''
             this.$emit('filtrar-todos_GMEEP')
+        },
+        //Metodos Actas
+        fitrarActas(value){
+            if(value == undefined){
+                this.plazaFiltro == this.plazaFiltro 
+            }else{
+                this.plazaFiltro = value
+            }
+            this.$emit('filtro_Actas', this.plazaFiltro, this.buscarDTCfacturado)
+        },
+        filtrar_Actas_todos(){
+            this.plazaFiltro = ''
+            this.buscarDTCfacturado = ''
+            this.$emit('filtrar-todos-Actas')
         },
         customLabel ({ title }) {
             return `${title}`

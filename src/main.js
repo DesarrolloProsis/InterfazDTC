@@ -67,9 +67,11 @@ import {
   faFileArrowUp,
   faUserGear,
   faFilePdf,
-  faCamera
+  faCamera,
+  faArrowRightArrowLeft
 } from '@fortawesome/free-solid-svg-icons'
 /* <font-awesome-icon icon="fa-solid fa-camera" /> */
+
 
 import { 
   faCircleQuestion,
