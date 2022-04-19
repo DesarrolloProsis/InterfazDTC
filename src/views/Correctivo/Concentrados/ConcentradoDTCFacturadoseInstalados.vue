@@ -91,21 +91,33 @@
                                     <tr class="text-sm text-center text-white trTable sm:text-xs">
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0 rounded-l-lg">Referencia</th>
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Usuario</th>
+                                        <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Estatus</th>
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0 rounded-r-lg">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="anxg in listaanexosgenerados" :key="anxg.anexoReference">
-                                      <td class="p-2 text-center text-xs">{{anxg.anexoReference}}</td>
-                                      <td class="p-2 text-center text-xs sm:hidden">{{anxg.userName}}</td>
+                                      <td class="p-2 text-center text-sm">{{anxg.anexoReference}}</td>
+                                      <td class="p-2 text-center text-sm sm:hidden">{{anxg.userName}}</td>
+                                      <td class="p-2 text-center text-sm sm:hidden">
+                                        <div v-if="anxg.statusId == 5" class="w-full mx-auto flex justify-center">
+                                          <span class="text-white text-sm bg-blue-500 border border-blue-500 rounded-xl p-1 uppercase font-medium">Edición</span>
+                                        </div>
+                                        <div v-else-if="anxg.statusId == 6" class="w-full mx-auto flex justify-center">
+                                          <span class="text-white text-sm bg-yellow-500 border border-yellow-500 rounded-xl p-1 uppercase font-medium">Revisión</span>
+                                        </div>
+                                        <div v-else-if="anxg.statusId == 7" class="w-full mx-auto flex justify-center">
+                                          <span class="text-white text-sm bg-green-500 border border-green-500 rounded-xl p-1 uppercase font-medium">Facturación</span>
+                                        </div>
+                                      </td>
                                       <td>
-                                        <multiselect v-model="selectMultiModal" 
+                                          <multiselect v-model="selectMultiModal" 
                                           @close="acciones_mapper_modal(anxg)" 
                                           placeholder="Seleccione una Accion"
                                           label="title"
                                           track-by="title"
                                           class="multi sm:w-32 sm:h-auto sm:ml-4"
-                                          :options="opticones_select_acciones_modal()"
+                                          :options="opticones_select_acciones_modal(anxg)"
                                           :option-height="50" 
                                           :custom-label="customLabel" 
                                           :show-labels="false">
@@ -126,7 +138,7 @@
                 </div>
         </div>
         <!--////////////////////////////////////////////////////////////////////
-        ////                      MODAL CAMBIAR STATUS                   //////
+        ////                      MODAL CAMBIAR STATUS DTC               //////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0" :class="{'modal-container': modalCambiarStatus}">
           <div v-if="modalCambiarStatus" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 mt-48 sm:-mt-32">
@@ -152,6 +164,35 @@
               <div class="justify-center flex mt-5">
                 <button @click="editar_status_dtc" class="botonIconCrear m-4">Aceptar</button>
                 <button @click="modalCambiarStatus = false" class="botonIconCancelar m-4">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+         <!--////////////////////////////////////////////////////////////////////
+        ////                      MODAL CAMBIAR STATUS ANEXO               //////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="sticky inset-0" :class="{'modal-container': modalCambiarStatusAnexo}">
+          <div v-if="modalCambiarStatusAnexo" class="rounded-lg justify-center absolute inset-x-0 md:w-69 lg:w-69 xl:w-69 mx-auto px-12 py-1 sm:p-2 mt-48 sm:-mt-32">
+            <div class="rounded-lg border bg-white border-gray-700 px-12 py-10 shadow-2xl">
+              <p class="text-gray-900 font-thin text-xl">{{textomodalanexo}} <b class="font-bold">{{anexocambiarestatus.anexoReference}}</b></p>
+              <div>
+                <!-- <div class="mt-5">
+                  <p class="mb-1 sm:text-sm">Estatus Anexo</p>
+                  <select v-model="statusEditAnexo" class="w-full is_valid" type="text">
+                    <option value="">Selecionar...</option>     
+                    <option value="5">Gerencia</option>  
+                    <option value="7">Facturacion</option>                                                                  
+                  </select> 
+                </div> -->
+                <div class="mt-5" v-if="correccion">
+                  <p class="mb-1 sm:text-sm">Motivo</p>
+                  <textarea v-model="motivoCambioAnexo" class="appearance-none block bg-grey-lighter container mx-auto text-grey-darker is_valid border-black rounded-lg py-4 mb-0 h-24 placeholder-gray-500 border" placeholder="Motivo del Cambio" v-bind:maxlength="limite"/>
+                  <span class="text-gray-500">{{ restante }}/300</span>
+                </div>
+              </div>
+              <div class="justify-center flex mt-5">
+                <button @click="editar_status_anexo" class="botonIconCrear m-4">Confirmar</button>
+                <button @click="cerrar_modal_anexo" class="botonIconCancelar m-4">Cancelar</button>
               </div>
             </div>
           </div>
@@ -183,13 +224,15 @@ export default {
         loadingTabla: true,
         lista_DTC_Filtrada: [],
         showModal: false,
-        modalCambiarStatus: false,     
+        modalCambiarStatus: false, 
+        modalCambiarStatusAnexo: false,    
         selectMulti:'', 
         selectMultiModal:'',
         infoDTC: [],
         lista_dtc: [],       
         plazasValidas: [],
         dtcCambiarestatus:{},
+        anexocambiarestatus:{},
         statusEdit: "",
         motivoCambio:"",
         limite:300,
@@ -205,7 +248,13 @@ export default {
         buscarActa:'',
         plazaFiltro:'',
         estatus:'',
-        plazaidsquare: {},          
+        plazaidsquare: {},   
+        tipoUsuario: 0,
+        statusEditAnexo:'',
+        motivoCambioAnexo:'',
+        textomodalanexo:'',
+        correccion: false,
+        dtcanexo: {},      
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -253,7 +302,8 @@ export default {
           if(this.selectMulti.title == 'Anexos Generados'){
             this.showModal = true;
             this.selectMulti = '';
-            this.Anexosgenerados(dtc);
+            this.dtcanexo = dtc;
+            this.Anexosgenerados(this.dtcanexo);
           }
           else if(this.selectMulti.title == 'Generar Anexo'){
             if (dtc.typeFaultId === 2) {
@@ -301,17 +351,27 @@ export default {
         this.showModal = false; 
         document.body.classList.remove("modal-open");
       },
-      opticones_select_acciones_modal(){
+      opticones_select_acciones_modal(anxg){
                 const options= [                
                 { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //0
                 { title: 'Descargar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
+                { title: 'Validar', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },
+                { title: 'Corregir', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },
                 ]
+                console.log(anxg.statusId)
                 let filtroOpciones = []
-                if(this.tipoUsuario == 1){
+                if(anxg.statusId == 5 && (this.tipoUsuario == 1 || this.tipoUsuario == 2 ||  this.tipoUsuario == 3 ||  this.tipoUsuario ==  5)){
                   filtroOpciones.push(options[0])
                 }
-                if(this.tipoUsuario == 4 || this.tipoUsuario == 1){
+                if(anxg.statusId == 6 || anxg.statusId == 7){
                   filtroOpciones.push(options[1])
+                }
+                if(anxg.statusId == 6 && (this.tipoUsuario == 4 || this.tipoUsuario == 8)){
+                  filtroOpciones.push(options[2])
+                  filtroOpciones.push(options[3])
+                }
+                if(anxg.statusId == 7 && (this.tipoUsuario == 4 || this.tipoUsuario == 8)){
+                  filtroOpciones.push(options[3])
                 }
                 return filtroOpciones
       },
@@ -337,7 +397,55 @@ export default {
               ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
               this.selectMultiModal = '';
             }
+          }else if(this.selectMultiModal.title == 'Validar'){
+            this.modalCambiarStatusAnexo = true;
+            this.anexocambiarestatus = anxg;
+            this.textomodalanexo = 'Seguro que desea validar el anexo con referencia'
+            this.statusEditAnexo = '7'
+            this.selectMultiModal = '';
+          }else if(this.selectMultiModal.title == 'Corregir'){
+            this.modalCambiarStatusAnexo = true;
+            this.anexocambiarestatus = anxg;
+            this.textomodalanexo = 'Seguro que desea regresar a corrección con referencia'
+            this.statusEditAnexo = '5'
+            this.correccion = true
+            this.selectMultiModal = '';
           }
+      },
+      cerrar_modal_anexo(){
+        this.modalCambiarStatusAnexo = false
+        this.textomodalanexo = ''
+        this.statusEditAnexo = ''
+        this.anexocambiarestatus = {}
+      },
+      editar_status_anexo(){
+        this.modalCambiarStatusAnexo = false   
+        let objeActualizado = {
+          "userId":this.anexocambiarestatus.userId,
+          "anexoReference": this.anexocambiarestatus.anexoReference,
+          "statusId": this.statusEditAnexo,
+          "comentario": this.motivoCambioAnexo,
+        }    
+        console.log(objeActualizado)
+        if(this.statusEditAnexo != ''){         
+          this.$http.post(`${API}/AnexoDTC/CambiarStatus/${this.anexocambiarestatus.anexoReference.split('-')[0]}`, objeActualizado)
+          .then(() => {                                        
+            this.statusEditAnexo = '' ; 
+            this.motivoCambioAnexo = '' ;  
+            this.anexocambiarestatus = {} ;
+            this.correccion = false ;
+            this.Anexosgenerados(this.dtcanexo) ;
+          }) 
+        }
+        else {
+          this.$notify.warning({
+            title: "Ups!",
+            msg: `OCURRIO ALGUN ERROR, NO SE REALIZARON LOS CAMBIOS.`,
+            position: "bottom right",
+            styles: { height: 100, width: 500 },
+          });
+          this.lista_DTC_Filtrada = this.infoDtc
+        }
       },
       guardar_palabra_busqueda: function(newPalabra){
         if (newPalabra != "") {   
@@ -402,10 +510,12 @@ export default {
         }
       },
       async Anexosgenerados(dtc){
+
           try {
             const data = await fetch(`${API}/AnexoDTC/Historico/${dtc.referenceSquare}/${dtc.referenceNumber}`)
             const objeto = await data.json()
             this.listaanexosgenerados = objeto.result;
+            this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
             console.log(this.listaanexosgenerados);
           } catch (error) {
             console.log(error);
