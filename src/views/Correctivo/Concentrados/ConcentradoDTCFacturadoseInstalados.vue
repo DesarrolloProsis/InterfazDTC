@@ -398,12 +398,16 @@ export default {
               this.selectMultiModal = '';
             }
           }else if(this.selectMultiModal.title == 'Validar'){
+            this.textomodalanexo = ''
+            this.statusEditAnexo = ''
             this.modalCambiarStatusAnexo = true;
             this.anexocambiarestatus = anxg;
             this.textomodalanexo = 'Seguro que desea validar el anexo con referencia'
             this.statusEditAnexo = '7'
             this.selectMultiModal = '';
           }else if(this.selectMultiModal.title == 'Corregir'){
+            this.textomodalanexo = ''
+            this.statusEditAnexo = ''
             this.modalCambiarStatusAnexo = true;
             this.anexocambiarestatus = anxg;
             this.textomodalanexo = 'Seguro que desea regresar a corrección con referencia'
@@ -417,6 +421,7 @@ export default {
         this.textomodalanexo = ''
         this.statusEditAnexo = ''
         this.anexocambiarestatus = {}
+        this.correccion = false
       },
       editar_status_anexo(){
         this.modalCambiarStatusAnexo = false   
