@@ -324,8 +324,6 @@ export default {
             if(this.value.title == 'Editar'){
                 this.editarUsuario(item)
                 this.nombreOriginal = item.name + ' ' + item.lastName1 + ' ' + item.lastName2
-                console.log(this.nombreOriginal);
-
             }   
             this.value = ""
         },

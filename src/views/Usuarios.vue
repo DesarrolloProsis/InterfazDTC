@@ -697,11 +697,7 @@ export default {
       this.User.RePassword = "***********";
       this.modal = true;
     },
-    prueba: function (){
-      console.log('prubeas');
-    },
     confirmar: function () {
-      console.log('CONFIRMAR');
       if (this.User.Password == this.User.RePassword) {      
         if (this.User.Password == "") {
           this.$notify.error({
@@ -728,7 +724,6 @@ export default {
           /* this.$store.dispatch("Usuarios/Update_User", UpUser); */
           this.$http.put(`${API}/User/update`,UpUser)
             .then((response) => {
-              console.log(response);
               if(response.status == 200){                                                    
                 this.$notify.success({
                   title: "Ops!!",
@@ -843,7 +838,6 @@ export default {
       this.obj_borrar_plaza.plazas.forEach((plaza) => {
         arrayPlaza.push(plaza.squareCatalogId)
       })
-      console.log(this.obj_borrar_plaza.plazas);
       let plazaDelete = {
           squareId: arrayPlaza,
           userId: item.userId,

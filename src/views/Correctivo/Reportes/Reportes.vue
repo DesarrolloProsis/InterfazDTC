@@ -28,7 +28,6 @@ export default {
   },
   beforeMount(){
     this.typeUser = this.$store.state.Login.cookiesUser.rollId 
-    console.log(this.typeUser) 
   }
 }
 </script>

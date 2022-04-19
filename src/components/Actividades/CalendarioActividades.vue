@@ -298,8 +298,7 @@ export default {
         { day: this.fechaModal.toLocaleDateString(),  frequencyId: this.actividadSelect }, 
         this.comentario, 
         this.$store.state.Header.headerSeleccionado.adminSquareId
-      )
-      console.log(actividadInsert);                 
+      )                
       await this.$http.post(`${API}/Calendario/Actividad/${refPlaza}`,actividadInsert)
         .then(async (response) => {                     
               if(response.data.result.length > 0){

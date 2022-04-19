@@ -75,7 +75,6 @@ export default {
             this.lista_Componentes = response.data.result
             this.lista_Filtrada = this.lista_Componentes
             this.lista = this.lista_Filtrada
-            console.log(this.lista);
             this.loadingTabla = false
         })
         
