@@ -53,7 +53,7 @@
                     <template slot="option" slot-scope="props">                                                
                       <div class="option__desc">
                       <span class="option__title inline-flex sm:text-xs">
-                      <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
+                       <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>      
                       {{ props.option.title }}</span>
                       </div>
                     </template>
@@ -124,7 +124,7 @@
                                         <template slot="option" slot-scope="props">                                                
                                             <div class="option__desc">
                                             <span class="option__title inline-flex sm:text-xs">
-                                            <img :src="props.option.img" class="mr-5 sm:w-4 sm:mr-1" width="15" height="15">    
+                                            <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>     
                                             {{ props.option.title }}</span>
                                             </div>
                                           </template>
@@ -327,9 +327,9 @@ export default {
       },
       opticones_select_acciones(dtc){
                 const options= [                
-                { title: 'Anexos Generados', accionCss: 'terminar', img: '/img/list.03b04500.png' }, //0
-                { title: 'Generar Anexo', accionCss: 'terminar', img: '/img/slide.44400136.png' },//1
-                { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
+                { title: 'Anexos Generados', accionCss: 'terminar', img: 'fa-solid fa-window-restore' }, //0
+                { title: 'Generar Anexo', accionCss: 'terminar', img: 'fa-solid fa-file-circle-plus' },//1
+                { title: 'Cambiar Estatus', accionCss: 'editar', img: 'fa-solid fa-arrow-right-arrow-left' },//2
                 ]
                 let filtroOpciones = []
                 if(this.tipoUsuario == 1 || this.tipoUsuario == 4){
@@ -353,10 +353,10 @@ export default {
       },
       opticones_select_acciones_modal(anxg){
                 const options= [                
-                { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //0
-                { title: 'Descargar Anexo', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },
-                { title: 'Validar', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },
-                { title: 'Corregir', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },
+                { title: 'Editar', accionCss: 'editar', img: 'fa-solid fa-file-pen' }, //0
+                { title: 'Descargar Anexo', accionCss: 'terminar', img: 'fa-solid fa-download' },
+                { title: 'Validar', accionCss: 'editar', img: 'fa-solid fa-file-circle-check' },
+                { title: 'Corregir', accionCss: 'editar', img: 'fa-solid fa-file-pen' },
                 ]
                 console.log(anxg.statusId)
                 let filtroOpciones = []
