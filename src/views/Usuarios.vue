@@ -563,19 +563,41 @@ export default {
           Rol: item.rollId,
           UserChange: this.$store.state.Login.cookiesUser.userId,
         };
-        this.$store.dispatch("Usuarios/Update_User", UpUser);
-        setTimeout(()=>{
-          this.$notify.success({
-          title: "Ops!!",
-          msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-        this.$router.push("/");
-        },2000)
+        //this.$store.dispatch("Usuarios/Update_User", UpUser);
+        this.$http.put(`${API}/User/update`,UpUser)
+        .then((response) => {
+          console.log(response);
+          if(response.data.message == 'Ok')
+          {
+            setTimeout(()=>{
+            this.$notify.success({
+            title: "Ops!!",
+            msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+            });
+            this.modalLoading = false
+            this.$router.push("/");
+            },5000)
+          }else{
+            setTimeout(()=>{
+              this.$notify.error({
+              title: "Ops!!",
+              msg: "NO SE PUDO ACTUALIZAR EL USUARIO CORRECTAMENTE.",
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+              });
+              this.modalLoading = false
+              this.$router.push("/");
+            },5000)
+          } 
+        })
       }else{
         this.$notify.error({
           title: "Ops!!",
