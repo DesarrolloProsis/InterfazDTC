@@ -159,19 +159,26 @@ created(){
     })
 },
 beforeMount: async function() {
-    let refenciaFichaTecnica = this.$route.params.referenciaFicha     
-    this.referenciaFicha = refenciaFichaTecnica
-    this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-    this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
-    this.flagCreate = true;
-    if (JSON.stringify(this.$route.query) != "{}") {              
-      this.headerEdit = this.$route.query.headerInfo;                 
-      this.observaciones = this.headerEdit.observation;
-      this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
-      this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
-      this.flagCreate = false;        
-      this.datosUser = this.$route.query.datosDtc           
-    }
+  if(this.$route.query.headerInfo != undefined)
+  {
+    this.modalLoading = true
+    setTimeout(() => {
+      this.modalLoading = false
+    }, 2000);
+  }
+  let refenciaFichaTecnica = this.$route.params.referenciaFicha     
+  this.referenciaFicha = refenciaFichaTecnica
+  this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+  this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
+  this.flagCreate = true;
+  if (JSON.stringify(this.$route.query) != "{}") {              
+    this.headerEdit = this.$route.query.headerInfo;                 
+    this.observaciones = this.headerEdit.observation;
+    this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
+    this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
+    this.flagCreate = false;        
+    this.datosUser = this.$route.query.datosDtc           
+  }
 },
 destroyed(){
   EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete', 'conteo_componetes_dmg', 'tipo-descripcion'])
