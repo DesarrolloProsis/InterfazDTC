@@ -156,8 +156,6 @@ export default {
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
-            console.log(response);
-            
             setTimeout(() => {
                 this.infoFichasFallaCompleta = response.data.result
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta

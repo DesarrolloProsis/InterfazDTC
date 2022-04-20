@@ -8,13 +8,14 @@
       :datosUser="datosUser"
       :headerEdit="headerEdit"
       :observaciones="observaciones" 
+      @tipo-descripcion="tipodescripcion"
       @crear-dtc="crear_dtc"     
     ></Header>
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                      FILA NUMERO 1                            ////
-    /////////////////////////////////////////////////////////////////////// -->
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                      FILA NUMERO 1                            ////
+        /////////////////////////////////////////////////////////////////////// -->
         <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p class="text-align: justify;">
             <span style="font-weight: bold">Tiempo de entrega:</span>
@@ -35,9 +36,9 @@
           </p>
         </div>
         <div></div>
-    <!-- //////////////////////////////////////////////////////////////////
-    ////                        OBSERVACIONES                         ////
-    ///////////////////////////////////////////////////////////////////// -->
+        <!-- //////////////////////////////////////////////////////////////////
+        ////                        OBSERVACIONES                         ////
+        ///////////////////////////////////////////////////////////////////// -->
       <ValidationObserver ref="observer"> 
         <div class="items-center font-titulo">
           <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
@@ -144,7 +145,8 @@ export default {
       limite: 300,
       modalLoading: false,
       referenciaFicha: '',
-      numeroComponentesDmg: 0
+      numeroComponentesDmg: 0,
+      idDescripcion:0
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -178,7 +180,7 @@ beforeMount: async function() {
     }
 },
 destroyed(){
-  EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete', 'conteo_componetes_dmg'])
+  EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete', 'conteo_componetes_dmg', 'tipo-descripcion'])
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
@@ -194,7 +196,10 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
-methods: {  
+methods: { 
+  tipodescripcion(id){
+    this.idDescripcion = id
+  },
   dtc_validaciones(value){
     if(this.numeroComponentesDmg > 0)
       EventBus.$emit("validar_header_dtc", value);
@@ -287,9 +292,9 @@ methods: {
       }
   },
   enviar_dmg_componentes(objInsert){
-    console.log('Numero de partidas: ', this.numeroComponentesDmg);
-    console.log('Array de componentes sin ordenar', objInsert.arrayDmg);
-    console.log('Numero de componentes sin ordenar', objInsert.arrayDmg.length);
+    //console.log('Numero de partidas: ', this.numeroComponentesDmg);
+    //console.log('Array de componentes sin ordenar', objInsert.arrayDmg);
+    //console.log('Numero de componentes sin ordenar', objInsert.arrayDmg.length);
     /*console.log(this.numeroComponentesDmg);
     console.log(objInsert.arrayDmg.length);  
     console.log(objInsert.arrayDmg.sort((a,b)=> a.IntPartida - b.IntPartida));  
@@ -354,10 +359,9 @@ watch: {
   observaciones: function (newValue) {
       this.$store.commit("Header/OBSERVACION_MUTATION", newValue);
   },
-},
+  },
 };
 </script>
-
 <style>
 .modal-container{
   position: fixed;
@@ -367,4 +371,3 @@ watch: {
   background: rgba(0, 0, 0, 0.5);
 }
 </style>
-

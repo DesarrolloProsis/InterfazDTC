@@ -188,9 +188,9 @@
                   <div class="-mt-2">   
                     <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">         
                       <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
-                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
+                      <select v-model="dtcEdit.typeDescriptionId" @change="tipos" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
                         <option disabled value>Selecionar...</option>
-                        <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.typeDescriptionId" :key="index">
+                        <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.id" :key="index">
                           {{ desc.description }}
                         </option>
                       </select>
@@ -210,11 +210,18 @@
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2 ">    
-                    <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">  
+                    <ValidationProvider name="Diagnostico" rules="required"  v-slot="{ errors }">  
                       <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
-                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico" maxlength="300"/>              
+                      <!--<textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico" maxlength="300"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs block">{{ return_Diag }}/300</span>
+                      <span class="text-gray-500 text-xs block">{{ return_Diag }}/300</span>-->
+                      <select v-model="dtcEdit.diagnosis" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
+                        <option disabled value>Selecionar...</option>
+                        <option v-for="(desc, index) in tiposDescripciones" v-bind:value="desc.type" :key="index">
+                          {{ desc.type }}
+                        </option>
+                      </select>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>            
                 </div>               
@@ -400,7 +407,8 @@ export default {
       comentario: '',
       ocultar: false,
       //Modal error
-      error: false
+      error: false,
+      tiposDescripciones: []
     };
   },
   components: {    
@@ -427,7 +435,7 @@ beforeMount: async function () {
   this.typeUser = this.$store.state.Login.cookiesUser.rollId
   this.filtroVista = false  
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
-  this.infoDTC_Filtrado = this.infoDTC  
+  this.infoDTC_Filtrado = this.infoDTC 
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   this.userId = await this.$store.state.Login.cookiesUser.userId
   let listaPlazasValias = []
@@ -462,6 +470,13 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  tipos(){
+    this.tiposDescripciones = []
+    this.$http.get(`${API}/typedescriptions/tipoDescripcion/${this.dtcEdit.typeDescriptionId}`)
+    .then((response) => {
+      response.data.result.forEach(e => this.tiposDescripciones.push(e));
+    })
+  },
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != ''){ 
       this.modalLoading = true
@@ -590,10 +605,8 @@ methods: {
     this.ocultarMultiPadre = true       
     if(typeof refNum === 'boolean'){         
       if(this.dtcEdit.sinisterNumber.trim().length == this.dtcEdit.sinisterNumber.length){
-        console.log('if trim');
         let isValid = await this.$refs.observer.validate(); 
         if(isValid){ 
-          console.log('valid');
           this.modalEdit = false
           this.modalLoading = true         
           let objEdit = {
@@ -647,18 +660,15 @@ methods: {
             })              
           }, 3000);   
         }else{
-          console.log('invalid');
           this.modalEdit = false
           this.error = true
-          console.log(this.error);
         }
       }else{
-        console.log('else trim');
         this.modalEdit = false
         this.error = true
       }      
     }else{
-      this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
+      this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }
       this.modalEdit = true
       this.modal = true
     }    

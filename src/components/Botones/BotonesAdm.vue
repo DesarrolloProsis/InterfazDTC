@@ -30,14 +30,14 @@
               <h1 class="text-blue-800 text-2xl font-bold sm:text-sm font-titulo ">Concentrado DTC Borrado</h1>
             </router-link>
           </div> 
-          <div class="botonesCorrectivo animacion bg-teal-100 border-0 border-l-8 border-teal-500 sm:m-4 sm:p-3">
+          <div class="botonesCorrectivo animacion bg-teal-100 border-0 border-l-8 border-teal-500 sm:m-4 sm:p-3" v-if="tipoUsuario != 8">
             <router-link to="/Inventario" class="text-center cursor-pointer">
               <!-- <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/> -->
               <font-awesome-icon icon="fa-solid fa-boxes-stacked" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
               <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Inventario Plaza</h1>
             </router-link>
           </div>
-          <div class="botonesCorrectivo bg-purple-100 border-0 border-l-8 border-purple-500 animacion sm:m-4 sm:p-3">
+          <div class="botonesCorrectivo bg-purple-100 border-0 border-l-8 border-purple-500 animacion sm:m-4 sm:p-3" v-if="tipoUsuario != 8">
             <router-link to="/Reportes" class="text-center cursor-pointer">
               <!-- <img src="../../assets/img/reportar.png" height="200" width="200" class="m-10 sm:m-1"/> -->
               <font-awesome-icon icon="fa-solid fa-file-invoice" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
@@ -91,7 +91,8 @@ export default {
         }
     },  
     beforeMount(){
-        this.tipoUsuario = this.$store.getters['Login/getTypeUser']                  
+        //this.tipoUsuario = this.$store.getters['Login/getTypeUser']  
+        this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId 
         this.tipoBotones = this.$router.currentRoute.name === 'Preventivo' 
         ? false 
         : true  
