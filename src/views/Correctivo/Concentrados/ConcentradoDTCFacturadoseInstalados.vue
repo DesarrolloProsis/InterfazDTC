@@ -537,7 +537,7 @@ export default {
           this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
         }
         if(this.plazaFiltro != '' && this.buscarActa == ''){
-          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/5/null`)
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/null/5/null`)
           .then((response) => {
           let prueba = response.data.result.rows
           prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
@@ -569,7 +569,7 @@ export default {
           }
           })
         }else if(this.plazaFiltro != '' && this.buscarActa != ''){
-          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarActa}/5/null`)
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/${this.buscarActa}/5/null`)
           .then((response) => {
           console.log(response);
           let prueba = response.data.result.rows

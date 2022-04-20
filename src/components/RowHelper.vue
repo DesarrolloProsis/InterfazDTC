@@ -6,7 +6,6 @@
                     <div v-for="(itemSub, keyMovil) in keyRow" :key="keyMovil" class=" text-center sm:w-32" :class="{ 'w-48': keyRow.length == 9, 'w-64': keyRow.length == 8, 'w-56': keyRow.length == 3}">                    
                         <template v-if="itemSub['formatoFecha']" class="sm:text-xs">                         
                             {{ itemRow[itemSub['key']] | dataRowFormat }} 
-                            
                         </template>
                         <template v-else-if="itemSub['formatoFechaHora']" class="sm:text-xs">                         
                             {{ itemRow[itemSub['key']] | dataRowFormathour }}
@@ -34,6 +33,7 @@
                                                 <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
                                                 <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                 <span class="option__title bg-red-300">{{ props.option.title }}</span>
+
                                             </div>
                                         </template>
                                         <template slot="option" slot-scope="props">                                                
@@ -154,7 +154,7 @@ export default {
                 }
             })
         },
-        acciones_mapper(){              
+        acciones_mapper(){        
             if(this.selectMulti != ''){
                 this.rowCssColor = this.selectMulti.accionCss
                 let acciones = this.selectMulti                

@@ -188,6 +188,7 @@ data: function (){
       plazaFiltro:'',
       estatus:'',
       plazaidsquare: {},
+      tipoUsuario: 0,
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -473,9 +474,10 @@ methods:{
     if(this.plazaFiltro != ''){
       this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
     }
+    console.log(this.plazaidsquare)
     //Filtros 1 parametro
     if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus == ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/null/null`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/null/null/null`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
@@ -544,7 +546,7 @@ methods:{
     }   
     // Filtros 2 Parametros plaza
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus == ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/null/${this.fechaFiltro}`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/null/null/${this.fechaFiltro}`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
@@ -561,7 +563,7 @@ methods:{
       })
     }
     else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus == ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/null/null`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/null/null`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
@@ -578,7 +580,7 @@ methods:{
       })
     }
     else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus != ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/${this.estatus}/null`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/null/${this.estatus}/null`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
@@ -666,7 +668,7 @@ methods:{
       })
     }
     else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus != ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/${this.estatus}/null`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/${this.estatus}/null`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
@@ -683,7 +685,7 @@ methods:{
       })
     }
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus != ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/null/${this.estatus}/${this.fechaFiltro}`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/null/${this.estatus}/${this.fechaFiltro}`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
@@ -700,7 +702,7 @@ methods:{
       })
     }
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus == ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
@@ -718,7 +720,7 @@ methods:{
     }
     //Filtro para cuando hay un parametro en especifico
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus != ''){
-      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.referenceSquare}/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
       .then((response) => {
       console.log(response);
       let prueba = response.data.result.rows
