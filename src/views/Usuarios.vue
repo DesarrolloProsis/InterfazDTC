@@ -428,13 +428,15 @@ export default {
       obj_borrar_plaza:{
         plazas:[]
       },
-      modalEliminarPlaza:false
+      modalEliminarPlaza:false,
+      nombreOriginal:''
     };
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
+    this.modalLoading = true
     this.loadingTabla = true 
       this.listaUsuarios = []
       this.lista_Usuarios_Filtrada = []
@@ -446,7 +448,8 @@ export default {
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
         this.loadingTabla = false
-      },100)    
+        this.modalLoading = false
+      },1000)    
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
     }
@@ -568,20 +571,43 @@ export default {
           Name: item.name,
           Mail: item.mail,
           Rol: item.rollId,
+          UserChange: this.$store.state.Login.cookiesUser.userId,
         };
-        this.$store.dispatch("Usuarios/Update_User", UpUser);
-        setTimeout(()=>{
-          this.$notify.success({
-          title: "Ops!!",
-          msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-        this.$router.push("/");
-        },2000)
+        //this.$store.dispatch("Usuarios/Update_User", UpUser);
+        this.$http.put(`${API}/User/update`,UpUser)
+        .then((response) => {
+          console.log(response);
+          if(response.data.message == 'Ok')
+          {
+            setTimeout(()=>{
+            this.$notify.success({
+            title: "Ops!!",
+            msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+            });
+            this.modalLoading = false
+            this.$router.push("/");
+            },5000)
+          }else{
+            setTimeout(()=>{
+              this.$notify.error({
+              title: "Ops!!",
+              msg: "NO SE PUDO ACTUALIZAR EL USUARIO CORRECTAMENTE.",
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+              });
+              this.modalLoading = false
+              this.$router.push("/");
+            },5000)
+          } 
+        })
       }else{
         this.$notify.error({
           title: "Ops!!",
@@ -725,9 +751,33 @@ export default {
             Name: this.User.Name,
             Mail: this.User.Mail,
             Rol: this.User.Roll,
+            UserChange: this.$store.state.Login.cookiesUser.userId,
           };
-          this.$store.dispatch("Usuarios/Update_User", UpUser);                    
-          let _UpUser = {
+          /* this.$store.dispatch("Usuarios/Update_User", UpUser); */
+          this.$http.put(`${API}/User/update`,UpUser)
+            .then((response) => {
+              if(response.status == 200){                                                    
+                this.$notify.success({
+                  title: "Ops!!",
+                  msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+                this.refrescar_usuarios()  
+                this.modal = false;
+              }
+            })
+            let _UpUser = {
+              IdUser: this.User.UserId,
+              Password: this.User.Password,
+            };          
+            if(_UpUser.Password != "***********"){              
+                this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
+            } 
+          /*let _UpUser = {
             IdUser: this.User.UserId,
             Password: this.User.Password,
           };          
@@ -743,8 +793,9 @@ export default {
               width: 500,
             },
           });
+          location.reload();
           this.refrescar_usuarios()  
-          this.modal = false;
+          this.modal = false;*/
         }
         this.limpiar_usuario();      
       } 

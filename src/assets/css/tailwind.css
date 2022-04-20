@@ -562,3 +562,18 @@ body.modal-open {
     @apply outline-none shadow-outline;
 }
 
+/*     
+}
+.vue-tooltip.tooltip-custom {
+    width: 50rem;  
+    background-color: rgb(237, 242, 247);  
+    border: 1px solid #466fa1;  
+    box-shadow: 1000;
+    border-radius: 15px;
+    font-weight: bold;
+    z-index: 1151 !important;
+}
+
+.vue-tooltip.tooltip-custom .tooltip-arrow {  
+    border: 3px solid #466fa1;  
+} */

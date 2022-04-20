@@ -1,19 +1,16 @@
   <template>
-  <div id="container">    
+  <div id="container">  
+    <!-- <Error :error="error" :tipo="'ListarDTC'" @cerrar="cerrar"/>     -->
     <div class=" mb-16">
     <!--//////////////////////////////////////////////////////////////////////
         ////                        FILTROS                              ////
         ////////////////////////////////////////////////////////////////////-->
-        <HeaderGenerico 
-            @limpiar-filtros="limpiar_filtros" 
-            @filtrar-dtc="filtro_dtc"
-            @buscar-dtc="guardar_palabra_busqueda" 
-            :titulo="'Concentrado DTC'" 
-            :dtcVista="'pendientes'" 
-            :tipo="'DTC'" 
-            :listaStatus="statusValidos">
-        </HeaderGenerico>
+        <HeaderGenerico @limpiar-filtros="limpiar_filtros" @filtrar-dtc="filtro_dtc" @buscar-dtc="guardar_palabra_busqueda" :titulo="'Concentrado DTC'" :dtcVista="'pendientes'" :tipo="'DTC'" :listaStatus="statusValidos"/>
         <!--/////////////////////////////////////////////////////////////////
+        ////                         MODAL LOADER                        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <Spinner :modalLoading="modalLoading"/>
+        <!--////////////////////////////////////////////////////////////////////
         ////                         MODAL CARRUSEL                        ////
         ////////////////////////////////////////////////////////////////////-->
         <div class="sticky inset-0 font-titulo" :class="{'modal-container': carruselModal}">
@@ -22,19 +19,7 @@
                 <Carrusel @cerrar-modal-carrusel="carruselModal = false, modal = false, ocultarMultiPadre = false" :arrayImagenes="arrayImagenesCarrusel"></Carrusel>
             </div>
           </div>
-        </div>   
-        <!--/////////////////////////////////////////////////////////////////
-        ////                         MODAL LOADER                        ////
-        ////////////////////////////////////////////////////////////////////-->
-        <!-- <div class="sticky inset-0 font-titulo" :class="{'modal-container': modalLoading}">
-          <div v-if="modalLoading" class="rounded-lg w-66 justify-center absolute  inset-x-0 bg-none mx-auto px-12 py-66">          
-            <div class="justify-center text-center block">            
-                <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-4" />
-                <p class="text-gray-900 font-thin text-md">Espere ... </p>
-            </div>
-          </div>
-        </div> -->
-        <Spinner :modalLoading="modalLoading"/>
+        </div>
         <!--/////////////////////////////////////////////////////////////////
         ////                      MODAL CAMBIAR STATUS                   ////
         ////////////////////////////////////////////////////////////////////-->
@@ -158,8 +143,19 @@
                 <div class="justify-center grid grid-cols-2 sm:grid-cols-1 mt-5">       
                   <div class="-mt-2 mr-3">
                     <ValidationProvider name="N° de Siniestro" rules="uniqueSinester|max:30"  :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }"> 
-                      <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
-                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="S/M" maxlength="30"/>
+                      <div class="flex">
+                        <p class="text-md mb-1 font-semibold text-gray-900">N° Siniestro:</p>
+                        <div class="sm:hidden md:hidden ml-2">
+                            <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
+                                <img src="@/assets/img/speech-bubble.png" class="flex items-center w-5 h-5 mb-2"/>
+                            </span>
+
+                            <div ref="tooltipintervencion" class="font-titulo">
+                                <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA), se puede dejar vacío y se agregará la leyenda SIN NÚMERO DE SINIESTRO</p>
+                            </div>
+                        </div>
+                      </div>
+                      <input v-model="dtcEdit.sinisterNumber" class="w-full is_valid" type="text" name="NoSiniestro" placeholder="Sin número de siniestro" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                       <!--<span class="text-gray-500 text-xs">{{ restante_Siniestro }}/30</span>-->
                     </ValidationProvider>
@@ -167,7 +163,7 @@
                   <div class="-mt-2">  
                     <ValidationProvider name="N° de Reporte" rules="uniqueReport|max:30" :custom-messages="{ uniqueReport: 'Numero de reporte repetido' }" v-slot="{ errors }">      
                       <p class="text-md mb-1 font-semibold text-gray-900">N° Reporte:</p>
-                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="S/M" maxlength="30"/>
+                      <input v-model="dtcEdit.reportNumber" class="w-full is_valid" type="text" name="NoReporte" placeholder="" maxlength="30"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                       <!--<span class="text-gray-500 text-xs">{{ restante_Reporte }}/30</span>-->
                     </ValidationProvider>
@@ -177,18 +173,40 @@
                   ////                      FILA NUMERO 2                         ////
                   ////////////////////////////////////////////////////////////////////-->
                 <div class="justify-center grid grid-cols-2 mt-5">       
-                  <div class="-mt-2 mr-3">  
-                    <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">         
-                      <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
-                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="S/M" maxlength="60"/>
+                  <div class="-mt-2 mr-3"> 
+                    <ValidationProvider name="FolioFalla" rules="max:60"  v-slot="{ errors }">
+                      <div class="flex">
+                        <p class="text-md mb-1 font-semibold text-gray-900">Folio de Falla:</p>
+                        <div class="sm:hidden md:hidden ml-2">
+                          <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
+                              <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
+                          </span>
+
+                          <div ref="tooltipfoliofalla" class="font-titulo">
+                              <p class="text-center text-gray-800">Se debe indicar el numero de folio de Falla que aparece en el modulo institucional de CAPUFE</p>
+                          </div>
+                        </div> 
+                      </div>         
+                      <input v-model="dtcEdit.failureNumber" class="w-full is_valid" name="FolioFalla" type="text" placeholder="" maxlength="60"/>
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                       <!--<span class="text-gray-500 text-xs">{{ return_Folio }}/60</span>-->
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2">   
-                    <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">         
+                    <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }">  
+                      <div class="flex">
                       <p class="text-md mb-1 font-semibold text-gray-900">Tipo de Descripcion:</p>
-                      <select v-model="dtcEdit.typeDescriptionId" @change="tipos" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
+                      <div class="sm:hidden md:hidden ml-2">
+                        <span class="" v-tooltip.right =" { ref:'tooltiptipodescripcion', class: 'tooltip-custom tooltip-other-custom'}">
+                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 "/>
+                        </span>
+
+                        <div ref="tooltiptipodescripcion" class="font-titulo">
+                            <p class="text-center text-gray-800">Debe indicar el tipo de siniestro que corresponde deacuerdo al catalogo de la bitacora electronica</p>
+                        </div>
+                      </div>
+                      </div>       
+                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
                         <option disabled value>Selecionar...</option>
                         <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.id" :key="index">
                           {{ desc.description }}
@@ -313,8 +331,8 @@
               </div>
             </div>
           </div>                  
-        </div>
-        <!--/////////////////////////////////////////////////////////////////
+        </div>    
+      <!--/////////////////////////////////////////////////////////////////
       ////                      TARJETAS DE DTC                        ////
       /////////////////////////////////////////////////////////dddd///////////-->
       <div :class="{ 'pointer-events-none': modal,  'opacity-25': false}" class="flex justify-center w-full font-titulo font-medium">        
@@ -355,6 +373,7 @@ import Carrusel from "@/components/Carrusel";
 import ServiceFiltrosDTC from '@/services/FiltrosDTCServices'
 import Spinner from '@/components/Sppiner.vue'
 import { ExclamationIcon } from "@vue-hero-icons/outline"
+//import Error from '@/components/ModalError.vue'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 export default {
   name: 'DTCPendientes',
@@ -416,7 +435,8 @@ export default {
     Carrusel,
     HeaderGenerico,
     Spinner,
-    ExclamationIcon,
+    ExclamationIcon
+    //Error,
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
@@ -470,20 +490,16 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
-  tipos(){
-    this.tiposDescripciones = []
-    this.$http.get(`${API}/typedescriptions/tipoDescripcion/${this.dtcEdit.typeDescriptionId}`)
-    .then((response) => {
-      response.data.result.forEach(e => this.tiposDescripciones.push(e));
-    })
+  cerrar(){
+    this.error = false
   },
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != ''){ 
-      this.modalLoading = true
-      //if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
+      //if(this.itemCompleteChangeUserDTC.referenceNumberDiagnosis != '--'){
+        this.modalLoading = true
         let actualizar_user = new Promise ((resolve,reject) => {
           this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
-          .then(() => {       
+          .then(() => {              
             let index = this.infoDTC.map(item =>  { 
               return item.referenceNumber }
             ).indexOf(this.itemCompleteChangeUserDTC.referenceNumber)                             
@@ -514,20 +530,20 @@ methods: {
             });
           })
         },1000)
-      //}
-      /*else{
+      }
+      else{
         this.userChangeDtc = ''
         this.itemCompleteChangeUserDTC = {}
         this.modalCambiarUsuarioDTC = false
         this.modalLoading = false
         this.$notify.warning({
           title: "Ups!",
-          msg: `NECESITAS TERMIANR TU DIAGNOSTICO DE FALLA.`,
+          msg: `NECESITAS TERMIANR EL DIAGNOSTICO DE FALLA.`,
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-      }*/
-    }
+      }
+    /*}
     else{
       this.modalLoading = false
         this.$notify.warning({
@@ -536,7 +552,7 @@ methods: {
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-    }
+    }*/
   },
   modal_cambiar_usurio_dtc(item){
     this.refNum = item.referenceNumber

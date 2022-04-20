@@ -52,7 +52,11 @@
                                 <span>Actualizar Diagnóstico</span>
                             </button>
                         </div>
-                    </div>    
+                    </div>   
+                    <!--/////////////////////////////////////////////////////////////////////
+                    /////                           SPINNER                             ////
+                    ////////////////////////////////////////////////////////////////////--> 
+                    <Spinner :modalLoading="modalLoading"/>
                 </div>  
             </div>
         </div>
@@ -63,6 +67,7 @@
 import HeaderFalla from '../../../components/Header/CrearHeaderFalla';
 import ServiceReporte from '../../../services/ReportesPDFService'
 import ImagenesFichaDiagnostico from '../../../components/ImagenesGenericas'
+import Spinner from '../../../components/Sppiner.vue'
 import EventBus from '../../../services/EventBus'
 import moment from 'moment'
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -70,7 +75,8 @@ export default {
     name: "Diagnostico",
     components: {        
         HeaderFalla,
-        ImagenesFichaDiagnostico        
+        ImagenesFichaDiagnostico,
+        Spinner
     }, 
     ///////////////////////////////////////////////////////////////////////
     ////                      DATA                                    ////
@@ -83,7 +89,8 @@ export default {
             reporteInsertado: false,
             modalImage: false,
             botonEditCreate: true,
-            blockBotonModal: false                 
+            blockBotonModal: false,
+            modalLoading:false
         }
     },
     beforeMount(){
@@ -100,14 +107,16 @@ methods:{
     bloquear_boton_diagnostioc_img(value){
         this.blockBotonModal = value
     },
-    actualizar_header(objHeader){                                  
+    actualizar_header(objHeader){     
         this.datosHeader = objHeader.header
-        if(objHeader.value == false){             
+        if(objHeader.value == false){  
+            this.modalLoading = true             
             this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
                 .then((response) => {                    
                     if(response.data.length > 0){
                         if(objHeader.crear)
                             this.insertar_diagnostico_falla(objHeader.value)
+                            //this.modalLoading = false  
                     }  
                     else{
                         this.$notify.warning({
@@ -122,11 +131,13 @@ methods:{
         }
         else {
             if(objHeader.crear){
+                this.modalLoading = true  
                 if(this.botonEditCreate == false){
                     this.$http.get(`${API}/DiagnosticoFalla/Images/GetPaths/${objHeader.header.referenceNumber.split('-')[0]}/${objHeader.header.referenceNumber}`)            
-                        .then((response) => {                    
+                        .then((response) => {             
                             if(response.data.length > 0){                                
                                 this.insertar_diagnostico_falla(objHeader.value)
+                                //this.modalLoading = false  
                             }  
                             else{
                                 this.$notify.warning({
@@ -181,7 +192,8 @@ methods:{
                     let referenceDtcFinish = this.$route.query.referenceNumberFinishDiagnostic 
                     if(referenceDtcFinish != undefined){                                    
                         this.$http.put(`${API}/DtcData/UpdateDtcDFReference/${objDiagnostico.referenceNumber.split('-')[0]}/${referenceDtcFinish}/${objDiagnostico.referenceNumber}`)
-                            .then(() => {                                
+                            .then(() => { 
+                                this.modalLoading = false                               
                                 this.$notify.success({
                                     title: "Ok!",
                                     class: "font-titulo",
@@ -205,13 +217,17 @@ methods:{
                     .then(() =>{                        
                         carrilesInsertDiagnostic.forEach(carril => {                                                     
                             this.$http.post(`${API}/DiagnosticoFalla/FichaTecnicaDiagnosticoLane/${objDiagnostico.referenceNumber.split('-')[0]}`, carril)
-                                .then(() => {                                
+                                .then(() => {                               
                                     if(this.botonEditCreate != false)
-                                        this.modalImage = true                                                                    
+                                    {
+                                        this.modalLoading = false   
+                                        this.modalImage = true
+                                    }                                        
                                 })                                 
                         }); 
-                        setTimeout(() => {
+                        setTimeout(() => {      
                             if(this.$route.params.tipoVista == 'Editar'){
+                                this.modalLoading = true
                                 this.type = 'Ficha' 
                                 this.modalImage = false
                                 ServiceReporte.generar_pdf_diagnostico_falla(this.datosHeader.referenceNumber)      
@@ -240,7 +256,7 @@ methods:{
                 .catch(() => {       
                     this.$notify.warning({
                         title: "Ops!!",
-                        msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
+                        msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO, PORFAVOR VERIFIQUE SUS DATOS.",
                         position: "bottom right",
                         styles: { height: 100, width: 500 },
                     });

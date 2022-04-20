@@ -10,7 +10,7 @@
                     </button>
                 </router-link>
             </div>
-            <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+            <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" :class="{'hidden':typeUser === 4}">
                 <router-link to="/ReporteNoSellados" class="text-center cursor-pointer">
                     <img src="@/assets/img/rechazado.png" height="200" width="200" class="m-10 sm:m-1" />
                     <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Reporte DTC No Sellados</h1>              
@@ -19,3 +19,16 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+  data(){
+    return{
+      tipoBotones: true
+    } 
+  },
+  beforeMount(){
+    this.typeUser = this.$store.state.Login.cookiesUser.rollId 
+  }
+}
+</script>

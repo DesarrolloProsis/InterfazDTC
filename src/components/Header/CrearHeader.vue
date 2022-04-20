@@ -51,7 +51,7 @@
           </div>
           
           <div class="sm:flex-col pr-2 inline-block font-titulo">
-            <div class="sm:hidden md:hidden lg:mt-1 lg:ml-26 w-6 absolute ml-30 my-1">
+            <div class="sm:hidden md:hidden lg:ml-26 w-6 absolute ml-30 my-1">
                 <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
                     <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
                     <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
@@ -60,7 +60,7 @@
                 <div ref="tooltipintervencion" class="font-titulo">
                     <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA), se puede dejar vacío y se agregará la leyenda SIN NÚMERO DE SINIESTRO</p>
                 </div>
-          </div>
+            </div>
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
                 <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
                 <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" name="NoSiniestro" type="text"/>
