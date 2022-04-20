@@ -206,7 +206,7 @@
                         </div>
                       </div>
                       </div>       
-                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
+                      <select v-model="dtcEdit.typeDescriptionId" @change="tipo" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
                         <option disabled value>Selecionar...</option>
                         <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.id" :key="index">
                           {{ desc.description }}
@@ -482,6 +482,7 @@ beforeMount: async function () {
         this.moreCard = false                
   } 
   this.scroll_infinito()
+  //this.tipo()
 },
 destroyed(){
   EventBus.$off('abrir_modal_carrusel')
@@ -490,6 +491,17 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  /* tipo_description(value){
+    console.log(value);
+  }, */
+  tipo(value){
+    this.tiposDescripciones = []
+    this.$http.get(`${API}/typedescriptions/tipoDescripcion/${value}`)
+    .then((response) => {
+      console.log(response);
+      response.data.result.forEach(e => this.tiposDescripciones.push(e));
+    })
+  },
   cerrar(){
     this.error = false
   },
@@ -685,6 +697,8 @@ methods: {
       }      
     }else{
       this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }
+      console.log(this.dtcEdit);
+      this.tipo(this.dtcEdit.typeDescriptionId)
       this.modalEdit = true
       this.modal = true
     }    
