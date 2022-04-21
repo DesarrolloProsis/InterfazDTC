@@ -272,7 +272,7 @@ export default {
       .then((response) => {
           let prueba = response.data.result.rows
           prueba.forEach(element => this.infoDTC.push(element.dtcView));
-          if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
+          if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7 || this.tipoUsuario == 2){
               this.lista_DTC_Filtrada = this.infoDTC
           }else {
               let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
@@ -767,7 +767,7 @@ export default {
         .then((response) => {
             let prueba = response.data.result.rows
             prueba.forEach(element => this.infoDTC.push(element.dtcView));
-            if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
+            if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7 || this.tipoUsuario == 2){
               this.lista_DTC_Filtrada = this.infoDTC
             }else {
               let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{

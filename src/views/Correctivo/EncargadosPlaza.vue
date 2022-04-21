@@ -64,7 +64,7 @@
             ////                      MODAL AGREGAR                            ////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0" :class="{'modal-container': modalAgregar}">
-                <div v-if="modalAgregar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-66">
+                <div v-if="modalAgregar" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl lg:mt-66 xl:mt-48">
                     <p class="text-gray-900 font-bold text-2xl mb-8 sm:text-sm sm:text-center text-center">Agregar Encargado de Plaza</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-6">Nombre(s)</p>
@@ -77,6 +77,12 @@
                         <div class="sm:-ml-20"><SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza></div>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2 sm:-ml-20 sm:w-48" v-model="insertAdmin.mail">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Tipo de Encargado</p>
+                        <select class="input mx-auto border-none w-48 text-center sm:w-62 md:w-48 mt-2" v-model="tipofallaActas">
+                            <option value=""></option>
+                            <option value = "11" >Administrador de plaza</option>
+                            <option value = "12" >Encargado de Turno</option>
+                        </select>
                     </div>
                     <div class="mt-5 text-center ml-6">
                         <button @click="confirmarAgregar()" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
@@ -112,9 +118,9 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2 is_valid sm:w-48 sm:-ml-20" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
-                        <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
                         <input type="text" class="w-full bg-white hover:bg-white hover:border-none focus:bg-white border-none shadow-none mt-2" v-model="editUser.plaza" readonly>
+                        <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
+                        
                     </div>
                     <div class="mt-5 text-center ml-6">
                         <button @click="actualizarUsuario" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
