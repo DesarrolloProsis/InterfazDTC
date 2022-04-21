@@ -532,6 +532,7 @@ export default {
         this.lista_DTC_Filtrada = []
         this.plazaFiltro = plaza;
         this.buscarActa = referencia;
+        console.log(this.buscarActa);
         this.usuario = usuario;
         this.tipofalla = tipofalla;
         let userId = this.$store.state.Login.cookiesUser.userId
@@ -583,8 +584,120 @@ export default {
           }
           })
         }
+        else if(this.plazaFiltro == '' && this.buscarActa == '' && this.usuario != '' && this.tipofalla == ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.usuario}/null/null/null/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+        else if(this.plazaFiltro == '' && this.buscarActa == '' && this.usuario == '' && this.tipofalla != ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.tipofalla}/null/null/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
         //Filtros por 2 valores
         else if(this.plazaFiltro != '' && this.buscarActa != '' && this.usuario == '' && this.tipofalla == ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarActa}/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+        else if(this.plazaFiltro != '' && this.buscarActa == '' && this.usuario != '' && this.tipofalla == ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.usuario}/null/${this.plazaidsquare.squareCatalogId}/null/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+        else if(this.plazaFiltro != '' && this.buscarActa == '' && this.usuario == '' && this.tipofalla != ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/${this.tipofalla}/${this.plazaidsquare.squareCatalogId}/null/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+        else if(this.plazaFiltro == '' && this.buscarActa != '' && this.usuario != '' && this.tipofalla == ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.usuario}/null/null/${this.buscarActa}/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+        else if(this.plazaFiltro == '' && this.buscarActa != '' && this.usuario == '' && this.tipofalla != ''){
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/${this.usuario}/${this.tipofalla}/null/null/5/null`)
+          .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+          }
+          })
+        }
+        else if(this.plazaFiltro == '' && this.buscarActa == '' && this.usuario != '' && this.tipofalla != ''){
           this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarActa}/5/null`)
           .then((response) => {
           let prueba = response.data.result.rows

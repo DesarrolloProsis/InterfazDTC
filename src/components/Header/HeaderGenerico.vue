@@ -366,7 +366,7 @@
                     <input v-model="buscarDTCfacturado" class="border w-full text-xs text-center h-5 is_valid" @change="fitrarActas()" placeholder="PM-000000"/>
                 </div>
             </div>
-            <div class="xl:m-3 w-full xl:w-1/4">
+            <div class="xl:m-3 w-full xl:w-1/4" :class="{'hidden': (typeUser == 1 || typeUser == 3)}">
                 <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
                     <label class="font-bold sm:text-xs sm:text-center">Usuario:</label>
                     <input v-model="usuarioActas" class="border w-full text-xs text-center h-5 is_valid" @change="fitrarActas()" placeholder="Usuario"/>
