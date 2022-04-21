@@ -69,7 +69,13 @@ export default {
         });
     },
     beforeMount: async function() {        
-        this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true)         
+/*                 idRoll: item.idRoll, */
+        if(this.tipo == 'tipoPlazaSelect')
+        {
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true && item.idRoll == 11)             
+        }else{
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true)         
+        }
         if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
             let plazasSinRepetir = []
             this.listaPlazas.forEach(element => {                                        

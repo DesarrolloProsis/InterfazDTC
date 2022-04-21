@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex justify-center mt-2 sm:mt-14" v-if="tipoBotones">
-            <div class="mb-66 xl:mb-12">       
+            <div class="mb-66 xl:mb-12 xl:mt-16">       
                 <div class="grid grid-cols-2"> 
                     <div class="botonesCorrectivo bg-blue-100 border-0 border-l-8 border-blue-800 animacion sm:m-4 sm:p-3">
                         <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
@@ -13,7 +13,7 @@
                     <div class="botonPrincipal bg-blue-100 border-0 border-l-8 border-blue-500 sm:m-4 sm:p-3 animacion" v-if="tipoUsuario == 7">
                         <router-link to="/ListarDTC" class="text-center cursor-pointer">
                             <!-- <img src="../../assets/img/add-file.png" height="200" width="200" class="m-10 sm:m-1" /> -->
-                             <font-awesome-icon icon="fa-solid fa-paste" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
+                            <font-awesome-icon icon="fa-solid fa-paste" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
                             <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Concentrado DTC</h1>
                         </router-link>                       
                     </div> 

@@ -41,16 +41,16 @@
                   </button>
                 </div>              
             </div>
-            <button @click="$router.push('/')" class="hidden sm:inline-flex border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 sm:text-sm sm:my-auto">
+            <button @click="$router.push('/')" class="sm:inline-flex border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 sm:text-sm sm:my-auto" :class="{'hidden':rollUsuario != 7}">
               <!-- <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" > -->
               <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="text-red-700 w-8 h-8 ml-2 mt-1"/>
               <div  class="ml-4 text-left">
-                <p class=" sm:mt-3">Cerrar Sesion</p>                                
+                <p class=" sm:mt-3 mt-3">Cerrar Sesion</p>                                
               </div>  
             </button>   
           </div>
-          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden" :class="{'border-l-0 h-16':rollUsuario == 7}">                  
-            <div v-for="(item, key) in filtroMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1" :class="{'hidden':rollUsuario == 7}">
+          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden" :class="{'hidden':rollUsuario == 7}">                  
+            <div v-for="(item, key) in filtroMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
               <p class=" font-semibold text-gray-900 ml-4">{{ item.texto }}</p>                  
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
                   <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full bg-white">
@@ -69,7 +69,7 @@
                   </button>                  
                 </div>                                     
             </div>
-            <div class="rounded-2xl p-1 pl-0 pt-0">
+            <div class="rounded-2xl p-1 pl-0 pt-0" >
               <div class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
               <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full">
                 <!-- <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" > -->
@@ -95,34 +95,34 @@ export default {
     return{
       listaMenuIzq: [
         { texto: 'Mantenimiento Preventivo', subMenu: [
-            { texto: 'Calendario de Actividades', img: "fa-solid fa-calendar-days", path: '/CalendarioActividades', rollValidos: [1,2, 5] },
-            { texto: 'Reporte Mantenimiento', img: "fa-solid fa-file-waveform", path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1,2,5] },
-            { texto: 'Bitacora de Vistas de Mantenimiento-Equipos de Peaje', img: "fa-solid fa-copy", path: '/CalendarioHistorico', rollValidos: [2,4,7,8,10] },
-            { texto: 'Concentrado de Actividades de-Mantenimiento Preventivo', img: "fa-solid fa-file-waveform", path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4,7,8,10], }
+            { texto: 'Calendario de Actividades', img: "fa-solid fa-calendar-days", path: '/CalendarioActividades', rollValidos: [1, 2, 3, 5] },
+            { texto: 'Reporte Mantenimiento', img: "fa-solid fa-file-waveform", path: '/ReportesMantenimiento/TablaActividades', rollValidos: [1, 2, 3, 5] },
+            { texto: 'Bitacora de Vistas de Mantenimiento-Equipos de Peaje', img: "fa-solid fa-copy", path: '/CalendarioHistorico', rollValidos: [2, 4, 7, 8, 10] },
+            { texto: 'Concentrado de Actividades de-Mantenimiento Preventivo', img: "fa-solid fa-file-waveform", path: '/ReportesMantenimiento/TablaActividades', rollValidos: [4, 5, 7, 8, 10], }
           ] 
         },
         { texto: 'Mantenimiento Correctivo', subMenu: [
-            { texto: 'Diagnóstico de Falla', img: "fa-solid fa-file-signature", path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1,2,5,8,10]},
-            { texto: 'Concentrado Diag/Ficha', img: "fa-solid fa-folder-tree", path: '/ConcentradoFichas', rollValidos:[1,2,4,5, 7, 9,10]},
-            { texto: 'Concentrado DTC', img: "fa-solid fa-paste", path: '/ListarDtc', rollValidos: [1,2, 4, 5, 7, 10]},
-            { texto: 'Concentrado GMMEP', img: "fa-solid fa-file-circle-check", path: '/ConcentradoGMMEP', rollValidos: [1,2,4,5, 7, 8,9,10]},
-            { texto: 'Concentrado DTC Borrados', img: 'fa-solid fa-file-circle-xmark', path: '/ConcentradoBorrados', rollValidos: [4,10]},
-            { texto: 'Inventario', img: "fa-solid fa-boxes-stacked", path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
-            { texto: 'Entrega / Recepción', img: "fa-solid fa-file-invoice-dollar", path: '/Inventario', rollValidos: [1,2, 7, 4, 5, 10]},
+            { texto: 'Diagnóstico de Falla', img: "fa-solid fa-file-signature", path: '/Correctivo/PreDTC/Crear/DiagnosticoDeFalla', rollValidos: [1, 2, 3, 5, 8, 10]},
+            { texto: 'Concentrado Diag/Ficha', img: "fa-solid fa-folder-tree", path: '/ConcentradoFichas', rollValidos:[1, 2, 3, 4, 5, 7, 9, 10]},
+            { texto: 'Concentrado DTC', img: "fa-solid fa-paste", path: '/ListarDtc', rollValidos: [1, 2, 3, 4, 5, 7, 8, 10]},
+            { texto: 'Concentrado GMMEP', img: "fa-solid fa-file-circle-check", path: '/ConcentradoGMMEP', rollValidos: [1, 2, 3, 4, 5, 7, 8, 9, 10]},
+            { texto: 'Concentrado DTC Borrados', img: 'fa-solid fa-file-circle-xmark', path: '/ConcentradoBorrados', rollValidos: [4, 8, 10]},
+            { texto: 'Inventario', img: "fa-solid fa-boxes-stacked", path: '/Inventario', rollValidos: [1, 2, 3, 4, 5, 7, 10]},
+            { texto: 'Entrega / Recepción', img: "fa-solid fa-file-invoice-dollar", path: '/Inventario', rollValidos: [1, 2, 3, 4, 5, 8, 10]},
             { texto: 'Reportes', img: "fa-solid fa-file-invoice", path: '/Reportes', rollValidos: [4]},
           ] 
         },     
       ],
       listaMenuDer:[ 
         { texto: 'Ayuda', subMenu: [
-            { texto: 'Comentarios', img: "fa-regular fa-comments", path: '/Ayuda', query: { tipo: 'comentario' }, rollValidos: [1, 10] },
-            { texto: 'Videos', img: "fa-solid fa-video", path: '/Ayuda', query: { tipo: 'videos' }, rollValidos: [1, 10] },
-            { texto: 'Manual de Usuario', img: "fa-solid fa-file-circle-question", path: '/Configuracion', rollValidos: [1, 10] },
+            { texto: 'Comentarios', img: "fa-regular fa-comments", path: '/Ayuda', query: { tipo: 'comentario' }, rollValidos: [1, 2, 3, 4, 5, 8, 10] },
+            { texto: 'Videos', img: "fa-solid fa-video", path: '/Ayuda', query: { tipo: 'videos' }, rollValidos: [1, 2, 3, 4, 5, 8,10] },
+            { texto: 'Manual de Usuario', img: "fa-solid fa-file-circle-question", path: '/Configuracion', rollValidos: [1, 2, 3, 4, 5, 8, 10] },
           ] 
         }, 
         { texto: 'Configuracion', subMenu: [
-            { texto: 'Encargados de Plaza', img: "fa-solid fa-building-user", path: '/EncargadosPlaza', rollValidos: [1, 10] },
-            { texto: 'Usuarios de Bitacora', img: "fa-solid fa-users-gear", path: '/Usuarios', rollValidos: [1, 10] },
+            { texto: 'Encargados de Plaza', img: "fa-solid fa-building-user", path: '/EncargadosPlaza', rollValidos: [1, 2, 3, 4, 5, 8, 10] },
+            { texto: 'Usuarios de Bitacora', img: "fa-solid fa-users-gear", path: '/Usuarios', rollValidos: [1, 2, 3, 4, 5, 8, 10] },
           ] 
         }
       ],

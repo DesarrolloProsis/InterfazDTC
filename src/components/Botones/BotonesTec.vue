@@ -3,7 +3,7 @@
 <!--/////////////////////////////////////////////////////////////////////
 ////                          CORRECTIVO                           /////
 ////////////////////////////////////////////////////////////////////-->
-    <div class="flex justify-center mt-2 sm:mb-1 mb-16 " v-if="tipoBotones">
+    <div class="flex justify-center my-16 sm:mb-1 " v-if="tipoBotones">
       <div class="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 sm:mb-20">
           <div class="botonesCorrectivo bg-blue-100 border-0 border-l-8 border-blue-800 animacion sm:m-4 sm:p-3">
             <router-link to="/Correctivo/PreDTC/Crear/DiagnosticoDeFalla" class="text-center">
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="flex justify-center mb-16 mt-24 sm:mt-2" v-else>
-      <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1"  :class="{'grid grid-cols-3':typeUser == 2 && typeUser == 5}">     
+      <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mt-32"  :class="{'grid grid-cols-3':typeUser == 2 || typeUser == 5}">     
           <div class="botonesCorrectivo animacion bg-blue-100 border-0 border-l-8 border-blue-800 sm:m-4 sm:p-3">
             <router-link to="/CalendarioActividades" class="text-center cursor-pointer">
               <!-- <img src="../../assets/img/schedule.png" height="200" width="200" class="m-10 sm:m-1"/> -->
@@ -69,7 +69,8 @@
           </div>
           <div class="botonesCorrectivo bg-blue-100 border-0 border-l-8 border-blue-500 animacion sm:m-4 sm:p-3" v-if="typeUser == 2 || typeUser == 5">
             <router-link to="/CalendarioHistorico" class="text-center cursor-pointer">
-                <img src="../../assets/img/buscar.png" height="200" width="200" class="m-10 sm:m-1" />
+                <!-- <img src="../../assets/img/buscar.png" height="200" width="200" class="m-10 sm:m-1" /> -->
+                <font-awesome-icon icon="fa-solid fa-calendar-check" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
                 <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-bold">Concentrado de</h1>                            
                 <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-bold">Calendarios</h1>
             </router-link>                     
