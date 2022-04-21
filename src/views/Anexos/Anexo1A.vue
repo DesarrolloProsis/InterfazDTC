@@ -87,13 +87,13 @@
         <div class="mt-4">
         <ValidationObserver ref="observer" class="">  
           <div class="w-full">
-            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+            <ValidationProvider name="reporte fotografico" rules="required:max:500" v-slot="{ errors }">
                   <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
                   <textarea
                   v-model="comentario"                                                               
                   class="block container placeholder-gray-500 textAreaCalendario sm:mx-auto md:mx-auto lg:mx-auto"
                   placeholder="Inserte observaciones del reporte fotografico"
-                  name="ComentarioCalendario"
+                  name="reporte fotografico"
                   :maxlength="limite"
                   />
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>

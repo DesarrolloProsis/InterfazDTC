@@ -16,7 +16,7 @@
                         <template v-else>
                             <div class="w-32" v-if="tipoRow != 'PC'">
                                 <button v-if="!boolMoreInformation" @click="show_more_infomacion">
-                                    <!-- <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5 mx-auto" alt="">                                     -->
+                                    <!-- <img src="../assets/img/flecha-hacia-abajo.png" class="w-5 h-5 mx-auto" alt=""> -->
                                     <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                 </button>
                                 <button v-else @click="boolMoreInformation = false, keyLimpio = []">                                    
