@@ -78,10 +78,10 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2 sm:-ml-20 sm:w-48" v-model="insertAdmin.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Tipo de Encargado</p>
-                        <select class="input mx-auto border-none w-48 text-center sm:w-62 md:w-48 mt-2" v-model="tipofallaActas">
+                        <select class="input mx-auto border-none w-48 text-center sm:w-62 md:w-48 mt-2" v-model="insertAdmin.tipoencargado">
                             <option value=""></option>
-                            <option value = "11" >Administrador de plaza</option>
-                            <option value = "12" >Encargado de Turno</option>
+                            <option value="11" >Administrador de plaza</option>
+                            <option value="12" >Encargado de Turno</option>
                         </select>
                     </div>
                     <div class="mt-5 text-center ml-6">
@@ -120,7 +120,12 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
                         <input type="text" class="w-full bg-white hover:bg-white hover:border-none focus:bg-white border-none shadow-none mt-2" v-model="editUser.plaza" readonly>
                         <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
-                        
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Tipo de Encargado</p>
+                        <select class="input mx-auto border-none w-48 text-center sm:w-62 md:w-48 mt-2" v-model="editUser.tipoencargado">
+                            <option value=""></option>
+                            <option value = "11" >Administrador de plaza</option>
+                            <option value = "12" >Encargado de Turno</option>
+                        </select>
                     </div>
                     <div class="mt-5 text-center ml-6">
                         <button @click="actualizarUsuario" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
@@ -163,12 +168,14 @@ export default {
                 plaza:'',
                 plazaId: '',
                 mail:'',
+                tipoencargado:''
             },
             insertAdmin:{
                 nombre:'',
                 apellidoP:'',
                 apellidoM:'',
                 mail:'',
+                tipoencargado:'',
                 status: true
             },
             rollId: this.$store.state.Login.cookiesUser.rollId,
@@ -206,6 +213,7 @@ export default {
             this.insertAdmin.apellidoP = ''
             this.insertAdmin.apellidoM = ''
             this.insertAdmin.mail = ''
+            this.insertAdmin.tipoencargado = ''
         },
         confirmarAgregar (){
             let valueAdmin = Object.values(this.insertAdmin)
@@ -221,12 +229,20 @@ export default {
                 });
             }else{
                 this.modalAgregar = false
-                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                             
-                this.$http.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
+                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza   
+                let admin = {
+                    Nombre: this.insertAdmin.nombre,
+                    ApellidoP: this.insertAdmin.apellidoP ,
+                    ApellidoM: this.insertAdmin.apellidoM ,
+                    Mail: this.insertAdmin.mail,
+                    IdRoll: parseInt(this.insertAdmin.tipoencargado),
+                    Plaza: this.insertAdmin['plaza'],
+                }                  
+                this.$http.post(`${API}/SquaresCatalog/InsertAdmin`, admin)
                 .then(() => {                    
-                    this.actualziar_header_plazas()
-                    this.actualizarFiltro()
-                })
+                   this.actualziar_header_plazas()
+                   this.actualizarFiltro()
+                 })
             }
         },
         actualziar_header_plazas(){
@@ -272,13 +288,16 @@ export default {
         },
         editarUsuario (item) {            
             CookiesService.actualizar_plaza(item.adminSquareId)
+            
+            console.log();
             this.editUser.userId = item.adminSquareId
             this.editUser.name = item.name
             this.editUser.lastName1 = item.lastName1
             this.editUser.lastName2 = item.lastName2
             this.editUser.plaza = item.squareName
             this.editUser.plazaId = item.squareCatalogId
-            this.editUser.mail = item.mail,            
+            this.editUser.mail = item.mail
+            this.editUser.tipoencargado = item.idRoll.toString()
             this.modalEditar = true;                              
         },
         actualizarUsuario (){
@@ -301,7 +320,10 @@ export default {
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
                     adminId: this.editUser.userId,
-                    userId: this.$store.state.Login.cookiesUser.userId}                              
+                    IdRoll: parseInt(this.editUser.tipoencargado), 
+                    userId: this.$store.state.Login.cookiesUser.userId
+                    }
+                    console.log(objUpdateAdmin)
                 this.$http.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
