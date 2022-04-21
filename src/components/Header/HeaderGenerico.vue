@@ -713,6 +713,8 @@ export default {
         filtrar_Actas_todos(){
             this.plazaFiltro = ''
             this.buscarDTCfacturado = ''
+            this.usuarioActas = '' 
+            this.tipofallaActas = ''
             this.$emit('filtrar-todos-Actas')
         },
         customLabel ({ title }) {
