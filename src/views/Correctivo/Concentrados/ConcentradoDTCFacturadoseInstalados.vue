@@ -20,14 +20,14 @@
             </tr>
           </thead>
           <tbody>
-            <template v-if="lista_DTC_Filtrada.length == 0 && !loadingTabla "> 
+            <template v-if="lista_DTC_Filtrada.length == 0 && !loadingTable "> 
               <tr>
                 <td class="w-full text-center text-red-500 m-10" colspan="6">                                    
                   <div class="mt-8 mb-8">Sin Informacion</div>
                 </td>
               </tr>  
             </template>
-            <template v-else-if="loadingTabla && lista_DTC_Filtrada.length == 0">  
+            <template v-else-if="loadingTable && lista_DTC_Filtrada.length == 0">  
                     <tr>
                         <td colspan="9">                                    
                             <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
@@ -263,6 +263,7 @@ export default {
     ////                       CICLOS DE VIDA                        ////
     /////////////////////////////////////////////////////////////////////
     beforeMount: function () {
+      this.loadingTable = true
       this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
       let userId = this.$store.state.Login.cookiesUser.userId
       let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
@@ -529,6 +530,7 @@ export default {
           }
       },
       filtro_Actas(plaza,referencia,usuario,tipofalla){
+        this.loadingTable = true
         this.lista_DTC_Filtrada = []
         this.plazaFiltro = plaza;
         this.buscarActa = referencia;
@@ -637,6 +639,7 @@ export default {
         
       },
       todos(){
+        this.loadingTable = true
         this.infoDTC = []
         this.lista_DTC_Filtrada = []
         this.buscarActa = ''
