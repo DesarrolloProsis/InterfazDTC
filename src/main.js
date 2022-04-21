@@ -69,9 +69,10 @@ import {
   faFilePdf,
   faCamera,
   faArrowRightArrowLeft,
-  faWindowRestore
+  faWindowRestore,
+  faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons'
-/* <font-awesome-icon icon="fa-solid fa-camera" /> */
+/* */
 
 import { 
   faCircleQuestion,
@@ -151,6 +152,7 @@ library.add(faUserSecret,
   faCamera,
   faArrowRightArrowLeft,
   faWindowRestore,
+  faCalendarCheck
   )
 
 /* add font awesome icon component */
