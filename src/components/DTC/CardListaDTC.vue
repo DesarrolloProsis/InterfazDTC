@@ -437,6 +437,8 @@ export default {
         }
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
+      /* this.$emit("tipo-desciption", this.infoCard.typeDescriptionId)
+      console.log(this.infoCard); */
     },
     fotografico_sellado(){
       ServiceReporte.reporte_fotografico_sellado(this.infoCard.referenceNumber)

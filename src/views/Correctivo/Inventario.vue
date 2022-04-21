@@ -283,6 +283,7 @@ export default {
       modalAdv: false,
       modalAdd: false,
       value:'',
+      userId:0,
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -308,6 +309,7 @@ export default {
   beforeMount: async function () { 
     this.loadingTabla = true        
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
+    this.userId = await this.$store.state.Login.cookiesUser.userId
     this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
     this.loadingTabla = false 
@@ -403,8 +405,10 @@ export default {
     guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
         let numAct = this.listEditados
-        this.modalLoading = true                
-        await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);        
+        this.modalLoading = true      
+        let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+        //await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK", this.listEditados);        
+        await this.$http.put(`${API}/Component/UpdateInventoryList/${clavePlaza}/${this.userId}`, this.listEditados)
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false

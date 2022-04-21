@@ -376,7 +376,7 @@ beforeMount: async function () {
   this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
   await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
   this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
-  if (JSON.stringify(this.headerEdit) != "{}") {    
+  if (JSON.stringify(this.headerEdit) != "{}") {  
     this.tipoPlazaSelect = 'edicion'      
     this.boolCambiarPlaza = true
     this.datosSinester.ReferenceNumber = this.headerEdit.referenceNumber;
@@ -387,6 +387,7 @@ beforeMount: async function () {
     this.datosSinester.FailureDate = moment(this.headerEdit.failureDate).format("YYYY-MM-DD");
     this.datosSinester.ShippingElaboracionDate = moment(this.headerEdit.shippingDate).format("YYYY-MM-DD");
     this.datosSinester.TypeDescriptionId = this.headerEdit.typeDescriptionId;
+    this.datosSinester.Diagnosis = this.headerEdit.diagnosis;
     this.fechaSiniestoEdit = true;    
   }
   this.tipoDescripcion()
