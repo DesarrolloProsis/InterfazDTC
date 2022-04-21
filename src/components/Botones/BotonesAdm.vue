@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-center mt-2 sm:mt-14" v-if="tipoBotones">
-      <div class="grid grid-cols-4 mb-16 sm:grid-cols-2 sm:mb-20">        
+      <div class="mb-16 sm:grid-cols-2 sm:mb-20" :class="{'grid grid-cols-3 mt-32':tipoUsuario == 8, 'grid grid-cols-4':tipoUsuario != 8}">        
           <div class="botonesCorrectivo bg-blue-100 border-0 border-l-8 border-blue-800 animacion sm:m-4 sm:p-3">
             <router-link to="/ConcentradoFichas" class="text-center cursor-pointer">
               <!-- <img src="../../assets/img/carpeta.png" height="200" width="200" class="m-10 sm:m-1" /> -->
