@@ -537,7 +537,7 @@ export default {
         let userId = this.$store.state.Login.cookiesUser.userId
         let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
         let plazas = this.$store.state.Login.listaPlazas
-        let infousuario = this.$store.state.Login.cookiesUser
+        //let infousuario = this.$store.state.Login.cookiesUser
         if(this.plazaFiltro != ''){
           this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
         }
