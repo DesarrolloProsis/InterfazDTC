@@ -15,11 +15,12 @@
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="divtabla sm:mb-24 mb-10 -mt-8" style="height:550px;">
+                <div class="divtabla sm:mb-24 mb-10 -mt-8" style="height:508px;">
                     <table class="table">
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
                                 <th class="cabeceraTable font-medium">Nombre</th>
+                                <th class="cabeceraTable font-medium">Rol</th>
                                 <th class="cabeceraTable font-medium sm:hidden">Correo</th>
                                 <th class="cabeceraTable font-medium">Plaza</th>
                                 <th class="cabeceraTable font-medium">Acciones</th>
@@ -29,6 +30,10 @@
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaEncargados" :key="key" 
                             :class="{'hidden' : item.statusAdmin != true}">
                                 <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
+                                <td class="cuerpoTable">
+                                    <span v-if="item.idRoll == 12">Encargado de Turno</span>
+                                    <span v-if="item.idRoll == 11">Administrador de Plaza</span>
+                                </td>
                                 <td class="cuerpoTable sm:hidden">{{ item.mail }}</td>
                                 <td class="cuerpoTable">{{ item.squareName }}</td>
                                 <td class="cuerpoTable">
@@ -189,7 +194,8 @@ export default {
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
             this.listaEncargados = this.listaencargadosFilrada
-        })
+            console.log(this.listaEncargados);
+        }) 
     },
     methods:{
         actualizarFiltro(){

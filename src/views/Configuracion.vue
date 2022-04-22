@@ -1,7 +1,7 @@
 <template>
   <div>    
     <div class="flex justify-center mt-2 sm:mt-2 font-titulo">
-      <div class="grid grid-cols-2 sm:grid-cols-1 sm:mt-1 mt-56" :class="{'grid grid-cols-3':typeUser == 10 || typeUser == 4}"> 
+      <div class="grid grid-cols-2 sm:grid-cols-1 sm:mt-1 mt-48" :class="{'grid grid-cols-3':typeUser == 10 || typeUser == 4}"> 
         <div v-if="this.typeUser != 9" class="botonesCorrectivo h-full bg-blue-100 border-0 border-l-8 border-blue-800 animacion sm:m-4 sm:p-3">
           <router-link to="/EncargadosPlaza" class="text-center cursor-pointer">
             <!-- <img src="../assets/img/encargado.png" height="200" width="200" class="m-10 sm:m-1" /> -->
