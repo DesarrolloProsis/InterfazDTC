@@ -329,17 +329,26 @@ export default {
           return `${title}`
       },
       opticones_select_acciones(dtc){
+                let userId = this.$store.state.Login.cookiesUser.userId
                 const options= [                
                 { title: 'Anexos Generados', accionCss: 'terminar', img: 'fa-solid fa-window-restore' }, //0
                 { title: 'Generar Anexo', accionCss: 'terminar', img: 'fa-solid fa-file-circle-plus' },//1
                 { title: 'Cambiar Estatus', accionCss: 'editar', img: 'fa-solid fa-arrow-right-arrow-left' },//2
                 ]
                 let filtroOpciones = []
-                if(this.tipoUsuario == 1 || this.tipoUsuario == 4){
+                if(this.tipoUsuario == 1 || this.tipoUsuario == 4 || this.tipoUsuario == 3){
                   if(dtc.isAnexoCreate == true){
                     filtroOpciones.push(options[0])
                   }
-                  if(dtc.isValidCreate == true && this.tipoUsuario == 1){
+                  if(dtc.isValidCreate == true && (this.tipoUsuario == 1 || this.tipoUsuario == 3)){
+                    filtroOpciones.push(options[1])
+                  }
+                }
+                if(this.tipoUsuario == 2 || this.tipoUsuario == 5){
+                  if(dtc.isAnexoCreate == true){
+                    filtroOpciones.push(options[0])
+                  }
+                  if(userId == dtc.userId && dtc.isValidCreate == true){
                     filtroOpciones.push(options[1])
                   }
                 }
