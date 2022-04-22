@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-12 sm:text-xs w-full" style="height:506px;">
+    <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-12 sm:text-xs w-full" style="height:426px;">
         <table class="border-collapse table-auto  whitespace-no-wrap bg-white table-striped w-full">
             <!--/////////////////////////////////////////////////////////////////
             ////                           HEADER TABLA                      ////

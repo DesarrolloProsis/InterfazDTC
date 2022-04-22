@@ -9,7 +9,7 @@
           :titulo="'Actas de Entrega y Recepción'" 
           :tipo="'CDTCF'" 
         />
-        <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto mb-20" style="height:506px;">
+        <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto mb-17" style="height:472px;">
           <table class="w-full rounded-lg mt-4">
           <thead class="">
             <tr>
