@@ -100,14 +100,15 @@
                     <p class="text-center text-gray-800">Debe indicar el tipo de siniestro que corresponde deacuerdo al catalogo de la bitacora electronica</p>
                 </div>
               </div>
+              <ValidationProvider name="tipo" immediate rules="required"  v-slot="{ errors }">
               <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripcion</p>
               <select v-model="datosSinester.TypeDescriptionId" @change="tipoDescripcion" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
                 <option v-for="(desc, index) in descripciones" :value="desc.id" :key="index">
                   {{ desc.description }}
                 </option>
               </select>
-              <!-- <span class="text-red-600 text-xs block">{{ errors[0] }}</span> -->
-            <!-- </ValidationProvider>               -->
+              <span class="text-red-600 text-xs block">{{ errors[0] }}</span> 
+            </ValidationProvider>            
           </div>
           <!-- //////////////////////////////////////////////////////////////////
           ////                   SEGUNDA LINEA                              ////
@@ -178,12 +179,15 @@
               <!-- <p class="text-md mb-1 font-medium text-gray-900 hidden">Fecha de Elaboracion:</p>
               <input disabled="true" class="w-full is_valid hidden" type="date" readonly /> -->
               <div class="pr-2 font-titulo">
-              <p class="text-md font-medium mb-1 text-gray-900">Diagnótico:</p>
+                <ValidationProvider name="diagnostico" immediate rules="required"  v-slot="{ errors }">
+              <p class="text-md font-medium mb-1 text-gray-900">Diagnóstico:</p>
               <select v-model="datosSinester.Diagnosis"  class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
                 <option v-for="(desc, index) in tiposDescripciones" :value="desc.type" :key="index">
                   {{ desc.type }}
                 </option>
               </select>
+              <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             </div>
             <!-- //////////////////////////////////////////////////////////////////

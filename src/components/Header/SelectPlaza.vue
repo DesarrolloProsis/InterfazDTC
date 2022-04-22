@@ -72,7 +72,7 @@ export default {
 /*                 idRoll: item.idRoll, */
         if(this.tipo == 'tipoPlazaSelect')
         {
-            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true && item.idRoll == 12)             
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true && item.idRoll == 11)             
         }else{
             this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true)         
         }

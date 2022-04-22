@@ -267,21 +267,11 @@ export default {
       this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
       let userId = this.$store.state.Login.cookiesUser.userId
       let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-      let infousuario = this.$store.state.Login.cookiesUser
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/5/null`)
       .then((response) => {
           let prueba = response.data.result.rows
           prueba.forEach(element => this.infoDTC.push(element.dtcView));
-          if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7 || this.tipoUsuario == 2){
-              this.lista_DTC_Filtrada = this.infoDTC
-          }else {
-              let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
-              if(dtc.userId == infousuario.userId){
-              return dtc
-            }
-          })
-            this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
-          }
+          this.lista_DTC_Filtrada = this.infoDTC
           this.totalPages = response.data.result.numeroPaginas
           this.currentPage = response.data.result.paginaActual
           this.loadingTable = false
@@ -336,7 +326,7 @@ export default {
                 { title: 'Cambiar Estatus', accionCss: 'editar', img: 'fa-solid fa-arrow-right-arrow-left' },//2
                 ]
                 let filtroOpciones = []
-                if(this.tipoUsuario == 1 || this.tipoUsuario == 4 || this.tipoUsuario == 3){
+                if(this.tipoUsuario == 1 || this.tipoUsuario == 4 || this.tipoUsuario == 3 || this.tipoUsuario == 8 || this.tipoUsuario == 7 || this.tipoUsuario == 10){
                   if(dtc.isAnexoCreate == true){
                     filtroOpciones.push(options[0])
                   }
@@ -352,7 +342,7 @@ export default {
                     filtroOpciones.push(options[1])
                   }
                 }
-                if(this.tipoUsuario == 4){
+                if(this.tipoUsuario == 4 || this.tipoUsuario == 8){
                   filtroOpciones.push(options[2])
                 }
 
@@ -365,17 +355,17 @@ export default {
       },
       opticones_select_acciones_modal(anxg){
                 const options= [                
-                { title: 'Editar', accionCss: 'editar', img: 'fa-solid fa-file-pen' }, //0
+                { title: 'Editar', accionCss: 'editar', img: 'fa-solid fa-file-pen' },
                 { title: 'Descargar Anexo', accionCss: 'terminar', img: 'fa-solid fa-download' },
                 { title: 'Validar', accionCss: 'editar', img: 'fa-solid fa-file-circle-check' },
                 { title: 'Corregir', accionCss: 'editar', img: 'fa-solid fa-file-pen' },
                 ]
                 console.log(anxg.statusId)
                 let filtroOpciones = []
-                if(anxg.statusId == 5 && (this.tipoUsuario == 1 || this.tipoUsuario == 2 ||  this.tipoUsuario == 3 ||  this.tipoUsuario ==  5)){
+                if(anxg.statusId == 5 && (this.tipoUsuario == 1 || this.tipoUsuario == 2 ||  this.tipoUsuario == 3 ||  this.tipoUsuario ==  5 )){
                   filtroOpciones.push(options[0])
                 }
-                if(anxg.statusId == 6 || anxg.statusId == 7){
+                if(this.tipoUsuario != 7 && (anxg.statusId == 6 || anxg.statusId == 7)){
                   filtroOpciones.push(options[1])
                 }
                 if(anxg.statusId == 6 && (this.tipoUsuario == 4 || this.tipoUsuario == 8)){
@@ -384,6 +374,12 @@ export default {
                 }
                 if(anxg.statusId == 7 && (this.tipoUsuario == 4 || this.tipoUsuario == 8)){
                   filtroOpciones.push(options[3])
+                }
+                if(anxg.statusId == 7 && (this.tipoUsuario == 7)){
+                  filtroOpciones.push(options[1])
+                }
+                if(this.tipoUsuario == 10 && anxg.statusId == 5){
+                  filtroOpciones.push(options[1])
                 }
                 return filtroOpciones
       },

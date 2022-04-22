@@ -248,6 +248,7 @@ export default {
                 .then(() => {                    
                    this.actualziar_header_plazas()
                    this.actualizarFiltro()
+                    this.$store.dispatch('Login/BUSCAR_ADMIN_PLAZA')
                  })
             }
         },

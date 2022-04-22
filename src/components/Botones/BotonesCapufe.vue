@@ -30,6 +30,14 @@
                             <font-awesome-icon icon="fa-solid fa-boxes-stacked" class="text-blue-800 w-37 h-37 mx-20 mt-10"/>
                             <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Inventario Plaza</h1>
                         </router-link>
+                    </div>
+                    <div class="botonesCorrectivo bg-yellow-100 border-0 border-l-8 border-yellow-500 animacion sm:m-4 sm:p-3">
+                        <router-link to="/ConcentradoDTCFacturados" class="text-center cursor-pointer">
+                        <!-- <img src="../../assets/img/factura.png" height="200" width="200" class="m-10 sm:m-1"/> -->
+                        <font-awesome-icon icon="fa-solid fa-file-invoice-dollar" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Actas de Entrega y </h1>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Recepción</h1>
+                        </router-link>
                     </div>           
                 </div>
             </div>

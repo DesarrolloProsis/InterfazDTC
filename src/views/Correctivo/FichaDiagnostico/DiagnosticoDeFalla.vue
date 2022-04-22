@@ -94,6 +94,8 @@ export default {
         }
     },
     beforeMount(){
+       
+        this.$store.dispatch('Login/BUSCAR_ADMIN_PLAZA')
         if(this.$route.params.tipoVista == 'Editar'){            
             this.itemCompletoEdit = this.$route.query.item
             this.reporteInsertado = true
