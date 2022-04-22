@@ -82,8 +82,8 @@
                         <div class="sm:-ml-20"><SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza></div>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2 sm:-ml-20 sm:w-48" v-model="insertAdmin.mail">
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Tipo de Encargado</p>
-                        <select class="input mx-auto border-none w-48 text-center sm:w-62 md:w-48 mt-2" v-model="insertAdmin.tipoencargado">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Rol</p>
+                        <select class="input mx-auto border-none w-48 sm:w-62 md:w-48 mt-2" v-model="insertAdmin.tipoencargado">
                             <option value=""></option>
                             <option value="11" >Administrador de plaza</option>
                             <option value="12" >Encargado de Turno</option>
@@ -125,8 +125,8 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
                         <input type="text" class="w-full bg-white hover:bg-white hover:border-none focus:bg-white border-none shadow-none mt-2" v-model="editUser.plaza" readonly>
                         <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
-                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Tipo de Encargado</p>
-                        <select class="input mx-auto border-none w-48 text-center sm:w-62 md:w-48 mt-2" v-model="editUser.tipoencargado">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Rol</p>
+                        <select class="input mx-auto border-none w-48 sm:w-62 md:w-48 mt-2" v-model="editUser.tipoencargado">
                             <option value=""></option>
                             <option value = "11" >Administrador de plaza</option>
                             <option value = "12" >Encargado de Turno</option>
