@@ -188,7 +188,7 @@ export default {
                         else{
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
                             if(this.$route.params.tipoVista == 'Editar'){ 
-                                this.$router.push('/Home')  
+                                this.$router.push('/ConcentradoFichas')  
                             }
                             else {
                                 if(this.$route.query.referenceNumberFinishDiagnostic == undefined)
