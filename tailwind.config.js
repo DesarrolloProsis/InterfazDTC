@@ -16,7 +16,8 @@ module.exports = {
       'md': {'min': '766px', 'max': '1023px'},
       'lg': {'min': '1024px', 'max': '1279px'},
       'xl': {'min': '1280px', 'max':'2040px'},
-      '4k': {'min': '2040px', 'max':'3840px'}
+      '4k': {'min': '2040px', 'max':'3840px'},
+      'laptop': {'min': '768px', 'max':'1366px'}
     },
     extend: {
       spacing: {
