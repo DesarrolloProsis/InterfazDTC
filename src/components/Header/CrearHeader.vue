@@ -394,7 +394,9 @@ beforeMount: async function () {
     this.datosSinester.Diagnosis = this.headerEdit.diagnosis;
     this.fechaSiniestoEdit = true;    
   }
-  this.tipoDescripcion()
+    //this.tipoDescripcion()
+    this.$emit('tipo-descripcion', this.datosSinester.TypeDescriptionId)
+    this.tipos()
 },
 destroyed(){
   EventBus.$off('validar_header_dtc')
@@ -404,6 +406,7 @@ destroyed(){
 /////////////////////////////////////////////////////////////////////
 methods: {
   tipoDescripcion(){
+    this.datosSinester.Diagnosis = ''
     this.$emit('tipo-descripcion', this.datosSinester.TypeDescriptionId)
     this.tipos()
   },
@@ -466,12 +469,11 @@ methods: {
     let fechaActual = Date.now()
     let fechaSinisestro = Date.parse(this.datosSinester.SinisterDate)
     let fechaFalla = Date.parse(this.datosSinester.FailureDate)
-    if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != '' && fechaSinisestro < fechaActual && fechaFalla < fechaActual){ 
+    if(this.datosSinester.SinisterDate != '' && this.datosSinester.FailureDate != '' && fechaSinisestro < fechaActual && fechaFalla < fechaActual && this.datosSinester.Diagnosis != ''){ 
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", this.datosSinester);            
       this.$emit('crear-dtc', value)
     }
     else{
-      
       this.$notify.warning({
               title: "Ops!!",
               msg: "NO SE PUDO INSERTAR LOS DATOS DEL DTC.",
