@@ -108,7 +108,7 @@ export default {
             { texto: 'Concentrado GMMEP', img: "fa-solid fa-file-circle-check", path: '/ConcentradoGMMEP', rollValidos: [1, 2, 3, 4, 5, 7, 8, 9, 10]},
             { texto: 'Concentrado DTC Borrados', img: 'fa-solid fa-file-circle-xmark', path: '/ConcentradoBorrados', rollValidos: [4, 8, 10]},
             { texto: 'Inventario', img: "fa-solid fa-boxes-stacked", path: '/Inventario', rollValidos: [1, 2, 3, 4, 5, 7, 10]},
-            { texto: 'Entrega / Recepción', img: "fa-solid fa-file-invoice-dollar", path: '/Inventario', rollValidos: [1, 2, 3, 4, 5, 8, 10]},
+            { texto: 'Entrega / Recepción', img: "fa-solid fa-file-invoice-dollar", path: '/ConcentradoDTCFacturados', rollValidos: [1, 2, 3, 4, 5, 7, 8, 10]},
             { texto: 'Reportes', img: "fa-solid fa-file-invoice", path: '/Reportes', rollValidos: [4]},
           ] 
         },     
