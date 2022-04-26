@@ -295,7 +295,7 @@ methods:{
     if(this.tipoUsuario == 1){
       filtroOpciones.push(options[5])
     }
-    if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+    if(this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
     }
     console.log(filtroOpciones)

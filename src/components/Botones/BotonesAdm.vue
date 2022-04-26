@@ -30,7 +30,7 @@
               <h1 class="text-blue-800 text-2xl font-bold sm:text-sm font-titulo ">Concentrado DTC Borrado</h1>
             </router-link>
           </div> 
-          <div class="botonesCorrectivo animacion bg-teal-100 border-0 border-l-8 border-teal-500 sm:m-4 sm:p-3" v-if="tipoUsuario != 8">
+          <div class="botonesCorrectivo animacion bg-teal-100 border-0 border-l-8 border-teal-500 sm:m-4 sm:p-3">
             <router-link to="/Inventario" class="text-center cursor-pointer">
               <!-- <img src="../../assets/img/inventory.png" height="200" width="200" class="m-10 sm:m-1"/> -->
               <font-awesome-icon icon="fa-solid fa-boxes-stacked" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>

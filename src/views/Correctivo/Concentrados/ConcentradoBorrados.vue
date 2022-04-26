@@ -61,8 +61,9 @@
                                 <td class="cuerpoTable hidden">{{ `Numero de veces borrado ${item.conteos}` }}</td>
                                 <td class="cuerpoTable">{{item.ultimaFecha | formatDate }}</td>              
                                 <td class="cuerpoTable">
-                                    <button class="botonIconCrear" @click="mostras_detalles_borrado(item)">
-                                        <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15"/>
+                                    <button class="botonBuscar" @click="mostras_detalles_borrado(item)">
+                                        <!-- <img src="../../../assets/img/more.png" class="mr-2 sm:m-1" width="15" height="15"/> -->
+                                        <font-awesome-icon icon="fa-solid fa-plus" class="text-blue-800 h-7 w-5 mr-2"/>
                                         <span class="text-xs sm:hidden">Más</span>
                                     </button>
                                 </td>                                
