@@ -563,7 +563,6 @@ export default {
           //   })
           //   this.lista_DTC_Filtrada =  dtcfiltradoporusuario
           // }
-          
           this.totalPages = response.data.result.numeroPaginas
           this.currentPage = response.data.result.paginaActual
           this.loadingTable = false
@@ -767,21 +766,22 @@ export default {
         this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
         let userId = this.$store.state.Login.cookiesUser.userId
         let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
-        let infousuario = this.$store.state.Login.cookiesUser
+        // let infousuario = this.$store.state.Login.cookiesUser
         this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/5/null`)
         .then((response) => {
             let prueba = response.data.result.rows
             prueba.forEach(element => this.infoDTC.push(element.dtcView));
-            if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7 || this.tipoUsuario == 2){
-              this.lista_DTC_Filtrada = this.infoDTC
-            }else {
-              let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
-              if(dtc.userId == infousuario.userId){
-              return dtc
-            }
-            })
-              this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
-            }
+            // if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7 || this.tipoUsuario == 2){
+            //   
+            // }else {
+            //   let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
+            //   if(dtc.userId == infousuario.userId){
+            //   return dtc
+            // }
+            // })
+            //   this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
+            // }
+            this.lista_DTC_Filtrada = this.infoDTC
             this.totalPages = response.data.result.numeroPaginas
             this.currentPage = response.data.result.paginaActual
             this.loadingTable = false
@@ -793,29 +793,31 @@ export default {
       },
       showMore(page) {
         this.lista_DTC_Filtrada = [];
+        this.infoDTC = [] ;
         this.page = page;
         this.currentPage = page;  
-        this.$router.push({path: 'ConcentradoGMMEP', query: { 'Pagina': page, 'nameFilter': null } })
+        this.$router.push({path: 'ConcentradoDTCFacturados', query: { 'Pagina': page, 'nameFilter': null } })
         this.loadingTable = true
         let userId = this.$store.state.Login.cookiesUser.userId
         let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
         this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-        let infousuario = this.$store.state.Login.cookiesUser
+        //let infousuario = this.$store.state.Login.cookiesUser
         if(this.plazaFiltro == '' && this.buscarActa == ''){
-          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/5/null`)
+          this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/5/null`)
           .then((response) => {
               let prueba = response.data.result.rows
               prueba.forEach(element => this.infoDTC.push(element.dtcView));
-              if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
-                  this.lista_DTC_Filtrada = this.infoDTC
-              }else {
-                  let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
-                  if(dtc.userId == infousuario.userId){
-                  return dtc
-                }
-              })
-                this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
-              }
+              // if(this.tipoUsuario == 4 || this.tipoUsuario == 10 || this.tipoUsuario == 7){
+              //     this.lista_DTC_Filtrada = this.infoDTC
+              // }else {
+              //     let dtcfiltradoporusuario = this.infoDTC.filter(dtc =>{
+              //     if(dtc.userId == infousuario.userId){
+              //     return dtc
+              //   }
+              // })
+              //   this.lista_DTC_Filtrada = dtcfiltradoporusuario;  
+              // }
+              this.lista_DTC_Filtrada = this.infoDTC
               this.totalPages = response.data.result.numeroPaginas
               this.currentPage = response.data.result.paginaActual
               this.loadingTable = false

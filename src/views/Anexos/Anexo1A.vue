@@ -425,7 +425,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo);
           //Tiempo para regresar a la pagina de inicio y en caso de que no exista  el scroll quitar la la clase para que aparezca
           setTimeout(() => {
-            this.$router.push('/home');
+            this.$router.push('/ConcentradoDTCFacturados');
             document.querySelector('body').classList.remove('overflow-hidden'); 
           },3000)
         })
@@ -465,10 +465,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         }
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.fechaapertura);
-        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()+1] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
+        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
         console.log(formatted_date_apertura);
         let datecierre = new Date(this.fechacierre);
-        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()+1] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
+        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
         console.log(formatted_date_apertura);
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;
@@ -478,27 +478,39 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.errores.push("La hora de cierre esta vacia")
       }
       //Validacion por si falta el primer testigo
-      if(this.testigo1 == ""){
-        this.errores.push("Debes seleccionar el primer testigo")
+      if(this.testigo1 == "" || this.testigo2 == ""){
+        this.errores.push("Debes seleccionar ambos testigos ")
         this.vtestigo1 = true
-      }
-      //Validacion por si falta el segundo testigo
-      if(this.testigo2 == ""){
-        this.errores.push("Debes seleccionar el segundo testigo")
         this.vtestigo2 = true
       }
       //Validacion por si los testigos son los mismos
-      if(this.testigo1 == this.testigo2){
+      if((this.testigo1 != '' && this.testigo2 != '') && (this.testigo1 == this.testigo2)){
         this.errores.push("Los Testigos no pueden ser los mismos")
         this.vtestigo1 = true
         this.vtestigo2 = true
       }
-       //Validaciones para saber si los componentes fueron agregados o editados
-      if (this.componentesfinaleseditados.length == 0) {
+      //Validaciones para saber si los componentes fueron agregados o editados
+      if (this.nombrecomponentes.length == 0) {
         this.errores.push("Tienes que seleccionar por lo menos 1 componente")
       }
       if (this.componentesfinaleseditados.length == 0) {
-        this.errores.push("Edita el numero de serie faltante del componente")
+        this.errores.push("Inserta el numero de serie del componente nuevo")
+      }
+      if(this.componentesfinaleseditados.length > 0){
+        this.componentesfinaleseditados.forEach((e) =>{
+          let arrayfaltantes = []
+          let i = 0;
+          if(e.SerialNumber == ''){
+            i = i++;
+            arrayfaltantes.push(i)
+          }
+          if(arrayfaltantes.length == 1){
+            this.errores.push("Inserta el numero de serie del componente nuevo")
+          }
+          if(arrayfaltantes.length > 1){
+            this.errores.push("Inserta los numeros de serie de los componentes nuevos")
+          }
+        })
       }
       if (this.errores.length > 0) {
         this.modalvalidacionanexo = true;

@@ -412,7 +412,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo);
           //Tiempo para regresar a la pagina de inicio y en caso de que no exista  el scroll quitar la la clase para que aparezca
           setTimeout(() => {
-            this.$router.push('/home');
+            this.$router.push('/ConcentradoDTCFacturados');
             document.querySelector('body').classList.remove('overflow-hidden'); 
           },3000)
 
@@ -464,49 +464,66 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.fechasolicitudformateada = formatted_date_solicitud;
         this.fechaoficioformateada = formatted_date_oficio;
       }else{
-        //En caso de que esten vacios los datos entonces agregamos los errores en el modal para que el usuario vea lo que esta haciendo mal
+      //En caso de que esten vacios los datos entonces agregamos los errores en el modal para que el usuario vea lo que esta haciendo mal
         this.errores.push("La fecha de apertura esta vacia")
         this.errores.push("La hora de cierre esta vacia")
       }
-      //Validacion por si falta el primer testigo
+     //Validacion por si falta el primer testigo
       if(this.testigo1 == ""){
         this.errores.push("Debes seleccionar el primer testigo")
         this.vtestigo1 = true
       }
-      //Validacion por si falta el segundo testigo
-      if(this.testigo2 == ""){
-        this.errores.push("Debes seleccionar el segundo testigo")
+      //Validacion por si falta el primer testigo
+      if(this.testigo1 == "" || this.testigo2 == ""){
+        this.errores.push("Debes seleccionar ambos testigos ")
+        this.vtestigo1 = true
         this.vtestigo2 = true
       }
       //Validacion por si los testigos son los mismos
-      if(this.testigo1 == this.testigo2){
+      if((this.testigo1 != '' && this.testigo2 != '') && (this.testigo1 == this.testigo2)){
         this.errores.push("Los Testigos no pueden ser los mismos")
         this.vtestigo1 = true
         this.vtestigo2 = true
       }
-       //Validaciones para saber si los componentes fueron agregados o editados
-       if (this.componentesfinaleseditados.length == 0) {
-         this.errores.push("Tienes que seleccionar por lo menos 1 componente")
-       }
-       if (this.componentesfinaleseditados.length == 0) {
-         this.errores.push("Edita el numero de serie faltante del componente")
-        }
       //Validacion para que la solicitud sea diferente a vacio
        if(this.solciitud == ""){
          this.errores.push("Debes ingresar el numero de solicitud del anexo")
        }
-       //Validacion para que el oficio sea diferente a vacio
+      //Validacion para que el oficio sea diferente a vacio
        if(this.foliooficio == ""){
          this.errores.push("Debes ingresar el folio del anexo")
        }
-       //Validacion para que la fecha de solicitud sea diferente a vacio
+      //Validacion para que la fecha de solicitud sea diferente a vacio
        if(this.solicitudfechainicio == ""){
          this.errores.push("Debes ingresar la fecha de la solicitud del anexo")
        }
-       //Validacion para que la fecha de oficio sea diferente a vacio
+      //Validacion para que la fecha de oficio sea diferente a vacio
        if(this.fechaoficioinicio == ""){
          this.errores.push("Debes ingresar la fecha del folio del anexo")
        }
+      //Validaciones para saber si los componentes fueron agregados o editados
+      if (this.nombrecomponentes.length == 0) {
+        this.errores.push("Tienes que seleccionar por lo menos 1 componente")
+      }
+      if (this.componentesfinaleseditados.length == 0) {
+        this.errores.push("Inserta el numero de serie del componente nuevo")
+      }
+      if(this.componentesfinaleseditados.length > 0){
+        this.componentesfinaleseditados.forEach((e) =>{
+          let arrayfaltantes = []
+          let i = 0;
+          if(e.SerialNumber == ''){
+            i = i++;
+            arrayfaltantes.push(i)
+          }
+          if(arrayfaltantes.length == 1){
+            this.errores.push("Inserta el numero de serie del componente nuevo")
+          }
+          if(arrayfaltantes.length > 1){
+            this.errores.push("Inserta los numeros de serie de los componentes nuevos")
+          }
+        })
+      }
        if (this.errores.length > 0) {
         this.modalvalidacionanexo = true;
        }else{

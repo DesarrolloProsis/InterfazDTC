@@ -1,10 +1,10 @@
 <template>
 <div class="bg-gradient-to-b from-blue-500 to-blue-800 h-screen w-screen flex items-center">
   <div class="mx-auto flex justify-center max-h-screen p-10 w-full md:p-12 lg:p-10 xl:p-40">
-    <div class="relative border border-white max-w-4xl bg-white shadow-lg rounded-lg p-8 flex  sm:max-w-2xl sm:flex sm:flex-col md:p-0 lg:w-2/3 xl:w-2/3">
+    <div class="relative border border-white max-w-4xl bg-white shadow-lg rounded-lg p-8 flex sm:max-w-2xl sm:flex sm:flex-col md:p-0 lg:w-2/3 xl:w-2/3">
     <div class="flex justify-center self-center md:mr-4 lg:mr-4 lg:w-1/2 xl:w-1/2">
       <div>
-        <font-awesome-icon icon="fa-solid fa-address-book" class="text-blue-800 w-56 h-56 sm:w-16 sm:h-16 sm:mb-6 md:w-50 md:ml-6 lg:w-50 lg:mr-4 xl:w-56" />
+        <font-awesome-icon icon="fa-solid fa-address-book" class="text-blue-800 w-56 h-56 sm:w-16 sm:h-16 sm:mb-6 md:w-50 md:ml-6 lg:w-50 lg:mr-4 xl:w-56 laptop:w-37" />
       </div>
       <!-- <div class="w-48 h-10 border-t-8 border-blue-800"></div> -->
     
@@ -13,16 +13,16 @@
         ////                 FORMULARIO PRINCIPAL                         ////
         ///////////////////////////////////////////////////////////////////// -->        
       <div :class="{ 'blur-content': modal }" class="md:w-full flex self-center">
-        <div class="flex flex-col gap-5 h-full md:p-6">
+        <div class="flex flex-col gap-5 h-full md:p-6 laptop:gap-3">
           <div class="mx-auto ">
-             <p class="text-center text-gray-600 font-titulo font-bold mb-6 sm:text-xl sm:mb-6 md:text-3xl lg:text-3xl xl:text-4xl">Bitacora de Mantenimiento</p>
+             <p class="text-center text-gray-600 font-titulo font-bold mb-6 sm:text-xl sm:mb-6 md:text-3xl lg:text-3xl xl:text-4xl laptop:text-2xl">Bitacora de Mantenimiento</p>
             <ValidationObserver  v-slot="{ invalid  }">                       
           <div class="">          
             <div class="mb-5">
               <ValidationProvider name="Usuario" rules="required" v-slot="{ errors }">                   
                 <input v-model="datos.user" @keyup.enter="iniciar_sesion()" 
                   :class="{ is_valid: !errors[0], is_invalid: errors[0]}" 
-                  class="w-full h-8 font-titulo font-normal"                
+                  class="w-full h-8 font-titulo font-normal laptop:h-6"                
                   type="text" placeholder="Usuario" name="Usuario" 
                 />
                 <span class="text-red-600 text-xs">{{ errors[0] }}</span>
@@ -32,7 +32,7 @@
               <ValidationProvider name="Contraseña" rules="required" v-slot="{ errors }">
                 <div class="w-full inline-flex relative ">              
                     <input v-model="datos.password"  @keyup.enter="iniciar_sesion()" 
-                      class="w-full h-8 font-titulo font-normal mb-2" 
+                      class="w-full h-8 font-titulo font-normal mb-2 laptop:h-6" 
                       :class="{ is_valid: !errors[0], is_invalid: errors[0] }" 
                       :type="tipoInput" placeholder="Contraseña" name="Contraseña" 
                     />
@@ -48,12 +48,12 @@
             </div>          
           </div>
           <div class="container-login100-form-btn mb-4 sm:mb-1">
-            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="w-full bg-transparent hover:bg-blue-800 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-800 hover:border-transparent rounded-lg font-titulo outline-none" :disabled="invalid">Iniciar Sesión</button>
+            <button @click="iniciar_sesion()" id="botonLoginTest" type="button" class="w-full bg-transparent laptop:h-10 hover:bg-blue-800 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-800 hover:border-transparent rounded-lg font-titulo outline-none" :disabled="invalid">Iniciar Sesión</button>
           </div>        
         </ValidationObserver>
           </div>
-          <div class="text-center text-blue-800 font-titulo w-full font-bold sm:text-xs">© {{ this.año }} Proyectos y Sistemas Informaticos.</div>
-          <div class="text-center text-blue-800 font-titulo w-full font-bold sm:text-xs">V 3.0.0</div>
+          <div class="text-center text-blue-800 font-titulo w-full font-bold sm:text-xs laptop:text-sm">© {{ this.año }} Proyectos y Sistemas Informaticos.</div>
+          <div class="text-center text-blue-800 font-titulo w-full font-bold sm:text-xs laptop:text-sm">V 3.0.0</div>
        </div>
         
       </div>
