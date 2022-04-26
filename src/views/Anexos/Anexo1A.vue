@@ -49,8 +49,6 @@
         EL DÍA <datetime v-model="fechaapertura" class="inline-flex"
          input-class="inputanexo" 
          :format="{ year: 'numeric', month: 'long', day: 'numeric' }"
-         :min-datetime="this.fechaapertura"
-         value-zone="America/Mexico"
          disabled
          ></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
         <span class="font-bold">{{this.nombrecomponentes.toString()}}</span> Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
@@ -345,8 +343,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       console.log(iddtc);
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
-        this.lista_DTC_Filtrada = dtcfiltrado;
-        console.log(this.lista_DTC_Filtrada);
+        let resultdtc =  dtcfiltrado.filter(e => e.referenceNumber == this.$route.params.referencenumber)
+        this.lista_DTC_Filtrada = resultdtc;
         const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
         let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
@@ -395,7 +393,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       //Creamos el nuevo objeto del anexo
       let Anexo = {
-          "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
+          "DTCReference": this.$route.params.referencenumber,
           "AnexoReference": "",
           "FechaApertura": formateadorapertura,
           "FechaCierre": formateadorcierre,
@@ -421,8 +419,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           let refenciaanexo = response.data.result;
           let subversion = false;
           //Una vez generada la referencia del anexo generamos los dos documentos
-          ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo,subversion);
-          ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,refenciaanexo);
+          ServiceReportPDF.generar_pdf_anexoA(this.$route.params.referencenumber,refenciaanexo,subversion);
+          ServiceReportPDF.reporte_fotografico_anexo(this.$route.params.referencenumber,refenciaanexo);
           //Tiempo para regresar a la pagina de inicio y en caso de que no exista  el scroll quitar la la clase para que aparezca
           setTimeout(() => {
             this.$router.push('/ConcentradoDTCFacturados');

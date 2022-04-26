@@ -353,7 +353,7 @@
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'CDTCF'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
         <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-lg font-bold">{{ titulo }}</h1>
-        <div class="flex content-center sm:flex-col sm:justify-evenly sm:justify-center md:justify-center md:justify-evenly lg:justify-center lg:justify-evenly xl:justify-center xl:justify-evenly" >
+        <div class="flex content-center sm:flex-col sm:justify-evenly md:justify-evenly lg:justify-evenly xl:justify-evenly" >
             <div class="xl:m-3 w-full xl:w-1/4">   
                 <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
                     <label class="font-bold sm:text-xs sm:text-center">Seleccione una Plaza:</label>
