@@ -317,11 +317,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
         const objeto = await data.json();
         let resultado = objeto.result;
-        console.log(resultado)
         this.testigoscompleto = resultado;
-        console.log(this.testigoscompleto);
       } catch (error) {
-        console.log(error);
+         if(error.response.status == 404){
+          this.testigoscompleto = []
+        }
       }
     },
     //Funcion para cargar las opciones del supervisor del dtc
@@ -330,17 +330,16 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
         const objeto = await data.json();
         let listaSupervisorprueba = objeto.result;
-        console.log(listaSupervisorprueba)
         this.listaSupervisor = listaSupervisorprueba;
-        console.log(this.listaSupervisor);
-      } catch (error) {
-        console.log(error);
+      }catch(error) {
+       if(error.response.status == 404){
+          this.listaSupervisor = []
+        }
       }
     },
     //funcion que nos brinda la informacion de un dtc en especifico
     async filtro_dtc() {    
       let iddtc = this.$route.params.referencenumber;
-      console.log(iddtc);
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         let resultdtc =  dtcfiltrado.filter(e => e.referenceNumber == this.$route.params.referencenumber)
@@ -348,19 +347,18 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
         let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
-        console.log(formatted_date);
         this.fechasiniestro = formatted_date;
         let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
-        console.log(dataHeader);
         const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
         this.plazadtc  = result;
-        console.log(this.plazadtc);
         let plazacompletas = await this.$store.state.Login.listaPlazas
         const resultadoplaza = plazacompletas.filter(e => e.referenceSquare == this.plazadtc[0].referenceSquare);
         this.ciudad = resultadoplaza;
       }
       catch (error) {
-        console.log(error);
+        if(error.response.status == 404){
+          this.lista_DTC_Filtrada = []
+        }
       } 
       
     },
@@ -370,7 +368,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return data.indexOf(item) === index;
     })
       this.nombrecarriles = result;
-      console.log(this.nombrecarriles);
      },
      //Funcion que nos retorna el nombre de los componentes 
      onagregarnombrescomponentes(data) {
@@ -382,7 +379,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      //Funcion que nos proporciona el arreglo para enviar en el end point final del anexo a insertar
      agregarcomponenteseditados(data){
        this.componentesfinaleseditados = data;
-       console.log(this.componentesfinaleseditados);
      },
      //Funcion para insertar anexo
      async insertaranexo(){
@@ -407,7 +403,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "TipoAnexo": "A",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
-       console.log(Anexo);
       try
       {
         //Hacemos la peticion para insertar un anexo
@@ -415,7 +410,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         .then((response) => {
           this.modalImage = false;
           this.modaldescarga = true;
-          console.log(response.data.result);
           let refenciaanexo = response.data.result;
           let subversion = false;
           //Una vez generada la referencia del anexo generamos los dos documentos
@@ -430,15 +424,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         .catch((error) => {
           console.log(error);
         })
-        console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)
       }
-     },
-     //Funcion para ver el valor de los testigos
-     vervalordelselect(){
-       console.log(this.testigo1)
-       console.log(this.testigo2)
      },
      //Funcion para validar la informacion del anexo
      validacionanexo(){
@@ -447,8 +435,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
       if(this.fechaapertura != "" && this.time != "")
       { 
-        console.log(this.time)
-        console.log(this.fechaapertura)
         let fechaapertura = new Date(this.fechaapertura);
         let horadecierre = new Date(this.time);
         var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
@@ -456,7 +442,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let fechacierra = fecha + ' ' + hora;
         var fechacierrefinal = new Date(fechacierra);
         this.fechacierre = fechacierrefinal.toISOString();
-        console.log(this.fechacierre);
         let hoy = Date.now();
         if(fechaapertura > hoy){
         this.errores.push("La fecha de apertura no puede ser mayor al dia de hoy");
@@ -464,10 +449,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.fechaapertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
-        console.log(formatted_date_apertura);
         let datecierre = new Date(this.fechacierre);
         let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
-        console.log(formatted_date_apertura);
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;
       }else {
@@ -541,7 +524,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      pasarinsertaranexo(){
        this.modalconfirmacionanexo=false;
        this.modalImage = true;
-        console.log(this.double);
      },
      //Funcion para el boton del modal de descarga de los anexos
      saliranexos(){

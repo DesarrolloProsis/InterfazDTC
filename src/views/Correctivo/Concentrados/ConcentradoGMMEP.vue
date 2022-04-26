@@ -204,7 +204,6 @@ beforeMount: function () {
   let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
   this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/null/null`)
   .then((response) => {
-      console.log(response)
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
@@ -212,8 +211,9 @@ beforeMount: function () {
       this.loadingTable = false
   }) 
   .catch((error) =>{ 
-    console.log(error);
-    this.loadingTable = false 
+    if(error.status == 404){
+      this.loadingTable = false 
+    }
   })    
 },
 /////////////////////////////////////////////////////////////////////
@@ -298,7 +298,6 @@ methods:{
     if(this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
     }
-    console.log(filtroOpciones)
     return filtroOpciones
   },  
   limpiar_componete_escaneado: function(){
@@ -429,7 +428,6 @@ methods:{
     if(this.fechaFiltro == '' && this.buscarGMMEP == '' && this.plazaFiltro == '' && this.estatus == ''){
         this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/null/null`)
         .then((response) => {
-          console.log(response)
           let prueba = response.data.result.rows
           prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
           this.totalPages = response.data.result.numeroPaginas
@@ -458,8 +456,9 @@ methods:{
             this.loadingTable = false
         }) 
         .catch((error) =>{ 
-          console.log(error);
-          this.loadingTable = false 
+           if(error.status == 404){
+              this.loadingTable = false 
+            }
         }) 
   },
   filtro_GMEEPA(plaza,fecha,referencia,estatus){
@@ -474,17 +473,20 @@ methods:{
     if(this.plazaFiltro != ''){
       this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
     }
-    console.log(this.plazaidsquare)
     //Filtros 1 parametro
     if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus == ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/null/null`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+          }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -496,12 +498,16 @@ methods:{
     else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus == ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/null/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+          }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -513,12 +519,16 @@ methods:{
     else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus == ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/null/null`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -530,12 +540,16 @@ methods:{
     else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/${this.estatus}/null`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -548,12 +562,16 @@ methods:{
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus == ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/null/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -565,12 +583,16 @@ methods:{
     else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus == ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/null/null`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -582,12 +604,16 @@ methods:{
     else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/${this.estatus}/null`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -600,12 +626,16 @@ methods:{
     else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus == ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -617,12 +647,16 @@ methods:{
     else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/${this.estatus}/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -635,12 +669,16 @@ methods:{
     else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/${this.estatus}/null`)
       .then((response) => {
-      console.log(response);
-      let prueba = response.data.result.rows
-      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
-      this.totalPages = response.data.result.numeroPaginas
-      this.currentPage = response.data.result.paginaActual
-      this.loadingTable = false
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -653,12 +691,16 @@ methods:{
     else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -670,12 +712,16 @@ methods:{
     else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/${this.estatus}/null`)
       .then((response) => {
-      console.log(response);
-      let prueba = response.data.result.rows
-      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
-      this.totalPages = response.data.result.numeroPaginas
-      this.currentPage = response.data.result.paginaActual
-      this.loadingTable = false
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -687,12 +733,16 @@ methods:{
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/${this.estatus}/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
-      let prueba = response.data.result.rows
-      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
-      this.totalPages = response.data.result.numeroPaginas
-      this.currentPage = response.data.result.paginaActual
-      this.loadingTable = false
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -704,12 +754,16 @@ methods:{
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus == ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
       let prueba = response.data.result.rows
       prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
       this.totalPages = response.data.result.numeroPaginas
       this.currentPage = response.data.result.paginaActual
       this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
@@ -722,12 +776,16 @@ methods:{
     else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus != ''){
       this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
       .then((response) => {
-      console.log(response);
-      let prueba = response.data.result.rows
-      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
-      this.totalPages = response.data.result.numeroPaginas
-      this.currentPage = response.data.result.paginaActual
-      this.loadingTable = false
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
       })
       .catch((error) =>{ 
       if(error.response.status == 404){
