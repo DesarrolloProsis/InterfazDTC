@@ -107,7 +107,8 @@
                     :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC', LetrasGris:true },{text: 'Acciones', key: 'Acciones'}]"
                     :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Diagnostica', key: 'diagnosisDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
                 >
-                </TablaGenerica>                               
+                </TablaGenerica>  
+                <Spinner :modalLoading="modalLoading"/>                            
             </div>
         </div>    
     </div>
@@ -120,13 +121,15 @@ import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 import ServiceCookies from '../../../services/CookiesService'
+import Spinner from '../../../components/Sppiner.vue'
 import moment from 'moment'
 export default {
     name: "ConcentradoFichas",
     components:{        
         HeaderGenerico,
         PdfEscaneado,
-        TablaGenerica
+        TablaGenerica,
+        Spinner
     },
     data (){
         return {
@@ -148,6 +151,7 @@ export default {
             refNum: '',
             comentario: '',
             statusDTC: 0,
+            modalLoading: false
         }
     },
     beforeMount: function (){
@@ -372,8 +376,14 @@ export default {
             if(acciones.title == 'Editar'){                     
                 this.editar_diagnostico_falla(itemRow)
             }
-            if(acciones.title == 'Borrar'){                             
-                this.infoEliminar = itemRow; this.modalEliminar = true;  
+            if(acciones.title == 'Borrar'){   
+                this.modalLoading = true                          
+                setTimeout(() => {
+                this.infoEliminar = itemRow; 
+                this.modalEliminar = true;      
+                this.modalLoading = false
+                }, 2000);
+                
             }
             if(acciones.title == 'Bajar Dignóstico de Falla'){     
                 ServiceReporte.generar_pdf_diagnostico_falla(itemRow.referenceNumber) 
@@ -429,12 +439,12 @@ export default {
                 { title: 'Subir FT Escaneada', accionCss: 'editar', img: 'fa-file-arrow-up' }, //8
                 { title: 'Bajar FT Escaneada', accionCss: 'terminar', img: 'fa-file-arrow-down' },//9
                 { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: 'fa-file-arrow-down' },//10
-                { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: 'fa-address-card' },//11
+                { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: 'fa-solid fa-address-card' },//11
             ]
             this.statusDTC = item.statusDtc
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
-            if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
+            if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 8 && this.typeUser != 10){
                 filtroOpciones.push(options[7])
             }
             if(item.diagnosticoSellado){
@@ -442,7 +452,7 @@ export default {
             } 
             if(item.validacionFichaTecnica){
                 filtroOpciones.push(options[5]) 
-                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
+                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 8 && this.typeUser != 10){
                     filtroOpciones.push(options[8])
                 }
                 if(item.fichaSellado){
@@ -459,10 +469,10 @@ export default {
                     //filtroOpciones.push(options[3])
                 }
             }
-            if((!item.validacionDTC) && (this.typeUser == 1 || this.typeUser == 2)){
+            /*if((!item.validacionDTC) && (this.typeUser == 1 || this.typeUser == 2)){
                 filtroOpciones.push(options[3])
-            }
-            if(this.typeUser == 4 || this.typeUser == 10){
+            }*/
+            if(this.typeUser == 2 || this.typeUser == 4 || this.typeUser == 5 || this.typeUser == 8 || this.typeUser == 10){
                 filtroOpciones.push(options[11])
                 filtroOpciones.push(options[3])
             }  

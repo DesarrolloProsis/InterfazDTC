@@ -61,7 +61,7 @@
           <p class="text-left text-sm break-words">Registro en Sistema: <label class="font-semibold">{{ infoCard.dateStamp | formatDate }}</label></p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
           <!--<p @click="editar_status_dtc()" v-if=" tipoUsuario == 4 || tipoUsuario == 5 || tipoUsuario == 10 || tipoUsuario == 2"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>  -->
-          <p @click="editar_status_dtc()" v-if=" tipoUsuario == 4 || tipoUsuario == 10 || tipoUsuario == 2"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
+          <p @click="editar_status_dtc()" v-if=" tipoUsuario == 4 || tipoUsuario == 10 || tipoUsuario == 2 || tipoUsuario == 8"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal">
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
@@ -99,7 +99,8 @@
           ////                 STATUS / VER MAS                             ////
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">     
-        <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
+        <!-- <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2 " v-show="menosMas"> -->
+        <div class="pb-2 -mt-1" v-if="(this.tipoUsuario == 4 || this.tipoUsuario == 8 && infoCard.statusId == 3) || (this.tipoUsuario == 4 || this.tipoUsuario == 8 && infoCard.statusId == 2) " v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
@@ -296,10 +297,10 @@ export default {
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+        if((this.infoCard.statusId == 2) && (this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10)){
           array.push(options[1])
         }     
-        if((this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId < 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
+        if((this.tipoUsuario == 2 || this.tipoUsuario == 5 && this.infoCard.statusId <= 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
         if(this.tipoUsuario == 4 || this.tipoUsuario == 10 && this.infoCard.statusId == 2){
@@ -454,8 +455,12 @@ export default {
         this.infoCard.adminId
       )
     },
-    borrar_dtc() {      
-      this.$emit("borrar-card", this.infoCard.referenceNumber);
+    borrar_dtc() {     
+      let value = {
+        DTC:this.infoCard.referenceNumber,
+        DF:this.infoCard.technicalSheetReference
+      }
+      this.$emit("borrar-card", value);
       this.menosMas = true;      
       this.showmenosMas = false;      
     },  

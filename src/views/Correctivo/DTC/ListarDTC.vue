@@ -116,7 +116,8 @@
         <div class="sticky inset-0" :class="{'modal-container': modalEliminar}">
           <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl mt-60">
             <ValidationObserver ref="observer">
-              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
+              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC <span class="font-bold">{{ refNum }}</span></p>
+              <p v-if="dfRef != '' || dfRef != undefined" class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">También se eliminará el Diagnóstico y la Ficha con Referencia <span class="font-bold">{{ dfRef }}</span></p>
               <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
                 <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
                 <textarea v-model="comentarioBorrar" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
@@ -427,7 +428,8 @@ export default {
       ocultar: false,
       //Modal error
       error: false,
-      tiposDescripciones: []
+      tiposDescripciones: [],
+      dfRef:''
     };
   },
   components: {    
@@ -620,7 +622,9 @@ methods: {
     }   
   },
   confimaBorrar: function (refNum) {
-      this.refNum = refNum;
+    console.log(refNum);
+      this.refNum = refNum.DTC;
+      this.dfRef = refNum.DF
       this.modalEliminar = true;
       this.modal = true
       this.ocultarMultiPadre = true

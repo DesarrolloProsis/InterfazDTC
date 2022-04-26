@@ -70,9 +70,10 @@ import {
   faCamera,
   faArrowRightArrowLeft,
   faWindowRestore,
+  faAddressCard,
   faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons'
-/* */
+/*<font-awesome-icon icon="fa-regular fa-address-card" /> */
 
 import { 
   faCircleQuestion,
@@ -81,7 +82,6 @@ import {
   faEyeSlash,
   faEye,
   faCircleXmark,
-  faAddressCard,
   faCircleCheck,
 } from '@fortawesome/free-regular-svg-icons'
 
