@@ -303,8 +303,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       console.log(referenciaanexo)
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
-        this.lista_DTC_Filtrada = dtcfiltrado;
-        console.log(this.lista_DTC_Filtrada);
+        let resultdtc =  dtcfiltrado.filter(e => e.referenceNumber == this.$route.params.dtcReference)
+        this.lista_DTC_Filtrada = resultdtc;
         const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
         let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
