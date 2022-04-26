@@ -70,9 +70,10 @@ import {
   faCamera,
   faArrowRightArrowLeft,
   faWindowRestore,
+  faAddressCard,
   faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons'
-/* */
+/*<font-awesome-icon icon="fa-regular fa-file-excel" />*/
 
 import { 
   faCircleQuestion,
@@ -81,8 +82,8 @@ import {
   faEyeSlash,
   faEye,
   faCircleXmark,
-  faAddressCard,
   faCircleCheck,
+  faFileExcel
 } from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
@@ -152,7 +153,8 @@ library.add(faUserSecret,
   faCamera,
   faArrowRightArrowLeft,
   faWindowRestore,
-  faCalendarCheck
+  faCalendarCheck,
+  faFileExcel
   )
 
 /* add font awesome icon component */

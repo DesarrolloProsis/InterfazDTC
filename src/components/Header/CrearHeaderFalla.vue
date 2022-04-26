@@ -370,7 +370,7 @@
                                 <div class="text-red-400 sm:ml-2 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
                             </ValidationProvider>
                         </div>
-                        <div class="mr-10 ml-1 sm:ml-0 w-73 sm:ml-3 sm:w-32 lg:w-69">
+                        <div class="mr-10 ml-1 w-73 sm:ml-3 sm:w-32 lg:w-69">
                             <ValidationProvider immediate name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">
                                 <div class="grid">
                                     <span class="text-sm sm:hidden lg:text-xs">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>

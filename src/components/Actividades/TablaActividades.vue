@@ -387,7 +387,7 @@ export default {
             ]
             let filtroOpciones = []
             //Si el usuario es administrador, capufe, o supervisor de tècnicos
-            if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
+            if(this.tipoUsuario == 4 || this.tipoUsuario == 7 || this.tipoUsuario == 8){
             //Sí exisite el archivo escaneado
             if(pdfExists){
                 return options.splice(2,2)
