@@ -465,10 +465,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         }
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.fechaapertura);
-        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()+1] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
+        let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
         console.log(formatted_date_apertura);
         let datecierre = new Date(this.fechacierre);
-        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()+1] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
+        let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
         console.log(formatted_date_apertura);
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;
