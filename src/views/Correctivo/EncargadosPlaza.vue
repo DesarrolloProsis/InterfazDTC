@@ -369,7 +369,7 @@ export default {
                 { title: 'Editar', img: 'fa-solid fa-pen-to-square' },//1
             ]
             let filtroOpciones = []
-            if(this.rollId == 4 || this.rollId == 7 || this.rollId == 10){
+            if(this.rollId == 2 || this.rollId == 4 || this.rollId == 5 || this.rollId == 8 || this.rollId == 10){
                 filtroOpciones.push(options[0])
                 filtroOpciones.push(options[1])
             }

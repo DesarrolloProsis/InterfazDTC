@@ -81,35 +81,36 @@
           
           <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2"   v-for="(item, key) in listaUsuarios" :key="key">
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
-            <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading"  @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
+            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
+            <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.name }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Paterno:</p></div>
-            <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName1" :disabled="modalLoading" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
-            <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div> 
-            <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName2" :disabled="modalLoading" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
+            <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.lastName1 }}</p></div>
+            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName1" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
+            <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div>
+            <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.lastName2 }}</p></div>
+            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName2" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Correo:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.mail }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Roll de Usuario:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.roll }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Plazas:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
-            <div class="col-span-2 grid-cols-2 mx-auto my-auto">
+            <!-- <div class="col-span-2 grid-cols-2 mx-auto my-auto">
               <button class="botonIconSave m-1" :disabled="modalLoading" @click="save_editado(item)" :class="{'deshabilitado':modalLoading}">
-                <!-- <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25"> -->
                 <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 mr-2 h-8 w-6"/>
                 <span>Guardar</span>
               </button>
               <button class="botonIconBorrarCard m-1" :disabled="modalLoading" @click="cancelar_guardado" :class="{'deshabilitado':modalLoading}">
-                <!-- <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25"> -->
                 <font-awesome-icon icon="fa-solid fa-trash" class="text-red-600 mr-2 h-8 w-6"/>
                 <span>Cancelar</span>
               </button>
-            </div>
+            </div> -->
             <div></div>
-            <div class="col-span-2 mx-auto my-auto">
+            <!-- <div class="col-span-2 mx-auto my-auto">
               <button @click="modal_password=true" class="botonIconNext mx-32 my-auto" :disabled="modalLoading" :class="{'deshabilitado':modalLoading}">
                 <p>Cambiar Contraseña</p>
               </button>
-            </div>
+            </div> -->
             <div></div>
           </div>
 
@@ -328,9 +329,11 @@
               </select>
               <select v-else v-model="User.Roll" class="w-full is_valid">
                 <option disabled value>Selecionar...</option>
-                <option value="1">Tecnico</option>
-                <option value="2">Administrador</option>
-                <option value="3">Sistemas</option>
+                <option value="1">Técnico Carril</option>
+                <option value="2">Supervisor Carril</option>
+                <option value="3">Técnico Plaza</option>
+                <option value="5">Supervisor Plaza</option>
+                <option value="8">Gerencia</option>
               </select>
             </div>
             <div class="mt-3">
