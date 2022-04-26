@@ -24,23 +24,27 @@
                     </div>
                     <!-- Diagnostico de Falla Crear -->
                     <div class="-ml-64 -mt-1 sm:-ml-10 md:ml-22 lg:-ml-31" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
+                        <!-- <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza> -->
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'crearDiagnostico'" ></SelectPlaza>
                         <div class="mx-56 -mt-6 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'toolencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
                             <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
                             <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 "/>
                         </span>
-
                         <div ref="toolencargadoplaza" class="font-titulo">
                         <p class="text-center text-gray-800">Aquí puedes seleccionar la plaza y el encargado al que se le entregará el diagnóstico</p>
                         </div>
                         </div>  
                     </div>
                     <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista == 'Crear' }">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
+                        <!-- <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza> -->
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editarDiagnostico'"></SelectPlaza>
                     </div>
                     <div class="-ml-64 -mt-1 sm:-ml-10 " :class="{'hidden': blockInput == false}">
-                        <p class="sm:-ml-1"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza></p>
+                        <p class="sm:-ml-1">
+                            <!-- <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza> -->
+                            <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editarDiagnostico'"></SelectPlaza>
+                        </p>
                         <div class="ml-20 sm:-ml-10 sm:w-auto ">
                             <span v-if="blockInput" class="block -ml-44 text-red-400 text-xs font-titulo font-normal sm:-ml-20">No se puede modificar, viene del Diagnóstico de Falla</span>
                         </div>
@@ -199,9 +203,6 @@
             <div class="mt-2 sm:text-xs sm:ml-1 mb-16 mr-5 ml-5 sm:w-66 font-titulo " v-if="tipo == 'DIAG'">
                 <div class="mt-16 w-full ml-5 grid grid-cols-3 sm:grid-cols-2">
                     <div class="mr-10 sm:w-32 sm:mb-10 sm:-mt-10 ">
-
-                        
-
                         <ValidationProvider immediate name="Descripción de Falla" rules="required|max:300" v-slot="{ errors }">
                             <div class="grid grid-cols-3">
                                 <span class="col-span-2">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>

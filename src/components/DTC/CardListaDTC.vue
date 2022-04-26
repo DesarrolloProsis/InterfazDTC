@@ -303,7 +303,7 @@ export default {
         if((this.infoCard.statusId == 2) && (this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10)){
           array.push(options[1])
         }     
-        if((this.tipoUsuario == 2 || this.tipoUsuario == 5 && this.infoCard.statusId <= 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
+        if(((this.tipoUsuario == 2 || this.tipoUsuario == 5) && this.infoCard.statusId <= 2) ||  this.tipoUsuario == 4 || this.tipoUsuario == 8 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
         if(this.tipoUsuario == 4 || this.tipoUsuario == 10 && this.infoCard.statusId == 2){
