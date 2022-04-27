@@ -298,9 +298,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     methods: {
      async filtro_dtc() {    
       let iddtc = this.$route.params.dtcReference;
-      console.log(iddtc);
       let referenciaanexo = this.$route.params.anexoReference; 
-      console.log(referenciaanexo)
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         let resultdtc =  dtcfiltrado.filter(e => e.referenceNumber == this.$route.params.dtcReference)
@@ -308,24 +306,18 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
         let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
-        console.log(formatted_date);
         this.fechasiniestro = formatted_date;
         let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
-        console.log(dataHeader);
         const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
         this.plazadtc  = result;
-        console.log(this.plazadtc);
         const datatestigo = await fetch(`${API}/AnexoDTC/Testigos/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
         const objetotestigo = await datatestigo.json();
         let resultado = objetotestigo.result;
-        console.log(resultado)
         this.testigoscompleto = resultado;
-        console.log(this.testigoscompleto);
         const dataanexo = await fetch(`${API}/AnexoDTC/HeaderAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`)
         const anexo = await dataanexo.json()
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
-        console.log(this.anexo)
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
@@ -347,7 +339,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return data.indexOf(item) === index;
     })
       this.nombrecarriles = result;
-      console.log(this.nombrecarriles);
      }, 
      onagregarnombrescomponentes(data) {
       let result = data.filter((item,index)=>{
@@ -357,15 +348,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
      agregarcomponenteseditados(data){
        this.componentesfinaleseditados = data;
-       console.log(this.componentesfinaleseditados);
-     },
-     vervalordelselect(){
-       console.log(this.testigo1)
-       console.log(this.testigo2)
      },
      filtrarcomponentes(componenteseditados,componentestotales){
-       console.log(componenteseditados);
-       console.log(componentestotales);
         for (let i = 0; i < componentestotales.length; i++) {
           for(let j=0; j< componenteseditados.length; j++) {
             if(componentestotales[i].requestedComponentId == componenteseditados[j].componentDTCId){
@@ -408,14 +392,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "TipoAnexo": "B",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
-       console.log(Anexo);
       try
       {
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
-        .then((response) => {
+        .then(() => {
           this.modalImage = false;
           this.modaldescarga = true;
-          console.log(response.data.result);
           let subversion = true;
           ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
           ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
@@ -427,7 +409,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         .catch((error) => {
           console.log(error);
         })
-        console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)
       }
@@ -436,7 +417,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.blockBotonModal = value
     },
     validacionanexo(){
-      console.log(this.anexo.fechaApertura)
       let fechaapertura = new Date(this.anexo.fechaApertura);
       let horadecierre = new Date(this.time);
       var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
@@ -444,7 +424,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       let fechacierra = fecha + ' ' + hora;
       var fechacierrefinal = new Date(fechacierra);
       this.fechacierre = fechacierrefinal.toISOString();
-      console.log(this.fechacierre);
       let hoy = Date.now();
       if(this.anexo.fechaApertura == ""){
         this.errores.push("La fecha de apertura esta vacia")
@@ -470,16 +449,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
            return c
          })
          this.componentesfinaleseditados = componentes;
-         console.log(this.componentesfinaleseditados);
        }
         if(this.objetocomponentesanexosaeditar.length > this.componentesfinaleseditados.length ){
-         console.log(this.componentesfinaleseditados.length);
-         console.log(this.objetocomponentesanexosaeditar.length)
         const index = this.objetocomponentesanexosaeditar.map(object => object.componentDTCId);
-        console.log(index);
         for (let j = 0; j < this.componentesfinaleseditados.length; j++) {
             let position = index.indexOf(this.componentesfinaleseditados[j].RequestedComponentId);
-            console.log(position)
             if(position != -1){
               this.objetocomponentesanexosaeditar.splice(position,1)
             }
@@ -491,7 +465,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
             }
           this.componentesfinaleseditados.push(c);
         }
-        console.log(this.componentesfinaleseditados);
         }
          if(this.componentesfinaleseditados.length == this.objetocomponentesanexosaeditar.lenght){
           this.componentesfinaleseditados = this.componentesfinaleseditados
@@ -502,13 +475,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.anexo.fechaApertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear()
-        console.log(formatted_date_apertura);
-        
         this.fechaaperturaformateada = formatted_date_apertura;
-        
        if (this.errores.length > 0) {
         this.modalvalidacionanexo = true;
-        
        }else{
          this.modalconfirmacionanexo = true;
        }
