@@ -9,14 +9,14 @@
           :titulo="'Actas de Entrega y Recepción'" 
           :tipo="'CDTCF'" 
         />
-        <div class="rounded-lg shadow-xl sm:mt-3 xl:overflow-auto mb-17" style="height:472px;">
-          <table class="w-full rounded-lg mt-4">
+        <div class="bg-white rounded-lg shadow overflow-y-auto overflow-x-0 sm:mb-24 font-titulo mb-17 sm:text-xs w-full " style="height:420px;">
+          <table class="border-collapse table-auto  whitespace-no-wrap bg-white table-striped w-full">
           <thead class="">
             <tr>
-              <th class="p-3 text-sm sm:text-xs sm:w-8 text-white font-semibold tracking-wide cabeceraTable  rounded-l-lg">Referencia</th>
-              <th class="p-3 text-sm sm:text-xs text-white font-semibold tracking-wide cabeceraTable sm:hidden">Usuario</th>
-              <th class="p-3 text-sm sm:text-xs sm:w-8 text-white font-semibold tracking-wide  cabeceraTable">Tipo de Falla</th>
-              <th class="p-3 text-sm sm:text-xs sm:w-8 text-white font-semibold tracking-wide  cabeceraTable rounded-r-lg">Acciones</th>
+              <th class="p-3 text-sm sm:text-xs sm:w-8 text-gray-400 tracking-wide cabeceraTable font-normal rounded-l-lg">Referencia</th>
+              <th class="p-3 text-sm sm:text-xs text-gray-400 font-normal tracking-wide cabeceraTable sm:hidden">Usuario</th>
+              <th class="p-3 text-sm sm:text-xs sm:w-8 text-gray-400 font-normal tracking-wide  cabeceraTable">Tipo de Falla</th>
+              <th class="p-3 text-sm sm:text-xs sm:w-8 text-gray-400 font-normal tracking-wide  cabeceraTable rounded-r-lg">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -36,16 +36,16 @@
             </template>  
             <template v-if="lista_DTC_Filtrada.length > 0">
             <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" :class="{'hidden': dtc.typeFaultId == 0}">
-              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.referenceNumber}}</td>
-              <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden">{{dtc.userName}}</td>
-              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs">{{dtc.faultDescription}}</td>
+              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs cuerpoTable">{{dtc.referenceNumber}}</td>
+              <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden cuerpoTable">{{dtc.userName}}</td>
+              <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs cuerpoTable">{{dtc.faultDescription}}</td>
               <td class="P-3 sm:w-8 w-50 text-center">
                   <multiselect
                   v-model="selectMulti" 
                   @close="acciones_mapper(dtc)" 
                   placeholder="Seleccione una Accion" 
                   label="title" track-by="title" 
-                  class="multi sm:w-32 sm:h-auto sm:ml-4" 
+                  class="multi sm:w-32 sm:h-auto sm:ml-4 " 
                   :options="opticones_select_acciones(dtc)" 
                   :option-height="200" 
                   :custom-label="customLabel"  
