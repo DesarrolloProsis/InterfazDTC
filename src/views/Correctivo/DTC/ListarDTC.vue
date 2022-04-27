@@ -808,7 +808,8 @@ methods: {
         pdf_sellado_promise.then(() => {  
           this.modalLoading = false                  
           this.limpiar_filtros()
-          this.$router.push("/home/${this.typeUser}/correctivo");
+          //this.$router.push("/home/${this.typeUser}/correctivo");
+          //location.reload();
         })      
       }, 3000);
     }if( bandera == 2){

@@ -100,7 +100,7 @@
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">     
         <!-- <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2 " v-show="menosMas"> -->
-        <div class="pb-2 -mt-1" v-if="(this.tipoUsuario == 4 || this.tipoUsuario == 8 && infoCard.statusId == 3) || (this.tipoUsuario == 4 || this.tipoUsuario == 8 && infoCard.statusId == 2) " v-show="menosMas">
+        <div class="pb-2 -mt-1" v-if="(this.tipoUsuario == 4 && infoCard.statusId == 3) || (this.tipoUsuario == 4 && infoCard.statusId == 2) " v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
@@ -293,14 +293,17 @@ export default {
             { title: 'Subir RF Escaneado', img: 'fa-file-arrow-up'}, //12
             { title: 'Bajar RF Escaneado', img: 'fa-file-arrow-down'}, //13
         ]
-        let array = []       
+        let array = []  
+        if(this.tipoUsuario == 8){
+          array.push(options[11])
+        }     
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
         if((this.infoCard.statusId == 2) && (this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10)){
           array.push(options[1])
         }     
-        if((this.tipoUsuario == 2 || this.tipoUsuario == 5 && this.infoCard.statusId <= 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
+        if(((this.tipoUsuario == 2 || this.tipoUsuario == 5) && this.infoCard.statusId <= 2) ||  this.tipoUsuario == 4 || this.tipoUsuario == 8 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
         if(this.tipoUsuario == 4 || this.tipoUsuario == 10 && this.infoCard.statusId == 2){
@@ -343,7 +346,7 @@ export default {
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
         }
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+        if(this.tipoUsuario == 2 || this.tipoUsuario == 4 || this.tipoUsuario == 5 || this.tipoUsuario == 10){
           array.push(options[11])
         }
         if(this.tipoUsuario == 7){

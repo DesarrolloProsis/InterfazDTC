@@ -84,7 +84,19 @@ export default {
                 }
             });                
             this.listaPlazas = plazasSinRepetir
-        }                      
+        }     
+        if(this.tipo == 'crearDiagnostico'){
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = false
+            this.isDtc = true
+        }                 
+        if(this.tipo == 'editarDiagnostico'){
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = true
+            this.isDtc = true
+        }
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado
