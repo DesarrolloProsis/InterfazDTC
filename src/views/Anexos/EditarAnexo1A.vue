@@ -26,7 +26,7 @@
         </p>
         <div class="flex w-full gap-4 p-2">
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo1Id" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo1Id">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -35,7 +35,7 @@
               </div>
           </div>
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo2Id" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo2Id">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -77,7 +77,7 @@
             <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
             <datetime v-model="this.anexo.fechaApertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
             <p class="ml-2">,SIENDO LAS</p>
-            <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
+            <datetime type="time" v-model="this.anexo.fechaCierre" class="inline-flex ml-2" input-class="inputanexo"></datetime>
           </div>
           <div class="mt-4">
            <ValidationObserver ref="observer" class="">  
@@ -321,6 +321,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
         this.time = this.anexo.fechaCierre;
+        this.comentario = this.anexo.observaciones;
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
@@ -371,6 +372,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "TipoAnexo": "A",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
+       console.log(Anexo);
       try
       {
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
