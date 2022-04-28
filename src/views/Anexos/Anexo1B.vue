@@ -24,7 +24,7 @@
         </p>
         <div class="flex w-full gap-4 p-2">
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo1" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo1">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -33,7 +33,7 @@
               </div>
           </div>
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo2" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo2">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -45,8 +45,8 @@
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
         DE ACUERDO A LA SOLICITUD <input type="text" v-model="solciitud" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
-        DE FECHA <datetime v-model="solicitudfechainicio" class="inline-flex" input-class="inputanexo" ></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
-        DE FECHA <datetime v-model="fechaoficioinicio" class="inline-flex" input-class="inputanexo" ></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
+        DE FECHA <input type="date" v-model="solicitudfechainicio" class="inline-flex" input-class="inputanexo"/>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
+        DE FECHA <input type="date" v-model="fechaoficioinicio" class="inline-flex" input-class="inputanexo"/> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
         <datetime v-model="fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
         <p class="text-sm">
@@ -369,7 +369,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       const formateadorfechasolicitud = moment(this.solicitudfechainicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      console.log(formateadorfechasolicitud);
       const fomateadorfechaoficio = moment(this.fechaoficioinicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      console.log(fomateadorfechaoficio);
       //Creamos el nuevo objeto del anexo
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
@@ -386,9 +388,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "TipoAnexo": "B",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
+       console.log(Anexo)
       try
       {
-        //Hacemos la peticion para insertar un anexo
+        // //Hacemos la peticion para insertar un anexo
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         .then((response) => {
           this.modalImage = false;
@@ -435,9 +438,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let datecierre = new Date(this.fechacierre);
         let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()+1] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
         let datesolicitud = new Date(this.solicitudfechainicio);
-        let formatted_date_solicitud = datesolicitud.getDate() + " DE " + months[datesolicitud.getMonth()+1] + " DE " + datesolicitud.getFullYear() 
+        datesolicitud.setMinutes(datesolicitud.getMinutes() + datesolicitud.getTimezoneOffset())
+        let formatted_date_solicitud = datesolicitud.getDate() + " DE " + months[datesolicitud.getMonth()] + " DE " + datesolicitud.getFullYear() 
         let dateoficio = new Date(this.fechaoficioinicio);
-        let formatted_date_oficio = dateoficio.getDate() + " DE " + months[dateoficio.getMonth()+1] + " DE " + dateoficio.getFullYear()
+        dateoficio.setMinutes(dateoficio.getMinutes() + dateoficio.getTimezoneOffset())
+        let formatted_date_oficio = dateoficio.getDate() + " DE " + months[dateoficio.getMonth()] + " DE " + dateoficio.getFullYear()
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;
         this.fechasolicitudformateada = formatted_date_solicitud;
