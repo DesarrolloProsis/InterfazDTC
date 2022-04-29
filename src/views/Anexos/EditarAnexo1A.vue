@@ -14,7 +14,7 @@
         <p>
         EN LA CIUDAD DE <label class="font-bold ml-1 uppercase">{{this.ciudad[0].ciudad}}, {{this.ciudad[0].estado}}</label>, SIENDO 
         <datetime class="ml-1 inline-flex" use12-hour 
-          v-model="this.anexo.fechaApertura"
+          v-model="fechaapertura"
           type="datetime"
           name="HoraInicio" 
           input-class="inputanexo" 
@@ -46,7 +46,7 @@
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA FALLA DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,REPORTADA CON No. DE ACUSE / FOLIO <span class="font-bold">{{this.lista_DTC_Filtrada[0].failureNumber }}</span>, DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>; FUE REPARADA
-        EL DÍA <datetime v-model="this.anexo.fechaCierre" class="inline-flex" input-class="inputanexo" :format="{ year: 'numeric', month: 'long', day: 'numeric' }" auto></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
+        EL DÍA <datetime v-model="this.fechacierre" class="inline-flex" input-class="inputanexo" :format="{ year: 'numeric', month: 'long', day: 'numeric' }" auto></datetime>, DICHA FALLA CONSISTIÓ EN DAÑO A COMPONENTE
         <span class="font-bold">{{this.nombrecomponentes.toString()}}</span> Y FUÉ PROVOCADA POR <span class="font-bold">{{this.lista_DTC_Filtrada[0].diagnosis.toUpperCase() }}</span>, OCURRIDO EL 
         <span class="font-bold">{{this.fechasiniestro}}</span>; PARA 
         CUYO EFECTO FUÉ NECESARIO REPONER LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
@@ -75,9 +75,9 @@
         <p class="text-sm mb-2 uppercase">Supervisor de plaza <span class="text-sm font-bold">{{ this.lista_DTC_Filtrada[0].name }}</span></p>
           <div class="inline-flex mt-4">
             <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
-            <datetime v-model="this.anexo.fechaApertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
+            <datetime v-model="this.fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
             <p class="ml-2">,SIENDO LAS</p>
-            <datetime type="time" v-model="this.anexo.fechaCierre" class="inline-flex ml-2" input-class="inputanexo"></datetime>
+            <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
           </div>
           <div class="mt-4">
            <ValidationObserver ref="observer" class="">  
@@ -320,8 +320,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const anexo = await dataanexo.json()
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
-        this.time = this.anexo.fechaCierre;
         this.comentario = this.anexo.observaciones;
+        this.fechaapertura = this.anexo.fechaApertura;
+        this.fechacierre = this.anexo.fechaCierre
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
@@ -354,7 +355,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        this.componentesfinaleseditados = data;
      },
      async insertaranexo(){
-      const formateadorapertura = moment(this.anexo.fechaApertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
+      const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       this.modalImage = true
       let Anexo = {
@@ -421,7 +422,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.blockBotonModal = value
     },
     validacionanexo(){
-      let fechaapertura = new Date(this.anexo.fechaApertura);
+      let fechaapertura = new Date(this.fechaapertura);
       let horadecierre = new Date(this.time);
       var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
       var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
@@ -429,10 +430,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       var fechacierrefinal = new Date(fechacierra);
       this.fechacierre = fechacierrefinal.toISOString();
       let hoy = Date.now();
-      if(this.anexo.fechaApertura == ""){
+      if(this.fechaapertura == ""){
         this.errores.push("La fecha de apertura esta vacia")
       }
-      if(this.anexo.fechaCierre == ""){
+      if(this.fechacierre == ""){
         this.errores.push("La fecha de cierre esta vacia")
       }
       if(this.anexo.testigo1Id == ""){
@@ -477,9 +478,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
        }
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
-        let dateapertura = new Date(this.anexo.fechaApertura);
+        let dateapertura = new Date(this.fechaapertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear()
-        let datecierre = new Date(this.anexo.fechaCierre);
+        let datecierre = new Date(this.fechacierre);
         let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()] + " DE " + datecierre.getFullYear()
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;

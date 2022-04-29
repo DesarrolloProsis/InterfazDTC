@@ -15,7 +15,7 @@
         EN LA CIUDAD DE <label class="font-bold ml-1 uppercase">{{this.ciudad[0].ciudad}}, {{this.ciudad[0].estado}}</label>, SIENDO 
         <datetime class="ml-2 inline-flex"
         use12-hour
-        v-model="this.anexo.fechaApertura"
+        v-model="fechaapertura"
         type="datetime"
         name="HoraInicio" 
         input-class="inputanexo"></datetime>
@@ -44,10 +44,10 @@
         </div>
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
-        DE ACUERDO A LA SOLICITUD <input type="text" v-model="this.anexo.solicitud" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
-        DE FECHA <datetime v-model="this.anexo.fechaSolicitudInicio" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="this.anexo.folioOficio" placeholder="DO/3741/2021" class="inputanexo">
-        DE FECHA <datetime v-model="this.anexo.fechaOficioInicio" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
-        <datetime v-model="this.anexo.fechaApertura" class="inline-flex" input-class="inputanexo" disabled></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
+        DE ACUERDO A LA SOLICITUD <input type="text" v-model="solicitud" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
+        DE FECHA <datetime v-model="fechasolicitud" class="inline-flex" input-class="inputanexo"></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="oficio" placeholder="DO/3741/2021" class="inputanexo">
+        DE FECHA <datetime v-model="fechaoficio" class="inline-flex" input-class="inputanexo"></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
+        <datetime v-model="fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
         <p class="text-sm">
         LOS EQUIPOS/COMPONENTES DAÑADOS EL ADMINISTRADOR DEBERÁ IDENTIFICAR Y EMBALAR, ENVIANDOLOS EN UN PERÍODO DE 5 DÍAS MÁXIMO AL ÁLMACÉN DE LA 
@@ -71,9 +71,9 @@
        <p class="text-sm mb-2 uppercase">Supervisor de plaza <span class="text-sm font-bold">{{ this.lista_DTC_Filtrada[0].name }}</span></p>
       <div class="inline-flex mt-4">
           <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
-          <datetime v-model="this.anexo.fechaApertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
+          <datetime v-model="fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
           <p class="ml-2">,SIENDO LAS</p>
-          <datetime v-model="this.anexo.fechaCierre" type="time" class="inline-flex ml-2" input-class="inputanexo" ></datetime>
+          <datetime v-model="fechacierre" type="time" class="inline-flex ml-2" input-class="inputanexo" ></datetime>
         </div>
         <div class="mt-4">
            <ValidationObserver ref="observer" class="">  
@@ -268,6 +268,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       fechaapertura: "",
       fechacierre: "",
       selectsupervisor:'',
+      solicitud:'',
+      oficio:'',
+      fechasolicitud: '',
+      fechaoficio: '',
       testigoscompleto:[],
       idtestigos:0,
       blockBotonModal: false,
@@ -320,6 +324,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.anexo = objetoresultadoanexo[0];
         console.log(this.anexo)
         this.comentario = this.anexo.observaciones;
+        this.solicitud = this.anexo.solicitud;
+        this.oficio = this.anexo.folioOficio;
+        this.fechaapertura = this.anexo.fechaApertura;
+        this.fechacierre=this.anexo.fechaCierre;
+        this.fechasolicitud = this.anexo.fechaSolicitudInicio;
+        this.fechaoficio = this.anexo.fechaOficioInicio;  
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
@@ -374,18 +384,18 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
      async insertaranexo(){
       this.modalImage = true
-      const formateadorapertura = moment(this.anexo.fechaApertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
+      const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
-      const formateadorfechasolicitud = moment(this.anexo.fechaSolicitudInicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
-      const fomateadorfechaoficio = moment(this.anexo.fechaOficioInicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      const formateadorfechasolicitud = moment(this.fechasolicitud.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      const fomateadorfechaoficio = moment(this.fechaoficio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       let Anexo = {
           "DTCReference": this.anexo.dtcReference,
           "AnexoReference": this.$route.params.anexoReference,
           "FechaApertura": formateadorapertura,
           "FechaCierre": formateadorcierre,
-          "Solicitud": this.anexo.solicitud,
+          "Solicitud": this.solicitud,
           "FechaSolicitudInicio" : formateadorfechasolicitud,
-          "FolioOficio": this.anexo.folioOficio,
+          "FolioOficio": this.oficio,
           "FechaOficioInicio": fomateadorfechaoficio,
           "Observaciones": this.comentario,
           "SupervisorId": this.anexo.supervisorId,
@@ -420,18 +430,18 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.blockBotonModal = value
     },
     validacionanexo(){
-      let fechaapertura = new Date(this.anexo.fechaApertura);
-      let horadecierre = new Date(this.anexo.fechaCierre);
+      let fechaapertura = new Date(this.fechaapertura);
+      let horadecierre = new Date(this.fechacierre);
       var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
       var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
       let fechacierra = fecha + ' ' + hora;
       var fechacierrefinal = new Date(fechacierra);
       this.fechacierre = fechacierrefinal.toISOString();
       let hoy = Date.now();
-      if(this.anexo.fechaApertura == ""){
+      if(this.fechaapertura == ""){
         this.errores.push("La fecha de apertura esta vacia")
       }
-      if(this.anexo.fechaCierre == ""){
+      if(this.fechacierre == ""){
         this.errores.push("La fecha de cierre esta vacia")
       }
       if(this.anexo.testigo1Id == ""){
@@ -476,7 +486,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.errores.push("La fecha de apertura no debe ser mayor al dìa de hoy");
        }
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
-        let dateapertura = new Date(this.anexo.fechaApertura);
+        let dateapertura = new Date(this.fechaapertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear()
         this.fechaaperturaformateada = formatted_date_apertura;
        if (this.errores.length > 0) {
