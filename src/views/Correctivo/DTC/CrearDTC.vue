@@ -149,6 +149,15 @@ export default {
 created(){
     EventBus.$on("ACTUALIZAR_HEADER", () => {      
         this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        /* let descripcion = this.$store.state.DTC.listaDescriptions
+        console.log(this.$route.params.tipoFalla == 3);
+        if (this.$route.params.tipoFalla == 3) {
+          this.descripcionHeaders = descripcion.filter(tipo => tipo.id >= 3)
+          console.log('if', this.descripcionHeaders);
+        }else{
+          this.descripcionHeaders = descripcion
+          console.log('else', this.descripcionHeaders);
+        } */
         this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     });
     EventBus.$on("enviar-componete", (objInsert) => {
@@ -169,7 +178,13 @@ beforeMount: async function() {
   let refenciaFichaTecnica = this.$route.params.referenciaFicha     
   this.referenciaFicha = refenciaFichaTecnica
   this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-  this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
+  //this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
+  let descripcion = this.$store.state.DTC.listaDescriptions
+  if (this.$route.params.tipoFalla == 3) {
+    this.descripcionHeaders = descripcion.filter(tipo => tipo.id >= 3)
+  }else{
+    this.descripcionHeaders = descripcion.filter(tipo => tipo.id < 3)
+  }
   this.flagCreate = true;
   if (JSON.stringify(this.$route.query) != "{}") {              
     this.headerEdit = this.$route.query.headerInfo;                 
