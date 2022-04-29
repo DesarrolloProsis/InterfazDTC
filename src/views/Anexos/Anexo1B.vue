@@ -24,7 +24,7 @@
         </p>
         <div class="flex w-full gap-4 p-2">
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo1" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo1">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -33,7 +33,7 @@
               </div>
           </div>
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo2" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="testigo2">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -45,8 +45,8 @@
         <p class="">
         PARA HACER CONSTAR QUE LA SUSTITUCIÓN DE COMPONENTES DEL EQUIPO DEL <span class="font-bold">CARRIL {{this.nombrecarriles.toString()}}</span>,
         DE ACUERDO A LA SOLICITUD <input type="text" v-model="solciitud" placeholder="URC-SOC.2314-2021" class="inputanexo">, 
-        DE FECHA <datetime v-model="solicitudfechainicio" class="inline-flex" input-class="inputanexo" ></datetime>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
-        DE FECHA <datetime v-model="fechaoficioinicio" class="inline-flex" input-class="inputanexo" ></datetime> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
+        DE FECHA <input type="date" v-model="solicitudfechainicio" class="inline-flex" input-class="inputanexo"/>, Y AUTORIZADA EN OFICIO <input type="text" v-model="foliooficio" placeholder="DO/3741/2021" class="inputanexo">
+        DE FECHA <input type="date" v-model="fechaoficioinicio" class="inline-flex" input-class="inputanexo"/> POR LA GERENCIA DE MANTENIMIENTO Y MODERNIZACIÓN DE EQUIPOS DE PEAJE; PARA CUYO EFECTÓ FUÉ NECESARIO REPONER EN FECHA
         <datetime v-model="fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime> LAS PARTES QUE A CONTINUACIÓN SE DETALLAN.
         </p>
         <p class="text-sm">
@@ -298,22 +298,17 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     //Funcion para cargar las opciones del select de los testigos
       async filtro_dtc() {    
       let iddtc = this.$route.params.referencenumber;
-      console.log(iddtc);
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         let resultdtc =  dtcfiltrado.filter(e => e.referenceNumber == this.$route.params.referencenumber)
         this.lista_DTC_Filtrada = resultdtc;
-        console.log(this.lista_DTC_Filtrada);
         const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
         let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
-        console.log(formatted_date);
         this.fechasiniestro = formatted_date;
         let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
-        console.log(dataHeader);
         const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
         this.plazadtc  = result;
-        console.log(this.plazadtc);
         let plazacompletas = await this.$store.state.Login.listaPlazas
         const resultadoplaza = plazacompletas.filter(e => e.referenceSquare == this.plazadtc[0].referenceSquare);
         this.ciudad = resultadoplaza;  
@@ -330,11 +325,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const objeto = await data.json();
         let resultado = objeto.result;
         this.testigoscompleto = resultado;
-        console.log(resultado)
         let nombretestigos = [];
         resultado.forEach(e => nombretestigos.push(e.nombre));
         this.listaTestigos = nombretestigos; 
-        console.log(this.listaTestigos);
       } catch (error) {
         console.log(error);
       }
@@ -345,9 +338,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         const data = await fetch(`${API}/AnexoDTC/Supervisor/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
         const objeto = await data.json();
         let listaSupervisorprueba = objeto.result;
-        console.log(listaSupervisorprueba)
         this.listaSupervisor = listaSupervisorprueba;
-        console.log(this.listaSupervisor);
       } catch (error) {
         console.log(error);
       }
@@ -358,7 +349,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return data.indexOf(item) === index;
     })
       this.nombrecarriles = result;
-      console.log(this.nombrecarriles);
     },
     //Funcion que nos retorna el nombre de los componentes
     onagregarnombrescomponentes(data) {
@@ -370,7 +360,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     //Funcion que nos proporciona el arreglo para enviar en el end point final del anexo a insertar
     agregarcomponenteseditados(data){
       this.componentesfinaleseditados = data;
-      console.log(this.componentesfinaleseditados);
     },
     //Funcion para insertar anexo
     async insertaranexo(){
@@ -380,7 +369,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       const formateadorfechasolicitud = moment(this.solicitudfechainicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      console.log(formateadorfechasolicitud);
       const fomateadorfechaoficio = moment(this.fechaoficioinicio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      console.log(fomateadorfechaoficio);
       //Creamos el nuevo objeto del anexo
       let Anexo = {
           "DTCReference": this.lista_DTC_Filtrada[0].referenceNumber,
@@ -397,15 +388,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "TipoAnexo": "B",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
-       console.log(Anexo);
+       console.log(Anexo)
       try
       {
-        //Hacemos la peticion para insertar un anexo
+        // //Hacemos la peticion para insertar un anexo
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         .then((response) => {
           this.modalImage = false;
           this.modaldescarga = true;
-          console.log(response.data.result);
           let refenciaanexo = response.data.result;
           let subversion = false;
           //Una vez generada la referencia del anexo generamos los dos documentos
@@ -421,18 +411,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         .catch((error) => {
           console.log(error);
         })
-        console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)
       }
      },
-     vervalordelselect(){
-       console.log(this.testigo1)
-       console.log(this.testigo2)
-     },
     //Funcion para validar la informacion del anexo
      validacionanexo(){
-      console.log(this.fechaapertura)
       //Validacion de las fechas de apertura y hora de cierre
       //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
@@ -444,7 +428,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let fechacierra = fecha + ' ' + hora;
         var fechacierrefinal = new Date(fechacierra);
         this.fechacierre = fechacierrefinal.toISOString();
-        console.log(this.fechacierre);
         let hoy = Date.now();
         if(fechaapertura > hoy){
          this.errores.push("La fecha de apertura no puede ser mayor al dia de hoy");
@@ -452,14 +435,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.fechaapertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
-        console.log(formatted_date_apertura);
         let datecierre = new Date(this.fechacierre);
         let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()+1] + " DE " + datecierre.getFullYear() + ' A LAS ' + horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds()
-        console.log(formatted_date_apertura);
         let datesolicitud = new Date(this.solicitudfechainicio);
-        let formatted_date_solicitud = datesolicitud.getDate() + " DE " + months[datesolicitud.getMonth()+1] + " DE " + datesolicitud.getFullYear() 
+        datesolicitud.setMinutes(datesolicitud.getMinutes() + datesolicitud.getTimezoneOffset())
+        let formatted_date_solicitud = datesolicitud.getDate() + " DE " + months[datesolicitud.getMonth()] + " DE " + datesolicitud.getFullYear() 
         let dateoficio = new Date(this.fechaoficioinicio);
-        let formatted_date_oficio = dateoficio.getDate() + " DE " + months[dateoficio.getMonth()+1] + " DE " + dateoficio.getFullYear()
+        dateoficio.setMinutes(dateoficio.getMinutes() + dateoficio.getTimezoneOffset())
+        let formatted_date_oficio = dateoficio.getDate() + " DE " + months[dateoficio.getMonth()] + " DE " + dateoficio.getFullYear()
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;
         this.fechasolicitudformateada = formatted_date_solicitud;

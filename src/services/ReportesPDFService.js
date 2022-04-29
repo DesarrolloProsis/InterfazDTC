@@ -286,7 +286,7 @@ function generar_pdf_anexoB(referenceNumber,referenceAnexo,subversion){
 function reporte_fotografico_anexo(referenceNumber,referenceAnexo){
     let clavePlaza = referenceNumber.split('-')[0]
     let urlTopdf = `${API}/ReporteFotografico/Nuevo/${clavePlaza}/0/${referenceNumber}/${referenceAnexo}`
-    let namePdf = 'ReporteFotograficoAnexo' + '-' + referenceNumber + '-' + 'Sellado'
+    let namePdf = 'ReporteFotograficoEquipoNuevo' + '-' + referenceNumber 
     xml_hhtp_request(urlTopdf,namePdf)
 }
 export default {

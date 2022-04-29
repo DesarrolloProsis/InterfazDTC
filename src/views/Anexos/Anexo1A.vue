@@ -403,6 +403,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "TipoAnexo": "A",
           "ComponentesAnexo":this.componentesfinaleseditados  
        }
+       console.log(Anexo)
       try
       {
         //Hacemos la peticion para insertar un anexo

@@ -26,7 +26,7 @@
         </p>
         <div class="flex w-full gap-4 p-2">
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo1Id" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo1Id">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -35,7 +35,7 @@
               </div>
           </div>
           <div class="inline-block relative w-full">
-              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo2Id" @change="vervalordelselect">
+              <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="this.anexo.testigo2Id">
                 <option value="">Selecciona a un testigo</option>
                 <option :value="testigo.id" v-for="testigo in testigoscompleto" :key="testigo.id">{{testigo.nombre}}</option>
               </select>
@@ -77,7 +77,7 @@
             <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
             <datetime v-model="this.anexo.fechaApertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
             <p class="ml-2">,SIENDO LAS</p>
-            <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
+            <datetime type="time" v-model="this.anexo.fechaCierre" class="inline-flex ml-2" input-class="inputanexo"></datetime>
           </div>
           <div class="mt-4">
            <ValidationObserver ref="observer" class="">  
@@ -300,36 +300,28 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
    methods: {
     async filtro_dtc() {    
       let iddtc = this.$route.params.dtcReference;
-      console.log(iddtc);
       let referenciaanexo = this.$route.params.anexoReference; 
-      console.log(referenciaanexo)
       try{
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         let resultdtc =  dtcfiltrado.filter(e => e.referenceNumber == this.$route.params.dtcReference)
         this.lista_DTC_Filtrada = resultdtc;
-        //console.log(this.lista_DTC_Filtrada);
         const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
         let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
-        //console.log(formatted_date);
         this.fechasiniestro = formatted_date;
         let dataHeader = await this.$store.state.Login.listaHeaderDtcUser
-        //console.log(dataHeader);
         const result = dataHeader.filter(e => e.adminSquareId == this.lista_DTC_Filtrada[0].adminId);
         this.plazadtc  = result;
-        //console.log(this.plazadtc);
         const datatestigo = await fetch(`${API}/AnexoDTC/Testigos/${this.lista_DTC_Filtrada[0].referenceSquare}/${this.lista_DTC_Filtrada[0].squareCatalogId}`)
         const objetotestigo = await datatestigo.json();
         let resultado = objetotestigo.result;
-        //console.log(resultado)
         this.testigoscompleto = resultado;
-        //console.log(this.testigoscompleto);
         const dataanexo = await fetch(`${API}/AnexoDTC/HeaderAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`)
         const anexo = await dataanexo.json()
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
-        //console.log(this.anexo)
         this.time = this.anexo.fechaCierre;
+        this.comentario = this.anexo.observaciones;
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
@@ -339,7 +331,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.arraycomponentes = objeto.result;
         let plazacompletas = await this.$store.state.Login.listaPlazas
         const resultadoplaza = plazacompletas.filter(e => e.referenceSquare == this.plazadtc[0].referenceSquare);
-        console.log(resultadoplaza)
         this.ciudad = resultadoplaza;
       }
       catch (error) {
@@ -352,7 +343,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return data.indexOf(item) === index;
     })
       this.nombrecarriles = result;
-      console.log(this.nombrecarriles);
     }, 
     onagregarnombrescomponentes(data) {
       let result = data.filter((item,index)=>{
@@ -362,7 +352,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     },
     agregarcomponenteseditados(data){
        this.componentesfinaleseditados = data;
-       console.log(this.componentesfinaleseditados);
      },
      async insertaranexo(){
       const formateadorapertura = moment(this.anexo.fechaApertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
@@ -387,10 +376,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       try
       {
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
-        .then((response) => {
+        .then(() => {
           this.modalImage = false;
           this.modaldescarga = true
-          console.log(response.data.result);
           let subversion = true;
           ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
           ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
@@ -403,18 +391,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         .catch((error) => {
           console.log(error);
         })
-        console.log("Se envio correctamente el anexo");
       }catch(error){
         console.error(error)
       }
     },
-    vervalordelselect(){
-       console.log(this.testigo1)
-       console.log(this.testigo2)
-    },
     filtrarcomponentes(componenteseditados,componentestotales){
-       console.log(componenteseditados);
-       console.log(componentestotales);
         for (let i = 0; i < componentestotales.length; i++) {
           for(let j=0; j< componenteseditados.length; j++) {
             if(componentestotales[i].requestedComponentId == componenteseditados[j].componentDTCId){
@@ -440,8 +421,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.blockBotonModal = value
     },
     validacionanexo(){
-      console.log(this.componentesfinaleseditados);
-      console.log(this.anexo.fechaApertura)
       let fechaapertura = new Date(this.anexo.fechaApertura);
       let horadecierre = new Date(this.time);
       var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
@@ -449,7 +428,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       let fechacierra = fecha + ' ' + hora;
       var fechacierrefinal = new Date(fechacierra);
       this.fechacierre = fechacierrefinal.toISOString();
-      console.log(this.fechacierre);
       let hoy = Date.now();
       if(this.anexo.fechaApertura == ""){
         this.errores.push("La fecha de apertura esta vacia")
@@ -475,16 +453,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
            return c
       })
          this.componentesfinaleseditados = componentes;
-         console.log(this.componentesfinaleseditados);
        }
        if(this.objetocomponentesanexosaeditar.length > this.componentesfinaleseditados.length ){
-         console.log(this.componentesfinaleseditados.length);
-         console.log(this.objetocomponentesanexosaeditar.length)
         const index = this.objetocomponentesanexosaeditar.map(object => object.componentDTCId);
-        console.log(index);
         for (let j = 0; j < this.componentesfinaleseditados.length; j++) {
             let position = index.indexOf(this.componentesfinaleseditados[j].RequestedComponentId);
-            console.log(position)
             if(position != -1){
               this.objetocomponentesanexosaeditar.splice(position,1)
             }
@@ -496,7 +469,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
             }
           this.componentesfinaleseditados.push(c);
         }
-        console.log(this.componentesfinaleseditados);
         }
         if(this.componentesfinaleseditados.length == this.objetocomponentesanexosaeditar.lenght){
           this.componentesfinaleseditados = this.componentesfinaleseditados
@@ -507,10 +479,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.anexo.fechaApertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear()
-        console.log(formatted_date_apertura);
         let datecierre = new Date(this.anexo.fechaCierre);
         let formatted_date_cierre = datecierre.getDate() + " DE " + months[datecierre.getMonth()] + " DE " + datecierre.getFullYear()
-        console.log(formatted_date_apertura);
         this.fechaaperturaformateada = formatted_date_apertura;
         this.fechacierreformateada = formatted_date_cierre;
        if (this.errores.length > 0) {
