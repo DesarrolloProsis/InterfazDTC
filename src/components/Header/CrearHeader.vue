@@ -110,7 +110,7 @@
                 </div>
               </div>
               <ValidationProvider name="tipo" immediate rules="required"  v-slot="{ errors }">
-              <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripción</p>
+              <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripción:</p>
               <select v-model="datosSinester.TypeDescriptionId" @change="tipoDescripcion" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
                 <option v-for="(desc, index) in descripciones" :value="desc.id" :key="index">
                   {{ desc.description }}
