@@ -14,6 +14,12 @@
 .is_valid {
     @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
 }
+.no_valid {
+    @apply mt-1 block w-full border-none bg-gray-300  rounded-xl shadow-lg;
+}
+.no_valid:hover {
+    @apply mt-1 block w-full border-none bg-gray-300  rounded-xl shadow-lg;
+}
 .is_invalid {
     @apply border;
     @apply border-red-500;

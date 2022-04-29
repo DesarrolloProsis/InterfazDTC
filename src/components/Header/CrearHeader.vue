@@ -48,28 +48,37 @@
               <span class="font-semibold">Atencion:</span>
               <span v-if="this.headerSelecionado.referenceSquare == 'JOR' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'"> C. Saúl Mosqueda Delgado</span>
               <span v-else class="ml-2 text-sm font-titulo" style="font-weight: normal">{{ headerSelecionado.managerName }}</span>
-          </div>
-          
+          </div>      
           <div class="sm:flex-col pr-2 inline-block font-titulo">
             <div class="sm:hidden md:hidden lg:ml-26 w-6 absolute ml-30 my-1">
                 <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
                     <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
                     <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
-
                 <div ref="tooltipintervencion" class="font-titulo">
                     <p class="text-center text-gray-800">Se debe indicar el numero de Siniestro proporcionado por la aseguradora (GNP y/o INBURSA), se puede dejar vacío y se agregará la leyenda SIN NÚMERO DE SINIESTRO</p>
                 </div>
             </div>
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
                 <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
-                <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" name="NoSiniestro" type="text"/>
+                <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" :class="{'no_valid':$route.params.tipoFalla == 3}" :disabled='$route.params.tipoFalla == 3' name="NoSiniestro" type="text"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
             </ValidationProvider>                                      
-            <template v-if="$route.params.tipoFalla == 3">
+            <template>
               <div class="sm:hidden md:hidden lg:ml-28 w-6 absolute ml-21 my-2">
                 <span class="" v-tooltip.right =" { ref:'tooltipoficio', class: 'tooltip-custom tooltip-other-custom'}">
-                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 ml-6 w-5 h-5 flex items-center"/>
+                </span>
+                <div ref="tooltipoficio" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar el numero de folio de falla que aparece en el modulo institucional de CAPUFE</p>
+                </div>
+              </div>
+              <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Reporte:</p>
+              <input v-model="datosSinester.ReportNumber" :class="{'no_valid':$route.params.tipoFalla == 3}" :disabled='$route.params.tipoFalla == 3' class="w-full is_valid" type="text" name="NoReporte"/>  
+            </template>
+            <!-- <template v-if="$route.params.tipoFalla == 3">
+              <div class="sm:hidden md:hidden lg:ml-28 w-6 absolute ml-21 my-2">
+                <span class="" v-tooltip.right =" { ref:'tooltipoficio', class: 'tooltip-custom tooltip-other-custom'}">
                     <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
@@ -86,7 +95,7 @@
             <template v-else>
                   <p class="w-1/2 mt-2 text-md mb-1 font-medium text-gray-900">No. Reporte:</p>
                   <input v-model="datosSinester.ReportNumber" class="w-full is_valid" type="text" name="NoReporte"/>  
-            </template>
+            </template> -->
           </div>      
           <div class="pr-2 font-titulo">
             <!-- <ValidationProvider name="TipoDescripcion" rules="required"  v-slot="{ errors }"> -->
@@ -123,33 +132,36 @@
                     <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
                     <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
-
                 <div ref="tooltipfechasiniestro" class="font-titulo">
                     <p class="text-center text-gray-800">se debe indicar la fecha con respecto al volante de la aseguradora(GNP y/o INBURSA)</p>
                 </div>
               </div>
-              <ValidationProvider name="FechaSiniestro" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">
-                <p class="text-md mb-1 font-medium text-gray-900">Fecha de Siniestro:</p>
-                <input v-model="datosSinester.SinisterDate" @change="crear_referencia_dtc()" class="w-full font-titulo is_valid" :disabled="fechaSiniestoEdit" name="FechaSiniestro" type="date" onkeydown="return false"/>              
-                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-              </ValidationProvider>
+              <!--<template v-if="$route.params.tipoFalla == 3">
+                <p class="text-md mb-1 font-medium text-gray-900" >Fecha de Siniestro:</p>
+                <input :class="{'hidden':$route.params.tipoFalla == 3}" v-model="datosSinester.SinisterDate" value="1996-07-17" @change="crear_referencia_dtc()" class="w-full font-titulo is_valid" :disabled='$route.params.tipoFalla == 3' name="FechaSiniestro" type="date" onkeydown="return false"/>              
+                <p class="text-md mb-1 font-medium" ></p>
+                <input class="w-full font-titulo is_valid" :disabled='$route.params.tipoFalla == 3' name="FechaSiniestro" type="date" onkeydown="return false"/>              
+              </template>-->
+              <template >
+                <ValidationProvider name="FechaSiniestro" immediate rules="required|fechaMenorNow" :custom-messages="{ fechaMenorNow: 'La fecha debe ser menor que la fecha actual' }" v-slot="{ errors }">
+                  <p class="text-md mb-1 font-medium text-gray-900">Fecha de Siniestro:</p>
+                  <input v-model="datosSinester.SinisterDate" @change="crear_referencia_dtc()" class="w-full font-titulo is_valid" :disabled="fechaSiniestoEdit" name="FechaSiniestro" type="date" onkeydown="return false"/>              
+                  <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                </ValidationProvider>
+              </template>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-32 w-6 absolute ml-32">
-                <span class="" v-tooltip.right =" { ref:'tooltipfechaenvio', class: 'tooltip-custom tooltip-other-custom'}">
-                    <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
-                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
-                </span>
-
-                <div ref="tooltipfechaenvio" class="font-titulo">
-                    <p class="text-center text-gray-800">Se debe indicar la fecha en la que se elabora el DTC. No debe exceder las 24 Horas desde el reporte de la falla</p>
-                </div>
+              <div class="pr-2 font-titulo">
+                <ValidationProvider name="diagnostico" immediate rules="required"  v-slot="{ errors }">
+                  <p class="text-md font-medium mb-1 text-gray-900">Diagnóstico:</p>
+                  <select v-model="datosSinester.Diagnosis"  class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
+                    <option v-for="(desc, index) in tiposDescripciones" :value="desc.type" :key="index">
+                      {{ desc.type }}
+                    </option>
+                  </select>
+                  <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+                </ValidationProvider>
               </div>
-              <ValidationProvider name="FechaEnvio" immediate rules="required"  v-slot="{ errors }">
-                <p class="text-md mb-1 font-medium text-gray-900">Fecha de Envio:</p>
-                <input v-model="datosSinester.ShippingElaboracionDate" class="w-full is_valid" type="date" name="FechaEnvio" onkeydown="return false"/>
-                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-              </ValidationProvider>              
             </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   TERCERA LINEA                              ////
@@ -164,7 +176,6 @@
                     <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
                     <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
-
                 <div ref="tooltipfoliofalla" class="font-titulo">
                     <p class="text-center text-gray-800">Se debe indicar el numero de folio de Falla que aparece en el modulo institucional de CAPUFE</p>
                 </div>
@@ -176,19 +187,19 @@
               </ValidationProvider>
             </div>
             <div class="pr-2 font-titulo -mt-16 sm:mt-0">
-              <!-- <p class="text-md mb-1 font-medium text-gray-900 hidden">Fecha de Elaboracion:</p>
-              <input disabled="true" class="w-full is_valid hidden" type="date" readonly /> -->
-              <div class="pr-2 font-titulo">
-                <ValidationProvider name="diagnostico" immediate rules="required"  v-slot="{ errors }">
-              <p class="text-md font-medium mb-1 text-gray-900">Diagnóstico:</p>
-              <select v-model="datosSinester.Diagnosis"  class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
-                <option v-for="(desc, index) in tiposDescripciones" :value="desc.type" :key="index">
-                  {{ desc.type }}
-                </option>
-              </select>
-              <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
+              <div class="sm:hidden md:hidden lg:mt-1 lg:ml-32 w-6 absolute ml-32">
+                <span class="" v-tooltip.right =" { ref:'tooltipfechaenvio', class: 'tooltip-custom tooltip-other-custom'}">
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
+                </span>
+                <div ref="tooltipfechaenvio" class="font-titulo">
+                    <p class="text-center text-gray-800">Se debe indicar la fecha en la que se elabora el DTC. No debe exceder las 24 Horas desde el reporte de la falla</p>
+                </div>
+              </div>
+              <ValidationProvider name="FechaEnvio" immediate rules="required"  v-slot="{ errors }">
+                <p class="text-md mb-1 font-medium text-gray-900">Fecha de Envio:</p>
+                <input v-model="datosSinester.ShippingElaboracionDate" class="w-full is_valid" type="date" name="FechaEnvio" onkeydown="return false"/>
+                <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
               </ValidationProvider>
-            </div>
             </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   CUARTA  LINEA                              ////
@@ -203,7 +214,6 @@
                     <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
                     <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
-
                 <div ref="tooltipfechafalla" class="font-titulo">
                     <p class="text-center text-gray-800">Se debe indicar la fecha de falla de acuerdo al acta circunstanciada elaborada por la plaza</p>
                 </div>
@@ -272,10 +282,7 @@
       <!-- //////////////////////////////////////////////////////////////////
       ////                    TABLA EQUIPO MALO                         ////
       ///////////////////////////////////////////////////////////////////// -->
-      <TablaEquipoMalo
-        :listaComponentes="listaComponentes"
-        :dateSinester="datosSinester.SinisterDate"
-      ></TablaEquipoMalo>
+      <TablaEquipoMalo :listaComponentes="listaComponentes" :dateSinester="datosSinester.SinisterDate"></TablaEquipoMalo>
     </div>    
     <!--/////////////////////////////////////////////////////////////////
     ////                  MODAL RREFERENCIAS                         ////
@@ -361,7 +368,7 @@ export default {
       arrayReference: [],
       referenceSelected: '',      
       tipoPlazaSelect: '',
-      tiposDescripciones: []      
+      tiposDescripciones: [],
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -370,7 +377,7 @@ export default {
 created:  function (){            
     EventBus.$on('validar_header_dtc', (value) => this.validar_header(value));
 },
-beforeMount: async function () {    
+beforeMount: async function () {  
   let f = new Date()
   this.tipoPlazaSelect = 'insersion'        
   this.datosSinester.ShippingElaboracionDate = moment(f,"DD-MM-YYYY").format("YYYY-MM-DD");
@@ -379,7 +386,12 @@ beforeMount: async function () {
   await this.$store.dispatch("Refacciones/BUSCAR_COMPONETES", value);
   this.listaComponentes = await this.$store.state.Refacciones.listaRefacciones
   await this.$store.dispatch("DTC/BUSCAR_DESCRIPCIONES_DTC");
-  this.listaDescripciones = await this.$store.state.DTC.listaDescriptions
+  let listaDescripcion = await this.$store.state.DTC.listaDescriptions
+  if (this.$route.params.tipoFalla == 3) {
+    this.listaDescripciones = listaDescripcion.filter(tipo => tipo.id >= 3)
+  }else{
+    this.listaDescripciones = listaDescripcion.filter(tipo => tipo.id < 3)
+  }
   if (JSON.stringify(this.headerEdit) != "{}") {  
     this.tipoPlazaSelect = 'edicion'      
     this.boolCambiarPlaza = true
@@ -394,9 +406,9 @@ beforeMount: async function () {
     this.datosSinester.Diagnosis = this.headerEdit.diagnosis;
     this.fechaSiniestoEdit = true;    
   }
-    //this.tipoDescripcion()
-    this.$emit('tipo-descripcion', this.datosSinester.TypeDescriptionId)
     this.tipos()
+    //this.tipoDescripcion()
+    //this.$emit('tipo-descripcion', this.datosSinester.TypeDescriptionId)
 },
 destroyed(){
   EventBus.$off('validar_header_dtc')
@@ -407,7 +419,7 @@ destroyed(){
 methods: {
   tipoDescripcion(){
     this.datosSinester.Diagnosis = ''
-    this.$emit('tipo-descripcion', this.datosSinester.TypeDescriptionId)
+    //this.$emit('tipo-descripcion', this.datosSinester.TypeDescriptionId)
     this.tipos()
   },
   tipos(){
