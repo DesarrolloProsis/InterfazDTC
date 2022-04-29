@@ -496,7 +496,6 @@ methods: {
     this.tiposDescripciones = []
     this.$http.get(`${API}/typedescriptions/tipoDescripcion/${value}`)
     .then((response) => {
-      console.log(response);
       response.data.result.forEach(e => this.tiposDescripciones.push(e));
     })
   },
@@ -1034,7 +1033,13 @@ methods: {
 },
 computed: {
   listaDescripcionDtc(){
-    return this.$store.state.DTC.listaDescriptions
+    let descripciones = this.$store.state.DTC.listaDescriptions
+    if (this.dtcEdit.typeFaultId == 3) {
+    return descripciones.filter(tipo => tipo.id >= 3)
+  }else{
+    return descripciones.filter(tipo => tipo.id < 3)
+  }
+    //return this.$store.state.DTC.listaDescriptions
   },
   restante_Siniestro(){
     return this.dtcEdit.sinisterNumber.trim().length
