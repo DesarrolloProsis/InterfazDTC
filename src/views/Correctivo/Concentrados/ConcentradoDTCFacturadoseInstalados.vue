@@ -497,8 +497,21 @@ export default {
       editar_status_dtc: function (){    
         this.modalCambiarStatus = false
         let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']    
-        let objeActualizado = { "referenceNumber": this.dtcCambiarestatus.referenceNumber, "statusId": parseInt(this.statusEdit), "userId": user.idUser, "comment": this.motivoCambio }        
-        if(this.statusEdit != '' && this.motivoCambio != ''){         
+        let objeActualizado = { 
+          "referenceNumber": this.dtcCambiarestatus.referenceNumber,
+          "statusId": parseInt(this.statusEdit),
+          "userId": user.idUser,
+          "comment": this.motivoCambio 
+        }        
+        if(this.statusEdit != '' && this.motivoCambio != ''){     
+          console.log(objeActualizado.statusId)
+          if(objeActualizado.statusId < 4){
+            console.log("Aqui hay que poner el end point")
+          this.$http.get(`${API}/AnexoDTC/DeleteAnexo/${this.dtcCambiarestatus.referenceNumber.split('-')[0]}/${this.dtcCambiarestatus.referenceNumber}`)
+           .then((response) => {
+              console.log(response);
+           }) 
+          }    
           this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcCambiarestatus.referenceNumber.split('-')[0]}`, objeActualizado)
           .then(() => {
             this.loadingTable = true                          
