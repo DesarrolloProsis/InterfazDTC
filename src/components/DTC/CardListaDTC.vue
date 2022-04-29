@@ -423,10 +423,11 @@ export default {
       datosSinester.FailureDate = moment(this.infoCard.failureDate).format("YYYY-MM-DD");
       datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format("YYYY-MM-DD");
       datosSinester.TypeDescriptionId = 2;
+      console.log(this.infoCard);
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
       let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc/Editar";
       this.$router.push({
-        path: `/${page}/--/3`,
+        path: `/${page}/--/${this.infoCard.typeFaultId}`,
         query: {
           headerInfo: { ...this.infoCard },
           datosDtc: { ...this.datosUser }
