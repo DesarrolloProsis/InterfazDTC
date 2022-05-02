@@ -60,7 +60,7 @@
                 </div>
             </div>
             <ValidationProvider name="NoSiniestro" immediate rules="max:30|uniqueSinester" :custom-messages="{ uniqueSinester: 'Numero de siniestro repetido' }" v-slot="{ errors }">                            
-                <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestros:</p>
+                <p class="w-1/2 text-md mb-1 font-medium text-gray-900">No. Siniestro:</p>
                 <input v-model="datosSinester.SinisterNumber" class="w-full font-titulo font-normal is_valid" :class="{'no_valid':$route.params.tipoFalla == 3}" :disabled='$route.params.tipoFalla == 3' name="NoSiniestro" type="text"/>
                 <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
             </ValidationProvider>                                      
@@ -110,7 +110,7 @@
                 </div>
               </div>
               <ValidationProvider name="tipo" immediate rules="required"  v-slot="{ errors }">
-              <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripcion</p>
+              <p class="text-md font-medium mb-1 text-gray-900">Tipo de Descripción:</p>
               <select v-model="datosSinester.TypeDescriptionId" @change="tipoDescripcion" class="w-full font-titulo font-normal is_valid" type="text" name="TipoDescripcion">                
                 <option v-for="(desc, index) in descripciones" :value="desc.id" :key="index">
                   {{ desc.description }}
@@ -253,9 +253,9 @@
           <div></div>
           <div class="pr-2 font-titulo -mt-20 sm:-mt-4">
             <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class="font-semibold text-lg sm:text-xs">Unidad Regional:</span>
-            <span v-else class="font-semibold text-lg sm:text-xs">Coordinación Regional:</span>
+            <span v-else class="font-semibold text-lg sm:text-xs hidden">Coordinación Regional:</span>
             <label v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class="text-md" style="font-weight: normal">Estado de México</label>
-            <label v-else class="text-md" style="font-weight: normal">{{ headerSelecionado.regionalCoordination }}</label>
+            <label v-else class="text-lg " style="font-weight: normal"><span class="font-semibold font-titulo text-lg sm:text-xs">{{ headerSelecionado.regionalCoordination }}</span></label>
           </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   SEXTA LINEA                              ////
