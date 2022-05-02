@@ -75,7 +75,7 @@
         <div class="mt-4">
            <ValidationObserver ref="observer" class="">  
                         <div class="w-full">
-                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+                            <ValidationProvider name="ComentarioCalendario" rules="max:500" v-slot="{ errors }">
                                 <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
                                 <textarea
                                     v-model="comentario"                                                               
@@ -417,6 +417,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
     //Funcion para validar la informacion del anexo
      validacionanexo(){
+       this.errores = [];
       //Validacion de las fechas de apertura y hora de cierre
       //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
@@ -486,9 +487,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
          this.errores.push("Debes ingresar la fecha del folio del anexo")
        }
       //Validaciones para saber si los componentes fueron agregados o editados
-      if (this.nombrecomponentes.length == 0) {
+      if(this.nombrecomponentes == undefined){
         this.errores.push("Tienes que seleccionar por lo menos 1 componente")
+      }else{
+        if (this.nombrecomponentes.length == 0) {
+        this.errores.push("Tienes que seleccionar por lo menos 1 componente")
+        }
       }
+      
       if (this.componentesfinaleseditados.length == 0) {
         this.errores.push("Inserta el numero de serie del componente nuevo")
       }
