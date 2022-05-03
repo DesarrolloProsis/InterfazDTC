@@ -77,7 +77,7 @@
             <p class="mr-2">SE CIERRA LA PRESENTE ACTA EN FECHA</p>
             <datetime v-model="this.fechaapertura" class="inline-flex" input-class="inputanexo" disabled></datetime>
             <p class="ml-2">,SIENDO LAS</p>
-            <datetime type="time" v-model="time" class="inline-flex ml-2" input-class="inputanexo"></datetime>
+            <datetime type="time" v-model="fechacierre" class="inline-flex ml-2" input-class="inputanexo"></datetime>
           </div>
           <div class="mt-4">
            <ValidationObserver ref="observer" class="">  
@@ -423,7 +423,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     },
     validacionanexo(){
       let fechaapertura = new Date(this.fechaapertura);
-      let horadecierre = new Date(this.time);
+      let horadecierre = new Date(this.fechacierre);
       var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
       var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
       let fechacierra = fecha + ' ' + hora;
