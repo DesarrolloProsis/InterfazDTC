@@ -519,6 +519,15 @@ export default {
             this.statusEdit = ''; 
             this.motivoCambio = '';  
             this.dtcCambiarestatus = '';
+          })
+          .catch((error) =>{ 
+          if(error.response.status == 404){
+            this.loadingTable = true                          
+            this.todos();         
+            this.statusEdit = ''; 
+            this.motivoCambio = '';  
+            this.dtcCambiarestatus = '';
+          }
           }) 
         }
         else {
