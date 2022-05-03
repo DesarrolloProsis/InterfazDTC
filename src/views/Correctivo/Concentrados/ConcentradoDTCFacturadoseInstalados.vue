@@ -364,10 +364,11 @@ export default {
                 if(anxg.statusId == 5 && (this.tipoUsuario == 1 || this.tipoUsuario == 2 ||  this.tipoUsuario == 3 ||  this.tipoUsuario ==  5 )){
                   filtroOpciones.push(options[0])
                 }
-                if(this.tipoUsuario != 7 && (anxg.statusId == 6 || anxg.statusId == 7)){
+                if(this.tipoUsuario != 7 && (anxg.statusId == 7)){
                   filtroOpciones.push(options[1])
                 }
                 if(anxg.statusId == 6 && (this.tipoUsuario == 4 || this.tipoUsuario == 8)){
+                  filtroOpciones.push(options[1])
                   filtroOpciones.push(options[2])
                   filtroOpciones.push(options[3])
                 }
