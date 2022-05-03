@@ -210,7 +210,7 @@ import TablaEquipoMalo from "../../components/Anexo/TablaEquipoMaloAnexo.vue";
 import ImagenesAnexo from '../../components/ImagenesGenericas.vue'
 import { Datetime } from 'vue-datetime';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
-import ServiceReportPDF from "../../services/ReportesPDFService";
+//import ServiceReportPDF from "../../services/ReportesPDFService";
 import Modal from "../../components/ModalGenerico.vue";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
 import moment from 'moment'
@@ -408,14 +408,14 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       {
         //Hacemos la peticion para insertar un anexo
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
-        .then((response) => {
+        .then(() => {
           this.modalImage = false;
           this.modaldescarga = true;
-          let refenciaanexo = response.data.result;
-          let subversion = false;
-          //Una vez generada la referencia del anexo generamos los dos documentos
-          ServiceReportPDF.generar_pdf_anexoA(this.$route.params.referencenumber,refenciaanexo,subversion);
-          ServiceReportPDF.reporte_fotografico_anexo(this.$route.params.referencenumber,refenciaanexo);
+          // let refenciaanexo = response.data.result;
+          // let subversion = false;
+          // //Una vez generada la referencia del anexo generamos los dos documentos
+          // ServiceReportPDF.generar_pdf_anexoA(this.$route.params.referencenumber,refenciaanexo,subversion);
+          // ServiceReportPDF.reporte_fotografico_anexo(this.$route.params.referencenumber,refenciaanexo);
           //Tiempo para regresar a la pagina de inicio y en caso de que no exista  el scroll quitar la la clase para que aparezca
           setTimeout(() => {
             this.$router.push('/ConcentradoDTCFacturados');

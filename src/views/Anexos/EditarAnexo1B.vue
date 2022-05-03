@@ -205,7 +205,7 @@ import TablaEquipoMalo from "../../components/Anexo/TablaEditarEquipoMaloAnexo.v
 import { Datetime } from 'vue-datetime';
 import ImagenesAnexo from '../../components/ImagenesGenericas.vue';
 import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
-import ServiceReportPDF from "../../services/ReportesPDFService";
+//import ServiceReportPDF from "../../services/ReportesPDFService";
 import Modal from "../../components/ModalGenerico.vue";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
 import moment from 'moment'
@@ -411,9 +411,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         .then(() => {
           this.modalImage = false;
           this.modaldescarga = true;
-          let subversion = true;
-          ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
-          ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
+          // let subversion = true;
+          // ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
+          // ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
           setTimeout(() => {
             this.$router.push('/home');
             document.querySelector('body').classList.remove('overflow-hidden'); 
