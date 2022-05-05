@@ -192,7 +192,8 @@
                           class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
                           :multiple="true"
                         >   
-                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                          <!-- <template slot="selection" slot-scope="{ values, search, isOpen }"> -->
+                          <template slot="selection" slot-scope="{ values, isOpen }">
                             <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
                           </template>   
                         </multiselect>
@@ -234,7 +235,8 @@
                           class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
                           :multiple="true"
                         >   
-                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                          <!-- <template slot="selection" slot-scope="{ values, search, isOpen }"> -->
+                          <template slot="selection" slot-scope="{ values, isOpen }">
                             <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
                           </template>   
             </multiselect>
@@ -267,7 +269,8 @@
                           class=" shadow-md hover:border-gray-700 mt-2 sm:w-35 sm:-ml-5"
                           :multiple="true"
                         >   
-                          <template slot="selection" slot-scope="{ values, search, isOpen }">
+                          <!-- <template slot="selection" slot-scope="{ values, search, isOpen }"> -->
+                          <template slot="selection" slot-scope="{ values, isOpen }">
                             <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Plaza</span>
                           </template>   
             </multiselect>
