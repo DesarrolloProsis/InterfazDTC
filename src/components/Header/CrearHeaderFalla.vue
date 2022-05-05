@@ -24,22 +24,27 @@
                     </div>
                     <!-- Diagnostico de Falla Crear -->
                     <div class="-ml-64 -mt-1 sm:-ml-10 md:ml-22 lg:-ml-31" :class="{'hidden': blockInput == true || $route.params.tipoVista != 'Crear'}">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza>
+                        <!-- <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'tipoPlazaSelect'" ></SelectPlaza> -->
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'crearDiagnostico'" ></SelectPlaza>
                         <div class="mx-56 -mt-6 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'toolencargadoplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 "/>
                         </span>
-
                         <div ref="toolencargadoplaza" class="font-titulo">
                         <p class="text-center text-gray-800">Aquí puedes seleccionar la plaza y el encargado al que se le entregará el diagnóstico</p>
                         </div>
                         </div>  
                     </div>
                     <div class="-ml-64 -mt-1 sm:-ml-1" :class="{'hidden': blockInput == true || $route.params.tipoVista == 'Crear' }">
-                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza>
+                        <!-- <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza> -->
+                        <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editarDiagnostico'"></SelectPlaza>
                     </div>
                     <div class="-ml-64 -mt-1 sm:-ml-10 " :class="{'hidden': blockInput == false}">
-                        <p class="sm:-ml-1"><SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza></p>
+                        <p class="sm:-ml-1">
+                            <!-- <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editDTC'"></SelectPlaza> -->
+                            <SelectPlaza @actualizar-plaza="cambiar_plaza" :fullPlazas="true" :tipo="'editarDiagnostico'"></SelectPlaza>
+                        </p>
                         <div class="ml-20 sm:-ml-10 sm:w-auto ">
                             <span v-if="blockInput" class="block -ml-44 text-red-400 text-xs font-titulo font-normal sm:-ml-20">No se puede modificar, viene del Diagnóstico de Falla</span>
                         </div>
@@ -98,7 +103,8 @@
                     </ValidationProvider>
                     <div class="mx-67 -mt-10 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipRef', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 -mr-32"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 -mr-32" /> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 "/>
                         </span>
 
                         <div ref="tooltipRef" class="font-titulo">
@@ -116,7 +122,8 @@
                     </ValidationProvider>
                     <div class="mx-67 -mt-10 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipfechafin', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5 -mr-32"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 -mr-32" /> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 "/>
                         </span>
 
                         <div ref="tooltipfechafin" class="font-titulo">
@@ -153,7 +160,8 @@
                         </ValidationProvider>
                         <div class="mx-72 -mt-16 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipfoliofalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 "/>
                         </span>
 
                         <div ref="tooltipfoliofalla" class="font-titulo">
@@ -171,7 +179,8 @@
 
                         <div class="mx-72 -mt-16 sm:hidden md:hidden w-6" :class="{'hidden':tipo == 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipsiniestro', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                         </span>
 
                         <div ref="tooltipsiniestro" class="font-titulo">
@@ -194,15 +203,13 @@
             <div class="mt-2 sm:text-xs sm:ml-1 mb-16 mr-5 ml-5 sm:w-66 font-titulo " v-if="tipo == 'DIAG'">
                 <div class="mt-16 w-full ml-5 grid grid-cols-3 sm:grid-cols-2">
                     <div class="mr-10 sm:w-32 sm:mb-10 sm:-mt-10 ">
-
-                        
-
                         <ValidationProvider immediate name="Descripción de Falla" rules="required|max:300" v-slot="{ errors }">
                             <div class="grid grid-cols-3">
                                 <span class="col-span-2">DESCRIPCIÓN DE LA FALLA REPORTADA:</span>
                                 <div class="sm:hidden md:hidden w-6 ">
                             <span class="" v-tooltip.bottom  =" { ref:'tooltipdescripcionfalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                         </span>
 
                         <div ref="tooltipdescripcionfalla" class="font-titulo">
@@ -230,7 +237,8 @@
                             <span class="col-span-2">DIAGNÓSTICO DE LA FALLA REPORTADA:</span>
                             <div class="sm:hidden md:hidden w-6">
                             <span class="" v-tooltip.bottom =" { ref:'tooltipdiagnotiscofalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                         </span>
 
                         <div ref="tooltipdiagnotiscofalla" class="font-titulo">
@@ -255,12 +263,13 @@
                                 <span class="col-span-2">CAUSAS DE LA FALLA REPORTADA:</span>
                                 <div class="sm:hidden md:hidden w-6">
                             <span class="" v-tooltip.top =" { ref:'tooltipcausafalla', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                         </span>
 
                         <div ref="tooltipcausafalla" class="font-titulo">
                         <p class="text-center text-gray-800">Se debe indicar la causa o raíz que origina esta Falla. Ej: Variación de Voltaje, Descarga Electrica, Golpe de Usuario, etc.
-NOTA: Se debe indicar si la Falla requiere de Refaccionamiento por Siniestro o Fin de Vida Útil.</p>
+                        NOTA: Se debe indicar si la Falla requiere de Refaccionamiento por Siniestro o Fin de Vida Útil.</p>
                         </div>
                         </div> 
                             </div>
@@ -315,7 +324,8 @@ NOTA: Se debe indicar si la Falla requiere de Refaccionamiento por Siniestro o F
                     <span class="lg:-mt-8 lg:ml-8">TIPO DE FALLA:</span>
                     <div class="sm:hidden md:hidden w-6 -ml-20 lg:ml-2 lg:-mt-8" :class="{'hidden':tipo != 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipsiniestro', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                         </span>
 
                         <div ref="tooltipsiniestro" class="font-titulo">
@@ -361,14 +371,15 @@ NOTA: Se debe indicar si la Falla requiere de Refaccionamiento por Siniestro o F
                                 <div class="text-red-400 sm:ml-2 lg:hidden xl:hidden">Este dato no se puede modificar, viene del Diagnóstico de Falla</div>
                             </ValidationProvider>
                         </div>
-                        <div class="mr-10 ml-1 sm:ml-0 w-73 sm:ml-3 sm:w-32 lg:w-69">
+                        <div class="mr-10 ml-1 w-73 sm:ml-3 sm:w-32 lg:w-69">
                             <ValidationProvider immediate name="SolucionFallas" rules="required|max:300" v-slot="{ errors }">
                                 <div class="grid">
                                     <span class="text-sm sm:hidden lg:text-xs">SOLUCIÓN y/o INTERVENCION REALIZADA PARA LA FALLA REPORTADA:</span>
                                 <span class="xl:hidden lg:hidden md:hidden">SOLUCIÓN y/o INTERVENCION REALIZADA:</span>
                                 <div class="-mt-6 ml-72 sm:hidden md:hidden lg:-mt-6 lg:ml-auto w-6" :class="{'hidden':tipo != 'FICHA'}">
                             <span class="" v-tooltip.right =" { ref:'tooltipintervencion', class: 'tooltip-custom tooltip-other-custom'}">
-                            <img src="@/assets/img/speech-bubble.png" class="flex items-center  w-5 h-5"/>
+                            <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 "/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                         </span>
 
                         <div ref="tooltipintervencion" class="font-titulo">

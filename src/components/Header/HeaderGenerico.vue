@@ -1,6 +1,5 @@
 <template>
     <div>               
-        
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION   DTC                 ////         
         ///////////////////////////////////////////////////////////////////-->
@@ -39,7 +38,8 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="-mt-1 mb-4 text-center sm:mt-2">
             <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton sm:h-8">
-                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <!-- <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/> -->
+                <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                 <span>Todos</span>
             </button>
         </div>
@@ -47,34 +47,48 @@
         <!--////////////////////////////////////////////////////////////////////
         ///                    FILTROS DE NAVEGACION GMMEP                 ////         
         ///////////////////////////////////////////////////////////////////-->
-        <div v-if="tipo == 'GMMEP'" class="-mt-14 sm:-mt-8 mb-1 justify-center sm:block sm:p-1 sm:pr-2     sm:m-1 shadow-md grid grid-cols font-titulo" 
-        :class="{ 'mt-5 grid gap-4 max-w-6xl mx-auto pl-3 pr-3': dtcVista == 'pendientes' }">
-        <h1 class="text-black text-center text-4xl mt-3 -mb-6 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-        <div class="grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-3 md:mx-auto md:my-5 lg:grid-cols-3 xl:grid-cols-3 mt-2 sm:text-xs sm:ml-1" 
-            :class="{ 'grid grid-cols-1 justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:ml-3':dtcVista == 'pendientes' }">
-            <div class="mr-4 sm:mx-auto sm:ml-1 md:mx-3 md:mt-0 mt-4 ">
-                <p class="dtcpendientes font-bold sm:text-sm sm:text-center">Seleccione una Plaza:</p>
-                <p class="-ml-20 sm:ml-0 md:ml-0 md:mt-4">
-                    <SelectPlaza :fullPlazas="true" :vista="'GMMEP'" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
-                </p>
+        <div v-if="tipo == 'GMMEP'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" 
+        :class="{ 'mx-auto': dtcVista == 'pendientes' }">
+        <h1 class="text-black text-center text-4xl sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
+        <div class="flex content-center sm:flex-col  sm:justify-center md:justify-center" 
+            :class="{ 'flex content-center sm:flex-col sm:justify-center md:justify-center lg:justify-center xl:justify-center':dtcVista == 'pendientes' }">
+            <div class="p-3 w-1/4">
+                <div class="w-48 mx-auto text-center">
+                    <p class="font-bold sm:text-sm sm:text-center">Seleccione una Plaza:</p>
+                    <SelectPlaza :fullPlazas="true" :vista="'GMMEP'" :tipo="'filtro'" @actualizar-plaza="filtrarGMEEP"></SelectPlaza>
+                </div>
             </div>
-            <div class="m-3 sm:mx-auto md:mx-auto md:my-auto ">
-                <p class="pdtcpendientes sm:text-sm sm:text-center">Seleccione una Fecha:</p>
-                <p class="input w-40 sm:w-62 sm:ml-1"><input v-model="fechaFiltro" @change="filtar_dtc_generico()" class="border-none w-40 sm:w-full" type="date"/></p>
-                <span class="block text-xs text-gray-600 sm:ml-2">*Fecha de Elaboración</span>
+            <div class="p-3 w-1/4">
+                <div class="text-center mx-auto font-bold">
+                    <p class=" sm:text-sm sm:text-center">Seleccione una Fecha:</p>
+                    <input v-model="fechaFiltro" @change="filtrarGMEEP()" class="input mx-auto border-none w-40 sm:w-full" type="date"/>
+                    <span class="block text-xs text-gray-600 sm:ml-2">*Fecha de Elaboración</span>
+                </div>
             </div>
-            <div class="m-3 sm:mx-auto md:mt-0 ">
-                <p class="pdtcpendientes sm:text-sm sm:text-center md:text-center">Escriba la Referencia:</p>
-                <p class="input w-40 sm:w-62 sm:ml-1 md:w-48"><input v-model="buscarGMMEP" class="border-none w-40 text-center sm:w-62 md:w-48" placeholder="PM-000000"/></p>
-            </div>     
+            <div class="p-3 w-1/4">
+                <div class="text-center font-bold">
+                    <p class="sm:text-sm">Escriba la Referencia:</p>
+                    <input v-model="buscarGMMEP" @change="filtrarGMEEP()" class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" placeholder="PM-000000"/>
+                </div>
+            </div>
+            <div class="p-3  w-1/4">
+                <div class="text-center font-bold">
+                    <p class="sm:text-sm">Estatus</p>
+                    <select class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" v-model ="estatus" @change="filtrarGMEEP()">
+                        <option value=""></option>
+                        <option value="4">GMEEP (4)</option>
+                        <option value="5">Gerencia (5)</option>
+                    </select>
+                </div>
+            </div>      
         </div>
     <!-- ////////////////////////////////////////////////////////////////////
-        ///                    BOTONES DE NAVEGACION  DTC               ////
+        ///                    BOTONES DE NAVEGACION  GMEEP              ////
        ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 text-center justify-items-center">
-            <button @click="limpiar_filtros_dtc" class="w-32 botonTodos font-boton sm:h-8">
+            <button @click="filtrar_GMMEP_todos()" class="w-32 botonTodos font-boton sm:h-8">
                 <img src="../../assets/img/todos.png" class="mr-4" width="25" height="2"/>
-                <span class="-ml-2">Todos</span>
+                <span class="-ml-2">Todos </span>
             </button>
             <button @click="filtar_dtc_generico" class="w-32 botonIconBuscar font-boton hidden">
                 <img src="../../assets/img/lupa.png" class="mr-4" width="25" height="2"/>
@@ -86,9 +100,7 @@
            ///              FILTROS DE NAVEGACION INVENTARIO               ////         
          ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'INV'" class="mt-1 -mb-12 justify-center sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md grid grid-cols font-titulo">
-
         <h1 class="text-black text-center text-4xl mt-3 -mb-8 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-
         <div class=" grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 md:mx-auto md:ml-30 md:mt-5 md:-mb-1 lg:grid-cols-4 xl:grid-cols-4 mt-2 sm:text-xs sm:mx-auto ml-64 mb-3 ">
             <div class="mr-3  mt-6 sm:w-full sm:mx-auto md:mx-auto md:mr-10">
                 <span class="mr-10 font-bold text-md sm:mx-auto ">Buscar</span>
@@ -114,14 +126,16 @@
                     <multiselect v-model="value" @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false">
                         <template slot="singleLabel" slot-scope="props">
                             <div class="inline-flex">
-                                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                 <span class="option__title bg-red-300">{{ props.option.title }}</span>
                             </div>
                         </template>
                         <template slot="option" slot-scope="props">                                                
                             <div class="option__desc ">
                                 <span class="option__title inline-flex">
-                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15">     -->
+                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                     {{ props.option.title }}
                                 </span>
                             </div>
@@ -169,7 +183,8 @@
                 <span>Buscar</span>
             </button>
             <button class="botonTodos font-boton mb-3 sm:h-8" @click="limpiar_encargados">
-                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" />
+                <!-- <img src="../../assets/img/todos.png" class="mr-2" width="25" height="25" /> -->
+                <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                 <span>Todos</span>
             </button>
         </div> 
@@ -217,8 +232,6 @@
                     <div class="inline-flex mx-8">
                         <SelectPlaza :fullPlazas="true" :tipo="'filtro'" @actualizar-plaza="actualizar_plaza_filtro"></SelectPlaza>
                     </div>
-                    
-                    
                 </div>
             </div>
             <div class=" m-3 md:mx-auto ">
@@ -247,7 +260,8 @@
         ////////////////////////////////////////////////////////////////////-->
         <div class="mt-1 mb-4 sm:text-xs text-center">
             <button @click="limpiar_filtros_diagnostico_falla" class="w-32 botonTodos font-boton">
-                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <!-- <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/> -->
+                <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                 <span>Todos</span>
             </button>
             <button @click="filtar_concentrado_diagnostico_falla" class="w-32 botonIconBuscar font-boton hidden">
@@ -305,11 +319,10 @@
         </div>
         </div>
         <!--////////////////////////////////////////////////////////////////////
-        ///                   FILTROS DE INCIOS SESION                        ///         
+        ///                   FILTROS DE INCIOS SESION ULTIMO FILTRO            ///         
         ///////////////////////////////////////////////////////////////////-->
         <div v-if="tipo == 'InicioSesion'" class="border mb-2 shadow-md rounded-lg font-titulo sm:ml-1">
             <h1 class="text-black text-center text-4xl  mb-1 sm:mb-1 sm:text-2xl font-bold">{{ titulo }}</h1>
-
             <div class="sm:w-full text-base sm:text-sm sm:grid-cols-1 sm:-ml-4">
                 <div class="text-center ml-2 mr-2 grid grid-cols-2 sm:ml-6 mb-6 justify-center">
                     <div> 
@@ -327,12 +340,65 @@
                         </button>
 
                         <button @click="filtrar_por_boton" class="w-32 botonBuscar font-boton sm:h-8 mt-4" :class="{'hidden': sesioninicio == true}">
-                            <img src="../../assets/img/searchinicios.png" class="mr-2" width="25" height="2"/>
+                            <!-- <img src="../../assets/img/searchinicios.png" class="mr-2" width="25" height="2"/> -->
+                            <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="text-blue-600 mr-2 h-5"/>
                             <span>Buscar</span>
                         </button>
                     </div>
                 </div>             
             </div>           
+        </div>
+        <!--///////////////////////////////////////////////////////////////////
+        ///                    FILTROS DE CONCENTRADO DTC FACTURADOS       ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'CDTCF'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
+        <h1 class="text-black text-center text-4xl mt-3 mb-1 sm:mb-1 sm:text-lg font-bold">{{ titulo }}</h1>
+        <div class="flex content-center sm:flex-col sm:justify-evenly md:justify-evenly lg:justify-evenly xl:justify-evenly" >
+            <div class="xl:m-3 w-full xl:w-1/4">   
+                <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
+                    <label class="font-bold sm:text-xs sm:text-center">Seleccione una Plaza:</label>
+                    <SelectPlaza :fullPlazas="true" :tipo="'filtro'" :vista="'DTCFacturados'" @actualizar-plaza="fitrarActas"></SelectPlaza>
+                </div>                                     
+            </div>
+            <div class="xl:m-3 w-full xl:w-1/4">
+                <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
+                    <label class="font-bold sm:text-xs sm:text-center">Referencia:</label>
+                    <input v-model="buscarDTCfacturado" class="border w-full text-xs text-center h-5 is_valid" @change="fitrarActas()" placeholder="PM-000000"/>
+                </div>
+            </div>
+            <div class="xl:m-3 w-full xl:w-1/4" :class="{'hidden': (typeUser == 1 || typeUser == 3)}">
+                <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
+                    <label class="font-bold sm:text-xs sm:text-center">Usuario:</label>
+                    <input v-model="usuarioActas" class="border w-full text-xs text-center h-5 is_valid" @change="fitrarActas()" placeholder="Usuario"/>
+                </div>
+            </div>
+            <div class="xl:m-3 w-full xl:w-1/4">
+                <div class="w-48 sm:w-full sm:p-2 mx-auto text-center">
+                    <p class="font-bold sm:text-xs sm:text-center">Tipo de Falla</p>
+                    <select class="input mx-auto border-none w-40 text-center sm:w-62 md:w-48" v-model="tipofallaActas" @change="fitrarActas()">
+                        <option value=""></option>
+                        <option value="2">Siniestro</option>
+                        <option value="3">Fin de vida util</option>
+                    </select>
+                </div>
+            </div> 
+        </div>
+        <!-- ////////////////////////////////////////////////////////////////////
+        ///                    BOTONES DE CONCENTRADO DTC FACTURADOS        ////
+        ////////////////////////////////////////////////////////////////////-->
+        <div class="flex justify-center mb-6 sm:mb-1 sm:mt-2">
+            <button @click="filtrar_Actas_todos" class="w-32 botonTodos font-boton sm:h-10">
+                <img src="../../assets/img/todos.png" class="mr-2" width="25" height="2"/>
+                <span>Todos</span>
+            </button>
+        </div>
+        </div>
+        <!--///////////////////////////////////////////////////////////////////
+        ///                    Titulo Anexo 1-A                            ////         
+        ///////////////////////////////////////////////////////////////////-->
+        <div v-if="tipo == 'anexo1A'" class="mt-1 mb-1 flex flex-col sm:block sm:p-1 sm:pr-2 border sm:m-1 shadow-md md:w-auto font-titulo" >
+        <h3 class="text-black text-right text-md p-3 font-bold sm:text-center">{{subtitulo}}</h3>
+        <h1 class="text-black text-center text-4xl mb-1 sm:mb-1 sm:text-sm font-bold">{{ titulo }}</h1>
         </div>
     </div>
 </template>
@@ -348,6 +414,10 @@ export default {
     props:{
         //Props Interno Componente
         titulo: {
+            type: String,
+            default: () => ''
+        },
+        subtitulo: {
             type: String,
             default: () => ''
         },
@@ -388,6 +458,7 @@ export default {
             statusFiltro: '',
             buscarGMMEP:'',
             buscarDTC: '',
+            buscarDTCfacturado:'',
             //data Diagnostico/Ficha
             ubicacion: '',
             plazaSeleccionada:"",
@@ -403,12 +474,15 @@ export default {
             //data Comentarios
             filtroComentario:'',
             carrilFiltro: { capufeLaneNum: '0000', idGare: ''},
-            buscarNoSellado:'',
+            buscarNoSellado: '',
             //datos InicioSesion
             diaSesiones: '',
             sesionName: '',
             sesioninicio: false,
-            value:'',
+            value: '',
+            estatus: '',
+            tipofallaActas: '',
+            usuarioActas: '',
         }
     },
     /////////////////////////////////////////////////////////////////////
@@ -483,6 +557,7 @@ export default {
             this.fechaFiltro = ''         
             this.buscarGMMEP = ''
             this.buscarDTC = ''
+            this.buscarDTCfacturado = ''
             EventBus.$emit('Limpiar-SelectPlaza')            
             this.$emit('limpiar-filtros')
         },
@@ -610,6 +685,38 @@ export default {
                 this.$emit('filtrar-todos')
             }
         },
+        //Metodos GMMEP
+        filtrarGMEEP(value){
+            if(value == undefined){
+                this.plazaFiltro == this.plazaFiltro 
+            }else{
+                this.plazaFiltro = value
+            }
+            this.$emit('filtro_GMEEP', this.plazaFiltro, this.fechaFiltro, this.buscarGMMEP, this.estatus)
+        },
+        filtrar_GMMEP_todos(){
+            this.fechaFiltro = ''
+            this.buscarGMMEP = ''
+            this.plazaFiltro = ''
+            this.estatus = ''
+            this.$emit('filtrar-todos_GMEEP')
+        },
+        //Metodos Actas
+        fitrarActas(value){
+            if(value == undefined){
+                this.plazaFiltro == this.plazaFiltro 
+            }else{
+                this.plazaFiltro = value
+            }
+            this.$emit('filtro_Actas', this.plazaFiltro, this.buscarDTCfacturado,this.usuarioActas, this.tipofallaActas)
+        },
+        filtrar_Actas_todos(){
+            this.plazaFiltro = ''
+            this.buscarDTCfacturado = ''
+            this.usuarioActas = '' 
+            this.tipofallaActas = ''
+            this.$emit('filtrar-todos-Actas')
+        },
         customLabel ({ title }) {
             return `${title}`
         },
@@ -624,8 +731,8 @@ export default {
         },
         opticones_select_acciones(){
             const options= [                
-              { title: 'Mantenimiento', img: '../img/actualizado.cafc2f1a.png' }, //0
-              { title: 'Formato CAPUFE', img: '../img/pdf.5b78f070.png' }, //1
+              { title: 'Mantenimiento', img: 'fa-regular fa-circle-check' }, //0
+              { title: 'Formato CAPUFE', img: 'fa-file-arrow-down' }, //1
             ]
             let filtroOpciones = []
             filtroOpciones.push(options[0])
@@ -644,6 +751,9 @@ export default {
         },
         buscarGMMEP: function (newPalabra){
             this.$emit('buscar-gmmep', newPalabra.trim())
+        },
+        buscarDTCfacturado: function (newPalabra){
+            this.$emit('buscar-facturado', newPalabra.trim())
         },
         buscarPalabraInventario: function(newPalabra){
             this.$emit('filtra-palabra', newPalabra.trim())

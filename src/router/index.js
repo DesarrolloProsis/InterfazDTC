@@ -129,6 +129,36 @@ const routes = [
     component: () => import('../views/Correctivo/Concentrados/ConcentradoFichas')
   },
   {
+    path: '/ConcentradoDTCFacturados',
+    name:'/ConcentradoDTCFacturados',
+    component: () => import('../views/Correctivo/Concentrados/ConcentradoDTCFacturadoseInstalados'),
+    beforeEnter: async function (to, from, next) {
+      let info = store.getters['Login/GET_USEER_ID_PLAZA_ID']      
+      await store.dispatch('DTC/BUSCAR_LISTA_DTC', info)
+      next()
+    }
+  },
+  {
+    path: '/Anexo1A/:referenceSquare/:squareCatalogId/:referencenumber',
+    name:'/Anexo1A',
+    component: () => import('../views/Anexos/Anexo1A')
+  },
+  {
+    path: '/Anexo1B/:referenceSquare/:squareCatalogId/:referencenumber',
+    name:'/Anexo1B',
+    component: () => import('../views/Anexos/Anexo1B')
+  },
+  {
+    path: '/EditarAnexo1A/:anexoReference/:dtcReference',
+    name:'/EditarAnexo1A',
+    component: () => import('../views/Anexos/EditarAnexo1A')
+  },
+  {
+    path: '/EditarAnexo1B/:anexoReference/:dtcReference',
+    name:'/EditarAnexo1B',
+    component: () => import('../views/Anexos/EditarAnexo1B')
+  },
+  {
     path: '/Correctivo/PreDTC/:tipoVista',
     name: 'CorrectivoDTC',
     component: FichaDiagnostico,

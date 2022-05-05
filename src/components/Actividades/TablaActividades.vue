@@ -12,7 +12,7 @@
                 ////////////////////////////////////////////////////////////////////-->
                 <div v-if="filtros" class="grid grid-cols-3 mx-auto -mt-1 m-5 sm:grid-cols-2 md:grid-cols-2 ">
                     <!--Plaza-->
-                    <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
+                     <div class="mx-auto my-auto flex sm:w-auto sm:mb-2 ">
                         <p class="text-sm font-titulo mx-auto text-gray-900 font-semibold -mr-17 mt-1 sm:mr-0 sm:text-xs md:mr-3">Plaza:</p>
                         <p class="">
                             <SelectPlaza @actualizar-plaza="cambiar_plaza" :vista="'Actividades'" :fullPlazas="true"></SelectPlaza>
@@ -82,7 +82,8 @@
                     <!-- Botón -->
                     <div class="mx-auto my-auto flex mt-3 ">
                         <button @click="limpiar_filtros" class="botonTodos sm:-ml-33 sm:w-32 sm:h-8 md:h-8 md:mb-4 md:-ml-51" :class="{'ml-10 sm:ml-2 sm:w-32 sm:h-8':tipoUsuario == 2 || tipoUsuario == 5}">
-                            <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-1" width="25" height="2"/>
+                            <!-- <img src="../../assets/img/todos.png" class="mr-2 xl:ml-2 md:ml-1" width="25" height="2"/> -->
+                            <font-awesome-icon icon="fa-solid fa-repeat" class="text-green-800 mr-2 h-5 w-5 "/>
                             <span class="md:mr-2 sm:text-sm">Todos</span>
                         </button>
                     </div>
@@ -148,13 +149,15 @@
                                         <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <div class=" inline-flex">
-                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                     <span class="option__title">{{ props.option.title }}</span>
                                                 </div>
                                             </template>
                                             <template slot="option" slot-scope="props">                                                
                                                 <div class="option__desc"><span class="option__title inline-flex">
-                                                    <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                    <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                                                    <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                     {{ props.option.title }}</span>
                                                 </div>
                                             </template>
@@ -376,15 +379,15 @@ export default {
         },
         opticones_select_acciones({ statusMaintenance, pdfExists, userId }){
             let options= [
-            { title: 'Crear', img: '/img/nuevoDtc.90090632.png' },
-            { title: 'Editar', img: '/img/pencil.04ec78bc.png' },
-            { title: 'Reporte de Mantenimiento', img: '/img/download.ea0ec6db.png' },
-            { title: 'Reporte M. Sellado', img: '/img/download.ea0ec6db.png'},
-            { title: 'Reporte Mtto. Sellado', img: '/img/upload.8d26bb4f.png'},
+            { title: 'Crear', img: 'fa-file-circle-plus' },
+            { title: 'Editar', img: 'fa-pen-to-square' },
+            { title: 'Reporte de Mantenimiento', img: 'fa-file-arrow-down' },
+            { title: 'Reporte M. Sellado', img: 'fa-file-arrow-down'},
+            { title: 'Reporte Mtto. Sellado', img: 'fa-file-arrow-up'},
             ]
             let filtroOpciones = []
             //Si el usuario es administrador, capufe, o supervisor de tècnicos
-            if(this.tipoUsuario == 4 || this.tipoUsuario == 7){
+            if(this.tipoUsuario == 4 || this.tipoUsuario == 7 || this.tipoUsuario == 8){
             //Sí exisite el archivo escaneado
             if(pdfExists){
                 return options.splice(2,2)

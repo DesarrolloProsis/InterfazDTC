@@ -2,8 +2,8 @@
     <div class="font-titulo">
         <div v-if="forma == ''">
             <p class="text-md font-bold mb-1 mt-1 text-gray-900" :class="{'hidden': $route.params.type != ''}">Cambiar Plaza</p>
-            <p class="w-48 input ml-20 sm:ml-1 md:mx-auto" :class="{'sm:w-32':vista=='Actividades', 'sm:w-62':vista=='ConcentradoDTC', 'sm:w-62':vista=='GMMEP', 'xl:-ml-1 sm:w-full sm:ml-0':vista=='Inventario', 'sm:w-full sm:-ml-0':vista=='Encargados'}">
-            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" :class="{'sm:w-32 sm:text-xs':vista=='Actividades', 'sm:w-63':vista=='Calendario', 'sm:w-62':vista=='ConcentradoDTC', 'sm:w-62':vista=='GMMEP', 'xl:ml-1 sm:w-full sm:ml-0':vista=='Inventario','sm:w-full sm:-ml-2':vista=='Encargados'}" type="text" name="TipoDescripcion">
+            <p class="w-48 input ml-20 sm:ml-1 md:mx-auto" :class="{'sm:w-32':vista=='Actividades', 'sm:w-62':vista=='ConcentradoDTC', 'sm:w-62 xl:ml-0':vista=='GMMEP', 'xl:-ml-1 sm:w-full sm:ml-0':vista=='Inventario', 'sm:w-full sm:-ml-0':vista=='Encargados','xl:ml-0 sm:w-full sm:-ml-0':vista=='DTCFacturados'}">
+            <select v-model="plazaSelect" @change="actualizar_plaza" :disabled="boolCambiarPlaza" class="w-48 is_valid" :class="{'sm:w-32 sm:text-xs':vista=='Actividades', 'sm:w-63':vista=='Calendario', 'sm:w-62':vista=='ConcentradoDTC', 'sm:w-62':vista=='GMMEP', 'xl:ml-1 sm:w-full sm:ml-0':vista=='Inventario','sm:w-full sm:-ml-2':vista=='Encargados','sm:w-full sm:-ml-2':vista=='DTCFacturados'}" type="text" name="TipoDescripcion">
                 <!-- <option :disabled="tipo != 'filtro'" value>Selecionar...</option> -->
                 <option v-for="(item, index) in listaPlazas" :value="item" :key="index">
                     {{ isDtc == true ? item.plazaAdminNombre : item.plazaNombre }}
@@ -69,7 +69,13 @@ export default {
         });
     },
     beforeMount: async function() {        
-        this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true)         
+/*                 idRoll: item.idRoll, */
+        if(this.tipo == 'tipoPlazaSelect')
+        {
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true && item.idRoll == 11)             
+        }else{
+            this.listaPlazas = this.$store.state.Login.cookiesUser.plazasUsuario.filter(item => item.statusAdmin == true)         
+        }
         if(this.tipo == "filtro" || this.tipo == "edicion" || this.tipo == "insercion"){
             let plazasSinRepetir = []
             this.listaPlazas.forEach(element => {                                        
@@ -78,7 +84,19 @@ export default {
                 }
             });                
             this.listaPlazas = plazasSinRepetir
-        }                      
+        }     
+        if(this.tipo == 'crearDiagnostico'){
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = false
+            this.isDtc = true
+        }                 
+        if(this.tipo == 'editarDiagnostico'){
+            this.plazaSelect = this.$store.state.Login.plazaSelecionada
+            this.convenioSelect = this.$store.state.Header.headerSeleccionado
+            this.boolCambiarPlaza = true
+            this.isDtc = true
+        }
         if(this.tipo == 'edicion'){
             this.plazaSelect = this.$store.state.Login.plazaSelecionada
             this.convenioSelect = this.$store.state.Header.headerSeleccionado

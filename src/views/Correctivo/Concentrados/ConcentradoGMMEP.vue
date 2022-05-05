@@ -1,7 +1,7 @@
 <template>
   <div>    
     <div class="flex justify-center -mt-6">
-      <div class="grid gap-4 grid-cols-1 py-3 px-3"> 
+      <div class="flex-col p-8"> 
         <PdfEscaneado 
           @limpiar-componente-escaneado="limpiar_componete_escaneado" 
           :abrirModal="modalSubirSellado" 
@@ -56,7 +56,8 @@
                     <option value="1">Inconcluso</option>  
                     <option value="2">Concluido</option>                                                                  
                     <option value="3">Sellado</option>                                                                                                                               
-                    <option v-if="tipoUsuario == 10" value="4">GMMEP</option>  
+                    <option v-if="tipoUsuario == 10" value="4">GMMEP</option>
+                    <option v-if="dtcEdit.technicalSheetReference != '--' " value="5">Gerencia</option>  
                   </select> 
                 </div>
                 <div class="mt-5">
@@ -91,118 +92,36 @@
         /////                    FILTROS DE NAVEGACION                      ////
         ////////////////////////////////////////////////////////////////////-->   
         <HeaderGenerico 
-          @limpiar-filtros="limpiar_filtros" 
-          @filtrar-dtc="filtro_dtc" 
-          @buscar-gmmep="guardar_palabra_busqueda" 
+          @filtro_GMEEP="filtro_GMEEPA"
+          @filtrar-todos_GMEEP="todos" 
           :titulo="'Concentrado GMMEP'" 
           :tipo="'GMMEP'"
         >
         </HeaderGenerico>  
     <!--/////////////////////////////////////////////////////////////////////
         /////                    TABLA GMMEP                            ////
-        ////////////////////////////////////////////////////////////////////-->           
-        <TablaGenerica  
+        ////////////////////////////////////////////////////////////////////-->    
+        <div class="mt-4">
+          <TablaGenerica  
             @acciones-mapper="acciones_mapper"              
             :listaDataTable="lista_DTC_Filtrada"
             :loadingTabla="loadingTabla"
             :validarAcciones="opticones_select_acciones"
-            :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Fecha Siniestro', key: 'sinisterDate', formatoFecha: true},{text: 'Registro Sistema', key: 'dateStamp', formatoFecha: true},{text: 'Folio', key: 'failureNumber'},{text: 'N° Reporte', key:'reportNumber'},{text: 'N° Siniestro', key: 'sinisterNumber'},{text: 'Fecha Falla', key: 'sinisterNumber'},{text: 'Acciones', key: 'Acciones'}]"
+            :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Fecha Siniestro', key: 'sinisterDate', formatoFecha: true},{text: 'Registro Sistema', key: 'dateStamp', formatoFecha: true},{text: 'Folio', key: 'failureNumber'},{text: 'N° Reporte', key:'reportNumber'},{text: 'N° Siniestro', key: 'sinisterNumber'},{text: 'Fecha Falla', key: 'failureDate',formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
             :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Elaboracion', key: 'elaborationDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
         >
-        </TablaGenerica>     
-        <!-- <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16 static" :class="{'overflow-x-auto bg-white rounded-lg static shadow overflow-y-auto sm:mb-24 md:mb-16 font-titulo mb-16' : !carruselModal && !modalCambiarStatus && !modalActualizar && !modalSubirSellado}"  style="height:550px;">
-        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
-          <thead class="">
-              <tr class="text-md text-gray-400 font-normal bg-blue-800">               
-                <th class="cabeceraTable font-medium">Referencia</th>
-                <th class="cabeceraTable font-medium">Fecha de Elaboración</th>
-                <th class="cabeceraTable font-medium">Fecha de Siniestro</th>
-                <th class="cabeceraTable font-medium">Registro en Sistema</th>
-                <th class="cabeceraTable font-medium">Folio</th>
-                <th class="cabeceraTable font-medium">N° de Reporte</th>
-                <th class="cabeceraTable font-medium">N° de Siniestro</th>
-                <th class="cabeceraTable font-medium">Fecha de Falla</th>
-                <th class="cabeceraTable font-medium">Fotografías</th>
-                <th class="cabeceraTable font-medium hidden">Terminar Ficha</th>
-                <th class="cabeceraTable font-medium hidden" v-if="tipoUsuario == 4 || tipoUsuario == 10">Cambiar Estatus</th>
-                <th class="cabeceraTable font-medium hidden">PDF</th>
-                <th class="cabeceraTable font-medium">Acciones</th>
-              </tr>
-          </thead>
-          <tbody name="table" id="multiselectHamburguesa">  
-            <template v-if="lista_DTC_Filtrada.length == 0 && loadingTabla != true"> 
-                <tr>
-                    <td class="w-full text-center text-red-500 m-10" colspan="10">                                    
-                        <div class="mt-8 mb-8">Sin Informacion</div>
-                    </td>
-                </tr>  
-            </template> 
-            <template v-if="loadingTabla">  
-                <tr>
-                    <td class="w-full" colspan="10">                                    
-                        <div style="border-top-color:transparent" class="mt-8 mb-8 border-solid animate-spin rounded-full border-blue-400 border-2 h-10 w-10 mx-auto"></div>
-                    </td>                          
-                </tr>  
-            </template>   
-            <template v-if="lista_DTC_Filtrada.length > 0">
-              <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in lista_DTC_Filtrada" :key="key">  
-                <td class="cuerpoTable hidden" v-if="tipoUsuario == 1">
-                  <div>
-                    <button @click="abrirModal(item)" class="botonTodos">
-                      <img src="@/assets/img/todos.png" class="mr-4 ml-1 sm:mr-2" width="35" height="35"/>
-                    </button>
-                  </div>
-                </td>              
-                <td class="cuerpoTable">{{ item.referenceNumber }}</td>
-                <td class="cuerpoTable">{{ item.elaborationDate | formatDate }}</td>
-                <td class="cuerpoTable">{{ item.sinisterDate | formatDate}}</td>
-                <td class="cuerpoTable">{{ item.dateStamp | formatDate}}</td>
-                <td class="cuerpoTable">
-                  <input class="text-center border-0 shadow-none" v-model="item.failureNumber" type="text" placeholder="Sin Información" readonly/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="text-center border-0 shadow-none" v-model="item.reportNumber" type="text" placeholder="Sin Información" readonly/>
-                </td>
-                <td class="cuerpoTable">
-                  <input class="text-center border-0 shadow-none" v-model="item.sinisterNumber" type="text" placeholder="Sin Información" readonly/>
-                </td>
-                <td class="cuerpoTable">{{ item.failureDate | formatDate }}</td>               
-                <td class="cuerpoTable">
-                  <div v-if="tipoUsuario != 7">                                                  
-                    <button  v-if="!item.sinEscanedoDiagnostico" class="botonIconCrear bg-gray-400 hover:bg-gray-400 cursor-default">
-                      <img src="@/assets/img/no-camaras.png" class="justify-center w-5"/>
-                    </button>
-                    <button v-else @click="abrirCarrusel(item)" class="botonIconCrear">
-                      <img src="@/assets/img/image-mini.png" class="justify-center w-5"/>
-                    </button>   
-                  </div>
-                  <div v-if="tipoUsuario == 7">
-                    <button @click="abrirCarrusel(item)" class="botonIconCrear" :class="{'bg-gray-400 hover:bg-gray-400': tipoUsuario == 4 || tipoUsuario == 10 }" :disabled=" tipoUsuario == 4 || tipoUsuario == 10 ">
-                      <img src="@/assets/img/image-mini.png" class="justify-center" width="15" height="15"/>
-                    </button>
-                  </div>
-                </td>
-                <td>
-                  <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
-                    <template slot="singleLabel" slot-scope="props">
-                      <div class="inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
-                        <span class="option__title bg-red-300">{{ props.option.title }}</span>
-                      </div>
-                    </template>
-                    <template slot="option" slot-scope="props">                                                
-                      <div class="option__desc "><span class="option__title inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
-                        {{ props.option.title }}</span>
-                      </div>
-                    </template>
-                  </multiselect>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>   -->
+        </TablaGenerica>
+        </div>       
+        <div class="mt-20">
+          <Pagination
+          :total-pages="totalPages" 
+          :total="total"
+          :per-page="perPage" 
+          :current-page="currentPage"
+          :has-more-pages="hasMorePages" 
+          @pagechanged="showMore"
+        ></Pagination> 
+        </div>
         </div>  
     </div> 
   </div>
@@ -216,6 +135,7 @@ import HeaderGenerico from "../../../components/Header/HeaderGenerico";
 import AgregarImg from "../../../components/ImagenesGenericas"
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 import TablaGenerica from '../../../components/TablaGenerica.vue'
+import Pagination from '../../../components/Pagination.vue'
 
 export default {
   name: "ConcentradoGMMEP",
@@ -224,7 +144,8 @@ export default {
     HeaderGenerico,
     AgregarImg,
     PdfEscaneado,
-    TablaGenerica
+    TablaGenerica,
+    Pagination
   },
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
@@ -238,7 +159,7 @@ data: function (){
       filtroVista: true,
       pdfSelladoBool: true,
       subirImgModal: false,
-      loadingTabla: false,
+      loadingTabla: true,
       modalCambiarStatus: false,
       bandera:false,
       carruselModal: false,      
@@ -254,22 +175,46 @@ data: function (){
       value:'',
       modalSubirSellado: false,
       objInsertEscaneado: {},
-      tipoEscaneado: 'GMMEP'                    
+      tipoEscaneado: 'GMMEP', 
+      //Data de la paginacion 
+      page: 1,//pagina en la que quieres iniciar la vista
+      totalPages: 0,//total de paginas
+      total: 10,//numero de resultados a mostrar
+      perPage: 10,//no se ocupa
+      currentPage: 1,//pagina actual
+      hasMorePages: true,// tener más paginas
+      fechaFiltro: '',
+      buscarGMMEP:'',
+      plazaFiltro:'',
+      estatus:'',
+      plazaidsquare: {},
+      tipoUsuario: 0,
     }
   },
 /////////////////////////////////////////////////////////////////////
 ////                       CICLOS DE VIDA                        ////
 /////////////////////////////////////////////////////////////////////
 beforeMount: function () {
-  this.loadingTabla = true
-  this.filtroVista = true
-  this.infoDTC =  this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);  
-  this.lista_DTC_Filtrada = this.infoDTC
-  this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
-  this.loadingTabla = false
   let rol = this.$store.state.Login.cookiesUser.rollId
-  if( rol == 7)
-    this.rollId = false    
+  if( rol == 7){
+    this.rollId = false
+  }
+  this.tipoUsuario = this.$store.state.Login.cookiesUser.rollId
+  let userId = this.$store.state.Login.cookiesUser.userId
+  let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+  this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/null/null`)
+  .then((response) => {
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+  }) 
+  .catch((error) =>{ 
+    if(error.status == 404){
+      this.loadingTable = false 
+    }
+  })    
 },
 /////////////////////////////////////////////////////////////////////
 ////                       COMPUTADOS                            ////
@@ -293,8 +238,7 @@ methods:{
       ServiceReportPDF.generar_pdf_correctivo(itemRow.referenceNumber, 1, false, itemRow.adminId)
       clousure_pdf_fotografico()
     }                
-    if(acciones.title == 'Bajar DTC Firmado'){      
-      //console.log(itemRow);
+    if(acciones.title == 'Bajar DTC Firmado'){
       ServiceReportPDF.generar_pdf_correctivo(itemRow.referenceNumber, 2, false, itemRow.adminId)
       clousure_pdf_fotografico()
     }
@@ -321,13 +265,13 @@ methods:{
   },
   opticones_select_acciones(item){
     const options= [                
-      { title: 'Bajar DTC Firmado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //0
-      { title: 'Terminar Diagnostico', accionCss: 'terminar', img: '/img/add.36624e63.png' },//1
-      { title: 'Cambiar Estatus', accionCss: 'editar', img: '/img/flechas.a7d6bd28.png' },//2
-      { title: 'Bajar DTC Sellado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//3
-      { title: 'Subir DTC Sellado', accionCss: 'terminar', img: '/img/upload.8d26bb4f.png' },//4
-      { title: 'Actualizar Componentes', accionCss: 'editar', img: '/img/actualizado.cafc2f1a.png' },//5
-      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//6
+      { title: 'Bajar DTC Firmado', accionCss: 'terminar', img: 'fa-solid fa-file-arrow-down' }, //0
+      { title: 'Terminar Diagnostico', accionCss: 'terminar', img: 'fa-solid fa-file-circle-plus' },//1
+      { title: 'Cambiar Estatus', accionCss: 'editar', img: 'fa-solid fa-arrow-right-arrow-left' },//2
+      { title: 'Bajar DTC Sellado', accionCss: 'terminar', img: 'fa-solid fa-file-arrow-down' },//3
+      { title: 'Subir DTC Sellado', accionCss: 'terminar', img: 'fa-solid fa-file-arrow-up' },//4
+      { title: 'Actualizar Componentes', accionCss: 'editar', img: 'fa-solid fa-file-pen' },//5
+      { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: 'fa-solid fa-file-arrow-down' },//6
     ]
     let filtroOpciones = []
     if(this.tipoUsuario == 8 || this.tipoUsuario == 4){
@@ -339,7 +283,7 @@ methods:{
     if(item.statusId >= 3 && !item.escaneadobool){
       filtroOpciones.push(options[3])
     }
-    if(this.tipoUsuario != 7 && this.tipoUsuario != 4 && item.escaneadobool){
+    if(this.tipoUsuario != 7 && this.tipoUsuario != 4 && this.tipoUsuario != 8 && item.escaneadobool){
       filtroOpciones.push(options[4])
     }
     if(item.technicalSheetReference == '--' && this.tipoUsuario == 1){
@@ -351,10 +295,9 @@ methods:{
     if(this.tipoUsuario == 1){
       filtroOpciones.push(options[5])
     }
-    if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+    if(this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
     }
-    
     return filtroOpciones
   },  
   limpiar_componete_escaneado: function(){
@@ -432,6 +375,7 @@ methods:{
         this.infoDTC = this.lista_DTC_Filtrada              
         this.statusEdit = ''; this.motivoCambio = '';  this.dtcEdit = '';
         this.loadingTabla = false
+        
       }) 
     }
     else {
@@ -471,6 +415,385 @@ methods:{
     this.$nextTick().then(() => {             
       this.lista_DTC_Filtrada = this.infoDTC
     })           
+  },
+  //Metodos paginacion
+  showMore(page) {
+    this.lista_DTC_Filtrada = [];
+    this.page = page;
+    this.currentPage = page;  
+    this.$router.push({path: 'ConcentradoGMMEP', query: { 'Pagina': page, 'nameFilter': null } })
+    this.loadingTable = true
+    let userId = this.$store.state.Login.cookiesUser.userId
+    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+    if(this.fechaFiltro == '' && this.buscarGMMEP == '' && this.plazaFiltro == '' && this.estatus == ''){
+        this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/null/null`)
+        .then((response) => {
+          let prueba = response.data.result.rows
+          prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+          this.totalPages = response.data.result.numeroPaginas
+          this.currentPage = response.data.result.paginaActual
+          this.loadingTable = false
+        }) 
+        .catch(() => this.loadingTable = false) 
+    }else{
+      this.filtro_GMEEPA(this.plazaFiltro,this.fechaFiltro,this.buscarGMMEP,this.estatus);
+    }
+  },
+  todos(){
+        this.lista_DTC_Filtrada = []
+        this.fechaFiltro = ''
+        this.buscarGMMEP = ''
+        this.plazaFiltro = ''
+        this.estatus = ''
+        let userId = this.$store.state.Login.cookiesUser.userId
+        let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+        this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/null/null`)
+        .then((response) => {
+            let prueba = response.data.result.rows
+            prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+            this.totalPages = response.data.result.numeroPaginas
+            this.currentPage = response.data.result.paginaActual
+            this.loadingTable = false
+        }) 
+        .catch((error) =>{ 
+           if(error.status == 404){
+              this.loadingTable = false 
+            }
+        }) 
+  },
+  filtro_GMEEPA(plaza,fecha,referencia,estatus){
+    this.lista_DTC_Filtrada = []
+    this.plazaFiltro = plaza;
+    this.fechaFiltro = fecha;
+    this.buscarGMMEP = referencia;
+    this.estatus = estatus;
+    let userId = this.$store.state.Login.cookiesUser.userId
+    let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+    let plazas = this.$store.state.Login.listaPlazas
+    if(this.plazaFiltro != ''){
+      this.plazaidsquare = plazas.find(e => e.squareCatalogId == this.plazaFiltro)
+    }
+    //Filtros 1 parametro
+    if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/null/null`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+          }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/null/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+          }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/null/null`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/${this.estatus}/null`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }   
+    // Filtros 2 Parametros plaza
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/null/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/null/null`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/${this.estatus}/null`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtros 2 parametros Fecha
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/null/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtros 2 parametros referencia
+    else if(this.plazaFiltro == '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/${this.estatus}/null`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtros 3 parametros
+    else if(this.plazaFiltro == '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/null/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro == '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/${this.estatus}/null`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP == '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/null/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus == ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/null/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+            this.lista_DTC_Filtrada = []
+            this.loadingTable = false
+      }else{
+      let prueba = response.data.result.rows
+      prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+      this.totalPages = response.data.result.numeroPaginas
+      this.currentPage = response.data.result.paginaActual
+      this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
+    //Filtro para cuando hay un parametro en especifico
+    else if(this.plazaFiltro != '' && this.fechaFiltro != '' && this.buscarGMMEP != '' && this.estatus != ''){
+      this.$http.get(`${API}/dtcData/GMMEP/${clavePlaza}/${this.page}/${this.total}/${userId}/null/null/${this.plazaidsquare.squareCatalogId}/${this.buscarGMMEP}/${this.estatus}/${this.fechaFiltro}`)
+      .then((response) => {
+      if (response.data.result.rows == null) {
+          this.lista_DTC_Filtrada = []
+          this.loadingTable = false
+      }else{
+        let prueba = response.data.result.rows
+        prueba.forEach(element => this.lista_DTC_Filtrada.push(element.dtcView));
+        this.totalPages = response.data.result.numeroPaginas
+        this.currentPage = response.data.result.paginaActual
+        this.loadingTable = false
+      }
+      })
+      .catch((error) =>{ 
+      if(error.response.status == 404){
+        this.lista_DTC_Filtrada = []
+        this.loadingTable = false
+      }
+      })
+    }
   },
   }
 };

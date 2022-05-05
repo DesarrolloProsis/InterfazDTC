@@ -81,13 +81,15 @@
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
-              <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" />
+              <!-- <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" /> -->
+              <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-2 text-blue-800 h-8"/>
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
-              <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
+              <!-- <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+              <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
               <span>Crear</span>
             </button>
           </div>
@@ -137,6 +139,7 @@ export default {
       modalLoading: false,
       referenciaFicha: '',
       numeroComponentesDmg: 0,
+      idDescripcion:0,
       error: false,
     };
   },
@@ -146,6 +149,15 @@ export default {
 created(){
     EventBus.$on("ACTUALIZAR_HEADER", () => {      
         this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+        /* let descripcion = this.$store.state.DTC.listaDescriptions
+        console.log(this.$route.params.tipoFalla == 3);
+        if (this.$route.params.tipoFalla == 3) {
+          this.descripcionHeaders = descripcion.filter(tipo => tipo.id >= 3)
+          console.log('if', this.descripcionHeaders);
+        }else{
+          this.descripcionHeaders = descripcion
+          console.log('else', this.descripcionHeaders);
+        } */
         this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
     });
     EventBus.$on("enviar-componete", (objInsert) => {
@@ -156,22 +168,35 @@ created(){
     })
 },
 beforeMount: async function() {
-    let refenciaFichaTecnica = this.$route.params.referenciaFicha     
-    this.referenciaFicha = refenciaFichaTecnica
-    this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
-    this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
-    this.flagCreate = true;
-    if (JSON.stringify(this.$route.query) != "{}") {              
-      this.headerEdit = this.$route.query.headerInfo;                 
-      this.observaciones = this.headerEdit.observation;
-      this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
-      this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
-      this.flagCreate = false;        
-      this.datosUser = this.$route.query.datosDtc           
-    }
+  if(this.$route.query.headerInfo != undefined)
+  {
+    this.modalLoading = true
+    setTimeout(() => {
+      this.modalLoading = false
+    }, 2000);
+  }
+  let refenciaFichaTecnica = this.$route.params.referenciaFicha     
+  this.referenciaFicha = refenciaFichaTecnica
+  this.datosUser = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
+  //this.descripcionHeaders = this.$store.state.DTC.listaDescriptions
+  let descripcion = this.$store.state.DTC.listaDescriptions
+  if (this.$route.params.tipoFalla == 3) {
+    this.descripcionHeaders = descripcion.filter(tipo => tipo.id >= 3)
+  }else{
+    this.descripcionHeaders = descripcion.filter(tipo => tipo.id < 3)
+  }
+  this.flagCreate = true;
+  if (JSON.stringify(this.$route.query) != "{}") {              
+    this.headerEdit = this.$route.query.headerInfo;                 
+    this.observaciones = this.headerEdit.observation;
+    this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
+    this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
+    this.flagCreate = false;        
+    this.datosUser = this.$route.query.datosDtc           
+  }
 },
 destroyed(){
-  EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete', 'conteo_componetes_dmg'])
+  EventBus.$off(['ACTUALIZAR_HEADER', 'enviar-componete', 'conteo_componetes_dmg', 'tipo-descripcion'])
 },
 /////////////////////////////////////////////////////////////////////
 ////                          COMPUTADAS                          ////
@@ -187,7 +212,10 @@ computed:{
 /////////////////////////////////////////////////////////////////////
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
-methods: {  
+methods: { 
+  tipodescripcion(id){
+    this.idDescripcion = id
+  },
   dtc_validaciones(value){
     if(this.numeroComponentesDmg > 0)
       EventBus.$emit("validar_header_dtc", value);
@@ -285,19 +313,11 @@ methods: {
       }
   },
   enviar_dmg_componentes(objInsert){
-    console.log('Numero de partidas: ', this.numeroComponentesDmg);
-    console.log('Array de componentes sin ordenar', objInsert.arrayDmg);
-    console.log('Numero de componentes sin ordenar', objInsert.arrayDmg.length);
-    /*console.log(this.numeroComponentesDmg);
-    console.log(objInsert.arrayDmg.length);  
-    console.log(objInsert.arrayDmg.sort((a,b)=> a.IntPartida - b.IntPartida));  
-    console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, objInsert.arrayDmg);  */
+    /*console.log(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${objInsert.arrayDmg.length}`, objInsert.arrayDmg);  */
     let new_promise = new Promise((resolve, reject) => { 
     let arrayOrdenado = []
       objInsert.arrayDmg.sort(((a,b)=> a.IntPartida - b.IntPartida)).forEach(element => {
         arrayOrdenado.push(element)
-        //console.log( 'Array Componentes: ', arrayOrdenado);
-        //console.log('Número de Componentes: ', arrayOrdenado.length);
       });
       if(arrayOrdenado.length == objInsert.arrayDmg.length){
         resolve(arrayOrdenado)
@@ -305,12 +325,9 @@ methods: {
         reject('Bad')
       }
     })
-    //console.log('Array Componentes: ', this.arrayOrdenado);
     new_promise.then((arrayOrdenado)=> {
-      console.log('Array ForEach: ',arrayOrdenado);
       this.$http.post(`${API}/requestedComponent/${objInsert.refNum.split('-')[0]}/${objInsert.flagCreate}/${this.numeroComponentesDmg}/${arrayOrdenado.length}`, arrayOrdenado)
-      .then((RESPONSE) => {   
-        console.log(RESPONSE);                             
+      .then(() => {
           if (objInsert.status == 2) {
             ServiceReporte.generar_pdf_correctivo(
               objInsert.refNum, 
@@ -330,8 +347,7 @@ methods: {
           this.$router.push("/Home");     
         
       })     
-      .catch((ERR) => {                
-        console.log(ERR);
+      .catch(() => {
         this.$notify.warning({
           title: "Ups!",
           msg: `NO SE INSERTARON LOS COMPONENTES.`,
@@ -352,10 +368,9 @@ watch: {
   observaciones: function (newValue) {
       this.$store.commit("Header/OBSERVACION_MUTATION", newValue);
   },
-},
+  },
 };
 </script>
-
 <style>
 .modal-container{
   position: fixed;
@@ -364,12 +379,4 @@ watch: {
   z-index: 1000;
   background: rgba(0, 0, 0, 0.5);
 }
-.modal-error{
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.5);
-}
 </style>
-

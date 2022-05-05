@@ -215,13 +215,15 @@
                     <multiselect v-model="value" @close="acciones_mapper(item)" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones(item)" :option-height="200" :custom-label="customLabel" :show-labels="false">
                       <template slot="singleLabel" slot-scope="props">
                         <div class="inline-flex">
-                          <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                          <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                          <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>
                           <span class="option__title bg-red-300">{{ props.option.title }}</span>
                         </div>
                       </template>
                       <template slot="option" slot-scope="props">                                                
                         <div class="option__desc "><span class="option__title inline-flex">
-                          <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                          <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                          <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>
                           {{ props.option.title }}</span>
                         </div>
                       </template>
@@ -281,6 +283,7 @@ export default {
       modalAdv: false,
       modalAdd: false,
       value:'',
+      userId:0,
     };
   },
 /////////////////////////////////////////////////////////////////////
@@ -306,7 +309,8 @@ export default {
   beforeMount: async function () { 
     this.loadingTabla = true        
     this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
-    this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4  ? true : false    
+    this.userId = await this.$store.state.Login.cookiesUser.userId
+    this.disableInputs = this.tipoUsuario == 7 || this.tipoUsuario == 4 || this.tipoUsuario == 8 ? true : false    
     this.listComponent = await this.$store.getters["Refacciones/GET_PAGINACION_COMPONENTES"];
     this.loadingTabla = false 
   },
@@ -401,8 +405,10 @@ export default {
     guardar_cambios_inventario: async function () {
       if (this.listEditados.length > 0) {
         let numAct = this.listEditados
-        this.modalLoading = true                
-        await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK",this.listEditados);        
+        this.modalLoading = true      
+        let clavePlaza = this.$store.state.Login.plazaSelecionada.refereciaPlaza
+        //await this.$store.dispatch("Refacciones/EDIT_COMPONETE_QUICK", this.listEditados);        
+        await this.$http.put(`${API}/Component/UpdateInventoryList/${clavePlaza}/${this.userId}`, this.listEditados)
         this.listEditados = [];
         setTimeout(() => {
           this.modalLoading = false
@@ -475,7 +481,7 @@ export default {
     },
     opticones_select_acciones(){
       const options= [                
-        { title: 'Detalles', img: '../img/details.4d70003e.png' }, //0
+        { title: 'Detalles', img: 'fa-solid fa-circle-info' }, //0
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])

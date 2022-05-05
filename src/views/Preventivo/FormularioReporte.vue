@@ -35,7 +35,8 @@
                 
                 <div class="absolute ml-57 -mt-8 sm:hidden md:hidden lg:-mt-8 lg:ml-49 w-6 hidden">
                     <span class="" v-tooltip.top =" { ref:'tooltipobservacion', class: 'tooltip-custom tooltip-other-custom'}">
-                        <img src="@/assets/img/pregunta.png" class="flex items-center -mt-4 w-5 h-5 "/>
+                        <!-- <img src="@/assets/img/pregunta.png" class="flex items-center -mt-4 w-5 h-5 "/> -->
+                        <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                     </span>
 
                     <div ref="tooltipobservacion" class="font-titulo">
@@ -67,20 +68,22 @@
                 <div v-if="reporteInsert">
                     <div v-if="!reporteInsertado">
                         <button :disabled="modalLoading" @click="crear_header_reporte(true)" class="mt-32 sm:mt-8 botonCrearReporte h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
-                            <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <!-- <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-2 text-green-800 h-8"/>
                             <span>Crear Reporte Actividades</span>                    
                         </button>
                     </div>
                     <div v-else>
                         <button :disabled="modalLoading" @click="crear_header_reporte(false)" class="mt-32 sm:mt-8 botonCrearFoto h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
-                            <img src="../../assets/img/camara-fotografica.png" class="mr-2" width="35" height="35" />
+                            <font-awesome-icon icon="fa-solid fa-camera" class="mr-2 text-blue-800 h-8"/>
                             <span>Crear Reporte Fotografico</span>                    
                         </button>
                     </div>
                 </div>
                 <div v-else>
                     <button :disabled="modalLoading" @click="crear_header_reporte" class="mt-32 sm:mt-8 botonIconActualizar font-black h-16 w-44" :class="{'botonDeshabilitado': modalLoading}" :disable=" modalLoading ">
-                        <img src="../../assets/img/documento.png" class="mr-2" width="35" height="35" />
+                        <!-- <img src="../../assets/img/documento.png" class="mr-2" width="35" height="35" /> -->
+                        <font-awesome-icon icon="fa-solid fa-file-pen" class="mr-2 text-yellow-600 h-8"/>
                         <span>Actualizar Reportes</span>                    
                     </button>
                 </div>

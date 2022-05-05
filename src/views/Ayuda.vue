@@ -1,29 +1,32 @@
 <template>
     <div>
-        <div v-if="boolBotones" class="flex justify-center mt-30 mb-16">
+        <div v-if="boolBotones" class="flex justify-center mt-53">
             <div class="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 sm:mt-2 sm:mb-2">
-                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="rollUsuario != 10">
+                <div class="botonesCorrectivo h-full bg-purple-100 border-0 border-l-8 border-purple-500 animacion sm:m-4 sm:p-3" v-if="rollUsuario != 10">
                     <button @click="ventana_comentario" class="text-center">
-                        <img src="../assets/img/comentarios.png" height="200" width="200" class="m-10 sm:m-1"/>
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Comentarios</h1>
+                        <!-- <img src="../assets/img/comentarios.png" height="200" width="200" class="m-10 sm:m-1"/> -->
+                        <font-awesome-icon icon="fa-regular fa-comments" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Comentarios</h1>
                     </button>
                 </div>
-                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3" v-if="rollUsuario == 10">
+                <div class="botonesCorrectivo h-full bg-blue-100 border-0 border-l-8 border-blue-500 animacion sm:m-4 sm:p-3" v-if="rollUsuario == 10">
                     <router-link to="/Comentarios" class="text-center cursor-pointer">
                         <img src="../assets/img/listcommit.png" height="200" width="200" class="m-10 sm:m-1" />
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Lista de Comentaios</h1>              
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Lista de Comentaios</h1>              
                     </router-link>
                 </div>
-                <div class="botonesCorrectivo animacion sm:m-4 sm:p-3">
+                <div class="botonesCorrectivo h-full bg-yellow-100 border-0 border-l-8 border-yellow-500 animacion sm:m-4 sm:p-3">
                     <button @click="mostrar_videos_lista" class="text-center">
-                        <img src="../assets/img/videos.png" height="200" width="200" class="m-10 sm:m-1" />
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Videos</h1>              
+                        <!-- <img src="../assets/img/videos.png" height="200" width="200" class="m-10 sm:m-1" /> -->
+                        <font-awesome-icon icon="fa-solid fa-video" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Videos</h1>              
                     </button>
                 </div>
-                <div class="border-gray-200  border-2 rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion ">
+                <div class="botonesCorrectivo h-full bg-teal-100 border-0 border-l-8 border-teal-500  rounded-lg m-8 sm:m-4 sm:p-3 shadow-xl hover:bg-gray-400 animacion ">
                     <button class="text-center cursor-pointer"  @click="manual_pdf">
-                        <img src="../assets/img/guia.png" height="200" width="200" class="m-10 sm:m-1" />
-                        <h1 class="text-gray-900 text-xl sm:text-sm font-titulo font-medium">Manual de Usuario</h1>
+                        <!-- <img src="../assets/img/guia.png" height="200" width="200" class="m-10 sm:m-1" /> -->
+                        <font-awesome-icon icon="fa-solid fa-file-circle-question" class="text-blue-800 w-37 h-32 mx-20 mt-10"/>
+                        <h1 class="text-blue-800 text-2xl sm:text-sm font-titulo font-bold">Manual de Usuario</h1>
                     </button>
                 </div>   
             </div>
@@ -34,12 +37,14 @@
                     <p class=" text-lg text-center font-titulo">{{ item.titulo }}</p>
                     <div class=" inline-flex">
                         <div class="">
-                            <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1 sm:ml-8 sm:mt-10" />
+                            <!-- <img src="../assets/img/guia.png" height="300" width="200" class="m-10 sm:m-1 sm:ml-8 sm:mt-10" /> -->
+                            <font-awesome-icon icon="fa-solid fa-clapperboard" class="text-blue-800 w-22 h-22 mt-12 ml-4"/>
                         </div> 
                         <div class="pt-20 pl-20">
                             <div class="w-16 ml-16 sm:ml-6 sm:-mt-16">
                                 <button @click="ventana_videos(item)">
-                                    <img src="../assets/img/play.png" height="40" width="55" class="sm:m-1"/>
+                                    <!-- <img src="../assets/img/play.png" height="40" width="55" class="sm:m-1"/> -->
+                                    <font-awesome-icon icon="fa-regular fa-circle-play" class="text-blue-800 w-20 h-20 mb-5"/>
                                 </button>                                
                             </div>  
                             <div class="mt-3 font-titulo">

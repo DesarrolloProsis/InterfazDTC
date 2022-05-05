@@ -116,7 +116,8 @@
         <div class="sticky inset-0" :class="{'modal-container': modalEliminar}">
           <div v-if="modalEliminar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-64 mx-auto px-12 py-10 shadow-2xl mt-60">
             <ValidationObserver ref="observer">
-              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC {{ refNum }}</p>
+              <p class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">Seguro que quiere eliminar este DTC <span class="font-bold">{{ refNum }}</span></p>
+              <p v-if="dfRef != '' || dfRef != undefined" class="text-gray-900 font-thin text-md sm:text-sm sm:text-center">También se eliminará el Diagnóstico y la Ficha con Referencia <span class="font-bold">{{ dfRef }}</span></p>
               <ValidationProvider name="comentarioBorrar" rules="required:max:300"  v-slot="{ errors }">    
                 <p class="text-md mb-1 font-semibold text-gray-900 mt-10">Motivo</p>
                 <textarea v-model="comentarioBorrar" class="bg-white appearance-none block bg-grey-lighter container mx-auto text-grey-darker  border-gray-400 rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" name="comentarioBorrar"/>              
@@ -206,9 +207,9 @@
                         </div>
                       </div>
                       </div>       
-                      <select v-model="dtcEdit.typeDescriptionId" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
+                      <select v-model="dtcEdit.typeDescriptionId" @change="tipo(dtcEdit.typeDescriptionId)" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
                         <option disabled value>Selecionar...</option>
-                        <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.typeDescriptionId" :key="index">
+                        <option v-for="(desc, index) in listaDescripcionDtc" v-bind:value="desc.id" :key="index">
                           {{ desc.description }}
                         </option>
                       </select>
@@ -228,11 +229,18 @@
                     </ValidationProvider>
                   </div>
                   <div class="-mt-2 ">    
-                    <ValidationProvider name="Diagnostico" rules="max:300"  v-slot="{ errors }">  
+                    <ValidationProvider name="Diagnostico" rules="required"  v-slot="{ errors }">  
                       <p class="text-md mb-1 font-semibold text-gray-900">Diagnostico:</p>
-                      <textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico" maxlength="300"/>              
+                      <!--<textarea v-model="dtcEdit.diagnosis" class="bg-white appearance-none is_valid block container mx-auto text-grey-darker  border-black rounded-lg py-4 mb-0 h-20 placeholder-gray-500 border" placeholder="jane@example.com" name="Diagnostico" maxlength="300"/>              
                       <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
-                      <span class="text-gray-500 text-xs block">{{ return_Diag }}/300</span>
+                      <span class="text-gray-500 text-xs block">{{ return_Diag }}/300</span>-->
+                      <select v-model="dtcEdit.diagnosis" class="sm:w-full w-48 is_valid" type="text" name="TipoDescripcion">
+                        <option disabled value>Selecionar...</option>
+                        <option v-for="(desc, index) in tiposDescripciones" v-bind:value="desc.type" :key="index">
+                          {{ desc.type }}
+                        </option>
+                      </select>
+                      <span class="text-red-600 text-xs block">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>            
                 </div>               
@@ -419,7 +427,9 @@ export default {
       comentario: '',
       ocultar: false,
       //Modal error
-      error: false
+      error: false,
+      tiposDescripciones: [],
+      dfRef:''
     };
   },
   components: {    
@@ -447,7 +457,7 @@ beforeMount: async function () {
   this.typeUser = this.$store.state.Login.cookiesUser.rollId
   this.filtroVista = false  
   this.infoDTC = await this.$store.getters["DTC/GET_LISTA_DTC"](this.filtroVista);
-  this.infoDTC_Filtrado = this.infoDTC  
+  this.infoDTC_Filtrado = this.infoDTC 
   this.tipoUsuario = await this.$store.state.Login.cookiesUser.rollId
   this.userId = await this.$store.state.Login.cookiesUser.userId
   let listaPlazasValias = []
@@ -482,17 +492,23 @@ destroyed(){
 ////                          METODOS                            ////
 /////////////////////////////////////////////////////////////////////
 methods: {
+  tipo(value){
+    this.tiposDescripciones = []
+    this.$http.get(`${API}/typedescriptions/tipoDescripcion/${value}`)
+    .then((response) => {
+      response.data.result.forEach(e => this.tiposDescripciones.push(e));
+    })
+  },
   cerrar(){
     this.error = false
   },
   actualizar_user_id_dtc(){
     if(this.userChangeDtc != ''){ 
-      this.modalLoading = true
-      //if(this.userChangeDtc.referenceNumberDiagnosis != '--'){
+      //if(this.itemCompleteChangeUserDTC.referenceNumberDiagnosis != '--'){
+        this.modalLoading = true
         let actualizar_user = new Promise ((resolve,reject) => {
           this.$http.put(`${API}/DtcData/UpdateUserIdOfDTC/${this.refNum.split('-')[0]}/${this.userChangeDtc}/${this.itemCompleteChangeUserDTC.referenceNumber}/${this.itemCompleteChangeUserDTC.referenceNumberDiagnosis}`)
-          .then((response) => {  
-            console.log(response)                
+          .then(() => {              
             let index = this.infoDTC.map(item =>  { 
               return item.referenceNumber }
             ).indexOf(this.itemCompleteChangeUserDTC.referenceNumber)                             
@@ -523,20 +539,20 @@ methods: {
             });
           })
         },1000)
-      //}
-      /*else{
+      }
+      else{
         this.userChangeDtc = ''
         this.itemCompleteChangeUserDTC = {}
         this.modalCambiarUsuarioDTC = false
         this.modalLoading = false
         this.$notify.warning({
           title: "Ups!",
-          msg: `NECESITAS TERMIANR TU DIAGNOSTICO DE FALLA.`,
+          msg: `NECESITAS TERMIANR EL DIAGNOSTICO DE FALLA.`,
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-      }*/
-    }
+      }
+    /*}
     else{
       this.modalLoading = false
         this.$notify.warning({
@@ -545,7 +561,7 @@ methods: {
           position: "bottom right",
           styles: { height: 100, width: 500 },
         });
-    }
+    }*/
   },
   modal_cambiar_usurio_dtc(item){
     this.refNum = item.referenceNumber
@@ -605,7 +621,9 @@ methods: {
     }   
   },
   confimaBorrar: function (refNum) {
-      this.refNum = refNum;
+    console.log(refNum);
+      this.refNum = refNum.DTC;
+      this.dfRef = refNum.DF
       this.modalEliminar = true;
       this.modal = true
       this.ocultarMultiPadre = true
@@ -613,11 +631,10 @@ methods: {
   editar_header_dtc: async function(refNum){  
     console.log(refNum);
     this.ocultarMultiPadre = true       
-    if(typeof refNum === 'boolean'){ 
+    if(typeof refNum === 'boolean'){  
       if(this.dtcEdit.sinisterNumber == null){
         let isValid = await this.$refs.observer.validate(); 
         if(isValid){ 
-          console.log('valid');
           this.modalEdit = false
           this.modalLoading = true         
           let objEdit = {
@@ -671,86 +688,77 @@ methods: {
             })              
           }, 3000);   
         }else{
-          console.log('invalid');
           this.modalEdit = false
           this.error = true
-          console.log(this.error);
         }
-      }
-      else{
+      }else{
         if(this.dtcEdit.sinisterNumber.trim().length == this.dtcEdit.sinisterNumber.length){
-        console.log('if trim');
-        console.log(this.dtcEdit);
-        let isValid = await this.$refs.observer.validate(); 
-        if(isValid){ 
-          console.log('valid');
-          this.modalEdit = false
-          this.modalLoading = true         
-          let objEdit = {
-            referenceNumber: this.dtcEdit.referenceNumber,
-            numSiniestro: this.dtcEdit.sinisterNumber,
-            numReporte: this.dtcEdit.reportNumber,
-            folioFalla: this.dtcEdit.failureNumber,
-            tipoDescripcion: this.dtcEdit.typeDescriptionId,
-            observaciones: this.dtcEdit.observation,
-            diagnostico: this.dtcEdit.diagnosis,
-          }   
-          let values = Object.values(objEdit)          
-          for(let item of values){
-            if(item === null){
-              item = ''
-            }
-          }                                 
-          let editar_dtc_promise = new Promise((resolve , reject) => {
-            this.$http.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit)
-              .then(async () =>{                                                             
-                this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
-                let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
-                this.modal = false  
-                this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)     
-                let adminId = await ServicePDfReporte.obtener_admin_id(objEdit.referenceNumber) 
-                this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
-                  .then(() => resolve('ok'))   
-                  .catch((error) => { reject(error) })                                     
-              })
-              .catch((error) => {                              
-                reject(error)
-                this.$notify.error({
-                  title: "ups!",
-                  msg: error,
+          let isValid = await this.$refs.observer.validate(); 
+          if(isValid){ 
+            this.modalEdit = false
+            this.modalLoading = true         
+            let objEdit = {
+              referenceNumber: this.dtcEdit.referenceNumber,
+              numSiniestro: this.dtcEdit.sinisterNumber,
+              numReporte: this.dtcEdit.reportNumber,
+              folioFalla: this.dtcEdit.failureNumber,
+              tipoDescripcion: this.dtcEdit.typeDescriptionId,
+              observaciones: this.dtcEdit.observation,
+              diagnostico: this.dtcEdit.diagnosis,
+            }   
+            let values = Object.values(objEdit)          
+            for(let item of values){
+              if(item === null){
+                item = ''
+              }
+            }                                 
+            let editar_dtc_promise = new Promise((resolve , reject) => {
+              this.$http.put(`${API}/dtcData/UpdateDtcHeader/${this.$store.getters['Login/GET_REFERENCIA_ACTUAL_PLAZA']}`, objEdit)
+                .then(async () =>{                                                             
+                  this.$store.dispatch("Header/BUSCAR_LISTA_UNIQUE");
+                  let info = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']
+                  this.modal = false  
+                  this.$store.dispatch('DTC/BUSCAR_LISTA_DTC', info)     
+                  let adminId = await ServicePDfReporte.obtener_admin_id(objEdit.referenceNumber) 
+                  this.$http.get(`${API}/pdf/RefrescarArchivo/${objEdit.referenceNumber.split('-')[0]}/${objEdit.referenceNumber}/${adminId}`)    
+                    .then(() => resolve('ok'))   
+                    .catch((error) => { reject(error) })                                     
+                })
+                .catch((error) => {                              
+                  reject(error)
+                  this.$notify.error({
+                    title: "ups!",
+                    msg: error,
+                    position: "bottom right",
+                    styles: { height: 100, width: 500 },
+                  });
+                })  
+            })
+            setTimeout(() => {
+              editar_dtc_promise.then(() => {                                     
+                this.limpiar_filtros()
+                this.modalLoading = false
+                this.$notify.success({
+                  title: "Ok!",
+                  msg: `SE ACTUALIZÓ EL DTC ${objEdit.referenceNumber}.`,
                   position: "bottom right",
                   styles: { height: 100, width: 500 },
                 });
-              })  
-          })
-          setTimeout(() => {
-            editar_dtc_promise.then(() => {                                     
-              this.limpiar_filtros()
-              this.modalLoading = false
-              this.$notify.success({
-                title: "Ok!",
-                msg: `SE ACTUALIZÓ EL DTC ${objEdit.referenceNumber}.`,
-                position: "bottom right",
-                styles: { height: 100, width: 500 },
-              });
-              ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
-            })              
-          }, 3000);   
+                ServicePDfReporte.generar_pdf_correctivo(objEdit.referenceNumber, 2, false, undefined)
+              })              
+            }, 3000);   
           }else{
-            console.log('invalid');
             this.modalEdit = false
             this.error = true
-            console.log(this.error);
           }
         }else{
-          console.log('else trim');
           this.modalEdit = false
           this.error = true
         }
       }      
     }else{
-      console.log('else');
-      this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }       
+      this.dtcEdit = { ...this.infoDTC.find(item => item.referenceNumber == refNum) }
+      this.tipo(this.dtcEdit.typeDescriptionId)
       this.modalEdit = true
       this.modal = true
     }    
@@ -800,7 +808,8 @@ methods: {
         pdf_sellado_promise.then(() => {  
           this.modalLoading = false                  
           this.limpiar_filtros()
-          this.$router.push("/home/${this.typeUser}/correctivo");
+          //this.$router.push("/home/${this.typeUser}/correctivo");
+          //location.reload();
         })      
       }, 3000);
     }if( bandera == 2){
@@ -1025,7 +1034,13 @@ methods: {
 },
 computed: {
   listaDescripcionDtc(){
-    return this.$store.state.DTC.listaDescriptions
+    let descripciones = this.$store.state.DTC.listaDescriptions
+    if (this.dtcEdit.typeFaultId == 3) {
+    return descripciones.filter(tipo => tipo.id >= 3)
+  }else{
+    return descripciones.filter(tipo => tipo.id < 3)
+  }
+    //return this.$store.state.DTC.listaDescriptions
   },
   restante_Siniestro(){
     return this.dtcEdit.sinisterNumber.trim().length

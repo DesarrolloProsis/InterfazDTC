@@ -36,6 +36,21 @@ const mutations = {
   LISTA_PLAZAS_USUARIO_COOKIES_MUTATION: (state, value) => state.cookiesUser.plazasUsuario = value,  
   cleanOut: (state) => { state.listaHeaderDtcUser = []; state.listaPlazas = [] },  
   LISTA_HEADER_PLAZA_USER_MUTATION: (state, value) => state.listaHeaderDtcUser = value,  
+  COOKIES_USER_ADMINPLAZA_MUTATION: (state, value) => {
+    state.cookiesUser.plazasUsuario = []
+    let newAdminPlazas = value.result.cookie.map(item => {
+      return {
+        refereciaPlaza: item.referenceSquare,
+        administradorId: item.adminSquareId,
+        numeroPlaza: item.squareCatalogId,
+        plazaNombre: item.squareName,
+        plazaAdminNombre: item.plazaAdministrador,
+        statusAdmin: item.statusAdmin,
+        idRoll: item.idRoll,
+      }
+    })
+    state.cookiesUser.plazasUsuario = newAdminPlazas
+  }
 };
 const actions = {
   //CONSULTA PARA OBTENER DTCHEADER POR ID TECNICO
@@ -68,6 +83,13 @@ const actions = {
   async REFRESCAR_TOKEN_USER({ state }){  
     let objRefresh = { UserId: state.cookiesUser.userId }     
     await Axios.post(`${API}/login/Refresh`, objRefresh)       
+  },
+  async BUSCAR_ADMIN_PLAZA( {commit, state} ){
+    Axios.post(`${API}/login/Cookie`, { UserId: state.cookiesUser.userId })
+    .then((response) => {           
+      console.log(response)
+      commit('COOKIES_USER_ADMINPLAZA_MUTATION', response.data)
+    })
   }
 };
 export default {

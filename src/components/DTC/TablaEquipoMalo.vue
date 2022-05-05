@@ -8,7 +8,8 @@
           </div>
           <div class="sm:hidden md:hidden ml-1">
             <span class="" v-tooltip.top =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">
-                <img src="@/assets/img/speech-bubble.png" class="flex items-center w-6 h-6"/>
+                <!-- <img src="@/assets/img/pregunta.png" class="flex items-center  w-5 h-5 ml-84"/> -->
+                <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
             </span>
             <div ref="tooltipcambiodeplaza" class="font-titulo">
                 <p class="text-center text-gray-800">Se deben añadir los componentes dañados</p>

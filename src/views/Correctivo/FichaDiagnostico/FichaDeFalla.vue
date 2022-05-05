@@ -7,7 +7,8 @@
             <div class="sticky inset-0" :class="{'modal-container': modalImage}">
                 <div v-if="modalImage" class="modalCargarImg sm:m-4 sm:mt-66 mt-66">          
                     <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
-                        <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
+                        <!-- <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" /> -->
+                        <font-awesome-icon icon="fa-regular fa-circle-xmark" class="h-8 cursor-pointer sm:w-6 sm:h-6 text-blue-800"/>
                     </span>
                     <div class="justify-center text-center block ml-4 mr-4">            
                         <!-- /////////////////////////////////////////////////////////////////////
@@ -15,7 +16,8 @@
                         ///////////////////////////////////////////////////////////////////// -->
                         <ImagenesFichaDiagnostico @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="reporteInsertado" :tipo="'Ficha'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                         <button @click="enviar_header_ficha(false)" :disabled="blockBotonModal" class="botonIconCrear mt-4 sm:mt-12" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal  }">
-                            <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                            <!-- <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+                            <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
                             <span>Generar Ficha Técnica</span>
                         </button>  
                     </div>
@@ -39,16 +41,18 @@
                     <!--/////////////////////////////////////////////////////////////////////
                     /////                           BOTONES                             ////
                     ////////////////////////////////////////////////////////////////////--> 
-                    <div class="mb-6 ml-77 sm:mb-6 sm:ml-1 sm:mt-6 lg:mx-auto xl:mx-auto">
+                    <div class="mb-5 mt-2 ml-77 sm:mb-6 sm:mx-6 sm:-mt-16 md:mx-auto md:mb-18 lg:mx-auto xl:mx-auto">
                         <div v-if="botonEditCreate">                            
                             <button v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true" @click="enviar_header_ficha(true)" class="botonIconCrear">
-                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                <!-- <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+                                <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
                                 <span>Enviar Información de Ficha</span>
                             </button>                                                                                                  
                         </div>
-                        <div v-else>
+                        <div v-else class="xl:-mt-10">
                             <button @click="enviar_header_ficha(true)" class="botonIconActualizar sm:mt-12">
-                                <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" />
+                                <!-- <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" /> -->
+                                <font-awesome-icon icon="fa-solid fa-file-pen" class="mr-2 text-yellow-600 h-8"/>
                                 <span>Actualizar Ficha</span>
                             </button>                            
                         </div>
@@ -184,7 +188,7 @@ export default {
                         else{
                             ServiceReporte.generar_pdf_ficha_falla(this.datosHeader.referenceNumber) 
                             if(this.$route.params.tipoVista == 'Editar'){ 
-                                this.$router.push('/Home')  
+                                this.$router.push('/ConcentradoFichas')  
                             }
                             else {
                                 if(this.$route.query.referenceNumberFinishDiagnostic == undefined)

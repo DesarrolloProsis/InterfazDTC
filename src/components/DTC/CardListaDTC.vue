@@ -60,8 +60,7 @@
           <p class="text-left text-sm break-words">Folio: <label class="font-semibold">{{ infoCard.failureNumber }}</label></p> 
           <p class="text-left text-sm break-words">Registro en Sistema: <label class="font-semibold">{{ infoCard.dateStamp | formatDate }}</label></p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
-          <!--<p @click="editar_status_dtc()" v-if=" tipoUsuario == 4 || tipoUsuario == 5 || tipoUsuario == 10 || tipoUsuario == 2"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>  -->
-          <p @click="editar_status_dtc()" v-if=" tipoUsuario == 4 || tipoUsuario == 10 || tipoUsuario == 2"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
+          <p @click="editar_status_dtc()" v-if="tipoUsuario == 1 || tipoUsuario == 4 || tipoUsuario == 5 || tipoUsuario == 10 || tipoUsuario == 8"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal">
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
@@ -70,14 +69,16 @@
           <multiselect class="float:none" v-model="value"  @close="acciones_mapper()" placeholder="Seleccione una Accion" label="title" track-by="title" :options="opticones_select_acciones()" :option-height="200" :custom-label="customLabel" :show-labels="false" >
             <template slot="singleLabel" slot-scope="props">
               <div class=" inline-flex">
-                <img :src="props.option.img" class="mr-5" width="15" height="15">                                                               
+                <!-- <img :src="props.option.img" class="mr-5" width="15" height="15"> -->
+                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                 <span class="option__title">{{ props.option.title }}</span>
               </div>
             </template>
             <template slot="option" slot-scope="props">                                                
               <div class="option__desc">
                 <span class="option__title inline-flex">
-                  <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                  <!-- <img :src="props.option.img" class="mr-5" width="15" height="15">     -->
+                  <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                     {{ props.option.title }}
                 </span>
               </div>
@@ -97,7 +98,8 @@
           ////                 STATUS / VER MAS                             ////
           ///////////////////////////////////////////////////////////////////// -->
       <div class="flex justify-between" :class="{'grid grid-cols-2 justify-between': TIPO_USUARIO.Administracion == tipoUsuario }">     
-        <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2" v-show="menosMas">
+        <!-- <div class="pb-2 -mt-1" v-if="TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 3 || TIPO_USUARIO.Administracion == tipoUsuario && infoCard.statusId == 2 " v-show="menosMas"> -->
+        <div class="pb-2 -mt-1" v-if="(this.tipoUsuario == 4 && infoCard.statusId == 3) || (this.tipoUsuario == 4 && infoCard.statusId == 2) " v-show="menosMas">
           <span class="text-sm font-bold text-orange-500">Autorización GMMEP</span>
           <input @change="status_autorizacion_gmmep()" v-model="statusAgregarFimar" class="ml-1 h-2 w-2 rounded-lg" type="checkbox" />        
         </div>
@@ -131,7 +133,7 @@
       ///////////////////////////////////////////////////////////////////////// -->
       <div v-if="showmenosMas">
         <div class="flex justify-between" v-if="true">
-          <div class="inline-flex hidden">
+          <div class="inline-flex">
             <button v-if="tipoUsuario == 4 || infoCard.statusId < 2 || (tipoUsuario == 10 && infoCard.statusId <= 3)" @click.prevent="borrar_dtc" class="botonIconBorrarCard font-boton">
               <img src="../../assets/img/borrar.png" class="mr-2" width="12" height="1"/>
               <span>Borrar</span>
@@ -275,29 +277,32 @@ export default {
     },
     opticones_select_acciones(){
         let options = [
-            { title: 'Borrar DTC', img: '/img/borrar.16664eed.png' }, //0
-            { title: 'Fechas', img: '/img/pencil.04ec78bc.png' }, //1
-            { title: 'Editar Campos', img: '/img/pencil.04ec78bc.png' }, //2   
-            { title: 'Terminar DTC', img: '/img/add.36624e63.png' }, //3   
-            { title: 'Subir DTC Escaneado', img: '/img/upload.8d26bb4f.png' }, //4                                                                               
-            { title: 'Bajar Dictamen Técnico', img: '/img/download.ea0ec6db.png'}, //5
-            { title: 'Bajar DTC Escaneado', img: '/img/download.ea0ec6db.png'}, //6
-            { title: 'Reporte Fotografico', img: '/img/download.ea0ec6db.png'}, //7
-            { title: 'DTC Sin Firma', img: '/img/download.ea0ec6db.png'}, //8
-            { title: 'Actualizar Componentes', img: '/img/actualizado.cafc2f1a.png'}, //9
-            { title: 'Terminar Diagnostico', img: '/img/add.36624e63.png'}, //10
-            { title: 'Cambiar Usuario DTC', img: '/img/add.36624e63.png'}, //11
-            { title: 'Subir RF Escaneado', img: '/img/upload.8d26bb4f.png'}, //12
-            { title: 'Bajar RF Escaneado', img: '/img/download.ea0ec6db.png'}, //13
+            { title: 'Borrar DTC', img: 'fa-trash' }, //0
+            { title: 'Fechas', img: 'fa-pen-to-square' }, //1
+            { title: 'Editar Campos', img: 'fa-pen-to-square' }, //2   
+            { title: 'Terminar DTC', img: 'fa-file-circle-plus' }, //3   
+            { title: 'Subir DTC Escaneado', img: 'fa-file-arrow-up' }, //4                                                                               
+            { title: 'Bajar Dictamen Técnico', img: 'fa-file-arrow-down'}, //5
+            { title: 'Bajar DTC Escaneado', img: 'fa-file-arrow-down'}, //6
+            { title: 'Reporte Fotografico', img: 'fa-file-arrow-down'}, //7
+            { title: 'DTC Sin Firma', img: 'fa-file-arrow-down'}, //8
+            { title: 'Actualizar Componentes', img: 'fa-regular fa-circle-check'}, //9
+            { title: 'Terminar Diagnostico', img: 'fa-file-circle-plus'}, //10
+            { title: 'Cambiar Usuario DTC', img: 'fa-user-gear'}, //11
+            { title: 'Subir RF Escaneado', img: 'fa-file-arrow-up'}, //12
+            { title: 'Bajar RF Escaneado', img: 'fa-file-arrow-down'}, //13
         ]
-        let array = []       
+        let array = []  
+        if(this.tipoUsuario == 8){
+          array.push(options[11])
+        }     
         if(this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.technicalSheetReference == '--'){
           array.push(options[10])
         }
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+        if((this.infoCard.statusId == 2) && (this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10)){
           array.push(options[1])
         }     
-        if((this.info.userId == this.$store.state.Login.cookiesUser.userId && this.infoCard.statusId < 2) || this.tipoUsuario == 4 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
+        if(((this.tipoUsuario == 2 || this.tipoUsuario == 5) && this.infoCard.statusId <= 2) ||  this.tipoUsuario == 4 || this.tipoUsuario == 8 || (this.tipoUsuario == 10 && this.infoCard.statusId <= 3) ){
           array.push(options[0])
         }
         if(this.tipoUsuario == 4 || this.tipoUsuario == 10 && this.infoCard.statusId == 2){
@@ -333,14 +338,14 @@ export default {
               }
             }
           }
-          if(this.tipoUsuario == 8 ){
+          if(this.tipoUsuario == 8 || this.tipoUsuario == 10){
             array.push(options[8])
           }          
         }
         if((this.tipoUsuario == 5 || this.tipoUsuario == 3 || this.tipoUsuario == 1 || this.tipoUsuario == 2) && this.infoCard.statusId >= 2 && this.info.userId == this.$store.state.Login.cookiesUser.userId){
           array.push(options[9])
         }
-        if(this.tipoUsuario == 4 || this.tipoUsuario == 10){
+        if(this.tipoUsuario == 2 || this.tipoUsuario == 4 || this.tipoUsuario == 5 || this.tipoUsuario == 10){
           array.push(options[11])
         }
         if(this.tipoUsuario == 7){
@@ -418,10 +423,11 @@ export default {
       datosSinester.FailureDate = moment(this.infoCard.failureDate).format("YYYY-MM-DD");
       datosSinester.ShippingElaboracionDate = moment(this.infoCard.shippingDate).format("YYYY-MM-DD");
       datosSinester.TypeDescriptionId = 2;
+      console.log(this.infoCard);
       this.$store.commit("Header/DATOS_SINESTER_MUTATION", datosSinester);
       let page = this.infoCard.openMode ? "NuevoDtcLibre" : "NuevoDtc/Editar";
       this.$router.push({
-        path: `/${page}/--/3`,
+        path: `/${page}/--/${this.infoCard.typeFaultId}`,
         query: {
           headerInfo: { ...this.infoCard },
           datosDtc: { ...this.datosUser }
@@ -435,6 +441,8 @@ export default {
         }
       )
       this.$emit("editar-card", this.infoCard.referenceNumber);
+      /* this.$emit("tipo-desciption", this.infoCard.typeDescriptionId)
+      console.log(this.infoCard); */
     },
     fotografico_sellado(){
       ServiceReporte.reporte_fotografico_sellado(this.infoCard.referenceNumber)
@@ -450,8 +458,12 @@ export default {
         this.infoCard.adminId
       )
     },
-    borrar_dtc() {      
-      this.$emit("borrar-card", this.infoCard.referenceNumber);
+    borrar_dtc() {     
+      let value = {
+        DTC:this.infoCard.referenceNumber,
+        DF:this.infoCard.technicalSheetReference
+      }
+      this.$emit("borrar-card", value);
       this.menosMas = true;      
       this.showmenosMas = false;      
     },  

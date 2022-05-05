@@ -16,7 +16,8 @@ module.exports = {
       'md': {'min': '766px', 'max': '1023px'},
       'lg': {'min': '1024px', 'max': '1279px'},
       'xl': {'min': '1280px', 'max':'2040px'},
-      '4k': {'min': '2040px', 'max':'3840px'}
+      '4k': {'min': '2040px', 'max':'3840px'},
+      'laptop': {'min': '768px', 'max':'1366px'}
     },
     extend: {
       spacing: {
@@ -24,6 +25,7 @@ module.exports = {
         '9':'2.2rem',
         '13':'3.5rem',
         '14':'3.8rem',
+        '15' :'3.9rem',
         '17':'4.7rem',
         '18':'4.5rem',
         '21':'5.2rem',
@@ -69,7 +71,10 @@ module.exports = {
         '81': '55rem',
         '82': '23.5rem',
         '83': '83.5rem',
-        '84': '56rem',       
+        '84': '56rem',
+        '85': '42rem',
+        '86': '48rem',
+        '87': '50rem',       
       }
     }
   },

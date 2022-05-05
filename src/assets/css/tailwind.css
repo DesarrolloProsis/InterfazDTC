@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
 @tailwind base;
+
 .multiselect__option--highlight{
     @apply bg-blue-300  
 }
@@ -12,6 +13,12 @@
 }
 .is_valid {
     @apply mt-1 block w-full border-none bg-gray-100  rounded-xl shadow-lg;
+}
+.no_valid {
+    @apply mt-1 block w-full border-none bg-gray-300  rounded-xl shadow-lg;
+}
+.no_valid:hover {
+    @apply mt-1 block w-full border-none bg-gray-300  rounded-xl shadow-lg;
 }
 .is_invalid {
     @apply border;
@@ -84,7 +91,7 @@ select:focus {
     @apply bg-white;
 }
 .Home{
-    @apply border-gray-200 border-2 rounded-lg m-8 shadow-xl h-66;
+    @apply border-2 rounded-lg m-8 shadow-xl h-66;
 }
 .Home:hover{
     @apply bg-gray-400;
@@ -183,7 +190,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-boton font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonIconCrear:hover{
-    @apply border-green-500 bg-green-500 text-white transition duration-500;
+    @apply border-green-800 bg-green-400 text-white transition duration-500;
 }
 .botonIconCrear:focus{
     @apply outline-none;
@@ -404,7 +411,7 @@ select:focus {
     @apply bg-white tracking-wide text-gray-800 font-boton font-bold rounded border-b-2 border-green-500 shadow-md py-2 px-6 inline-flex items-center;
 }
 .botonCrearReporte:hover{
-    @apply border-green-500 bg-green-400 text-white transition duration-500;
+    @apply border-green-800 bg-green-400 text-white transition duration-500;
 }
 .botonCrearReporte:focus{
     @apply outline-none;
@@ -537,7 +544,31 @@ select:focus {
         transform: translateY(10px);
         transition: all 2s
     }
-    
+}
+
+.tablaf tbody tr:nth-child(2n){
+    @apply bg-gray-200
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.inputanexo{
+    @apply shadow appearance-none border rounded text-gray-700 leading-tight text-center;
+}
+.inputanexo:focus{
+    @apply outline-none shadow-outline;
+}
+
+.inputanexoerror{
+    @apply shadow appearance-none border border-red-800 rounded text-gray-700 leading-tight text-center;
+}
+.inputanexoerror:focus{
+    @apply outline-none shadow-outline;
+}
+
+/*     
 }
 .vue-tooltip.tooltip-custom {
     width: 50rem;  
@@ -551,4 +582,4 @@ select:focus {
 
 .vue-tooltip.tooltip-custom .tooltip-arrow {  
     border: 3px solid #466fa1;  
-}
+} */

@@ -11,7 +11,8 @@
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser">Mi Perfil</h1>
         <div v-if="typeUser"><HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico></div>  
         <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
-          <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
+          <!-- <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> -->
+          <font-awesome-icon icon="fa-solid fa-plus" class="text-blue-800 h-7 w-5 mr-2"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
         <!--///////////////////////////////////////////////////////////////////
@@ -59,7 +60,7 @@
                     </template>
                     <template slot="option" slot-scope="props">                                                
                       <div class="option__desc "><span class="option__title inline-flex">
-                        <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                        <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>   
                         {{ props.option.title }}</span>
                       </div>
                     </template>
@@ -80,36 +81,39 @@
           
           <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2"   v-for="(item, key) in listaUsuarios" :key="key">
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
-            <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading"  @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
+            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
+            <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.name }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Paterno:</p></div>
-            <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName1" :disabled="modalLoading" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
-            <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div> 
-            <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName2" :disabled="modalLoading" @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div>
+            <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.lastName1 }}</p></div>
+            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName1" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
+            <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div>
+            <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.lastName2 }}</p></div>
+            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName2" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Correo:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.mail }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Roll de Usuario:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.roll }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Plazas:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
-            <div class="col-span-2 grid-cols-2 mx-auto my-auto">
+            <!-- <div class="col-span-2 grid-cols-2 mx-auto my-auto">
               <button class="botonIconSave m-1" :disabled="modalLoading" @click="save_editado(item)" :class="{'deshabilitado':modalLoading}">
-                <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 mr-2 h-8 w-6"/>
                 <span>Guardar</span>
               </button>
               <button class="botonIconBorrarCard m-1" :disabled="modalLoading" @click="cancelar_guardado" :class="{'deshabilitado':modalLoading}">
-                <img src="../assets/img/borrar.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                <font-awesome-icon icon="fa-solid fa-trash" class="text-red-600 mr-2 h-8 w-6"/>
                 <span>Cancelar</span>
               </button>
-            </div>
+            </div> -->
             <div></div>
-            <div class="col-span-2 mx-auto my-auto">
+            <!-- <div class="col-span-2 mx-auto my-auto">
               <button @click="modal_password=true" class="botonIconNext mx-32 my-auto" :disabled="modalLoading" :class="{'deshabilitado':modalLoading}">
                 <p>Cambiar Contraseña</p>
               </button>
-            </div>
+            </div> -->
             <div></div>
           </div>
-          
+
         </div>        
       </div>
       <!--/////////////////////////////////////////////////////////////////////
@@ -134,11 +138,13 @@
             <div class="mx-auto my-6 -mb-8">
               <div class="mx-20 grid grid-cols-2">
                 <button class="botonIconSave m-1"  :disabled="modalLoading" @click="cambiar_pass" :class="{'deshabilitado':modalLoading}">
-                  <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25">
+                  <!-- <img src="../assets/img/save.png" class="mr-2 sm:mr-1 sm:ml-1" width="25" height="25"> -->
+                  <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 mr-2 h-8 w-6"/>
                   <span>Guardar</span>
                 </button>
                 <button class="botonIconBorrarCard m-1 grid grid-cols-2" :disabled="modalLoading" @click="modal_password=false, datos.password = '',User.RePassword = '', User.Password = ''" :class="{'deshabilitado':modalLoading}">
-                  <img src="../assets/img/borrar.png" class=" sm:mr-1 sm:ml-1" width="25" height="25">
+                  <!-- <img src="../assets/img/borrar.png" class=" sm:mr-1 sm:ml-1" width="25" height="25"> -->
+                  <font-awesome-icon icon="fa-solid fa-trash" class="text-red-600 mr-2 h-8 w-6"/>
                   <span class="-ml-2">Cancelar</span>
                 </button>
               </div>
@@ -212,7 +218,8 @@
             <select v-model="tramoSeleccionado" class="w-full mt-2 sm:w-33 sm:-ml-4 is_valid">
               <option disabled value>Selecionar...</option>     
               <option value="1">México Acapulco</option>     
-              <option value="2">México Irapuato</option>     
+              <option value="2">México Irapuato</option> 
+              <option value="3">México Queretaro</option>     
             </select>
             <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-5">Plaza</p>                        
             <multiselect 
@@ -279,7 +286,8 @@
         <div v-if="modal" class="rounded-lg border border-gray-400 bg-white px-12 py-10 shadow-2xl">
           <div class="justify-end flex -mr-10 -mt-6">
             <button @click="limpiar_usuario">
-              <img src="@/assets/img/close.png" class="mr-2" width="25" height="25" />
+              <!-- <img src="@/assets/img/close.png" class="mr-2" width="25" height="25" /> -->
+              <font-awesome-icon icon="fa-solid fa-xmark" class="text-blue-800 h-6 w-6 mr-4"/>
             </button>
           </div>
           <!--/////////////////////////////////////////////////////////////////
@@ -304,7 +312,8 @@
             </div>
             <div class="mt-8 flex justify-center">
               <button @click="modal_Part = true" class="botonIconNext font-boton">
-                <img src="@/assets/img/rehacer.png" class="mr-2" width="25" height="25"/>
+                <!-- <img src="@/assets/img/rehacer.png" class="mr-2" width="25" height="25"/> -->
+                <font-awesome-icon icon="fa-solid fa-right-long" class="text-blue-800 h-5 w-5 mr-2"/>
                 <span class="text-xs">Siguiente</span>
               </button>
             </div>
@@ -320,9 +329,11 @@
               </select>
               <select v-else v-model="User.Roll" class="w-full is_valid">
                 <option disabled value>Selecionar...</option>
-                <option value="1">Técnico</option>
-                <option value="2">Supervisor Técnicos</option>
-                <option value="3">Sistemas</option>
+                <option value="1">Técnico Carril</option>
+                <option value="2">Supervisor Carril</option>
+                <option value="3">Técnico Plaza</option>
+                <option value="5">Supervisor Plaza</option>
+                <option value="8">Gerencia</option>
               </select>
             </div>
             <div class="mt-3">
@@ -336,14 +347,16 @@
             <div class="grid grid-cols-2">  
               <div class="flex justify-center mt-5 mr-10">
                 <button @click="modal_Part = false" class="mt-4 botonIconNext font-boton">
-                  <img src="@/assets/img/deshacer.png" class="mr-4" width="25" height="25"/>
-                  <span class="text-xs mr-4">Regresar</span>
+                  <!-- <img src="@/assets/img/deshacer.png" class="mr-4" width="25" height="25"/> -->
+                  <font-awesome-icon icon="fa-solid fa-arrow-left-long" class="text-blue-800 h-5 mr-4"/>
+                  <span class="text-xs">Regresar</span>
                 </button>
               </div>
               <div class="flex justify-center mt-5 ml-10">
                 <button @click="confirmar" class=" mt-4 botonIconBuscar font-boton">
-                  <img src="@/assets/img/save.png" class="mr-5" width="25" height="25"/>
-                  <span class="text-xs mr-5">Guardar</span>
+                  <!-- <img src="@/assets/img/save.png" class="mr-5" width="25" height="25"/> -->
+                  <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 h-5 mr-4"/>
+                  <span class="text-xs">Guardar</span>
                 </button>
               </div>
             </div> 
@@ -418,13 +431,15 @@ export default {
       obj_borrar_plaza:{
         plazas:[]
       },
-      modalEliminarPlaza:false
+      modalEliminarPlaza:false,
+      nombreOriginal:''
     };
   },
 /////////////////////////////////////////////////////////////////////
 ////                      CICLOS DE VIDA                         ////
 /////////////////////////////////////////////////////////////////////
   beforeMount: async function () {
+    this.modalLoading = true
     this.loadingTabla = true 
       this.listaUsuarios = []
       this.lista_Usuarios_Filtrada = []
@@ -436,7 +451,8 @@ export default {
         this.lista_Usuarios_Filtrada = this.lista_Usuarios
         this.listaUsuarios = this.lista_Usuarios_Filtrada
         this.loadingTabla = false
-      },100)    
+        this.modalLoading = false
+      },1000)    
     if (this.$store.state.Login.cookiesUser.rollId == 1 || this.$store.state.Login.cookiesUser.rollId == 3) {
       this.typeUser = false;
     }
@@ -558,20 +574,43 @@ export default {
           Name: item.name,
           Mail: item.mail,
           Rol: item.rollId,
+          UserChange: this.$store.state.Login.cookiesUser.userId,
         };
-        this.$store.dispatch("Usuarios/Update_User", UpUser);
-        setTimeout(()=>{
-          this.$notify.success({
-          title: "Ops!!",
-          msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
-          position: "bottom right",
-          styles: {
-            height: 100,
-            width: 500,
-          },
-        });
-        this.$router.push("/");
-        },2000)
+        //this.$store.dispatch("Usuarios/Update_User", UpUser);
+        this.$http.put(`${API}/User/update`,UpUser)
+        .then((response) => {
+          console.log(response);
+          if(response.data.message == 'Ok')
+          {
+            setTimeout(()=>{
+            this.$notify.success({
+            title: "Ops!!",
+            msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+            position: "bottom right",
+            styles: {
+              height: 100,
+              width: 500,
+            },
+            });
+            this.modalLoading = false
+            this.$router.push("/");
+            },5000)
+          }else{
+            setTimeout(()=>{
+              this.$notify.error({
+              title: "Ops!!",
+              msg: "NO SE PUDO ACTUALIZAR EL USUARIO CORRECTAMENTE.",
+              position: "bottom right",
+              styles: {
+                height: 100,
+                width: 500,
+              },
+              });
+              this.modalLoading = false
+              this.$router.push("/");
+            },5000)
+          } 
+        })
       }else{
         this.$notify.error({
           title: "Ops!!",
@@ -715,9 +754,33 @@ export default {
             Name: this.User.Name,
             Mail: this.User.Mail,
             Rol: this.User.Roll,
+            UserChange: this.$store.state.Login.cookiesUser.userId,
           };
-          this.$store.dispatch("Usuarios/Update_User", UpUser);                    
-          let _UpUser = {
+          /* this.$store.dispatch("Usuarios/Update_User", UpUser); */
+          this.$http.put(`${API}/User/update`,UpUser)
+            .then((response) => {
+              if(response.status == 200){                                                    
+                this.$notify.success({
+                  title: "Ops!!",
+                  msg: "SE ACTUALIZO EL USUARIO CORRECTAMENTE.",
+                  position: "bottom right",
+                  styles: {
+                    height: 100,
+                    width: 500,
+                  },
+                });
+                this.refrescar_usuarios()  
+                this.modal = false;
+              }
+            })
+            let _UpUser = {
+              IdUser: this.User.UserId,
+              Password: this.User.Password,
+            };          
+            if(_UpUser.Password != "***********"){              
+                this.$store.dispatch("Usuarios/UPDATE_PASSWORD", _UpUser);
+            } 
+          /*let _UpUser = {
             IdUser: this.User.UserId,
             Password: this.User.Password,
           };          
@@ -733,8 +796,9 @@ export default {
               width: 500,
             },
           });
+          location.reload();
           this.refrescar_usuarios()  
-          this.modal = false;
+          this.modal = false;*/
         }
         this.limpiar_usuario();      
       } 
@@ -809,7 +873,6 @@ export default {
       this.obj_borrar_plaza.plazas.forEach((plaza) => {
         arrayPlaza.push(plaza.squareCatalogId)
       })
-      console.log(this.obj_borrar_plaza.plazas);
       let plazaDelete = {
           squareId: arrayPlaza,
           userId: item.userId,
@@ -853,11 +916,11 @@ export default {
     },
     opticones_select_acciones(item){
       const options= [                
-        { title: 'Editar', img: '/img/pencil.04ec78bc.png' }, //0
-        { title: 'Deshabilitar', img: '/img/close.162602bc.png' },//1
-        { title: 'Habilitar', img: '/img/comprobado.da188ccb.png' },//2
-        { title: 'Agregar Plaza', img: '/img/more.b0fdb1af.png' },//3
-        { title: 'Eliminar Plaza', img: '/img/menos.9f2bee4b.png' },//4
+        { title: 'Editar', img: 'fa-solid fa-pen-to-square' }, //0
+        { title: 'Deshabilitar', img: 'fa-solid fa-user-lock' },//1
+        { title: 'Habilitar', img: 'fa-solid fa-user-check' },//2
+        { title: 'Agregar Plaza', img: 'fa-solid fa-square-plus' },//3
+        { title: 'Eliminar Plaza', img: 'fa-solid fa-square-minus' },//4
       ]
       let filtroOpciones = []
       filtroOpciones.push(options[0])

@@ -2,12 +2,13 @@
     <div>        
         <div class="justify-center">       
     <!--/////////////////////////////////////////////////////////////////////
-        ////                     MODAL IMAGENES                        /////
+        ////                     MODAL IMAGENES                        ///// 
         ////////////////////////////////////////////////////////////////////-->
-        <div class="sticky inset-0" v-if="modalImage" :class="{'modal-container': modalImage}">
+        <div class="sticky inset-0" v-if="modalImage"  :class="{'modal-container': modalImage}">
             <div v-if="true" class="modalCargarImg sm:mt-34 sm:m-4 md:mt-66 mt-66">          
                 <span @click="cerrar_modal_imagenes" class="absolute  top-0 right-0">
-                    <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" />
+                    <!-- <img  src="@/assets/img/close.png" class=" w-8 cursor-pointer sm:w-6 sm:h-6" /> -->
+                    <font-awesome-icon icon="fa-regular fa-circle-xmark" class="h-8 cursor-pointer sm:w-6 sm:h-6 text-blue-800"/>
                 </span> 
                 <div class="justify-center text-center block">            
                     <!-- /////////////////////////////////////////////////////////////////////
@@ -15,7 +16,8 @@
                     ///////////////////////////////////////////////////////////////////// -->
                     <ImagenesFichaDiagnostico @bloquear-boton-diagnostico="bloquear_boton_diagnostioc_img" :reporteDataInsertada="true" :tipo="'Diagnostico'" :referenceNumber="datosHeader.referenceNumber != undefined ? datosHeader.referenceNumber : ''"></ImagenesFichaDiagnostico>
                     <button @click="enviar_header_diagnostico(false)" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
-                        <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                        <!-- <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+                        <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
                         <span>Generar Diagnóstico</span>
                     </button>  
                 </div>
@@ -38,13 +40,15 @@
                     <div class="mb-5 -mt-10 ml-77 sm:mb-6 sm:mx-6 sm:-mt-16 md:mx-auto md:mb-18 lg:mx-auto xl:mx-auto">
                         <div v-if="$route.params.tipoVista == 'Crear' && botonEditCreate == true">                            
                             <button @click="enviar_header_diagnostico(true)" class="botonIconCrear" v-if="!modalImage">
-                                <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" />
+                                <!-- <img src="../../../assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+                                <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
                                 <span>Enviar Información del Diagnóstico</span>
                             </button>                                                                                                         
                         </div>
                         <div v-else>
                             <button @click="enviar_header_diagnostico(true)" class="botonIconActualizar sm:mt-12">
-                                <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" />
+                                <!-- <img src="../../../assets/img/documento.png" class="mr-2" width="35" height="35" /> -->
+                                <font-awesome-icon icon="fa-solid fa-file-pen" class="mr-2 text-yellow-600 h-8"/>
                                 <span>Actualizar Diagnóstico</span>
                             </button>
                         </div>
@@ -90,6 +94,8 @@ export default {
         }
     },
     beforeMount(){
+       
+        this.$store.dispatch('Login/BUSCAR_ADMIN_PLAZA')
         if(this.$route.params.tipoVista == 'Editar'){            
             this.itemCompletoEdit = this.$route.query.item
             this.reporteInsertado = true

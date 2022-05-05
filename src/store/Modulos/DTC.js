@@ -21,9 +21,35 @@ const state = {
 const getters = {  
   getInsertDmgComplete: () => state.insertDmgComplete,
   GET_LISTA_DTC: () => (tipoVista) => {
-    if(tipoVista){     
+    if(tipoVista == undefined){
       return state.listaInfoDTC
-        .filter(dtc => dtc.dtcView.statusId == 4)
+      .filter(dtc => dtc.dtcView.statusId == 5)
+      .map((item) => {
+        item.dtcView.pdfFotograficoSellado = item.pdfFotograficoSellado
+        //valida img equipo dañado
+        if(item.paths.length > 0)
+          item.dtcView.imgbool = false
+        else  
+          item.dtcView.imgbool = true
+        //valida pdf Escaneado dtc
+        if(item.pdfExists){
+          item.dtcView.escaneadobool = false
+          item.dtcView.confirmpdf = true
+        }
+        else{
+          item.dtcView.escaneadobool = true
+          item.dtcView.confirmpdf = false
+        }
+        //valida img deldiagnostico
+        item.pathImagesDF.length > 0 
+          ? item.dtcView.sinEscanedoDiagnostico = true
+          : item.dtcView.sinEscanedoDiagnostico = false                   
+        return item.dtcView          
+      })     
+    }
+    else if(tipoVista){     
+      return state.listaInfoDTC
+        .filter(dtc => dtc.dtcView.statusId == 4 || dtc.dtcView.statusId == 5)
         .map((item) => {
           item.dtcView.pdfFotograficoSellado = item.pdfFotograficoSellado
           //valida img equipo dañado

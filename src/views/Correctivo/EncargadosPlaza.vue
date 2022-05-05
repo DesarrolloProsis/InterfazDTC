@@ -6,19 +6,21 @@
                 ////                          TITULO                            ////
                 ////////////////////////////////////////////////////////////////////-->
                 <HeaderGenerico @filtrar-encargados="filtrar_encargados" @buscar-encargado="guardar_palabra_busqueda" @limpiar-encargados="limpiar_encargados" :titulo="'Encargados de Plaza'" :tipo="'ENC'"></HeaderGenerico>
-                <button @click="agregarUsuario()" class=" botonIconBuscar  justify-center mb-6 -mt-4">
-                    <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/>
+                <button @click="agregarUsuario()" class="botonIconBuscar  justify-center mb-6 -mt-4">
+                    <!-- <img src="../../assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> -->
+                    <font-awesome-icon icon="fa-solid fa-plus" class="text-blue-800 h-7 w-5 mr-2"/>
                     <span class="">Agregar Nuevo Encargado</span>
                 </button>
                 <h1 class="text-4xl font-bold text-gray-800 text-center mb-8 hidden">Encargados de Plaza</h1>
                 <!--///////////////////////////////////////////////////////////////////
                 ////                     TABLA DE USUARIOS                        ////
                 ////////////////////////////////////////////////////////////////////-->
-                <div class="divtabla sm:mb-24 mb-10 -mt-8" style="height:550px;">
+                <div class="divtabla sm:mb-24 mb-10 -mt-8" style="height:508px;">
                     <table class="table">
                         <thead>
                             <tr class="text-md text-gray-400 font-normal bg-blue-800">
                                 <th class="cabeceraTable font-medium">Nombre</th>
+                                <th class="cabeceraTable font-medium">Rol</th>
                                 <th class="cabeceraTable font-medium sm:hidden">Correo</th>
                                 <th class="cabeceraTable font-medium">Plaza</th>
                                 <th class="cabeceraTable font-medium">Acciones</th>
@@ -28,6 +30,10 @@
                             <tr class="h-12 text-gray-900 text-sm text-center" v-for="(item, key) in listaEncargados" :key="key" 
                             :class="{'hidden' : item.statusAdmin != true}">
                                 <td class="cuerpoTable">{{ `${item.name} ${item.lastName1} ${item.lastName2}` }}</td>
+                                <td class="cuerpoTable">
+                                    <span v-if="item.idRoll == 12">Encargado de Turno</span>
+                                    <span v-if="item.idRoll == 11">Administrador de Plaza</span>
+                                </td>
                                 <td class="cuerpoTable sm:hidden">{{ item.mail }}</td>
                                 <td class="cuerpoTable">{{ item.squareName }}</td>
                                 <td class="cuerpoTable">
@@ -48,7 +54,7 @@
                                         </template>
                                         <template slot="option" slot-scope="props">                                                
                                             <div class="option__desc"><span class="option__title inline-flex">
-                                                <img :src="props.option.img" class="mr-5" width="15" height="15">    
+                                                <font-awesome-icon :icon="props.option.img" class="text-blue-800 w-4 h-4 mr-2"/>    
                                                 {{ props.option.title }}</span>
                                             </div>
                                         </template>
@@ -63,7 +69,7 @@
             ////                      MODAL AGREGAR                            ////
             ////////////////////////////////////////////////////////////////////-->
             <div class="sticky inset-0" :class="{'modal-container': modalAgregar}">
-                <div v-if="modalAgregar" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl mt-66">
+                <div v-if="modalAgregar" class="rounded-lg justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto px-12 py-10 shadow-2xl lg:mt-66 xl:mt-48">
                     <p class="text-gray-900 font-bold text-2xl mb-8 sm:text-sm sm:text-center text-center">Agregar Encargado de Plaza</p>
                     <div class="grid grid-cols-2 mt-2">
                         <p class="text-sm mb-1 font-semibold text-gray-700 sm:-ml-6">Nombre(s)</p>
@@ -76,6 +82,12 @@
                         <div class="sm:-ml-20"><SelectPlaza :forma="'encargado'" class="mt-2"></SelectPlaza></div>
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2 sm:-ml-20 sm:w-48" v-model="insertAdmin.mail">
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Rol</p>
+                        <select class="input mx-auto border-none w-48 sm:w-62 md:w-48 mt-2" v-model="insertAdmin.tipoencargado">
+                            <option value=""></option>
+                            <option value="11" >Administrador de plaza</option>
+                            <option value="12" >Encargado de Turno</option>
+                        </select>
                     </div>
                     <div class="mt-5 text-center ml-6">
                         <button @click="confirmarAgregar()" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
@@ -111,8 +123,14 @@
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Correo</p>
                         <input type="text" class="w-full bg-white border-gray-400 mt-2 is_valid sm:w-48 sm:-ml-20" v-model="editUser.mail">
                         <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Plaza</p>
-                        <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
                         <input type="text" class="w-full bg-white hover:bg-white hover:border-none focus:bg-white border-none shadow-none mt-2" v-model="editUser.plaza" readonly>
+                        <!--<SelectPlaza :forma="'encargado'" :tipo="'edicion'" class="mt-2"></SelectPlaza>-->
+                        <p class="text-sm mb-1 font-semibold text-gray-700 mt-2 sm:-ml-6">Rol</p>
+                        <select class="input mx-auto border-none w-48 sm:w-62 md:w-48 mt-2" v-model="editUser.tipoencargado">
+                            <option value=""></option>
+                            <option value = "11" >Administrador de plaza</option>
+                            <option value = "12" >Encargado de Turno</option>
+                        </select>
                     </div>
                     <div class="mt-5 text-center ml-6">
                         <button @click="actualizarUsuario" class="botonIconBuscar font-boton sm:-ml-24">Guardar</button>
@@ -155,12 +173,14 @@ export default {
                 plaza:'',
                 plazaId: '',
                 mail:'',
+                tipoencargado:''
             },
             insertAdmin:{
                 nombre:'',
                 apellidoP:'',
                 apellidoM:'',
                 mail:'',
+                tipoencargado:'',
                 status: true
             },
             value:'',
@@ -174,7 +194,8 @@ export default {
             this.listaencargadosCompleta = response.data.result
             this.listaencargadosFilrada = this.listaencargadosCompleta
             this.listaEncargados = this.listaencargadosFilrada
-        })
+            console.log(this.listaEncargados);
+        }) 
     },
     methods:{
         actualizarFiltro(){
@@ -198,6 +219,7 @@ export default {
             this.insertAdmin.apellidoP = ''
             this.insertAdmin.apellidoM = ''
             this.insertAdmin.mail = ''
+            this.insertAdmin.tipoencargado = ''
         },
         confirmarAgregar (){
             let valueAdmin = Object.values(this.insertAdmin)
@@ -213,12 +235,21 @@ export default {
                 });
             }else{
                 this.modalAgregar = false
-                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza                             
-                this.$http.post(`${API}/SquaresCatalog/InsertAdmin`, this.insertAdmin)
+                this.insertAdmin['plaza']= this.$store.state.Login.plazaSelecionada.numeroPlaza   
+                let admin = {
+                    Nombre: this.insertAdmin.nombre,
+                    ApellidoP: this.insertAdmin.apellidoP ,
+                    ApellidoM: this.insertAdmin.apellidoM ,
+                    Mail: this.insertAdmin.mail,
+                    IdRoll: parseInt(this.insertAdmin.tipoencargado),
+                    Plaza: this.insertAdmin['plaza'],
+                }                  
+                this.$http.post(`${API}/SquaresCatalog/InsertAdmin`, admin)
                 .then(() => {                    
-                    this.actualziar_header_plazas()
-                    this.actualizarFiltro()
-                })
+                   this.actualziar_header_plazas()
+                   this.actualizarFiltro()
+                    this.$store.dispatch('Login/BUSCAR_ADMIN_PLAZA')
+                 })
             }
         },
         actualziar_header_plazas(){
@@ -264,13 +295,16 @@ export default {
         },
         editarUsuario (item) {            
             CookiesService.actualizar_plaza(item.adminSquareId)
+            
+            console.log();
             this.editUser.userId = item.adminSquareId
             this.editUser.name = item.name
             this.editUser.lastName1 = item.lastName1
             this.editUser.lastName2 = item.lastName2
             this.editUser.plaza = item.squareName
             this.editUser.plazaId = item.squareCatalogId
-            this.editUser.mail = item.mail,            
+            this.editUser.mail = item.mail
+            this.editUser.tipoencargado = item.idRoll.toString()
             this.modalEditar = true;                              
         },
         actualizarUsuario (){
@@ -293,7 +327,10 @@ export default {
                     mail: this.editUser.mail, 
                     plaza: this.editUser.plazaId, 
                     adminId: this.editUser.userId,
-                    userId: this.$store.state.Login.cookiesUser.userId}      
+                    IdRoll: parseInt(this.editUser.tipoencargado), 
+                    userId: this.$store.state.Login.cookiesUser.userId
+                    }
+                    console.log(objUpdateAdmin)
                 this.$http.put(`${API}/SquaresCatalog/UpdateAdmin`,objUpdateAdmin)
                 .then(() => {                    
                     this.actualizarFiltro()
@@ -322,16 +359,17 @@ export default {
             }
             if(this.value.title == 'Editar'){
                 this.editarUsuario(item)
+                this.nombreOriginal = item.name + ' ' + item.lastName1 + ' ' + item.lastName2
             }   
             this.value = ""
         },
         opticones_select_acciones(){
             let options= [
-                { title: 'Borrar', img: '/img/borrar.16664eed.png' },//0
-                { title: 'Editar', img: '/img/pencil.04ec78bc.png' },//1
+                { title: 'Borrar', img: 'fa-solid fa-trash' },//0
+                { title: 'Editar', img: 'fa-solid fa-pen-to-square' },//1
             ]
             let filtroOpciones = []
-            if(this.rollId == 4 || this.rollId == 7 || this.rollId == 10){
+            if(this.rollId == 2 || this.rollId == 4 || this.rollId == 5 || this.rollId == 8 || this.rollId == 10){
                 filtroOpciones.push(options[0])
                 filtroOpciones.push(options[1])
             }

@@ -4,7 +4,7 @@
     <!-- <transition name="slide-fade">  -->      
       <router-view/>
     <!-- </transition> -->
-    <Footer></Footer>
+    <Footer v-if="$route.name != 'login'"></Footer>
   </div>
 </template>
 <script>

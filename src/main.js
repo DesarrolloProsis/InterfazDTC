@@ -9,7 +9,158 @@ import es from 'vee-validate/dist/locale/es.json';
 //import './registerServiceWorker'
 import moment from "moment";
 import * as rules from 'vee-validate/dist/rules';
-import tooltip from 'vue-directive-tooltip'
+import tooltip from 'vue-directive-tooltip';
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import specific icons */
+import { 
+  faUserSecret,
+  faScrewdriverWrench,
+  faToolbox,
+  faGears,
+  faCalendarDays,
+  faFileWaveform,
+  faBuildingUser,
+  faUsersGear,
+  faVideo,
+  faFileCircleQuestion,
+  faClapperboard,
+  faFileSignature,
+  faFolderTree,
+  faPaste,
+  faFileCircleCheck,
+  faBoxesStacked,
+  faFileInvoiceDollar,
+  faArrowsDownToPeople,
+  faCopy,
+  faFileCircleXmark,
+  faFileInvoice,
+  faFileLines,
+  faRightFromBracket,
+  faBars,
+  faCircleInfo,
+  faCalendarDay,
+  faRepeat,
+  faPlus,
+  faFloppyDisk,
+  faTrash,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faUserLock,
+  faSquarePlus,
+  faSquareMinus,
+  faUserCheck,
+  faXmark,
+  faRightLong,
+  faArrowLeftLong,
+  faDownload,
+  faTruck,
+  faGripLines,
+  faTruckMonster,
+  faRoad,
+  faCarTunnel,
+  faAddressBook,
+  faFileCirclePlus,
+  faFilePen,
+  faFileArrowDown,
+  faFileArrowUp,
+  faUserGear,
+  faFilePdf,
+  faCamera,
+  faArrowRightArrowLeft,
+  faWindowRestore,
+  faAddressCard,
+  faCalendarCheck
+} from '@fortawesome/free-solid-svg-icons'
+/*<font-awesome-icon icon="fa-regular fa-file-excel" />*/
+
+import { 
+  faCircleQuestion,
+  faComments,
+  faCirclePlay,
+  faEyeSlash,
+  faEye,
+  faCircleXmark,
+  faCircleCheck,
+  faFileExcel
+} from '@fortawesome/free-regular-svg-icons'
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+/* add icons to the library */
+library.add(faUserSecret,
+  faScrewdriverWrench,
+  faToolbox,
+  faGears,
+  faCircleQuestion,
+  faCalendarDays,
+  faFileWaveform,
+  faBuildingUser,
+  faUsersGear,
+  faComments,
+  faVideo,
+  faFileCircleQuestion,
+  faCirclePlay,
+  faClapperboard,
+  faFileSignature,
+  faFolderTree,
+  faPaste,
+  faFileCircleCheck,
+  faBoxesStacked,
+  faFileInvoiceDollar,
+  faArrowsDownToPeople,
+  faCopy,
+  faFileCircleXmark,
+  faFileInvoice,
+  faFileLines,
+  faRightFromBracket,
+  faBars,
+  faEyeSlash,
+  faEye,
+  faCircleInfo,
+  faCalendarDay,
+  faRepeat,
+  faPlus,
+  faFloppyDisk,
+  faTrash,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faUserLock,
+  faSquarePlus,
+  faSquareMinus,
+  faUserCheck,
+  faCircleXmark,
+  faXmark,
+  faRightLong,
+  faArrowLeftLong,
+  faDownload,
+  faTruck,
+  faGripLines,
+  faTruckMonster,
+  faRoad,
+  faCarTunnel,
+  faAddressBook,
+  faFileCirclePlus,
+  faFilePen,
+  faFileArrowDown,
+  faFileArrowUp,
+  faAddressCard,
+  faCircleCheck,
+  faUserGear,
+  faFilePdf,
+  faCamera,
+  faArrowRightArrowLeft,
+  faWindowRestore,
+  faCalendarCheck,
+  faFileExcel
+  )
+
+/* add font awesome icon component */
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.config.productionTip = false
 import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
 Vue.use(tooltip)
 //Router

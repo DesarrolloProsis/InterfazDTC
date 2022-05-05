@@ -70,7 +70,8 @@
           </div>
           <div class="flex justify-center mt-5 sm:ml-5 sm:text-xs" v-if="tipoUsuario != 7">
             <button @click.prevent="actualizar_componente" class="botonIconBuscar font-boton sm:w-32">
-              <img src="../../assets/img/save.png" class="mr-2" width="25" height="2" />
+              <!-- <img src="../../assets/img/save.png" class="mr-2" width="25" height="2" /> -->
+              <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-2 text-blue-800 h-8"/>
               <span class="sm:mt-2">Guardar Cambios</span>
             </button>
           </div>

@@ -271,6 +271,24 @@ function formato_capufe(clavePlaza){
     let name = 'Inventario'
     xml_hhtp_request(url,name)
 }
+function generar_pdf_anexoA(referenceNumber,referenceAnexo,subversion){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/AnexoDTC/AnexoA/${clavePlaza}/${referenceNumber}/${referenceAnexo}/${subversion}`
+    let namePdf = referenceAnexo
+    xml_hhtp_request(urlTopdf, namePdf)        
+}
+function generar_pdf_anexoB(referenceNumber,referenceAnexo,subversion){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/AnexoDTC/AnexoB/${clavePlaza}/${referenceNumber}/${referenceAnexo}/${subversion}`
+    let namePdf = referenceAnexo
+    xml_hhtp_request(urlTopdf, namePdf)        
+}
+function reporte_fotografico_anexo(referenceNumber,referenceAnexo){
+    let clavePlaza = referenceNumber.split('-')[0]
+    let urlTopdf = `${API}/ReporteFotografico/Nuevo/${clavePlaza}/0/${referenceNumber}/${referenceAnexo}`
+    let namePdf = 'ReporteFotograficoEquipoNuevo' + '-' + referenceNumber 
+    xml_hhtp_request(urlTopdf,namePdf)
+}
 export default {
     generar_pdf_correctivo,
     crear_referencia,
@@ -291,6 +309,9 @@ export default {
     dtc_no_sellados,
     dtc_no_sellados_excel,
     reporte_fotografico_sellado,
+    reporte_fotografico_anexo,
     reporte_dtcborrados,
-    formato_capufe
+    formato_capufe,
+    generar_pdf_anexoA,
+    generar_pdf_anexoB
 }

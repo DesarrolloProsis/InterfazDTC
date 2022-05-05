@@ -107,7 +107,8 @@
                     :normalheaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Plaza', key: 'squareName'},{text: 'Fecha Diagnostico', key: 'diagnosisDate', formatoFecha: true},{text: 'Carriles', key: 'lanes'},{text: 'Numero Falla', key: 'failuerNumber'},{text: 'Numero Siniestro', key:'siniesterNumber'},{text: 'Referencia DTC', key: 'referenceDTC', LetrasGris:true },{text: 'Acciones', key: 'Acciones'}]"
                     :movilHeaderKey="[{text: 'Numero Referencia', key: 'referenceNumber'},{text: 'Fecha Diagnostica', key: 'diagnosisDate', formatoFecha: true},{text: 'Acciones', key: 'Acciones'}]"
                 >
-                </TablaGenerica>                               
+                </TablaGenerica>  
+                <Spinner :modalLoading="modalLoading"/>                            
             </div>
         </div>    
     </div>
@@ -120,13 +121,15 @@ import ServiceReporte from '../../../services/ReportesPDFService'
 import ServiceFiltros from '../../../services/FiltrosDTCServices'
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 import ServiceCookies from '../../../services/CookiesService'
+import Spinner from '../../../components/Sppiner.vue'
 import moment from 'moment'
 export default {
     name: "ConcentradoFichas",
     components:{        
         HeaderGenerico,
         PdfEscaneado,
-        TablaGenerica
+        TablaGenerica,
+        Spinner
     },
     data (){
         return {
@@ -148,6 +151,7 @@ export default {
             refNum: '',
             comentario: '',
             statusDTC: 0,
+            modalLoading: false
         }
     },
     beforeMount: function (){
@@ -156,7 +160,7 @@ export default {
         let userId = this.$store.state.Login.cookiesUser.userId
         this.$http.get(`${API}/diagnosticoFalla/GetBitacoras/TLA/${userId}`)
         .then((response) => {
-                setTimeout(() => {
+            setTimeout(() => {
                 this.infoFichasFallaCompleta = response.data.result
                 this.infoFichasFallaFiltrada = this.infoFichasFallaCompleta
                 this.listaFicha = this.infoFichasFallaFiltrada
@@ -372,8 +376,14 @@ export default {
             if(acciones.title == 'Editar'){                     
                 this.editar_diagnostico_falla(itemRow)
             }
-            if(acciones.title == 'Borrar'){                             
-                this.infoEliminar = itemRow; this.modalEliminar = true;  
+            if(acciones.title == 'Borrar'){   
+                this.modalLoading = true                          
+                setTimeout(() => {
+                this.infoEliminar = itemRow; 
+                this.modalEliminar = true;      
+                this.modalLoading = false
+                }, 2000);
+                
             }
             if(acciones.title == 'Bajar Dignóstico de Falla'){     
                 ServiceReporte.generar_pdf_diagnostico_falla(itemRow.referenceNumber) 
@@ -418,23 +428,23 @@ export default {
         },
         opticones_select_acciones(item){
             const options= [                
-                { title: 'Terminar Ficha', accionCss: 'terminar', tipo: '', img: '/img/nuevoDtc.90090632.png' }, //0
-                { title: 'Terminar DTC', accionCss: 'terminar', img: '/img/nuevoDtc.90090632.png' },//1
-                { title: 'Editar', accionCss: 'editar', img: '/img/pencil.04ec78bc.png' }, //2
-                { title: 'Borrar', accionCss: 'borrar', img: '/img/borrar.16664eed.png' },//3
-                { title: 'Bajar Dignóstico de Falla', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //4
-                { title: 'Bajar Ficha Técnica', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//5
-                { title: 'Bajar Dictamen (DTC)', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' }, //6
-                { title: 'Subir DF Escaneado', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //7
-                { title: 'Subir FT Escaneada', accionCss: 'editar', img: '/img/upload.8d26bb4f.png' }, //8
-                { title: 'Bajar FT Escaneada', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//9
-                { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: '/img/download.ea0ec6db.png' },//10
-                { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: '/img/add.36624e63.png' },//11
+                { title: 'Terminar Ficha', accionCss: 'terminar', tipo: '', img: 'fa-file-circle-plus' }, //0
+                { title: 'Terminar DTC', accionCss: 'terminar', img: 'fa-file-circle-plus' },//1
+                { title: 'Editar', accionCss: 'editar', img: 'fa-solid fa-pen-to-square' }, //2
+                { title: 'Borrar', accionCss: 'borrar', img: 'fa-solid fa-trash' },//3
+                { title: 'Bajar Dignóstico de Falla', accionCss: 'terminar', img: 'fa-file-arrow-down' }, //4
+                { title: 'Bajar Ficha Técnica', accionCss: 'terminar', img: 'fa-file-arrow-down' },//5
+                { title: 'Bajar Dictamen (DTC)', accionCss: 'terminar', img: 'fa-file-arrow-down' }, //6
+                { title: 'Subir DF Escaneado', accionCss: 'editar', img: 'fa-file-arrow-up' }, //7
+                { title: 'Subir FT Escaneada', accionCss: 'editar', img: 'fa-file-arrow-up' }, //8
+                { title: 'Bajar FT Escaneada', accionCss: 'terminar', img: 'fa-file-arrow-down' },//9
+                { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: 'fa-file-arrow-down' },//10
+                { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: 'fa-solid fa-address-card' },//11
             ]
             this.statusDTC = item.statusDtc
             let filtroOpciones = []            
             filtroOpciones.push(options[4])
-            if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
+            if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 8 && this.typeUser != 10){
                 filtroOpciones.push(options[7])
             }
             if(item.diagnosticoSellado){
@@ -442,7 +452,7 @@ export default {
             } 
             if(item.validacionFichaTecnica){
                 filtroOpciones.push(options[5]) 
-                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
+                if(this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 8 && this.typeUser != 10){
                     filtroOpciones.push(options[8])
                 }
                 if(item.fichaSellado){
@@ -459,10 +469,10 @@ export default {
                     //filtroOpciones.push(options[3])
                 }
             }
-            if((!item.validacionDTC) && (this.typeUser == 1 || this.typeUser == 2)){
+            /*if((!item.validacionDTC) && (this.typeUser == 1 || this.typeUser == 2)){
                 filtroOpciones.push(options[3])
-            }
-            if(this.typeUser == 4 || this.typeUser == 10){
+            }*/
+            if(this.typeUser == 2 || this.typeUser == 4 || this.typeUser == 5 || this.typeUser == 8 || this.typeUser == 10){
                 filtroOpciones.push(options[11])
                 filtroOpciones.push(options[3])
             }  

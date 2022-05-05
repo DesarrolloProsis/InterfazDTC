@@ -20,8 +20,9 @@
                     :class="{'' : tipo == 'Diagnostico'}">
                     <div class="sm:-mt-4">
                         <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer">
-                        <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-16" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}" alt/>
-                        <span class="text-sm text-gray-500 mb-0 sm:hidden">Agregar imagenes</span>
+                        <!-- <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-16" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}" alt/> -->
+                        <font-awesome-icon icon="fa-solid fa-plus" class="p-5 w-auto text-center flex h-32 xl:ml-8 xl:-mt-6 xl:-mb-6 sm:w-10 sm:h-10 sm:p-1 sm:mt-16 text-blue-800" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}"/>
+                        <span class="text-sm text-gray-500 sm:hidden">Agregar imagenes</span>
                     </div>
                 </div>
             </div>
@@ -70,6 +71,10 @@ export default {
         reporteDataInsertada: {
             type: Boolean,
             default: () => false
+        },
+        maximofotosanexo:{
+            type: Number,
+            default: 0
         }
     },
     components: {
@@ -95,8 +100,33 @@ export default {
         this.arrayImagenes = []           
         clearInterval(this.interval);            
     },
-    beforeMount() {                       
-        setTimeout(() => {               
+    beforeMount() { 
+        if(this.tipo == 'Anexo'){
+            let urlImgPaths = ''
+            this.limiteFotos = this.maximofotosanexo                
+            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+            this.$http.get(urlImgPaths).then((response) => 
+                {
+                    if (response.data.length == 0)
+                       this.$emit('bloquear-boton-diagnostico', true)  
+                });
+            this.$http.get(urlImgPaths)
+            .then((response)=>{
+                let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                if(response.status != 404){                          
+                        let newArrayImg = []                      
+                        response.data.forEach(item => {
+                            newArrayImg.push({
+                                "name": item, 
+                                "imgbase": `${urlImgDescarga}/${item}`
+                            })
+                        })
+                        this.arrayImagenes = newArrayImg                                       
+                    }    
+            })       
+        }       
+        else{
+            setTimeout(() => {               
             let urlImgPaths = ''                                
             if(this.tipo == 'Actividades'){
                 this.limiteFotos = 36
@@ -105,6 +135,10 @@ export default {
             else if(this.tipo == 'Diagnostico'){
                 this.limiteFotos = 4                
                 urlImgPaths = `${API}/DiagnosticoFalla/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+            }
+            else if(this.tipo == 'Anexo'){
+                this.limiteFotos = this.maximofotosanexo                
+                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
             }
             else{
                 this.limiteFotos = 4                                
@@ -132,7 +166,8 @@ export default {
                         this.arrayImagenes = newArrayImg                                       
                     }    
                 })                
-        }, 500)        
+            }, 500)
+        }         
     },
     computed:{
         num (){
@@ -177,6 +212,11 @@ export default {
                         this.limiteFotos = 100
                         rutaInsertImagenes = `${API}/dtcData/EquipoDañado/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}                        
+                }
+                else if (this.tipo == 'Anexo'){
+                        this.limiteFotos = this.maximofotosanexo
+                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 4}
                 }
                 else{                    
                     if(this.tipo == 'Diagnostico'){                        
@@ -229,6 +269,9 @@ export default {
                     }
                     else if(this.tipo == 'Diagnostico'){                               
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                    }
+                    else if(this.tipo == 'Anexo'){
+                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else{                                           
                         urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`

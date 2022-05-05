@@ -8,7 +8,7 @@ function formato_cookies_usuario(loginSesion, username){
     let cookies = {}
     let tokenUser = {}
     Axios.post(`${API}/login/Cookie`, { userId: loginSesion.userId })
-    .then((response) => {             
+    .then((response) => {           
         let plazasUsuario =  response.data.result.cookie.map(item => {        
             return {
                 refereciaPlaza: item.referenceSquare,
@@ -16,7 +16,8 @@ function formato_cookies_usuario(loginSesion, username){
                 numeroPlaza: item.squareCatalogId,
                 plazaNombre: item.squareName,
                 plazaAdminNombre: item.plazaAdministrador,
-                statusAdmin: item.statusAdmin
+                statusAdmin: item.statusAdmin,
+                idRoll: item.idRoll,
             }
         });             
         tokenUser = response.data.result.userToken
