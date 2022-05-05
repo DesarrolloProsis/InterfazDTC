@@ -10,7 +10,7 @@
                 </div>
                 <div class="w-full -ml-18 sm:-ml-16 text-center">
                     <p class="text-sm text-white font-titulo sm:text-xs" :class="{'sm:ml-8':$route.name == 'login'}">
-                        © 2022 Proyectos y Sistemas Informaticos.
+                        © {{this.año}} Proyectos y Sistemas Informaticos.
                     </p>
                 </div>
                 <div class="inline-flex" v-if="$route != undefined && $route.name != 'login'">
@@ -45,7 +45,7 @@ export default {
     data(){
         return{        
             mostrar: true,  
-            ano: '',
+            año: '',
         }
     },
     created(){
