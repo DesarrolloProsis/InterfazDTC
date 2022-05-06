@@ -78,7 +78,7 @@
         <div class="mt-4">
            <ValidationObserver ref="observer" class="">  
                         <div class="w-full">
-                            <ValidationProvider name="ComentarioCalendario" rules="required:max:500" v-slot="{ errors }">
+                            <ValidationProvider name="ComentarioCalendario" rules="max:500" v-slot="{ errors }">
                                 <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
                                 <textarea
                                     v-model="comentario"                                                               
@@ -415,7 +415,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           // ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
           // ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
           setTimeout(() => {
-            this.$router.push('/home');
+            this.$router.push('/ConcentradoDTCFacturados');
             document.querySelector('body').classList.remove('overflow-hidden'); 
           },3000)
         })
@@ -508,7 +508,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      this.modalconfirmacionanexo=false;
      this.modalImage = false;
      this.modalvalidacionanexo = false;
-     this.$router.push('/home');
+     this.$router.push('/ConcentradoDTCFacturados');
      document.querySelector('body').classList.remove('overflow-hidden'); 
      },
     },

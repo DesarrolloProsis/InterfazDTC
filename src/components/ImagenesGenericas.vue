@@ -75,6 +75,10 @@ export default {
         maximofotosanexo:{
             type: Number,
             default: 0
+        },
+        referenciaAnexo:{
+            type: String,
+            default: () => ''
         }
     },
     components: {
@@ -104,7 +108,7 @@ export default {
         if(this.tipo == 'Anexo'){
             let urlImgPaths = ''
             this.limiteFotos = this.maximofotosanexo                
-            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
             this.$http.get(urlImgPaths).then((response) => 
                 {
                     if (response.data.length == 0)
@@ -138,7 +142,7 @@ export default {
             }
             else if(this.tipo == 'Anexo'){
                 this.limiteFotos = this.maximofotosanexo                
-                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
             }
             else{
                 this.limiteFotos = 4                                
@@ -215,7 +219,7 @@ export default {
                 }
                 else if (this.tipo == 'Anexo'){
                         this.limiteFotos = this.maximofotosanexo
-                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
                         objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 4}
                 }
                 else{                    
@@ -271,7 +275,7 @@ export default {
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else if(this.tipo == 'Anexo'){
-                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
+                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}/${this.referenciaAnexo}`
                     }
                     else{                                           
                         urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`

@@ -85,7 +85,7 @@
         <div class="mt-4">
         <ValidationObserver ref="observer" class="">  
           <div class="w-full">
-            <ValidationProvider name="reporte fotografico" rules="required:max:500" v-slot="{ errors }">
+            <ValidationProvider name="reporte fotografico" rules="max:500" v-slot="{ errors }">
                   <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
                   <textarea
                   v-model="comentario"                                                               
@@ -121,9 +121,10 @@
                       :tipo="'Anexo'" 
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
+                      :referenciaAnexo="this.referenciaAnexo"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img">
                     </ImagenesAnexo>
-                    <button @click="insertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                    <button @click="pasarinsertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Anexo 1-A</span>
                     </button>  
@@ -181,7 +182,7 @@
               </div>
             </div>
             <div class="flex gap-4 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="pasarinsertaranexo()">Confirmar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="insertaranexo()">Confirmar</button>
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalconfirmacionanexo = false">Cancelar</button>
             </div>
     </Modal>
@@ -296,7 +297,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       listaencargadosCompleta:[],
       comentario:'',
       numerodefotos: 0,
-      ciudad:[]
+      ciudad:[],
+      referenciaAnexo: '',
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
@@ -382,8 +384,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
      //Funcion para insertar anexo
      async insertaranexo(){
-      //Abrir el modal de insertar anexo
-      this.modalImage = true
       //Damos formato a las fechas para poder crear el objeto de los anexos
       const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
@@ -408,19 +408,16 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       {
         //Hacemos la peticion para insertar un anexo
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
-        .then(() => {
-          this.modalImage = false;
-          this.modaldescarga = true;
-          // let refenciaanexo = response.data.result;
+        .then((response) => {
+          let refenciaanexo = response.data.result;
+          this.referenciaAnexo = refenciaanexo;
+          console.log(this.referenciaAnexo)
+          this.modalconfirmacionanexo=false;
+          this.modalImage = true;
           // let subversion = false;
           // //Una vez generada la referencia del anexo generamos los dos documentos
           // ServiceReportPDF.generar_pdf_anexoA(this.$route.params.referencenumber,refenciaanexo,subversion);
           // ServiceReportPDF.reporte_fotografico_anexo(this.$route.params.referencenumber,refenciaanexo);
-          //Tiempo para regresar a la pagina de inicio y en caso de que no exista  el scroll quitar la la clase para que aparezca
-          setTimeout(() => {
-            this.$router.push('/ConcentradoDTCFacturados');
-            document.querySelector('body').classList.remove('overflow-hidden'); 
-          },3000)
         })
         .catch((error) => {
           console.log(error);
@@ -523,8 +520,13 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
      //Funcion para el boton de aceptar
      pasarinsertaranexo(){
-       this.modalconfirmacionanexo=false;
-       this.modalImage = true;
+      this.modalImage = false;
+      this.modaldescarga = true;
+       //Tiempo para regresar a la pagina de inicio y en caso de que no exista  el scroll quitar la la clase para que aparezca
+      setTimeout(() => {
+           this.$router.push('/ConcentradoDTCFacturados');
+           document.querySelector('body').classList.remove('overflow-hidden'); 
+      },3000)
      },
      //Funcion para el boton del modal de descarga de los anexos
      saliranexos(){
@@ -532,7 +534,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      this.modalconfirmacionanexo=false;
      this.modalImage = false;
      this.modalvalidacionanexo = false;
-     this.$router.push('/home');
+     this.$router.push('/ConcentradoDTCFacturados');
      document.querySelector('body').classList.remove('overflow-hidden'); 
      },
      //Funcion para bloquear el boton de los anexos
