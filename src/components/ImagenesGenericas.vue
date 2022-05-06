@@ -107,27 +107,54 @@ export default {
     beforeMount() { 
         if(this.tipo == 'Anexo'){
             let urlImgPaths = ''
-            this.limiteFotos = this.maximofotosanexo                
+            this.limiteFotos = this.maximofotosanexo 
+            let nombreimg = [];               
             urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
             this.$http.get(urlImgPaths).then((response) => 
                 {
-                    if (response.data.length == 0)
-                       this.$emit('bloquear-boton-diagnostico', true)  
+                    console.log(response.data);
+                    response.data.forEach(element => { 
+                        nombreimg.push(element)
+                        let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        if(response.status != 404){                          
+                                    let newArrayImg = []                      
+                                    nombreimg.forEach(item => {
+                                        newArrayImg.push({
+                                            "name": item, 
+                                            "imgbase": `${urlImgDescarga}/${item}/${this.referenciaAnexo}`
+                                        })
+                                    })
+                            this.arrayImagenes = newArrayImg  
+
+                        } 
+                             
+                   });
+                   console.log(this.arrayImagenes);
+/*                    response.data.forEach(element => { 
+                       nombreimg.push(element)
+                   });
+                    console.log(response);
+                    console.log(nombreimg);
+                    nombreimg.forEach(element => {
+                    this.$http.get(urlImgPaths)
+                        .then((response)=>{
+                            let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${element}/${this.referenciaAnexo}`
+                            if(response.status != 404){                          
+                                    let newArrayImg = []                      
+                                    response.data.forEach(item => {
+                                        newArrayImg.push({
+                                            "name": item, 
+                                            "imgbase": `${urlImgDescarga}`
+                                        })
+                                    })
+                                    this.arrayImagenes = newArrayImg                                       
+                                }    
+                        }) 
+                    }); */
+                    // if (response.data.length == 0)
+                    //    this.$emit('bloquear-boton-diagnostico', true)  
                 });
-            this.$http.get(urlImgPaths)
-            .then((response)=>{
-                let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
-                if(response.status != 404){                          
-                        let newArrayImg = []                      
-                        response.data.forEach(item => {
-                            newArrayImg.push({
-                                "name": item, 
-                                "imgbase": `${urlImgDescarga}/${item}`
-                            })
-                        })
-                        this.arrayImagenes = newArrayImg                                       
-                    }    
-            })       
+                  
         }       
         else{
             setTimeout(() => {               
@@ -220,7 +247,7 @@ export default {
                 else if (this.tipo == 'Anexo'){
                         this.limiteFotos = this.maximofotosanexo
                         rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
-                        objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 4}
+                        objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 5}
                 }
                 else{                    
                     if(this.tipo == 'Diagnostico'){                        
@@ -243,7 +270,7 @@ export default {
                             formData.append("plaza", objPlaza.plazaNombre);
                             formData.append("image",imagenes);  
                         }
-                        if(imagenes.type == 'image/png' || imagenes.type == 'image/jpeg'){                            
+                        if(imagenes.type == 'image/png' || imagenes.type == 'image/jpeg'){                        
                             await this.$http.post(rutaInsertImagenes, formData)
                                 .then((response) => {                                                                                                   
                                     this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)

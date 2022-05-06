@@ -22,24 +22,50 @@ function obtener_array_imagenes(e, arrayComponete) {
 }
 function obtener_array_imagenes_agregadas(urlLocal, arrayComponete, objGetImage){
     let paramsSplit = urlLocal.split('\\')    
+    console.log(urlLocal.split('\\'));
     let url = ''
     if(objGetImage.tipo == 1){
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+        arrayComponete.push({
+            imgbase: url,
+            name: paramsSplit[6]
+        })
+        return arrayComponete
     }
     else if(objGetImage.tipo == 2){
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+        arrayComponete.push({
+            imgbase: url,
+            name: paramsSplit[6]
+        })
+        return arrayComponete
     }
     else if(objGetImage.tipo == 3){
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+        arrayComponete.push({
+            imgbase: url,
+            name: paramsSplit[6]
+        })
+        return arrayComponete
+    }
+    else if(objGetImage.tipo == 5){
+        url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[8]}/${paramsSplit[6]}`
+        arrayComponete.push({
+            imgbase: url,
+            name: paramsSplit[8]
+        })
+        return arrayComponete
     }
     else{
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
+        arrayComponete.push({
+            imgbase: url,
+            name: paramsSplit[6]
+        })
+        return arrayComponete
     }
-    arrayComponete.push({
-        imgbase: url,
-        name: paramsSplit[6]
-    })
-    return arrayComponete
+    
+   
 }
 function base64_to_file(dataurl, fileName) {    
     let url = "data:image/jpeg;base64," + dataurl;      
