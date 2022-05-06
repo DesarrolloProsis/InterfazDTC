@@ -116,7 +116,7 @@ export default {
                 });
             this.$http.get(urlImgPaths)
             .then((response)=>{
-                let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
                 if(response.status != 404){                          
                         let newArrayImg = []                      
                         response.data.forEach(item => {

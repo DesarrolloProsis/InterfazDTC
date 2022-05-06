@@ -113,6 +113,7 @@
                       :tipo="'Anexo'" 
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
+                      :referenciaAnexo="this.referenciaAnexo"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
                     </ImagenesAnexo>
@@ -294,6 +295,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       numerodefotos: 0,
       limite:500,
       ciudad:[],
+      referenciaAnexo: ''
     };
     },
     created(){
@@ -329,7 +331,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.fechaapertura = this.anexo.fechaApertura;
         this.fechacierre=this.anexo.fechaCierre;
         this.fechasolicitud = this.anexo.fechaSolicitudInicio;
-        this.fechaoficio = this.anexo.fechaOficioInicio;  
+        this.fechaoficio = this.anexo.fechaOficioInicio;
+        this.referenciaAnexo = this.anexo.anexoReference  
+        console.log(this.referenciaAnexo)
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
