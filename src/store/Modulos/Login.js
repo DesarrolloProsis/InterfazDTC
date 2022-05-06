@@ -87,7 +87,6 @@ const actions = {
   async BUSCAR_ADMIN_PLAZA( {commit, state} ){
     Axios.post(`${API}/login/Cookie`, { UserId: state.cookiesUser.userId })
     .then((response) => {           
-      console.log(response)
       commit('COOKIES_USER_ADMINPLAZA_MUTATION', response.data)
     })
   }

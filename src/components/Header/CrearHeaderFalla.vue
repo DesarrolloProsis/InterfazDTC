@@ -636,8 +636,9 @@ methods:{
         this.crear_referencia()               
     },
     validar_campos_header: async function(value){      
-        try {                                                   
-            /*let validacion = false
+        //Valida que todos los campos esten llenos, si encuentra alguno vacio se incumple la validacion
+        try {                                                
+            let validacion = false 
             Object.entries(this.datosDiagnostico).forEach(item => {
                 if( item[0] != 'numeroReporte'){
                     if(item[1] == ""){
@@ -648,35 +649,43 @@ methods:{
             let fechaActual = Date.now()
             let fechaDiagnostico = Date.parse(this.datosDiagnostico.fechaDiagnostico) 
             let horaInicio = Date.parse(this.datosDiagnostico.horaInicio)
-            let horaFin = Date.parse(this.datosDiagnostico.horaFin)                                                      
+            let horaFin = Date.parse(this.datosDiagnostico.horaFin)        
+            //Si la no hay ningun campo vacio y las fechas son menores a la actual e inicio es menor a la final                                              
             if(!validacion && fechaDiagnostico < fechaActual && horaInicio < horaFin){                                                            
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                                   
                 window.scrollTo(0, top); 
             }                 
-            if(validacion){
+            /*if(validacion){
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })
                 window.scrollTo(0, top); 
             } */                                                                   
-            let fechaActual = Date.now()
+            /*let fechaActual = Date.now()
             let fechaDiagnostico = Date.parse(this.datosDiagnostico.fechaDiagnostico) 
             let horaInicio = Date.parse(this.datosDiagnostico.horaInicio)
             let horaFin = Date.parse(this.datosDiagnostico.horaFin)                                                      
-            if((fechaDiagnostico <= fechaActual) && (horaInicio < horaFin)){                                                            
+            if((fechaDiagnostico <= fechaActual) && (horaInicio < horaFin) && validacion){                                                            
                 this.$emit('actualizar-header', { header: this.datosDiagnostico, value: value, crear: true })                                   
                 window.scrollTo(0, top); 
-            }
+                console.log('if');
+            }*/
             else
             {
                 window.scrollTo(0, top); 
-            }            
-        }
-        catch(error){
-            /*this.$notify.warning({
+                this.$notify.warning({
                     title: "Ops!!",
                     msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
                     position: "bottom right",
                     styles: { height: 100, width: 500 },
-                });*/
+                });
+            }            
+        }
+        catch(error){
+            /* this.$notify.warning({
+                title: "Ops!!",
+                msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
+                position: "bottom right",
+                styles: { height: 100, width: 500 },
+            }); */
         }
     },  
     label_multi_select(value){            
