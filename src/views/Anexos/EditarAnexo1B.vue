@@ -325,7 +325,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
         console.log(this.anexo)
-        this.comentario = this.anexo.observaciones;
+        if(this.anexo.observaciones == null){
+          this.comentario = ''
+        }else{
+          this.comentario = this.anexo.observaciones;
+        }
         this.solicitud = this.anexo.solicitud;
         this.oficio = this.anexo.folioOficio;
         this.fechaapertura = this.anexo.fechaApertura;
@@ -392,6 +396,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       const formateadorfechasolicitud = moment(this.fechasolicitud.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
       const fomateadorfechaoficio = moment(this.fechaoficio.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss");
+      if(this.comentario == null){
+        this.comentario == ""
+      }
+      console.log(this.comentario)
       let Anexo = {
           "DTCReference": this.anexo.dtcReference,
           "AnexoReference": this.$route.params.anexoReference,

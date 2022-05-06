@@ -323,7 +323,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let objetoresultadoanexo = anexo.result;
         this.anexo = objetoresultadoanexo[0];
         console.log(this.anexo);
-        this.comentario = this.anexo.observaciones;
+        if(this.anexo.observaciones == null){
+          this.comentario = ''
+        }else{
+          this.comentario = this.anexo.observaciones;
+        }
+        console.log(this.comentario);
         this.fechaapertura = this.anexo.fechaApertura;
         this.fechacierre = this.anexo.fechaCierre
         this.referenciaAnexo = this.anexo.anexoReference
