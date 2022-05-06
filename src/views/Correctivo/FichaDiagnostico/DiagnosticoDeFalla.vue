@@ -118,7 +118,7 @@ methods:{
                     if(response.data.length > 0){
                         if(objHeader.crear)
                             this.insertar_diagnostico_falla(objHeader.value)
-                            //this.modalLoading = false  
+                            this.modalLoading = false  
                     }  
                     else{
                         this.$notify.warning({
@@ -139,7 +139,7 @@ methods:{
                         .then((response) => {             
                             if(response.data.length > 0){                                
                                 this.insertar_diagnostico_falla(objHeader.value)
-                                //this.modalLoading = false  
+                                this.modalLoading = false  
                             }  
                             else{
                                 this.$notify.warning({
@@ -158,7 +158,8 @@ methods:{
             }
         }
     },
-    enviar_header_diagnostico(value){            
+    enviar_header_diagnostico(value){      
+        //Manda a llamar a la funcion en CrearHeaderFalla     
         EventBus.$emit('validar_header_diagnostico', value)
     },
     cerrar_modal_imagenes(){
@@ -255,7 +256,8 @@ methods:{
                     })                                  
                     this.reporteInsertado = true                                                                       
                 })
-                .catch(() => {       
+                .catch(() => {   
+                    console.log('catch');    
                     this.$notify.warning({
                         title: "Ops!!",
                         msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO, PORFAVOR VERIFIQUE SUS DATOS.",
