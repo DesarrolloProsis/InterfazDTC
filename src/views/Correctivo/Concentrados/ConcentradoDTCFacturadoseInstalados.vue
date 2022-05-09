@@ -82,7 +82,7 @@
                           <button @click="botoncancelar_modal()" class="p-4 mr-10"><img src="../../../assets/img/cerrarmodal.png" alt="cerrarmodal" width="20" height="25"></button>
                         </div>
                         <div>
-                          <h1 class="text-center text-4xl font-bold sm:text-2xl">Anexos Generados</h1>
+                          <h1 class="text-center text-4xl font-bold sm:text-2xl">Actas Generadas</h1>
                         </div>
                       </div>
                         <div class="flex justify-center w-full sm:overflow-auto sm:h-60 md:overflow-auto md:h-60 lg:overflow-auto lg:h-60 xl:overflow-auto xl:h-70">
@@ -294,13 +294,13 @@ export default {
     /////////////////////////////////////////////////////////////////////
     methods:{
       acciones_mapper(dtc){            
-          if(this.selectMulti.title == 'Anexos Generados'){
+          if(this.selectMulti.title == 'Actas Generadas'){
             this.showModal = true;
             this.selectMulti = '';
             this.dtcanexo = dtc;
             this.Anexosgenerados(this.dtcanexo);
           }
-          else if(this.selectMulti.title == 'Generar Anexo'){
+          else if(this.selectMulti.title == 'Generar Acta'){
             if (dtc.typeFaultId === 2) {
               this.$router.push(`/Anexo1A/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
               this.selectMulti = '';
@@ -321,8 +321,8 @@ export default {
       opticones_select_acciones(dtc){
                 let userId = this.$store.state.Login.cookiesUser.userId
                 const options= [                
-                { title: 'Anexos Generados', accionCss: 'terminar', img: 'fa-solid fa-window-restore' }, //0
-                { title: 'Generar Anexo', accionCss: 'terminar', img: 'fa-solid fa-file-circle-plus' },//1
+                { title: 'Actas Generadas', accionCss: 'terminar', img: 'fa-solid fa-window-restore' }, //0
+                { title: 'Generar Actas', accionCss: 'terminar', img: 'fa-solid fa-file-circle-plus' },//1
                 { title: 'Cambiar Estatus', accionCss: 'editar', img: 'fa-solid fa-arrow-right-arrow-left' },//2
                 ]
                 let filtroOpciones = []
@@ -356,7 +356,7 @@ export default {
       opticones_select_acciones_modal(anxg){
                 const options= [                
                 { title: 'Editar', accionCss: 'editar', img: 'fa-solid fa-file-pen' },
-                { title: 'Descargar Anexo', accionCss: 'terminar', img: 'fa-solid fa-download' },
+                { title: 'Descargar Acta', accionCss: 'terminar', img: 'fa-solid fa-download' },
                 { title: 'Validar', accionCss: 'editar', img: 'fa-solid fa-file-circle-check' },
                 { title: 'Corregir', accionCss: 'editar', img: 'fa-solid fa-file-pen' },
                 ]
@@ -392,7 +392,7 @@ export default {
               this.$router.push(`/EditarAnexo1B/${anxg.anexoReference}/${anxg.dtcReference}`);
               this.selectMultiModal = '';
             }
-          }else if(this.selectMultiModal.title == 'Descargar Anexo'){
+          }else if(this.selectMultiModal.title == 'Descargar Acta'){
             let subversion = false;
             if (anxg.tipoAnexo === "A") {
               ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
