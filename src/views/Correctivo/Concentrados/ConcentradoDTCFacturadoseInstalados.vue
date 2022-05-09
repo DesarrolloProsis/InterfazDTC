@@ -428,6 +428,7 @@ export default {
         this.statusEditAnexo = ''
         this.anexocambiarestatus = {}
         this.correccion = false
+        this.motivoCambioAnexo = ''
       },
       editar_status_anexo(){
         this.modalCambiarStatusAnexo = false   
