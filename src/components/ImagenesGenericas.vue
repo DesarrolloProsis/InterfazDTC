@@ -110,6 +110,7 @@ export default {
             this.limiteFotos = this.maximofotosanexo 
             let nombreimg = [];               
             urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
+            console.log(this.referenciaAnexo)
             this.$http.get(urlImgPaths).then((response) => 
                 {
                     console.log(response.data);
@@ -125,7 +126,6 @@ export default {
                                         })
                                     })
                             this.arrayImagenes = newArrayImg  
-
                         } 
                              
                    });

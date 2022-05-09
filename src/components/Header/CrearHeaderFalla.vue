@@ -671,12 +671,12 @@ methods:{
             else
             {
                 window.scrollTo(0, top); 
-                this.$notify.warning({
+                /* this.$notify.warning({
                     title: "Ops!!",
                     msg: "NO SE PUDO INSERTAR EL DIAGNOSTICO PORFAVOR VERIFIQUE SUS DATOS.",
                     position: "bottom right",
                     styles: { height: 100, width: 500 },
-                });
+                }); */
             }            
         }
         catch(error){
