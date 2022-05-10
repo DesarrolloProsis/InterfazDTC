@@ -86,7 +86,7 @@
         <ValidationObserver ref="observer" class="">  
           <div class="w-full">
             <ValidationProvider name="reporte fotografico" rules="max:500" v-slot="{ errors }">
-                  <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
+                  <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico equipo nuevo</span>
                   <textarea
                   v-model="comentario"                                                               
                   class="block container placeholder-gray-500 textAreaCalendario sm:mx-auto md:mx-auto lg:mx-auto"
