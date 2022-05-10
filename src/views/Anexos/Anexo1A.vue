@@ -306,15 +306,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       this.TestigosDtc();
       this.filtro_dtc();  
     },
-   methods: {
+  methods: {
      //Funcion para cargar las opciones del select de los testigos
-      async cambiar_plaza(numeroPlaza) {                 
+    async cambiar_plaza(numeroPlaza) {                 
         this.plazaSeleccionada = numeroPlaza 
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
         this.crear_referencia()               
     },
-     async TestigosDtc(){
+    async TestigosDtc(){
       try {
         const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
         const objeto = await data.json();
@@ -370,20 +370,20 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return data.indexOf(item) === index;
     })
       this.nombrecarriles = result;
-     },
+    },
      //Funcion que nos retorna el nombre de los componentes 
-     onagregarnombrescomponentes(data) {
+    onagregarnombrescomponentes(data) {
       let result = data.filter((item,index)=>{
       return data.indexOf(item) === index;
       })
       this.nombrecomponentes = result;
-     },
+    },
      //Funcion que nos proporciona el arreglo para enviar en el end point final del anexo a insertar
-     agregarcomponenteseditados(data){
-       this.componentesfinaleseditados = data;
-     },
+    agregarcomponenteseditados(data){
+      this.componentesfinaleseditados = data;
+    },
      //Funcion para insertar anexo
-     async insertaranexo(){
+    async insertaranexo(){
       //Damos formato a las fechas para poder crear el objeto de los anexos
       const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
@@ -402,8 +402,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "A",
           "ComponentesAnexo":this.componentesfinaleseditados  
-       }
-       console.log(Anexo)
+      }
+      console.log(Anexo)
       try
       {
         //Hacemos la peticion para insertar un anexo
@@ -425,9 +425,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       }catch(error){
         console.error(error)
       }
-     },
+    },
      //Funcion para validar la informacion del anexo
-     validacionanexo(){
+    validacionanexo(){
       //Validacion de las fechas de apertura y hora de cierre
       //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
@@ -436,7 +436,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let fechaapertura = new Date(this.fechaapertura);
         let horadecierre = new Date(this.time);
         var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
-        var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
+        var mes = fechaapertura.getMonth() + 1
+        var fecha = fechaapertura.getFullYear()+ '-' + mes + '-' + fechaapertura.getDate();
         let fechacierra = fecha + ' ' + hora;
         var fechacierrefinal = new Date(fechacierra);
         this.fechacierre = fechacierrefinal.toISOString();
@@ -444,7 +445,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         if(fechaapertura > hoy){
         this.errores.push("La fecha de apertura no puede ser mayor al dia de hoy");
         }
-       const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
+      const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.fechaapertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
         let datecierre = new Date(this.fechacierre);

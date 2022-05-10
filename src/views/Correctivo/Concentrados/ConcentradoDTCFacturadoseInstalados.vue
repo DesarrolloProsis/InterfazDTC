@@ -300,7 +300,7 @@ export default {
             this.dtcanexo = dtc;
             this.Anexosgenerados(this.dtcanexo);
           }
-          else if(this.selectMulti.title == 'Generar Acta'){
+          else if(this.selectMulti.title == 'Generar Actas'){
             if (dtc.typeFaultId === 2) {
               this.$router.push(`/Anexo1A/${dtc.referenceSquare}/${dtc.squareCatalogId}/${dtc.referenceNumber}`);
               this.selectMulti = '';
