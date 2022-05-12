@@ -114,6 +114,7 @@
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
                       :referenciaAnexo="this.referenciaAnexo"
+                      :subversionAnexo="true"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
                     </ImagenesAnexo>

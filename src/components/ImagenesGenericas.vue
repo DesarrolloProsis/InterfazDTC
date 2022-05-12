@@ -79,6 +79,10 @@ export default {
         referenciaAnexo:{
             type: String,
             default: () => ''
+        },
+        subversionAnexo:{
+            type: Boolean,
+            default: () => false
         }
     },
     components: {
@@ -109,20 +113,20 @@ export default {
             let urlImgPaths = ''
             this.limiteFotos = this.maximofotosanexo 
             let nombreimg = [];               
-            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
+            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
             console.log(this.referenciaAnexo)
             this.$http.get(urlImgPaths).then((response) => 
                 {
                     console.log(response.data);
                     response.data.forEach(element => { 
                         nombreimg.push(element)
-                        let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
+                        let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.subversionAnexo}`
                         if(response.status != 404){                          
                                     let newArrayImg = []                      
                                     nombreimg.forEach(item => {
                                         newArrayImg.push({
                                             "name": item, 
-                                            "imgbase": `${urlImgDescarga}/${item}/${this.referenciaAnexo}`
+                                            "imgbase": `${urlImgDescarga}/${item}/${this.referenciaAnexo}/${this.subversionAnexo}`
                                         })
                                     })
                             this.arrayImagenes = newArrayImg  
@@ -169,7 +173,7 @@ export default {
             }
             else if(this.tipo == 'Anexo'){
                 this.limiteFotos = this.maximofotosanexo                
-                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
+                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
             }
             else{
                 this.limiteFotos = 4                                
@@ -246,7 +250,7 @@ export default {
                 }
                 else if (this.tipo == 'Anexo'){
                         this.limiteFotos = this.maximofotosanexo
-                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
+                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
                         objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 5}
                 }
                 else{                    
@@ -302,7 +306,7 @@ export default {
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else if(this.tipo == 'Anexo'){
-                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}/${this.referenciaAnexo}`
+                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}/${this.referenciaAnexo}/${this.subversionAnexo}`
                     }
                     else{                                           
                         urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`

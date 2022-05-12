@@ -122,6 +122,7 @@
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
                       :referenciaAnexo="this.referenciaAnexo"
+                      :subversionAnexo="false"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img">
                     </ImagenesAnexo>
                     <button @click="pasarinsertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
