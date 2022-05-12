@@ -86,7 +86,7 @@
         <ValidationObserver ref="observer" class="">  
           <div class="w-full">
             <ValidationProvider name="reporte fotografico" rules="max:500" v-slot="{ errors }">
-                  <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico</span>
+                  <span class="text-center font-titulo font-semibold uppercase sm:flex sm:flex-col md:grid lg:grid">Observaciones para reporte fotografico equipo nuevo</span>
                   <textarea
                   v-model="comentario"                                                               
                   class="block container placeholder-gray-500 textAreaCalendario sm:mx-auto md:mx-auto lg:mx-auto"
@@ -103,7 +103,7 @@
         <div class="p-2 mb-10 sm:mb-18 flex justify-center w-full">
             <button @click="validacionanexo()" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
               <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" />
-              <span>Insertar Anexo 1-A</span>
+              <span>Insertar Acta 1-A</span>
             </button>
         </div>
         </div>
@@ -126,7 +126,7 @@
                     </ImagenesAnexo>
                     <button @click="pasarinsertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
-                        <span>Generar Anexo 1-A</span>
+                        <span>Generar Acta 1-A</span>
                     </button>  
                 </div>
     </Modal>
@@ -139,10 +139,10 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationIcon class="h-10 w-10 text-red-600" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center font-bold">NO SE PUEDE GENERAR EL ANEXO</h1>
+                <h1 class="text-xl text-center font-bold">NO SE PUEDE GENERAR EL ACTA</h1>
                 <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
                   <div class="mt-2">
-                    <p class="">Por las siguientes razones no se puede generar el anexo:</p>
+                    <p class="">Por las siguientes razones no se puede generar el acta:</p>
                   </div>
                   <div>
                     <ul class="mt-3 list-disc list-inside text-justify">
@@ -168,14 +168,14 @@
                 <h1 class="text-xl text-center font-bold">DATOS COMPLETOS</h1>
                 <div class="text-justify mt-3 sm:mt-0 sm:ml-4 sm:text-left">
                   <div class="mt-2">
-                    <p class="">los datos de tu anexo son los siguientes:</p>
+                    <p class="">los datos de tu acta son los siguientes:</p>
                   </div>
                   <div>
                     <ul class="mt-3 list-disc list-inside text-justify">
                         <li>DTC: {{this.lista_DTC_Filtrada[0].referenceNumber}}</li>
                         <li>Fecha de apertura: {{this.fechaaperturaformateada}}</li>
                         <li>Fecha de cierre: {{this.fechacierreformateada}}</li>
-                        <li>Tipo de Anexo: 1-A</li>
+                        <li>Tipo de Acta: 1-A</li>
                       </ul>
                   </div>
                 </div>
@@ -195,7 +195,7 @@
                   <div class="w-12 mx-auto flex-shrink-0 flex items-center justify-center h-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                   <DownloadIcon class="h-10 w-10 text-blue-800" aria-hidden="true" />
                 </div>
-                <h1 class="text-xl text-center">SE GENERO EL ANEXO DEL DTC CON REFERENCIA <b>{{this.lista_DTC_Filtrada[0].referenceNumber}}</b></h1>
+                <h1 class="text-xl text-center">SE GENERO EL ACTA DEL DTC CON REFERENCIA <b>{{this.lista_DTC_Filtrada[0].referenceNumber}}</b></h1>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -306,15 +306,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       this.TestigosDtc();
       this.filtro_dtc();  
     },
-   methods: {
+  methods: {
      //Funcion para cargar las opciones del select de los testigos
-      async cambiar_plaza(numeroPlaza) {                 
+    async cambiar_plaza(numeroPlaza) {                 
         this.plazaSeleccionada = numeroPlaza 
         this.headerSelecionado = this.$store.getters["Header/GET_HEADER_SELECCIONADO"];
         this.arrayCarriles = this.$store.dispatch('Refacciones/BUSCAR_CARRILES',this.plazaSeleccionada)
         this.crear_referencia()               
     },
-     async TestigosDtc(){
+    async TestigosDtc(){
       try {
         const data = await fetch(`${API}/AnexoDTC/Testigos/${this.$route.params.referenceSquare}/${this.$route.params.squareCatalogId}`)
         const objeto = await data.json();
@@ -371,20 +371,20 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return data.indexOf(item) === index;
     })
       this.nombrecarriles = result;
-     },
+    },
      //Funcion que nos retorna el nombre de los componentes 
-     onagregarnombrescomponentes(data) {
+    onagregarnombrescomponentes(data) {
       let result = data.filter((item,index)=>{
       return data.indexOf(item) === index;
       })
       this.nombrecomponentes = result;
-     },
+    },
      //Funcion que nos proporciona el arreglo para enviar en el end point final del anexo a insertar
-     agregarcomponenteseditados(data){
-       this.componentesfinaleseditados = data;
-     },
+    agregarcomponenteseditados(data){
+      this.componentesfinaleseditados = data;
+    },
      //Funcion para insertar anexo
-     async insertaranexo(){
+    async insertaranexo(){
       //Damos formato a las fechas para poder crear el objeto de los anexos
       const formateadorapertura = moment(this.fechaapertura.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
       const formateadorcierre = moment(this.fechacierre.substring(0, 50)).format("YYYY-MM-DD HH:mm:ss"); 
@@ -403,8 +403,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "A",
           "ComponentesAnexo":this.componentesfinaleseditados  
-       }
-       console.log(Anexo)
+      }
+      console.log(Anexo)
       try
       {
         //Hacemos la peticion para insertar un anexo
@@ -426,9 +426,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       }catch(error){
         console.error(error)
       }
-     },
+    },
      //Funcion para validar la informacion del anexo
-     validacionanexo(){
+    validacionanexo(){
       //Validacion de las fechas de apertura y hora de cierre
       //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
@@ -437,7 +437,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let fechaapertura = new Date(this.fechaapertura);
         let horadecierre = new Date(this.time);
         var hora = horadecierre.getHours() + ':' + horadecierre.getMinutes() + ':' + horadecierre.getSeconds();
-        var fecha = fechaapertura.getFullYear()+ '-' + fechaapertura.getMonth() + '-' + fechaapertura.getDate();
+        var mes = fechaapertura.getMonth() + 1
+        var fecha = fechaapertura.getFullYear()+ '-' + mes + '-' + fechaapertura.getDate();
         let fechacierra = fecha + ' ' + hora;
         var fechacierrefinal = new Date(fechacierra);
         this.fechacierre = fechacierrefinal.toISOString();
@@ -445,7 +446,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         if(fechaapertura > hoy){
         this.errores.push("La fecha de apertura no puede ser mayor al dia de hoy");
         }
-       const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
+      const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let dateapertura = new Date(this.fechaapertura);
         let formatted_date_apertura = dateapertura.getDate() + " DE " + months[dateapertura.getMonth()] + " DE " + dateapertura.getFullYear() + ' A LAS ' + dateapertura.getHours() + ':' + dateapertura.getMinutes() + ':' + dateapertura.getSeconds()
         let datecierre = new Date(this.fechacierre);
