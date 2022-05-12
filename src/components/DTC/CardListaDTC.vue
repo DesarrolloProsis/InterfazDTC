@@ -60,7 +60,7 @@
           <p class="text-left text-sm break-words">Folio: <label class="font-semibold">{{ infoCard.failureNumber }}</label></p> 
           <p class="text-left text-sm break-words">Registro en Sistema: <label class="font-semibold">{{ infoCard.dateStamp | formatDate }}</label></p>        
           <p class="font-bold text-sm text-green-600" v-if="infoCard.statusId == 4">Autorizado GMMEP</p>
-          <p @click="editar_status_dtc()" v-if="tipoUsuario == 1 || tipoUsuario == 4 || tipoUsuario == 5 || tipoUsuario == 10 || tipoUsuario == 8"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
+          <p @click="editar_status_dtc()" v-if="tipoUsuario == 2 || tipoUsuario == 4 || tipoUsuario == 5 || tipoUsuario == 10 || tipoUsuario == 8"  class=" text-sm cursor-pointer text-blue-700 font-mono">Cambiar Estatus</p>
           <div class="w-64 break-words text-left text-gray-800 font-normal">
             <p class="text-sm text-black w-40 font-semibold">Observaciones:</p>{{ infoCard.observation }}
           </div>
