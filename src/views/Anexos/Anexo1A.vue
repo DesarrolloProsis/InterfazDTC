@@ -62,7 +62,7 @@
         </p>
         <p class="text-sm">
         LOS TRABAJOS, INSTALACIÓN Y OPERACIÓN DE LA PLAZA DE COBRO QUEDAN A ENTERA SATISFACCIÓN DEL ADMINISTRADOR DE LA PLAZA DE COBRO Y/O ENCARGADO DE TURNO.
-        <span class="font-bold">NO. SINIESTRO</span> Y/O <span class="font-bold">NO. DE REPORTE {{this.lista_DTC_Filtrada[0].failureNumber }}</span> DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>
+        <span class="font-bold">NO. SINIESTRO {{ this.lista_DTC_Filtrada[0].sinisterNumber }}</span> Y/O <span class="font-bold">NO. DE REPORTE {{ this.lista_DTC_Filtrada[0].reportNumber }}</span> DE FECHA <span class="font-bold">{{this.fechasiniestro}}</span>
         </p>
         <h3 class="font-bold text-sm mt-2">COMPONENTES Y/O REFACCIONES DAÑADAS:</h3>
         <TablaEquipoMalo 
@@ -346,6 +346,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         let dtcfiltrado = await ServiceFiltrosDTC.filtrarDTC(this.filtroVista, ''  , '' , iddtc , undefined, false, undefined)
         let resultdtc =  dtcfiltrado.filter(e => e.referenceNumber == this.$route.params.referencenumber)
         this.lista_DTC_Filtrada = resultdtc;
+        console.log(this.lista_DTC_Filtrada);
         const months = ["ENERO", "FEBRERO", "MARZO","ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         let datesiniestro = new Date(this.lista_DTC_Filtrada[0].sinisterDate);
         let formatted_date = datesiniestro.getDate() + " DE " + months[datesiniestro.getMonth()] + " DE " + datesiniestro.getFullYear()
