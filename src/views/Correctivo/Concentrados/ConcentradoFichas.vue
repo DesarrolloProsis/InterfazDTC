@@ -424,6 +424,14 @@ export default {
                 this.modalcambiarUsuario = true
                 this.infoCambiarUsuario = itemRow;
                 this.modal_Cambiar_Usuario(this.infoCambiarUsuario)
+            }
+            if(acciones.title == 'Bajar DTC Sin Firma'){
+                ServiceReporte.generar_pdf_correctivo(itemRow.referenceDTC, 1, false, undefined)
+                if (this.typeUser != 4 && this.typeUser != 8){
+                    setTimeout(() => {
+                        ServiceReporte.generar_pdf_fotografico_correctivo(itemRow.referenceDTC);               
+                    },1000)
+                }
             }                
         },
         opticones_select_acciones(item){
@@ -440,6 +448,7 @@ export default {
                 { title: 'Bajar FT Escaneada', accionCss: 'terminar', img: 'fa-file-arrow-down' },//9
                 { title: 'Bajar DF Escaneado', accionCss: 'terminar', img: 'fa-file-arrow-down' },//10
                 { title: 'Cambiar de Usuario', accionCss: 'cambiar', img: 'fa-solid fa-address-card' },//11
+                { title: 'Bajar DTC Sin Firma', accionCss: 'terminar', img: 'fa-file-arrow-down' }, //12
             ]
             this.statusDTC = item.statusDtc
             let filtroOpciones = []            
@@ -458,12 +467,15 @@ export default {
                 if(item.fichaSellado){
                     filtroOpciones.push(options[9]) 
                 }
-                if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 10){
+                if(!item.validacionDTC && item.typeFaultId >= 2 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 8 && this.typeUser != 10){
                     filtroOpciones.push(options[1])
                 }           
-                if(item.validacionDTC && item.validacionFichaTecnica && item.statusDtc != 1){
+                if(item.validacionDTC && item.validacionFichaTecnica && item.statusDtc != 1 && this.typeUser != 7 && this.typeUser != 4 && this.typeUser != 8){
                     filtroOpciones.push(options[6])
-                } 
+                }
+                if((this.typeUser == 8 && item.referenceDTC != '--') || (this.typeUser == 4 && item.referenceDTC != '--')) {
+                    filtroOpciones.push(options[12])
+                }
                 if(this.typeUser == 1 || this.typeUser == 2 || this.typeUser == 3 || this.typeUser == 5 ){                                                   
                     filtroOpciones.push(options[2])
                     //filtroOpciones.push(options[3])
