@@ -118,12 +118,13 @@
                       :tipo="'Anexo'" 
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
-                      :referenciaAnexo="this.referenciaAnexo"
+                      :referenciaAnexo="this.$route.params.anexoReference"
                       :subversionAnexo="true"
+                      :editar="true"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
                     </ImagenesAnexo>
-                    <button @click="insertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
+                    <button @click="pasarinsertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
                         <img src="../../assets/img/add.png" class="mr-2" width="35" height="35" />
                         <span>Generar Anexo 1-A</span>
                     </button>  
@@ -181,7 +182,7 @@
               </div>
             </div>
             <div class="flex gap-4 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="pasarinsertaranexo()">Confirmar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="insertaranexo()">Confirmar</button>
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalconfirmacionanexo = false">Cancelar</button>
             </div>
     </Modal>
@@ -298,10 +299,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     };
     },
     created() {
-      this.filtro_dtc();
+      this.$nextTick(() => {
+        this.filtro_dtc();
+      });  
     }, 
    methods: {
-    async filtro_dtc() {    
+    async filtro_dtc() {  
       let iddtc = this.$route.params.dtcReference;
       let referenciaanexo = this.$route.params.anexoReference; 
       try{
@@ -329,8 +332,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         }else{
           this.comentario = this.anexo.observaciones;
         }
-        console.log(this.comentario);
-        this.fechaapertura = this.anexo.fechaApertura;
+        console.log(this.comentario)
+        this.fechaapertura = this.anexo.fechaApertura
         this.fechacierre = this.anexo.fechaCierre
         this.referenciaAnexo = this.anexo.anexoReference
         console.log(this.referenciaAnexo)
@@ -388,16 +391,22 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       try
       {
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
-        .then(() => {
-          this.modalImage = false;
-          this.modaldescarga = true;
+        .then((response) => {
+          console.log(response)
+          const urlcopiado = `${API}/ReporteFotografico/CopyAnexoImages/${this.$route.params.dtcReference.split('-')[0]}/${this.$route.params.dtcReference}/${this.$route.params.anexoReference}`
+          this.$http.post(urlcopiado)
+            .then((response) => {
+            console.log(response)
+            })
+            .catch((error)=>{
+            console.log(error);
+          })
+          this.modalconfirmacionanexo = false;
+          this.modalImage = true;
+          // this.modaldescarga = true;
           // let subversion = true;
           // ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
           // ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
-          setTimeout(() => {
-            this.$router.push('/ConcentradoDTCFacturados');
-            document.querySelector('body').classList.remove('overflow-hidden'); 
-          },3000)
           
         })
         .catch((error) => {
@@ -507,8 +516,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        this.modalvalidacionanexo = false;
      },
      pasarinsertaranexo(){
-       this.modalconfirmacionanexo=false;
-       this.modalImage = true;
+      this.modalImage = false;
+      this.modaldescarga = true;
+      setTimeout(() => {
+            this.$router.push('/ConcentradoDTCFacturados');
+            document.querySelector('body').classList.remove('overflow-hidden'); 
+      },3000)
      },
      saliranexos(){
      this.modaldescarga = false;

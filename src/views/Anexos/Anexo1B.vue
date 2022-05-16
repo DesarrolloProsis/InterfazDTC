@@ -112,6 +112,7 @@
                       :maximofotosanexo="this.double"
                       :referenciaAnexo="this.referenciaAnexo"
                       :subversionAnexo="false"
+                      :editar="false"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
                     </ImagenesAnexo>

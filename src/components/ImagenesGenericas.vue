@@ -83,7 +83,11 @@ export default {
         subversionAnexo:{
             type: Boolean,
             default: () => false
-        }
+        },
+        editar:{
+            type: Boolean,
+            default: () => false
+        },
     },
     components: {
         BarraProgreso
@@ -114,13 +118,13 @@ export default {
             this.limiteFotos = this.maximofotosanexo 
             let nombreimg = [];               
             urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
-            console.log(this.referenciaAnexo)
+            console.log(urlImgPaths)
             this.$http.get(urlImgPaths).then((response) => 
                 {
                     console.log(response.data);
                     response.data.forEach(element => { 
                         nombreimg.push(element)
-                        let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.subversionAnexo}`
+                        let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
                         if(response.status != 404){                          
                                     let newArrayImg = []                      
                                     nombreimg.forEach(item => {
@@ -277,7 +281,7 @@ export default {
                         if(imagenes.type == 'image/png' || imagenes.type == 'image/jpeg'){                        
                             await this.$http.post(rutaInsertImagenes, formData)
                                 .then((response) => {                                                                                                   
-                                    this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
+                                    this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen,this.subversionAnexo,this.referenciaAnexo)
                                 })                                
                         }  
                         else{

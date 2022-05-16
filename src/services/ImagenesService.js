@@ -20,9 +20,9 @@ function obtener_array_imagenes(e, arrayComponete) {
         return array_imagenes
     }
 }
-function obtener_array_imagenes_agregadas(urlLocal, arrayComponete, objGetImage){
+function obtener_array_imagenes_agregadas(urlLocal, arrayComponete, objGetImage,subversionAnexo,referenciaAnexo){
     let paramsSplit = urlLocal.split('\\')    
-    console.log(urlLocal.split('\\'));
+    console.log(paramsSplit);
     let url = ''
     if(objGetImage.tipo == 1){
         url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[6]}`
@@ -49,7 +49,8 @@ function obtener_array_imagenes_agregadas(urlLocal, arrayComponete, objGetImage)
         return arrayComponete
     }
     else if(objGetImage.tipo == 5){
-        url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[8]}/${paramsSplit[6]}`
+        url = `${objGetImage.rutaGetImagen}/${paramsSplit[2]}/${paramsSplit[4]}/${paramsSplit[8]}/${referenciaAnexo}/${subversionAnexo}`
+        console.log(url)
         arrayComponete.push({
             imgbase: url,
             name: paramsSplit[8]

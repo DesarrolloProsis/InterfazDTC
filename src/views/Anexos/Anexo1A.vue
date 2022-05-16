@@ -123,6 +123,7 @@
                       :maximofotosanexo="this.double"
                       :referenciaAnexo="this.referenciaAnexo"
                       :subversionAnexo="false"
+                      :editar="false"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img">
                     </ImagenesAnexo>
                     <button @click="pasarinsertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
@@ -300,6 +301,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       numerodefotos: 0,
       ciudad:[],
       referenciaAnexo: '',
+      time: '',
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
