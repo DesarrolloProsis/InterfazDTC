@@ -35,7 +35,7 @@
                     </tr>  
             </template>  
             <template v-if="lista_DTC_Filtrada.length > 0">
-            <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" :class="{'hidden': dtc.typeFaultId == 0}">
+            <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" class="border border-white" :class="{'hidden': dtc.typeFaultId == 0, 'bg-blue-200': dtc.isAnexoCreate == true , 'bg-gray-200': dtc.isAnexoCreate == false}">
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs cuerpoTable">{{dtc.referenceNumber}}</td>
               <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden cuerpoTable">{{dtc.userName}}</td>
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs cuerpoTable">{{dtc.faultDescription}}</td>

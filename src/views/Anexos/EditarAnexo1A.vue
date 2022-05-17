@@ -120,7 +120,6 @@
                       :maximofotosanexo="this.double"
                       :referenciaAnexo="this.$route.params.anexoReference"
                       :subversionAnexo="true"
-                      :editar="true"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
                     </ImagenesAnexo>
@@ -395,14 +394,16 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           console.log(response)
           const urlcopiado = `${API}/ReporteFotografico/CopyAnexoImages/${this.$route.params.dtcReference.split('-')[0]}/${this.$route.params.dtcReference}/${this.$route.params.anexoReference}`
           this.$http.post(urlcopiado)
-            .then((response) => {
-            console.log(response)
+            .then(() => {
+              setTimeout(()=>{
+                this.modalconfirmacionanexo = false;
+                this.modalImage = true;
+              },2000)
             })
             .catch((error)=>{
             console.log(error);
           })
-          this.modalconfirmacionanexo = false;
-          this.modalImage = true;
+          
           // this.modaldescarga = true;
           // let subversion = true;
           // ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
