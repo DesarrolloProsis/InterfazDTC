@@ -320,6 +320,7 @@ methods: {
     this.componentes.forEach(e => this.arraynombrecomponentes.push(e.nameComponent));
     this.$emit('listacarriles',this.arraycarriles)
     this.$emit('listanombrecom',this.arraynombrecomponentes)
+    this.$emit('componentesmalos',this.componentes);
   },
   remove(index){
     this.componentes.splice(index, 1);

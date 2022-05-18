@@ -74,6 +74,7 @@
           @listacarriles = "onagregarcomponentes"
           @listanombrecom = "onagregarnombrescomponentes"
           @componentesfinales = "agregarcomponenteseditados"
+          @componentesmalos = 'agregarcomponentesmalos'
         />
         <p class="text-sm mb-2 uppercase">Supervisor de plaza <span class="text-sm font-bold">{{ this.lista_DTC_Filtrada[0].name }}</span></p>
         <div class="inline-flex mt-4">
@@ -277,6 +278,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       nombrecarriles:[],
       nombrecomponentes:[],
       componentesfinaleseditados:[],
+      componentesmalos:[],
+      componentesaenviar:[],
       fechaapertura: "",
       fechacierre: "",
       testigoscompleto:[],
@@ -386,6 +389,49 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     agregarcomponenteseditados(data){
       this.componentesfinaleseditados = data;
     },
+    agregarcomponentesmalos(data){
+      this.componentesmalos = data;
+      console.log(this.componentesmalos)
+    },
+    evaluarcomponentes(){
+      if(this.componentesfinaleseditados.length > 0){
+        if(this.componentesfinaleseditados.length == this.componentesmalos.length){
+          this.componentesaenviar = this.componentesfinaleseditados
+        }else if(this.componentesfinaleseditados.length < this.componentesmalos.length){
+          for(let j = 0; j < this.componentesmalos.length; j++) {
+          let componentes = this.componentesmalos.map(componente => {
+                let c = {
+                    RequestedComponentId: componente.requestedComponentId,
+                    SerialNumber: "sin número"
+                    }
+                  return c
+            })
+          const index = componentes.map(object => object.RequestedComponentId);
+            for(let j = 0; j < this.componentesfinaleseditados.length; j++) {
+                let position = index.indexOf(this.componentesfinaleseditados[j].RequestedComponentId);
+                if(position != -1){
+                  componentes.splice(position,1)
+                  componentes.push(this.componentesfinaleseditados[j])
+                }
+            }
+            this.componentesaenviar = componentes
+            console.log(this.componentesaenviar)
+          }
+        }
+      }else{
+        let componentesfinales = []
+        this.componentesmalos.forEach(function(e){
+          console.log(e)
+          var componente = {
+            RequestedComponentId: e.requestedComponentId,
+            SerialNumber: "sin número"
+          }
+          componentesfinales.push(componente)
+        }
+        );
+        this.componentesaenviar = componentesfinales;
+      }
+    },
      //Funcion para insertar anexo
     async insertaranexo(){
       //Damos formato a las fechas para poder crear el objeto de los anexos
@@ -405,7 +451,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "Testigo1Id": this.testigo1,
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "A",
-          "ComponentesAnexo":this.componentesfinaleseditados  
+          "ComponentesAnexo":this.componentesaenviar  
       }
       console.log(Anexo)
       try
@@ -432,6 +478,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     },
      //Funcion para validar la informacion del anexo
     validacionanexo(){
+      this.evaluarcomponentes();
       //Validacion de las fechas de apertura y hora de cierre
       //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
@@ -476,25 +523,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       //Validaciones para saber si los componentes fueron agregados o editados
       if (this.nombrecomponentes.length == 0) {
         this.errores.push("Tienes que seleccionar por lo menos 1 componente")
-      }
-      if (this.componentesfinaleseditados.length == 0) {
-        this.errores.push("Inserta el numero de serie del componente nuevo")
-      }
-      if(this.componentesfinaleseditados.length > 0){
-        this.componentesfinaleseditados.forEach((e) =>{
-          let arrayfaltantes = []
-          let i = 0;
-          if(e.SerialNumber == ''){
-            i = i++;
-            arrayfaltantes.push(i)
-          }
-          if(arrayfaltantes.length == 1){
-            this.errores.push("Inserta el numero de serie del componente nuevo")
-          }
-          if(arrayfaltantes.length > 1){
-            this.errores.push("Inserta los numeros de serie de los componentes nuevos")
-          }
-        })
       }
       if (this.errores.length > 0) {
         this.modalvalidacionanexo = true;
