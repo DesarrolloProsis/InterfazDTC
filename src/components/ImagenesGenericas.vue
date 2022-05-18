@@ -84,6 +84,10 @@ export default {
             type: Boolean,
             default: () => false
         },
+        editar:{
+            type: Boolean,
+            default: () => false
+        },
     },
     components: {
         BarraProgreso
@@ -102,65 +106,13 @@ export default {
             rand: 1
         }
     },
-    created(){
-        if(this.tipo == 'Anexo'){
-            let urlImgPaths = ''
-            this.limiteFotos = this.maximofotosanexo 
-            let nombreimg = [];               
-            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
-            console.log(urlImgPaths)
-            this.$http.get(urlImgPaths).then((response) => 
-                {
-                    console.log(response.data);
-                    response.data.forEach(element => { 
-                        nombreimg.push(element)
-                        let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                        if(response.status != 404){                         
-                                    let newArrayImg = []                      
-                                    nombreimg.forEach(item => {
-                                        newArrayImg.push({
-                                            "name": item, 
-                                            "imgbase": `${urlImgDescarga}/${item}/${this.referenciaAnexo}/${this.subversionAnexo}`
-                                        })
-                                    })
-                            this.arrayImagenes = newArrayImg 
-                        } 
-                             
-                   });
-                   
-/*                    response.data.forEach(element => { 
-                       nombreimg.push(element)
-                   });
-                    console.log(response);
-                    console.log(nombreimg);
-                    nombreimg.forEach(element => {
-                    this.$http.get(urlImgPaths)
-                        .then((response)=>{
-                            let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${element}/${this.referenciaAnexo}`
-                            if(response.status != 404){                          
-                                    let newArrayImg = []                      
-                                    response.data.forEach(item => {
-                                        newArrayImg.push({
-                                            "name": item, 
-                                            "imgbase": `${urlImgDescarga}`
-                                        })
-                                    })
-                                    this.arrayImagenes = newArrayImg                                       
-                                }    
-                        }) 
-                    }); */
-                    // if (response.data.length == 0)
-                    //    this.$emit('bloquear-boton-diagnostico', true)  
-                });
-                  
-        }  
-    },
     destroyed(){
         this.arrayImagenes = []           
         clearInterval(this.interval);            
     },
     beforeMount() { 
         if(this.tipo == 'Anexo'){
+            setTimeout(()=>{
             let urlImgPaths = ''
             this.limiteFotos = this.maximofotosanexo 
             let nombreimg = [];               
@@ -209,7 +161,7 @@ export default {
                     // if (response.data.length == 0)
                     //    this.$emit('bloquear-boton-diagnostico', true)  
                 });
-                  
+            },2000)
         }       
         else{
             setTimeout(() => {               
@@ -300,6 +252,9 @@ export default {
                         objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}                        
                 }
                 else if (this.tipo == 'Anexo'){
+                        if(this.editar == true){    
+                            this.subversionAnexo = true
+                        }
                         this.limiteFotos = this.maximofotosanexo
                         rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
                         objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 5}
@@ -357,6 +312,9 @@ export default {
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else if(this.tipo == 'Anexo'){
+                        if(this.editar == true){
+                            this.subversionAnexo = true
+                        }
                         urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}/${this.referenciaAnexo}/${this.subversionAnexo}`
                     }
                     else{                                           

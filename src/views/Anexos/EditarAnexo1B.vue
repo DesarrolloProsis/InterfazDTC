@@ -113,8 +113,8 @@
                       :tipo="'Anexo'" 
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
-                      :referenciaAnexo="this.referenciaAnexo"
-                      :subversionAnexo="true"
+                      :referenciaAnexo="this.$route.params.anexoReference"
+                      :subversionAnexo="this.subversionimagenes"
                       :editar="true"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
@@ -199,6 +199,7 @@
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="saliranexos()">Regresar al menu principal</button>
             </div>
     </Modal>
+     <Spinner :modalLoading="modalLoading"/>
     </div>
 </template>
 
@@ -211,7 +212,8 @@ import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 //import ServiceReportPDF from "../../services/ReportesPDFService";
 import Modal from "../../components/ModalGenerico.vue";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
-import moment from 'moment'
+import moment from 'moment';
+import Spinner from '../../components/Sppiner.vue'
 
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
@@ -226,7 +228,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         Modal,
         ExclamationIcon,
         CheckCircleIcon,
-        DownloadIcon
+        DownloadIcon,
+        Spinner
     },
     data() {
     return {
@@ -297,7 +300,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       numerodefotos: 0,
       limite:500,
       ciudad:[],
-      referenciaAnexo: ''
+      referenciaAnexo: '',
+      subversionimagenes:false,
     };
     },
     created(){
@@ -338,7 +342,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.fechacierre=this.anexo.fechaCierre;
         this.fechasolicitud = this.anexo.fechaSolicitudInicio;
         this.fechaoficio = this.anexo.fechaOficioInicio;
-        this.referenciaAnexo = this.anexo.anexoReference  
+        this.referenciaAnexo = this.anexo.anexoReference;
+        this.subversionimagenes = this.anexo.isSubVersion;  
         console.log(this.referenciaAnexo)
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
@@ -422,16 +427,26 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       try
       {
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
-        .then(() => {
-          this.modalImage = false;
-          this.modaldescarga = true;
+        .then((response) => {
+          this.modalLoading = true
+          console.log(response)
+          const urlcopiado = `${API}/ReporteFotografico/CopyAnexoImages/${this.$route.params.dtcReference.split('-')[0]}/${this.$route.params.dtcReference}/${this.$route.params.anexoReference}`
+          this.$http.post(urlcopiado)
+            .then(() => {
+              setTimeout(()=>{
+                this.modalLoading = false
+                this.modalconfirmacionanexo = false;
+                this.modalImage = true;
+              },2000)
+            })
+            .catch((error)=>{
+            console.log(error);
+          })
+          
+          // this.modaldescarga = true;
           // let subversion = true;
-          // ServiceReportPDF.generar_pdf_anexoB(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
+          // ServiceReportPDF.generar_pdf_anexoA(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference,subversion);
           // ServiceReportPDF.reporte_fotografico_anexo(this.lista_DTC_Filtrada[0].referenceNumber,this.$route.params.anexoReference);
-          setTimeout(() => {
-            this.$router.push('/ConcentradoDTCFacturados');
-            document.querySelector('body').classList.remove('overflow-hidden'); 
-          },3000)
         })
         .catch((error) => {
           console.log(error);
@@ -514,8 +529,12 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
        this.modalvalidacionanexo = false;
      },
      pasarinsertaranexo(){
-       this.modalconfirmacionanexo=false;
-       this.modalImage = true;
+      this.modalImage = false;
+      this.modaldescarga = true;
+      setTimeout(() => {
+            this.$router.push('/ConcentradoDTCFacturados');
+            document.querySelector('body').classList.remove('overflow-hidden'); 
+      },2000)
      },
      saliranexos(){
      this.modaldescarga = false;

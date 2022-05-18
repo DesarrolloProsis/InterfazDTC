@@ -119,7 +119,8 @@
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
                       :referenciaAnexo="this.$route.params.anexoReference"
-                      :subversionAnexo="true"
+                      :subversionAnexo="this.subversionimagenes"
+                      :editar="true"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img"
                       >
                     </ImagenesAnexo>
@@ -201,6 +202,7 @@
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="saliranexos()">Regresar al menu principal</button>
             </div>
     </Modal>
+    <Spinner :modalLoading="modalLoading"/>
 </div>
 </template>
 
@@ -214,6 +216,7 @@ import Modal from "../../components/ModalGenerico.vue";
 //import ServiceReportPDF from "../../services/ReportesPDFService";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
 import moment from 'moment'
+import Spinner from '../../components/Sppiner.vue'
 
 const API = process.env.VUE_APP_URL_API_PRODUCCION
 
@@ -227,7 +230,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         Modal,
         ExclamationIcon,
         CheckCircleIcon,
-        DownloadIcon
+        DownloadIcon,
+        Spinner
     },
      data() {
     return {
@@ -294,7 +298,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       numerodefotos: 0,
       limite:500,
       ciudad:[],
-      referenciaAnexo: ''
+      referenciaAnexo: '',
+      subversionimagenes:false,
     };
     },
     created() {
@@ -335,7 +340,9 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         this.fechaapertura = this.anexo.fechaApertura
         this.fechacierre = this.anexo.fechaCierre
         this.referenciaAnexo = this.anexo.anexoReference
+        this.subversionimagenes = this.anexo.isSubVersion
         console.log(this.referenciaAnexo)
+        console.log(this.subversionimagenes)
         const componentesanexo = await fetch(`${API}/AnexoDTC/HistoricoComponetesAnexo/${this.lista_DTC_Filtrada[0].referenceSquare}/${referenciaanexo}`) 
         const canexos = await componentesanexo.json();
         let objetocomponentesanexo = canexos.result;
@@ -391,11 +398,13 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       {
         this.$http.post(`${API}/AnexoDTC/${this.lista_DTC_Filtrada[0].referenceSquare}/true`,Anexo)
         .then((response) => {
+          this.modalLoading = true
           console.log(response)
           const urlcopiado = `${API}/ReporteFotografico/CopyAnexoImages/${this.$route.params.dtcReference.split('-')[0]}/${this.$route.params.dtcReference}/${this.$route.params.anexoReference}`
           this.$http.post(urlcopiado)
             .then(() => {
               setTimeout(()=>{
+                this.modalLoading = false
                 this.modalconfirmacionanexo = false;
                 this.modalImage = true;
               },2000)
@@ -522,7 +531,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       setTimeout(() => {
             this.$router.push('/ConcentradoDTCFacturados');
             document.querySelector('body').classList.remove('overflow-hidden'); 
-      },3000)
+      },2000)
      },
      saliranexos(){
      this.modaldescarga = false;
