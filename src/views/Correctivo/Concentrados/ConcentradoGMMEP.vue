@@ -261,7 +261,25 @@ methods:{
       this.objInsertEscaneado = {
           referenceNumber: itemRow.referenceNumber
       }
-    }    
+    }
+    if(acciones.title == 'Pasar a Gerencia'){
+      let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']   
+      let objeActualizado = { "referenceNumber": itemRow.referenceNumber, "statusId": 5, "userId": user.idUser, "comment": "Cambiado por Gerencia" }
+      this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${itemRow.referenceNumber.split('-')[0]}`, objeActualizado)
+      .then((response) =>{
+        console.log(response)
+        this.$notify.success({
+        title: "Ok!",
+        class: "font-titulo",
+        msg: `DTC CON REFERENCIA ${itemRow.referenceNumber} ACTUALIZADO CORRECTAMENTE.`,
+        position: "bottom right",
+        styles: { height: 100, width: 500 }
+        });
+        this.todos();
+        }
+      ).catch((error) => console.log(error))
+    }
+         
   },
   opticones_select_acciones(item){
     const options= [                
@@ -272,6 +290,7 @@ methods:{
       { title: 'Subir DTC Sellado', accionCss: 'terminar', img: 'fa-solid fa-file-arrow-up' },//4
       { title: 'Actualizar Componentes', accionCss: 'editar', img: 'fa-solid fa-file-pen' },//5
       { title: 'Bajar DTC Sin Firma',accionCss: 'terminar', img: 'fa-solid fa-file-arrow-down' },//6
+      { title: 'Pasar a Gerencia',accionCss: 'terminar', img: 'fa-solid fa-file-invoice-dollar' },//7
     ]
     let filtroOpciones = []
     if(this.tipoUsuario == 8 || this.tipoUsuario == 4){
@@ -297,6 +316,9 @@ methods:{
     }
     if(this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10){
       filtroOpciones.push(options[2])
+    }
+    if(item.statusId < 5 && (this.tipoUsuario == 4 || this.tipoUsuario == 8 || this.tipoUsuario == 10)){
+      filtroOpciones.push(options[7])
     }
     return filtroOpciones
   },  
@@ -369,13 +391,11 @@ methods:{
     let objeActualizado = { "referenceNumber": this.dtcEdit.referenceNumber, "statusId": parseInt(this.statusEdit), "userId": user.idUser, "comment": this.motivoCambio }        
     if(this.statusEdit != '' && this.motivoCambio != ''){         
       this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${this.dtcEdit.referenceNumber.split('-')[0]}`, objeActualizado)
-      .then(() => {                          
-        let indexRowUpdate = this.lista_DTC_Filtrada.findIndex(item => item.referenceNumber == this.dtcEdit.referenceNumber)
-        this.lista_DTC_Filtrada.splice(indexRowUpdate, 1)
+      .then(() => { 
+        this.todos()                         
         this.infoDTC = this.lista_DTC_Filtrada              
         this.statusEdit = ''; this.motivoCambio = '';  this.dtcEdit = '';
         this.loadingTabla = false
-        
       }) 
     }
     else {

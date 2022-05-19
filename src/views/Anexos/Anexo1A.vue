@@ -205,6 +205,7 @@
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="saliranexos()">Regresar al menu principal</button>
             </div>
     </Modal>
+    <Spinner :modalLoading="modalLoading"/>
 </div>
 </template>
 
@@ -218,6 +219,8 @@ import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import Modal from "../../components/ModalGenerico.vue";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
 import moment from 'moment'
+import Spinner from '../../components/Sppiner.vue'
+
 
 
 
@@ -235,6 +238,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         ExclamationIcon,
         CheckCircleIcon,
         DownloadIcon,
+        Spinner
     },
     //Declaracion de las variables a utilizar
     data() {
@@ -464,11 +468,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         //Hacemos la peticion para insertar un anexo
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         .then((response) => {
-          let refenciaanexo = response.data.result;
+          this.modalLoading = true
+           let refenciaanexo = response.data.result;
           this.referenciaAnexo = refenciaanexo;
           console.log(this.referenciaAnexo)
-          this.modalconfirmacionanexo=false;
-          this.modalImage = true;
+          setTimeout(()=>{
+             this.modalconfirmacionanexo=false;
+              this.modalImage = true;
+              this.modalLoading = false
+          },2000)
           // let subversion = false;
           // //Una vez generada la referencia del anexo generamos los dos documentos
           // ServiceReportPDF.generar_pdf_anexoA(this.$route.params.referencenumber,refenciaanexo,subversion);
@@ -593,7 +601,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return  this.comentario.length
     },
     double(){
-      return this.componentesaenviar.length * 2;
+      return this.componentesmalos.length * 2;
     }
   }
   }
