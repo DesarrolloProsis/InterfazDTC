@@ -95,10 +95,11 @@ export default {
   },
   methods: {
     generarlistanuevalistacomponentes(equipo){
-      var componente = {
+      if( equipo.serialNumber != undefined && equipo.serialNumber != 'sin número' ){
+        let componente = {
         RequestedComponentId: equipo.requestedComponentId,
-        SerialNumber: equipo.serialnuevo
-      }
+        SerialNumber: equipo.serialNumber
+        }
       if (this.arrayobjetoseditados.length == 0) {
         this.arrayobjetoseditados.push(componente);
       }else{
@@ -113,6 +114,27 @@ export default {
       }
       console.log('Estoy entrando a la funcion');
       this.$emit('componentesfinales',this.arrayobjetoseditados);
+      }else{
+        let componente = {
+        RequestedComponentId: equipo.requestedComponentId,
+        SerialNumber: equipo.serialnuevo
+        }
+        if (this.arrayobjetoseditados.length == 0) {
+        this.arrayobjetoseditados.push(componente);
+      }else{
+        const o = this.arrayobjetoseditados.findIndex(element => {
+          return element.RequestedComponentId === componente.RequestedComponentId
+        })
+        if (o < 0) {
+          this.arrayobjetoseditados.push(componente);
+        }else{
+          this.arrayobjetoseditados.splice(o, 1, componente);
+        }
+      }
+      console.log('Estoy entrando a la funcion');
+      this.$emit('componentesfinales',this.arrayobjetoseditados);
+      }
+      
     },
   }
 }
