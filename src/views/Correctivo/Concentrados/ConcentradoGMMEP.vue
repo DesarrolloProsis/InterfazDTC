@@ -57,7 +57,6 @@
                     <option value="2">Concluido</option>                                                                  
                     <option value="3">Sellado</option>                                                                                                                               
                     <option v-if="tipoUsuario == 10" value="4">GMMEP</option>
-                    <option v-if="dtcEdit.technicalSheetReference != '--' " value="5">Gerencia</option>  
                   </select> 
                 </div>
                 <div class="mt-5">
@@ -123,7 +122,18 @@
         ></Pagination> 
         </div>
         </div>  
-    </div> 
+    </div>
+     <!--////////////////////////////////////////////////////////////////////
+        ////                      MODAL CAMBIAR STATUS ANEXO               //////
+        ////////////////////////////////////////////////////////////////////-->
+        <Modal :showing="modalCambiarstatusGerencia" @close="modalCambiarstatusGerencia = false">
+              <p class="text-gray-800 font-thing text-xl text-center">Estas seguro de pasar a gerencia el DTC con referencia</p>
+              <p class="text-gray-900 font-bold text-xl text-center">{{this.dtcstattusgerencia.referenceNumber}}</p>
+              <div class="justify-center flex mt-5">
+                <button @click="confirmarstatugerencia(dtcstattusgerencia)" class="botonIconCrear font-titulo font-bold m-4">Confirmar</button>
+                <button @click="cancelarstatusgerencia()" class="botonIconCancelar m-4">Cancelar</button>
+              </div>
+      </Modal>
   </div>
 </template>
 <script>
@@ -136,6 +146,7 @@ import AgregarImg from "../../../components/ImagenesGenericas"
 import PdfEscaneado from '../../../components/PdfEscaneado.vue'
 import TablaGenerica from '../../../components/TablaGenerica.vue'
 import Pagination from '../../../components/Pagination.vue'
+import Modal from "../../../components/ModalGenerico.vue";
 
 export default {
   name: "ConcentradoGMMEP",
@@ -145,7 +156,8 @@ export default {
     AgregarImg,
     PdfEscaneado,
     TablaGenerica,
-    Pagination
+    Pagination,
+    Modal
   },
 /////////////////////////////////////////////////////////////////////
 ////                      DATA                                    ////
@@ -189,6 +201,8 @@ data: function (){
       estatus:'',
       plazaidsquare: {},
       tipoUsuario: 0,
+      modalCambiarstatusGerencia:false,
+      dtcstattusgerencia:{}
     }
   },
 /////////////////////////////////////////////////////////////////////
@@ -263,21 +277,9 @@ methods:{
       }
     }
     if(acciones.title == 'Pasar a Gerencia'){
-      let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']   
-      let objeActualizado = { "referenceNumber": itemRow.referenceNumber, "statusId": 5, "userId": user.idUser, "comment": "Cambiado por Gerencia" }
-      this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${itemRow.referenceNumber.split('-')[0]}`, objeActualizado)
-      .then((response) =>{
-        console.log(response)
-        this.$notify.success({
-        title: "Ok!",
-        class: "font-titulo",
-        msg: `DTC CON REFERENCIA ${itemRow.referenceNumber} ACTUALIZADO CORRECTAMENTE.`,
-        position: "bottom right",
-        styles: { height: 100, width: 500 }
-        });
-        this.todos();
-        }
-      ).catch((error) => console.log(error))
+      this.modalCambiarstatusGerencia = true
+      this.dtcstattusgerencia = itemRow
+      console.log(this.dtcstattusgerencia)
     }
          
   },
@@ -435,6 +437,28 @@ methods:{
     this.$nextTick().then(() => {             
       this.lista_DTC_Filtrada = this.infoDTC
     })           
+  },
+  confirmarstatugerencia(itemRow){
+    let user = this.$store.getters['Login/GET_USEER_ID_PLAZA_ID']   
+      let objeActualizado = { "referenceNumber": itemRow.referenceNumber, "statusId": 5, "userId": user.idUser, "comment": "Cambiado por Gerencia" }
+      this.$http.post(`${API}/Pdf/ActualizarDtcAdministratores/${itemRow.referenceNumber.split('-')[0]}`, objeActualizado)
+      .then((response) =>{
+        console.log(response)
+        this.$notify.success({
+        title: "Ok!",
+        class: "font-titulo",
+        msg: `DTC CON REFERENCIA ${itemRow.referenceNumber} ACTUALIZADO CORRECTAMENTE.`,
+        position: "bottom right",
+        styles: { height: 100, width: 500 }
+        });
+        this.modalCambiarstatusGerencia = false
+        this.todos();
+        }
+      ).catch((error) => console.log(error))
+  },
+  cancelarstatusgerencia(){
+    this.dtcstattusgerencia = {}
+    this.modalCambiarstatusGerencia = false
   },
   //Metodos paginacion
   showMore(page) {

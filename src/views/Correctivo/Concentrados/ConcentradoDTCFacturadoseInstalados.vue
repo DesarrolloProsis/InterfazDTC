@@ -91,7 +91,7 @@
                                     <tr class="text-sm text-center text-white trTable sm:text-xs">
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0 rounded-l-lg">Referencia</th>
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Usuario</th>
-                                        <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Estatus</th>
+                                        <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Estatus(Observaciones)</th>
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0 rounded-r-lg">Acciones</th>
                                     </tr>
                                 </thead>
@@ -101,7 +101,7 @@
                                       <td class="p-2 text-center text-sm sm:hidden">{{anxg.userName}}</td>
                                       <td class="p-2 text-center text-sm sm:hidden">
                                         <div v-if="anxg.statusId == 5" class="w-full mx-auto flex justify-center">
-                                          <span class="text-black text-sm uppercase font-medium">Edición</span>
+                                          <span class="text-black text-xs uppercase">{{anxg.comentarios}}</span>
                                         </div>
                                         <div v-else-if="anxg.statusId == 6" class="w-full mx-auto flex justify-center">
                                           <span class="text-black text-sm uppercase font-medium">Revisión</span>

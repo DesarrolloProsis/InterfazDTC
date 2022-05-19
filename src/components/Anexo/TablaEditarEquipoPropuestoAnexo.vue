@@ -23,7 +23,8 @@
                 <td class="cuerpoTable">{{ equipo.brandPropuesto }}</td>
                 <td class="cuerpoTable">{{ equipo.modelPropuesto }}</td>
                 <td class="cuerpoTable">
-                  <input type="text" class="text-center inputanexo" :placeholder="equipo.serialNumber" v-model="equipo.serialnuevo" @change ="generarlistanuevalistacomponentes(equipo)">
+                  <input v-if="equipo.serialNumber == 'sin número'" type="text" class="text-center inputanexo" :placeholder="equipo.serialNumber" v-model="equipo.serialnuevo" @change ="generarlistanuevalistacomponentes(equipo)">
+                  <input v-else type="text" class="text-center inputanexo"  v-model="equipo.serialNumber" @change ="generarlistanuevalistacomponentes(equipo)">
                   </td>
                 <td class="cuerpoTable">{{ equipo.lane }}</td>
                 <td class="cuerpoTable">Nuevo</td>
