@@ -186,7 +186,7 @@
             </div>
             <div class="flex gap-4 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="insertaranexo()">Confirmar</button>
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalconfirmacionanexo = false">Cancelar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="cancelaranexo()">Cancelar</button>
             </div>
     </Modal>
      <!--/////////////////////////////////////////////////////////////////////
@@ -305,6 +305,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       ciudad:[],
       referenciaAnexo: '',
       time: '',
+      index:[],
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
@@ -396,27 +397,31 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     evaluarcomponentes(){
       if(this.componentesfinaleseditados.length > 0){
         if(this.componentesfinaleseditados.length == this.componentesmalos.length){
-          this.componentesaenviar = this.componentesfinaleseditados
-        }else if(this.componentesfinaleseditados.length < this.componentesmalos.length){
-          for(let j = 0; j < this.componentesmalos.length; j++) {
-          let componentes = this.componentesmalos.map(componente => {
-                let c = {
-                    RequestedComponentId: componente.requestedComponentId,
-                    SerialNumber: "sin número"
-                    }
-                  return c
-            })
-          const index = componentes.map(object => object.RequestedComponentId);
-            for(let j = 0; j < this.componentesfinaleseditados.length; j++) {
-                let position = index.indexOf(this.componentesfinaleseditados[j].RequestedComponentId);
-                if(position != -1){
-                  componentes.splice(position,1)
-                  componentes.push(this.componentesfinaleseditados[j])
-                }
+          this.componentesfinaleseditados.forEach((e) =>{
+            if(e.SerialNumber == ""){
+              e.SerialNumber = "sin número"
             }
-            this.componentesaenviar = componentes
-            console.log(this.componentesaenviar)
-          }
+            })
+          this.componentesaenviar = this.componentesfinaleseditados
+          console.log(this.componentesaenviar)
+        }else if(this.componentesfinaleseditados.length < this.componentesmalos.length){
+          this.componentesmalos.forEach((e) =>{
+            let componente = {
+            RequestedComponentId: e.requestedComponentId,
+            SerialNumber: "sin número"
+           }
+           this.componentesaenviar.push(componente)
+          })
+          console.log(this.componentesaenviar);
+          console.log(this.componentesfinaleseditados);
+          this.index = this.componentesaenviar.map(Object => Object.RequestedComponentId)
+          console.log(this.index)
+          this.componentesfinaleseditados.forEach((e)=>{
+            let position = this.index.indexOf(e.RequestedComponentId);
+            console.log(position)
+            this.componentesaenviar.splice(position,1,e)
+          })
+          console.log(this.componentesaenviar)
         }
       }else{
         let componentesfinales = []
@@ -479,6 +484,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      //Funcion para validar la informacion del anexo
     validacionanexo(){
       this.evaluarcomponentes();
+      this.errores = [];
       //Validacion de las fechas de apertura y hora de cierre
       //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
@@ -532,8 +538,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
      //Funcion para el boton cancelar en el modal de validaciones
      limpiarvalidacion(){
-       this.errores = [];
-       this.modalvalidacionanexo = false;
+      this.errores = [];
+      this.modalvalidacionanexo = false;
+      this.componentesaenviar = [];
+      this.index = []
      },
      //Funcione para el cambio de las validaciones y cambie el estilo css de los select
      cambiarvalort1(){
@@ -561,6 +569,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
            document.querySelector('body').classList.remove('overflow-hidden'); 
       },3000)
      },
+    cancelaranexo(){
+      this.modalconfirmacionanexo = false;
+      this.componentesaenviar = [];
+      this.index = []
+    },
      //Funcion para el boton del modal de descarga de los anexos
      saliranexos(){
      this.modaldescarga = false;
@@ -580,7 +593,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return  this.comentario.length
     },
     double(){
-      return this.componentesfinaleseditados.length * 2;
+      return this.componentesaenviar.length * 2;
     }
   }
   }
