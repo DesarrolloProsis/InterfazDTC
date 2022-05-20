@@ -396,12 +396,12 @@ export default {
             }
           }else if(this.selectMultiModal.title == 'Descargar Acta'){
             if (anxg.tipoAnexo === "A") {
-              ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,anxg.subAnexo);
-              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference,anxg.subAnexo);
+              ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
+              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
               this.selectMultiModal = '';
             } else if (anxg.tipoAnexo === "B"){
-              ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,anxg.subAnexo);
-              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference,anxg.subAnexo);
+              ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
+              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
               this.selectMultiModal = '';
             }
           }else if(this.selectMultiModal.title == 'Validar'){
