@@ -10,22 +10,16 @@
         ////                      FILA NUMERO 1                            ////
         /////////////////////////////////////////////////////////////////////// -->
         <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
-          <p class="text-align: justify;">
-            <span style="font-weight: bold">Tiempo de entrega:</span>
-            <br />
-            <span style="font-weight: bold">Vigencia de la Cotización:</span> 15
-            días calendario, a partir de la fecha del presente.
-            <br />
-            <span style="font-weight: bold">Forma de Pago:</span> 100% al
-            término de los trabajos.
-            <br />
-            <span style="font-weight: bold">Precios en M.N:</span> No incluyen
-            IVA, el cual se cargara al momento de facturarse. En caso de una
-            variación de la paridad Peso/Dólar mayor al 5%, se revisarán los
-            precios.
-            <br />
-            <span style="font-weight: bold">Precios en USD:</span>
-            No incluyen IVA, el cual se cargará al momentode facturarse.
+          <p class="text-align: justify; p-4">
+            <span class="">Costo unitario del componente con base en <b>ANEXO 16. "PRECIOS UNITARIOS REFACCIONAMIENTO Y MANTENIMIENTO CORRECTIVO".</b>"</span> 
+            <br /><br />
+            <span>El importe a considerar será sin el Impuesto al Valor Agregado.</span>
+            <br /><br />
+            <span>Los precios unitarios de las refacciones y servicios de mantenimiento correctivo son en <b>PESOS MEXICANOS.</b></span>
+            <br /><br />
+            <span>Los componentes relacionados en este formato son los <b>MÍNIMOS</b> requeridos.</span>
+            <br /><br />
+            <span>Vigencia de la Oferta: <b>90 días</b> naturales a partir de la presentacion de la misma.</span>
           </p>
         </div>
         <div></div>
@@ -34,7 +28,7 @@
         ///////////////////////////////////////////////////////////////////// -->
         <ValidationObserver ref="observer"> 
           <div class="items-center font-titulo">
-            <ValidationProvider name="Observaciones2" rules="max:300"  v-slot="{ errors }">
+            <ValidationProvider class="hidden" name="Observaciones2" rules="max:300"  v-slot="{ errors }">
               <p class="text-center"><span class="text-center font-bold text-xl text-gray-800">Observaciones</span></p>
               <textarea v-model="observaciones" value="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." class="rounded-lg py-4 mb-1 h-40 w-full textAreaCalendario placeholder-gray-500 ph-center-observaciones text-center" 
                         placeholder="NO APLICA REPARACIÓN, NI PARCIAL, NI TOTAL." name="Observaciones" :maxlength="limite" readonly/>
