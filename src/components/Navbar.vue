@@ -9,26 +9,77 @@
         </router-link>     
       </div>   
       <!--PANEL NOMBRE DE USUARIO-->   
-      <div class="flex">  
+      <div class="flex">
         <p v-if="nombreUsuario != undefined" id="testNombreUsuario" class="m-2 ml-5 text-white inline-block font-titulo text-left mr-5 sm:hidden">Bienvenido: {{ nombreUsuario }}</p>                
+        <!--PANEL NOMBRE DE NOTIFICACIONES-->  
+        <button @click="openNotifications" class="mt-1 mr-3 font-titulo border-none">
+            <font-awesome-icon icon="fa-regular fa-bell" class="text-white h-6 w-10 border-none" />
+        </button>
+        <div v-if="notificationOpen" @click="openNotifications" class="fixed inset-0 w-full h-full mt-15 z-0"></div>
+            <transition name="fade">
+              <div v-if="notificationOpen"
+              class="
+              absolute 
+              top-0 
+              mt-15 
+              right-0 
+              mr-20 
+              flex-col
+              font-titulo 
+              bg-white border 
+              border-gray-300 
+              shadow-2xl 
+              rounded-lg 
+              p-3
+              w-70
+              h-76 
+              sm:-mr-2 
+              sm:w-67 
+              overflow-y-auto
+              z-20"
+              >
+                  <h3 class="p-4 font-titulo text-2xl font-bold text-blue-700 border-b-2 border-blue-600">Notificaciones</h3>
+                  <div class="flex gap-4 mt-2">
+                    <span class="font-medium bg-gray-200 rounded-lg ml-2 p-2">Todos</span>
+                    <span class="font-medium bg-gray-200 rounded-lg  p-2">No Leidas</span>
+                  </div>
+                  <div class="h-10 text-justify p-4 mb-3">
+                    <div class="flex content-center items-center p-2 rounded-lg hover:bg-gray-200">
+                        <font-awesome-icon icon="fa-solid fa-arrow-right-arrow-left" class="text-blue-800 h-4 p-2 bg-blue-200 rounded-full" />
+                        <div class="text-sm p-4">is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the</div>
+                        <input type="radio" class="mb-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2">
+                    </div>
+                  </div>
+              </div>
+        </transition>
         <div class="group inline-block font-titulo">
-          <button @click="navbarOpen = navbarOpen ? false : true" class="mt-1 mr-3 font-titulo">
+          <button @click="openMenu" class="mt-1 mr-3 font-titulo">
             <!-- <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" /> -->
             <font-awesome-icon icon="fa-solid fa-bars" class="text-white h-8 w-10"/> 
           </button>
         </div>              
       </div>     
     </nav>
-    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 ">      
+    <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 ">     
+      <div v-if="navbarOpen" @click="openMenu" class="fixed inset-0 w-full h-full mt-15 z-0"></div>
       <transition name="fade">
-        <div v-if="navbarOpen" class="fixed inset-0 w-full h-screen fondomodal mt-15 ">
-        <div class="absolute top-0 mt-1 right-0 w-auto flex font-titulo">     
-          <div class="bg-white xl:border-r-0 border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:-mr-2 sm:w-67" :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg': rollUsuario == 7}">                  
+        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto flex font-titulo">     
+          <div class="bg-white 
+          p-3 
+          pr-1 
+          pt-0 
+          w-52
+            
+          sm:-mr-2 
+          sm:w-67
+          border
+          border-r-0
+          rounded-l-lg"
+          :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 ': rollUsuario == 7}">                  
             <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1 ">
-              <p class="font-semibold text-gray-900 ml-4 ">{{ item.texto }}</p>              
-                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1 sm:w-full sm:text-xs">
-                  <button @click="$router.push(itemsub.path)" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full sm:mt-0 sm:pb-0">
-                    <!-- <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" > -->
+              <p class="p-4 font-titulo text-xl font-bold text-blue-700 border-b-2 border-blue-600">{{ item.texto }}</p>              
+                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-full p-1 sm:w-full sm:text-xs">
+                  <button @click="$router.push(itemsub.path)" class="inline-flex mt-1 hover:bg-gray-200 pb-1 w-full sm:mt-0 sm:pb-0">
                     <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
                     <div class="ml-4 text-left sm:text-justify">
                       <template  v-if="itemsub.texto.split('-').length == 1">
@@ -39,9 +90,10 @@
                       </template>                                                       
                     </div>
                   </button>
-                </div>              
+                </div>
+                              
             </div>
-            <button @click="$router.push('/')" class="sm:inline-flex border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 sm:text-sm sm:my-auto" :class="{'hidden':rollUsuario != 7}">
+            <button @click="$router.push('/')" class="inline-flex mt-1 hover:bg-red-400 pl-1 pr-1 pb-1 w-full h-12 sm:text-sm sm:my-auto" :class="{'hidden':rollUsuario != 7}">
               <!-- <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" > -->
               <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="text-red-700 w-8 h-8 ml-2 mt-1"/>
               <div  class="ml-4 text-left">
@@ -49,18 +101,26 @@
               </div>  
             </button>   
           </div>
-          <div class="bg-white border border-blue-800 p-3 pr-1 pt-0 w-52 rounded-lg sm:hidden" :class="{'hidden':rollUsuario == 7}">                  
+          <div class="bg-white 
+            border
+            border-l-0
+            rounded-r-lg
+            p-3
+            pr-1
+            pt-0 
+            w-52 
+            sm:hidden" :class="{'hidden':rollUsuario == 7}">                  
             <div v-for="(item, key) in filtroMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
-              <p class=" font-semibold text-gray-900 ml-4">{{ item.texto }}</p>                  
-                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
-                  <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full bg-white">
+              <p class="p-4 font-titulo text-xl font-bold text-blue-700 border-b-2 border-blue-600 text-center">{{ item.texto }}</p>                  
+                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-full p-1">
+                  <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full bg-white">
                     <!-- <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" > -->
                     <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
                     <div  class="ml-4 text-left">
                       <p class="mt-2">{{ itemsub.texto }}</p>                    
                     </div>  
                   </button>
-                  <button v-else @click="manual_pdf" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full">
+                  <button v-else @click="manual_pdf" class="inline-flex mt-1 hover:bg-gray-200 pl-1 pr-1 pb-1 w-full">
                     <!-- <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" > -->
                     <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
                     <div  class="ml-4 text-left">
@@ -70,8 +130,8 @@
                 </div>                                     
             </div>
             <div class="rounded-2xl p-1 pl-0 pt-0" >
-              <div class="w-49 bg-gray-100 rounded-b-none rounded-t-none rounded-lg p-1">
-              <button @click="$router.push('/')" class="border rounded-l-xl rounded-r-xl inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full">
+              <div class="w-full p-1">
+              <button @click="$router.push('/')" class="inline-flex mt-1 hover:bg-gray-200 pl-1 pr-1 pb-1 w-full">
                 <!-- <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" > -->
                 <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="text-red-700 w-8 h-8 ml-2 mt-1"/>
                 <div  class="ml-4 text-left">
@@ -82,13 +142,26 @@
             </div>                  
           </div>
         </div>
-        </div>
       </transition >      
     </div>
   </div>
 </template>
 <script>
 import ReportesPDFService from '../services/ReportesPDFService'
+import Vue from "vue";
+Vue.directive("click-outside", {
+  bind(el, binding, vnode) {
+    el.clickOutsideEvent = (event) => {
+      if (!(el === event.target || el.contains(event.target))) {
+        vnode.context[binding.expression](event);
+      }
+    };
+    document.body.addEventListener("click", el.clickOutsideEvent);
+  },
+  unbind(el) {
+    document.body.removeEventListener("click", el.clickOutsideEvent);
+  },
+});
 export default {
   name: 'NavBar',
   data(){
@@ -126,7 +199,9 @@ export default {
           ] 
         }
       ],
-      navbarOpen: false,      
+      navbarOpen: false,
+      notificationOpen: false,
+      firstOpen: false      
     }
   },
   computed:{    
@@ -176,17 +251,30 @@ export default {
     }
   },
   methods:{
-        
-    
     manual_pdf(){
       ReportesPDFService.manual_pdf()
+    },
+    openNotifications(){
+      if(this.navbarOpen == true){
+        this.navbarOpen = false
+      }
+      this.notificationOpen = this.notificationOpen ? false : true    
+    },
+    onClickOutside(){
+      this.notificationOpen = false
+    },
+    openMenu(){
+      if(this.notificationOpen == true){
+        this.notificationOpen = false
+      }
+      this.navbarOpen = this.navbarOpen ? false : true
     },    
   },
   watch: {
     '$route' (){            
       this.navbarOpen = false      
     }
-  }    
+  },    
 };
 </script>
 <style >

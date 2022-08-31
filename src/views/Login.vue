@@ -15,7 +15,7 @@
       <div :class="{ 'blur-content': modal }" class="md:w-full flex self-center">
         <div class="flex flex-col gap-5 h-full md:p-6 laptop:gap-3">
           <div class="mx-auto ">
-             <p class="text-center text-gray-600 font-titulo font-bold mb-6 sm:text-xl sm:mb-6 md:text-3xl lg:text-3xl xl:text-4xl laptop:text-2xl">Bitacora de Mantenimiento</p>
+            <p class="text-center text-gray-600 font-titulo font-bold mb-6 sm:text-xl sm:mb-6 md:text-3xl lg:text-3xl xl:text-4xl laptop:text-2xl">Bitacora de Mantenimiento</p>
             <ValidationObserver  v-slot="{ invalid  }">                       
           <div class="">          
             <div class="mb-5">
@@ -54,8 +54,7 @@
           </div>
           <div class="text-center text-blue-800 font-titulo w-full font-bold sm:text-xs laptop:text-sm">© {{ this.año }} Proyectos y Sistemas Informaticos.</div>
           <div class="text-center text-blue-800 font-titulo w-full font-bold sm:text-xs laptop:text-sm">V 3.0.0</div>
-       </div>
-        
+      </div>
       </div>
     </div>
     
