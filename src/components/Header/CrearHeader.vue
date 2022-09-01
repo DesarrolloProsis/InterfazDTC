@@ -252,10 +252,10 @@
           </div>
           <div></div>
           <div class="pr-2 font-titulo -mt-20 sm:-mt-4">
-            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class="font-semibold text-lg sm:text-xs">Unidad Regional:</span>
-            <span v-else class="font-semibold text-lg sm:text-xs hidden">Coordinación Regional:</span>
+            <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class=" text-lg sm:text-xs">Unidad Regional:</span>
+            <span v-else class="font-semibold text-lg sm:text-xs hidden">Unidad Regional:</span>
             <label v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class="text-md" style="font-weight: normal">Estado de México</label>
-            <label v-else class="text-lg " style="font-weight: normal"><span class="font-semibold font-titulo text-lg sm:text-xs">{{ headerSelecionado.regionalCoordination }}</span></label>
+            <label v-else class="text-lg " style="font-weight: normal"><span class="font-semibold font-titulo text-lg sm:text-xs">Unidad Regional: {{ headerSelecionado.regionalCoordination }}</span></label>
           </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   SEXTA LINEA                              ////
@@ -263,7 +263,7 @@
             <div></div>
             <div></div>
             <div class="pr-2 font-titulo -mt-12 sm:-mt-10">
-              <span class="font-semibold text-lg sm:text-xs">Centro de Servicio: Ciudad de México</span>
+              <span class="font-normal text-lg sm:text-xs">Centro de Servicio:</span>
               <label></label>
             </div>
           <!-- //////////////////////////////////////////////////////////////////

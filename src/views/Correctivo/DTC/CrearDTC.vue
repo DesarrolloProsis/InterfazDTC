@@ -181,7 +181,7 @@ beforeMount: async function() {
   }
   this.flagCreate = true;
   if (JSON.stringify(this.$route.query) != "{}") {              
-    this.headerEdit = this.$route.query.headerInfo;                 
+    this.headerEdit = this.$route.query.headerInfo;              
     this.observaciones = this.headerEdit.observation;
     this.$store.commit("Header/REFERENCIA_DTC_MUTATION",this.headerEdit.referenceNumber);
     this.$store.commit("Header/DIAGNOSTICO_MUTATION",this.headerEdit.diagnosis);
