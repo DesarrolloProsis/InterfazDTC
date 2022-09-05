@@ -242,7 +242,7 @@
                     <font-awesome-icon icon="fa-solid fa-circle-info" class="text-blue-600 w-5 h-5 flex items-center"/>
                 </span>
 
-                <div ref="tooltipcambiodeplaza" class="font-titulo">
+                <div ref="tooltipcambiodeplaza" class="font-titulo ">
                     <p class="text-center text-gray-800">Se puede modificar la plaza y el encargado de la plaza</p>
                 </div>
               </div>
