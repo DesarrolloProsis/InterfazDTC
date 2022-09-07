@@ -77,7 +77,6 @@ const actions = {
       })
   },
   async CREAR_HEADER_DTC({ state, commit, rootGetters }, value) {   
-        
     let newObject = {
       ReferenceNumber: state.referenciaDtc,
       SinisterNumber: state.datosSinester.SinisterNumber == '' ? null : state.datosSinester.SinisterNumber,

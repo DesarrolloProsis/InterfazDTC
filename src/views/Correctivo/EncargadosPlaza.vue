@@ -270,7 +270,8 @@ export default {
                 this.$store.commit('Login/LISTA_PLAZAS_USUARIO_COOKIES_MUTATION',plazasUsuario)
                 //Header Lista LArga 
                 this.$http.post(`${API}/login/LoginInfo`, { userId: userId })
-                .then((response) => {                    
+                .then((response) => {   
+                    console.log(response);                 
                     this.$store.commit('Login/LISTA_HEADER_PLAZA_USER_MUTATION',response.data.result.loginList)
                     this.$store.commit('Header/LISTA_HEADERS_MUTATION', response.data.result.loginList)      
                     let cookiesUser = this.$store.state.Login.cookiesUser

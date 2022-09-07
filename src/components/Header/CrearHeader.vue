@@ -255,7 +255,7 @@
             <span v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class=" text-lg sm:text-xs">Unidad Regional:</span>
             <span v-else class="font-semibold text-lg sm:text-xs hidden">Unidad Regional:</span>
             <label v-if="this.headerSelecionado.referenceSquare == 'PAL' || this.headerSelecionado.referenceSquare == 'TEP' || this.headerSelecionado.referenceSquare == 'POL'" class="text-md" style="font-weight: normal">Estado de México</label>
-            <label v-else class="text-lg " style="font-weight: normal"><span class="font-semibold font-titulo text-lg sm:text-xs">Unidad Regional: {{ headerSelecionado.regionalCoordination }}</span></label>
+            <label v-else class="text-lg " style="font-weight: normal"><span class="font-semibold font-titulo text-lg sm:text-xs">Unidad Regional: {{ headerSelecionado.regionalCoordination.slice(16) }}</span></label>
           </div>
             <!-- //////////////////////////////////////////////////////////////////
             ////                   SEXTA LINEA                              ////
@@ -369,6 +369,7 @@ export default {
       referenceSelected: '',      
       tipoPlazaSelect: '',
       tiposDescripciones: [],
+      unidadRegional : '',
     };
   },
 /////////////////////////////////////////////////////////////////////
