@@ -263,8 +263,8 @@
             <div></div>
             <div></div>
             <div class="pr-2 font-titulo -mt-12 sm:-mt-10">
-              <span class="font-normal text-lg sm:text-xs">Centro de Servicio:</span>
-              <label></label>
+              <span class="font-normal text-lg sm:text-xs">Centro de Servicio: </span>
+              <label>{{this.headerSelecionado.center}}</label>
             </div>
           <!-- //////////////////////////////////////////////////////////////////
           ////                   SEPTIMA LINEA                              ////

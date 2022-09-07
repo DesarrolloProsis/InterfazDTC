@@ -28,7 +28,7 @@ function formato_cookies_usuario(loginSesion, username){
         cookies['registrado'] = cookies.plazasUsuario.length > 0 ? true : false
         cookies['userName'] = username
         Axios.post(`${API}/login/LoginInfo`, { userId: loginSesion.userId })    
-        .then((response) => {                         
+        .then((response) => {     
             cookies['nombreUsuario'] = response.data.result.loginList[0].nombre                                                                                          
             localStorage.clear()    
             localStorage.setItem('cookiesUser', JSON.stringify(cookies));  
