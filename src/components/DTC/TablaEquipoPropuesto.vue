@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="flex justify-center">
     <div class="flex justify-center sm:hidden">
       <div class="shadow-sm rounded md:border border-black px-8 pt-6 pb-8 mt-8 w-full flex flex-col">
         <!-- ************************************************************** -->
         <div class="text-center mb-2">
-          <h6 class="font-titulo font-bold text-xl text-gray-800">Equipo Propuesto</h6>
+          <h6 class="font-bold text-xl text-gray-800">Equipo Propuesto</h6>
         </div>
         <!-- ************************************************************** -->
         <div class="inline-flex font-titulo">
@@ -12,12 +12,12 @@
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
             <thead>
               <tr class="border text-xs bg-blue-800 text-white">
-                <th class="w-20 cabeceraTable font-medium">Partida</th>
-                <th class="w-24 cabeceraTable font-medium">Unidad</th>
+                <th class="w-32 cabeceraTable font-medium">Partida</th>
+                <th class="w-32 cabeceraTable font-medium">Unidad</th>
                 <th class="w-32 xl:w-48 cabeceraTable font-medium">Componente</th>
-                <th class="w-24 cabeceraTable font-medium">Cantidad</th>
-                <th class="w-24 xl:w-32 cabeceraTable font-medium">Marca</th>
-                <th class="w-24 xl:w-32 cabeceraTable font-medium">Modelo</th>
+                <th class="w-32 cabeceraTable font-medium">Cantidad</th>
+                <th class="w-32 xl:w-32 cabeceraTable font-medium">Marca</th>
+                <th class="w-32 xl:w-32 cabeceraTable font-medium">Modelo</th>
                 <th class="w-32 xl:w-48 cabeceraTable font-medium">Precio<br />(Unitario Peso)</th>
                 <th class="w-32 xl:w-48 cabeceraTable font-medium">Precio<br />(Unitario Dolar)</th>
                 <th class="w-32 xl:w-48 cabeceraTable font-medium">Precio Total<br />(Pesos)</th>

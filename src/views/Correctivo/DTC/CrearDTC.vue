@@ -4,11 +4,82 @@
     ////                    COMPONENTE HEADER                         ////
     ///////////////////////////////////////////////////////////////////// -->
     <Header :descripciones="descripcionHeaders" :datosUser="datosUser" :headerEdit="headerEdit" :observaciones="observaciones" @crear-dtc="crear_dtc"></Header>
+      
+    
+    
+    <!--Div Principal-->
+      <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 4vw">
+        <div class="mt-8 mx-35 gap-4">
+          
+          <!--Primer Div-->
+          <div class="flex justify-between">
+            <div class="border border-gray-300 shadow-md rounded-lg font-titulo w-1/3">
+              <p class="text-align: justify; p-4">
+              <span class="">Costo unitario del componente con base en <b>ANEXO 16. "PRECIOS UNITARIOS REFACCIONAMIENTO Y MANTENIMIENTO CORRECTIVO".</b>"</span> 
+              <br /><br />
+              <span>El importe a considerar será sin el Impuesto al Valor Agregado.</span>
+              <br /><br />
+              <span>Los precios unitarios de las refacciones y servicios de mantenimiento correctivo son en <b>PESOS MEXICANOS.</b></span>
+              <br /><br />
+              <span>Los componentes relacionados en este formato son los <b>MÍNIMOS</b> requeridos.</span>
+              <br /><br />
+              <span>Vigencia de la Oferta: <b>90 días</b> naturales a partir de la presentacion de la misma.</span>
+              </p>
+            </div>
+          
+          </div>
+          <!--Segundo Div-->
+          <div class="flex justify-between my-6">
+            <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo p-10 w-1/3">
+              <p style="text-align: center">
+                <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
+                <br /><br /><br /><br /><br />
+                <span>Autorización Comercial Director Comercial</span>
+                <br />
+                <span style="font-size: 0.7vw">C.P Hermilia Guzman Añorve</span>
+              </p>
+            </div>
+            <div class="border border-gray-300 shadow-md rounded-lg font-titulo w-1/3">
+              <p style="text-align: center">
+                <br /><br /><br /><br />
+                <span style="font-weight: bold">{{ headerSelecionado.adminName }}</span>
+                </p>
+                <hr />
+                <p style="text-align: center">
+                <span>Administrador Plaza de Cobro</span>
+                <br />
+                <span>{{ headerSelecionado.adminMail }}</span>
+              </p>
+            </div>
+          </div>
+          <!--Tercer Div-->
+          <div class="flex justify-center shadow-md rounded-lg sm:mb-20 mb-8 p-2">
+            <div class="w-1/2 p-2 flex justify-center">
+              <button @click="dtc_validaciones(1)" class="botonIconBuscar" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+                <!-- <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" /> -->
+                <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-2 text-blue-800 h-8"/>
+                <span>Guardar</span>
+              </button>
+            </div>
+            <div class="w-1/2 p-2 flex justify-center">
+              <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
+                <!-- <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+                <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
+                <span>Crear</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+<!--
     <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 2vw">
       <div class="mt-8 mx-4 grid grid-cols-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-        <!-- //////////////////////////////////////////////////////////////////
+        <!- //////////////////////////////////////////////////////////////////
         ////                      FILA NUMERO 1                            ////
-        /////////////////////////////////////////////////////////////////////// -->
+        /////////////////////////////////////////////////////////////////////// -
         <div class="border border-gray-300 shadow-md rounded-lg font-titulo">
           <p class="text-align: justify; p-4">
             <span class="">Costo unitario del componente con base en <b>ANEXO 16. "PRECIOS UNITARIOS REFACCIONAMIENTO Y MANTENIMIENTO CORRECTIVO".</b>"</span> 
@@ -23,9 +94,10 @@
           </p>
         </div>
         <div></div>
-        <!-- //////////////////////////////////////////////////////////////////
-        ////                        OBSERVACIONES                         ////
-        ///////////////////////////////////////////////////////////////////// -->
+      -->
+        <!--
+                  ////                        OBSERVACIONES                         ////
+        /////////////////////////////////////////////////////////////////////
         <ValidationObserver ref="observer"> 
           <div class="items-center font-titulo">
             <ValidationProvider class="hidden" name="Observaciones2" rules="max:300"  v-slot="{ errors }">
@@ -37,9 +109,9 @@
             </ValidationProvider>       
           </div>
         </ValidationObserver>
-        <!-- //////////////////////////////////////////////////////////////////
+         //////////////////////////////////////////////////////////////////
         ////                        FILA NUMERO 2                         ////
-        ///////////////////////////////////////////////////////////////////// -->
+        ///////////////////////////////////////////////////////////////////// 
           <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo">
           <p style="text-align: center">
             <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
@@ -69,25 +141,25 @@
             <span>{{ headerSelecionado.adminMail }}</span>
           </p>
           </div>
-        <!-- //////////////////////////////////////////////////////////////////
+        <!- //////////////////////////////////////////////////////////////////
         ////                           BOTONES                            ////
-        ///////////////////////////////////////////////////////////////////// -->
+        ///////////////////////////////////////////////////////////////////// -
         <div class="flex flex-grow content-start flex-wrap bg-gray-100 border border-gray-300 shadow-md rounded-lg sm:mb-20 mb-8 ml-" style="padding: 3vw;">
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(1)" class="botonIconBuscar sm:-ml-2 font-boton" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
-              <!-- <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" /> -->
+              <!- <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" /> --
               <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-2 text-blue-800 h-8"/>
               <span>Guardar</span>
             </button>
           </div>
           <div class="w-1/2 p-2">
             <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
-              <!-- <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" /> -->
+              <-- <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" /> --
               <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
               <span>Crear</span>
             </button>
           </div>
-        </div>
+        </div>-->
         <!--////////////////////////////////////////////////////////////////////
         ////            MODAL NO SE PUEDE ACTUALIZAR HEADER                ////
         ////////////////////////////////////////////////////////////////////-->
@@ -97,8 +169,6 @@
         ////////////////////////////////////////////////////////////////////-->
         <Spinner :modalLoading="modalLoading"/>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
