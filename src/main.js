@@ -12,6 +12,7 @@ import * as rules from 'vee-validate/dist/rules';
 import tooltip from 'vue-directive-tooltip';
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
+import wb from "./registerServiceWorker";
 
 /* import specific icons */
 import { 
@@ -252,6 +253,7 @@ Vue.use(sesionExpire,{
   startAtIdle: false
 })
 
+Vue.prototype.$workbox = wb;
 
 Vue.config.productionTip = false
 new Vue({
