@@ -71,7 +71,8 @@ import {
   faArrowRightArrowLeft,
   faWindowRestore,
   faAddressCard,
-  faCalendarCheck
+  faCalendarCheck,
+  faFaceFrown
 } from '@fortawesome/free-solid-svg-icons'
 /*<font-awesome-icon icon="fa-regular fa-file-excel" />*/
 
@@ -156,7 +157,8 @@ library.add(faUserSecret,
   faWindowRestore,
   faCalendarCheck,
   faFileExcel,
-  faBell
+  faBell,
+  faFaceFrown
   )
 
 /* add font awesome icon component */

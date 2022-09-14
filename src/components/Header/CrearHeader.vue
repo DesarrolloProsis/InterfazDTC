@@ -225,10 +225,10 @@
             <label>{{this.headerSelecionado.center}}</label>
           </div>
 
-            <div class="my-4 xl:pr-2 font-titulo xl:my-2">
-              <span class="font-semibold text-lg sm:text-xs md:text-sm lg:text-base">Correo:</span>
-              <span class="font-semibold text-lg sm:text-xs md:text-sm lg:text-base">hguzman@grupo-prosis.com</span>
-            </div>   
+          <div class="my-4 xl:pr-2 font-titulo xl:my-2">
+            <span class="font-semibold text-lg sm:text-xs md:text-sm lg:text-base">Correo:</span>
+            <span class="font-semibold text-lg sm:text-xs md:text-sm lg:text-base">hguzman@grupo-prosis.com</span>
+          </div>   
 
         </div>
         
