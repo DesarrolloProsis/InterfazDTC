@@ -8,12 +8,12 @@
     
     
     <!--Div Principal-->
-      <div class="md:border border-black" style=" margin-left: 1vw; margin-right: 1vw; margin-bottom: 4vw">
-        <div class="mt-8 mx-35 gap-4">
+      <div class="md:border border-black" style=" xl:margin-left: 1vw; xl:margin-right: 1vw; xl:margin-bottom: 4vw">
+        <div class="xl:mt-8 xl:mx-35">
           
           <!--Primer Div-->
-          <div class="flex justify-between">
-            <div class="border border-gray-300 shadow-md rounded-lg font-titulo w-1/3">
+          <div class="flex justify-center xl:justify-between">
+            <div class="border border-gray-300 shadow-md rounded-lg font-titulo m-4 xl:w-1/3">
               <p class="text-align: justify; p-4">
               <span class="">Costo unitario del componente con base en <b>ANEXO 16. "PRECIOS UNITARIOS REFACCIONAMIENTO Y MANTENIMIENTO CORRECTIVO".</b>"</span> 
               <br /><br />
@@ -29,8 +29,8 @@
           
           </div>
           <!--Segundo Div-->
-          <div class="flex justify-between my-6">
-            <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo p-10 w-1/3">
+          <div class="sm:flex-col xl:flex justify-between m-4 xl:my-6">
+            <div class="border border-gray-300 shadow-md rounded-lg items-center font-titulo p-10 xl:w-1/3">
               <p style="text-align: center">
                 <span style="font-weight: bold">Autorizacion Tecnica y Comercial:</span>
                 <br /><br /><br /><br /><br />
@@ -39,7 +39,7 @@
                 <span style="font-size: 0.7vw">C.P Hermilia Guzman Añorve</span>
               </p>
             </div>
-            <div class="border border-gray-300 shadow-md rounded-lg font-titulo w-1/3">
+            <div class="border border-gray-300 shadow-md rounded-lg font-titulo my-4 xl:w-1/3">
               <p style="text-align: center">
                 <br /><br /><br /><br />
                 <span style="font-weight: bold">{{ headerSelecionado.adminName }}</span>
@@ -53,15 +53,15 @@
             </div>
           </div>
           <!--Tercer Div-->
-          <div class="flex justify-center shadow-md rounded-lg sm:mb-20 mb-8 p-2">
-            <div class="w-1/2 p-2 flex justify-center">
+          <div class="flex justify-center shadow-md rounded-lg mx-1 mb-20 mt-1 xl:mb-8 xl:p-2">
+            <div class="p-2 flex justify-center">
               <button @click="dtc_validaciones(1)" class="botonIconBuscar" :class="{'BuscarDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
                 <!-- <img src="@/assets/img/save.png" class="mr-2 sm:-ml-1" width="35" height="35" /> -->
                 <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-2 text-blue-800 h-8"/>
                 <span>Guardar</span>
               </button>
             </div>
-            <div class="w-1/2 p-2 flex justify-center">
+            <div class="p-2 flex justify-center">
               <button @click="dtc_validaciones(2)" class="botonIconCrear" :class="{'CrearDeshabilitado' :modalLoading,'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': modalLoading, 'hover:bg-gray-300 hove:border-black': modalLoading}" :disabled="modalLoading">
                 <!-- <img src="@/assets/img/add.png" class="mr-2" width="35" height="35" /> -->
                 <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-2 text-green-800 h-8"/>
