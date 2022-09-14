@@ -1,5 +1,39 @@
 <template>
   <div class="h-75" :disabled="modalLoading">    
+
+
+    <!--Div Global-->
+    <div class="flex justify-center">
+      <!--Div Cabeza-->
+      <div class="flex my-20">
+        <div class="mr-50">        
+          <font-awesome-icon icon="fa-solid fa-circle-user" class="text-blue-800 h-50 w-50 mr-2"/>
+        </div>
+        <div class="mr-70">
+          <h1 class="text-5xl font-bold text-gray-800 text-center mt-4" v-if="!typeUser">PERFIL</h1>
+          <div v-if="typeUser"><HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico></div>  
+            <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
+              <!-- <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> -->
+              <font-awesome-icon icon="fa-solid fa-circle-user" class="text-blue-800 h-30 w-30 mr-2"/>
+              <span class="">Agregar Nuevo Usuario</span>
+            </button>
+        </div>
+      </div>
+      <!--Div Datos-->      
+    </div>
+    <div>
+      <div class="flex justify-center">
+        <div class="border-4">
+          <span class="font-titulo font-bold">Nombre:</span>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
     <div class="flex justify-center p-4" >
       <!--//////////////////////////////////////////////////////////////////
       ////                          CUERPO                            ////
