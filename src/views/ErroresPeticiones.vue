@@ -10,7 +10,7 @@
         <br>
         <span class="text-2xl text-blue-800 font-medium">ERROR 404</span>
         <br><br>
-        <span class="text-blue-800 font-medium">Intentalo nuevamente o si te marca mas de dos veces este mismo error por favor ponte en contact con el area de servicio, Gracias.</span>
+        <span class="text-blue-800 font-medium">Intentalo nuevamente o si te marca mas de dos veces este mismo error por favor ponte en contacto con el area de servicio, Gracias.</span>
         <br><br>
         <button @click="$router.push('home')"
         class="text-white border 
