@@ -546,9 +546,6 @@ select:focus {
     }
 }
 
-.tablaf tbody tr:nth-child(2n){
-    @apply bg-gray-200
-}
 
 body.modal-open {
     overflow: hidden;

@@ -74,6 +74,7 @@
           @listacarriles = "onagregarcomponentes"
           @listanombrecom = "onagregarnombrescomponentes"
           @componentesfinales = "agregarcomponenteseditados"
+          @componentesmalos = 'agregarcomponentesmalos'
         />
         <p class="text-sm mb-2 uppercase">Supervisor de plaza <span class="text-sm font-bold">{{ this.lista_DTC_Filtrada[0].name }}</span></p>
         <div class="inline-flex mt-4">
@@ -122,6 +123,8 @@
                       :referenceNumber="this.lista_DTC_Filtrada[0].referenceNumber"
                       :maximofotosanexo="this.double"
                       :referenciaAnexo="this.referenciaAnexo"
+                      :subversionAnexo="false"
+                      :editar="false"
                       @bloquear-boton-diagnostico="bloquear_boton_anexo_img">
                     </ImagenesAnexo>
                     <button @click="pasarinsertaranexo()" :disabled="blockBotonModal" class="botonIconCrear mt-6" :class="{'bg-gray-300 hover:text-black border-black hover:border-black cursor-not-allowed opacity-50': blockBotonModal, 'hover:bg-gray-300 hove:border-black': blockBotonModal }">
@@ -183,7 +186,7 @@
             </div>
             <div class="flex gap-4 bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="insertaranexo()">Confirmar</button>
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="modalconfirmacionanexo = false">Cancelar</button>
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="cancelaranexo()">Cancelar</button>
             </div>
     </Modal>
      <!--/////////////////////////////////////////////////////////////////////
@@ -202,6 +205,7 @@
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" @click="saliranexos()">Regresar al menu principal</button>
             </div>
     </Modal>
+    <Spinner :modalLoading="modalLoading"/>
 </div>
 </template>
 
@@ -215,6 +219,8 @@ import ServiceFiltrosDTC from "../../services/FiltrosDTCServices.js";
 import Modal from "../../components/ModalGenerico.vue";
 import { ExclamationIcon,CheckCircleIcon,DownloadIcon } from '@vue-hero-icons/outline';
 import moment from 'moment'
+import Spinner from '../../components/Sppiner.vue'
+
 
 
 
@@ -232,6 +238,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         ExclamationIcon,
         CheckCircleIcon,
         DownloadIcon,
+        Spinner
     },
     //Declaracion de las variables a utilizar
     data() {
@@ -275,6 +282,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       nombrecarriles:[],
       nombrecomponentes:[],
       componentesfinaleseditados:[],
+      componentesmalos:[],
+      componentesaenviar:[],
       fechaapertura: "",
       fechacierre: "",
       testigoscompleto:[],
@@ -299,6 +308,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       numerodefotos: 0,
       ciudad:[],
       referenciaAnexo: '',
+      time: '',
+      index:[],
     };
     },
     //Creacion de la pagina antes de que el usuario pueda verla
@@ -383,6 +394,53 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     agregarcomponenteseditados(data){
       this.componentesfinaleseditados = data;
     },
+    agregarcomponentesmalos(data){
+      this.componentesmalos = data;
+      console.log(this.componentesmalos)
+    },
+    evaluarcomponentes(){
+      if(this.componentesfinaleseditados.length > 0){
+        if(this.componentesfinaleseditados.length == this.componentesmalos.length){
+          this.componentesfinaleseditados.forEach((e) =>{
+            if(e.SerialNumber == ""){
+              e.SerialNumber = "sin número"
+            }
+            })
+          this.componentesaenviar = this.componentesfinaleseditados
+          console.log(this.componentesaenviar)
+        }else if(this.componentesfinaleseditados.length < this.componentesmalos.length){
+          this.componentesmalos.forEach((e) =>{
+            let componente = {
+            RequestedComponentId: e.requestedComponentId,
+            SerialNumber: "sin número"
+           }
+           this.componentesaenviar.push(componente)
+          })
+          console.log(this.componentesaenviar);
+          console.log(this.componentesfinaleseditados);
+          this.index = this.componentesaenviar.map(Object => Object.RequestedComponentId)
+          console.log(this.index)
+          this.componentesfinaleseditados.forEach((e)=>{
+            let position = this.index.indexOf(e.RequestedComponentId);
+            console.log(position)
+            this.componentesaenviar.splice(position,1,e)
+          })
+          console.log(this.componentesaenviar)
+        }
+      }else{
+        let componentesfinales = []
+        this.componentesmalos.forEach(function(e){
+          console.log(e)
+          var componente = {
+            RequestedComponentId: e.requestedComponentId,
+            SerialNumber: "sin número"
+          }
+          componentesfinales.push(componente)
+        }
+        );
+        this.componentesaenviar = componentesfinales;
+      }
+    },
      //Funcion para insertar anexo
     async insertaranexo(){
       //Damos formato a las fechas para poder crear el objeto de los anexos
@@ -402,7 +460,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
           "Testigo1Id": this.testigo1,
           "Testigo2Id": this.testigo2,
           "TipoAnexo": "A",
-          "ComponentesAnexo":this.componentesfinaleseditados  
+          "ComponentesAnexo":this.componentesaenviar  
       }
       console.log(Anexo)
       try
@@ -410,11 +468,15 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
         //Hacemos la peticion para insertar un anexo
         this.$http.post(`${API}/AnexoDTC/${this.$route.params.referenceSquare}/false`,Anexo)
         .then((response) => {
-          let refenciaanexo = response.data.result;
+          this.modalLoading = true
+           let refenciaanexo = response.data.result;
           this.referenciaAnexo = refenciaanexo;
           console.log(this.referenciaAnexo)
-          this.modalconfirmacionanexo=false;
-          this.modalImage = true;
+          setTimeout(()=>{
+             this.modalconfirmacionanexo=false;
+              this.modalImage = true;
+              this.modalLoading = false
+          },2000)
           // let subversion = false;
           // //Una vez generada la referencia del anexo generamos los dos documentos
           // ServiceReportPDF.generar_pdf_anexoA(this.$route.params.referencenumber,refenciaanexo,subversion);
@@ -429,6 +491,8 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
     },
      //Funcion para validar la informacion del anexo
     validacionanexo(){
+      this.evaluarcomponentes();
+      this.errores = [];
       //Validacion de las fechas de apertura y hora de cierre
       //Primero preguntamos si alguna esta vacia de lo contrario no podriamos construir la fecha de cierre
       //Para crear la fecha y darle formato en el modal creamos un array con los nombres de los meses y procedemos a darle a una variable el formato de la fecha a enseñar
@@ -474,25 +538,6 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       if (this.nombrecomponentes.length == 0) {
         this.errores.push("Tienes que seleccionar por lo menos 1 componente")
       }
-      if (this.componentesfinaleseditados.length == 0) {
-        this.errores.push("Inserta el numero de serie del componente nuevo")
-      }
-      if(this.componentesfinaleseditados.length > 0){
-        this.componentesfinaleseditados.forEach((e) =>{
-          let arrayfaltantes = []
-          let i = 0;
-          if(e.SerialNumber == ''){
-            i = i++;
-            arrayfaltantes.push(i)
-          }
-          if(arrayfaltantes.length == 1){
-            this.errores.push("Inserta el numero de serie del componente nuevo")
-          }
-          if(arrayfaltantes.length > 1){
-            this.errores.push("Inserta los numeros de serie de los componentes nuevos")
-          }
-        })
-      }
       if (this.errores.length > 0) {
         this.modalvalidacionanexo = true;
       }else{
@@ -501,8 +546,10 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
      },
      //Funcion para el boton cancelar en el modal de validaciones
      limpiarvalidacion(){
-       this.errores = [];
-       this.modalvalidacionanexo = false;
+      this.errores = [];
+      this.modalvalidacionanexo = false;
+      this.componentesaenviar = [];
+      this.index = []
      },
      //Funcione para el cambio de las validaciones y cambie el estilo css de los select
      cambiarvalort1(){
@@ -530,6 +577,11 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
            document.querySelector('body').classList.remove('overflow-hidden'); 
       },3000)
      },
+    cancelaranexo(){
+      this.modalconfirmacionanexo = false;
+      this.componentesaenviar = [];
+      this.index = []
+    },
      //Funcion para el boton del modal de descarga de los anexos
      saliranexos(){
      this.modaldescarga = false;
@@ -549,7 +601,7 @@ const API = process.env.VUE_APP_URL_API_PRODUCCION
       return  this.comentario.length
     },
     double(){
-      return this.componentesfinaleseditados.length * 2;
+      return this.componentesmalos.length * 2;
     }
   }
   }

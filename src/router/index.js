@@ -196,6 +196,11 @@ const routes = [
   component: () => import('../views/Error')
   },
   {
+  path: '/ErroresPeticiones',
+  name: 'ErroresPeticiones',
+  component: () => import('../views/ErroresPeticiones.vue')
+  },
+  {
     path: '/ListarDtc',
     name: 'ListarDtc',
     component: ListarDTC,

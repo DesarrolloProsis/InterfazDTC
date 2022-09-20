@@ -66,7 +66,7 @@ const actions = {
   //CONSULTA PARA TENER EL DTCHEADER DEL TECNICO PERSONAL
   async INICIAR_SESION_LOGIN({ commit }, objUserLogin) {  
     return new Promise((resolve, reject) => {
-      let objLogin = { username: objUserLogin.user, password: objUserLogin.password  }     
+      let objLogin = { Mail: objUserLogin.user, Password: objUserLogin.password  }     
       Axios.post(`${API}/login`,objLogin)
         .then(async (response) => {                                  
           commit("COOKIES_USER_MUTATION", await CookiesService.formato_cookies_usuario(response.data.result, objUserLogin.user))

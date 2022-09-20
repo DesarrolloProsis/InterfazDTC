@@ -71,7 +71,9 @@ import {
   faArrowRightArrowLeft,
   faWindowRestore,
   faAddressCard,
-  faCalendarCheck
+  faCalendarCheck,
+  faFaceFrown,
+  faCircleUser
 } from '@fortawesome/free-solid-svg-icons'
 /*<font-awesome-icon icon="fa-regular fa-file-excel" />*/
 
@@ -83,7 +85,8 @@ import {
   faEye,
   faCircleXmark,
   faCircleCheck,
-  faFileExcel
+  faFileExcel,
+  faBell,
 } from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
@@ -154,7 +157,10 @@ library.add(faUserSecret,
   faArrowRightArrowLeft,
   faWindowRestore,
   faCalendarCheck,
-  faFileExcel
+  faFileExcel,
+  faBell,
+  faFaceFrown,
+  faCircleUser
   )
 
 /* add font awesome icon component */
@@ -255,3 +261,4 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+

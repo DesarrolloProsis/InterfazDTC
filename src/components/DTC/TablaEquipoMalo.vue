@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="flex w-full sm:-mb-10">
+    <div class="flex justify-center w-full sm:-mb-10">
       <div>
         <div class="flex justify-center text-center font-titulo">
           <div>
-            <h6 class="font-bold text-xl text-gray-800">Equipo Dañado</h6>
+            <h6 class="font-bold text-xl text-gray-800 md:text-base">Equipo Dañado</h6>
           </div>
           <div class="sm:hidden md:hidden ml-1">
             <span class="" v-tooltip.top =" { ref:'tooltipcambiodeplaza', class: 'tooltip-custom tooltip-other-custom'}">

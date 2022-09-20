@@ -1,23 +1,75 @@
 <template>
   <div class="h-75" :disabled="modalLoading">    
+
+
+    <!--Div Global-->
+    <div class="flex justify-center">
+      <!--Div Cabeza-->
+      <div class="flex sm:ml-16 mt-10 xl:my-20">
+        <div class="mr-50">        
+          <font-awesome-icon icon="fa-solid fa-circle-user" class="text-blue-800 h-50 w-50 mr-2"/>
+        </div>
+        <div class="mr-73">
+          <h1 class="sm:text-2xl text-6xl font-bold text-gray-800 text-center mt-0" v-if="!typeUser">PERFIL</h1>
+          <div v-if="typeUser"><HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico></div>  
+            <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
+              <!-- <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> -->
+              <font-awesome-icon icon="fa-solid fa-circle-user" class="sm:hidden text-blue-800 h-30 w-30 mr-2"/>
+              <span class="">Agregar Nuevo Usuario</span>
+            </button>
+        </div>
+      </div>
+      <!--Div Datos-->      
+    </div>
+    <div class="flex justify-center xl:-ml-10 -mt-40">
+      <div class="xl:w-1/4 border-4 rounded-md shadow-xl">
+          <div class="text-left sm:text-sm text-xl font-normal"   v-for="(item, key) in listaUsuarios" :key="key">
+            <div class="my-8 ml-4 xl:ml-8">
+              <span class="font-titulo">Nombre: {{ item.name }}</span>
+            </div>
+            <div class="my-8 ml-4 xl:ml-8">
+              <span class="font-titulo">Apellido Paterno: {{ item.lastName1 }}</span>
+            </div>
+            <div class="my-8 ml-4 xl:ml-8">
+              <span class="font-titulo">Apellido Materno: {{ item.lastName2 }}</span>
+            </div>
+            <div class="my-8 ml-4 sm:mr-4 xl:ml-8">
+              <span class="font-titulo">Correo: {{ item.mail }}</span>
+            </div>
+            <div class="my-8 ml-4 xl:ml-8">
+              <span class="font-titulo">Roll de Usuario: {{ item.roll }}</span>
+            </div>
+            <div class="my-8 ml-4 xl:ml-8">
+              <span class="font-titulo">Plazas: {{ item.plazas }}</span>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+
+
+  <div>
+    <Spinner :modalLoading="modalLoading"/>
+    <!--
     <div class="flex justify-center p-4" >
-      <!--//////////////////////////////////////////////////////////////////
+      <!-//////////////////////////////////////////////////////////////////
       ////                          CUERPO                            ////
-      ////////////////////////////////////////////////////////////////////-->
+      ////////////////////////////////////////////////////////////////////--
       <div class="grid gap-2 grid-cols-1">
-        <!--//////////////////////////////////////////////////////////////////
+        <!-//////////////////////////////////////////////////////////////////
         ////                          TITULO                            ////
-        ////////////////////////////////////////////////////////////////////-->
+        ////////////////////////////////////////////////////////////////////--
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-8" v-if="!typeUser">Mi Perfil</h1>
         <div v-if="typeUser"><HeaderGenerico  @filtrar-usuario="guardar_palabra_busqueda" :titulo="'Usuarios Bitacora'" :tipo="'USUARIO'"></HeaderGenerico></div>  
         <button @click="modalEditar = true" class="w-full botonIconBuscar  justify-center mb-1" v-if="typeUser">
-          <!-- <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> -->
+          <!- <img src="@/assets/img/plus.png" class="mr-2 sm:m-1" width="20" height="20"/> --
           <font-awesome-icon icon="fa-solid fa-plus" class="text-blue-800 h-7 w-5 mr-2"/>
           <span class="">Agregar Nuevo Usuario</span>
         </button>
-        <!--///////////////////////////////////////////////////////////////////
+        <!-///////////////////////////////////////////////////////////////////
         ////                     TABLA DE USUARIOS                        ////
-        ////////////////////////////////////////////////////////////////////-->
+        ////////////////////////////////////////////////////////////////////--
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto " style="height:630px;" v-if="this.typeUser">
           <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped ">
             <thead>
@@ -72,30 +124,30 @@
           </table>
         </div>    
         <div  v-else >
-          <!-- <div class="sticky inset-0" :class="{'modal-container' :modalLoading}">
+          <-- <div class="sticky inset-0" :class="{'modal-container' :modalLoading}">
           <div v-if="modalLoading" class="absolute mx-73 my-65">            
             <img src="@/assets/img/load.gif"  class="h-48 w-48 ml-33" />
           </div>
-          </div> -->
+          </div> --
           <Spinner :modalLoading="modalLoading"/>
           
           <div class="overflow-x-auto w-auto font-titulo bg-white rounded-lg -mb-66 shadow overflow-y-auto  grid grid-cols-2"   v-for="(item, key) in listaUsuarios" :key="key">
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Nombre:</p></div>
-            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
+            <!- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.name" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> --
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.name }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Paterno:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.lastName1 }}</p></div>
-            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName1" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
+            <!- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName1" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> --
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Apellido Materno:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.lastName2 }}</p></div>
-            <!-- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName2" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> -->
+            <!- <div :disabled="modalLoading" class="my-auto"><input type="text" v-model="item.lastName2" :disabled="modalLoading" readonly @change="guardar_editado(item)" class="w-full bg-white border-gray-400 sm:w-33 sm:-ml-4" :class="{'hover:bg-gray-300 hover:border-gray-400 bg-gray-300':modalLoading}"></div> --
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Correo:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.mail }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Roll de Usuario:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.roll }}</p></div>
             <div class="border-b-2 my-auto"><p class="font-titulo font-bold">Plazas:</p></div>
             <div class="border-b-2 my-auto"><p class="text-center font-bold">{{ item.plazas }}</p></div>
-            <!-- <div class="col-span-2 grid-cols-2 mx-auto my-auto">
+            <-- <div class="col-span-2 grid-cols-2 mx-auto my-auto">
               <button class="botonIconSave m-1" :disabled="modalLoading" @click="save_editado(item)" :class="{'deshabilitado':modalLoading}">
                 <font-awesome-icon icon="fa-solid fa-floppy-disk" class="text-blue-800 mr-2 h-8 w-6"/>
                 <span>Guardar</span>
@@ -104,21 +156,22 @@
                 <font-awesome-icon icon="fa-solid fa-trash" class="text-red-600 mr-2 h-8 w-6"/>
                 <span>Cancelar</span>
               </button>
-            </div> -->
+            </div> --
             <div></div>
-            <!-- <div class="col-span-2 mx-auto my-auto">
+            <!- <div class="col-span-2 mx-auto my-auto">
               <button @click="modal_password=true" class="botonIconNext mx-32 my-auto" :disabled="modalLoading" :class="{'deshabilitado':modalLoading}">
                 <p>Cambiar Contraseña</p>
               </button>
-            </div> -->
+            </div> 
             <div></div>
           </div>
 
         </div>        
-      </div>
+      </div>-->
       <!--/////////////////////////////////////////////////////////////////////
       ////               MODAL CAMBIAR CONTRASEÑA                         ////
       ////////////////////////////////////////////////////////////////////-->
+      
       <div class="sticky inset-0 " :class="{'modal-container': modal_password}">
         <div v-if="modal_password" class="rounded-lg  justify-center border absolute inset-x-0 bg-white border-gray-400 w-69 sm:w-66 mx-auto my-48 px-12 py-10 shadow-2xl" :class="{'hidden':modalLoading}">
           <div>
@@ -324,6 +377,7 @@
           <!--/////////////////////////////////////////////////////////////////
           ////                  MODAL SEGUNDA PARTE                        ////
           ////////////////////////////////////////////////////////////////////-->
+          
           <div class="mt-2 inset-x-0 bg-white w-66 sm:w-64 mx-auto px-10 py-5 -mb-5" v-else>
             <div class="mt-3">
               <p class="text-sm mb-1 font-semibold text-gray-700">Tipo de Usuario</p>

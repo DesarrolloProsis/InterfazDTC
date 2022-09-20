@@ -19,7 +19,7 @@
                 <div class="w-1/3 border-2 relative border-gray-600 inline-block border-dashed text-center rounded-lg"
                     :class="{'' : tipo == 'Diagnostico'}">
                     <div class="sm:-mt-4">
-                        <input @change="recibir_imagenes" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer">
+                        <input @change="recibir_imagenes" :disabled="anularcarga" type="file" multiple class="h-40 w-full inset-0 absolute opacity-0 cursor-pointer" :class="{'cursor-not-allowed': anularcarga}">
                         <!-- <img src="../assets/img/more.png" class="p-5 w-auto mx-auto h-32 sm:w-10 sm:h-10 sm:p-1 sm:mt-16" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}" alt/> -->
                         <font-awesome-icon icon="fa-solid fa-plus" class="p-5 w-auto text-center flex h-32 xl:ml-8 xl:-mt-6 xl:-mb-6 sm:w-10 sm:h-10 sm:p-1 sm:mt-16 text-blue-800" :class="{'sm:h-16 sm:w-16': tipo =='Diagnostico' || tipo == 'Ficha'}"/>
                         <span class="text-sm text-gray-500 sm:hidden">Agregar imagenes</span>
@@ -79,7 +79,15 @@ export default {
         referenciaAnexo:{
             type: String,
             default: () => ''
-        }
+        },
+        subversionAnexo:{
+            type: Boolean,
+            default: () => false
+        },
+        editar:{
+            type: Boolean,
+            default: () => false
+        },
     },
     components: {
         BarraProgreso
@@ -95,10 +103,9 @@ export default {
             expires_in: null,
             interval: null,
             limiteFotos: 0,
+            rand: 1,
+            anularcarga:false
         }
-    },
-    created(){
-
     },
     destroyed(){
         this.arrayImagenes = []           
@@ -106,30 +113,38 @@ export default {
     },
     beforeMount() { 
         if(this.tipo == 'Anexo'){
+            setTimeout(()=>{
             let urlImgPaths = ''
-            this.limiteFotos = this.maximofotosanexo 
+            this.limiteFotos = this.maximofotosanexo
             let nombreimg = [];               
-            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
-            console.log(this.referenciaAnexo)
+            urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
+            console.log(urlImgPaths)
             this.$http.get(urlImgPaths).then((response) => 
                 {
                     console.log(response.data);
                     response.data.forEach(element => { 
                         nombreimg.push(element)
                         let urlImgDescarga = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}`
-                        if(response.status != 404){                          
+                        if(response.status != 404){                         
                                     let newArrayImg = []                      
                                     nombreimg.forEach(item => {
                                         newArrayImg.push({
                                             "name": item, 
-                                            "imgbase": `${urlImgDescarga}/${item}/${this.referenciaAnexo}`
+                                            "imgbase": `${urlImgDescarga}/${item}/${this.referenciaAnexo}/${this.subversionAnexo}`
                                         })
                                     })
-                            this.arrayImagenes = newArrayImg  
+                            this.arrayImagenes = newArrayImg
+                            if(this.arrayImagenes.length == this.limiteFotos){
+                                console.log(this.arrayImagenes.length)
+                                console.log(this.limiteFotos)
+                                this.anularcarga = true
+                            }else{
+                                this.anularcarga = false
+                            } 
                         } 
                              
                    });
-                   console.log(this.arrayImagenes);
+                   
 /*                    response.data.forEach(element => { 
                        nombreimg.push(element)
                    });
@@ -154,7 +169,7 @@ export default {
                     // if (response.data.length == 0)
                     //    this.$emit('bloquear-boton-diagnostico', true)  
                 });
-                  
+            },2000)
         }       
         else{
             setTimeout(() => {               
@@ -169,7 +184,7 @@ export default {
             }
             else if(this.tipo == 'Anexo'){
                 this.limiteFotos = this.maximofotosanexo                
-                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
+                urlImgPaths = `${API}/ReporteFotografico/Images/GetPaths/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
             }
             else{
                 this.limiteFotos = 4                                
@@ -209,6 +224,13 @@ export default {
         recibir_imagenes: async function (e){  
             this.$emit('bloquear-boton-diagnostico', true)                    
             await this.enviar_imagenes(e)
+            if(this.arrayImagenes.length == this.limiteFotos){
+                console.log(this.arrayImagenes.length)
+                console.log(this.limiteFotos)
+                this.anularcarga = true
+            }else{
+                this.anularcarga = false
+            } 
             this.cargandoImagen = true            
             this.countdown = moment.utc(this.seconds).format('HH:mm:ss');
             this.expires_in = this.seconds;
@@ -245,8 +267,11 @@ export default {
                         objGetImagen = { rutaGetImagen: `${API}/dtcData/EquipoDañado/Images`, tipo: 4}                        
                 }
                 else if (this.tipo == 'Anexo'){
+                        if(this.editar == true){    
+                            this.subversionAnexo = true
+                        }
                         this.limiteFotos = this.maximofotosanexo
-                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}`
+                        rutaInsertImagenes = `${API}/ReporteFotografico/EquipoNuevo/Images/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${this.referenciaAnexo}/${this.subversionAnexo}`
                         objGetImagen = { rutaGetImagen: `${API}/ReporteFotografico/EquipoNuevo/Images`, tipo: 5}
                 }
                 else{                    
@@ -273,7 +298,7 @@ export default {
                         if(imagenes.type == 'image/png' || imagenes.type == 'image/jpeg'){                        
                             await this.$http.post(rutaInsertImagenes, formData)
                                 .then((response) => {                                                                                                   
-                                    this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen)
+                                    this.arrayImagenes = ServiceImagenes.obtener_array_imagenes_agregadas(response.data, this.arrayImagenes, objGetImagen,this.subversionAnexo,this.referenciaAnexo)
                                 })                                
                         }  
                         else{
@@ -302,7 +327,12 @@ export default {
                         urlDeleteImg = `${API}/DiagnosticoFalla/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`
                     }
                     else if(this.tipo == 'Anexo'){
-                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}/${this.referenciaAnexo}`
+                        this.anularcarga = false
+                        if(this.editar == true){
+                            this.subversionAnexo = true
+                        }
+                        urlDeleteImg = `${API}/ReporteFotografico/EquipoNuevo/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}/${this.referenciaAnexo}/${this.subversionAnexo}`       
+            
                     }
                     else{                                           
                         urlDeleteImg = `${API}/FichaTecnicaAtencion/Images/DeleteImg/${this.referenceNumber.split('-')[0]}/${this.referenceNumber}/${nombreImagen}`

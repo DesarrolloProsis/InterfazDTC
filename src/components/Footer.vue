@@ -1,7 +1,7 @@
 <template>
     <footer class="fixed inset-x-0 bottom-0" v-if="$route.name != 'SesionExpirada'">        
         <div class="w-full px-6 bg-blue-800">                
-            <div class="inline-flex justify-between  py-3 w-full" :class="{'ml-3':$route.name == 'login'}">
+            <div class="inline-flex justify-between  py-2 w-full" :class="{'ml-3':$route.name == 'login'}">
                 <div id="nombreRollShow" v-if="$route != undefined && $route.name != 'login'">
                     <p id="testNombreRoll" class="text-xs sm:mt-1 text-blue-400 w-32">{{ nombreRoll }}</p>
                 </div>

@@ -85,8 +85,9 @@ export default {
     };
   },
   watch: {
-    vercomponentes: function (){
+    listaEquipo : function (){
       console.info(this.listaEquipo)
+      
       }
   },
   methods: {

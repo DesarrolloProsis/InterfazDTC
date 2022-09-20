@@ -35,7 +35,7 @@
                     </tr>  
             </template>  
             <template v-if="lista_DTC_Filtrada.length > 0">
-            <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" :class="{'hidden': dtc.typeFaultId == 0}">
+            <tr v-for="dtc in lista_DTC_Filtrada" :key="dtc.referenceNumber" class="border border-white" :class="{'hidden': dtc.typeFaultId == 0, 'bg-blue-200': dtc.isAnexoCreate == true , 'bg-gray-200': dtc.isAnexoCreate == false}">
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs cuerpoTable">{{dtc.referenceNumber}}</td>
               <td class="p-3 text-sm text-gray-700 text-center sm:text-xs sm:hidden cuerpoTable">{{dtc.userName}}</td>
               <td class="p-3 sm:w-8 text-sm text-gray-700 text-center sm:text-xs cuerpoTable">{{dtc.faultDescription}}</td>
@@ -91,23 +91,23 @@
                                     <tr class="text-sm text-center text-white trTable sm:text-xs">
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0 rounded-l-lg">Referencia</th>
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Usuario</th>
-                                        <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Estatus</th>
+                                        <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sm:hidden sticky top-0">Estatus(Observaciones)</th>
                                         <th class="w-24 md:w-34 lg:w-49 xl:w-54 cabeceraTable font-medium sticky top-0 rounded-r-lg">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="anxg in listaanexosgenerados" :key="anxg.anexoReference">
+                                    <tr v-for="anxg in listaanexosgenerados" :key="anxg.anexoReference" :class="{'bg-blue-200': anxg.statusId == 5 , 'bg-yellow-200': anxg.statusId == 6, 'bg-green-200': anxg.statusId == 7}">
                                       <td class="p-2 text-center text-sm">{{anxg.anexoReference}}</td>
                                       <td class="p-2 text-center text-sm sm:hidden">{{anxg.userName}}</td>
                                       <td class="p-2 text-center text-sm sm:hidden">
                                         <div v-if="anxg.statusId == 5" class="w-full mx-auto flex justify-center">
-                                          <span class="text-white text-sm bg-blue-500 border border-blue-500 rounded-xl p-1 uppercase font-medium">Edición</span>
+                                          <span class="text-black text-xs uppercase">{{anxg.comentarios}}</span>
                                         </div>
                                         <div v-else-if="anxg.statusId == 6" class="w-full mx-auto flex justify-center">
-                                          <span class="text-white text-sm bg-yellow-500 border border-yellow-500 rounded-xl p-1 uppercase font-medium">Revisión</span>
+                                          <span class="text-black text-sm uppercase font-medium">Revisión</span>
                                         </div>
                                         <div v-else-if="anxg.statusId == 7" class="w-full mx-auto flex justify-center">
-                                          <span class="text-white text-sm bg-green-500 border border-green-500 rounded-xl p-1 uppercase font-medium">Facturación</span>
+                                          <span class="text-black text-sm uppercase font-medium">Facturación</span>
                                         </div>
                                       </td>
                                       <td>
@@ -276,6 +276,7 @@ export default {
             let prueba = response.data.result.rows
             prueba.forEach(element => this.infoDTC.push(element.dtcView));
             this.lista_DTC_Filtrada = this.infoDTC
+            console.log(this.lista_DTC_Filtrada);
             this.totalPages = response.data.result.numeroPaginas
             this.currentPage = response.data.result.paginaActual
             this.loadingTable = false
@@ -384,6 +385,7 @@ export default {
                 return filtroOpciones
       },
       acciones_mapper_modal(anxg){
+        console.log(anxg)
           if(this.selectMultiModal.title == 'Editar'){
             if (anxg.tipoAnexo === "A") {
               this.$router.push(`/EditarAnexo1A/${anxg.anexoReference}/${anxg.dtcReference}`);
@@ -393,14 +395,13 @@ export default {
               this.selectMultiModal = '';
             }
           }else if(this.selectMultiModal.title == 'Descargar Acta'){
-            let subversion = false;
             if (anxg.tipoAnexo === "A") {
-              ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,subversion);
-              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
+              ServiceReportPDF.generar_pdf_anexoA(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
+              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
               this.selectMultiModal = '';
             } else if (anxg.tipoAnexo === "B"){
-              ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,subversion);
-              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference);
+              ServiceReportPDF.generar_pdf_anexoB(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
+              ServiceReportPDF.reporte_fotografico_anexo(anxg.dtcReference,anxg.anexoReference,anxg.isSubVersion);
               this.selectMultiModal = '';
             }
           }else if(this.selectMultiModal.title == 'Validar'){
