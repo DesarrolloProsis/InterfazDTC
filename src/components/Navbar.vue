@@ -1,8 +1,14 @@
 <template>
   <div class="sticky inset-x-0 top-0 z-10">
     <nav class="flex justify-between bg-blue-800 p-3" id="navBarShow" v-if="$route != undefined && $route.name != 'login' && $route.name != 'SesionExpirada'">
+      <div class="group inline-block font-titulo">
+        <button @click="openMenu" class="mt-1 mr-3 font-titulo">
+          <!-- <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" /> -->
+          <font-awesome-icon icon="fa-solid fa-bars" class="text-white h-8 w-10"/> 
+        </button>
+      </div>  
       <!--BOTON INICIO-->
-      <div class="text-lg">
+      <div class="text-lg -ml-90">
         <router-link to="/home" class="inline-block pl-5 pt-1 text-white text-xl font-titulo">
           <img src="../assets/img/logoProsis.png" height="30" width="30" class="inline" />
           Inicio          
@@ -51,37 +57,26 @@
                     </div>
                   </div>
               </div>
-        </transition>
-        <div class="group inline-block font-titulo">
-          <button @click="openMenu" class="mt-1 mr-3 font-titulo">
-            <!-- <img class="h-8 w-10" src="@/assets/img/lista.png" alt="" /> -->
-            <font-awesome-icon icon="fa-solid fa-bars" class="text-white h-8 w-10"/> 
-          </button>
-        </div>              
+        </transition>            
       </div>     
     </nav>
     <div v-if="$route != undefined && $route.name != 'login'" class="relative mr-3 ">     
       <div v-if="navbarOpen" @click="openMenu" class="fixed inset-0 w-full h-full mt-15 z-0"></div>
       <transition name="fade">
-        <div v-if="navbarOpen" class="absolute top-0 mt-1 right-0 w-auto flex font-titulo">     
-          <div class="bg-white 
-          p-3 
-          pr-1 
-          pt-0 
-          w-52
-            
+        <div v-if="navbarOpen" class="absolute left w-auto flex font-titulo -mt-10.5 sm:-ml-4 border border-r-0 rounded-l-lg transform scale-90">     
+          <div class="bg-white            
+          w-60
           sm:-mr-2 
           sm:w-67
-          border
-          border-r-0
-          rounded-l-lg"
-          :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 ': rollUsuario == 7}">                  
+          "
+          :class="{'bg-white border-r border-blue-800 p-3 pr-1 pt-0 w-52 ': rollUsuario == 7}">    
+          <!--NavIzquierda-->              
             <div v-for="(item, key) in filtroMenuIzq" :key="key" class="rounded-2xl p-1 pl-0 mt-1 ">
-              <p class="p-4 font-titulo text-xl font-bold text-blue-700 border-b-2 border-blue-600">{{ item.texto }}</p>              
+              <p class="p-4 font-titulo text-md font-bold text-blue-700 border-b-2 border-blue-600">{{ item.texto }}</p>              
                 <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-full p-1 sm:w-full sm:text-xs">
                   <button @click="$router.push(itemsub.path)" class="inline-flex mt-1 hover:bg-gray-200 pb-1 w-full sm:mt-0 sm:pb-0">
-                    <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
-                    <div class="ml-4 text-left sm:text-justify">
+                    <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-4 h-4 ml-2 mt-2"/>
+                    <div class="ml-4 text-left font-bold text-sm sm:text-justify">
                       <template  v-if="itemsub.texto.split('-').length == 1">
                         <p class="mt-2 sm:mt-3 sm:text-sm" >{{ itemsub.texto }}</p> 
                       </template>     
@@ -99,7 +94,39 @@
               <div  class="ml-4 text-left">
                 <p class=" sm:mt-3 mt-3">Cerrar Sesion</p>                                
               </div>  
-            </button>   
+            </button> 
+            <!-- NavDerecha                
+            <div v-for="(item, key) in filtroMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
+              <p class="p-4 font-titulo text-md font-bold text-blue-700 border-b-2 border-blue-600 text-center">{{ item.texto }}</p>                  
+              <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-full p-1">
+                <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full bg-white">
+                  -- <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" > -
+                  <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
+                  <div  class="ml-4 text-sm text-left">
+                    <p class="mt-2">{{ itemsub.texto }}</p>                    
+                  </div>  
+                </button>
+                <button v-else @click="manual_pdf" class="inline-flex mt-1 hover:bg-gray-200 pl-1 pr-1 pb-1 w-full">
+                  - <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" > -
+                  <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
+                  <div  class="ml-4 text-left">
+                    <p class="mt-2">{{ itemsub.texto }}</p>                                       
+                  </div>  
+                </button>                  
+              </div>                                     
+            </div>   -->
+            <!--NavCerrar-->
+            <div class="hiddenrounded-2xl p-1 pl-0 pt-0" >
+              <div class="w-full p-1">
+              <button @click="$router.push('/')" class="inline-flex mt-1 hover:bg-gray-200 pl-1 pr-1 pb-1 w-full">
+                <!-- <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" > -->
+                <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="text-red-700 w-4 h-4 ml-2 mt-1"/>
+                <div  class="ml-4 text-left font-bold">
+                  <p class="">Cerrar Sesion</p>                                
+                </div>  
+              </button> 
+              </div>
+            </div>                   
           </div>
           <div class="bg-white 
             border
@@ -109,37 +136,7 @@
             pr-1
             pt-0 
             w-52 
-            sm:hidden" :class="{'hidden':rollUsuario == 7}">                  
-            <div v-for="(item, key) in filtroMenuDer" :key="key" class="rounded-2xl p-1 pl-0 mt-1">
-              <p class="p-4 font-titulo text-xl font-bold text-blue-700 border-b-2 border-blue-600 text-center">{{ item.texto }}</p>                  
-                <div v-for="(itemsub, keySub) in item.subMenu" :key="keySub" class="w-full p-1">
-                  <button v-if="itemsub.texto != 'Manual de Usuario'" @click="$router.push({ path: itemsub.path, query: itemsub.query})" class="inline-flex mt-1 hover:bg-gray-400 pl-1 pr-1 pb-1 w-full bg-white">
-                    <!-- <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" > -->
-                    <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
-                    <div  class="ml-4 text-left">
-                      <p class="mt-2">{{ itemsub.texto }}</p>                    
-                    </div>  
-                  </button>
-                  <button v-else @click="manual_pdf" class="inline-flex mt-1 hover:bg-gray-200 pl-1 pr-1 pb-1 w-full">
-                    <!-- <img :src="itemsub.img" class="w-8 h-8 ml-2 mt-1" > -->
-                    <font-awesome-icon :icon="itemsub.img" class="text-blue-800 w-8 h-8 ml-2 mt-1"/>
-                    <div  class="ml-4 text-left">
-                      <p class="mt-2">{{ itemsub.texto }}</p>                                       
-                    </div>  
-                  </button>                  
-                </div>                                     
-            </div>
-            <div class="rounded-2xl p-1 pl-0 pt-0" >
-              <div class="w-full p-1">
-              <button @click="$router.push('/')" class="inline-flex mt-1 hover:bg-gray-200 pl-1 pr-1 pb-1 w-full">
-                <!-- <img src="@/assets/img/cerrar-sesion.png" class="w-8 h-8 ml-2 mt-1" > -->
-                <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="text-red-700 w-8 h-8 ml-2 mt-1"/>
-                <div  class="ml-4 text-left">
-                  <p class="mt-2">Cerrar Sesion</p>                                
-                </div>  
-              </button> 
-              </div>
-            </div>                  
+            sm:hidden" :class="{'hidden':rollUsuario == 7}">               
           </div>
         </div>
       </transition >      
@@ -184,7 +181,18 @@ export default {
             { texto: 'Entrega / Recepción', img: "fa-solid fa-file-invoice-dollar", path: '/ConcentradoDTCFacturados', rollValidos: [1, 2, 3, 4, 5, 7, 8, 10]},
             { texto: 'Reportes', img: "fa-solid fa-file-invoice", path: '/Reportes', rollValidos: [4]},
           ] 
-        },     
+        },   
+        { texto: 'Ayuda', subMenu: [
+            { texto: 'Comentarios', img: "fa-regular fa-comments", path: '/Ayuda', query: { tipo: 'comentario' }, rollValidos: [1, 2, 3, 4, 5, 8, 10] },
+            { texto: 'Videos', img: "fa-solid fa-video", path: '/Ayuda', query: { tipo: 'videos' }, rollValidos: [1, 2, 3, 4, 5, 8,10] },
+            { texto: 'Manual de Usuario', img: "fa-solid fa-file-circle-question", path: '/Configuracion', rollValidos: [1, 2, 3, 4, 5, 8, 10] },
+          ] 
+        }, 
+        { texto: 'Configuracion', subMenu: [
+            { texto: 'Encargados de Plaza', img: "fa-solid fa-building-user", path: '/EncargadosPlaza', rollValidos: [1, 2, 3, 4, 5, 8, 10] },
+            { texto: 'Usuarios de Bitacora', img: "fa-solid fa-users-gear", path: '/Usuarios', rollValidos: [1, 2, 3, 4, 5, 8, 10] },
+          ] 
+        }  
       ],
       listaMenuDer:[ 
         { texto: 'Ayuda', subMenu: [
